@@ -1,7 +1,7 @@
 // The Map view of one deck: its cards as a graph, linked by the design rules.
 
 import React, { useEffect, useState, useMemo } from 'react'
-import { SegmentedControl, UnstyledButton } from "@mantine/core"
+import { SegmentedControl, UnstyledButton, useComputedColorScheme } from "@mantine/core"
 import { useCube } from "../../contexts/CubeContext.js"
 import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, neutralColor } from "../../utils/DeckGraph"
 import { RULE_COLORS, ruleColor } from "./ruleColors.js"
@@ -15,6 +15,8 @@ import { MAP_COPY } from "./copy.js"
 // the given cards. Hover previews a card; click pins the focus on it.
 export function CardSynergyMap({ cards, edges, links }) {
   const cube = useCube()
+  // The neutral community color depends on the scheme, so a toggle recomputes both memos.
+  const scheme = useComputedColorScheme("light")
   const [hovered, setHovered] = useState(null)
   const [selected, setSelected] = useState(null)
   const [hoveredCommunity, setHoveredCommunity] = useState(null)
@@ -59,7 +61,7 @@ export function CardSynergyMap({ cards, edges, links }) {
       list.push({ color, label, size: comm.length, members: comm })
     }
     return { ranking, communities: list, q, communityColorOf }
-  }, [byName, edges, linkIndex])
+  }, [byName, edges, linkIndex, scheme])
 
   const { simNodes, simEdges } = useMemo(() => {
     const names = new Set(byName.keys())
@@ -81,7 +83,7 @@ export function CardSynergyMap({ cards, edges, links }) {
       label: n,
     }))
     return { simNodes: sn, simEdges: se }
-  }, [byName, edges, linkIndex, analytics])
+  }, [byName, edges, linkIndex, analytics, scheme])
 
   // Drop stale focus when the pool changes (deck or board switch).
   useEffect(() => { setHovered(null); setSelected(null); setHoveredCommunity(null) }, [byName])

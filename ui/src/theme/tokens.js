@@ -8,8 +8,9 @@ export const PRIMARY_SHADES = [
 ]
 
 // LIGHT is the light-mode palette: page and card backgrounds, text and muted
-// text, borders, the sidebar gradient's two ends, good/bad/warn result colors, shadow (the color shadows are mixed from), and
-// shadowPop, the soft shadow under popovers and card image previews.
+// text, borders, the sidebar gradient's two ends, and the good/bad/warn result
+// colors. shadow is the color other shadows are mixed from. shadowPop is the
+// soft shadow under popovers and card image previews.
 export const LIGHT = {
   page: "#fbf8f4",
   card: "#ffffff",

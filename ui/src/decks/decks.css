@@ -394,7 +394,6 @@ img.cardimage {
   gap: 0.4rem;
   padding: 0.35rem 0.75rem;
   border-bottom: 1px solid var(--se-border);
-  background-color: var(--background-color);
   color: var(--se-text);
   text-decoration: none;
   line-height: 1.2;
@@ -536,6 +535,6 @@ img.cardimage {
   width: 240px;
 }
 
-.decklist-image {
+img.decklist-image {
   width: 200px;
 }

@@ -184,7 +184,7 @@
 .dm-preview-name { color: var(--se-text); font-weight: 700; font-size: 0.9rem; }
 .dm-preview-mana { color: var(--se-muted); font-family: 'Fira Code', monospace; font-size: 0.78rem; font-weight: 400; }
 .dm-preview-type { color: var(--se-muted); font-size: 0.75rem; margin: 3px 0 6px; }
-.dm-preview-oracle { color: var(--text-color); font-size: 0.8rem; line-height: 1.45; white-space: pre-wrap; }
+.dm-preview-oracle { font-size: 0.8rem; line-height: 1.45; white-space: pre-wrap; }
 
 .section-heading.dm-no-margin {
   margin: 0;

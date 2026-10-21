@@ -117,7 +117,7 @@ table {
 }
 
 .button-selected:hover {
-  background: var(--mantine-primary-color-filled-hover) !important;
+  background: color-mix(in srgb, var(--mantine-primary-color-filled) 85%, var(--se-text)) !important;
 }
 
 /* Form Inputs */

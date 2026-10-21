@@ -344,7 +344,6 @@
   border-bottom: 1px solid var(--se-border);
   transition: background 0.2s ease;
   height: 48px;
-  background-color: var(--background-color);
 }
 
 .widget-table-row:hover {
@@ -397,6 +396,10 @@
 .stats-chart-700-full {
   height: 700px;
   width: 100%;
+}
+
+.stats-section-gap-lg {
+  margin-top: 1.5rem;
 }
 
 .section-heading.stats-section-gap-lg {
