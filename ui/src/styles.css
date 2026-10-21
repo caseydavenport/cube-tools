@@ -1925,41 +1925,33 @@ table {
 .dm-empty p { margin: 0.4rem 0; }
 .dm-linkbtn { background: none; border: none; color: var(--primary); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
 
-/* Card-level "why linked" hover tooltip */
+/* Card-level "why linked" hover tip: the kit-pop shell around a compact Loom. */
 .dm-why-tip {
   position: absolute; left: 14px; top: 14px; z-index: 50;
-  max-width: 300px; pointer-events: none;
-  background: var(--card-background); border: 1px solid var(--border);
-  border-radius: 8px; padding: 8px 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.55);
+  width: 380px; max-width: calc(100% - 28px);
 }
-.dm-why-tip-head {
-  display: flex; align-items: center; gap: 6px;
-  color: var(--white); font-weight: 700; font-size: 0.85rem; margin-bottom: 5px;
+.dm-why-pair { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; }
+.dm-why-swap { color: var(--se-muted); font-weight: 500; }
+.dm-why-cols {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 2px 4px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.02em; color: var(--se-muted);
 }
-.dm-why-rule { margin-top: 5px; }
-.dm-why-rulelabel { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; margin-bottom: 3px; }
-.dm-why-bridge { border-left: 2px solid var(--border); padding-left: 7px; margin: 2px 0 4px; }
-.dm-why-line { font-size: 0.78rem; color: var(--text-color); line-height: 1.5; }
-.dm-why-line b { color: var(--white); font-weight: 600; }
-.dm-why-card { color: var(--text-muted); }
-.dm-why-cond {
-  display: block; font-family: 'Fira Code', monospace; font-size: 0.7rem;
-  color: var(--text-muted); opacity: 0.85; margin-left: 2px;
+.dm-why-cols span:last-child { text-align: right; }
+.dm-why-legend {
+  display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; padding-top: 9px;
+  border-top: 1px solid var(--se-border); font-size: 12px; color: var(--se-muted);
 }
+.dm-why-key { display: flex; align-items: center; gap: 6px; }
+.dm-why-bar { display: inline-block; width: 16px; height: 3px; border-radius: 2px; }
+.dm-why-shared { font-style: italic; }
 
 /* Card preview overlay (image / rules text of hovered or selected card) */
 .dm-preview {
   position: fixed; bottom: 1rem; right: 1rem; z-index: 50;
   width: 330px; pointer-events: none;
 }
-.dm-preview-img {
-  width: 100%; display: block; border-radius: 11px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.65);
-}
-.dm-preview-text {
-  background: var(--card-background); border: 1px solid var(--border);
-  border-radius: 10px; padding: 10px 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.65);
-}
+.dm-preview-img { width: 100%; }
+.dm-preview-text { position: relative; }
 .dm-preview-name { color: var(--white); font-weight: 700; font-size: 0.9rem; }
 .dm-preview-mana { color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.78rem; font-weight: 400; }
 .dm-preview-type { color: var(--text-muted); font-size: 0.75rem; margin: 3px 0 6px; }
@@ -2087,17 +2079,9 @@ table {
   right: 1rem;
   z-index: 50;
   pointer-events: none;
-  animation: deck-hover-preview-in 0.12s ease-out;
 }
 .deck-hover-preview img {
-  display: block;
   width: 240px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
-}
-@keyframes deck-hover-preview-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 /* Design Editor tab (Design > Editor): a three-pane workbench over the design
    rulebook. Registry of groups/links | detail (roster, wiring, compare, audit) |
@@ -2272,41 +2256,6 @@ table {
   padding: 0 0.35rem;
 }
 
-/* Loom: two chip columns with measured SVG threads between them. */
-.de-loom {
-  position: relative; display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.45rem 6rem; margin: 0.4rem 0;
-}
-.de-loom-col { display: flex; flex-direction: column; gap: 0.45rem; align-items: flex-end; min-width: 0; }
-.de-loom-col-right { align-items: flex-start; }
-.de-loom-chip {
-  display: flex; align-items: center; gap: 0.45rem; max-width: 100%;
-  background: var(--page-background); border: 1px solid var(--border);
-  border-radius: 8px; padding: 0.35rem 0.65rem; color: var(--white);
-  font-family: inherit; font-size: 0.85rem;
-}
-button.de-loom-chip { cursor: pointer; }
-button.de-loom-chip:hover { border-color: var(--primary); }
-.de-loom-chip-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.de-loom-chip-sub { color: var(--text-muted); font-size: 0.72rem; flex-shrink: 0; }
-.de-loom-svg {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  pointer-events: none; overflow: visible;
-}
-.de-thread {
-  fill: none; stroke-width: 2; stroke-linecap: round; opacity: 0.85;
-  stroke-dasharray: 600; stroke-dashoffset: 600;
-  animation: de-thread-in 0.45s ease-out forwards;
-}
-@keyframes de-thread-in { to { stroke-dashoffset: 0; } }
-.de-loom-labels {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-top: 1rem;
-  font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  color: var(--text-muted);
-}
-.de-loom-labels span:first-child { text-align: right; }
-.de-loom-note { font-size: 0.78rem; }
-
 /* Compare view */
 .de-compare {
   display: grid; grid-template-columns: 150px minmax(0, 1fr) 150px;
@@ -2460,8 +2409,4 @@ button.de-loom-chip:hover { border-color: var(--primary); }
 
 .de-page button:focus-visible, .de-page input:focus-visible {
   outline: 2px solid var(--primary); outline-offset: 1px;
-}
-@media (prefers-reduced-motion: reduce) {
-  .de-thread { animation: none; stroke-dashoffset: 0; }
-  .deck-hover-preview { animation: none; }
 }

@@ -8,6 +8,8 @@ import { edgeColorFor, whyLinked } from "./designData.js"
 import { ForceGraph, cardColor, getNodeColor } from "./ForceGraph.js"
 import { ruleColor } from "./ruleColors.js"
 import { MAP_COPY } from "./copy.js"
+import { Loom, bridgeLoom } from "../Loom.js"
+import { PopTitle } from "../../components/kit/HoverInfo.js"
 
 // --- Drill map (the leveled constellation) -----------------------------------
 
@@ -18,6 +20,9 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
   links.forEach((l, i) => { linkIndex[l.label] = i })
   const linkByLabel = {}
   links.forEach(l => { linkByLabel[l.label] = l })
+  // Indexed as the map's groupColor is, so tip chips match the legend.
+  const groupIndex = {}
+  groupNodes.forEach((g, i) => { groupIndex[g.name] = i })
 
   // At card level, hovering a neighbor explains exactly why it links to the focused
   // card: the specific rule, plus which group each card sits in and the condition
@@ -157,36 +162,67 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
         return card ? <CardPreview card={card} /> : null
       })()}
       {why && (
-        <div ref={tipRef} className="dm-why-tip">
-          <div className="dm-why-tip-head">
-            <span className="dm-dot" style={{ background: getNodeColor((nodeMap[hovered] || {}).colors) }} />
-            {hovered}
-          </div>
-          {why.map(w => (
-            <div key={w.label} className="dm-why-rule">
-              <div className="dm-why-rulelabel" style={{ color: ruleColor(linkIndex[w.label] ?? 0) }}>
-                <span className="dm-swatch" style={{ background: ruleColor(linkIndex[w.label] ?? 0) }} /> {w.label}
-              </div>
-              {w.bridges.length === 0 && (
-                <div className="dm-why-line dm-muted">{MAP_COPY.drillMap.sharedRule}</div>
-              )}
-              {w.bridges.map((b, i) => (
-                <div key={i} className="dm-why-bridge">
-                  <div className="dm-why-line">
-                    <span className="dm-why-card">{focus.card}</span> {cardRefName(b.focusGroup) ? <b>{MAP_COPY.drillMap.linkedDirectly}</b> : <>{MAP_COPY.drillMap.inGroup} <b>{b.focusGroup}</b></>}
-                    {b.focusConds[0] && <span className="dm-why-cond">{b.focusConds[0]}</span>}
-                  </div>
-                  <div className="dm-why-line">
-                    <span className="dm-why-card">{hovered}</span> {cardRefName(b.neighGroup) ? <b>{MAP_COPY.drillMap.linkedDirectly}</b> : <>{MAP_COPY.drillMap.inGroup} <b>{b.neighGroup}</b></>}
-                    {b.neighConds[0] && <span className="dm-why-cond">{b.neighConds[0]}</span>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
+        <WhyLinkedTip
+          tipRef={tipRef} focusCard={focus.card} hovered={hovered} why={why}
+          nodeMap={nodeMap} groupIndex={groupIndex} linkIndex={linkIndex}
+        />
       )}
     </div>
+  )
+}
+
+// WhyLinkedTip explains why the hovered card links to the focused card, as a
+// picture: the focused card's groups on the left, the hovered card's on the
+// right, one thread per bridge colored by its link, and a legend of the links.
+// A link with no bridges between groups shows in the legend as a shared rule.
+function WhyLinkedTip({ tipRef, focusCard, hovered, why, nodeMap, groupIndex, linkIndex }) {
+  const bridged = why.filter(w => w.bridges.length > 0)
+  const { left, right, threads } = bridgeLoom(bridged, groupIndex, linkIndex)
+
+  return (
+    <div ref={tipRef} className="kit-pop dm-why-tip">
+      <PopTitle
+        lead={<CardDot card={nodeMap[focusCard]} />}
+        title={
+          <span className="dm-why-pair">
+            <span>{focusCard}</span>
+            <span className="dm-why-swap">{MAP_COPY.drillMap.between}</span>
+            <CardDot card={nodeMap[hovered]} />
+            <span>{hovered}</span>
+          </span>
+        }
+        badge={MAP_COPY.drillMap.linkCount({ count: why.length })}
+      />
+      {bridged.length > 0 && (
+        <>
+          <div className="dm-why-cols">
+            <span>{MAP_COPY.drillMap.cardGroups({ card: focusCard })}</span>
+            <span>{MAP_COPY.drillMap.cardGroups({ card: hovered })}</span>
+          </div>
+          <Loom left={left} right={right} threads={threads} compact />
+        </>
+      )}
+      <div className="dm-why-legend">
+        {why.map(w => <WhyLegendEntry key={w.label} link={w} color={ruleColor(linkIndex[w.label] ?? 0)} />)}
+      </div>
+    </div>
+  )
+}
+
+// CardDot is a card's color dot, as the map draws its node.
+function CardDot({ card }) {
+  return <span className="dm-dot" style={{ background: getNodeColor((card || {}).colors) }} />
+}
+
+// WhyLegendEntry is one link in the tip's legend: a short bar in the link's
+// color and its label, marked as a shared rule when it has no bridges.
+function WhyLegendEntry({ link, color }) {
+  return (
+    <span className="dm-why-key">
+      <span className="dm-why-bar" style={{ background: color }} />
+      {link.label}
+      {link.bridges.length === 0 && <span className="dm-why-shared">{MAP_COPY.drillMap.sharedRule}</span>}
+    </span>
   )
 }
 
@@ -197,9 +233,9 @@ export function CardPreview({ card }) {
   return (
     <div className="dm-preview">
       {(card.image || card.url) ? (
-        <img className="dm-preview-img" src={CardImageURL(card)} alt={card.name} />
+        <img className="kit-card-image dm-preview-img" src={CardImageURL(card)} alt={card.name} />
       ) : (
-        <div className="dm-preview-text">
+        <div className="kit-pop dm-preview-text">
           <div className="dm-preview-name">{card.name} <span className="dm-preview-mana">{card.mana_cost}</span></div>
           <div className="dm-preview-type">{[...(card.types || []), ...(card.sub_types || [])].join(" ")}</div>
           <div className="dm-preview-oracle">{card.oracle_text}</div>

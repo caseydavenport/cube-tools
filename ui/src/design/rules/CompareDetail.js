@@ -6,7 +6,7 @@ import { CardImageURL } from '../../utils/Utils.js'
 import { ColorImages } from '../../utils/Colors.js'
 import { ruleColor } from '../map/ruleColors.js'
 import { cardRefName } from '../../utils/DesignRules.js'
-import { Loom } from "./Loom.js"
+import { Loom, bridgeLoom } from "../Loom.js"
 import { RULES_COPY } from "./copy.js"
 
 // CompareDetail traces the links between two specific cards: the two card images
@@ -15,25 +15,7 @@ export function CompareDetail({
   focal, vs, between, nodeByName, cardGroups, groupIndex, linkIndex,
   canEdit, onSelectGroup, onSelectLink, onEditLink, onSwap, onClear,
 }) {
-  const chipFor = (name) => {
-    // Direct card: refs render as the card name, with no group to select.
-    const refName = cardRefName(name)
-    if (refName) return { key: name, color: 'var(--text-muted)', label: refName }
-    return {
-      key: name, color: ruleColor(groupIndex[name] ?? 0), label: name,
-      onClick: () => onSelectGroup(name),
-    }
-  }
-  const leftSeen = new Set(), rightSeen = new Set()
-  const left = [], right = [], threads = []
-  for (const r of between) {
-    const c = ruleColor(linkIndex[r.label] ?? 0)
-    for (const b of r.bridges) {
-      if (!leftSeen.has(b.focusGroup)) { leftSeen.add(b.focusGroup); left.push(chipFor(b.focusGroup)) }
-      if (!rightSeen.has(b.neighGroup)) { rightSeen.add(b.neighGroup); right.push(chipFor(b.neighGroup)) }
-      threads.push({ from: b.focusGroup, to: b.neighGroup, color: c, key: r.label + ':' + b.focusGroup + '>' + b.neighGroup })
-    }
-  }
+  const { left, right, threads } = bridgeLoom(between, groupIndex, linkIndex, onSelectGroup)
 
   return (
     <div className="de-pane">

@@ -1,8 +1,6 @@
 import React from 'react'
 import { SortFunc } from "../utils/Utils.js"
-
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
+import { CardImagePreview } from "../components/kit/CardImagePreview.js"
 
 // DraftPackWidget shows one pack from a pick log: the pack the selected player
 // saw at the selected pick, with the card they took highlighted. drafts maps
@@ -52,25 +50,9 @@ export function DraftPackWidget(input) {
             sort = "b"
           }
           return (
-            <OverlayTrigger
-              key={cardID}
-              sort={sort}
-              placement="top"
-              delay={{ show: 200, hide: 100 }}
-              overlay={
-                <Popover id="popover-basic" style={{maxWidth: 'none'}}>
-                  <Popover.Body style={{padding: '0'}}>
-                    <img
-                      src={img}
-                      alt={card.name}
-                      style={{width: '250px', display: 'block', borderRadius: '12px'}}
-                    />
-                  </Popover.Body>
-                </Popover>
-              }
-            >
+            <CardImagePreview key={cardID} sort={sort} src={img} alt={card.name} width={250} position="right">
               <img src={img} className={className}/>
-            </OverlayTrigger>
+            </CardImagePreview>
           )
         }).sort(SortFunc)
       }

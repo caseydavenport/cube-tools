@@ -1,0 +1,49 @@
+/* Loom: two chip columns with measured SVG threads between them. Shared by the
+   Rules editor and the Synergy map's "why linked" tip. */
+.de-loom {
+  position: relative; display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.45rem 6rem; margin: 0.4rem 0;
+}
+.de-loom-col { display: flex; flex-direction: column; gap: 0.45rem; align-items: flex-end; min-width: 0; }
+.de-loom-col-right { align-items: flex-start; }
+.de-loom-chip {
+  display: flex; align-items: center; gap: 0.45rem; max-width: 100%;
+  background: var(--se-page); border: 1px solid var(--se-border);
+  border-radius: 8px; padding: 0.35rem 0.65rem; color: var(--se-text);
+  font-family: inherit; font-size: 0.85rem;
+}
+button.de-loom-chip { cursor: pointer; }
+button.de-loom-chip:hover { border-color: var(--mantine-primary-color-filled); }
+.de-loom-chip-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.de-loom-chip-sub { color: var(--se-muted); font-size: 0.72rem; flex-shrink: 0; }
+.de-loom-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; overflow: visible;
+}
+.de-thread {
+  fill: none; stroke-width: 2; stroke-linecap: round; opacity: 0.85;
+  stroke-dasharray: 600; stroke-dashoffset: 600;
+  animation: de-thread-in 0.45s ease-out forwards;
+}
+@keyframes de-thread-in { to { stroke-dashoffset: 0; } }
+.de-loom-labels {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-top: 1rem;
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--se-muted);
+}
+.de-loom-labels span:first-child { text-align: right; }
+.de-loom-note { font-size: 0.78rem; }
+
+/* Compact: smaller chips and still threads, for inside a popover. */
+.de-loom-compact { gap: 0.3rem 4.25rem; margin: 0; }
+.de-loom-compact .de-loom-col { gap: 0.3rem; }
+.de-loom-compact .de-loom-chip {
+  box-sizing: border-box; height: 26px; gap: 6px;
+  padding: 0 9px; font-size: 12px;
+}
+.de-loom-compact .dm-swatch { width: 9px; height: 9px; border-radius: 50%; }
+.de-loom-compact .de-thread { stroke-width: 2.5; opacity: 1; animation: none; stroke-dasharray: none; stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .de-thread { animation: none; stroke-dashoffset: 0; }
+}

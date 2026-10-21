@@ -25,6 +25,7 @@ function schemeVars(palette) {
     "--se-sidebar-to": palette.sidebarTo,
     "--se-good": palette.good,
     "--se-bad": palette.bad,
+    "--se-shadow-pop": palette.shadowPop,
     "--mantine-color-body": palette.page,
     "--mantine-color-text": palette.text,
   }

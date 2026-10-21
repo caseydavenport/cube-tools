@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { ruleColor } from '../map/ruleColors.js'
 import { cardRefName } from '../../utils/DesignRules.js'
 import { EditActions } from "./rulesParts.js"
-import { Loom } from "./Loom.js"
+import { Loom } from "../Loom.js"
 import { RULES_COPY } from "./copy.js"
 
 // LinkDetail shows one link as a wiring diagram: source groups on the left,

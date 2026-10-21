@@ -1,0 +1,211 @@
+/* The one popover look every hover in the app shares: the kit-pop shell and
+   what goes inside it, and kit-card-image for card image previews. */
+
+/* The shell. Mantine's arrow inherits this background and reads
+   --popover-border-color, so it matches the outline. A shell used outside
+   Mantine must be positioned, for the accent bar. */
+.kit-pop {
+  --popover-border-color: var(--se-border);
+  box-sizing: border-box;
+  padding: 12px 14px;
+  background-color: var(--se-card);
+  border: 1px solid var(--se-border);
+  border-radius: 12px;
+  box-shadow: var(--se-shadow-pop);
+  color: var(--se-text);
+  pointer-events: none;
+  max-width: calc(100vw - 16px);
+}
+
+/* A popover of plain explainer text with no set width wraps at a readable
+   line length, instead of Mantine's default of one long line. */
+.kit-pop-prose {
+  max-width: min(340px, calc(100vw - 16px));
+}
+
+/* The violet accent bar along the top edge. */
+.kit-pop::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  height: 3px;
+  border-radius: 12px 12px 0 0;
+  background: var(--mantine-primary-color-filled);
+}
+
+.kit-pop-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--se-text);
+}
+
+.kit-pop-title-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.kit-pop-badge {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--mantine-primary-color-light);
+  color: var(--mantine-primary-color-light-color);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.kit-pop-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--se-muted);
+}
+
+/* Number rows: a muted label on the left, the value on the right. */
+.kit-pop-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+.kit-pop-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--se-muted);
+}
+
+.kit-pop-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.kit-pop-good {
+  color: var(--se-good);
+}
+
+.kit-pop-bad {
+  color: var(--se-bad);
+}
+
+/* The thin meter under a row whose value is a 0-1 share. */
+.kit-pop-meter {
+  height: 4px;
+  margin: 2px 0 6px;
+  border-radius: 999px;
+  background: var(--se-border);
+  overflow: hidden;
+}
+
+.kit-pop-meter-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--mantine-primary-color-filled);
+}
+
+/* Names for the meter's two ends, such as both sides of a matchup. */
+.kit-pop-ends {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--se-muted);
+}
+
+.kit-pop-footer {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--se-border);
+  font-size: 12px;
+  color: var(--se-muted);
+}
+
+/* HoverTable: a compact table body for inside a popover. */
+.kit-pop-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.kit-pop-table th {
+  padding: 4px 8px 6px;
+  border-bottom: 1px solid var(--se-border);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: left;
+  color: var(--se-muted);
+}
+
+.kit-pop-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--se-border);
+}
+
+.kit-pop-table tr:last-child td {
+  border-bottom: none;
+}
+
+.kit-pop-table .kit-pop-right {
+  text-align: right;
+}
+
+.kit-pop-table .kit-pop-center {
+  text-align: center;
+}
+
+/* The dotted underline that marks a column header with an explainer. Other
+   hover targets, such as card names and table cells, stay plain. */
+thead .kit-has-tip {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--se-muted);
+  text-underline-offset: 3px;
+}
+
+/* A card image preview: no frame, just the image with a real card's corners
+   (4.75% of the width; 3.4% of the 1.4x taller height draws them round). */
+.kit-card-image {
+  display: block;
+  border-radius: 4.75% / 3.4%;
+  box-shadow: var(--se-shadow-pop);
+  animation: kit-card-image-in 0.12s ease-out;
+}
+
+@keyframes kit-card-image-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* CardImagePreview's dropdown holds only the image. Mantine's pop transition
+   already animates it, so the image's own entrance is off here. */
+.kit-card-pop {
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.kit-card-pop .kit-card-image {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kit-card-image { animation: none; }
+}

@@ -1,6 +1,5 @@
 import React from "react"
-import OverlayTrigger from "react-bootstrap/OverlayTrigger"
-import Popover from "react-bootstrap/Popover"
+import { CardImagePreview } from "../components/kit/CardImagePreview.js"
 import { CardImageURL } from "../utils/Utils.js"
 import { CardMatches } from "../utils/Query.js"
 import { InDeckColor } from "../utils/Deck.js"
@@ -40,21 +39,13 @@ function imageClassName(card, deck, sideboard, matchStr) {
   return "cardimage"
 }
 
-// CardImage is one card's image, with a larger copy on hover.
+// CardImage is one card's image, with a larger copy beside it on hover.
 function CardImage({ card, className }) {
-  const preview = (
-    <Popover id="card-image-preview" style={{ maxWidth: "none" }}>
-      <Popover.Body style={{ padding: 0 }}>
-        <img src={CardImageURL(card)} alt={card.name} style={{ width: "300px", display: "block", borderRadius: "12px" }} />
-      </Popover.Body>
-    </Popover>
-  )
-
   return (
     <div className="card-stack-item">
-      <OverlayTrigger placement="top" delay={{ show: 200, hide: 100 }} overlay={preview}>
+      <CardImagePreview src={CardImageURL(card)} alt={card.name} width={300} position="right">
         <img src={CardImageURL(card)} alt={card.name} className={className} style={{ width: "200px" }} />
-      </OverlayTrigger>
+      </CardImagePreview>
     </div>
   )
 }

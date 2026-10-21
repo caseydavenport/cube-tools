@@ -23,6 +23,7 @@ import { Overview } from "./Overview.js"
 import { Registry } from "./Registry.js"
 import { CardLens } from "./CardLens.js"
 import { RULES_COPY } from "./copy.js"
+import "../../components/kit/popover.css"
 
 // DesignEditorPage is the workbench for the design rulebook. Three panes:
 // a registry of every group and link (browse, create, spot problems), a detail
@@ -346,7 +347,7 @@ export function DesignEditorPage() {
 
       {status && <div className="de-status" role="status">{status}</div>}
       {hoverCard && !groupEditor && !linkEditor &&
-        <div className="deck-hover-preview"><img src={CardImageURL({ name: hoverCard })} alt={hoverCard} /></div>
+        <div className="deck-hover-preview"><img className="kit-card-image" src={CardImageURL({ name: hoverCard })} alt={hoverCard} /></div>
       }
 
       {groupEditor &&

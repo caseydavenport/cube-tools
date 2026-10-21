@@ -4,6 +4,7 @@ import { CardMatches } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { InDeckColor } from "../utils/Deck.js"
 import { decklistColumns } from "./decklist.js"
+import "../components/kit/popover.css"
 
 // linkedInDeck returns the names of the cards in this list that a card links to
 // in the design map. synergy maps each card name to its links; present is the
@@ -204,7 +205,7 @@ export function TextDecklist({ deck, cards, sideboard, matchStr, synergy }) {
 
       {hoveredCard && (
         <div className="deck-hover-preview">
-          <img src={CardImageURL(hoveredCard)} alt={hoveredCard.name} />
+          <img className="kit-card-image" src={CardImageURL(hoveredCard)} alt={hoveredCard.name} />
         </div>
       )}
     </div>

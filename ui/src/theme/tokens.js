@@ -8,7 +8,8 @@ export const PRIMARY_SHADES = [
 ]
 
 // LIGHT is the light-mode palette: page and card backgrounds, text and muted
-// text, borders, the sidebar gradient's two ends, and good/bad result colors.
+// text, borders, the sidebar gradient's two ends, good/bad result colors, and
+// shadowPop, the soft shadow under popovers and card image previews.
 export const LIGHT = {
   page: "#fbf8f4",
   card: "#ffffff",
@@ -19,9 +20,11 @@ export const LIGHT = {
   sidebarTo: "#ffe4e1",
   good: "#16a34a",
   bad: "#e11d48",
+  shadowPop: "0 14px 34px -10px rgb(42 34 56 / 0.22), 0 2px 6px rgb(42 34 56 / 0.06)",
 }
 
-// DARK is the dark-mode palette, with the same keys as LIGHT.
+// DARK is the dark-mode palette, with the same keys as LIGHT. Its popover
+// shadow is deeper, so a popover still lifts off a dark page.
 export const DARK = {
   page: "#1a1625",
   card: "#231d31",
@@ -32,6 +35,7 @@ export const DARK = {
   sidebarTo: "#3a1f2c",
   good: "#4ade80",
   bad: "#fb7185",
+  shadowPop: "0 18px 44px -10px rgb(0 0 0 / 0.7), 0 2px 8px rgb(0 0 0 / 0.35)",
 }
 
 // MANA colors match the land icons in public/img, so they don't change by scheme.

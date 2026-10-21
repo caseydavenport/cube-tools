@@ -4,9 +4,18 @@ import { LIGHT, DARK, PRIMARY_SHADES, MANA, SERIES } from "./tokens.js"
 
 const HEX = /^#[0-9a-f]{6}$/
 
-test("light and dark define the same tokens, all hex colors", () => {
+test("light and dark define the same tokens, all colors hex", () => {
   assert.deepEqual(Object.keys(DARK).sort(), Object.keys(LIGHT).sort())
-  for (const v of [...Object.values(LIGHT), ...Object.values(DARK)]) assert.match(v, HEX)
+  for (const palette of [LIGHT, DARK]) {
+    for (const [key, v] of Object.entries(palette)) {
+      if (key !== "shadowPop") assert.match(v, HEX, key)
+    }
+  }
+})
+
+test("the popover shadow is softer in light mode and deeper in dark", () => {
+  assert.equal(LIGHT.shadowPop, "0 14px 34px -10px rgb(42 34 56 / 0.22), 0 2px 6px rgb(42 34 56 / 0.06)")
+  assert.equal(DARK.shadowPop, "0 18px 44px -10px rgb(0 0 0 / 0.7), 0 2px 8px rgb(0 0 0 / 0.35)")
 })
 
 test("the primary palette has ten shades for Mantine", () => {
