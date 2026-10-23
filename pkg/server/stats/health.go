@@ -152,11 +152,7 @@ func colorBalanceStdDev(allDecks []*storage.Deck) float64 {
 		if len(colors) != 2 {
 			continue
 		}
-		sort.Slice(colors, func(i, j int) bool {
-			order := "WUBRG"
-			return indexOf(order, colors[i]) < indexOf(order, colors[j])
-		})
-		pair := colors[0] + colors[1]
+		pair := colors.String()
 		if _, ok := records[pair]; !ok {
 			records[pair] = &Record{}
 		}

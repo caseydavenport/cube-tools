@@ -144,9 +144,8 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		}
 
 		// Track color identity win/loss for the player.
-		// Use deck.GetColors() which returns []string.
 		colors := deck.GetColors()
-		for _, color := range colors {
+		for color := range colors {
 			if _, ok := ps.ColorStats[color]; !ok {
 				ps.ColorStats[color] = &winLossStats{}
 			}

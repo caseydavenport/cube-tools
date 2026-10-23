@@ -33,9 +33,9 @@ const dnaTag = "🧬"
 // PivotDimension names a way to key a deck (or its opponent). For color dims,
 // Granularity picks mono/dual/trio and ColorMode picks inclusive/exact/primary.
 type PivotDimension struct {
-	Dim         string `json:"dim"`
-	Granularity int    `json:"granularity"`
-	ColorMode   string `json:"color_mode"`
+	Dim         string    `json:"dim"`
+	Granularity int       `json:"granularity"`
+	ColorMode   colorMode `json:"color_mode"`
 }
 
 // PivotPredicate is one filter on the deck population: does Dim's value satisfy
@@ -329,16 +329,19 @@ func gameOutcome(g types.Game, d *storage.Deck) string {
 	}
 }
 
-func colorModeOf(dim PivotDimension) string {
+func colorModeOf(dim PivotDimension) colorMode {
 	if dim.ColorMode == "" {
-		return "inclusive"
+		return ColorModeExact
 	}
 	return dim.ColorMode
 }
 
 func granularityOf(dim PivotDimension) int {
-	if dim.Granularity < 1 || dim.Granularity > 3 {
+	if dim.Granularity < 1 {
 		return 1
+	}
+	if dim.Granularity > 3 {
+		return 3
 	}
 	return dim.Granularity
 }
@@ -573,10 +576,14 @@ func deckPasses(d *storage.Deck, preds []PivotPredicate, cubeCards map[string]ty
 func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]types.Card, edges []graph.Edge) bool {
 	switch p.Dim {
 	case "color":
-		colors := deckColorSet(d)
+		colors := d.GetColors()
 		want := strings.ToUpper(p.Value)
+
 		switch p.Op {
 		case "excludes":
+			if colors.Contains(want) {
+				return false
+			}
 			for _, c := range want {
 				if colors[string(c)] {
 					return false
@@ -640,14 +647,6 @@ func compareNumber(got float64, op string, want float64) bool {
 	default: // gte
 		return got >= want
 	}
-}
-
-func deckColorSet(d *storage.Deck) map[string]bool {
-	set := map[string]bool{}
-	for _, c := range d.GetColors() {
-		set[c] = true
-	}
-	return set
 }
 
 // orderColumns returns the column keys in display order, with the overall ("")

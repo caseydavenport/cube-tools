@@ -7,16 +7,16 @@ export const COLORS_COPY = {
   widget: {
     chartBuilds: "Build %",
     chartWins: "Win %",
+    chartBayesWins: "Bayes Win %",
     chartPicks: "Pick %",
     chartSplash: "Avg Deck Devotion",
-    chartVpPct: "VP %",
-    chartVps: "Victory Points",
     chartPercentOfWins: "% of wins",
     chartWinningPct: "Winning %",
     chartTrophyPct: "Trophy %",
     chartLastPlacePct: "Last Place %",
 
     // The color-type control, which Stats.js builds.
+    typeAny: "Any",
     typeMono: "Mono",
     typeDual: "Dual",
     typeTrio: "Trio",
@@ -27,14 +27,14 @@ export const COLORS_COPY = {
   statsTable: {
     color: {
       text: "Color",
-      tip: "The color or colors of the deck. If 'strict' is checked, the row includes data only from decks that are exactly this color. Otherwise, the row includes data from any decks that include this color/colors.",
+      tip: "The colors of the decks bucketed into this row. Color mode controls whether the row represents any deck that includes these colors (inclusive), only decks with exactly this color identity (exact), or only decks where these are the primary two colors (primary pair).",
     },
     winPct: {
       text: "Win %",
       tip: "Percentage of games played by this color/colors that were wins. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
     },
     delta: {
-      text: "Δ vs avg",
+      text: "vs avg",
       tip: "Win rate relative to the cube-wide average (50%). Positive (green) means this color wins more than its share of games; negative (red) means it loses more.",
     },
     buildPct: {
@@ -77,14 +77,6 @@ export const COLORS_COPY = {
       text: "Pick %",
       tip: "This color's share of all mainboarded cards across every deck. Sums to ~100% across rows.",
     },
-    devotion: {
-      text: "Avg Deck Devotion",
-      tip: "For each deck, the fraction of colored mana symbols matching this color identity, then averaged across decks. Each deck contributes equally regardless of size.",
-    },
-    avgWords: {
-      text: "Avg Words",
-      tip: "Average word count per non-land card in decks with this color, excluding reminder text.",
-    },
 
     notDistinguishable: "not distinguishable from 50%",
     distinguishable: "distinguishable from 50%",
@@ -115,15 +107,13 @@ export const COLORS_COPY = {
 
     buildsTitle: (bucketSize) => `Build % (bucket size = ${bucketSize} drafts)`,
     winsTitle: (bucketSize) => `Win % (buckets size = ${bucketSize} drafts)`,
-    vpsTitle: (bucketSize) => `Victory points (bucket size = ${bucketSize} drafts)`,
-    possibleVpsTitle: (bucketSize) => `Possible victory points (bucket size = ${bucketSize} drafts)`,
-    vpsPctTitle: (bucketSize) => `Percentage of victory points (bucket size = ${bucketSize} drafts)`,
     pickPercentageTitle: (bucketSize) => `Percentage of mainboard picks (bucket size = ${bucketSize} drafts)`,
     splashTitle: (bucketSize) => `Avg. percentage of decks (bucket size = ${bucketSize} drafts)`,
     percentOfWinsTitle: (bucketSize) => `Percent of wins (bucket size = ${bucketSize} drafts)`,
     winningPctTitle: (bucketSize) => `Winning % (bucket size = ${bucketSize} drafts)`,
     trophyPctTitle: (bucketSize) => `Trophy % (bucket size = ${bucketSize} drafts)`,
     lastPlacePctTitle: (bucketSize) => `Last place % (bucket size = ${bucketSize} drafts)`,
+    bayesWinTitle: (bucketSize) => `Bayesian win % (bucket size = ${bucketSize} drafts)`,
   },
 
   // ColorMatchupHeatmap.js: the heatmap's title, color group names, and cell popover.

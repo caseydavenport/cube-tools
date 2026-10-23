@@ -16,7 +16,7 @@ function sourcesFor(cube) {
     index: `/api/${cube}/index`,
     decks: `/api/${cube}/decks/summary`,
     archetypes: `/api/${cube}/stats/archetypes`,
-    colors: `/api/${cube}/stats/colors`,
+    colors: `/api/${cube}/stats/colors?color_mode=inclusive`,
     cards: `/api/${cube}/stats/cards?min_games=20`,
     players: `/api/${cube}/stats/players`,
   }

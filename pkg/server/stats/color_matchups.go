@@ -3,14 +3,13 @@ package stats
 import (
 	"encoding/json"
 	"net/http"
-	"sort"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
+	"github.com/caseydavenport/cube-tools/pkg/utils"
 	"github.com/sirupsen/logrus"
 )
 
@@ -19,10 +18,11 @@ type ColorMatchupResponse struct {
 }
 
 type MatchupRecord struct {
-	Wins   int     `json:"wins"`
-	Losses int     `json:"losses"`
-	Draws  int     `json:"draws"`
-	WinPct float64 `json:"win_pct"`
+	Wins           int     `json:"wins"`
+	Losses         int     `json:"losses"`
+	Draws          int     `json:"draws"`
+	WinPct         float64 `json:"win_pct"`
+	BayesianWinPct float64 `json:"bayesian_win_pct"`
 }
 
 func ColorMatchupHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
@@ -35,18 +35,23 @@ type colorMatchupHandler struct {
 
 func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	dr := decks.ParseDecksRequest(r)
-	colorMode := r.URL.Query().Get("color_mode")
+
+	// Determine color mode and type from query parameters.
+	colorMode := colorMode(r.URL.Query().Get("color_mode"))
 	if colorMode == "" {
-		colorMode = "inclusive"
+		colorMode = ColorModeExact
 	}
-	colorType := r.URL.Query().Get("color_type")
-	if colorType == "" {
-		colorType = "Dual"
+	groupMode := r.URL.Query().Get("color_type")
+	if groupMode == "" {
+		groupMode = "None"
 	}
-	groupSize := 2
-	switch colorType {
+
+	groupSize := 0
+	switch groupMode {
 	case "Mono":
 		groupSize = 1
+	case "Dual":
+		groupSize = 2
 	case "Trio":
 		groupSize = 3
 	}
@@ -62,6 +67,14 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 
 	// Aggregate matchup data. matchups[myColors][oppColors] = {wins, losses}
 	matchups := make(map[string]map[string]*MatchupRecord)
+
+	switch colorMode {
+	case ColorModeExact, ColorModePrimary, ColorModeInclusive:
+		// valid modes
+	default:
+		http.Error(rw, "invalid color_mode parameter", http.StatusBadRequest)
+		return
+	}
 
 	for _, deck := range allDecks {
 		if deck.Metadata.DraftID == 0 {
@@ -109,6 +122,7 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	for _, opponents := range matchups {
 		for _, record := range opponents {
 			record.WinPct = winPctOf(record.Wins, record.Losses, record.Draws)
+			record.BayesianWinPct = utils.BayesianAverage(record.Wins, record.Losses, record.Draws)
 		}
 	}
 
@@ -126,65 +140,54 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 // groupSize: 1 for mono-color, 2 for dual-color, 3 for trio-color.
 // mode controls how decks with more colors than groupSize are handled:
 //
-//	"inclusive": all subsets of the given size are returned.
-//	"exact": only decks with exactly groupSize colors return a group.
-//	"primary": same as exact, plus for dual (groupSize=2) 3+ color decks
-//	           with a clear primary pair (splash detection) are included.
-func colorGroups(d *storage.Deck, mode string, groupSize int) []string {
+//	 "inclusive": all subsets of the given size are returned.
+//	 "exact": only decks with exactly groupSize colors return a group.
+//	 "primary": same as exact, plus for dual (groupSize=2) 3+ color decks
+//		           with a clear primary pair (splash detection) are included.
+func colorGroups(d *storage.Deck, mode colorMode, groupSize int) []string {
 	colors := d.GetColors()
-	if len(colors) < groupSize {
-		return nil
-	}
-	// Sort colors by WUBRG order.
-	sort.Slice(colors, func(i, j int) bool {
-		return strings.Index("WUBRG", colors[i]) < strings.Index("WUBRG", colors[j])
-	})
-	if mode == "exact" || mode == "primary" {
-		if len(colors) == groupSize {
-			return []string{strings.Join(colors, "")}
-		}
-		if mode == "primary" && groupSize == 2 && len(colors) > 2 {
-			pair := d.PrimaryColorPair()
-			if pair == nil {
-				return nil
-			}
-			return []string{pair[0] + pair[1]}
-		}
-		return nil
-	}
-	// "inclusive": return all subsets of the given size.
-	return combinations(colors, groupSize)
-}
 
-// combinations returns all size-k subsets of items, joined as strings.
-func combinations(items []string, k int) []string {
-	if k <= 0 || k > len(items) {
+	// If the deck has fewer colors than the requested group size, filter it out
+	// by returning nil.
+	if groupSize >= 0 && len(colors) < groupSize {
 		return nil
 	}
-	var result []string
-	indices := make([]int, k)
-	for i := range indices {
-		indices[i] = i
-	}
-	for {
-		combo := make([]string, k)
-		for i, idx := range indices {
-			combo[i] = items[idx]
-		}
-		result = append(result, strings.Join(combo, ""))
 
-		// Advance to next combination.
-		i := k - 1
-		for i >= 0 && indices[i] == len(items)-k+i {
-			i--
+	switch mode {
+	case ColorModeExact:
+		// Only return the group if the deck has exactly groupSize colors. If "Any"
+		// is requested (groupSize=0), return all decks.
+		if groupSize == 0 || len(colors) == groupSize {
+			return []string{colors.String()}
 		}
-		if i < 0 {
-			break
+		return nil
+	case ColorModePrimary:
+		// Primary only produces pairs, so if the requested group size is not 2, return nil.
+		if groupSize != 0 && groupSize != 2 {
+			return nil
 		}
-		indices[i]++
-		for j := i + 1; j < k; j++ {
-			indices[j] = indices[j-1] + 1
+
+		// "primary": returns nothing for mono-color decks, the exact color pair for dual-color decks,
+		// and the primary color pair for 3+ color decks.
+		pair := d.PrimaryColorPair()
+		if pair == nil {
+			return nil
 		}
+		return []string{pair.String()}
+	case ColorModeInclusive:
+		// "inclusive": return all subsets of the given size. If "Any" is requested (groupSize=0), return all decks.
+		subsets := colors.SubsetsOfSize(groupSize)
+		if groupSize == 0 {
+			subsets = colors.Subsets()
+		}
+		asStrings := make([]string, len(subsets))
+		for i, subset := range subsets {
+			asStrings[i] = subset.String()
+		}
+		return asStrings
 	}
-	return result
+
+	// If we reach here, the mode was unrecognized. Return nil to indicate no groups.
+	// This shouldn't happen in practice - we validate the mode up front.
+	return nil
 }

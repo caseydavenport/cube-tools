@@ -499,7 +499,7 @@ func (d *Deck) BottomHalf() int {
 	return 0
 }
 
-func (d *Deck) GetColors() map[string]bool {
+func (d *Deck) GetColors() ColorIdentity {
 	colors := make(map[string]bool)
 	if len(d.Colors) > 0 {
 		// If the deck has explicit colors, use those.
@@ -523,62 +523,23 @@ func (d *Deck) GetColors() map[string]bool {
 	return colors
 }
 
-// ColorIdentities returns all the color identities of this deck.
-// e.g., a WUG deck will return [W, U, G, WU, WG, UG, WUG]
-// Note: We exclude identities with more than 3 colors for simplicity.
-func (d *Deck) ColorIdentities() map[string]bool {
-	deckColors := d.GetColors()
-	allColors := make(map[string]bool)
-	for c := range deckColors {
-		allColors[c] = true
-
-		// Dual-colors.
-		for c2 := range deckColors {
-			pair := combineColors([]string{c, c2})
-			if c == c2 {
-				continue
-			}
-			allColors[pair] = true
-
-			// Trios.
-			for c3 := range deckColors {
-				trio := combineColors([]string{c, c2, c3})
-				if c3 == c || c3 == c2 {
-					continue
-				}
-				allColors[trio] = true
-			}
-		}
-	}
-
-	return allColors
-}
-
-// combineColors takes a slice of color strings (e.g., ["U", "W", "G"]) and returns
-// a single string with the colors sorted by WUBRG, and concatenated (e.g., "WUG").
-func combineColors(colors []string) string {
-	sort.Slice(colors, func(i, j int) bool {
-		order := "WUBRG"
-		return strings.Index(order, colors[i]) < strings.Index(order, colors[j])
-	})
-	return strings.Join(colors, "")
-}
-
 // splashPipRatio is the fraction of the weaker main color's pips below which an
 // extra color counts as a splash. A color with fewer than half the pips of the
 // deck's second-most-played color is a splash.
 const splashPipRatio = 0.5
 
-// PrimaryColorPair returns the deck's two primary colors if the deck has 3+ colors
-// but plays like a two-color deck with splash(es). Colors are ranked by how many
-// colored mana pips they contribute across the deck's spells (hybrids count toward
-// each color they name); the top two are the candidate pair. If every other color
-// is a splash - fewer than half the pips of the weaker main color - we collapse to
-// the pair. Otherwise it's a genuine multi-color deck and we return nil.
-func (d *Deck) PrimaryColorPair() []string {
+// PrimaryColorPair returns the deck's primary color pair, if any. It returns nil for mono-color decks,
+// and for decks with more than two colors that don't have a clear primary pair. Otherwise,
+// it returns a ColorIdentity containing the two primary colors.
+func (d *Deck) PrimaryColorPair() ColorIdentity {
 	colors := d.GetColors()
-	if len(colors) < 3 {
+	switch len(colors) {
+	case 0, 1:
+		// Mono-color decks have no primary pair.
 		return nil
+	case 2:
+		// Two-color decks are their own primary pair.
+		return colors
 	}
 
 	// Tally colored pips per color across the deck's spells, restricted to the
@@ -616,12 +577,8 @@ func (d *Deck) PrimaryColorPair() []string {
 		}
 	}
 
-	// Return the primary pair in WUBRG order.
-	pair := []string{sorted[0], sorted[1]}
-	sort.Slice(pair, func(i, j int) bool {
-		return strings.Index("WUBRG", pair[i]) < strings.Index("WUBRG", pair[j])
-	})
-	return pair
+	// Return the top two colors as a ColorIdentity.
+	return NewColorIdentity(sorted[0], sorted[1])
 }
 
 // A card is castable if its colors are a subset of the deck's colors, or if it's colorless.

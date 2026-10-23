@@ -55,7 +55,7 @@ func TestColorStats_WinPercent(t *testing.T) {
 }
 
 func TestColorStats_MultipleColors(t *testing.T) {
-	// A WU deck should contribute to W, U, and WU
+	// In inclusive mode, a WU deck should contribute to W, U, and WU
 	decks := []*storage.Deck{
 		makeColorDeck("Alice", []string{"W", "U"}, []types.Game{
 			{Opponent: "Bob", Winner: "Alice"},
@@ -69,7 +69,7 @@ func TestColorStats_MultipleColors(t *testing.T) {
 	}
 
 	handler := &colorStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=inclusive", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
 

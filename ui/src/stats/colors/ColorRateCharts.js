@@ -135,18 +135,6 @@ export function ColorRateChart(input) {
   for (let bucket of buckets) {
     let stats = new Map(Object.entries(bucket.data))
 
-    // Calcualte total victory points for this bucket, used below to calculate percentage
-    // of available victory points for each color.
-    let totalVictoryPoints = 0;
-    for (let color of allColors) {
-      if (!colorIsDisplayed(color, input.colorMode)) {
-        continue
-      }
-      if (stats.has(color)) {
-        totalVictoryPoints += stats.get(color).victory_points
-      }
-    }
-
     for (let color of allColors) {
       if (!stats.has(color)) {
         colorDatasets.get(color).push(0)
@@ -155,12 +143,8 @@ export function ColorRateChart(input) {
 
       if (input.dataset === "wins") {
         colorDatasets.get(color).push(stats.get(color).win_percent)
-      } else if (input.dataset === "vps") {
-        colorDatasets.get(color).push(stats.get(color).victory_points)
-      } else if (input.dataset === "possible_vps") {
-        colorDatasets.get(color).push(stats.get(color).available_victory_points)
-      } else if (input.dataset === "vps_pct") {
-        colorDatasets.get(color).push(100 * stats.get(color).victory_points / totalVictoryPoints)
+      } else if (input.dataset === "bayes_wins") {
+        colorDatasets.get(color).push(stats.get(color).bayesian_win_percent)
       } else if (input.dataset === "pick_percentage") {
         colorDatasets.get(color).push(stats.get(color).total_pick_percentage)
       } else if (input.dataset === "splash") {
@@ -263,21 +247,19 @@ export function ColorRateChart(input) {
       break;
     case "Trio":
       dataset = triColorDatasets
+      break;
+    case "Any":
+      dataset = [...monoColorDatasets, ...dualColorDatasets, ...triColorDatasets]
+      break;
   }
 
-  let title = COLORS_COPY.rateCharts.buildsTitle(input.bucketSize)
+  let title = "UNKNOWN"
   switch (input.dataset) {
+    case "builds":
+      title = COLORS_COPY.rateCharts.buildsTitle(input.bucketSize)
+      break;
     case "wins":
       title = COLORS_COPY.rateCharts.winsTitle(input.bucketSize)
-      break;
-    case "vps":
-      title = COLORS_COPY.rateCharts.vpsTitle(input.bucketSize)
-      break;
-    case "possible_vps":
-      title = COLORS_COPY.rateCharts.possibleVpsTitle(input.bucketSize)
-      break;
-    case "vps_pct":
-      title = COLORS_COPY.rateCharts.vpsPctTitle(input.bucketSize)
       break;
     case "pick_percentage":
       title = COLORS_COPY.rateCharts.pickPercentageTitle(input.bucketSize)
@@ -296,6 +278,9 @@ export function ColorRateChart(input) {
       break;
     case "lastplace_pct":
       title = COLORS_COPY.rateCharts.lastPlacePctTitle(input.bucketSize)
+      break;
+    case "bayes_wins":
+      title = COLORS_COPY.rateCharts.bayesWinTitle(input.bucketSize)
       break;
   }
 

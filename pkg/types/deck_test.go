@@ -69,9 +69,14 @@ func TestGameLosses(t *testing.T) {
 func TestGameLosses_DrawsNotCounted(t *testing.T) {
 	// Regression: draws (Winner="" or Tie=true) must NOT count as losses.
 	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: ""},           // draw via empty winner
-		{Opponent: "Bob", Winner: "", Tie: true}, // draw via Tie flag
-		{Opponent: "Bob", Winner: "Bob"},         // real loss
+		// Draw via empty winner.
+		{Opponent: "Bob", Winner: ""},
+
+		// Draw via Tie flag.
+		{Opponent: "Bob", Winner: "", Tie: true},
+
+		// Real loss.
+		{Opponent: "Bob", Winner: "Bob"},
 	}, nil)
 	assert.Equal(t, 1, d.GameLosses())
 }
@@ -80,10 +85,17 @@ func TestGameLosses_DrawsNotCounted(t *testing.T) {
 
 func TestGameDraws(t *testing.T) {
 	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: ""},            // draw (empty winner)
-		{Opponent: "Bob", Winner: "", Tie: true},  // draw (Tie flag)
-		{Opponent: "Bob", Winner: "Bob"},          // loss, not a draw
-		{Opponent: "Charlie", Winner: "Alice"},    // win, not a draw
+		// Draw (empty winner).
+		{Opponent: "Bob", Winner: ""},
+
+		// Draw (Tie flag).
+		{Opponent: "Bob", Winner: "", Tie: true},
+
+		// Loss, not a draw.
+		{Opponent: "Bob", Winner: "Bob"},
+
+		// Win, not a draw.
+		{Opponent: "Charlie", Winner: "Alice"},
 	}, nil)
 	assert.Equal(t, 2, d.GameDraws())
 }
@@ -105,7 +117,9 @@ func TestMatchLosses(t *testing.T) {
 	d := makeDeck("Alice", nil, []Match{
 		{Opponent: "Bob", Winner: "Bob"},
 		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: ""},  // draw, not a loss
+
+		// Draw, not a loss.
+		{Opponent: "Dave", Winner: ""},
 	})
 	assert.Equal(t, 1, d.MatchLosses())
 }
@@ -329,31 +343,6 @@ func TestGetColors_SkipsHybrid(t *testing.T) {
 	assert.Equal(t, 1, len(colors))
 }
 
-// --- ColorIdentities ---
-
-func TestColorIdentities_TwoColor(t *testing.T) {
-	d := NewDeck()
-	d.Colors = []string{"W", "U"}
-	ids := d.ColorIdentities()
-	assert.True(t, ids["W"])
-	assert.True(t, ids["U"])
-	assert.True(t, ids["WU"])
-	assert.False(t, ids["B"])
-}
-
-func TestColorIdentities_ThreeColor(t *testing.T) {
-	d := NewDeck()
-	d.Colors = []string{"W", "U", "G"}
-	ids := d.ColorIdentities()
-	assert.True(t, ids["W"])
-	assert.True(t, ids["U"])
-	assert.True(t, ids["G"])
-	assert.True(t, ids["WU"])
-	assert.True(t, ids["WG"])
-	assert.True(t, ids["UG"])
-	assert.True(t, ids["WUG"])
-}
-
 // --- CanCast ---
 
 func TestCanCast_ColorlessCard(t *testing.T) {
@@ -456,7 +445,7 @@ func TestPrimaryColorPair_ClearSplashCollapses(t *testing.T) {
 	addN(d, 10, "{W}")
 	addN(d, 10, "{U}")
 	addN(d, 2, "{R}")
-	assert.Equal(t, []string{"W", "U"}, d.PrimaryColorPair())
+	assert.Equal(t, NewColorIdentity("W", "U"), d.PrimaryColorPair())
 }
 
 func TestPrimaryColorPair_BalancedThirdColorNotCollapsed(t *testing.T) {
@@ -485,7 +474,7 @@ func TestPrimaryColorPair_HeavyPairSmallSplash(t *testing.T) {
 	addN(d, 15, "{W}")
 	addN(d, 15, "{U}")
 	addN(d, 5, "{B}")
-	assert.Equal(t, []string{"W", "U"}, d.PrimaryColorPair())
+	assert.Equal(t, NewColorIdentity("W", "U"), d.PrimaryColorPair())
 }
 
 func TestPrimaryColorPair_HybridCountsBothColors(t *testing.T) {
@@ -493,13 +482,19 @@ func TestPrimaryColorPair_HybridCountsBothColors(t *testing.T) {
 	d := &Deck{Colors: []string{"W", "U", "R"}}
 	addN(d, 10, "{W/U}")
 	addN(d, 2, "{R}")
-	assert.Equal(t, []string{"W", "U"}, d.PrimaryColorPair())
+	assert.Equal(t, NewColorIdentity("W", "U"), d.PrimaryColorPair())
 }
 
-func TestPrimaryColorPair_TwoColorReturnsNil(t *testing.T) {
+func TestPrimaryColorPair_TwoColorIsItsOwnPair(t *testing.T) {
 	d := &Deck{Colors: []string{"W", "U"}}
 	addN(d, 10, "{W}")
 	addN(d, 10, "{U}")
+	assert.Equal(t, NewColorIdentity("W", "U"), d.PrimaryColorPair())
+}
+
+func TestPrimaryColorPair_MonoColorReturnsNil(t *testing.T) {
+	d := &Deck{Colors: []string{"W"}}
+	addN(d, 10, "{W}")
 	assert.Nil(t, d.PrimaryColorPair())
 }
 

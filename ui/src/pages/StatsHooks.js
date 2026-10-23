@@ -3,7 +3,6 @@ import { LoadCube, LoadDecks, LoadArchetypeData, LoadDrafts } from "../utils/Fet
 import { useCube } from "../contexts/CubeContext.js";
 import { ArchetypeData } from "../stats/archetypes/archetypeData.js";
 import { PlayerData } from "./Players.js";
-import { GetColorStats } from "../stats/colors/colorStats.js";
 import { DeckBuckets } from "../utils/Buckets.js";
 import { AggregatedPickInfo } from "../utils/DraftLog.js";
 import { draftLabel } from "../utils/DraftInfo.js";
@@ -23,9 +22,9 @@ export function useStatsFilters() {
   const [minDraftSize, setMinDraftSize] = useState(0);
   const [manaValue, setManaValue] = useState(-1);
   const [selectedBucket, setSelectedBucket] = useState("ALL");
-  const [colorTypeSelection, setColorTypeSelection] = useState("Mono");
+  const [colorTypeSelection, setColorTypeSelection] = useState("Any");
   const [colorSortBy, setColorSortBy] = useState("win");
-  const [colorMode, setColorMode] = useState("inclusive");
+  const [colorMode, setColorMode] = useState("exact");
   const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
   const [cardWidgetSelection, setCardWidgetSelection] = useState("Overview");
   const [minDrafts, setMinDrafts] = useState(0);
@@ -356,7 +355,6 @@ export function useStatsData(filters, props, refresh, view) {
       const pd = PlayerData(filteredDecks);
       for (let d of pd.values()) {
         d.archetypeData = ArchetypeData(d.decks, winConfidence);
-        d.colorStats = GetColorStats(d.decks, filters.colorMode);
       }
       return pd;
     }

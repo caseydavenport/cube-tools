@@ -17,7 +17,7 @@ type Deck interface {
 	GetMainboard() []types.Card
 	GetSideboard() []types.Card
 	GetPool() []types.Card
-	GetColors() []string
+	GetColors() types.ColorIdentity
 
 	// GetEventTerms returns the words an event: term or free-text search can
 	// match the deck's draft by: its event code, name, and flight.
@@ -109,7 +109,7 @@ func DeckMatchesBoardGraph(d Deck, matchStr, board string, edges []graph.Edge) b
 					return false
 				}
 			} else if strings.HasPrefix(term, "dcolor") {
-				deckColors := combineColors(d.GetColors())
+				deckColors := d.GetColors().String()
 				if strings.HasPrefix(term, "dcolor!=") {
 					val := strings.TrimPrefix(term, "dcolor!=")
 					query := combineColors(strings.Split(val, ""))

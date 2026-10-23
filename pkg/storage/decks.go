@@ -155,15 +155,6 @@ func (d *Deck) GetPool() []types.Card {
 	return res
 }
 
-func (d *Deck) GetColors() []string {
-	colors := d.Deck.GetColors()
-	var res []string
-	for c := range colors {
-		res = append(res, c)
-	}
-	return res
-}
-
 // ErrDeckNotFound is returned when no deck matches the (draftID, ID) key, or
 // the draft itself doesn't exist.
 var ErrDeckNotFound = errors.New("deck not found")

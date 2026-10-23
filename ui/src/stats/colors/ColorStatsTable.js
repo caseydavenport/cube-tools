@@ -32,7 +32,7 @@ const COLOR_COLUMNS = [
     id: "color",
     text: COLORS_COPY.statsTable.color.text,
     tip: COLORS_COPY.statsTable.color.tip,
-    cell: (color) => <td key="color">{ColorImages(color.color)}</td>,
+    cell: (color) => <td style={{width: "1%", whiteSpace: "nowrap"}} key="color">{ColorImages(color.color)}</td>,
   },
   {
     id: "win",
@@ -40,6 +40,13 @@ const COLOR_COLUMNS = [
     tip: COLORS_COPY.statsTable.winPct.tip,
     needs: ["results"],
     cell: (color) => <WinPercentCell key="win" color={color} />,
+  },
+  {
+    id: "bayes_win",
+    text: "Bayes Win %",
+    tip: "Bayesian estimate of the win percentage, which is more accurate for colors with few decks.",
+    needs: ["results"],
+    cell: (color) => <BayesWinPercentCell key="bayes_win" color={color} />,
   },
   {
     id: "delta",
@@ -60,13 +67,6 @@ const COLOR_COLUMNS = [
     tip: COLORS_COPY.statsTable.percentOfWins.tip,
     needs: ["results"],
     cell: (color) => <td key="pwin">{color.percent_of_wins.toFixed(0)}%</td>,
-  },
-  {
-    id: "vps",
-    text: COLORS_COPY.statsTable.victoryPointPct.text,
-    tip: COLORS_COPY.statsTable.victoryPointPct.tip,
-    needs: ["results"],
-    cell: (color, totals) => <td key="vps">{Pct(color.victory_points, totals.victoryPoints)}%</td>,
   },
   {
     id: "trophies",
@@ -116,18 +116,6 @@ const COLOR_COLUMNS = [
     monoOnly: true,
     cell: (color) => <td key="picks">{color.total_pick_percentage}%</td>,
   },
-  {
-    id: "splash",
-    text: COLORS_COPY.statsTable.devotion.text,
-    tip: COLORS_COPY.statsTable.devotion.tip,
-    cell: (color) => <td key="splash">{color.average_deck_percentage}%</td>,
-  },
-  {
-    id: "avg_word_count",
-    text: COLORS_COPY.statsTable.avgWords.text,
-    tip: COLORS_COPY.statsTable.avgWords.tip,
-    cell: (color) => <td key="avg_word_count">{color.avg_word_count || 0}</td>,
-  },
 ]
 
 // shownColumns returns the stats table's columns for this cube and color type:
@@ -145,6 +133,39 @@ function winningPercentText(color) {
   }
   return Pct(color.top_half, color.num_decks) + "%"
 }
+
+
+// BayesWinPercentCell shows a color's win rate, greyed when it can't be told apart
+// from a coin flip, with the confidence interval on hover.
+function BayesWinPercentCell({ color }) {
+  if (color.win_percent_low == null) {
+    return <td>{color.bayesian_win_percent.toFixed(0)}%</td>
+  }
+
+  let style = undefined
+  const rows = []
+
+  // Include the delta from cube average in the hover stats as well.
+  let sign = ""
+  const delta = color.bayesian_win_percent - CUBE_AVG_WIN_PERCENT
+  if (delta >= 0) {
+    sign = "+"
+  }
+
+  rows.push({
+    label: "vs Cube Average",
+    value: sign + delta.toFixed(0) + "%",
+  })
+
+  let value = color.bayesian_win_percent.toFixed(0) + "%"
+
+  return (
+    <HoverStats rows={rows}>
+      <td style={style}>{value}</td>
+    </HoverStats>
+  )
+}
+
 
 // WinPercentCell shows a color's win rate, greyed when it can't be told apart
 // from a coin flip, with the confidence interval on hover.
@@ -167,9 +188,23 @@ function WinPercentCell({ color }) {
     }),
   }]
 
+  // Include the delta from cube average in the hover stats as well.
+  let sign = ""
+  const delta = color.win_percent - CUBE_AVG_WIN_PERCENT
+  if (delta >= 0) {
+    sign = "+"
+  }
+
+  rows.push({
+    label: "vs Cube Average",
+    value: sign + delta.toFixed(0) + "%",
+  })
+
+  let value = color.win_percent.toFixed(0) + "%"
+
   return (
     <HoverStats rows={rows} footer={verdict}>
-      <td style={style}>{color.win_percent.toFixed(0)}%</td>
+      <td style={style}>{value}</td>
     </HoverStats>
   )
 }
@@ -193,6 +228,8 @@ function DeltaCell({ color }) {
 function colorSortValue(color, sortBy) {
   if (sortBy === "delta") {
     return color.win_percent - CUBE_AVG_WIN_PERCENT
+  } else if (sortBy === "bayes_win") {
+    return color.bayesian_win_percent
   } else if (sortBy === "build") {
     return color.build_percent
   } else if (sortBy === "decks") {
@@ -205,8 +242,6 @@ function colorSortValue(color, sortBy) {
     return color.average_deck_percentage
   } else if (sortBy === "pwin") {
     return color.percent_of_wins
-  } else if (sortBy === "vps") {
-    return color.victory_points
   } else if (sortBy === "trophies") {
     return color.trophies
   } else if (sortBy === "lastplace") {
@@ -251,7 +286,6 @@ export function ColorStatsTable(input) {
   // Determine which rates to show, filtering out those which do not match the selected
   // color mode dropdown.
   let filtered = new Array();
-  let totalVictoryPoints = 0;
   for (let d of colorData) {
     if (!colorIsDisplayed(d.color, input.colorTypeSelection)) {
       continue
@@ -259,14 +293,12 @@ export function ColorStatsTable(input) {
 
     // Inclue the color.
     filtered.push(d)
-
-    // Track the total number of victory points within the selected colors, over the selected time frame.
-    totalVictoryPoints += d.victory_points
   }
+
 
   const columns = shownColumns(input.info, input.colorTypeSelection)
   const sortBy = shownColorSort(input.sortBy, COLOR_COLUMNS, input.info, input.colorTypeSelection)
-  const totals = { victoryPoints: totalVictoryPoints }
+  const totals = { }
 
   return (
     <div className="stats-table-wrap">
@@ -277,7 +309,7 @@ export function ColorStatsTable(input) {
               columns.map(function(hdr) {
                 return (
                   <HoverInfo key={hdr.id} title={hdr.text} info={hdr.tip}>
-                    <td onClick={input.onClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                    <td style={{width: "1%", whiteSpace: "nowrap"}} onClick={input.onClick} id={hdr.id} className="header-cell">{hdr.text}</td>
                   </HoverInfo>
                 );
               })

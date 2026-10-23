@@ -4,16 +4,18 @@ import (
 	"math"
 
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/utils"
 )
 
 // Record aggregates game outcomes across one or more decks and produces a
 // win percentage. Draws count as half a win in the rate; the raw count is
 // preserved for callers that want to display it.
 type Record struct {
-	Wins       int     `json:"wins"`
-	Losses     int     `json:"losses"`
-	Draws      int     `json:"draws"`
-	WinPercent float64 `json:"win_percent"`
+	Wins               int     `json:"wins"`
+	Losses             int     `json:"losses"`
+	Draws              int     `json:"draws"`
+	WinPercent         float64 `json:"win_percent"`
+	BayesianWinPercent float64 `json:"bayesian_win_percent"`
 
 	// Wilson score interval around WinPercent at the request's confidence
 	// level, on the same 0-100 scale. Zero when there are no games. See
@@ -36,6 +38,7 @@ func (r *Record) Add(d *storage.Deck) {
 // all Add calls.
 func (r *Record) Finalize() {
 	r.WinPercent = winPctOf(r.Wins, r.Losses, r.Draws)
+	r.BayesianWinPercent = utils.BayesianAverage(r.Wins, r.Losses, r.Draws)
 }
 
 // SetInterval computes the Wilson confidence interval and significance flag for

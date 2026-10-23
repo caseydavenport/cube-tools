@@ -25,7 +25,7 @@ func makePivotDeck(player string, draftID int, date string, colors []string, arc
 }
 
 func dim(name string, gran int, mode string) PivotDimension {
-	return PivotDimension{Dim: name, Granularity: gran, ColorMode: mode}
+	return PivotDimension{Dim: name, Granularity: gran, ColorMode: colorMode(mode)}
 }
 
 func rowByKey(resp *PivotResponse, key string) *PivotRow {

@@ -2,9 +2,9 @@ package stats
 
 import (
 	"encoding/json"
+	"fmt"
 	"math"
 	"net/http"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
@@ -16,6 +16,20 @@ import (
 	"gonum.org/v1/gonum/stat"
 )
 
+type colorMode string
+
+const (
+	// ColorModeInclusive counts a deck as contributing to all of its sub-identities (e.g., a WU deck counts as W, U, and WU).
+	ColorModeInclusive colorMode = "inclusive"
+
+	// ColorModeExact counts a deck only for its exact color identity (e.g., a WU deck counts only as WU).
+	ColorModeExact colorMode = "exact"
+
+	// ColorModePrimary counts a deck only for its exact color identity, but 3+ color decks with a clear
+	// primary pair count as that pair (e.g., a WUB deck with a primary pair of WU counts as WU).
+	ColorModePrimary colorMode = "primary"
+)
+
 type ColorStatsRequest struct {
 	// Embed deck request to allow filtering by player, date range, and draft size.
 	*storage.DecksRequest
@@ -23,11 +37,9 @@ type ColorStatsRequest struct {
 	// Configuration for bucketed responses.
 	BucketSize int  `json:"bucket_size"`
 	Sliding    bool `json:"sliding"`
+
 	// ColorMode controls how decks are bucketed by color identity.
-	// "inclusive" (default): a WU deck counts as W, U, and WU.
-	// "exact": only exact color identity matches (3+ color decks excluded from 2-color rows).
-	// "primary": exact match, but 3+ color decks with a clear primary pair count as that pair.
-	ColorMode string `json:"color_mode"`
+	ColorMode colorMode `json:"color_mode"`
 
 	// Confidence level for the win-rate interval (0,1). Defaults to
 	// defaultConfidence. See confidence.go.
@@ -61,9 +73,9 @@ func parseColorsRequest(r *http.Request) *ColorStatsRequest {
 	p := ColorStatsRequest{}
 	p.BucketSize = query.GetInt(r, "bucket_size")
 	p.Sliding = query.GetBool(r, "sliding")
-	p.ColorMode = r.URL.Query().Get("color_mode")
+	p.ColorMode = colorMode(r.URL.Query().Get("color_mode"))
 	if p.ColorMode == "" {
-		p.ColorMode = "inclusive"
+		p.ColorMode = ColorModeExact
 	}
 	p.Confidence = query.GetFloat(r, "confidence")
 
@@ -71,6 +83,16 @@ func parseColorsRequest(r *http.Request) *ColorStatsRequest {
 	p.DecksRequest = decks.ParseDecksRequest(r)
 
 	return &p
+}
+
+func validateColorsRequest(r ColorStatsRequest) error {
+	if r.ColorMode != ColorModeInclusive && r.ColorMode != ColorModeExact && r.ColorMode != ColorModePrimary {
+		return fmt.Errorf("invalid color_mode: %s", r.ColorMode)
+	}
+	if r.Confidence < 0 || r.Confidence > 1 {
+		return fmt.Errorf("invalid confidence: %f", r.Confidence)
+	}
+	return nil
 }
 
 func ColorStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
@@ -83,6 +105,12 @@ type colorStatsHandler struct {
 
 func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	sr := parseColorsRequest(r)
+	if err := validateColorsRequest(*sr); err != nil {
+		logrus.WithError(err).WithField("params", sr).Warn("invalid request")
+		http.Error(rw, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	logrus.WithField("params", sr).Info("/api/stats/cards")
 
 	cubeID := server.CubeFromRequest(r)
@@ -211,39 +239,37 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 	// tri — sums to 100% on its own.
 	totalCards := 0
 	for _, deck := range decks {
-		// Start by adding metrics at the deck scope for color identity.
-		// Add wins and losses contributed for each color / color combination within this deck.
-		identities := deck.ColorIdentities()
-
-		// In "inclusive" mode, a deck contributes to all sub-identities (W, U, WU for a WU deck).
-		// In "exact" mode, only the exact color identity matches (WU only).
-		// In "primary" mode, same as exact but 3+ color decks with a clear primary pair
-		// (splash colors) are treated as their primary pair.
-		strict := sr.ColorMode == "exact" || sr.ColorMode == "primary"
-		var primaryPair string
-		if sr.ColorMode == "primary" && len(deck.GetColors()) >= 3 {
-			if pair := deck.PrimaryColorPair(); pair != nil {
-				primaryPair = pair[0] + pair[1]
+		var colors []types.ColorIdentity
+		var strict bool
+		switch sr.ColorMode {
+		case ColorModeInclusive:
+			colors = deck.GetColors().Subsets()
+		case ColorModeExact:
+			strict = true
+			colors = []types.ColorIdentity{deck.GetColors()}
+		case ColorModePrimary:
+			// If the deck has more than 2 colors, check if it has a primary color pair.
+			pair := deck.PrimaryColorPair()
+			if pair != nil {
+				colors = []types.ColorIdentity{pair}
 			}
-		}
-		var colors []string
-		if primaryPair != "" {
-			// 3+ color deck with a clear primary pair: contribute only to
-			// that pair, not to every 2-char sub-identity (which would
-			// triple-count a WUG-with-WU-primary deck into WU, WG, and UG).
-			colors = []string{primaryPair}
-		} else {
-			effectiveColorCount := len(deck.GetColors())
-			for color := range identities {
-				if strict && effectiveColorCount != len(color) {
-					continue
-				}
-				colors = append(colors, color)
-			}
+		default:
+			logrus.WithField("color_mode", sr.ColorMode).Warn("invalid color mode")
+			return nil
 		}
 
 		// Add this deck's stats to each matching color identity.
-		for _, color := range colors {
+		for _, colorID := range colors {
+			// If strict mode is enabled, then only include color identities that
+			// strictly match the deck's identity.
+			if strict && !deck.GetColors().Equals(colorID) {
+				continue
+			}
+
+			// Convert the color identity to a string for use as a key in the response map.
+			color := colorID.String()
+
+			// Add this deck's stats to the color identity's aggregate stats.
 			if _, ok := resp.Data[color]; !ok {
 				resp.Data[color] = newColorStats(color)
 			}
@@ -271,7 +297,8 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		}
 		if nonLandCount > 0 {
 			avgWC := float64(deckWordCount) / float64(nonLandCount)
-			for _, color := range colors {
+			for _, colorID := range colors {
+				color := colorID.String()
 				if _, ok := resp.Data[color]; ok {
 					resp.Data[color].wordCountSum += avgWC
 					resp.Data[color].wordCountCount++
@@ -319,10 +346,10 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 					continue
 				}
 				for _, cardColor := range card.Colors {
-					if !strings.Contains(deckColor, cardColor) {
+					if !deckColor.Contains(cardColor) {
 						continue
 					}
-					cardsPerColorInDeck[deckColor]++
+					cardsPerColorInDeck[deckColor.String()]++
 
 					// Once we count a card as counting towards this part of the deck's identity,
 					// we don't need to count the same card twice (e.g., if it is multi-color and matches
@@ -343,21 +370,6 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 				resp.Data[color].DeckPercentages = append(resp.Data[color].DeckPercentages, float64(colorPips)/float64(totalPips))
 			}
 
-			// The percentage of cards in the deck that belong to this color, used to
-			// weight wins into victory points.
-			deckFrac := float64(num) / float64(totalCardsInDeck)
-
-			// Calculate "victory points" - the number of wins attributed to this color by weighting
-			// the deck's total number of wins by the percentage of cards that belong to this color.
-			winFrac := deckFrac * float64(deck.GameWins())
-			resp.Data[color].VictoryPointsPerDeck = append(resp.Data[color].VictoryPointsPerDeck, winFrac)
-
-			// Calculate the total number of victory points that could have been achieved - i.e., if
-			// all losses were instead wins.
-			lossFrac := deckFrac * float64(deck.GameLosses())
-			if winFrac+lossFrac > 0 {
-				resp.Data[color].AvailableVictoryPoints += winFrac + lossFrac
-			}
 			resp.Data[color].Cards += num
 			totalCards += num
 		}
@@ -382,14 +394,8 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			densitySum += a
 		}
 		densityCount := float64(len(color.DeckPercentages))
+
 		color.AverageDeckPercentage = pct(densitySum, densityCount)
-
-		vpSum := 0.0
-		for _, a := range color.VictoryPointsPerDeck {
-			vpSum += a
-		}
-		color.VictoryPoints = math.Round(100*vpSum) / 100
-
 		color.BuildPercent = pct(float64(color.NumDecks), float64(len(decks)))
 		color.TotalPickPercentage = pct(float64(color.Cards), float64(totalCards))
 		color.Finalize()
@@ -415,31 +421,27 @@ type Colors struct {
 
 func newColorStats(color string) *colorStats {
 	return &colorStats{
-		Color:                color,
-		DeckPercentages:      []float64{},
-		VictoryPointsPerDeck: []float64{},
+		Color:           color,
+		DeckPercentages: []float64{},
 	}
 }
 
 // colorStats holds statistics about a specific card.
 type colorStats struct {
 	Record
-	Color                  string    `json:"color"`           // color
-	Cards                  int       `json:"cards"`           // Number of cards of this color
-	PercentOfWins          float64   `json:"percent_of_wins"` // % of all wins that included this color
-	Trophies               int       `json:"trophies"`        // Number of 3-0 decks
-	LastPlace              int       `json:"last_place"`      // Number of 0-3 decks
-	Top50                  int       `json:"top_half"`
-	Bottom50               int       `json:"bottom_half"`
-	DeckPercentages        []float64 `json:"deck_percentages"`         // Each element: % of cards in a deck with this color
-	AverageDeckPercentage  float64   `json:"average_deck_percentage"`  // Avg % of non-land cards in a deck that are this color
-	TotalPickPercentage    float64   `json:"total_pick_percentage"`    // % of all drafted cards that are this color
-	BuildPercent           float64   `json:"build_percent"`            // % of all decks that have included this color
-	NumDecks               int       `json:"num_decks"`                // Total number of decks that included this color
-	VictoryPoints          float64   `json:"victory_points"`           // Fractional wins attributed to this color
-	AvailableVictoryPoints float64   `json:"available_victory_points"` // Victory points possible if won every game
-	VictoryPointsPerDeck   []float64 `json:"victory_points_per_deck"`  // Each entry: contribution of a particular deck
-	AvgWordCount           float64   `json:"avg_word_count"`           // Avg word count per card across decks with this color
-	wordCountSum           float64
-	wordCountCount         int
+	Color                 string    `json:"color"`           // color
+	Cards                 int       `json:"cards"`           // Number of cards of this color
+	PercentOfWins         float64   `json:"percent_of_wins"` // % of all wins that included this color
+	Trophies              int       `json:"trophies"`        // Number of 3-0 decks
+	LastPlace             int       `json:"last_place"`      // Number of 0-3 decks
+	Top50                 int       `json:"top_half"`
+	Bottom50              int       `json:"bottom_half"`
+	DeckPercentages       []float64 `json:"deck_percentages"`        // Each element: % of cards in a deck with this color
+	AverageDeckPercentage float64   `json:"average_deck_percentage"` // Avg % of non-land cards in a deck that are this color
+	TotalPickPercentage   float64   `json:"total_pick_percentage"`   // % of all drafted cards that are this color
+	BuildPercent          float64   `json:"build_percent"`           // % of all decks that have included this color
+	NumDecks              int       `json:"num_decks"`               // Total number of decks that included this color
+	AvgWordCount          float64   `json:"avg_word_count"`          // Avg word count per card across decks with this color
+	wordCountSum          float64
+	wordCountCount        int
 }

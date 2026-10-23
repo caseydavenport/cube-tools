@@ -109,7 +109,7 @@ const COPY = {
     opponentCreatures: "Opponent creature count",
     opponentAvgCmc: "Opponent avg mana value",
   },
-  granularity: { mono: "Mono", dual: "Dual", trio: "Trio" },
+  granularity: { any: "Any", mono: "Mono", dual: "Dual", trio: "Trio" },
   colorMode: { inclusive: "Inclusive", exact: "Exact", primary: "Primary" },
   metrics: { winPct: "Win %", record: "Record", games: "Games" },
 
@@ -328,8 +328,8 @@ export function ExplorePage(props) {
   useComputedColorScheme("light")
   const [refresh, setRefresh] = useState(1)
 
-  const [groupBy, setGroupBy] = useState({ dim: "color", granularity: 1, color_mode: "inclusive" })
-  const [splitBy, setSplitBy] = useState({ dim: "", granularity: 1, color_mode: "inclusive" })
+  const [groupBy, setGroupBy] = useState({ dim: "color", granularity: 1, color_mode: "exact" })
+  const [splitBy, setSplitBy] = useState({ dim: "", granularity: 1, color_mode: "exact" })
   const [metric, setMetric] = useState("win_pct")
   const [confidence, setConfidence] = useState("0.8")
   const [bucketSize, setBucketSize] = useState(3)

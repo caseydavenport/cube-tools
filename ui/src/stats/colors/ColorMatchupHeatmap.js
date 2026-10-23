@@ -49,6 +49,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
   let groups = dualColors;
   if (colorType === "Mono") groups = monoColors;
   else if (colorType === "Trio") groups = trioColors;
+  else if (colorType === "Any") groups = [...monoColors, ...dualColors, ...trioColors];
 
   // Sort rows by win% against the selected column, descending.
   let sortedRows = [...groups];

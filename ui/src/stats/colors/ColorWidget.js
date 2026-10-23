@@ -28,10 +28,9 @@ ChartJS.register(
 const CHART_OPTIONS = [
   { label: COLORS_COPY.widget.chartBuilds, value: "builds" },
   { label: COLORS_COPY.widget.chartWins, value: "wins", needs: ["results"] },
+  { label: COLORS_COPY.widget.chartBayesWins, value: "bayes_wins", needs: ["results"] },
   { label: COLORS_COPY.widget.chartPicks, value: "pick_percentage" },
   { label: COLORS_COPY.widget.chartSplash, value: "splash" },
-  { label: COLORS_COPY.widget.chartVpPct, value: "vps_pct", needs: ["results"] },
-  { label: COLORS_COPY.widget.chartVps, value: "vps", needs: ["results"] },
   { label: COLORS_COPY.widget.chartPercentOfWins, value: "percent_of_wins", needs: ["results"] },
   { label: COLORS_COPY.widget.chartWinningPct, value: "winning_pct", needs: ["results"] },
   { label: COLORS_COPY.widget.chartTrophyPct, value: "trophy_pct", needs: ["results"] },

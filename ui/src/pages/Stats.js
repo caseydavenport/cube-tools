@@ -20,7 +20,7 @@ import { COLORS_COPY } from "../stats/colors/copy.js"
 import { ARCHETYPES_COPY } from "../stats/archetypes/copy.js"
 
 // COPY holds the text the stats pages add around their widgets: page titles,
-// the toolbar, and its settings. Placeholders for Casey to replace.
+// the toolbar, and its settings.
 const COPY = {
   titles: {
     cards: "Cards",
@@ -158,17 +158,23 @@ export function StatsViewer(props) {
       <ColorWidget
         info={info}
         copy={COPY}
-        parsed={parsed} ddOpts={[
+        parsed={parsed}
+        ddOpts={[
+          { label: COLORS_COPY.widget.typeAny, value: "Any" },
           { label: COLORS_COPY.widget.typeMono, value: "Mono" },
           { label: COLORS_COPY.widget.typeDual, value: "Dual" },
           { label: COLORS_COPY.widget.typeTrio, value: "Trio" },
         ]}
-        colorTypeSelection={colorTypeSelection} onSelected={(e) => setColorTypeSelection(e.target.value)}
+        colorTypeSelection={colorTypeSelection}
+        onSelected={(e) => setColorTypeSelection(e.target.value)}
         onBucketSelected={(e) => setSelectedBucket(e.target.value)}
-        decks={parsed.filteredDecks} onHeaderClick={(e) => setColorSortBy(e.currentTarget.id)}
-        colorSortBy={colorSortBy} bucketSize={bucketSize} colorMode={colorMode}
+        decks={parsed.filteredDecks}
+        onHeaderClick={(e) => setColorSortBy(e.currentTarget.id)}
+        colorSortBy={colorSortBy}
+        bucketSize={bucketSize} colorMode={colorMode}
         onColorModeChanged={(e) => setColorMode(e.target.value)}
-        selectedBucket={selectedBucket} show={true}
+        selectedBucket={selectedBucket}
+        show={true}
         colorMatchupData={colorMatchupData}
       />
     )
