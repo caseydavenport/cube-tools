@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { LoadCube, LoadDecks, LoadArchetypeData, LoadDrafts } from "../utils/Fetch.js";
 import { useCube } from "../contexts/CubeContext.js";
-import { ArchetypeData } from "../stats/archetypes/archetypeData.js";
 import { PlayerData } from "./Players.js";
 import { DeckBuckets } from "../utils/Buckets.js";
 import { AggregatedPickInfo } from "../utils/DraftLog.js";
@@ -12,7 +11,7 @@ import { useCubeInfo } from "../utils/useCubeWritable.js";
 import { requestFilters } from "../stats/hiddenFilters.js";
 import { fetchJson } from "../utils/fetchJson.js";
 import { fromCallback } from "../stats/loading.js";
-import { statsUrl } from "../stats/statsUrls.js";
+import { statsUrl, matchWithDeckColors } from "../stats/statsUrls.js";
 import { ALL_SOURCES, viewNeeds } from "../stats/viewSources.js";
 import { useLoaded } from "../stats/useLoaded.js";
 import { DEFAULT_CARD_X_AXIS, DEFAULT_CARD_Y_AXIS, DEFAULT_DECK_X_AXIS, DEFAULT_DECK_Y_AXIS } from "../stats/scatterAxes.js";
@@ -154,11 +153,11 @@ function toBuckets(response) {
   return Array.from(response.buckets);
 }
 
-// toArchetypeStats turns the archetypes answer into a map by archetype, with
-// its nested objects as maps too.
-function toArchetypeStats(response) {
+// toArchetypeMap turns one set of archetype rows from the server into a map by
+// archetype, with each row's nested objects as maps too.
+function toArchetypeMap(rows) {
   const archetypes = new Map();
-  for (const [name, data] of Object.entries(response.archetypes)) {
+  for (const [name, data] of Object.entries(rows || {})) {
     archetypes.set(name, {
       ...data,
       shared_with: new Map(Object.entries(data.shared_with || {})),
@@ -166,6 +165,21 @@ function toArchetypeStats(response) {
     });
   }
   return archetypes;
+}
+
+// toArchetypeStats turns the archetypes answer into a map by archetype.
+function toArchetypeStats(response) {
+  return toArchetypeMap(response.archetypes);
+}
+
+// toArchetypeBuckets turns a bucketed archetypes answer into a list of time
+// buckets, each with its start date and its archetype rows as a map.
+function toArchetypeBuckets(response) {
+  const buckets = [];
+  for (const bucket of response.buckets || []) {
+    buckets.push({ name: bucket.name, start: bucket.start, archetypeData: toArchetypeMap(bucket.archetypes) });
+  }
+  return buckets;
 }
 
 // toPlayerStats turns the players answer into a map by player, with each
@@ -205,6 +219,10 @@ export function useStatsData(filters, props, refresh, view) {
 
   // needs reports whether this page shows a source, so its request is skipped otherwise.
   const needs = source => viewNeeds(view, source);
+
+  // The archetype stats come from the server, so the color checkboxes travel
+  // with the search as a dcolor: term.
+  const archetypeMatch = matchWithDeckColors(match, CheckboxesToColors(filters.colorCheckboxes));
 
   const decksSource = useLoaded(cubeID, needs("decks"),
     () => fromCallback(resolve => LoadDecks(cubeID, resolve, startDate, endDate, minDraftSize, "", match)),
@@ -249,9 +267,16 @@ export function useStatsData(filters, props, refresh, view) {
 
   const archetypeStatsSource = useLoaded(cubeID, needs("archetypeStats"),
     () => fetchJson(statsUrl(cubeID, "archetypes", {
-      start: startDate, end: endDate, size: minDraftSize, confidence: winConfidence, match,
+      start: startDate, end: endDate, size: minDraftSize, confidence: winConfidence, match: archetypeMatch,
     })).then(toArchetypeStats),
-    [startDate, endDate, minDraftSize, winConfidence, match, refresh], NO_MAP);
+    [startDate, endDate, minDraftSize, winConfidence, archetypeMatch, refresh], NO_MAP);
+
+  const archetypeStatsOverTimeSource = useLoaded(cubeID, needs("archetypeStatsOverTime"),
+    () => fetchJson(statsUrl(cubeID, "archetypes", {
+      start: startDate, end: endDate, size: minDraftSize, confidence: winConfidence,
+      bucket_size: bucketSize, sliding: true, match: archetypeMatch,
+    })).then(toArchetypeBuckets),
+    [startDate, endDate, minDraftSize, winConfidence, bucketSize, archetypeMatch, refresh], NO_LIST);
 
   const playerStatsSource = useLoaded(cubeID, needs("playerStats"),
     () => fetchJson(statsUrl(cubeID, "players", {
@@ -303,7 +328,8 @@ export function useStatsData(filters, props, refresh, view) {
     decks: decksSource, cube: cubeSource, drafts: draftsSource, archetypeMatchups: matchupsSource,
     cardStats: cardStatsSource, cardStatsOverTime: cardStatsOverTimeSource,
     colorStats: colorStatsSource, colorStatsOverTime: colorStatsOverTimeSource, colorMatchups: colorMatchupsSource,
-    archetypeStats: archetypeStatsSource, playerStats: playerStatsSource,
+    archetypeStats: archetypeStatsSource, archetypeStatsOverTime: archetypeStatsOverTimeSource,
+    playerStats: playerStatsSource,
     synergy: synergySource, synergyCompare: synergyCompareSource,
     designGraph: designGraphSource, health: healthSource,
   };
@@ -320,6 +346,7 @@ export function useStatsData(filters, props, refresh, view) {
   const colorData = colorStatsSource.value;
   const colorDataBucketed = colorStatsOverTimeSource.value;
   const archetypeStats = archetypeStatsSource.value;
+  const archetypeBuckets = archetypeStatsOverTimeSource.value;
   const playerStats = playerStatsSource.value;
   const synergyData = synergySource.value;
   const synergyCompare = synergyCompareSource.value;
@@ -343,23 +370,15 @@ export function useStatsData(filters, props, refresh, view) {
     });
   }, [decks, filters.colorCheckboxes, refresh]);
 
-  const archetypeData = useMemo(() => {
-    let filterByColor = filters.colorCheckboxes.some(e => e);
-    if (filterByColor || props.matchStr) return ArchetypeData(filteredDecks, winConfidence);
-    return archetypeStats instanceof Map ? archetypeStats : new Map(Object.entries(archetypeStats));
-  }, [filteredDecks, archetypeStats, filters.colorCheckboxes, props.matchStr, winConfidence]);
+  const archetypeData = archetypeStats;
 
   const playerData = useMemo(() => {
     let filterByColor = filters.colorCheckboxes.some(e => e);
     if (filterByColor || props.matchStr) {
-      const pd = PlayerData(filteredDecks);
-      for (let d of pd.values()) {
-        d.archetypeData = ArchetypeData(d.decks, winConfidence);
-      }
-      return pd;
+      return PlayerData(filteredDecks);
     }
     return playerStats instanceof Map ? playerStats : new Map(Object.entries(playerStats));
-  }, [filteredDecks, playerStats, filters.colorCheckboxes, props.matchStr, filters.colorMode, winConfidence]);
+  }, [filteredDecks, playerStats, filters.colorCheckboxes, props.matchStr]);
 
   const deckBuckets = useMemo(() => {
     if (filteredDecks.length === 0) return [];
@@ -367,17 +386,16 @@ export function useStatsData(filters, props, refresh, view) {
     for (let b of db) {
       let bucketDecks = [];
       for (let draft of b) bucketDecks = bucketDecks.concat(draft.decks);
-      b.archetypeData = ArchetypeData(bucketDecks, winConfidence);
       b.playerData = PlayerData(bucketDecks);
     }
     return db;
-  }, [filteredDecks, bucketSize, winConfidence]);
+  }, [filteredDecks, bucketSize]);
 
   const pickInfo = useMemo(() => AggregatedPickInfo(drafts, cube, ""), [drafts, cube]);
 
   const parsed = useMemo(() => ({
-    bucketSize, filteredDecks, archetypeData, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets,
-  }), [bucketSize, filteredDecks, archetypeData, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets]);
+    bucketSize, filteredDecks, archetypeData, archetypeBuckets, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets,
+  }), [bucketSize, filteredDecks, archetypeData, archetypeBuckets, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets]);
 
   const graphData = useMemo(() => BuildGraphData({ filteredDecks, deckBuckets, bucketSize }), [filteredDecks, deckBuckets, bucketSize]);
 

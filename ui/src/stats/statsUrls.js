@@ -12,3 +12,17 @@ export function statsUrl(cube, endpoint, params) {
   }
   return `/api/${cube}/stats/${endpoint}?${query.toString()}`
 }
+
+// matchWithDeckColors adds the checked deck colors to a search as a dcolor:
+// term, which keeps decks that contain every one of those colors. This lets
+// the server apply the color checkboxes the same way the browser does.
+export function matchWithDeckColors(match, colors) {
+  if (colors.length === 0) {
+    return match
+  }
+  const term = "dcolor:" + colors.join("")
+  if (match === "") {
+    return term
+  }
+  return match + " " + term
+}

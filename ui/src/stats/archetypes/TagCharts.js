@@ -3,10 +3,10 @@
 import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { MinWinningPctDecks, Pct } from "../../utils/Utils.js"
-import { BucketName, bucketXScale } from "../../utils/Buckets.js"
+import { bucketXScale } from "../../utils/Buckets.js"
 import { Line } from 'react-chartjs-2'
 import { seriesColor } from "../../theme/chartTheme.js"
-import { watermark } from "./archetypeHelpers.js"
+import { macroArchetypes, watermark } from "./archetypeHelpers.js"
 import "../stats.css"
 
 export function MicroArchetypesChart(input) {
@@ -14,26 +14,20 @@ export function MicroArchetypesChart(input) {
   // as the bucket really includes a variable set of dates, but it allows the viewer to
   // at least place some sense of time to the chart.
   const labels = []
-  for (let bucket of input.parsed.deckBuckets) {
-    labels.push(BucketName(bucket))
+  for (let bucket of input.parsed.archetypeBuckets) {
+    labels.push(bucket.start)
   }
 
-  // Parse the buckets. First, build up all of the archetypes we're going to display.
+  // Parse the buckets. First, build up all of the archetypes we're going to display,
+  // leaving out macro archetypes, as these plots are specifically about micro archetypes.
   let archSet = new Map()
-  for (let bucket of input.parsed.deckBuckets) {
-    for (let draft of bucket) {
-      for (let deck of draft.decks) {
-        for (let a of deck.labels) {
-          archSet.set(a, true)
-        }
+  for (let bucket of input.parsed.archetypeBuckets) {
+    for (let a of bucket.archetypeData.keys()) {
+      if (!macroArchetypes.has(a)) {
+        archSet.set(a, true)
       }
     }
   }
-
-  // Delete macro archetypes, as these plots are specifically about micro archetypes.
-  archSet.delete("aggro")
-  archSet.delete("midrange")
-  archSet.delete("control")
 
   // We want to fitler out any archtetypes that don't meet a minimum
   // criteria, in order to de-clutter the plots. Use aggregate data across all buckets
@@ -52,7 +46,7 @@ export function MicroArchetypesChart(input) {
     datasets.set(arch, [])
   }
 
-  for (let bucket of input.parsed.deckBuckets) {
+  for (let bucket of input.parsed.archetypeBuckets) {
     let stats = bucket.archetypeData
     for (let archetype of archs) {
       let archetypeStats = stats.get(archetype)

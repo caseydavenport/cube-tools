@@ -4,7 +4,7 @@
 import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { MinWinningPctDecks, Pct } from "../../utils/Utils.js"
-import { BucketName, bucketXScale } from "../../utils/Buckets.js"
+import { bucketXScale } from "../../utils/Buckets.js"
 import { CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
 import { Line, Bar, Pie } from 'react-chartjs-2'
 import { chartTooltip, currentChartTheme, deltaFill, withAlpha, zeroLineGrid } from "../../theme/chartTheme.js"
@@ -97,8 +97,8 @@ export function MacroArchetypesChart(input) {
   // as the bucket really includes a variable set of dates, but it allows the viewer to
   // at least place some sense of time to the chart.
   const labels = []
-  for (let bucket of input.parsed.deckBuckets) {
-    labels.push(BucketName(bucket))
+  for (let bucket of input.parsed.archetypeBuckets) {
+    labels.push(bucket.start)
   }
 
   // Parse the buckets.
@@ -107,7 +107,7 @@ export function MacroArchetypesChart(input) {
   for (let arch of archs) {
     datasets.set(arch, [])
   }
-  for (let bucket of input.parsed.deckBuckets) {
+  for (let bucket of input.parsed.archetypeBuckets) {
     let stats = bucket.archetypeData
     for (let archetype of archs) {
       let archetypeStats = stats.get(archetype)

@@ -57,6 +57,10 @@ export const ARCHETYPES_COPY = {
       text: "Trophies",
       tip: "Number of 3-0 decks of this archetype / tag.",
     },
+    bayesWinPct: {
+      text: "Bayes Win %",
+      tip: "Bayesian estimate of the win percentage, which is more accurate for archetypes with few decks.",
+    },
     lastPlace: {
       text: "Last place",
       tip: "Number of 0-3 decks of this archetype / tag.",

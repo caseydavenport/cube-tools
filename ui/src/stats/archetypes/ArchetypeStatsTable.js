@@ -33,6 +33,13 @@ const ARCHETYPE_COLUMNS = [
     cell: (t) => <ArchetypeWinCell key="win_percent" stats={t} />,
   },
   {
+    id: "bayes_win",
+    text: ARCHETYPES_COPY.statsTable.bayesWinPct.text,
+    tip: ARCHETYPES_COPY.statsTable.bayesWinPct.tip,
+    needs: ["results"],
+    cell: (t) => <td key="bayes_win">{t.bayesian_win_percent.toFixed(0)}%</td>,
+  },
+  {
     id: "pwin",
     text: ARCHETYPES_COPY.statsTable.percentOfWins.text,
     tip: ARCHETYPES_COPY.statsTable.percentOfWins.tip,
@@ -139,6 +146,8 @@ function archetypeSortValue(t, sortBy) {
       return t.type
     case "win_percent":
       return t.win_percent
+    case "bayes_win":
+      return t.bayesian_win_percent
     case "shared":
       return t.avg_shared
     case "num":

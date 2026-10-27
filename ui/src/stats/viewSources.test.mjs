@@ -22,3 +22,7 @@ test("every view's sources are known sources", () => {
 test("an unknown view needs every source", () => {
   assert.equal(viewNeeds("whatever", "health"), true)
 })
+
+test("the archetypes page loads its over-time stats from the server", () => {
+  assert.equal(viewNeeds("types", "archetypeStatsOverTime"), true)
+})

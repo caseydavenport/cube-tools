@@ -14,9 +14,29 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// archetypeBayesPriorGames is how many coin-flip games the archetype Bayesian
+// win rate mixes in. On polyverse in October 2026, labels differed by about 5
+// points beyond chance, which fits a prior of about 90 games.
+const archetypeBayesPriorGames = 90
+
 type ArchetypeStatsResponse struct {
 	TotalGames int                        `json:"total_games"`
 	Archetypes map[string]*ArchetypeStats `json:"archetypes"`
+
+	// Buckets holds one set of archetype rows per time bucket when the request
+	// sets bucket_size. The top-level fields are empty then.
+	Buckets []*ArchetypeBucket `json:"buckets,omitempty"`
+}
+
+// ArchetypeBucket is the archetype rows for one time bucket of drafts.
+type ArchetypeBucket struct {
+	Archetypes map[string]*ArchetypeStats `json:"archetypes"`
+
+	// Name labels the bucket by the dates it spans.
+	Name string `json:"name"`
+
+	// Start is the bucket's first draft date, used as the x-axis label.
+	Start string `json:"start"`
 }
 
 type ArchetypeStats struct {
@@ -68,7 +88,40 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 		}
 	}
 
-	resp := ArchetypeStatsResponse{
+	z := zForConfidence(query.GetFloat(r, "confidence"))
+	resp := ArchetypeStatsResponse{}
+	bucketSize := query.GetInt(r, "bucket_size")
+	if bucketSize > 0 {
+		buckets := decks.DeckBuckets(allDecks, bucketSize, !query.GetBool(r, "sliding"))
+		for _, b := range buckets {
+			stats := archetypeStatsForDecks(b.AllDecks(), cubeCards, z)
+			resp.Buckets = append(resp.Buckets, &ArchetypeBucket{
+				Archetypes: stats.Archetypes,
+				Name:       b.Name(),
+				Start:      b.Start(),
+			})
+		}
+	} else {
+		resp = *archetypeStatsForDecks(allDecks, cubeCards, z)
+	}
+
+	b, err := json.Marshal(resp)
+	if err != nil {
+		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
+		return
+	}
+	rw.Header().Set("Content-Type", "application/json")
+	if _, err := rw.Write(b); err != nil {
+		logrus.WithError(err).Warn("could not write archetypes response")
+	}
+}
+
+// archetypeStatsForDecks computes one row per archetype across the given decks:
+// the macro archetype and every label. Aggro, midrange and control always get a
+// row, even with no decks, so charts can rely on them existing. z is the
+// critical value for the win-rate interval.
+func archetypeStatsForDecks(allDecks []*storage.Deck, cubeCards map[string]types.Card, z float64) *ArchetypeStatsResponse {
+	resp := &ArchetypeStatsResponse{
 		Archetypes: make(map[string]*ArchetypeStats),
 	}
 
@@ -143,10 +196,10 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	resp.TotalGames = totalWins
 	numDecks := len(allDecks)
 
-	z := zForConfidence(query.GetFloat(r, "confidence"))
 	for _, as := range resp.Archetypes {
 		as.BuildPercent = pct(float64(as.Count), float64(numDecks))
 		as.Finalize()
+		as.SetBayesian(archetypeBayesPriorGames)
 		as.SetInterval(z)
 		as.PercentOfWins = pct(float64(as.Wins), float64(percentOfWinsDenom))
 		if as.cmcCount > 0 {
@@ -163,12 +216,5 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 			as.AvgShared = math.Round(float64(totalShared)/float64(as.Count)*100) / 100
 		}
 	}
-
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(b)
+	return resp
 }

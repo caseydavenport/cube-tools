@@ -209,3 +209,50 @@ func TestArchetypeStats_PercentOfWinsSumsTo100(t *testing.T) {
 	}
 	assert.InDelta(t, 100.0, sum, float64(rows), "PercentOfWins sum: %v", sum)
 }
+
+// getArchetypes runs the archetypes handler with the given query string and
+// decodes its answer.
+func getArchetypes(t *testing.T, decks []*storage.Deck, query string) ArchetypeStatsResponse {
+	t.Helper()
+	handler := &archetypeStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
+	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes"+query, nil)
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, req)
+
+	var resp ArchetypeStatsResponse
+	assert.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	return resp
+}
+
+// Archetype rows shrink toward 50% by a 90-game prior.
+func TestArchetypeStats_BayesianWinPercent(t *testing.T) {
+	var games []types.Game
+	for range 9 {
+		games = append(games, types.Game{Opponent: "Bob", Winner: "Alice"})
+	}
+	games = append(games, types.Game{Opponent: "Bob", Winner: "Bob"})
+	decks := []*storage.Deck{makeStorageDeck("Alice", 1, []string{"ramp"}, games, nil)}
+
+	resp := getArchetypes(t, decks, "")
+
+	// (9 + 45) / (10 + 90) = 54%
+	assert.Equal(t, 54.0, resp.Archetypes["ramp"].BayesianWinPercent)
+}
+
+// With bucket_size set, the answer is one set of archetype rows per time
+// bucket, labeled by the bucket's first draft date.
+func TestArchetypeStats_Buckets(t *testing.T) {
+	first := makeStorageDeck("Alice", 1, []string{"ramp"}, []types.Game{{Opponent: "Bob", Winner: "Alice"}}, nil)
+	first.Date = "2026-01-01"
+	second := makeStorageDeck("Alice", 2, []string{"token"}, []types.Game{{Opponent: "Bob", Winner: "Bob"}}, nil)
+	second.Date = "2026-02-01"
+
+	resp := getArchetypes(t, []*storage.Deck{first, second}, "?bucket_size=1&sliding=true")
+
+	assert.Len(t, resp.Buckets, 2)
+	assert.Equal(t, "2026-01-01", resp.Buckets[0].Start)
+	assert.Equal(t, 1, resp.Buckets[0].Archetypes["ramp"].Count)
+	assert.NotContains(t, resp.Buckets[0].Archetypes, "token")
+	assert.Equal(t, "2026-02-01", resp.Buckets[1].Start)
+	assert.Equal(t, 1, resp.Buckets[1].Archetypes["token"].Count)
+}
