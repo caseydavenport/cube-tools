@@ -30,6 +30,18 @@ const (
 	ColorModePrimary colorMode = "primary"
 )
 
+// bayesPriorGames returns how many coin-flip games the Bayesian win rate mixes
+// in for a color mode. Measured on polyverse in October 2026: exact rows differ
+// by about 6 points beyond chance, which fits a 60-game prior. Inclusive rows
+// differ by about 2 points, which fits about 600. Primary pairs showed no spread
+// beyond chance, so they share the inclusive prior.
+func bayesPriorGames(mode colorMode) float64 {
+	if mode == ColorModeExact {
+		return 60
+	}
+	return 600
+}
+
 type ColorStatsRequest struct {
 	// Embed deck request to allow filtering by player, date range, and draft size.
 	*storage.DecksRequest
@@ -232,6 +244,10 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		Data: make(map[string]*colorStats),
 	}
 
+	// Decks with no decklist and no recorded colors have unknown colors, not
+	// colorless ones. Leave them out entirely, including from Build %.
+	decks = decksWithKnownColors(decks)
+
 	// totalCards is inflated the same way per-color counts are: in inclusive
 	// mode a WU deck contributes its cards to W, U, and WU buckets, so
 	// TotalPickPercentage sums to 100% across all rows. PercentOfWins is
@@ -399,6 +415,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		color.BuildPercent = pct(float64(color.NumDecks), float64(len(decks)))
 		color.TotalPickPercentage = pct(float64(color.Cards), float64(totalCards))
 		color.Finalize()
+		color.SetBayesian(bayesPriorGames(sr.ColorMode))
 		color.SetInterval(z)
 		logrus.WithFields(logrus.Fields{
 			"color":       color.Color,
@@ -444,4 +461,17 @@ type colorStats struct {
 	AvgWordCount          float64   `json:"avg_word_count"`          // Avg word count per card across decks with this color
 	wordCountSum          float64
 	wordCountCount        int
+}
+
+// decksWithKnownColors returns the decks that have at least one color, either
+// recorded on the deck or inferred from its mainboard. A deck with neither has
+// no decklist to go on, so it can't be placed in any color row.
+func decksWithKnownColors(decks []*storage.Deck) []*storage.Deck {
+	var known []*storage.Deck
+	for _, d := range decks {
+		if len(d.GetColors()) > 0 {
+			known = append(known, d)
+		}
+	}
+	return known
 }

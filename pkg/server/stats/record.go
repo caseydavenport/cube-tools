@@ -38,7 +38,14 @@ func (r *Record) Add(d *storage.Deck) {
 // all Add calls.
 func (r *Record) Finalize() {
 	r.WinPercent = winPctOf(r.Wins, r.Losses, r.Draws)
-	r.BayesianWinPercent = utils.BayesianAverage(r.Wins, r.Losses, r.Draws)
+}
+
+// SetBayesian computes BayesianWinPercent, shrinking the record toward 50% by
+// priorGames imaginary coin-flip games. The right prior depends on how much
+// real spread the rows being compared have, so callers pick it; see
+// bayesPriorGames for the color stats. Call after Finalize.
+func (r *Record) SetBayesian(priorGames float64) {
+	r.BayesianWinPercent = utils.BayesianAverage(r.Wins, r.Losses, r.Draws, priorGames)
 }
 
 // SetInterval computes the Wilson confidence interval and significance flag for

@@ -285,3 +285,64 @@ func TestColorStats_NoDecks(t *testing.T) {
 	assert.NotNil(t, resp.All)
 	assert.Empty(t, resp.All.Data)
 }
+
+// bayesModeCase is one color mode and the Bayesian win rate it should give.
+type bayesModeCase struct {
+	mode string
+	want float64
+}
+
+// Each color mode shrinks toward 50% by its own prior: 60 games for exact, and
+// 600 for inclusive and primary, whose rows carry much less real signal.
+func TestColorStats_BayesianPriorPerMode(t *testing.T) {
+	var games []types.Game
+	for range 9 {
+		games = append(games, types.Game{Opponent: "Bob", Winner: "Alice"})
+	}
+	games = append(games, types.Game{Opponent: "Bob", Winner: "Bob"})
+	decks := []*storage.Deck{
+		makeColorDeck("Alice", []string{"W", "U"}, games, nil, nil),
+	}
+
+	tests := []bayesModeCase{
+		// (9 + 30) / (10 + 60) = 55.7%
+		{"exact", 55.7},
+		// (9 + 300) / (10 + 600) = 50.7%
+		{"inclusive", 50.7},
+		{"primary", 50.7},
+	}
+	for _, tc := range tests {
+		t.Run(tc.mode, func(t *testing.T) {
+			handler := &colorStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
+			req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode="+tc.mode, nil)
+			rr := httptest.NewRecorder()
+			handler.ServeHTTP(rr, req)
+
+			var resp ColorStatsResponse
+			assert.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+			wu := resp.All.Data["WU"]
+			assert.NotNil(t, wu)
+			assert.Equal(t, tc.want, wu.BayesianWinPercent)
+		})
+	}
+}
+
+// A deck with no decklist and no recorded colors has unknown colors, not
+// colorless ones, so it gets no row and isn't counted in Build %.
+func TestColorStats_SkipsDecksWithUnknownColors(t *testing.T) {
+	win := []types.Game{{Opponent: "Bob", Winner: "Alice"}}
+	decks := []*storage.Deck{
+		makeColorDeck("Alice", []string{"W"}, win, nil, nil),
+		makeColorDeck("Alice", nil, win, nil, nil),
+	}
+
+	handler := &colorStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
+	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=exact", nil)
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, req)
+
+	var resp ColorStatsResponse
+	assert.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	assert.NotContains(t, resp.All.Data, "")
+	assert.Equal(t, 100.0, resp.All.Data["W"].BuildPercent)
+}

@@ -122,7 +122,7 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	for _, opponents := range matchups {
 		for _, record := range opponents {
 			record.WinPct = winPctOf(record.Wins, record.Losses, record.Draws)
-			record.BayesianWinPct = utils.BayesianAverage(record.Wins, record.Losses, record.Draws)
+			record.BayesianWinPct = utils.BayesianAverage(record.Wins, record.Losses, record.Draws, bayesPriorGames(colorMode))
 		}
 	}
 
@@ -146,6 +146,11 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 //		           with a clear primary pair (splash detection) are included.
 func colorGroups(d *storage.Deck, mode colorMode, groupSize int) []string {
 	colors := d.GetColors()
+
+	// No colors means no decklist and no recorded colors: unknown, not colorless.
+	if len(colors) == 0 {
+		return nil
+	}
 
 	// If the deck has fewer colors than the requested group size, filter it out
 	// by returning nil.

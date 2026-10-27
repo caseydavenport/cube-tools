@@ -331,7 +331,7 @@ export function ExplorePage(props) {
   const [groupBy, setGroupBy] = useState({ dim: "color", granularity: 1, color_mode: "exact" })
   const [splitBy, setSplitBy] = useState({ dim: "", granularity: 1, color_mode: "exact" })
   const [metric, setMetric] = useState("win_pct")
-  const [confidence, setConfidence] = useState("0.8")
+  const [confidence, setConfidence] = useState("0.95")
   const [bucketSize, setBucketSize] = useState(3)
   const [predicates, setPredicates] = useState([])
 

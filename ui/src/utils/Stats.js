@@ -22,7 +22,7 @@ const Z_BY_CONFIDENCE = {
 }
 
 export function zForConfidence(confidence) {
-  return Z_BY_CONFIDENCE[String(confidence)] ?? Z_BY_CONFIDENCE["0.8"]
+  return Z_BY_CONFIDENCE[String(confidence)] ?? Z_BY_CONFIDENCE["0.95"]
 }
 
 // winInterval returns the Wilson score interval for a win rate, on a 0-100 scale

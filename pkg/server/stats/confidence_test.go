@@ -13,8 +13,12 @@ func TestZForConfidence_KnownValues(t *testing.T) {
 	assert.InDelta(t, 2.5758, zForConfidence(0.99), 0.001)
 }
 
+func TestZForConfidence_DefaultIs95(t *testing.T) {
+	assert.InDelta(t, 1.9600, zForConfidence(0), 0.001)
+}
+
 func TestZForConfidence_FallsBackToDefault(t *testing.T) {
-	// Unset or nonsensical levels resolve to defaultConfidence (0.80).
+	// Unset or nonsensical levels resolve to defaultConfidence (0.95).
 	def := zForConfidence(defaultConfidence)
 	assert.InDelta(t, def, zForConfidence(0), 0.0001)
 	assert.InDelta(t, def, zForConfidence(-1), 0.0001)

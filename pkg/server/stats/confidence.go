@@ -7,11 +7,10 @@ import (
 )
 
 // defaultConfidence is the confidence level used when a request doesn't set
-// one. It's deliberately lenient: a low level means a narrow interval, so the
-// default view shows most cards as distinguishable from a coin flip. Callers
-// that only want strong signals raise it toward 0.95 or 0.99, which widens the
-// interval and demands more evidence.
-const defaultConfidence = 0.80
+// one. At 0.80, shuffled deck results with no real effects flagged about 22% of
+// cards as significant, the same share as real data, so the default demands
+// 95%. Callers can lower it to explore weaker signals.
+const defaultConfidence = 0.95
 
 // resolveConfidence clamps a requested confidence level into (0,1), falling
 // back to the default for unset or nonsensical values.

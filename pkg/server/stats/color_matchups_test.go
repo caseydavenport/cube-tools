@@ -50,3 +50,14 @@ func TestColorGroups_PrimaryOnlyReturnsPairs(t *testing.T) {
 		})
 	}
 }
+
+// A deck with no decklist and no recorded colors has unknown colors, so it
+// joins no group in any mode, even for the Any (0) size.
+func TestColorGroups_UnknownColorsJoinNoGroup(t *testing.T) {
+	unknown := makePipDeck(nil, nil)
+	for _, mode := range []colorMode{ColorModeExact, ColorModeInclusive, ColorModePrimary} {
+		t.Run(string(mode), func(t *testing.T) {
+			assert.Empty(t, colorGroups(unknown, mode, 0))
+		})
+	}
+}
