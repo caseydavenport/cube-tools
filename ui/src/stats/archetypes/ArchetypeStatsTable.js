@@ -93,12 +93,6 @@ const ARCHETYPE_COLUMNS = [
     tip: ARCHETYPES_COPY.statsTable.avgOtherTypes.tip,
     cell: (t) => <td key="shared">{t.avg_shared}</td>,
   },
-  {
-    id: "avg_word_count",
-    text: ARCHETYPES_COPY.statsTable.avgWords.text,
-    tip: ARCHETYPES_COPY.statsTable.avgWords.tip,
-    cell: (t) => <td key="avg_word_count">{t.avg_word_count}</td>,
-  },
 ];
 
 // winningPercentText is the share of decks with a winning record, or a dash
@@ -167,8 +161,6 @@ function archetypeSortValue(t, sortBy) {
         return t.winning / t.count
       }
       return -1
-    case "avg_word_count":
-      return t.avg_word_count
   }
   return t.build_percent
 }

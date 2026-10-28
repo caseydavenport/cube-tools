@@ -3,7 +3,6 @@ package stats
 import (
 	"encoding/json"
 	"fmt"
-	"math"
 	"net/http"
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
@@ -126,14 +125,6 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	logrus.WithField("params", sr).Info("/api/stats/cards")
 
 	cubeID := server.CubeFromRequest(r)
-	cubeCards := make(map[string]types.Card)
-	cube, err := d.q.Cube(cubeID)
-	if err == nil {
-		for _, c := range cube.Cards {
-			cubeCards[c.Name] = c
-		}
-	}
-
 	resp := ColorStatsResponse{}
 
 	// Load allDecks matching the request.
@@ -153,7 +144,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			"num_decks":   len(allDecks),
 		}).Info("Created buckets for response")
 		for _, b := range buckets {
-			s := d.statsForDecks(b.AllDecks(), sr, cubeCards)
+			s := d.statsForDecks(b.AllDecks(), sr)
 			resp.Buckets = append(resp.Buckets, &ColorBucket{
 				Colors: *s,
 				Name:   b.Name(),
@@ -162,7 +153,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			})
 		}
 	} else {
-		resp.All = d.statsForDecks(allDecks, sr, cubeCards)
+		resp.All = d.statsForDecks(allDecks, sr)
 	}
 
 	// Print out correlation coefficients between color pick percentages and win percentages.
@@ -239,7 +230,7 @@ func (d *colorStatsHandler) printCorrelations(resp ColorStatsResponse) {
 // client-side in GetColorStats (ui/src/pages/Colors.js) for per-player
 // breakdowns and live re-filtering. Keep them in sync (see TODO on the JS
 // side for collapsing the duplication).
-func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsRequest, cubeCards map[string]types.Card) *Colors {
+func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsRequest) *Colors {
 	resp := &Colors{
 		Data: make(map[string]*colorStats),
 	}
@@ -296,30 +287,6 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			resp.Data[color].Bottom50 += deck.BottomHalf()
 
 			resp.Data[color].NumDecks += 1
-		}
-
-		// Compute per-deck average word count and attribute it to the deck's colors.
-		deckWordCount := 0
-		nonLandCount := 0
-		for _, card := range deck.Mainboard {
-			if !card.IsBasicLand() && !card.IsLand() {
-				if cc, ok := cubeCards[card.Name]; ok {
-					deckWordCount += cc.WordCount()
-				} else {
-					deckWordCount += card.WordCount()
-				}
-				nonLandCount++
-			}
-		}
-		if nonLandCount > 0 {
-			avgWC := float64(deckWordCount) / float64(nonLandCount)
-			for _, colorID := range colors {
-				color := colorID.String()
-				if _, ok := resp.Data[color]; ok {
-					resp.Data[color].wordCountSum += avgWC
-					resp.Data[color].wordCountCount++
-				}
-			}
 		}
 
 		// Add metrics to the color based on card scope statistics.
@@ -424,9 +391,6 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			"win_percent": color.WinPercent,
 		}).Debug("Color win percentage")
 		color.PercentOfWins = pct(float64(color.Wins), float64(winsByLen[len(color.Color)]))
-		if color.wordCountCount > 0 {
-			color.AvgWordCount = math.Round(color.wordCountSum/float64(color.wordCountCount)*100) / 100
-		}
 	}
 
 	return resp
@@ -458,9 +422,6 @@ type colorStats struct {
 	TotalPickPercentage   float64   `json:"total_pick_percentage"`   // % of all drafted cards that are this color
 	BuildPercent          float64   `json:"build_percent"`           // % of all decks that have included this color
 	NumDecks              int       `json:"num_decks"`               // Total number of decks that included this color
-	AvgWordCount          float64   `json:"avg_word_count"`          // Avg word count per card across decks with this color
-	wordCountSum          float64
-	wordCountCount        int
 }
 
 // decksWithKnownColors returns the decks that have at least one color, either

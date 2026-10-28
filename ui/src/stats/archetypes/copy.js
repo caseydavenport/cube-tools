@@ -85,10 +85,6 @@ export const ARCHETYPES_COPY = {
       text: "Avg other types",
       tip: "Average number of other tags applied to decks with this archetype / tag.",
     },
-    avgWords: {
-      text: "Avg Words",
-      tip: "Average word count per non-land card in decks with this archetype, excluding reminder text.",
-    },
     tooFewDecks: "—",
     notDistinguishable: "not distinguishable from 50%",
     distinguishable: "distinguishable from 50%",

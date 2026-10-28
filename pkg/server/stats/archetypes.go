@@ -48,7 +48,6 @@ type ArchetypeStats struct {
 	Winning       int            `json:"winning"`
 	Losing        int            `json:"losing"`
 	AvgCMC        float64        `json:"avg_cmc"`
-	AvgWordCount  float64        `json:"avg_word_count"`
 	BuildPercent  float64        `json:"build_percent"`
 	PercentOfWins float64        `json:"percent_of_wins"`
 	SharedWith    map[string]int `json:"shared_with"`
@@ -56,9 +55,7 @@ type ArchetypeStats struct {
 	AvgShared     float64        `json:"avg_shared"`
 
 	// Internal fields for calculation.
-	cmcCount       int
-	wordCountSum   float64
-	wordCountCount int
+	cmcCount int
 }
 
 func ArchetypeStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
@@ -80,21 +77,13 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	cubeCards := make(map[string]types.Card)
-	cube, err := s.q.Cube(cubeID)
-	if err == nil {
-		for _, c := range cube.Cards {
-			cubeCards[c.Name] = c
-		}
-	}
-
 	z := zForConfidence(query.GetFloat(r, "confidence"))
 	resp := ArchetypeStatsResponse{}
 	bucketSize := query.GetInt(r, "bucket_size")
 	if bucketSize > 0 {
 		buckets := decks.DeckBuckets(allDecks, bucketSize, !query.GetBool(r, "sliding"))
 		for _, b := range buckets {
-			stats := archetypeStatsForDecks(b.AllDecks(), cubeCards, z)
+			stats := archetypeStatsForDecks(b.AllDecks(), z)
 			resp.Buckets = append(resp.Buckets, &ArchetypeBucket{
 				Archetypes: stats.Archetypes,
 				Name:       b.Name(),
@@ -102,7 +91,7 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 			})
 		}
 	} else {
-		resp = *archetypeStatsForDecks(allDecks, cubeCards, z)
+		resp = *archetypeStatsForDecks(allDecks, z)
 	}
 
 	b, err := json.Marshal(resp)
@@ -120,7 +109,7 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 // the macro archetype and every label. Aggro, midrange and control always get a
 // row, even with no decks, so charts can rely on them existing. z is the
 // critical value for the win-rate interval.
-func archetypeStatsForDecks(allDecks []*storage.Deck, cubeCards map[string]types.Card, z float64) *ArchetypeStatsResponse {
+func archetypeStatsForDecks(allDecks []*storage.Deck, z float64) *ArchetypeStatsResponse {
 	resp := &ArchetypeStatsResponse{
 		Archetypes: make(map[string]*ArchetypeStats),
 	}
@@ -157,26 +146,18 @@ func archetypeStatsForDecks(allDecks []*storage.Deck, cubeCards map[string]types
 			as.Winning += deck.TopHalf()
 			as.Losing += deck.BottomHalf()
 
-			// Add to CMC and word count sums (will divide later).
+			// Add to the CMC sum (will divide later).
 			deckCMC := 0.0
-			deckWordCount := 0
 			count := 0
 			for _, card := range deck.Mainboard {
 				if !card.IsLand() {
 					deckCMC += float64(card.CMC)
-					if cc, ok := cubeCards[card.Name]; ok {
-						deckWordCount += cc.WordCount()
-					} else {
-						deckWordCount += card.WordCount()
-					}
 					count++
 				}
 			}
 			if count > 0 {
 				as.AvgCMC += deckCMC / float64(count)
 				as.cmcCount++
-				as.wordCountSum += float64(deckWordCount) / float64(count)
-				as.wordCountCount++
 			}
 
 			as.Players[deck.PersonLabel()]++
@@ -204,9 +185,6 @@ func archetypeStatsForDecks(allDecks []*storage.Deck, cubeCards map[string]types
 		as.PercentOfWins = pct(float64(as.Wins), float64(percentOfWinsDenom))
 		if as.cmcCount > 0 {
 			as.AvgCMC = math.Round(as.AvgCMC/float64(as.cmcCount)*100) / 100
-		}
-		if as.wordCountCount > 0 {
-			as.AvgWordCount = math.Round(as.wordCountSum/float64(as.wordCountCount)*100) / 100
 		}
 		if as.Count > 0 {
 			totalShared := 0

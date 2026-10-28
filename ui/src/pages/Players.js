@@ -1,5 +1,5 @@
 import React from 'react'
-import { AverageWordCount, IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
@@ -64,9 +64,6 @@ export function PlayerData(decks) {
         trophies: 0,
         last_place: 0,
         opponent_win_percentage: 0,
-        avg_word_count: 0,
-        word_count_sum: 0,
-        word_count_count: 0,
       })
     }
 
@@ -77,12 +74,6 @@ export function PlayerData(decks) {
     map.get(player).decks.push(deck)
     map.get(player).trophies += Trophies(deck)
     map.get(player).last_place += LastPlaceFinishes(deck)
-
-    let avgWC = AverageWordCount({deck: deck})
-    if (avgWC !== null) {
-      map.get(player).word_count_sum += avgWC
-      map.get(player).word_count_count += 1
-    }
 
     // Go through each card and increase the player's per-card stats.
     for (var j in deck.mainboard) {
@@ -163,9 +154,6 @@ export function PlayerData(decks) {
     } else {
       row.uniqueness = null
     }
-    if (row.word_count_count > 0) {
-      row.avg_word_count = Math.round(row.word_count_sum / row.word_count_count * 100) / 100
-    }
   }
   return map
 }
@@ -198,7 +186,6 @@ function playerSortValue(row, sortBy) {
     case "lastplace": return row.last_place
     case "opponent_win_percentage":
     case "opp_%": return row.opponent_win_percentage
-    case "avg_word_count": return row.avg_word_count || 0
     default: return row.name
   }
 }

@@ -37,7 +37,6 @@ type PlayerStats struct {
 	RedPercent         float64                  `json:"red_percent"`
 	GreenPercent       float64                  `json:"green_percent"`
 	Uniqueness         float64                  `json:"uniqueness"`
-	AvgWordCount       float64                  `json:"avg_word_count"`
 	TotalPicks         int                      `json:"total_picks"`
 	UniqueCards        map[string]int           `json:"unique_cards"`
 	ColorPicks         map[string]int           `json:"color_picks"`
@@ -75,27 +74,12 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	cubeCards := make(map[string]types.Card)
-	cube, err := s.q.Cube(cubeID)
-	if err == nil {
-		for _, c := range cube.Cards {
-			cubeCards[c.Name] = c
-		}
-	}
-
 	resp := PlayerStatsResponse{
 		Players: make(map[string]*PlayerStats),
 	}
 
 	// Track weighted opponent win percentage accumulation per player.
 	owpAccum := make(map[string]*opponentWinAccum)
-
-	// Track per-deck word count sums for averaging later.
-	type wordCountAccum struct {
-		sum   float64
-		count int
-	}
-	wcAccum := make(map[string]*wordCountAccum)
 
 	for _, deck := range allDecks {
 		// Seat labels repeat in every draft, so anonymous decks belong to no
@@ -154,8 +138,6 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 			cs.Count++
 		}
 
-		deckWordCount := 0
-		nonLandCount := 0
 		for _, card := range deck.Mainboard {
 			if card.IsBasicLand() {
 				continue
@@ -165,22 +147,6 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 			for _, color := range card.Colors {
 				ps.ColorPicks[color]++
 			}
-			if !card.IsLand() {
-				if cc, ok := cubeCards[card.Name]; ok {
-					deckWordCount += cc.WordCount()
-				} else {
-					deckWordCount += card.WordCount()
-				}
-				nonLandCount++
-			}
-		}
-
-		if nonLandCount > 0 {
-			if _, ok := wcAccum[deck.Player]; !ok {
-				wcAccum[deck.Player] = &wordCountAccum{}
-			}
-			wcAccum[deck.Player].sum += float64(deckWordCount) / float64(nonLandCount)
-			wcAccum[deck.Player].count++
 		}
 	}
 
@@ -204,9 +170,6 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		ps.RedPercent = pct(float64(ps.ColorPicks["R"]), float64(ps.TotalPicks))
 		ps.GreenPercent = pct(float64(ps.ColorPicks["G"]), float64(ps.TotalPicks))
 		ps.Uniqueness = pct(float64(len(ps.UniqueCards)), float64(ps.TotalPicks))
-		if wc, ok := wcAccum[ps.Name]; ok && wc.count > 0 {
-			ps.AvgWordCount = math.Round(wc.sum/float64(wc.count)*100) / 100
-		}
 	}
 
 	b, err := json.Marshal(resp)

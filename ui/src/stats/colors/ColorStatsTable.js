@@ -255,8 +255,6 @@ function colorSortValue(color, sortBy) {
       return color.top_half / color.num_decks
     }
     return -1
-  } else if (sortBy === "avg_word_count") {
-    return color.avg_word_count || 0
   }
   return color.win_percent
 }

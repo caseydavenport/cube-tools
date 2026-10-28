@@ -58,7 +58,6 @@ const COPY = {
   lastPlace: "Last place",
   opponentWinPercent: "Opponent win %",
   uniqueness: "Uniqueness",
-  avgWords: "Avg words",
 
   renameLabel: "name",
   renameError: "Couldn't rename",

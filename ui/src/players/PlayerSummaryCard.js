@@ -35,7 +35,6 @@ export function PlayerSummaryCard({ row, playerId, editable, onRenamed, copy }) 
         <StatTile label={copy.lastPlace} value={row.last_place} />
         <StatTile label={copy.opponentWinPercent} value={percent(row.opponent_win_percentage)} />
         <StatTile label={copy.uniqueness} value={percent(row.uniqueness)} />
-        <StatTile label={copy.avgWords} value={row.avg_word_count || 0} />
       </div>
     </>
   )

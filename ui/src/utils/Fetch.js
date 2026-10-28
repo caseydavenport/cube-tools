@@ -1,4 +1,4 @@
-import { AverageCMC, AverageWordCount, ExtractColors } from "../utils/Utils.js"
+import { AverageCMC, ExtractColors } from "../utils/Utils.js"
 
 export async function LoadCube(cube, onFetch) {
   const resp = await fetch(`/api/${cube}/cube`);
@@ -16,7 +16,6 @@ export async function LoadCube(cube, onFetch) {
 // effective color list.
 export function decorateDeck(d) {
   d.avg_cmc = AverageCMC({deck: d})
-  d.avg_word_count = AverageWordCount({deck: d})
   d.colors_override = (d.colors && d.colors.length) ? d.colors : null
   d.colors = ExtractColors({deck: d})
   if (d.matches === null) {
