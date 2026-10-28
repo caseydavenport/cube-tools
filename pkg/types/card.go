@@ -217,14 +217,14 @@ var (
 	discardPatterns   = []oraclePattern{sub("discard")}
 )
 
-// IsCardDraw reports whether the card draws a single card. It ports the
-// Deck Stats page's old browser pattern, so "draw two cards" doesn't count.
+// IsCardDraw reports whether the card's text says "draw a card". Text like
+// "draw two cards" doesn't match.
 func (c Card) IsCardDraw() bool {
 	return anyPattern(c.OracleText, cardDrawPatterns)
 }
 
-// IsLifegain reports whether the card gains life or has lifelink. Like the old
-// browser pattern, it only catches single-digit life gains.
+// IsLifegain reports whether the card gains life or has lifelink. It only
+// catches single-digit life gains.
 func (c Card) IsLifegain() bool {
 	return anyPattern(c.OracleText, lifegainPatterns)
 }

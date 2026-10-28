@@ -69,6 +69,8 @@ func forestPoints(decks []*storage.Deck, f deckFeature) []forestPoint {
 // plus or minus z standard errors, scaled the same way.
 func fitForestRow(key string, points []forestPoint, z float64) *ForestRow {
 	row := &ForestRow{Key: key, Decks: len(points)}
+
+	// With two points the line fits exactly, leaving no residual to estimate error.
 	if len(points) < 3 {
 		return row
 	}
@@ -76,6 +78,7 @@ func fitForestRow(key string, points []forestPoint, z float64) *ForestRow {
 	spread := sampleStdDev(points)
 	row.StdDev = round2(spread)
 
+	// Weighted means of x and y.
 	var sumW, sumWX, sumWY float64
 	for _, p := range points {
 		sumW += p.weight
@@ -85,6 +88,7 @@ func fitForestRow(key string, points []forestPoint, z float64) *ForestRow {
 	xBar := sumWX / sumW
 	yBar := sumWY / sumW
 
+	// Weighted slope; a feature that never varies has no slope to fit.
 	var sxx, sxy float64
 	for _, p := range points {
 		sxx += p.weight * (p.x - xBar) * (p.x - xBar)
@@ -96,6 +100,7 @@ func fitForestRow(key string, points []forestPoint, z float64) *ForestRow {
 	slope := sxy / sxx
 	intercept := yBar - slope*xBar
 
+	// Standard error of the slope from the weighted residuals.
 	var residual float64
 	for _, p := range points {
 		miss := p.y - intercept - slope*p.x
@@ -103,6 +108,7 @@ func fitForestRow(key string, points []forestPoint, z float64) *ForestRow {
 	}
 	se := math.Sqrt(residual / float64(len(points)-2) / sxx)
 
+	// Scale to win % points per standard deviation of the feature.
 	row.HasEffect = true
 	row.Effect = round1(100 * slope * spread)
 	row.EffectLow = round1(100 * (slope - z*se) * spread)

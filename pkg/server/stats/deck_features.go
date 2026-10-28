@@ -19,7 +19,7 @@ type deckFeature struct {
 }
 
 // forestFeatures are the features the forest plot has a row for, in the order
-// it shows them. They match the "Wins by #" charts the forest plot replaced.
+// it shows them.
 var forestFeatures = []deckFeature{
 	{Key: "avg_mana_value", Value: avgManaValue},
 	{Key: "creatures", Value: typeCounter("Creature")},
@@ -39,7 +39,7 @@ var forestFeatures = []deckFeature{
 }
 
 // interactionFeature counts removal and counterspells together. Hand
-// disruption is left out, matching how the browser counted interaction.
+// disruption is left out.
 var interactionFeature = deckFeature{Key: "interaction", Value: cardCounter(isRemovalOrCounter)}
 
 // hasDecklist reports whether the deck's mainboard is known. Decks recorded
