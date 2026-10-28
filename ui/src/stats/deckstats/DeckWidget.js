@@ -5,10 +5,11 @@ import React from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement, BarElement } from 'chart.js'
 import { availableValue, visibleItems } from "../../utils/dataKinds.js"
-import { WinsByCardType, WinsByManaCost, WinsByNonBasicLandDensity } from "./WinsByDeckShape.js"
-import { WinsByNumberOfColors, WinsByOracleText } from "./WinsByTextAndColors.js"
+import { CloseMatchChart, HeadToHeadChart } from "./HeadToHeadCharts.js"
+import { ForestPlot } from "./ForestPlot.js"
+import { ManaCurveChart, SplashSizeChart, TypeMixChart } from "./BuildShapeCharts.js"
 import { DeckBasicLandCountChart, DeckManaValueChart, NumColorsOverTimeChart, NumColorsPieChart, SideboardSizeOverTimeChart } from "./DeckShapeCharts.js"
-import { CounterspellMatches, RemovalMatches, cardDrawMatches, lifegainMatches } from "../../utils/cardMatches.js"
+import { CounterspellMatches, RemovalMatches } from "../../utils/cardMatches.js"
 import { ManaCostByOracleTextOverTime, OracleTextByColor, OracleTextOverTimeChart } from "./OracleTextCharts.js"
 import { DeckGraph } from "./DeckScatter.js"
 import { DECKSTATS_COPY } from "./copy.js"
@@ -28,26 +29,17 @@ ChartJS.register(
 );
 
 // DECK_CHART_OPTIONS are the charts the two pickers offer. needs lists the data
-// a chart is built from: the wins charts need match results, and the
+// a chart is built from: the head-to-head charts need match results, and the
 // sideboard size chart needs sideboards.
 const DECK_CHART_OPTIONS = [
-  { label: DECKSTATS_COPY.widget.optionWinsManaCost, value: "wins_mana_cost", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsCreature, value: "wins_creature", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsSorcery, value: "wins_sorcery", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsInstant, value: "wins_instant", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsPlaneswalker, value: "wins_planeswalker", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsEnchantment, value: "wins_enchantment", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsLand, value: "wins_land", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsNonbasic, value: "wins_nonbasic", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsNumColors, value: "wins_num_colors", needs: ["results"] },
+  { label: "Forest plot: what moves win rate", value: "forest_plot" },
+  { label: "Head to head", value: "head_to_head", needs: ["results"] },
+  { label: "Close matches by archetype", value: "close_matches", needs: ["results"] },
+  { label: "Mana curve by archetype", value: "mana_curve" },
+  { label: "Card types by archetype", value: "type_mix" },
+  { label: "Splash size", value: "splash_size" },
   { label: DECKSTATS_COPY.widget.optionPieNumColors, value: "pie_num_colors" },
   { label: DECKSTATS_COPY.widget.optionDeckAvgMana, value: "deck_avg_mana" },
-  { label: DECKSTATS_COPY.widget.optionWinsCounterspells, value: "wins_counterspells", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsRemoval, value: "wins_removal", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsCardDraw, value: "wins_card_draw", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsLifegain, value: "wins_lifegain", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsGraveyard, value: "wins_graveyard", needs: ["results"] },
-  { label: DECKSTATS_COPY.widget.optionWinsDiscard, value: "wins_discard", needs: ["results"] },
   { label: DECKSTATS_COPY.widget.optionTotalBasics, value: "total_basics" },
   { label: DECKSTATS_COPY.widget.optionInteractionColor, value: "interaction_color" },
   { label: DECKSTATS_COPY.widget.optionAvgRemoval, value: "avg_removal" },
@@ -59,8 +51,8 @@ const DECK_CHART_OPTIONS = [
 ]
 
 export function DeckWidget(input) {
-  const [leftChart, setLeftChart] = React.useState("wins_mana_cost")
-  const [rightChart, setRightChart] = React.useState("wins_creature")
+  const [leftChart, setLeftChart] = React.useState("forest_plot")
+  const [rightChart, setRightChart] = React.useState("head_to_head")
 
   if (!input.show) {
     return null
@@ -81,23 +73,14 @@ export function DeckWidget(input) {
 
   const renderChart = (chartId) => {
     switch (chartId) {
-      case "wins_mana_cost": return <WinsByManaCost decks={input.decks} data={data} />;
-      case "wins_creature": return <WinsByCardType type="Creature" decks={input.decks} />;
-      case "wins_sorcery": return <WinsByCardType type="Sorcery" decks={input.decks} />;
-      case "wins_instant": return <WinsByCardType type="Instant" decks={input.decks} />;
-      case "wins_planeswalker": return <WinsByCardType type="Planeswalker" bucketSize={1} decks={input.decks} />;
-      case "wins_enchantment": return <WinsByCardType type="Enchantment" decks={input.decks} />;
-      case "wins_land": return <WinsByCardType type="Land" bucketSize={1} decks={input.decks} />;
-      case "wins_nonbasic": return <WinsByNonBasicLandDensity decks={input.decks} data={data} />;
-      case "wins_num_colors": return <WinsByNumberOfColors decks={input.decks} />;
+      case "forest_plot": return <ForestPlot deckCharts={input.deckCharts} />;
+      case "head_to_head": return <HeadToHeadChart deckCharts={input.deckCharts} />;
+      case "close_matches": return <CloseMatchChart deckCharts={input.deckCharts} />;
+      case "mana_curve": return <ManaCurveChart deckCharts={input.deckCharts} />;
+      case "type_mix": return <TypeMixChart deckCharts={input.deckCharts} />;
+      case "splash_size": return <SplashSizeChart deckCharts={input.deckCharts} />;
       case "pie_num_colors": return <NumColorsPieChart decks={input.decks} parsed={input.parsed} />;
       case "deck_avg_mana": return <DeckManaValueChart decks={input.decks} parsed={input.parsed} />;
-      case "wins_counterspells": return <WinsByOracleText title={DECKSTATS_COPY.widget.titleWinsCounterspells} parsed={input.parsed} decks={input.decks} matches={CounterspellMatches} />;
-      case "wins_removal": return <WinsByOracleText title={DECKSTATS_COPY.widget.titleWinsRemoval} parsed={input.parsed} decks={input.decks} matches={RemovalMatches} />;
-      case "wins_card_draw": return <WinsByOracleText title={DECKSTATS_COPY.widget.titleWinsCardDraw} parsed={input.parsed} decks={input.decks} matches={cardDrawMatches} />;
-      case "wins_lifegain": return <WinsByOracleText title={DECKSTATS_COPY.widget.titleWinsLifegain} parsed={input.parsed} decks={input.decks} matches={lifegainMatches} />;
-      case "wins_graveyard": return <WinsByOracleText title={DECKSTATS_COPY.widget.titleWinsGraveyard} parsed={input.parsed} decks={input.decks} matches={["graveyard"]} />;
-      case "wins_discard": return <WinsByOracleText title={DECKSTATS_COPY.widget.titleWinsDiscard} parsed={input.parsed} decks={input.decks} matches={["discard"]} />;
       case "total_basics": return <DeckBasicLandCountChart decks={input.decks} parsed={input.parsed} />;
       case "interaction_color": return <OracleTextByColor title={DECKSTATS_COPY.widget.titleInteractionColor} parsed={input.parsed} data={data} />;
       case "avg_removal": return <OracleTextOverTimeChart info={input.info} title={DECKSTATS_COPY.widget.titleAvgRemoval} parsed={input.parsed} matches={RemovalMatches} data={data} />;

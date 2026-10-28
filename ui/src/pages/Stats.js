@@ -91,7 +91,7 @@ export function StatsViewer(props) {
   const {
     decks, decksLoaded, cube, archetypeMatchups, cardData, cardDataBucketed,
     synergyData, synergyCompare, colorMatchupData, healthData,
-    designGraphData, parsed, graphData, archetypeDropdownOptions, failed,
+    designGraphData, parsed, graphData, archetypeDropdownOptions, failed, deckCharts,
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
@@ -251,6 +251,7 @@ export function StatsViewer(props) {
       <DeckWidget
         info={info}
         parsed={parsed} graphData={graphData} decks={parsed.filteredDecks} show={true}
+        deckCharts={deckCharts}
         xAxis={deckXAxis} yAxis={deckYAxis} onXAxisSelected={(e) => setDeckXAxis(e.target.value)}
         onYAxisSelected={(e) => setDeckYAxis(e.target.value)}
       />
