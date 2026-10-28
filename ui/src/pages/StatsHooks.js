@@ -14,6 +14,7 @@ import { fromCallback } from "../stats/loading.js";
 import { statsUrl, matchWithDeckColors } from "../stats/statsUrls.js";
 import { ALL_SOURCES, viewNeeds } from "../stats/viewSources.js";
 import { useLoaded } from "../stats/useLoaded.js";
+import { NO_DECK_CHARTS, toDeckCharts } from "../stats/deckstats/deckChartsData.js";
 import { DEFAULT_CARD_X_AXIS, DEFAULT_CARD_Y_AXIS, DEFAULT_DECK_X_AXIS, DEFAULT_DECK_Y_AXIS } from "../stats/scatterAxes.js";
 
 export function useStatsFilters() {
@@ -278,6 +279,13 @@ export function useStatsData(filters, props, refresh, view) {
     })).then(toArchetypeBuckets),
     [startDate, endDate, minDraftSize, winConfidence, bucketSize, archetypeMatch, refresh], NO_LIST);
 
+  // The Deck Stats charts read the color checkboxes the same way the archetype stats do.
+  const deckChartsSource = useLoaded(cubeID, needs("deckCharts"),
+    () => fetchJson(statsUrl(cubeID, "deck-charts", {
+      start: startDate, end: endDate, size: minDraftSize, confidence: winConfidence, match: archetypeMatch,
+    })).then(toDeckCharts),
+    [startDate, endDate, minDraftSize, winConfidence, archetypeMatch, refresh], NO_DECK_CHARTS);
+
   const playerStatsSource = useLoaded(cubeID, needs("playerStats"),
     () => fetchJson(statsUrl(cubeID, "players", {
       start: startDate, end: endDate, size: minDraftSize, match,
@@ -329,7 +337,7 @@ export function useStatsData(filters, props, refresh, view) {
     cardStats: cardStatsSource, cardStatsOverTime: cardStatsOverTimeSource,
     colorStats: colorStatsSource, colorStatsOverTime: colorStatsOverTimeSource, colorMatchups: colorMatchupsSource,
     archetypeStats: archetypeStatsSource, archetypeStatsOverTime: archetypeStatsOverTimeSource,
-    playerStats: playerStatsSource,
+    playerStats: playerStatsSource, deckCharts: deckChartsSource,
     synergy: synergySource, synergyCompare: synergyCompareSource,
     designGraph: designGraphSource, health: healthSource,
   };
@@ -347,6 +355,7 @@ export function useStatsData(filters, props, refresh, view) {
   const colorDataBucketed = colorStatsOverTimeSource.value;
   const archetypeStats = archetypeStatsSource.value;
   const archetypeBuckets = archetypeStatsOverTimeSource.value;
+  const deckCharts = deckChartsSource.value;
   const playerStats = playerStatsSource.value;
   const synergyData = synergySource.value;
   const synergyCompare = synergyCompareSource.value;
@@ -428,6 +437,6 @@ export function useStatsData(filters, props, refresh, view) {
   return {
     decks, decksLoaded, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
     colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
-    designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs, failed,
+    designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs, failed, deckCharts,
   };
 }
