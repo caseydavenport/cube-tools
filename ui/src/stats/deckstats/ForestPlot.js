@@ -6,7 +6,7 @@ import React from 'react'
 import { Bar } from 'react-chartjs-2'
 import { chartTooltip, currentChartTheme, zeroLineGrid } from "../../theme/chartTheme.js"
 import { intervalDataset, pointDataset, titleOptions } from "./deckChartHelpers.js"
-import { forestPoints } from "./deckChartsData.js"
+import { forestPoints, forestRowLabel } from "./deckChartsData.js"
 import "../stats.css"
 
 // FOREST_ROWS names each row the server sends, by key. unit is what one
@@ -53,16 +53,13 @@ export function ForestPlot(input) {
   const points = forestPoints(rows)
 
   const labels = []
-  for (const key of points.labels) {
-    labels.push(rowName(key))
-  }
+  points.labels.forEach((key, i) => {
+    labels.push(forestRowLabel(rowName(key), points.notes[i]))
+  })
 
-  // tooltipLabel describes the hovered row's estimate, or why it has none.
+  // tooltipLabel describes the hovered row's estimate.
   const tooltipLabel = (ctx) => {
     const row = rows[ctx.dataIndex]
-    if (points.notes[ctx.dataIndex]) {
-      return "Not enough decks or no spread to measure"
-    }
     if (ctx.datasetIndex === 0) {
       return `${row.effect} win % per standard deviation`
     }

@@ -58,3 +58,12 @@ export function forestPoints(rows) {
   }
   return { labels, dots, bars, notes }
 }
+
+// forestRowLabel is the y-axis label for a forest row. A row with no effect
+// draws no dot or bar to hover, so its label carries the note instead.
+export function forestRowLabel(name, noted) {
+  if (noted) {
+    return `${name} (not enough data)`
+  }
+  return name
+}

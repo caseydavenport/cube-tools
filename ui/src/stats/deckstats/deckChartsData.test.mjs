@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { forestPoints, toDeckCharts } from "./deckChartsData.js"
+import { forestPoints, forestRowLabel, toDeckCharts } from "./deckChartsData.js"
 
 test("an empty answer becomes empty charts", () => {
   const charts = toDeckCharts({})
@@ -35,4 +35,12 @@ test("a forest row without an effect gets a note and no dot", () => {
   assert.deepEqual(points.dots, [null])
   assert.deepEqual(points.bars, [null])
   assert.deepEqual(points.notes, [true])
+})
+
+test("a row without an effect says so in its label", () => {
+  assert.equal(forestRowLabel("Planeswalkers", true), "Planeswalkers (not enough data)")
+})
+
+test("a row with an effect keeps its plain label", () => {
+  assert.equal(forestRowLabel("Creatures", false), "Creatures")
 })

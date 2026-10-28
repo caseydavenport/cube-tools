@@ -103,6 +103,16 @@ func TestSplashSize_CountsOffColorCards(t *testing.T) {
 	assert.Equal(t, 2, splashBucket(t, buckets, "0").Decks)
 }
 
+func TestSplashSize_GoldCardWithOffColorIsSplash(t *testing.T) {
+	// A WR gold card needs red mana, so a WU deck playing it splashes, even
+	// though one of its colors is primary.
+	base := append(coloredCards(8, "{W}", "W"), coloredCards(8, "{U}", "U")...)
+	gold := recordDeck("Ozzy", append(base, coloredCards(1, "{R}{W}", "R", "W")...), 1, 0)
+
+	buckets := splashSize([]*storage.Deck{gold}, 1.96)
+	assert.Equal(t, 1, splashBucket(t, buckets, "1").Decks)
+}
+
 func TestSplashSize_MonoColorIsZero(t *testing.T) {
 	mono := recordDeck("Ozzy", coloredCards(5, "{R}", "R"), 1, 0)
 	buckets := splashSize([]*storage.Deck{mono}, 1.96)

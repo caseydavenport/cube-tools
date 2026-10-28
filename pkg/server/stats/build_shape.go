@@ -154,23 +154,34 @@ func primaryColors(d *storage.Deck) types.ColorIdentity {
 	return d.PrimaryColorPair()
 }
 
-// splashCards counts the deck's nonland cards that have colors and none of
-// them primary. A hybrid card with one primary half isn't a splash.
+// splashCards counts the deck's nonland cards that need mana outside its
+// primary colors. Colorless cards never do.
 func splashCards(d *storage.Deck, primary types.ColorIdentity) int {
 	count := 0
 	for _, c := range d.Mainboard {
 		if c.IsLand() || len(c.Colors) == 0 {
 			continue
 		}
-		onColor := false
-		for _, color := range c.Colors {
-			if primary[color] {
-				onColor = true
-			}
-		}
-		if !onColor {
+		if isSplashCard(c, primary) {
 			count++
 		}
 	}
 	return count
+}
+
+// isSplashCard reports whether a colored card needs a color outside primary.
+// A gold card needs every one of its colors, so any off-color one makes it a
+// splash. A hybrid card can be cast with any of its colors, so it's only a
+// splash when none of them is primary.
+func isSplashCard(c types.Card, primary types.ColorIdentity) bool {
+	offColor := 0
+	for _, color := range c.Colors {
+		if !primary[color] {
+			offColor++
+		}
+	}
+	if c.IsHybrid() {
+		return offColor == len(c.Colors)
+	}
+	return offColor > 0
 }
