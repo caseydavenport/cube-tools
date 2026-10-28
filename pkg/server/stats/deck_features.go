@@ -18,11 +18,19 @@ type deckFeature struct {
 	Value func(d *storage.Deck) float64
 }
 
+var (
+	// manaValueFeature is the average mana value of a deck's nonland cards.
+	manaValueFeature = deckFeature{Key: "avg_mana_value", Value: avgManaValue}
+
+	// creaturesFeature is how many creatures a deck plays.
+	creaturesFeature = deckFeature{Key: "creatures", Value: typeCounter("Creature")}
+)
+
 // forestFeatures are the features the forest plot has a row for, in the order
 // it shows them.
 var forestFeatures = []deckFeature{
-	{Key: "avg_mana_value", Value: avgManaValue},
-	{Key: "creatures", Value: typeCounter("Creature")},
+	manaValueFeature,
+	creaturesFeature,
 	{Key: "sorceries", Value: typeCounter("Sorcery")},
 	{Key: "instants", Value: typeCounter("Instant")},
 	{Key: "planeswalkers", Value: typeCounter("Planeswalker")},

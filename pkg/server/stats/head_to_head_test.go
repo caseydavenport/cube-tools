@@ -42,18 +42,6 @@ func gapBucket(t *testing.T, buckets []*GapBucket, label string) *GapBucket {
 	return nil
 }
 
-// creatureFeature is the creatures entry of headToHeadFeatures.
-func creatureFeature(t *testing.T) deckFeature {
-	t.Helper()
-	for _, f := range headToHeadFeatures {
-		if f.Key == "creatures" {
-			return f
-		}
-	}
-	require.Fail(t, "no creatures feature")
-	return deckFeature{}
-}
-
 // gamesIn totals every bucket's wins and losses.
 func gamesIn(buckets []*GapBucket) int {
 	total := 0
@@ -68,7 +56,7 @@ func TestHeadToHead_CountsMoreFeatureSide(t *testing.T) {
 	stevie := gameDeck("Stevie", creatures(2), won("Ozzy", "Ozzy"), won("Ozzy", "Ozzy"), won("Ozzy", "Stevie"))
 	decks := []*storage.Deck{ozzy, stevie}
 
-	buckets := headToHead(decks, decks, creatureFeature(t), 1.96)
+	buckets := headToHead(decks, decks, creaturesFeature, 1.96)
 	b := gapBucket(t, buckets, "3")
 	assert.Equal(t, 2, b.Wins)
 	assert.Equal(t, 1, b.Losses)
@@ -79,7 +67,7 @@ func TestHeadToHead_OpponentOutsideFilter(t *testing.T) {
 	stevie := gameDeck("Stevie", creatures(5), won("Ozzy", "Stevie"), won("Ozzy", "Ozzy"), won("Ozzy", "Ozzy"))
 	ozzy := gameDeck("Ozzy", creatures(2))
 
-	buckets := headToHead([]*storage.Deck{stevie}, []*storage.Deck{stevie, ozzy}, creatureFeature(t), 1.96)
+	buckets := headToHead([]*storage.Deck{stevie}, []*storage.Deck{stevie, ozzy}, creaturesFeature, 1.96)
 	b := gapBucket(t, buckets, "3")
 	assert.Equal(t, 1, b.Wins)
 	assert.Equal(t, 2, b.Losses)
@@ -87,7 +75,7 @@ func TestHeadToHead_OpponentOutsideFilter(t *testing.T) {
 
 func TestHeadToHead_OpponentMissingFromAllDecks(t *testing.T) {
 	stevie := gameDeck("Stevie", creatures(5), won("Ozzy", "Stevie"))
-	buckets := headToHead([]*storage.Deck{stevie}, []*storage.Deck{stevie}, creatureFeature(t), 1.96)
+	buckets := headToHead([]*storage.Deck{stevie}, []*storage.Deck{stevie}, creaturesFeature, 1.96)
 	assert.Equal(t, 0, gamesIn(buckets))
 }
 
@@ -96,7 +84,7 @@ func TestHeadToHead_SkipsOpponentWithoutDecklist(t *testing.T) {
 	stevie := gameDeck("Stevie", nil)
 	decks := []*storage.Deck{ozzy, stevie}
 
-	buckets := headToHead(decks, decks, creatureFeature(t), 1.96)
+	buckets := headToHead(decks, decks, creaturesFeature, 1.96)
 	assert.Equal(t, 0, gamesIn(buckets))
 }
 
@@ -105,7 +93,7 @@ func TestHeadToHead_SkipsDraws(t *testing.T) {
 	stevie := gameDeck("Stevie", creatures(2))
 	decks := []*storage.Deck{ozzy, stevie}
 
-	buckets := headToHead(decks, decks, creatureFeature(t), 1.96)
+	buckets := headToHead(decks, decks, creaturesFeature, 1.96)
 	assert.Equal(t, 0, gamesIn(buckets))
 }
 
@@ -114,7 +102,7 @@ func TestHeadToHead_IntegerBucketsOpenEnded(t *testing.T) {
 	stevie := gameDeck("Stevie", creatures(1))
 	decks := []*storage.Deck{ozzy, stevie}
 
-	buckets := headToHead(decks, decks, creatureFeature(t), 1.96)
+	buckets := headToHead(decks, decks, creaturesFeature, 1.96)
 	var labels []string
 	for _, b := range buckets {
 		labels = append(labels, b.Label)
@@ -131,7 +119,7 @@ func TestHeadToHead_ManaValueBuckets(t *testing.T) {
 	freddie := gameDeck("Freddie", spellsAt(3, 3, 4, 4, 3), won("Ozzy", "Freddie"))
 	decks := []*storage.Deck{ozzy, stevie, joan, freddie}
 
-	buckets := headToHead(decks, decks, forestFeatures[0], 1.96)
+	buckets := headToHead(decks, decks, manaValueFeature, 1.96)
 	assert.Equal(t, 1, gapBucket(t, buckets, "0.25").Wins)
 	assert.Equal(t, 1, gapBucket(t, buckets, "0.5").Wins)
 	assert.Equal(t, 0, gapBucket(t, buckets, "0.75").Wins)

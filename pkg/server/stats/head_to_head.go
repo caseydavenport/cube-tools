@@ -11,7 +11,7 @@ import (
 var macroArchetypes = []string{"aggro", "midrange", "control"}
 
 // headToHeadFeatures are the features the head-to-head chart can compare.
-var headToHeadFeatures = []deckFeature{forestFeatures[0], forestFeatures[1], interactionFeature}
+var headToHeadFeatures = []deckFeature{manaValueFeature, creaturesFeature, interactionFeature}
 
 // GapBucket is one bar of the head-to-head chart: the games where one deck
 // had more of a feature than its opponent by about Label, and how the deck
