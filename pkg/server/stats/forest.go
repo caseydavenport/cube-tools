@@ -32,7 +32,9 @@ type ForestRow struct {
 // forestPoint is one deck's input to a fit: the feature value, the deck's win
 // rate from 0 to 1, and its game count as the weight.
 type forestPoint struct {
-	x, y, weight float64
+	x      float64
+	y      float64
+	weight float64
 }
 
 // forestRows fits one row per forest feature across decks with a decklist and
@@ -71,8 +73,8 @@ func fitForestRow(key string, points []forestPoint, z float64) *ForestRow {
 		return row
 	}
 
-	sd := sampleStdDev(points)
-	row.StdDev = round2(sd)
+	spread := sampleStdDev(points)
+	row.StdDev = round2(spread)
 
 	var sumW, sumWX, sumWY float64
 	for _, p := range points {
@@ -102,9 +104,9 @@ func fitForestRow(key string, points []forestPoint, z float64) *ForestRow {
 	se := math.Sqrt(residual / float64(len(points)-2) / sxx)
 
 	row.HasEffect = true
-	row.Effect = round1(100 * slope * sd)
-	row.EffectLow = round1(100 * (slope - z*se) * sd)
-	row.EffectHigh = round1(100 * (slope + z*se) * sd)
+	row.Effect = round1(100 * slope * spread)
+	row.EffectLow = round1(100 * (slope - z*se) * spread)
+	row.EffectHigh = round1(100 * (slope + z*se) * spread)
 	return row
 }
 

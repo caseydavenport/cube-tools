@@ -57,7 +57,7 @@ func featureValue(t *testing.T, key string, d *storage.Deck) float64 {
 }
 
 func TestForestFeatures_Values(t *testing.T) {
-	d := recordDeck("Ozzy", []types.Card{
+	deck := recordDeck("Ozzy", []types.Card{
 		spell("Creature", 2, ""),
 		spell("Creature", 4, ""),
 		spell("Instant", 1, "Counter target spell."),
@@ -66,16 +66,16 @@ func TestForestFeatures_Values(t *testing.T) {
 		nonbasicLand(),
 	}, 0, 0)
 
-	assert.Equal(t, 2.5, featureValue(t, "avg_mana_value", d))
-	assert.Equal(t, 2.0, featureValue(t, "creatures", d))
-	assert.Equal(t, 1.0, featureValue(t, "instants", d))
-	assert.Equal(t, 1.0, featureValue(t, "sorceries", d))
-	assert.Equal(t, 2.0, featureValue(t, "lands", d))
-	assert.Equal(t, 1.0, featureValue(t, "nonbasic_lands", d))
-	assert.Equal(t, 1.0, featureValue(t, "removal", d))
-	assert.Equal(t, 1.0, featureValue(t, "counterspells", d))
-	assert.Equal(t, 0.0, featureValue(t, "planeswalkers", d))
-	assert.Equal(t, 2.0, interactionFeature.Value(d))
+	assert.Equal(t, 2.5, featureValue(t, "avg_mana_value", deck))
+	assert.Equal(t, 2.0, featureValue(t, "creatures", deck))
+	assert.Equal(t, 1.0, featureValue(t, "instants", deck))
+	assert.Equal(t, 1.0, featureValue(t, "sorceries", deck))
+	assert.Equal(t, 2.0, featureValue(t, "lands", deck))
+	assert.Equal(t, 1.0, featureValue(t, "nonbasic_lands", deck))
+	assert.Equal(t, 1.0, featureValue(t, "removal", deck))
+	assert.Equal(t, 1.0, featureValue(t, "counterspells", deck))
+	assert.Equal(t, 0.0, featureValue(t, "planeswalkers", deck))
+	assert.Equal(t, 2.0, interactionFeature.Value(deck))
 }
 
 func TestForestFeatures_Order(t *testing.T) {
@@ -91,6 +91,6 @@ func TestForestFeatures_Order(t *testing.T) {
 }
 
 func TestForestFeatures_AvgManaValueWithoutSpells(t *testing.T) {
-	d := recordDeck("Ozzy", []types.Card{basicLand()}, 0, 0)
-	assert.Equal(t, 0.0, featureValue(t, "avg_mana_value", d))
+	deck := recordDeck("Ozzy", []types.Card{basicLand()}, 0, 0)
+	assert.Equal(t, 0.0, featureValue(t, "avg_mana_value", deck))
 }

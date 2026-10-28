@@ -539,8 +539,6 @@ func TestCardJSONEmbeddedKeepsOuterFields(t *testing.T) {
 	assert.Contains(t, string(b), `"players":{"Ozzy":1}`)
 }
 
-// --- Card draw, lifegain, graveyard and discard ---
-
 // oracleMatchCase is one oracle text and whether a matcher should accept it.
 type oracleMatchCase struct {
 	name string

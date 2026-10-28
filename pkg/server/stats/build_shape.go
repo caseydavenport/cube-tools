@@ -36,9 +36,9 @@ type TypeMixRow struct {
 // SplashBucket is one bar of the splash size chart: the decks with Label
 // cards outside their primary colors, and their combined record.
 type SplashBucket struct {
+	Record
 	Label string `json:"label"`
 	Decks int    `json:"decks"`
-	Record
 }
 
 // macroDecks groups the decks that have a decklist and a macro archetype by

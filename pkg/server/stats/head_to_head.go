@@ -17,8 +17,8 @@ var headToHeadFeatures = []deckFeature{forestFeatures[0], forestFeatures[1], int
 // had more of a feature than its opponent by about Label, and how the deck
 // with more did in them.
 type GapBucket struct {
-	Label string `json:"label"`
 	Record
+	Label string `json:"label"`
 }
 
 // gapScale says how a feature's gaps are bucketed: in steps of step, with a
