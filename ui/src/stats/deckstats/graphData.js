@@ -1,6 +1,5 @@
 // Data the Deck stats charts share, worked out once from the parsed decks.
 
-import { Wins, Losses } from "../../utils/Deck.js"
 import { deckRef } from "../../decks/deckModel.js"
 import { BucketName } from "../../utils/Buckets.js"
 import { CounterspellMatches, RemovalMatches } from "../../utils/cardMatches.js"
@@ -83,51 +82,11 @@ export function BuildGraphData(parsed) {
     }
 
     deckStatsMap.set(deckRef(deck), {
-      wins: Wins(deck),
-      losses: Losses(deck),
       mbCounterspells,
       sbCounterspells,
       removal,
       interaction
     })
-  }
-
-  // Calculate statistics across all decks.
-  var all = {
-    winsByCMC: new Map(),
-    lossesByCMC: new Map(),
-    winsByNonBasicLands: new Map(),
-    lossesByNonBasicLands: new Map(),
-    nonBasicLandsBucketSize: 2,
-  }
-  for (let deck of parsed.filteredDecks) {
-    const stats = deckStatsMap.get(deckRef(deck))
-    if (!stats) continue
-
-    let wins = stats.wins
-    let losses = stats.losses
-
-    if (deck.avg_cmc === null) {
-      continue
-    }
-
-    let cmc = Math.round(4 * deck.avg_cmc) / 4
-    all.winsByCMC.set(cmc, (all.winsByCMC.get(cmc) || 0) + wins)
-    all.lossesByCMC.set(cmc, (all.lossesByCMC.get(cmc) || 0) + losses)
-
-    if (!deck.mainboard || deck.mainboard.length === 0) {
-      continue
-    }
-
-    let numNonBasicLands = 0
-    for (let card of deck.mainboard) {
-      if (card.types.includes("Land") && !card.types.includes("Basic")) {
-        numNonBasicLands += 1
-      }
-    }
-    let bucket = Math.round(numNonBasicLands/all.nonBasicLandsBucketSize) * all.nonBasicLandsBucketSize
-    all.winsByNonBasicLands.set(bucket, (all.winsByNonBasicLands.get(bucket) || 0) + wins)
-    all.lossesByNonBasicLands.set(bucket, (all.lossesByNonBasicLands.get(bucket) || 0) + losses)
   }
 
   // Calculate per-bucket, over time data.
@@ -190,5 +149,5 @@ export function BuildGraphData(parsed) {
     }
   }
 
-  return { labels, all, bucketed }
+  return { labels, bucketed }
 }

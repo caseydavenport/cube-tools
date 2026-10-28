@@ -2,13 +2,8 @@
 
 import { currentChartTheme, seriesColor, withAlpha } from "../../theme/chartTheme.js"
 
-// Wins and losses are good and bad, read by functions so Chart.js picks them
-// again on a scheme change. In-deck and in-sideboard lines are two series
-// colors, which are the same in both schemes.
-export const winColor = () => currentChartTheme().goodFill
-
-export const lossColor = () => currentChartTheme().badFill
-
+// In-deck and in-sideboard lines are two series colors, which are the same
+// in both schemes.
 export const inDeckColor = seriesColor(0)
 
 export const inSideboardColor = seriesColor(2)

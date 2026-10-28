@@ -1,5 +1,5 @@
-// Oracle-text patterns that sort cards by what they do: removal,
-// counterspells, card draw, and lifegain.
+// Oracle-text patterns that sort cards by what they do: removal and
+// counterspells.
 
 // This is imperfect, but matches most removal spells.
 // Will need to keep this up to date with the cube as it evolves, or find
@@ -50,15 +50,6 @@ export const RemovalMatches = [
 export const CounterspellMatches = [
   "counter target",
   "return target spell",
-]
-
-export const cardDrawMatches = [
-  "draw a card",
-]
-
-export const lifegainMatches = [
-  "gain . life",
-  "lifelink",
 ]
 
 export function DeckSplits(deck) {
