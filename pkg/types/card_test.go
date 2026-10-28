@@ -538,3 +538,52 @@ func TestCardJSONEmbeddedKeepsOuterFields(t *testing.T) {
 	require.NoError(t, err)
 	assert.Contains(t, string(b), `"players":{"Ozzy":1}`)
 }
+
+// --- Card draw, lifegain, graveyard and discard ---
+
+// oracleMatchCase is one oracle text and whether a matcher should accept it.
+type oracleMatchCase struct {
+	name string
+	text string
+	want bool
+}
+
+// runOracleMatchCases checks match against each case's oracle text.
+func runOracleMatchCases(t *testing.T, cases []oracleMatchCase, match func(Card) bool) {
+	t.Helper()
+	for _, tt := range cases {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, match(Card{OracleText: tt.text}))
+		})
+	}
+}
+
+func TestIsCardDraw(t *testing.T) {
+	runOracleMatchCases(t, []oracleMatchCase{
+		{"draw one", "Draw a card.", true},
+		{"draw two", "Draw two cards.", false},
+	}, Card.IsCardDraw)
+}
+
+func TestIsLifegain(t *testing.T) {
+	runOracleMatchCases(t, []oracleMatchCase{
+		{"gain life", "You gain 3 life.", true},
+		{"lifelink", "Lifelink", true},
+		{"lose life", "You lose 3 life.", false},
+	}, Card.IsLifegain)
+}
+
+func TestIsGraveyard(t *testing.T) {
+	runOracleMatchCases(t, []oracleMatchCase{
+		{"reanimate to hand", "Return target creature card from your graveyard to your hand.", true},
+		{"flying", "Flying", false},
+	}, Card.IsGraveyard)
+}
+
+func TestIsDiscard(t *testing.T) {
+	runOracleMatchCases(t, []oracleMatchCase{
+		{"hand attack", "Target player discards a card.", true},
+		{"rummage cost", "Discard a card: Draw a card.", true},
+		{"flying", "Flying", false},
+	}, Card.IsDiscard)
+}

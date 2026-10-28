@@ -210,6 +210,37 @@ func (c Card) IsHandHate() bool {
 	return anyPattern(c.OracleText, handHatePatterns)
 }
 
+var (
+	cardDrawPatterns  = []oraclePattern{sub("draw a card")}
+	lifegainPatterns  = []oraclePattern{rx("gain . life"), sub("lifelink")}
+	graveyardPatterns = []oraclePattern{sub("graveyard")}
+	discardPatterns   = []oraclePattern{sub("discard")}
+)
+
+// IsCardDraw reports whether the card draws a single card. It ports the
+// Deck Stats page's old browser pattern, so "draw two cards" doesn't count.
+func (c Card) IsCardDraw() bool {
+	return anyPattern(c.OracleText, cardDrawPatterns)
+}
+
+// IsLifegain reports whether the card gains life or has lifelink. Like the old
+// browser pattern, it only catches single-digit life gains.
+func (c Card) IsLifegain() bool {
+	return anyPattern(c.OracleText, lifegainPatterns)
+}
+
+// IsGraveyard reports whether the card's text mentions a graveyard at all,
+// whether it fills, uses or exiles one.
+func (c Card) IsGraveyard() bool {
+	return anyPattern(c.OracleText, graveyardPatterns)
+}
+
+// IsDiscard reports whether the card's text mentions discarding, either as
+// hand attack or as a cost the card's owner pays.
+func (c Card) IsDiscard() bool {
+	return anyPattern(c.OracleText, discardPatterns)
+}
+
 func (c Card) IsInteraction() bool {
 	return c.IsRemoval() || c.IsCounterspell() || c.IsHandHate()
 }
