@@ -145,16 +145,6 @@ export function PlayerData(decks) {
       total /= count
     }
     row.opponent_win_percentage = Math.round(total)
-
-    // Average re-pick rate: unique mainboarded cards over total picks. Higher
-    // means more variety across drafts. Undefined for players with fewer than
-    // 2 decks - they haven't had a chance to repeat anything, and in a
-    // singleton cube the metric would always read 100%.
-    if (row.num_decks >= 2 && row.total_picks > 0) {
-      row.uniqueness = Math.round(row.cards.size / row.total_picks * 100)
-    } else {
-      row.uniqueness = null
-    }
   }
   return map
 }
@@ -178,8 +168,6 @@ function playerSortValue(row, sortBy) {
     case "R": return row.red_percent
     case "green_percent":
     case "G": return row.green_percent
-    case "uniqueness":
-    case "unique": return row.uniqueness ?? -1
     case "num_decks":
     case "decks": return row.num_decks
     case "trophies": return row.trophies

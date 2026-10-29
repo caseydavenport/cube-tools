@@ -57,7 +57,6 @@ const COPY = {
   trophies: "Trophies",
   lastPlace: "Last place",
   opponentWinPercent: "Opponent win %",
-  uniqueness: "Uniqueness",
 
   renameLabel: "name",
   renameError: "Couldn't rename",

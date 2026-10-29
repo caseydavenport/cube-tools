@@ -36,7 +36,6 @@ type PlayerStats struct {
 	BlackPercent       float64                  `json:"black_percent"`
 	RedPercent         float64                  `json:"red_percent"`
 	GreenPercent       float64                  `json:"green_percent"`
-	Uniqueness         float64                  `json:"uniqueness"`
 	TotalPicks         int                      `json:"total_picks"`
 	UniqueCards        map[string]int           `json:"unique_cards"`
 	ColorPicks         map[string]int           `json:"color_picks"`
@@ -169,7 +168,6 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		ps.BlackPercent = pct(float64(ps.ColorPicks["B"]), float64(ps.TotalPicks))
 		ps.RedPercent = pct(float64(ps.ColorPicks["R"]), float64(ps.TotalPicks))
 		ps.GreenPercent = pct(float64(ps.ColorPicks["G"]), float64(ps.TotalPicks))
-		ps.Uniqueness = pct(float64(len(ps.UniqueCards)), float64(ps.TotalPicks))
 	}
 
 	b, err := json.Marshal(resp)
