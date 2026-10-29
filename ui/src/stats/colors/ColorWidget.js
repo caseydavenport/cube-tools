@@ -132,7 +132,7 @@ function ResultsCharts(input) {
         />
       </div>
 
-      <div className="colors-wide kit-card colors-chart-card">
+      <div className="colors-wide">
         <ColorMatchupHeatmap matchupData={input.colorMatchupData} colorType={input.colorTypeSelection} />
       </div>
     </>

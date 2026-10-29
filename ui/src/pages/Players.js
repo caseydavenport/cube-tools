@@ -310,8 +310,8 @@ export function PlayerDetailsPanel(input) {
           <thead className="table-header">
             <tr>
               <td onClick={input.onOppHeaderClick} id="name" className="header-cell">{input.copy.details.opponentHeader({ minGames })}</td>
-              <HoverInfo title={input.copy.details.winPct} info={input.copy.details.opponentWinPctTip}>
-                <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
+              <HoverInfo title={input.copy.details.opponentWinPctHeader} info={input.copy.details.opponentWinPctTip}>
+                <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">{input.copy.details.opponentWinPctHeader}</td>
               </HoverInfo>
               <HoverInfo title={input.copy.details.games} info={input.copy.details.gamesTip}>
                 <td onClick={input.onOppHeaderClick} id="games" className="header-cell">{input.copy.details.games}</td>

@@ -22,7 +22,7 @@ export function DeckStatTiles({ deck, copy }) {
       <StatTile label={copy.creatures} value={counts.creatures} />
       <StatTile label={copy.interaction} value={counts.interaction} />
       <StatTile label={copy.avgManaValue} value={avgManaValue} />
-      <StatTile label={copy.opponentWinPercent} value={opponentStrengthText(deck)} />
+      <StatTile label={copy.opponentWinPercent} value={opponentStrengthText(deck)} tip={copy.opponentStrengthTip} />
     </div>
   )
 }

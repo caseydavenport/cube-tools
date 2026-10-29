@@ -13,7 +13,7 @@ import { SortHeader } from "../stats/sortHeader.js"
 import { compareBy } from "../stats/sortOrder.js"
 import { startLoad } from "../stats/loading.js"
 import { packagesUrl } from "../stats/pageRequests.js"
-import { goodBadTint } from "../stats/tints.js"
+import { ShareBar } from "../components/kit/ShareBar.js"
 import { useFilterSuggestions } from "../stats/useFilterSuggestions.js"
 import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
 import { fetchJson } from "../utils/fetchJson.js"
@@ -84,15 +84,9 @@ const COPY = {
 // package/has3, a strategy-vs-glue score. Compute lives in /stats/packages; this
 // page just fetches and renders a sortable table.
 
-// rateColor tints a 0-1 rate in the good color, stronger toward 1. Build rate
-// and commitment ratio both read "more is a stronger signal", so both use it.
-function rateColor(t) {
-  return goodBadTint(Math.max(0, t))
-}
-
 const pct = v => `${Math.round(v * 100)}%`
 
-// BuildRateCell is a label's build rate, tinted by the rate, with the sample
+// BuildRateCell is a label's build rate with a bar under it, and the sample
 // size and the confidence interval behind it on hover.
 function BuildRateCell({ s, populated, confidence }) {
   const level = Math.round(parseFloat(confidence || "0.8") * 100)
@@ -103,8 +97,9 @@ function BuildRateCell({ s, populated, confidence }) {
 
   return (
     <HoverStats title={COPY.tooltips.buildRate({ packages: s.package, populated })} rows={rows}>
-      <td style={{ textAlign: "right", background: rateColor(s.buildRate) }}>
+      <td className="page-right-cell">
         {pct(s.buildRate)}
+        <ShareBar share={s.buildRate} />
       </td>
     </HoverStats>
   )
@@ -214,8 +209,9 @@ export function Packages(props) {
                   </td>
                 </HoverInfo>
                 <HoverInfo info={COPY.tooltips.commitment}>
-                  <td style={{ textAlign: "right", background: rateColor(s.commitmentRatio) }}>
+                  <td className="page-right-cell">
                     {s.commitmentRatio.toFixed(2)}
+                    <ShareBar share={s.commitmentRatio} />
                   </td>
                 </HoverInfo>
               </tr>

@@ -16,8 +16,6 @@ export const ARCHETYPES_COPY = {
     matchupAggro: "Matchup: Aggro",
     matchupMidrange: "Matchup: Midrange",
     matchupControl: "Matchup: Control",
-    pieBuilds: "Pie: Builds",
-    pieWins: "Pie: Wins",
     tagBuilds: "Tag Build %",
     tagWins: "Tag Win %",
     tagWinningPct: "Tag Winning %",
@@ -27,7 +25,6 @@ export const ARCHETYPES_COPY = {
     sectionArchetypes: "Archetypes",
     sectionSelected: "Selected Archetype",
     sectionTrends: "Trends",
-    colors: "Colors",
     selectedHeading: ({ archetype }) => `Selected — ${archetype}`,
     trendsHeading: "Trends",
     leftChart: "Left Chart",
@@ -82,8 +79,8 @@ export const ARCHETYPES_COPY = {
       tip: "Total number of decks with this archetype / tag.",
     },
     avgOtherTypes: {
-      text: "Avg other types",
-      tip: "Average number of other tags applied to decks with this archetype / tag.",
+      text: "Other tags",
+      tip: "How many other tags the average deck in this row also carries, not counting aggro, midrange or control. Near 0 means the theme usually stands alone; 2 or more means it usually comes with others.",
     },
     tooFewDecks: "—",
     notDistinguishable: "not distinguishable from 50%",
@@ -111,8 +108,6 @@ export const ARCHETYPES_COPY = {
     winningPctTitle: ({ bucketSize }) => `Winning % (bucket size = ${bucketSize} drafts)`,
     trophyPctTitle: ({ bucketSize }) => `Trophy % (bucket size = ${bucketSize} drafts)`,
     lastPlacePctTitle: ({ bucketSize }) => `Last place % (bucket size = ${bucketSize} drafts)`,
-    pieDecks: "Decks",
-    pieWins: "Wins",
   },
 
   // TagCharts.js: the tags-over-time chart titles.

@@ -44,13 +44,8 @@
 }
 
 /* A wide block whose chart has nothing to draw stays out of the way. */
-.colors-wide:empty,
-.colors-chart-card:empty {
+.colors-wide:empty {
   display: none;
-}
-
-.colors-chart-card {
-  padding: 16px;
 }
 
 @media (max-width: 62em) {
@@ -437,12 +432,6 @@
   color: var(--se-muted);
 }
 
-.heatmap-title {
-  text-align: center;
-  color: var(--mantine-primary-color-filled);
-  margin-bottom: 1rem;
-}
-
 .stats-table-scroll {
   overflow-x: auto;
 }
@@ -567,4 +556,36 @@
 .synergy-help-mark {
   font-size: 0.7em;
   opacity: 0.6;
+}
+
+/* A table cell that takes only the width its content needs, on one line. */
+.stats-narrow-cell {
+  width: 1%;
+  white-space: nowrap;
+}
+
+/* Marks a card that has been in too few drafts to judge yet. */
+.cards-new-badge {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--mantine-primary-color-light);
+  color: var(--mantine-primary-color-light-color);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* A Colors table row's pips with its guild or shard name beside them. */
+.colors-group-cell {
+  display: inline-flex;
+  align-items: center;
+}
+
+.colors-group-name {
+  margin-left: 6px;
+}
+
+/* The matchup heatmap stretches to its card's width. */
+.colors-heatmap-table {
+  width: 100%;
 }

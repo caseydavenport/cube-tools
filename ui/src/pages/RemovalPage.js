@@ -101,6 +101,19 @@ function effColor(v) {
   return goodBadTint(v / 3)
 }
 
+// matchesColorFilter keeps a removal row under the chosen color. Colorless
+// removal, such as artifacts, fits any deck, so it stays under every color.
+function matchesColorFilter(card, color) {
+  if (!color) {
+    return true
+  }
+  const colors = card.colors || []
+  if (colors.length === 0) {
+    return true
+  }
+  return colors.includes(color)
+}
+
 const fmtDelta = v => v >= 0 ? `+${v}` : `${v}`
 
 // RemovalPage is the Removal page: the toolbar with its date range, then the
@@ -153,7 +166,7 @@ export function RemovalPage(props) {
     avg: c => avgEff(c),
   }
 
-  let rows = (data.cards || []).filter(c => !colorFilter || (c.colors || []).includes(colorFilter))
+  let rows = (data.cards || []).filter(c => matchesColorFilter(c, colorFilter))
   const byValue = compareBy(sortVal[sort.key], sort.dir)
   rows = [...rows].sort((a, b) => {
     // Scalable removal always sinks to the bottom - it has no comparable metric.

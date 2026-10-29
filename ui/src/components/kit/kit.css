@@ -205,3 +205,20 @@ a.kit-card:visited {
   align-items: center;
   gap: 4px;
 }
+
+/* A thin bar under a table cell's value, filled to a 0-1 share. */
+.kit-share-bar {
+  display: block;
+  height: 4px;
+  margin-top: 3px;
+  border-radius: 999px;
+  background: var(--se-border);
+  overflow: hidden;
+}
+
+.kit-share-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--mantine-primary-color-filled);
+}

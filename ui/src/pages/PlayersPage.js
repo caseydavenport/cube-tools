@@ -56,7 +56,8 @@ const COPY = {
   gamesTile: "Games",
   trophies: "Trophies",
   lastPlace: "Last place",
-  opponentWinPercent: "Opponent win %",
+  opponentWinPercent: "Opponent strength",
+  opponentStrengthTip: "How well this player's opponents did in their other games: a measure of how tough their pairings were.",
 
   renameLabel: "name",
   renameError: "Couldn't rename",
@@ -69,6 +70,7 @@ const COPY = {
   details: {
     opponentHeader: ({ minGames }) => `Opponent (min ${minGames} games)`,
     winPct: "Win %",
+    opponentWinPctHeader: "Your win % vs them",
     games: "Games",
     arch: "Arch",
     buildPct: "Build %",

@@ -27,6 +27,9 @@ export function sortValue(sortBy, card) {
     case "games":
       sort = card.total_games
       break
+    case "drafts":
+      sort = card.drafts || 0
+      break
     case "mb":
       sort = card.mainboard
       break
@@ -134,6 +137,26 @@ function deckLinkHref(card, input) {
   return `${window.location.pathname}#/${currentCubeId()}/decks?${params.toString()}`
 }
 
+// NEW_CARD_DRAFTS is how many drafts a card needs before its numbers are
+// trusted. Cards seen in fewer drafts are marked new and sorted below the rest.
+export const NEW_CARD_DRAFTS = 3
+
+// isNewCard reports whether a card has been in too few drafts to compare
+// fairly against the rest of the cube.
+export function isNewCard(card) {
+  return (card.drafts || 0) < NEW_CARD_DRAFTS
+}
+
+// newCardBadge marks a card that has been in too few drafts for its numbers
+// to mean much yet.
+function newCardBadge(card) {
+  if (!isNewCard(card)) {
+    return null
+  }
+  const tip = `In fewer than ${NEW_CARD_DRAFTS} drafts so far, so its numbers are thin. Sorted below the other cards.`
+  return <span className="cards-new-badge" title={tip}>new</span>
+}
+
 // cardNameCell renders the clickable card name with a "played by" popover, plus a
 // link that opens the decks which mainboarded the card in a new tab.
 function cardNameCell(card, input, key) {
@@ -141,6 +164,7 @@ function cardNameCell(card, input, key) {
     <HoverInfo key={key} title={CARDS_COPY.columns.playedByTitle} info={<CardMainboardTooltipContent card={card} info={input.info} />} position="right">
       <td id={card.name} onClick={input.onCardSelected}>
         <a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a>
+        {newCardBadge(card)}
         {" "}
         <a className="deck-link" href={deckLinkHref(card, input)} target="_blank" rel="noopener noreferrer"
           title={CARDS_COPY.columns.deckLinkTip}
@@ -221,7 +245,13 @@ function deltaExpCell(card, input, key) {
 
 const colorsColumn = {
   id: "colors", text: CARDS_COPY.columns.colorIdentity.text, tip: CARDS_COPY.columns.colorIdentity.tip,
-  cell: (card, input, key) => <td key={key}>{ColorImages(card.color_identity)}</td>,
+  cell: (card, input, key) => <td key={key} className="stats-narrow-cell">{ColorImages(card.color_identity)}</td>,
+}
+
+const draftsColumn = {
+  id: "drafts", text: "# Drafts",
+  tip: `Number of drafts this card has been in, as a main deck, sideboard or pool card. Cards in fewer than ${NEW_CARD_DRAFTS} are marked new.`,
+  cell: (c, i, k) => valueCell(c, i, k, c.drafts || 0),
 }
 
 const cardColumn = {
@@ -236,8 +266,9 @@ const gamesColumn = {
 }
 
 export const OVERVIEW_COLUMNS = [
-  colorsColumn,
   cardColumn,
+  colorsColumn,
+  draftsColumn,
   { needs: ["sideboards"], id: "mainboarded", text: CARDS_COPY.columns.deckPct.text, tip: CARDS_COPY.columns.deckPct.tip, cell: deckPctCell },
   { needs: ["results"], id: "wins", text: CARDS_COPY.columns.winPct.text, tip: CARDS_COPY.columns.winPct.tip, cell: winPctCell },
   { needs: ["results"], id: "delta_exp", text: CARDS_COPY.columns.deltaExp.text, tip: CARDS_COPY.columns.deltaExp.tip, cell: deltaExpCell },
@@ -247,8 +278,8 @@ export const OVERVIEW_COLUMNS = [
 ]
 
 export const METADATA_COLUMNS = [
-  colorsColumn,
   cardColumn,
+  colorsColumn,
   { id: "wordcount", text: CARDS_COPY.columns.words.text, tip: CARDS_COPY.columns.words.tip, cell: (c, i, k) => valueCell(c, i, k, c.word_count) },
   { needs: ["archetypes"], id: "labels", text: CARDS_COPY.columns.tags.text, tip: CARDS_COPY.columns.tags.tip, cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.archetypes).length) },
   gamesColumn,
@@ -256,14 +287,14 @@ export const METADATA_COLUMNS = [
 ]
 
 export const VS_ARCH_COLUMNS = [
-  colorsColumn, cardColumn, gamesColumn,
+  cardColumn, colorsColumn, gamesColumn,
   { needs: ["results", "archetypes"], id: "vsaggro", text: CARDS_COPY.columns.vsAggro.text, tip: CARDS_COPY.columns.vsAggro.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.aggro.win_percent.toFixed(0)}%`) },
   { needs: ["results", "archetypes"], id: "vscontrol", text: CARDS_COPY.columns.vsControl.text, tip: CARDS_COPY.columns.vsControl.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.control.win_percent.toFixed(0)}%`) },
   { needs: ["results", "archetypes"], id: "vsmidrange", text: CARDS_COPY.columns.vsMidrange.text, tip: CARDS_COPY.columns.vsMidrange.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.midrange.win_percent.toFixed(0)}%`) },
 ]
 
 export const BY_ARCH_COLUMNS = [
-  colorsColumn, cardColumn, gamesColumn,
+  cardColumn, colorsColumn, gamesColumn,
   { needs: ["results", "archetypes"], id: "inaggro", text: CARDS_COPY.columns.inAggro.text, tip: CARDS_COPY.columns.inAggro.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.aggro.win_percent.toFixed(0)}%`) },
   { needs: ["results", "archetypes"], id: "incontrol", text: CARDS_COPY.columns.inControl.text, tip: CARDS_COPY.columns.inControl.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.control.win_percent.toFixed(0)}%`) },
   { needs: ["results", "archetypes"], id: "inmidrange", text: CARDS_COPY.columns.inMidrange.text, tip: CARDS_COPY.columns.inMidrange.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.midrange.win_percent.toFixed(0)}%`) },

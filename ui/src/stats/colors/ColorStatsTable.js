@@ -7,6 +7,7 @@ import { HoverStats } from "../../components/kit/HoverStats.js"
 import { asEvent } from "../../components/kit/controls.js"
 import { Group, SegmentedControl } from "@mantine/core"
 import { ColorImages, CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
+import { colorName } from "../../utils/colorNames.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { colorColumnShown, shownColorSort } from "./colorSort.js"
 import { COLORS_COPY } from "./copy.js"
@@ -32,7 +33,7 @@ const COLOR_COLUMNS = [
     id: "color",
     text: COLORS_COPY.statsTable.color.text,
     tip: COLORS_COPY.statsTable.color.tip,
-    cell: (color) => <td style={{width: "1%", whiteSpace: "nowrap"}} key="color">{ColorImages(color.color)}</td>,
+    cell: (color) => <ColorCell key="color" color={color} />,
   },
   {
     id: "win",
@@ -43,8 +44,8 @@ const COLOR_COLUMNS = [
   },
   {
     id: "bayes_win",
-    text: "Bayes Win %",
-    tip: "Bayesian estimate of the win percentage, which is more accurate for colors with few decks.",
+    text: COLORS_COPY.statsTable.bayesWinPct.text,
+    tip: COLORS_COPY.statsTable.bayesWinPct.tip,
     needs: ["results"],
     cell: (color) => <BayesWinPercentCell key="bayes_win" color={color} />,
   },
@@ -134,38 +135,49 @@ function winningPercentText(color) {
   return Pct(color.top_half, color.num_decks) + "%"
 }
 
+// vsAverageText is a win rate's difference from the cube average, signed, like
+// "+4%" or "-3%".
+function vsAverageText(winPercent) {
+  const delta = winPercent - CUBE_AVG_WIN_PERCENT
+  let sign = ""
+  if (delta >= 0) {
+    sign = "+"
+  }
+  return sign + delta.toFixed(0) + "%"
+}
 
-// BayesWinPercentCell shows a color's win rate, greyed when it can't be told apart
-// from a coin flip, with the confidence interval on hover.
+// ColorCell shows a row's color pips, with the guild or shard name in small
+// text beside a multi-color group.
+function ColorCell({ color }) {
+  const name = colorName(color.color)
+  let label = null
+  if (color.color.length > 1 && name !== color.color) {
+    label = <span className="stats-muted-small colors-group-name">{name}</span>
+  }
+  return (
+    <td className="stats-narrow-cell">
+      <span className="colors-group-cell">{ColorImages(color.color)}{label}</span>
+    </td>
+  )
+}
+
+// BayesWinPercentCell shows a color's Bayesian win rate, with its difference
+// from the cube average on hover.
 function BayesWinPercentCell({ color }) {
   if (color.win_percent_low == null) {
     return <td>{color.bayesian_win_percent.toFixed(0)}%</td>
   }
 
-  let style = undefined
-  const rows = []
-
-  // Include the delta from cube average in the hover stats as well.
-  let sign = ""
-  const delta = color.bayesian_win_percent - CUBE_AVG_WIN_PERCENT
-  if (delta >= 0) {
-    sign = "+"
-  }
-
-  rows.push({
-    label: "vs Cube Average",
-    value: sign + delta.toFixed(0) + "%",
-  })
-
-  let value = color.bayesian_win_percent.toFixed(0) + "%"
-
+  const rows = [{
+    label: COLORS_COPY.statsTable.vsCubeAverage,
+    value: vsAverageText(color.bayesian_win_percent),
+  }]
   return (
     <HoverStats rows={rows}>
-      <td style={style}>{value}</td>
+      <td>{color.bayesian_win_percent.toFixed(0)}%</td>
     </HoverStats>
   )
 }
-
 
 // WinPercentCell shows a color's win rate, greyed when it can't be told apart
 // from a coin flip, with the confidence interval on hover.
@@ -180,31 +192,22 @@ function WinPercentCell({ color }) {
     style = { color: "var(--se-muted)" }
     verdict = COLORS_COPY.statsTable.notDistinguishable
   }
-  const rows = [{
-    label: COLORS_COPY.statsTable.winIntervalLabel,
-    value: COLORS_COPY.statsTable.winInterval({
-      low: color.win_percent_low.toFixed(0),
-      high: color.win_percent_high.toFixed(0),
-    }),
-  }]
-
-  // Include the delta from cube average in the hover stats as well.
-  let sign = ""
-  const delta = color.win_percent - CUBE_AVG_WIN_PERCENT
-  if (delta >= 0) {
-    sign = "+"
-  }
-
-  rows.push({
-    label: "vs Cube Average",
-    value: sign + delta.toFixed(0) + "%",
-  })
-
-  let value = color.win_percent.toFixed(0) + "%"
-
+  const rows = [
+    {
+      label: COLORS_COPY.statsTable.winIntervalLabel,
+      value: COLORS_COPY.statsTable.winInterval({
+        low: color.win_percent_low.toFixed(0),
+        high: color.win_percent_high.toFixed(0),
+      }),
+    },
+    {
+      label: COLORS_COPY.statsTable.vsCubeAverage,
+      value: vsAverageText(color.win_percent),
+    },
+  ]
   return (
     <HoverStats rows={rows} footer={verdict}>
-      <td style={style}>{value}</td>
+      <td style={style}>{color.win_percent.toFixed(0)}%</td>
     </HoverStats>
   )
 }
@@ -212,15 +215,11 @@ function WinPercentCell({ color }) {
 // DeltaCell shows a color's win rate above or below the cube average, signed
 // and colored good or bad.
 function DeltaCell({ color }) {
-  const delta = color.win_percent - CUBE_AVG_WIN_PERCENT
-
   let className = "negative"
-  let sign = ""
-  if (delta >= 0) {
+  if (color.win_percent >= CUBE_AVG_WIN_PERCENT) {
     className = "positive"
-    sign = "+"
   }
-  return <td className={className}>{sign + delta.toFixed(0) + "%"}</td>
+  return <td className={className}>{vsAverageText(color.win_percent)}</td>
 }
 
 // colorSortValue is the value a row sorts by for the chosen column, win rate
@@ -293,10 +292,8 @@ export function ColorStatsTable(input) {
     filtered.push(d)
   }
 
-
   const columns = shownColumns(input.info, input.colorTypeSelection)
   const sortBy = shownColorSort(input.sortBy, COLOR_COLUMNS, input.info, input.colorTypeSelection)
-  const totals = { }
 
   return (
     <div className="stats-table-wrap">
@@ -307,7 +304,7 @@ export function ColorStatsTable(input) {
               columns.map(function(hdr) {
                 return (
                   <HoverInfo key={hdr.id} title={hdr.text} info={hdr.tip}>
-                    <td style={{width: "1%", whiteSpace: "nowrap"}} onClick={input.onClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                    <td onClick={input.onClick} id={hdr.id} className="header-cell stats-narrow-cell">{hdr.text}</td>
                   </HoverInfo>
                 );
               })
@@ -319,7 +316,7 @@ export function ColorStatsTable(input) {
             filtered.map(function(color, idx) {
               return (
                 <tr key={idx} sort={colorSortValue(color, sortBy)} className="widget-table-row">
-                  {columns.map(column => column.cell(color, totals))}
+                  {columns.map(column => column.cell(color))}
                 </tr>
               );
             }).sort(SortFunc)
@@ -361,7 +358,6 @@ export function TableHeader(input) {
 
       <DropdownHeader
         label={COLORS_COPY.statsTable.bucketLabel}
-        className="dropdown"
         options={bucketNames}
         value={input.selectedBucket}
         onChange={input.onBucketSelected}
@@ -369,7 +365,6 @@ export function TableHeader(input) {
 
       <DropdownHeader
         label={COLORS_COPY.statsTable.colorModeLabel}
-        className="dropdown"
         options={[
           { label: COLORS_COPY.statsTable.modeInclusive, value: "inclusive" },
           { label: COLORS_COPY.statsTable.modeExact, value: "exact" },

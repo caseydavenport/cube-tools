@@ -51,7 +51,8 @@ const COPY = {
   creatures: "Creatures",
   interaction: "Interaction",
   avgManaValue: "Avg mana value",
-  opponentWinPercent: "Opponent win %",
+  opponentWinPercent: "Opponent strength",
+  opponentStrengthTip: "How well this deck's opponents did in their other games: a measure of how tough its pairings were, not how often it lost.",
 
   manaSymbols: "Mana symbols",
   leansInto: "Leans into",

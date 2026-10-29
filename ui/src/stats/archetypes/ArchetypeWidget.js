@@ -6,17 +6,16 @@ import React from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
 import { availableValue, visibleItems } from "../../utils/dataKinds.js"
 import { Section, SectionNav } from "../../components/PageSections.js"
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js'
-import { MacroArchetypeDeltaChart, MacroArchetypesChart, MacroArchetypesPieChart } from "./ArchetypeCharts.js"
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend } from 'chart.js'
+import { MacroArchetypeDeltaChart, MacroArchetypesChart } from "./ArchetypeCharts.js"
 import { WinsByMatchup } from "./WinsByMatchup.js"
 import { MicroArchetypesChart } from "./TagCharts.js"
-import { ArchetypeDetailsPanel, ColorPickerHeader, TopCardsInArchetypeWidget } from "./TopCardsInArchetype.js"
+import { ArchetypeDetailsPanel, TopCardsInArchetypeWidget } from "./TopCardsInArchetype.js"
 import { ArchetypeStatsTable } from "./ArchetypeStatsTable.js"
 import "../stats.css"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
-  ArcElement,
   CategoryScale,
   LinearScale,
   PointElement,
@@ -41,8 +40,6 @@ const CHART_OPTIONS = [
   { label: ARCHETYPES_COPY.widget.matchupAggro, value: "matchup_aggro", needs: ["results"] },
   { label: ARCHETYPES_COPY.widget.matchupMidrange, value: "matchup_midrange", needs: ["results"] },
   { label: ARCHETYPES_COPY.widget.matchupControl, value: "matchup_control", needs: ["results"] },
-  { label: ARCHETYPES_COPY.widget.pieBuilds, value: "pie_builds" },
-  { label: ARCHETYPES_COPY.widget.pieWins, value: "pie_wins", needs: ["results"] },
   { label: ARCHETYPES_COPY.widget.tagBuilds, value: "micro_builds" },
   { label: ARCHETYPES_COPY.widget.tagWins, value: "micro_wins", needs: ["results"] },
   { label: ARCHETYPES_COPY.widget.tagWinningPct, value: "micro_winning_pct", needs: ["results"] },
@@ -83,8 +80,6 @@ export function ArchetypeWidget(input) {
       case "matchup_aggro": return <WinsByMatchup focus="aggro" matchups={input.matchups} />;
       case "matchup_midrange": return <WinsByMatchup focus="midrange" matchups={input.matchups} />;
       case "matchup_control": return <WinsByMatchup focus="control" matchups={input.matchups} />;
-      case "pie_builds": return <MacroArchetypesPieChart parsed={input.parsed} decks={input.decks} dataset="builds" />;
-      case "pie_wins": return <MacroArchetypesPieChart parsed={input.parsed} decks={input.decks} dataset="wins" />;
       case "micro_builds": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="builds" />;
       case "micro_wins": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="wins" />;
       case "micro_winning_pct": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="winning_pct" />;
@@ -98,11 +93,6 @@ export function ArchetypeWidget(input) {
   return (
     <div className="analyze-page">
       <SectionNav sections={ARCH_SECTIONS} />
-
-      <div className="controls-panel">
-        <span className="section-heading">{ARCHETYPES_COPY.widget.colors}</span>
-        <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
-      </div>
 
       <Section id="archetypes">
         <ArchetypeStatsTable

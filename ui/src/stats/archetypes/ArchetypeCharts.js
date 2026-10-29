@@ -1,13 +1,13 @@
-// The archetype charts: share and win rate over time, change against the
-// average, and the share pie.
+// The archetype charts: share and win rate over time, and change against the
+// average.
 
 import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { MinWinningPctDecks, Pct } from "../../utils/Utils.js"
 import { bucketXScale } from "../../utils/Buckets.js"
 import { CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
-import { Line, Bar, Pie } from 'react-chartjs-2'
-import { chartTooltip, currentChartTheme, deltaFill, withAlpha, zeroLineGrid } from "../../theme/chartTheme.js"
+import { Line, Bar } from 'react-chartjs-2'
+import { chartTooltip, currentChartTheme, deltaFill, zeroLineGrid } from "../../theme/chartTheme.js"
 import { archetypeColor, macroArchetypes } from "./archetypeHelpers.js"
 import "../stats.css"
 
@@ -211,83 +211,6 @@ export function MacroArchetypesChart(input) {
   return (
     <div className="stats-widget-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
-    </div>
-  );
-}
-
-// PIE_ARCHETYPES are the archetypes the pie charts split decks into.
-const PIE_ARCHETYPES = [
-  { key: "aggro", label: ARCHETYPES_COPY.charts.aggro },
-  { key: "midrange", label: ARCHETYPES_COPY.charts.midrange },
-  { key: "control", label: ARCHETYPES_COPY.charts.control },
-]
-
-// MacroArchetypesPieChart splits decks, or wins, between the archetypes. An
-// archetype with no decks in the range is left out rather than breaking the
-// chart.
-export function MacroArchetypesPieChart(input) {
-  let stats = input.parsed.archetypeData
-
-  let title = ARCHETYPES_COPY.charts.pieDecks
-  let field = "count"
-  if (input.dataset === "wins") {
-    title = ARCHETYPES_COPY.charts.pieWins
-    field = "wins"
-  }
-
-  const labels = []
-  const graphData = []
-  const fills = []
-  const borders = []
-  for (const archetype of PIE_ARCHETYPES) {
-    const archetypeStats = stats.get(archetype.key)
-    if (!archetypeStats) {
-      continue
-    }
-    const color = archetypeColor(archetype.key)
-    labels.push(archetype.label)
-    graphData.push(archetypeStats[field])
-    fills.push(withAlpha(color, 0.35))
-    borders.push(color)
-  }
-
-  let data = {
-    labels,
-    datasets: [
-      {
-        label: title,
-        data: graphData,
-        backgroundColor: fills,
-        borderColor: borders,
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: true,
-        text: title,
-        font: {
-          size: "16pt",
-        },
-      },
-      legend: {
-        labels: {
-          font: {
-            size: "16pt",
-          },
-        },
-      },
-    },
-  };
-
-  return (
-    <div className="stats-widget-chart">
-      <Pie height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }

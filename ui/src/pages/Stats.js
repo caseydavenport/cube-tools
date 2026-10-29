@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ColorWidget } from "../stats/colors/ColorWidget.js";
 import { ArchetypeWidget } from "../stats/archetypes/ArchetypeWidget.js";
+import { ColorPickerHeader } from "../stats/archetypes/TopCardsInArchetype.js";
 import { DeckWidget } from "../stats/deckstats/DeckWidget.js";
 import { CardWidget } from "../stats/cards/CardWidget.js";
 import { SynergyWidget } from "../stats/synergy/SynergyWidget.js";
@@ -111,6 +112,16 @@ export function StatsViewer(props) {
     colorAdjust, setColorAdjust, synergyRecord, setSynergyRecord, synergySortBy, setSynergySortBy,
   } = filters;
 
+  // toggleColorCheckbox flips one color of the deck color filter. The
+  // checkbox's id is the color letter.
+  function toggleColorCheckbox(e) {
+    const colorMap = { W: 0, U: 1, B: 2, R: 3, G: 4 }
+    const updated = [...colorCheckboxes]
+    const index = colorMap[e.currentTarget.id]
+    updated[index] = !updated[index]
+    setColorCheckboxes(updated)
+  }
+
   const playerNames = useMemo(() => {
     let seen = new Set();
     for (let deck of decks) {
@@ -196,13 +207,7 @@ export function StatsViewer(props) {
         colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
         archetypeDropdownOptions={archetypeDropdownOptions}
         selectedArchetype={selectedArchetype} onArchetypeSelected={(e) => setSelectedArchetype(e.target.value)}
-        onColorChecked={(e) => {
-          let updated = [...colorCheckboxes];
-          const colorMap = { W: 0, U: 1, B: 2, R: 3, G: 4 };
-          updated[colorMap[e.currentTarget.id]] = !updated[colorMap[e.currentTarget.id]];
-          setColorCheckboxes(updated);
-        }}
-        colorCheckboxes={colorCheckboxes} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
+        onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
         minDrafts={minDrafts} onMinGamesSelected={(e) => setMinGames(e.target.value)}
         minDecksInArch={minGames} sortBy={sortBy} onHeaderClick={(e) => setSortBy(e.currentTarget.id)}
         handleRowClick={(e) => setSelectedArchetype(e.currentTarget.id)}
@@ -288,6 +293,13 @@ export function StatsViewer(props) {
     )
   }
 
+  // The Archetypes page filters its decks by color from the toolbar, beside
+  // the deck filter.
+  let toolbarFilters = null
+  if (props.view === "types") {
+    toolbarFilters = <ColorPickerHeader display={colorCheckboxes} onChecked={toggleColorCheckbox} />
+  }
+
   let noMatches = null
   if (noDecksMatch(props.view, decksLoaded, parsed.filteredDecks)) {
     noMatches = <EmptyState>{COPY.noMatchingDecks}</EmptyState>
@@ -300,6 +312,7 @@ export function StatsViewer(props) {
         props={props}
         filter={typingStr}
         onFilterChange={(e) => setTypingStr(e.target.value)}
+        extraFilters={toolbarFilters}
         settings={<StatsSettings filters={filters} info={info} copy={COPY} />}
         onRefresh={triggerRefresh}
         decks={parsed.filteredDecks || []}

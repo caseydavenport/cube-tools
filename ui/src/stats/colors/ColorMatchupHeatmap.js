@@ -2,7 +2,9 @@
 
 import React from 'react'
 import { HoverStats } from "../../components/kit/HoverStats.js"
+import { SectionCard } from "../../components/kit/SectionCard.js"
 import { ColorImages } from "../../utils/Colors.js"
+import { colorName } from "../../utils/colorNames.js"
 import { goodBadTint } from "../tints.js"
 import { COLORS_COPY } from "./copy.js"
 import "../stats.css"
@@ -34,7 +36,7 @@ function sideLabel(colors) {
   return (
     <span className="stats-pop-side">
       {ColorImages(colors)}
-      {COLORS_COPY.heatmap.groupNames[colors] || colors}
+      {colorName(colors)}
     </span>
   )
 }
@@ -73,14 +75,12 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
   let title = COLORS_COPY.heatmap.pairTitle;
   if (colorType === "Mono") title = COLORS_COPY.heatmap.monoTitle;
   else if (colorType === "Trio") title = COLORS_COPY.heatmap.trioTitle;
+  else if (colorType === "Any") title = COLORS_COPY.heatmap.anyTitle;
 
   return (
-    <div>
-      <h4 className="heatmap-title">
-        {title}
-      </h4>
+    <SectionCard title={title}>
       <div className="stats-table-scroll">
-        <table className="widget-table stats-table-compact">
+        <table className="widget-table stats-table-compact colors-heatmap-table">
           <thead>
             <tr>
               <td className="header-cell colors-heatmap-corner"></td>
@@ -90,7 +90,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
                   background: sortColumn === cp ? "var(--mantine-primary-color-filled)" : undefined,
                   color: sortColumn === cp ? "var(--se-page)" : undefined,
                 }} onClick={() => setSortColumn(sortColumn === cp ? null : cp)}>
-                  {COLORS_COPY.heatmap.groupNames[cp] || cp}
+                  {colorName(cp)}
                 </td>
               ))}
             </tr>
@@ -98,7 +98,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
           <tbody>
             {sortedRows.map(myColor => (
               <tr key={myColor} className="widget-table-row">
-                <td className="header-cell stats-bold">{COLORS_COPY.heatmap.groupNames[myColor] || myColor}</td>
+                <td className="header-cell stats-bold">{colorName(myColor)}</td>
                 {groups.map(oppColor => {
                   if (myColor === oppColor) {
                     return (
@@ -114,7 +114,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
                   const winPct = total > 0 ? record.win_pct : 0;
 
                   return (
-                    <HoverStats key={oppColor} title={COLORS_COPY.heatmap.cellTitle({ mine: COLORS_COPY.heatmap.groupNames[myColor], opponent: COLORS_COPY.heatmap.groupNames[oppColor] })} rows={cellRows(myColor, oppColor, wins, losses)}>
+                    <HoverStats key={oppColor} title={COLORS_COPY.heatmap.cellTitle({ mine: colorName(myColor), opponent: colorName(oppColor) })} rows={cellRows(myColor, oppColor, wins, losses)}>
                       <td style={{
                         background: cellColor(winPct, total),
                         textAlign: "center",
@@ -131,6 +131,6 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
           </tbody>
         </table>
       </div>
-    </div>
+    </SectionCard>
   );
 }

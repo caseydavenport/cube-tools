@@ -10,7 +10,7 @@ import { availableValue, hasData, visibleItems } from "../../utils/dataKinds.js"
 import { PillSearchInput } from "../../components/PillSearchInput.js"
 import { CardMatches } from "../../utils/Query.js"
 import { CARDS_COPY } from "./copy.js"
-import { BY_ARCH_COLUMNS, METADATA_COLUMNS, OVERVIEW_COLUMNS, VS_ARCH_COLUMNS, sortValue } from "./cardColumns.js"
+import { BY_ARCH_COLUMNS, METADATA_COLUMNS, OVERVIEW_COLUMNS, VS_ARCH_COLUMNS, isNewCard, sortValue } from "./cardColumns.js"
 import "../stats.css"
 
 const Interaction = CARDS_COPY.statsTable.matchInteraction
@@ -93,6 +93,31 @@ const CARD_STATS_TYPES = [
   { label: ByArchetypeType, value: ByArchetypeType, needs: ["results", "archetypes"] },
 ]
 
+// isBlank reports whether a sort value is missing, so it can sink to the bottom.
+function isBlank(value) {
+  return value === undefined || value === null || (typeof value === "number" && Number.isNaN(value))
+}
+
+// sortCards orders cards by the chosen column, descending unless sortInvert is
+// set. New cards (too few drafts to judge) and blank values always sink to the
+// bottom, whichever way the column is sorted.
+function sortCards(cards, input) {
+  const dir = input.sortInvert ? -1 : 1
+  const rows = cards.map(card => ({ card, sort: sortValue(input.sortBy, card), isNew: isNewCard(card) }))
+  rows.sort((a, b) => {
+    if (a.isNew !== b.isNew) {
+      return a.isNew ? 1 : -1
+    }
+    if (isBlank(a.sort) && isBlank(b.sort)) return 0
+    if (isBlank(a.sort)) return 1
+    if (isBlank(b.sort)) return -1
+    if (a.sort < b.sort) return dir
+    if (a.sort > b.sort) return -dir
+    return 0
+  })
+  return rows.map(row => row.card)
+}
+
 // CardStatsTable renders a list of column descriptors over the card list,
 // leaving out columns that need data the cube doesn't have.
 function CardStatsTable(cards, allColumns, input) {
@@ -115,30 +140,11 @@ function CardStatsTable(cards, allColumns, input) {
           </tr>
         </thead>
         <tbody>
-          {(() => {
-            let rows = cards.filter(card => !shouldSkip(card, input)).map(function (card) {
-              let sort = sortValue(input.sortBy, card)
-              return (
-                <tr className="widget-table-row" sort={sort} key={card.name}>
-                  {columns.map((col, ci) => col.cell(card, input, ci))}
-                </tr>
-              )
-            })
-            // Descending by default; sortInvert flips to ascending. Blank (NaN)
-            // sort values always sink to the bottom, regardless of direction.
-            const dir = input.sortInvert ? -1 : 1
-            const blank = v => v === undefined || v === null || (typeof v === "number" && Number.isNaN(v))
-            rows.sort((a, b) => {
-              const av = a.props.sort, bv = b.props.sort
-              if (blank(av) && blank(bv)) return 0
-              if (blank(av)) return 1
-              if (blank(bv)) return -1
-              if (av < bv) return dir
-              if (av > bv) return -dir
-              return 0
-            })
-            return rows
-          })()}
+          {sortCards(cards.filter(card => !shouldSkip(card, input)), input).map(card => (
+            <tr className="widget-table-row" key={card.name}>
+              {columns.map((col, ci) => col.cell(card, input, ci))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

@@ -70,11 +70,23 @@ type removalOverride struct {
 
 var removalOverrides = map[string]removalOverride{
 	// Reduced / alternate cast costs.
-	"Leyline Binding": {cost: 2}, // domain, typically ~{1}-{2} in a 5-color cube
-	"Ride's End":      {cost: 2}, // {3} less targeting a tapped permanent
+	// Leyline Binding's domain makes it about {1}-{2} in a 5-color cube.
+	"Leyline Binding": {cost: 2},
+	// Ride's End costs {3} less targeting a tapped permanent.
+	"Ride's End": {cost: 2},
+	// Fireblast's alternate cost sacrifices two Mountains, scored as two lands' worth.
+	"Fireblast": {cost: 2},
+	// Harvester of Misery is scored on its discard trigger; cast, it shrinks every other creature.
+	"Harvester of Misery": {cost: 2},
+
+	// Not spot removal: an empty profile leaves Spot false, so the page counts
+	// it as excluded. Mayhem Devil only pings when permanents are sacrificed.
+	"Mayhem Devil": {profile: &RemovalProfile{}},
+
 	// The removal is the adventure/back face (Locthwain Scorn, {1}{B}), not the
 	// {5}{B}{B} front face the printed mana value reflects.
 	"Virtue of Persistence // Locthwain Scorn": {cost: 2},
+
 	// Activated / channel removal on permanents & lands: cost is the ability, not
 	// the card's mana value.
 	"Barbarian Ring":              {cost: 1},
@@ -82,9 +94,12 @@ var removalOverrides = map[string]removalOverride{
 	"Seal of Fire":                {cost: 1},
 	"Pyrite Spellbomb":            {cost: 2},
 	"Grim Lavamancer":             {cost: 2},
+	"Twinshot Sniper":             {cost: 2},
+
 	// Effects our regexes misread.
 	"Prismatic Ending": {cost: representativeX + 1, profile: &RemovalProfile{Spot: true, Kind: "exile", MaxMV: representativeX, Restriction: fmt.Sprintf("MV ≤ %d (X≈%d)", representativeX, representativeX)}},
 	"Chainweb Aracnir": {cost: 1, profile: &RemovalProfile{Spot: true, Kind: "damage", MaxToughness: 1, FlyingOnly: true, Restriction: "toughness ≤ 1, fliers"}},
+
 	// Multi-mode: a cheap restricted mode and a pricier/looser mode, as separate rows.
 	"Bloodchief's Thirst": {modes: []removalMode{
 		{label: "base", cost: 1, profile: RemovalProfile{Spot: true, Kind: "destroy", MaxMV: 2, Restriction: "MV ≤ 2"}},

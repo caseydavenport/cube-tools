@@ -33,7 +33,7 @@ export function PlayerSummaryCard({ row, playerId, editable, onRenamed, copy }) 
         <StatTile label={copy.gamesTile} value={row.games} />
         <StatTile label={copy.trophies} value={row.trophies} />
         <StatTile label={copy.lastPlace} value={row.last_place} />
-        <StatTile label={copy.opponentWinPercent} value={percent(row.opponent_win_percentage)} />
+        <StatTile label={copy.opponentWinPercent} value={percent(row.opponent_win_percentage)} tip={copy.opponentStrengthTip} />
       </div>
     </>
   )

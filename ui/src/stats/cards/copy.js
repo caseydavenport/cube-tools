@@ -2,6 +2,9 @@
 // touching component code. One key per component file; text with values in it
 // is a function that takes named values and returns the whole sentence.
 
+// ELO_TIP explains both Elo columns at once, since they read best side by side.
+const ELO_TIP = "Two chess-style ratings, both starting at 1200. Pick ELO rises each time a deck plays this card over a card of the same colors it left in the sideboard, so it measures what drafters choose. Match ELO rises when decks with this card beat stronger decks, so it measures what wins. A gap between the two means drafters value the card more or less than its results do."
+
 export const CARDS_COPY = {
   // CardWidget.js: the page's section names and headings.
   widget: {
@@ -46,14 +49,14 @@ export const CARDS_COPY = {
   // cardColumns.js: table headers (text), their hover text (tip), and the
   // popovers on the name, Deck%, and Win% cells.
   columns: {
-    colorIdentity: { text: "Color Identity", tip: "Color identity of the card." },
+    colorIdentity: { text: "Colors", tip: "Color identity of the card." },
     card: { text: "Card", tip: "Card name. Click a row cell to focus the card in the graphs below." },
     games: { text: "# Games", tip: "Number of games played by decks that included this card." },
     deckPct: { text: "Deck%", tip: "Percentage of drafts this card is mainboarded. Hover for exact board counts." },
     winPct: { text: "Win%", tip: "Win rate of decks that mainboard this card. Greyed when it can't be told apart from a coin flip at the chosen confidence. Hover for the confidence interval and record." },
     deltaExp: { text: "Δ Exp", tip: "Win% minus expected win% - how the card over/underperforms relative to the players who ran it." },
-    pickElo: { text: "Pick ELO", tip: "An ELO ranking based on card pick order in packs." },
-    matchElo: { text: "Match ELO", tip: "An ELO ranking computed from match results, weighted by opponent strength." },
+    pickElo: { text: "Pick ELO", tip: ELO_TIP },
+    matchElo: { text: "Match ELO", tip: ELO_TIP },
     lastPlayed: { text: "Last played", tip: "Date of the draft this card was last mainboarded." },
     words: { text: "Words", tip: "Words in the card's oracle text, excluding reminder text." },
     tags: { text: "# Tags", tip: "Number of unique tags on decks that have mainboarded this card." },

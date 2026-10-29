@@ -241,10 +241,13 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 
 	// totalCards is inflated the same way per-color counts are: in inclusive
 	// mode a WU deck contributes its cards to W, U, and WU buckets, so
-	// TotalPickPercentage sums to 100% across all rows. PercentOfWins is
-	// normalized per identity length (see below) so each view — mono, dual,
-	// tri — sums to 100% on its own.
+	// TotalPickPercentage sums to 100% across all rows.
 	totalCards := 0
+
+	// totalWins counts each decisive game once. PercentOfWins divides by it,
+	// so only exact mode sums to 100%: inclusive counts a deck in several rows,
+	// and primary drops decks without a primary pair.
+	totalWins := 0
 	for _, deck := range decks {
 		var colors []types.ColorIdentity
 		var strict bool
@@ -264,6 +267,8 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			logrus.WithField("color_mode", sr.ColorMode).Warn("invalid color mode")
 			return nil
 		}
+
+		totalWins += deck.GameWins()
 
 		// Add this deck's stats to each matching color identity.
 		for _, colorID := range colors {
@@ -358,13 +363,6 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		}
 	}
 
-	// Normalize PercentOfWins within each identity length so the column sums
-	// to 100% in mono, dual, and tri views independently.
-	winsByLen := make(map[int]int)
-	for _, color := range resp.Data {
-		winsByLen[len(color.Color)] += color.Wins
-	}
-
 	// Summarize resp.Data stats and calculate percentages.
 	z := zForConfidence(sr.Confidence)
 	for _, color := range resp.Data {
@@ -390,7 +388,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			"losses":      color.Losses,
 			"win_percent": color.WinPercent,
 		}).Debug("Color win percentage")
-		color.PercentOfWins = pct(float64(color.Wins), float64(winsByLen[len(color.Color)]))
+		color.PercentOfWins = pct(float64(color.Wins), float64(totalWins))
 	}
 
 	return resp

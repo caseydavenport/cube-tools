@@ -328,8 +328,8 @@ export function ExplorePage(props) {
   useComputedColorScheme("light")
   const [refresh, setRefresh] = useState(1)
 
-  const [groupBy, setGroupBy] = useState({ dim: "color", granularity: 1, color_mode: "exact" })
-  const [splitBy, setSplitBy] = useState({ dim: "", granularity: 1, color_mode: "exact" })
+  const [groupBy, setGroupBy] = useState({ dim: "color", granularity: 1, color_mode: "inclusive" })
+  const [splitBy, setSplitBy] = useState({ dim: "", granularity: 1, color_mode: "inclusive" })
   const [metric, setMetric] = useState("win_pct")
   const [confidence, setConfidence] = useState("0.95")
   const [bucketSize, setBucketSize] = useState(3)

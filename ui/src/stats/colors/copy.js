@@ -33,6 +33,10 @@ export const COLORS_COPY = {
       text: "Win %",
       tip: "Percentage of games played by this color/colors that were wins. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
     },
+    bayesWinPct: {
+      text: "Bayes Win %",
+      tip: "Win rate pulled toward the cube average in proportion to how few games a row has, so a color with one lucky deck doesn't top the table. Hover for the difference from average.",
+    },
     delta: {
       text: "vs avg",
       tip: "Win rate relative to the cube-wide average (50%). Positive (green) means this color wins more than its share of games; negative (red) means it loses more.",
@@ -43,7 +47,7 @@ export const COLORS_COPY = {
     },
     percentOfWins: {
       text: "% of wins",
-      tip: "Share of wins among rows of this same identity length (mono, dual, tri). Sums to ~100% within each view.",
+      tip: "This row's share of every game won in the cube. In Exact mode each deck counts in one row, so with Any selected the rows add up to 100%. Primary pair mode leaves out mono-color decks and decks with no clear main pair, so its rows add up to less. In Inclusive mode a deck counts toward every row its colors cover, so the rows add up to more than 100%.",
     },
     victoryPointPct: {
       text: "Victory point %",
@@ -82,6 +86,7 @@ export const COLORS_COPY = {
     distinguishable: "distinguishable from 50%",
     winInterval: ({ low, high }) => `${low}–${high}%`,
     winIntervalLabel: "Win % interval",
+    vsCubeAverage: "vs cube average",
 
     colorTypeLabel: "Color type",
     bucketLabel: "Bucket",
@@ -116,20 +121,12 @@ export const COLORS_COPY = {
     bayesWinTitle: (bucketSize) => `Bayesian win % (bucket size = ${bucketSize} drafts)`,
   },
 
-  // ColorMatchupHeatmap.js: the heatmap's title, color group names, and cell popover.
+  // ColorMatchupHeatmap.js: the heatmap's title and cell popover.
   heatmap: {
-    monoTitle: "Mono-Color Matchup Heatmap",
-    trioTitle: "Trio-Color Matchup Heatmap",
-    pairTitle: "Color Pair Matchup Heatmap",
-
-    // Keyed by color letters, the way the matchup data is.
-    groupNames: {
-      W: "White", U: "Blue", B: "Black", R: "Red", G: "Green",
-      WU: "Azorius", WB: "Orzhov", WR: "Boros", WG: "Selesnya",
-      UB: "Dimir", UR: "Izzet", UG: "Simic", BR: "Rakdos", BG: "Golgari", RG: "Gruul",
-      WUB: "Esper", WUR: "Jeskai", WUG: "Bant", WBR: "Mardu", WBG: "Abzan",
-      WRG: "Naya", UBR: "Grixis", UBG: "Sultai", URG: "Temur", BRG: "Jund",
-    },
+    monoTitle: "Matchups by color",
+    pairTitle: "Matchups by color pair",
+    trioTitle: "Matchups by three-color group",
+    anyTitle: "Matchups by color group",
 
     cellTitle: ({ mine, opponent }) => `${mine} vs ${opponent}`,
     cellRecord: ({ wins, losses, total }) => `${wins}W - ${losses}L (${total} games)`,

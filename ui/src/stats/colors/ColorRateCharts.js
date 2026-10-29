@@ -253,11 +253,9 @@ export function ColorRateChart(input) {
       break;
   }
 
-  let title = "UNKNOWN"
+  // Build % is the fallback, matching the data loop above.
+  let title = COLORS_COPY.rateCharts.buildsTitle(input.bucketSize)
   switch (input.dataset) {
-    case "builds":
-      title = COLORS_COPY.rateCharts.buildsTitle(input.bucketSize)
-      break;
     case "wins":
       title = COLORS_COPY.rateCharts.winsTitle(input.bucketSize)
       break;

@@ -34,7 +34,7 @@ export const RULES_COPY = {
     vitalCards: "cards",
     vitalGroups: "groups",
     vitalLinks: "links",
-    vitalEdges: "card edges",
+    vitalEdges: "linked card pairs",
     coverageHeading: "Group coverage",
     coverageMeasuring: "measuring…",
     coverage: ({ grouped, total, pct }) => `${grouped} of ${total} cards in at least one group (${pct}%)`,

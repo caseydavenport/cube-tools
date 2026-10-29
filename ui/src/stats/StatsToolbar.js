@@ -23,8 +23,9 @@ function SummaryLine({ decks, copy }) {
 // the date range menu, the deck filter, and a summary of what they let
 // through; its actions are Refresh and a settings popover holding settings.
 // props are the app-wide date props; filterSuggestions feeds the filter's
-// autocomplete with card, player, and archetype names.
-export function StatsToolbar({ title, props, filter, onFilterChange, settings, onRefresh, decks, filterSuggestions, copy }) {
+// autocomplete with card, player, and archetype names. extraFilters is any
+// page-specific filter to show after the deck filter.
+export function StatsToolbar({ title, props, filter, onFilterChange, extraFilters, settings, onRefresh, decks, filterSuggestions, copy }) {
   const actions = (
     <>
       <ActionIcon variant="default" size="md" aria-label={copy.refresh} onClick={onRefresh}>
@@ -45,6 +46,7 @@ export function StatsToolbar({ title, props, filter, onFilterChange, settings, o
         archetypes={filterSuggestions.archetypes}
         onChange={onFilterChange}
       />
+      {extraFilters}
       <SummaryLine decks={decks} copy={copy} />
     </PageToolbar>
   )

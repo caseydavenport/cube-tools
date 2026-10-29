@@ -9,6 +9,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func makeColorDeck(player string, colors []string, games []types.Game, matches []types.Match, mainboard []types.Card) *storage.Deck {
@@ -173,12 +174,10 @@ func TestColorStats_BuildPercent(t *testing.T) {
 	assert.InDelta(t, 33.0, blue.BuildPercent, 0.5)
 }
 
-// In inclusive mode a WU deck contributes to W, U, and WU rows. The
-// denominator must inflate the same way, so PercentOfWins and
-// TotalPickPercentage actually sum to ~100% across rows. Small drift comes
-// from per-row math.Round and is bounded by the number of rows.
-func TestColorStats_InclusivePercentagesSumTo100(t *testing.T) {
-	decks := []*storage.Deck{
+// percentDecks returns three decks with 4 decisive wins between them: a WU
+// deck with 1 win, an R deck with 1 win, and a BG deck with 2 wins.
+func percentDecks() []*storage.Deck {
+	return []*storage.Deck{
 		makeColorDeck("Alice", []string{"W", "U"},
 			[]types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Bob", Winner: "Bob"}},
 			nil,
@@ -201,27 +200,51 @@ func TestColorStats_InclusivePercentagesSumTo100(t *testing.T) {
 				{Name: "Dark Ritual", Colors: []string{"B"}},
 			}),
 	}
+}
 
+// getColorStats serves a colors request over decks in the given color mode.
+func getColorStats(t *testing.T, decks []*storage.Deck, mode string) ColorStatsResponse {
+	t.Helper()
 	handler := &colorStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=inclusive", nil)
 	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
+	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode="+mode, nil))
 
 	var resp ColorStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	return resp
+}
 
-	// PercentOfWins is normalized per identity length, so sum across each
-	// length should be ~100% independently.
-	winsByLen := map[int]float64{}
+// In inclusive mode a deck counts toward every color it plays, but each row
+// still divides by all 4 wins in the decks, so the BG deck's 2 wins make B,
+// G and BG each 50%, and the column sums past 100%.
+func TestColorStats_InclusivePercentOfWinsUsesAllWins(t *testing.T) {
+	resp := getColorStats(t, percentDecks(), "inclusive")
+
+	assert.InDelta(t, 25.0, resp.All.Data["W"].PercentOfWins, 0.5)
+	assert.InDelta(t, 25.0, resp.All.Data["WU"].PercentOfWins, 0.5)
+	assert.InDelta(t, 25.0, resp.All.Data["R"].PercentOfWins, 0.5)
+	assert.InDelta(t, 50.0, resp.All.Data["G"].PercentOfWins, 0.5)
+	assert.InDelta(t, 50.0, resp.All.Data["BG"].PercentOfWins, 0.5)
+}
+
+// In exact mode each deck belongs to one row, so the rows split all the wins
+// between them and sum to 100%.
+func TestColorStats_ExactPercentOfWinsSumsTo100(t *testing.T) {
+	resp := getColorStats(t, percentDecks(), "exact")
+
+	sum := 0.0
 	for _, c := range resp.All.Data {
-		winsByLen[len(c.Color)] += c.PercentOfWins
+		sum += c.PercentOfWins
 	}
-	for l, sum := range winsByLen {
-		assert.InDelta(t, 100.0, sum, 1.0, "PercentOfWins sum for length %d: %v", l, sum)
-	}
+	assert.InDelta(t, 100.0, sum, 1.0)
+}
 
-	// TotalPickPercentage still sums to ~100% across all rows.
+// In inclusive mode a WU deck contributes its cards to W, U, and WU rows, and
+// the card total inflates the same way, so TotalPickPercentage still sums to
+// about 100%. Small drift comes from per-row rounding.
+func TestColorStats_InclusivePickPercentagesSumTo100(t *testing.T) {
+	resp := getColorStats(t, percentDecks(), "inclusive")
+
 	sumPicks := 0.0
 	for _, c := range resp.All.Data {
 		sumPicks += c.TotalPickPercentage
