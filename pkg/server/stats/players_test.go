@@ -29,6 +29,7 @@ func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 		{Opponent: "Bob", Winner: "Alice"},
 	})
 	d1.OpponentWinPercentage = 60
+	d1.RatedOpponents = 3
 
 	d2 := &storage.Deck{}
 	d2.Player = "Alice"
@@ -39,6 +40,7 @@ func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 		{Opponent: "Eve", Winner: "Eve"},
 	})
 	d2.OpponentWinPercentage = 40
+	d2.RatedOpponents = 1
 
 	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: []*storage.Deck{d1, d2}}, testCubeSource{})}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/players", nil)
@@ -53,6 +55,29 @@ func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 	assert.NotNil(t, alice)
 	// Weighted: round((60*3 + 40*1) / 4) = round(55) = 55
 	assert.InDelta(t, 55.0, alice.OpponentWinPercent, 0.5)
+}
+
+func TestPlayerStats_OpponentWinPercent_SkipsUnratedDecks(t *testing.T) {
+	// A deck with no rated opponents, from an old record or a two-player
+	// draft, has an unknown opponent win % that reads as 0. Averaging it in
+	// would drag the player down to 30.
+	named := &storage.Deck{}
+	named.Player = "Ozzy"
+	named.Matches = []types.Match{{Opponent: "Stevie", Wins: 2, Losses: 1}}
+	named.OpponentWinPercentage = 60
+	named.RatedOpponents = 1
+
+	unnamed := &storage.Deck{}
+	unnamed.Player = "Ozzy"
+	unnamed.Matches = []types.Match{{Wins: 2, Losses: 1}}
+
+	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: []*storage.Deck{named, unnamed}}, testCubeSource{})}
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/players", nil))
+
+	var resp PlayerStatsResponse
+	assert.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	assert.InDelta(t, 60.0, resp.Players["Ozzy"].OpponentWinPercent, 0.5)
 }
 
 // --- Basic aggregation ---

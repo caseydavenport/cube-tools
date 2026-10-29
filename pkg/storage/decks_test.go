@@ -172,6 +172,19 @@ func TestProcess_OpponentWinPercentage(t *testing.T) {
 	// Alice's opponent is Bob. Bob's games excluding vs Alice: vs Charlie (won 1, lost 1) = 50%.
 	// OWP = round(100 * 0.5) = 50
 	assert.InDelta(t, 50.0, alice.OpponentWinPercentage, 0.5)
+	assert.Equal(t, 1, alice.RatedOpponents)
+}
+
+// In a two-player draft the opponent has no other games to rate them by, so
+// the deck has no rated opponents and its 0% means unknown, not weak.
+func TestProcess_RatedOpponentsSkipsOpponentWithNoOtherGames(t *testing.T) {
+	ozzy := makeStorageDeck("Ozzy", 1, "2024-01-01", []types.Game{{Opponent: "Stevie", Winner: "Ozzy"}}, []types.Match{{Opponent: "Stevie", Winner: "Ozzy"}}, nil)
+	stevie := makeStorageDeck("Stevie", 1, "2024-01-01", []types.Game{{Opponent: "Ozzy", Winner: "Ozzy"}}, []types.Match{{Opponent: "Ozzy", Winner: "Ozzy"}}, nil)
+
+	Enrich([]*Deck{ozzy, stevie})
+
+	assert.Equal(t, 0, ozzy.RatedOpponents)
+	assert.Equal(t, 0.0, ozzy.OpponentWinPercentage)
 }
 
 // Playing the same opponent twice (e.g. round 1 and a finals rematch) used to

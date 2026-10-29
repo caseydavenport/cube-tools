@@ -54,3 +54,11 @@ test("playerNameMatches takes the whole name, ignoring case and quotes", () => {
   assert.equal(playerNameMatches("Joan Jett", "Joan"), false)
   assert.equal(playerNameMatches("Joan Jett", '"joan jett"'), true)
 })
+
+test("recordsByOpponent skips games with no named opponent", () => {
+  const decks = [{ games: [
+    { opponent: "", winner: "Joan" },
+    { opponent: "Ozzy", winner: "Joan" },
+  ] }]
+  assert.deepEqual(recordsByOpponent(decks), [{ name: "Ozzy", wins: 1, losses: 0, ties: 0 }])
+})

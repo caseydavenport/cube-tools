@@ -10,6 +10,7 @@ import {
   leansInto,
   listSummary,
   matchRows,
+  opponentStrengthText,
   resolveSelectedDeck,
   sortDecks,
 } from "./deckModel.js"
@@ -156,4 +157,12 @@ test("deckCounts counts cards, creatures, and interaction", () => {
     { name: "Opt", types: ["Instant"], oracle_text: "Scry 1. Draw a card." },
   ]
   assert.deepEqual(deckCounts(cards, ["destroy target"]), { cards: 3, creatures: 1, interaction: 1 })
+})
+
+test("opponent strength shows the percent when an opponent was rated", () => {
+  assert.equal(opponentStrengthText({ opponent_win_percentage: 42, rated_opponents: 2 }), "42%")
+})
+
+test("opponent strength shows a dash when no opponent could be rated", () => {
+  assert.equal(opponentStrengthText({ opponent_win_percentage: 0, rated_opponents: 0 }), "–")
 })

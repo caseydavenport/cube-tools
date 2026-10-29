@@ -29,6 +29,11 @@ type Deck struct {
 	// The average win percentage of this deck's opponents, excluding games against this deck.
 	OpponentWinPercentage float64 `json:"opponent_win_percentage"`
 
+	// RatedOpponents counts the opponents OpponentWinPercentage averages over:
+	// those found in the draft with games against someone else. Zero means the
+	// percentage is unknown, not 0%.
+	RatedOpponents int `json:"rated_opponents"`
+
 	// The size of the draft, used for filtering.
 	DraftSize int `json:"draft_size"`
 

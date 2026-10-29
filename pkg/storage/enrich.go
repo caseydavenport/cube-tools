@@ -54,6 +54,7 @@ func Enrich(decks []*Deck) {
 				percentages = append(percentages, float64(wins)/float64(games))
 			}
 		}
+		d.RatedOpponents = len(percentages)
 		if len(percentages) > 0 {
 			total := 0.0
 			for _, p := range percentages {

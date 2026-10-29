@@ -1,7 +1,7 @@
 import React from "react"
 import { StatTile } from "../components/kit/StatTile.js"
 import { CounterspellMatches, RemovalMatches } from "../utils/cardMatches.js"
-import { deckCounts } from "./deckModel.js"
+import { deckCounts, opponentStrengthText } from "./deckModel.js"
 
 const INTERACTION_PHRASES = RemovalMatches.concat(CounterspellMatches)
 
@@ -22,7 +22,7 @@ export function DeckStatTiles({ deck, copy }) {
       <StatTile label={copy.creatures} value={counts.creatures} />
       <StatTile label={copy.interaction} value={counts.interaction} />
       <StatTile label={copy.avgManaValue} value={avgManaValue} />
-      <StatTile label={copy.opponentWinPercent} value={`${deck.opponent_win_percentage}%`} />
+      <StatTile label={copy.opponentWinPercent} value={opponentStrengthText(deck)} />
     </div>
   )
 }

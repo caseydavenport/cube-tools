@@ -130,15 +130,16 @@ export function PlayerData(decks) {
     row.loss_percent = Math.round(row.losses / (row.wins + row.losses) * 100)
     row.games = row.wins + row.losses
 
-    // Take an average of the opponent win percentages this player has faced.
+    // Average the opponent win percentages this player has faced, weighted by
+    // how many opponents each deck's figure covers, as the server does.
     let total = 0.0
     let count = 0
     for (let d of row.decks) {
-      if (d.opponent_win_percentage == 0) {
+      if (!d.rated_opponents) {
         continue
       }
-      total += d.opponent_win_percentage
-      count += 1
+      total += d.opponent_win_percentage * d.rated_opponents
+      count += d.rated_opponents
     }
     if (count > 0) {
       total /= count

@@ -330,3 +330,13 @@ export function deckCounts(cards, interactionPhrases) {
   }
   return { cards: cards.length, creatures, interaction }
 }
+
+// opponentStrengthText is the deck's opponent win % for its stat tile, or a
+// dash when the server had no opponent to rate, such as an old record with no
+// opponent named or a two-player draft. Their 0% would look like a real number.
+export function opponentStrengthText(deck) {
+  if (!deck.rated_opponents) {
+    return "–"
+  }
+  return `${deck.opponent_win_percentage}%`
+}

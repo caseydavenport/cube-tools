@@ -105,7 +105,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		if _, ok := owpAccum[deck.Player]; !ok {
 			owpAccum[deck.Player] = &opponentWinAccum{}
 		}
-		matches := len(deck.Matches)
+		matches := deck.RatedOpponents
 		if matches > 0 {
 			owpAccum[deck.Player].weightedSum += deck.OpponentWinPercentage * float64(matches)
 			owpAccum[deck.Player].totalMatches += matches
