@@ -5,6 +5,9 @@ import { ColorImages } from "../utils/Colors.js"
 import { InDeckColor } from "../utils/Deck.js"
 import { decklistColumns } from "./decklist.js"
 import "../components/kit/popover.css"
+import { Link } from "react-router-dom"
+import { useCube } from "../contexts/CubeContext.js"
+import { cardPageHref } from "../shell/paths.js"
 
 // linkedInDeck returns the names of the cards in this list that a card links to
 // in the design map. synergy maps each card name to its links; present is the
@@ -50,6 +53,7 @@ function rowClassName(card, { deck, sideboard, matchStr, hovered, linked }) {
 // DecklistRow is one card in a column: its mana icons and name, linking to the
 // card's page. Hovering it reports the card up, for the synergy lines.
 function DecklistRow({ entry, highlight, onHover, registerNode }) {
+  const cube = useCube()
   const card = entry.card
   let text = card.name
   if (entry.copies > 1) {
@@ -57,18 +61,16 @@ function DecklistRow({ entry, highlight, onHover, registerNode }) {
   }
 
   return (
-    <a
+    <Link
       ref={el => registerNode(card.name, el)}
       className={rowClassName(card, highlight)}
-      href={card.url}
-      target="_blank"
-      rel="noopener noreferrer"
+      to={cardPageHref(cube, card.name)}
       onMouseEnter={() => onHover(card.name)}
       onMouseLeave={() => onHover(null)}
     >
       <span className="decklist-pip">{ColorImages(card.colors)}</span>
       <span className="decklist-name">{text}</span>
-    </a>
+    </Link>
   )
 }
 

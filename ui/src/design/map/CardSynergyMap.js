@@ -6,6 +6,7 @@ import { useCube } from "../../contexts/CubeContext.js"
 import { buildDeckSubgraph, rankByDegree, dominantLabel } from "../../utils/DeckGraph"
 import { RULE_COLORS, ruleColor } from "./ruleColors.js"
 import { edgeColorFor, editorHref } from "./designData.js"
+import { CardPageIcon } from "../../components/CardLink.js"
 import { cardColor } from "../../components/map/nodeColors.js"
 import { MapView } from "../../components/map/MapView.js"
 import { buildMapGraph, findCommunities, groupCommunities } from "../../components/map/mapGraph.js"
@@ -179,6 +180,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
           <div className="dm-panel dm-deckmap-stats">
             <div className="dm-linked-head">
               <span className="dm-legend-name">{selected}</span>
+              <CardPageIcon cube={cube} name={selected} className="dm-editor-link" />
               <a className="dm-editor-link" href={editorHref(cube, selected)} target="_blank" rel="noopener noreferrer" title={MAP_COPY.cardSynergyMap.openInEditor}>⧉</a>
             </div>
             {linkedTo.length === 0 ? (
@@ -190,6 +192,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
                   <div key={n.card} className="dm-legend-row dm-legend-static">
                     <span className="dm-legend-name">{n.card}</span>
                     <span className="dm-legend-count">{n.weight}</span>
+                    <CardPageIcon cube={cube} name={n.card} className="dm-editor-link" />
                     <a className="dm-editor-link" href={editorHref(cube, selected, n.card)} target="_blank" rel="noopener noreferrer" title={MAP_COPY.cardSynergyMap.compareInEditor({ card: selected })}>⧉</a>
                   </div>
                 ))}

@@ -9,11 +9,9 @@ export const CARDS_COPY = {
   // CardWidget.js: the page's section names and headings.
   widget: {
     sectionStats: "Stats",
-    sectionTrends: "Trends",
     sectionPlots: "Plots",
     sectionPickOrder: "Pick Order",
     statsHeading: "Card Stats",
-    trendsHeading: "Trends",
     plotsHeading: "Plots",
     pickOrderHeading: "Pick Order",
   },
@@ -130,30 +128,6 @@ export const CARDS_COPY = {
     yAxisLabel: "Y Axis",
     title: ({ y, x }) => `${y} vs. ${x} (all drafts)`,
     pointLabel: ({ card, x, xValue, y, yValue }) => `${card}: ${x} ${xValue}, ${y} ${yValue}`,
-  },
-
-  // CardTrendCharts.js: the three Trends charts.
-  trendCharts: {
-    pickRateEmpty: "Select a card to chart its play rate over time.",
-    eloEmpty: "Select a card to chart its ELO over time.",
-    winRateEmpty: "Select a card to chart its win rate over time.",
-
-    mainboardLabel: "Mainboard %",
-    sideboardLabel: "Sideboard %",
-    playableSideboardLabel: "Playable sb %",
-    pickRateTitle: ({ name, bucketSize }) => `${name} % (bucket size = ${bucketSize} drafts)`,
-    pickRateAxis: "Pick %",
-
-    eloLabel: "ELO",
-    eloTitle: ({ name, bucketSize }) => `${name} ELO (bucket size = ${bucketSize} drafts)`,
-    eloAxis: "Pick ELO",
-
-    winLabel: "Win %",
-    allWinsLabel: "% of all Wins",
-    winRateTitle: ({ name, bucketSize }) => `${name} win % (bucket size = ${bucketSize} drafts)`,
-    winRateAxis: "Win %",
-
-    datesAxis: "Dates",
   },
 
   // PickOrder.js: the Pick Order table, its filters, and the pick popover.

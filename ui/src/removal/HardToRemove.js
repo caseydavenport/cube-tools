@@ -7,6 +7,8 @@ import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { ColorImages } from "../utils/Colors.js"
 import { hardToRemoveRows } from "./scatterPoints.js"
+import { CardLink } from "../components/CardLink.js"
+import { useCube } from "../contexts/CubeContext.js"
 
 // COLOR_NAMES name the page's color filter in the table's description.
 const COLOR_NAMES = { W: "white", U: "blue", B: "black", R: "red", G: "green" }
@@ -39,6 +41,7 @@ function answeredByTip(color) {
 // HardToRemove lists the cube's creatures by how many spot-removal cards can
 // kill them. color is the page's color filter, "" for all colors.
 export function HardToRemove({ creatures, byColor, removalCards, color }) {
+  const cube = useCube()
   const total = removalCardsFor(color, byColor, removalCards)
 
   return (
@@ -58,7 +61,7 @@ export function HardToRemove({ creatures, byColor, removalCards, color }) {
           <tbody>
             {hardToRemoveRows(creatures, color).map(creature => (
               <tr key={creature.name} className="widget-table-row">
-                <td className="header-cell stats-bold">{creature.name}</td>
+                <td className="header-cell stats-bold"><CardLink cube={cube} name={creature.name} /></td>
                 <td>{ColorImages(creature.colors || [])}</td>
                 <td className="page-right-cell">{creature.mv}</td>
                 <td className="page-right-cell">{creature.answers[color] || 0} of {total}</td>

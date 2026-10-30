@@ -6,6 +6,7 @@ import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { HoverStats } from "../../components/kit/HoverStats.js"
 import { ColorImages } from "../../utils/Colors.js"
 import { CardMainboardTooltipContent } from "./CardTooltip.js"
+import { CardLink } from "../../components/CardLink.js"
 import { NEW_CARD_DRAFTS, isNewCard as isNewDraftCount } from "../../cards/newCard.js"
 import { CARDS_COPY } from "./copy.js"
 import "../stats.css"
@@ -154,13 +155,14 @@ function newCardBadge(card) {
   return <span className="cards-new-badge" title={tip}>new</span>
 }
 
-// cardNameCell renders the clickable card name with a "played by" popover, plus a
-// link that opens the decks which mainboarded the card in a new tab.
+// cardNameCell renders the card name, linking to its card page, with a "played
+// by" popover, plus a link that opens the decks which mainboarded the card in a
+// new tab.
 function cardNameCell(card, input, key) {
   return (
     <HoverInfo key={key} title={CARDS_COPY.columns.playedByTitle} info={<CardMainboardTooltipContent card={card} info={input.info} />} position="right">
       <td id={card.name} onClick={input.onCardSelected}>
-        <a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a>
+        <CardLink cube={currentCubeId()} name={card.name} onClick={(e) => e.stopPropagation()} />
         {newCardBadge(card)}
         {" "}
         <a className="deck-link" href={deckLinkHref(card, input)} target="_blank" rel="noopener noreferrer"

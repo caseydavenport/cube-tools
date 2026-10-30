@@ -8,6 +8,8 @@ import { ruleColor } from '../map/ruleColors.js'
 import { cardRefName } from '../../utils/DesignRules.js'
 import { Loom, bridgeLoom } from "../Loom.js"
 import { RULES_COPY } from "./copy.js"
+import { CardLink } from "../../components/CardLink.js"
+import { useCube } from "../../contexts/CubeContext.js"
 
 // CompareDetail traces the links between two specific cards: the two card images
 // flank a loom of the group-to-group bridges that connect them, colored by rule.
@@ -15,6 +17,7 @@ export function CompareDetail({
   focal, vs, between, nodeByName, cardGroups, groupIndex, packageIndex,
   canEdit, onSelectGroup, onSelectPackage, onEditPackage, onSwap, onClear,
 }) {
+  const cube = useCube()
   const { left, right, threads } = bridgeLoom(between, groupIndex, packageIndex, onSelectGroup)
 
   return (
@@ -31,7 +34,7 @@ export function CompareDetail({
       <div className="de-compare">
         <figure className="de-compare-card">
           <img src={CardImageURL({ name: focal })} alt={focal} />
-          <figcaption>{nodeByName[focal] && <span className="de-pips">{ColorImages(nodeByName[focal].colors)}</span>}{focal}</figcaption>
+          <figcaption>{nodeByName[focal] && <span className="de-pips">{ColorImages(nodeByName[focal].colors)}</span>}<CardLink cube={cube} name={focal} /></figcaption>
         </figure>
         <div className="de-compare-mid">
           {between.length === 0 && <div className="de-empty">{RULES_COPY.compare.noPackages}</div>}
@@ -39,7 +42,7 @@ export function CompareDetail({
         </div>
         <figure className="de-compare-card">
           <img src={CardImageURL({ name: vs })} alt={vs} />
-          <figcaption>{nodeByName[vs] && <span className="de-pips">{ColorImages(nodeByName[vs].colors)}</span>}{vs}</figcaption>
+          <figcaption>{nodeByName[vs] && <span className="de-pips">{ColorImages(nodeByName[vs].colors)}</span>}<CardLink cube={cube} name={vs} /></figcaption>
         </figure>
       </div>
 

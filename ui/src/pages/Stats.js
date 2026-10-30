@@ -9,7 +9,9 @@ import { HealthWidget } from "./Health.js";
 import { DesignMapWidget } from "../design/map/DesignMapWidget.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
 import { isAnonymous } from "../utils/Players.js"
+import { useNavigate } from "react-router-dom"
 import { useCube } from "../contexts/CubeContext.js"
+import { cardPageHref } from "../shell/paths.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { StatsToolbar } from "../stats/StatsToolbar.js"
@@ -59,7 +61,9 @@ const COPY = {
 // which page to show; each one sits under the shared stats toolbar and is told
 // what data the cube has (info), so it can hide what the cube can't fill.
 export function StatsViewer(props) {
-  const info = useCubeInfo(useCube());
+  const cubeID = useCube();
+  const info = useCubeInfo(cubeID);
+  const navigate = useNavigate();
   const [refresh, setRefresh] = useState(1);
   const triggerRefresh = () => setRefresh(prev => prev + 1);
 
@@ -90,7 +94,7 @@ export function StatsViewer(props) {
   const data = useStatsData(filters, debouncedProps, refresh, props.view);
 
   const {
-    decks, decksLoaded, cube, archetypeMatchups, cardData, cardDataBucketed,
+    decks, decksLoaded, cube, archetypeMatchups, cardData,
     synergyData, synergyCompare, colorMatchupData, healthData,
     designGraphData, parsed, graphData, archetypeDropdownOptions, failed, deckCharts,
   } = data;
@@ -220,12 +224,12 @@ export function StatsViewer(props) {
       <CardWidget
         info={info}
         parsed={parsed} matchStr={debouncedMatchStr} startDate={props.startDate} endDate={props.endDate}
-        cardData={cardData} cardDataBucketed={cardDataBucketed}
+        cardData={cardData}
         decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
         cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
         tagFilter={tagFilter} onTagFilterSelected={setTagFilter}
         onSelected={(e) => setCardWidgetSelection(e.target.value)}
-        onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
+        onCardSelected={(e) => navigate(cardPageHref(cubeID, e.currentTarget.id))}
         selectedCard={selectedCard}
         colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
         minDrafts={minDrafts} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}

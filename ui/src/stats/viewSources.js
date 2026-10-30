@@ -4,7 +4,7 @@
 // ALL_SOURCES names every piece of data the stats pages load.
 export const ALL_SOURCES = [
   "decks", "cube", "drafts", "archetypeMatchups",
-  "cardStats", "cardStatsOverTime",
+  "cardStats",
   "colorStats", "colorStatsOverTime", "colorMatchups",
   "archetypeStats", "archetypeStatsOverTime", "playerStats", "deckCharts",
   "synergy", "synergyCompare",
@@ -15,7 +15,7 @@ export const ALL_SOURCES = [
 // summary on every page but the Synergy map, and cube feeds the filter's card
 // suggestions.
 export const VIEW_SOURCES = {
-  cards: ["decks", "cube", "drafts", "cardStats", "cardStatsOverTime", "archetypeStats"],
+  cards: ["decks", "cube", "drafts", "cardStats", "archetypeStats"],
   colors: ["decks", "cube", "colorStats", "colorStatsOverTime", "colorMatchups"],
   types: ["decks", "cube", "archetypeMatchups", "cardStats", "archetypeStats", "archetypeStatsOverTime"],
   deckstats: ["decks", "cube", "drafts", "archetypeStats", "deckCharts"],

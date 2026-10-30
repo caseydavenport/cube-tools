@@ -4,6 +4,9 @@ import { CardImageURL } from "../utils/Utils.js"
 import { CardMatches } from "../utils/Query.js"
 import { InDeckColor } from "../utils/Deck.js"
 import { CMC_COLUMNS, LAND_ORDER, cmcColumn, getType, isLand, landCategory } from "./decklist.js"
+import { Link } from "react-router-dom"
+import { useCube } from "../contexts/CubeContext.js"
+import { cardPageHref } from "../shell/paths.js"
 
 // CARDS_PER_STACK is how many card images stack in one column before a group
 // wraps into another.
@@ -41,10 +44,13 @@ function imageClassName(card, deck, sideboard, matchStr) {
 
 // CardImage is one card's image, with a larger copy beside it on hover.
 function CardImage({ card, className }) {
+  const cube = useCube()
   return (
     <div className="card-stack-item">
       <CardImagePreview src={CardImageURL(card)} alt={card.name} width={300} position="right">
-        <img src={CardImageURL(card)} alt={card.name} className={className + " decklist-image"} />
+        <Link to={cardPageHref(cube, card.name)}>
+          <img src={CardImageURL(card)} alt={card.name} className={className + " decklist-image"} />
+        </Link>
       </CardImagePreview>
     </div>
   )

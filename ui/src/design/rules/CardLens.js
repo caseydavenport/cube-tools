@@ -6,6 +6,8 @@ import { CardImageURL } from '../../utils/Utils.js'
 import { ColorImages } from '../../utils/Colors.js'
 import { ruleColor } from '../map/ruleColors.js'
 import { RULES_COPY } from "./copy.js"
+import { CardLink } from "../../components/CardLink.js"
+import { useCube } from "../../contexts/CubeContext.js"
 
 // CardLens is the right rail: pick any card and see its image, which groups hold
 // it (and via which condition), and every card it links to, grouped by rule.
@@ -13,6 +15,8 @@ export function CardLens({
   names, focal, vs, node, memberships, membershipsLoading, neighbors, groupIndex, packageIndex,
   onPickFocal, onPickVs, onSelectGroup, onSelectPackage, onCompare, onHoverCard,
 }) {
+  const cube = useCube()
+
   // Bucket the neighbors by package so connected cards read by reason.
   const byLabel = useMemo(() => {
     const m = {}
@@ -35,7 +39,7 @@ export function CardLens({
           <img className="de-lens-img" src={CardImageURL({ name: focal })} alt={focal} />
           <div className="de-lens-name">
             {node && <span className="de-pips">{ColorImages(node.colors)}</span>}
-            {focal}
+            <CardLink cube={cube} name={focal} />
           </div>
         </>}
       </div>

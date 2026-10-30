@@ -242,12 +242,6 @@ export function useStatsData(filters, props, refresh, view) {
     })).then(toAllData),
     [cardWidgetColorSelection, minDrafts, minGames, winConfidence, significantOnly, startDate, endDate, minDraftSize, match, refresh], NO_MAP);
 
-  const cardStatsOverTimeSource = useLoaded(cubeID, needs("cardStatsOverTime"),
-    () => fetchJson(statsUrl(cubeID, "cards", {
-      color: cardWidgetColorSelection, min_drafts: minDrafts, min_games: minGames, bucket_size: bucketSize, sliding: true, match,
-    })).then(toBuckets),
-    [cardWidgetColorSelection, minDrafts, minGames, bucketSize, match, refresh], NO_LIST);
-
   const colorFilters = {
     start: startDate, end: endDate, size: minDraftSize, colorMode, confidence: winConfidence, match,
   }
@@ -327,7 +321,7 @@ export function useStatsData(filters, props, refresh, view) {
   // Each source by its name in viewSources.js, to list the ones that failed.
   const sources = {
     decks: decksSource, cube: cubeSource, drafts: draftsSource, archetypeMatchups: matchupsSource,
-    cardStats: cardStatsSource, cardStatsOverTime: cardStatsOverTimeSource,
+    cardStats: cardStatsSource,
     colorStats: colorStatsSource, colorStatsOverTime: colorStatsOverTimeSource, colorMatchups: colorMatchupsSource,
     archetypeStats: archetypeStatsSource, archetypeStatsOverTime: archetypeStatsOverTimeSource,
     playerStats: playerStatsSource, deckCharts: deckChartsSource,
@@ -343,7 +337,6 @@ export function useStatsData(filters, props, refresh, view) {
   const drafts = draftsSource.value;
   const archetypeMatchups = matchupsSource.value;
   const cardData = cardStatsSource.value;
-  const cardDataBucketed = cardStatsOverTimeSource.value;
   const colorData = colorStatsSource.value;
   const colorDataBucketed = colorStatsOverTimeSource.value;
   const archetypeStats = archetypeStatsSource.value;
@@ -414,7 +407,7 @@ export function useStatsData(filters, props, refresh, view) {
   }, [drafts]);
 
   return {
-    decks, decksLoaded, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
+    decks, decksLoaded, cube, drafts, archetypeMatchups, cardData,
     colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
     designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs, failed, deckCharts,
   };

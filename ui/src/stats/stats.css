@@ -10,16 +10,11 @@
   width: 100%;
 }
 
-.stats-chart-tall {
-  height: 1000px;
-}
-
 .stats-chart-scatter {
   height: 800px;
 }
 
 @media (max-width: 48em) {
-  .stats-chart-tall,
   .stats-chart-scatter {
     height: 480px;
   }
@@ -228,12 +223,6 @@
   border-radius: 12px;
   padding: 1rem 1.5rem;
   margin: 1.5rem 0;
-}
-
-/* Muted note shown in place of content that needs a selection first. */
-.section-hint {
-  color: var(--se-muted);
-  padding: 1rem 0;
 }
 
 /* Two narrow tables side by side (e.g. paired-with / played-by). */

@@ -1,4 +1,4 @@
-// The Cards stats page and its sections: stats table, trends, plots, and pick
+// The Cards stats page and its sections: stats table, plots, and pick
 // order. The pieces live in the other files here.
 
 import React from 'react'
@@ -9,7 +9,6 @@ import { Section, SectionNav } from "../../components/PageSections.js"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { CardWidgetOptions, CardWidgetTable, matchOpts, tagOpts } from "./CardStatsTable.js"
 import { CardGraph } from "./CardScatter.js"
-import { ELOChart, PlayRateChart, WinrateChart } from "./CardTrendCharts.js"
 import { PickOrderSection } from "./PickOrder.js"
 import { CARDS_COPY } from "./copy.js"
 
@@ -26,7 +25,6 @@ ChartJS.register(
 
 const CARD_SECTIONS = [
   { id: "stats", label: CARDS_COPY.widget.sectionStats },
-  { id: "trends", label: CARDS_COPY.widget.sectionTrends },
   { id: "plots", label: CARDS_COPY.widget.sectionPlots },
   { id: "pickorder", label: CARDS_COPY.widget.sectionPickOrder, needs: ["pick_logs"] },
 ]
@@ -57,10 +55,6 @@ export function CardWidget(input) {
         <CardWidgetTable {...input} />
       </Section>
 
-      <Section id="trends" heading={CARDS_COPY.widget.trendsHeading}>
-        <TrendCharts {...input} />
-      </Section>
-
       <Section id="plots" heading={CARDS_COPY.widget.plotsHeading}>
         <CardGraph {...input} />
       </Section>
@@ -68,29 +62,6 @@ export function CardWidget(input) {
       <PickOrderPart {...input} />
     </div>
   );
-}
-
-// TrendCharts are the Trends section's charts over time. The win rate chart
-// needs match results, and the pick ELO chart needs sideboards, since pick
-// order is read from what was mainboarded versus sideboarded.
-function TrendCharts(input) {
-  let winrate = null
-  if (hasData(input.info, "results")) {
-    winrate = <WinrateChart {...input} />
-  }
-
-  let elo = null
-  if (hasData(input.info, "sideboards")) {
-    elo = <ELOChart {...input} />
-  }
-
-  return (
-    <>
-      {winrate}
-      <PlayRateChart {...input} />
-      {elo}
-    </>
-  )
 }
 
 // PickOrderPart is the Pick order section, shown only for cubes with pick logs.

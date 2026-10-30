@@ -15,6 +15,7 @@ import { RemovalByColor } from "../removal/RemovalByColor.js"
 import { RemovalScatter } from "../removal/RemovalScatter.js"
 import "../stats/stats.css"
 import "./pages.css"
+import { CardLink } from "../components/CardLink.js"
 
 // COPY holds the text this page adds around its table. Placeholders for Casey
 // to replace.
@@ -93,6 +94,12 @@ function matchesColorFilter(card, color) {
     return true
   }
   return colors.includes(color)
+}
+
+// removalCardName is the card behind a removal row. A multi-mode card's rows
+// are named "Bloodchief's Thirst (kicked)", so the mode in parentheses goes.
+function removalCardName(rowName) {
+  return rowName.replace(/ \([^)]*\)$/, "")
 }
 
 // RemovalPage is the Removal page: the toolbar with its date range, then the
@@ -196,7 +203,7 @@ export function RemovalPage(props) {
               <tbody>
                 {rows.map(c => (
                   <tr key={c.name} className="widget-table-row">
-                    <td className="header-cell stats-bold">{c.name}</td>
+                    <td className="header-cell stats-bold"><CardLink cube={cubeID} name={removalCardName(c.name)}>{c.name}</CardLink></td>
                     <td className="page-right-cell" title={c.mana_cost && c.eff_cost !== c.mv ? COPY.costTitle({ manaCost: c.mana_cost, mv: c.mv }) : c.mana_cost}>
                       {c.eff_cost}{c.eff_cost !== c.mv ? "*" : ""}
                     </td>

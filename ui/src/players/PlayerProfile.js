@@ -8,6 +8,7 @@ import { ColorImages } from "../utils/Colors.js"
 import { archetypeLabel } from "../decks/deckModel.js"
 import { pageHrefWithMatch } from "../shell/paths.js"
 import { PlayerRename } from "./PlayerRename.js"
+import { CardLink } from "../components/CardLink.js"
 
 // MANA_ORDER is the order colors are listed and drawn in.
 const MANA_ORDER = ["W", "U", "B", "R", "G"]
@@ -145,8 +146,8 @@ function archetypeName(name) {
 
 // SignatureCards shows the player's signature cards as chips, each badged
 // with how many of their decks played it, and the comparison in words on
-// hover. The server sends at most MAX_CHIPS.
-function SignatureCards({ row, link }) {
+// hover. Each opens its card page. The server sends at most MAX_CHIPS.
+function SignatureCards({ row, link, cube }) {
   const cards = (row.tendencies || {}).signature_cards || []
   if (cards.length === 0) {
     return <span className="players-muted">None stand out yet.</span>
@@ -158,10 +159,10 @@ function SignatureCards({ row, link }) {
         const info = `In ${card.decks} of ${row.name}'s ${card.available} decks; ${othersShare}% of everyone else's.`
         return (
           <HoverInfo key={card.name} title={card.name} info={info}>
-            <span className="kit-chip kit-chip-card">
+            <CardLink cube={cube} name={card.name} className="kit-chip kit-chip-card">
               {card.name}
               <span className="kit-chip-count">{card.decks}/{card.available}</span>
-            </span>
+            </CardLink>
           </HoverInfo>
         )
       })}
@@ -207,7 +208,7 @@ export function PlayerProfile({ row, cube, start, end, decks, onMatch, playerId,
           <CountChips entries={t.packages || []} kind="package" labelFor={name => name} emptyText="No packages built." link={linkTo("packages")} />
         </ProfileSection>
         <ProfileSection title="Signature cards" linkLabel="Cards →" link={linkTo("cards")}>
-          <SignatureCards row={row} link={linkTo("cards")} />
+          <SignatureCards row={row} link={linkTo("cards")} cube={cube} />
         </ProfileSection>
       </div>
     </div>
