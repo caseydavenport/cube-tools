@@ -743,3 +743,28 @@ func TestSaveDesignRules_RejectsOldFormat(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, got.Packages, 1, "the saved package survives a rejected save")
 }
+
+// TestResolvePackages_CutCardRefStillBuilds checks that a card: entry for a
+// card cut from the cube still counts for the old decks that played it, while
+// an entry no deck ever played stays impossible to build.
+func TestResolvePackages_CutCardRefStillBuilds(t *testing.T) {
+	seedOracle(t, `[
+		{"name":"Polluted Delta","type_line":"Land","oracle_text":"search your library for an Island or Swamp card","colors":[],"cmc":0}
+	]`)
+	config := design.DesignMapConfig{
+		Groups: []design.Group{{Name: "Blue Fetchables", Conditions: []string{"o:island t:land"}}},
+		Packages: []design.Package{
+			{Name: "Delta", Wires: []design.Wire{{Sources: []string{"card:Polluted Delta"}, Targets: []string{"Blue Fetchables"}}}},
+			{Name: "Typo", Wires: []design.Wire{{Sources: []string{"card:No Such Card"}, Targets: []string{"Blue Fetchables"}}}},
+		},
+	}
+
+	pkgs := resolvePackages(resolveTestCube(), config, []string{"Polluted Delta"})
+	require.Len(t, pkgs, 2)
+	delta, typo := pkgs[0], pkgs[1]
+	assert.Equal(t, 1, delta.Wires[0].NeedSources)
+	assert.True(t, delta.BuiltBy(cardSet("Polluted Delta", "Hallowed Fountain", "Steam Vents")))
+
+	assert.Equal(t, 0, typo.Wires[0].NeedSources)
+	assert.False(t, typo.BuiltBy(cardSet("Polluted Delta", "Hallowed Fountain", "Steam Vents")))
+}

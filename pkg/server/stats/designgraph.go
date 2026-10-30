@@ -695,8 +695,8 @@ func resolveGroups(cardMap map[string]types.Card, config design.DesignMapConfig,
 
 // resolvePackages turns each package's wires into card sets, sorted by
 // package name. A side holds the cards decks may play, cut cards included;
-// how many of them a deck needs comes from the side's size in the cube alone.
-// Basic lands are left out of both.
+// how many of them a deck needs comes from sideNeed. Basic lands are left out
+// of both.
 func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) []design.PackageCards {
 	groups := resolveGroups(buildCardMap(cube), config, deckCardNames)
 
@@ -704,13 +704,13 @@ func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNa
 	for _, pkg := range config.Packages {
 		resolved := design.PackageCards{Name: pkg.Name}
 		for _, wire := range pkg.Wires {
-			cubeSources := withoutBasics(wireSide(groups.cube, wire.Sources))
-			cubeTargets := withoutBasics(wireSide(groups.cube, wire.Targets))
+			sources := withoutBasics(wireSide(groups.widened, wire.Sources))
+			targets := withoutBasics(wireSide(groups.widened, wire.Targets))
 			resolved.Wires = append(resolved.Wires, design.WireCards{
-				Sources:     withoutBasics(wireSide(groups.widened, wire.Sources)),
-				Targets:     withoutBasics(wireSide(groups.widened, wire.Targets)),
-				NeedSources: design.SideMinimum(len(cubeSources)),
-				NeedTargets: design.SideMinimum(len(cubeTargets)),
+				Sources:     sources,
+				Targets:     targets,
+				NeedSources: sideNeed(withoutBasics(wireSide(groups.cube, wire.Sources)), sources),
+				NeedTargets: sideNeed(withoutBasics(wireSide(groups.cube, wire.Targets)), targets),
 			})
 		}
 		out = append(out, resolved)
@@ -719,6 +719,16 @@ func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNa
 		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
 	})
 	return out
+}
+
+// sideNeed is how many cards a deck must play from one wire side, from the
+// side's size in the cube. A side whose cards were all cut needs one, so the
+// old decks that played them still count.
+func sideNeed(cubeSide, side map[string]bool) int {
+	if len(cubeSide) == 0 && len(side) > 0 {
+		return 1
+	}
+	return design.SideMinimum(len(cubeSide))
 }
 
 func buildDesignGraph(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) DesignGraphResponse {
