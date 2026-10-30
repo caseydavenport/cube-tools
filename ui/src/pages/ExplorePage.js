@@ -6,6 +6,7 @@ import { DropdownHeader, NumericInput, Button } from "../components/Dropdown.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { HoverStats } from "../components/kit/HoverStats.js"
+import { confidencePercent, winRateRows, winRateText, winRateValue } from "../components/kit/winRate.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { SettingsPopover } from "../components/kit/SettingsPopover.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
@@ -31,46 +32,11 @@ import {
   Title, Tooltip, Legend,
 } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
-import { currentChartTheme, seriesColor, withAlpha } from "../theme/chartTheme.js"
+import { seriesColor, withAlpha } from "../theme/chartTheme.js"
 import { colorName } from "../utils/colorNames.js"
 import "./pages.css"
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
-
-// winErrorBars draws a confidence whisker on each bar of any dataset that carries
-// an `errorMargins` array (half-widths, in the y-axis's units). Registered once
-// and reads straight off the dataset, so it stays correct when the chart's data
-// changes (react-chartjs-2 doesn't refresh a per-chart `plugins` prop on
-// re-render, which silently reused stale margins).
-const winErrorBars = {
-  id: "winErrorBars",
-  afterDatasetsDraw(chart) {
-    const { ctx } = chart
-    const y = chart.scales.y
-    chart.data.datasets.forEach((ds, di) => {
-      const margins = ds.errorMargins
-      if (!margins) return
-      const meta = chart.getDatasetMeta(di)
-      ctx.save()
-      ctx.strokeStyle = withAlpha(currentChartTheme().text, 0.7)
-      ctx.lineWidth = 1.5
-      meta.data.forEach((bar, i) => {
-        const m = margins[i]
-        if (m == null) return
-        const v = ds.data[i]
-        const top = y.getPixelForValue(Math.min(100, v + m))
-        const bot = y.getPixelForValue(Math.max(0, v - m))
-        ctx.beginPath()
-        ctx.moveTo(bar.x, top); ctx.lineTo(bar.x, bot)
-        ctx.moveTo(bar.x - 5, top); ctx.lineTo(bar.x + 5, top)
-        ctx.moveTo(bar.x - 5, bot); ctx.lineTo(bar.x + 5, bot)
-        ctx.stroke()
-      })
-      ctx.restore()
-    })
-  },
-}
-ChartJS.register(winErrorBars)
 
 // COPY holds the text this page adds around its charts. Placeholders for Casey
 // to replace.
@@ -111,7 +77,7 @@ const COPY = {
   },
   granularity: { any: "Any", mono: "Mono", dual: "Dual", trio: "Trio" },
   colorMode: { inclusive: "Inclusive", exact: "Exact", primary: "Primary" },
-  metrics: { winPct: "Win %", record: "Record", games: "Games" },
+  metrics: { winPct: "Bayes Win %", record: "Record", games: "Games" },
 
   controls: {
     groupBy: "Group by",
@@ -131,19 +97,16 @@ const COPY = {
   },
 
   pivotTable: {
-    winPct: "Win %",
+    winPct: "Bayes Win %",
     record: "Record",
     decks: "Decks",
-    winPctTip: "Share of games won by decks in this group. Tinted only when it can be told apart from a coin flip at the chosen confidence.",
+    winPctTip: "Share of games won by decks in this group, pulled toward 50% in proportion to how few games it has. Tinted only when it can be told apart from a coin flip at the chosen confidence. Hover for the raw win % and its interval.",
     recordTip: "Games won, lost and drawn by decks in this group.",
     decksTip: "Number of decks in this group.",
   },
 
   tooltip: {
-    record: ({ wins, losses, draws }) => `${wins}W-${losses}L${draws ? "-" + draws + "D" : ""}`,
-    games: ({ games }) => `${games} games`,
-    interval: ({ level }) => `${level}% CI`,
-    intervalValue: ({ winPct, margin, low, high }) => `${winPct}% ±${margin.toFixed(1)} (${low.toFixed(0)}–${high.toFixed(0)}%)`,
+    title: "Bayes win %",
     distinguishable: "distinguishable from 50%",
     notDistinguishable: "not distinguishable from 50%",
   },
@@ -251,15 +214,14 @@ function absColor(winPct) {
   return goodBadTint((winPct - 50) / 50)
 }
 
-// winColor tints a win% cell red/green vs 50%, but only when the rate is
-// statistically distinguishable from 50%; otherwise it's the neutral gray. There's
-// no separate "not enough data" case - a small sample simply fails the
-// significance check (which requires >=10 games), so both read the same gray.
+// winColor tints a win% cell red/green by its Bayes rate, but only when the
+// raw rate is statistically distinguishable from 50%; otherwise it's the
+// neutral gray. A small sample simply fails the significance check (which
+// requires >=10 games), so it reads the same gray.
 function winColor(c) {
   if (!c) return undefined
-  const s = winCI(c)
-  if (!s || !s.significant) return "var(--se-card)"
-  return absColor(c.win_percent)
+  if (cellGames(c) === 0 || !c.significant) return "var(--se-card)"
+  return absColor(c.bayesian_win_percent)
 }
 
 // barColor tints a group's bar by its color identity (shared guildColor scheme).
@@ -273,47 +235,22 @@ function metricText(metric, c) {
   if (!c) return ""
   if (metric === "record") return `${c.wins}-${c.losses}${c.draws ? "-" + c.draws : ""}`
   if (metric === "games") return `${cellGames(c)}`
-  return cellGames(c) > 0 ? `${Math.round(c.win_percent)}%` : ""
+  return cellGames(c) > 0 ? winRateText(c) : ""
 }
 
-// winCI reshapes the Wilson interval the server computed for this cell (at the
-// selected confidence) for the callers below. The pool win rate is exactly 50%
-// by construction, so 50% is the null and the server's significant flag means
-// the interval excludes it. Returns null for an empty cell. The interval math
-// lives in pkg/server/stats/confidence.go so every view agrees.
-function winCI(c) {
-  if (!c) return null
-  const n = cellGames(c)
-  if (n === 0) return null
-  const lo = c.win_percent_low ?? 0
-  const hi = c.win_percent_high ?? 0
-  return { margin: (hi - lo) / 2, lo, hi, significant: !!c.significant }
-}
-
-// withWinStats wraps a pivot table cell in a popover with its record, sample
-// size, and interval + significance verdict, kept out of the cell itself to
-// avoid clutter. A cell with no data is returned as it is.
+// withWinStats wraps a pivot table cell in a popover with its raw win %,
+// interval, record, games and significance verdict, kept out of the cell
+// itself to avoid clutter. A cell with no games is returned as it is.
 function withWinStats(c, confidence, cell, key) {
-  if (!c) {
+  const rows = winRateRows(c, confidencePercent(confidence))
+  if (rows.length === 0) {
     return cell
   }
-  const record = COPY.tooltip.record({ wins: c.wins, losses: c.losses, draws: c.draws })
-  const badge = COPY.tooltip.games({ games: cellGames(c) })
-  const s = winCI(c)
-  if (!s) {
-    return <HoverStats key={key} title={record} badge={badge}>{cell}</HoverStats>
-  }
-
-  const level = Math.round(parseFloat(confidence || "0.8") * 100)
-  const rows = [{
-    label: COPY.tooltip.interval({ level }),
-    value: COPY.tooltip.intervalValue({ winPct: c.win_percent, margin: s.margin, low: s.lo, high: s.hi }),
-  }]
   let verdict = COPY.tooltip.notDistinguishable
-  if (s.significant) {
+  if (c.significant) {
     verdict = COPY.tooltip.distinguishable
   }
-  return <HoverStats key={key} title={record} badge={badge} rows={rows} footer={verdict}>{cell}</HoverStats>
+  return <HoverStats key={key} title={COPY.tooltip.title} rows={rows} footer={verdict}>{cell}</HoverStats>
 }
 
 // ExplorePage is the Charts page: the toolbar with its date range, deck filter,
@@ -513,11 +450,9 @@ function ExploreResult({ result, groupBy, splitBy, metric, usesTime, confidence 
 function PivotTable({ result, groupBy, metric, confidence }) {
   const rows = result.rows
   const labels = rows.map(r => keyLabel(groupBy.dim, r.key))
-  const data = rows.map(r => r.cells[""]?.win_percent || 0)
+  const data = rows.map(r => winRateValue(r.cells[""]) || 0)
 
   const barColors = rows.map(r => barColor(groupBy.dim, r.key))
-  // 90% CI half-widths per bar, for the error whiskers.
-  const margins = rows.map(r => { const s = winCI(r.cells[""]); return s ? s.margin : null })
   const chartData = {
     labels,
     datasets: [{
@@ -526,7 +461,6 @@ function PivotTable({ result, groupBy, metric, confidence }) {
       backgroundColor: barColors,
       borderColor: barColors,
       borderWidth: 1,
-      errorMargins: margins, // consumed by the winErrorBars plugin
     }],
   }
   const options = {
@@ -555,7 +489,7 @@ function PivotTable({ result, groupBy, metric, confidence }) {
                   <td className="header-cell stats-bold">{keyLabel(groupBy.dim, r.key)}</td>
                   {withWinStats(c, confidence, (
                     <td style={{ textAlign: "center", background: winColor(c) }}>
-                      {cellGames(c) > 0 ? `${c.win_percent}%` : "-"}
+                      {cellGames(c) > 0 ? winRateText(c) : "-"}
                     </td>
                   ))}
                   <td className="page-center-cell">{c.wins}-{c.losses}{c.draws ? `-${c.draws}` : ""}</td>
@@ -580,7 +514,7 @@ function PivotHeatmap({ result, groupBy, splitBy, metric, confidence }) {
 
   let rows = result.rows
   if (sortColumn !== null) {
-    rows = [...rows].sort((a, b) => (b.cells[sortColumn]?.win_percent ?? -1) - (a.cells[sortColumn]?.win_percent ?? -1))
+    rows = [...rows].sort((a, b) => (winRateValue(b.cells[sortColumn]) ?? -1) - (winRateValue(a.cells[sortColumn]) ?? -1))
   }
 
   return (
@@ -679,7 +613,7 @@ function PivotLineChart({ result, groupBy, splitBy, metric }) {
 function metricValue(metric, c) {
   if (!c) return null
   if (metric === "games") return cellGames(c)
-  return c.win_percent // record falls back to win% for a numeric line
+  return winRateValue(c) // record falls back to Bayes win% for a numeric line
 }
 
 function groupLabel(dim) {
