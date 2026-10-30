@@ -444,3 +444,13 @@ func TestDeckMatches_Otag(t *testing.T) {
 	assert.True(t, DeckMatches(aggro, "otag:removal arch:aggro"))
 	assert.False(t, DeckMatches(aggro, "otag:removal arch:control"))
 }
+
+func TestCardTermIsExactName(t *testing.T) {
+	both := &mockDeck{mainboard: []types.Card{{Name: "Lightning Bolt"}, {Name: "Bolt Bend"}}}
+	boltOnly := &mockDeck{mainboard: []types.Card{{Name: "Lightning Bolt"}}}
+
+	assert.True(t, DeckMatches(both, `card:"bolt bend"`))
+	assert.False(t, DeckMatches(both, `card:"Bolt"`))
+	assert.True(t, DeckMatches(both, `card:"Lightning Bolt" card:"Bolt Bend"`))
+	assert.False(t, DeckMatches(boltOnly, `card:"Lightning Bolt" card:"Bolt Bend"`))
+}

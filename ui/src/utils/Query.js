@@ -7,6 +7,7 @@ import { cardHasOracleTag } from "./cardRoles.js"
 export const QueryTerms = [
   "pow",
   "name",
+  "card",
   "o",
   "color",
   "t",
@@ -34,6 +35,7 @@ export const QueryTermMetadata = [
   { term: "t", description: "Card type", operators: [":"], valueType: "text", example: "t:creature", values: ["Artifact", "Creature", "Enchantment", "Instant", "Land", "Planeswalker", "Sorcery", "Basic", "Legendary", "Tribal", "World"] },
   { term: "o", description: "Oracle text", operators: [":"], valueType: "text", example: "o:flying" },
   { term: "name", description: "Card name", operators: [":"], valueType: "text", example: "name:bolt" },
+  { term: "card", description: "Exact card name", operators: [":"], valueType: "text", example: 'card:"Lightning Bolt"' },
   { term: "pow", description: "Power", operators: ["<", ">", "="], valueType: "number", example: "pow>3" },
   { term: "games", description: "Total games played", operators: ["<", ">"], valueType: "number", example: "games>5" },
   { term: "mb", description: "Mainboard count", operators: ["<", ">", "="], valueType: "number", example: "mb>0" },
@@ -172,6 +174,16 @@ export function CardMatches(card, matchStr, checkText) {
     for (const term of tagTerms) {
       matchedAnyCardTerm = true
       if (!cardHasOracleTag(card, term.slice("otag:".length))) {
+        return false
+      }
+    }
+
+    // Exact name queries, so card:"Bolt" doesn't also match Lightning Bolt.
+    const exactTerms = splits.filter(term => term.startsWith("card:"))
+    for (const term of exactTerms) {
+      matchedAnyCardTerm = true
+      const wanted = term.slice("card:".length).replace(/"/g, "").toLowerCase()
+      if (card.name.toLowerCase() !== wanted) {
         return false
       }
     }

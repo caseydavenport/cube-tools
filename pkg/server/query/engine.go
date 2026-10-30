@@ -203,6 +203,12 @@ func CardMatches(c types.Card, matchStr string) bool {
 				if !found {
 					return false
 				}
+			} else if strings.HasPrefix(term, "card:") {
+				// An exact name, so card:"Bolt" doesn't also match Lightning Bolt.
+				val := strings.Trim(strings.TrimPrefix(term, "card:"), "\"")
+				if !strings.EqualFold(c.Name, val) {
+					return false
+				}
 			} else if strings.HasPrefix(term, "name:") {
 				val := strings.TrimPrefix(term, "name:")
 				val = strings.Trim(val, "\"")
@@ -281,6 +287,7 @@ func isTermQuery(matchStr string) bool {
 		"t",
 		"o",
 		"name",
+		"card",
 		"pow",
 		"games",
 		"mb",
