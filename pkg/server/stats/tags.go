@@ -87,6 +87,7 @@ func (h *tagsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // tagRows counts the visible tags on cards and ranks them. oracleTotal is how
 // many cards all of Magic has, the baseline for lift; at zero, lift reads 0.
 func tagRows(cards []types.Card, oracleTotal int) TagsResponse {
+	// Count the cube cards under each tag.
 	counts := map[string]int{}
 	for _, card := range cards {
 		for _, slug := range card.OracleTags {
@@ -109,6 +110,7 @@ func tagRows(cards []types.Card, oracleTotal int) TagsResponse {
 		})
 	}
 
+	// Most common first, with the slug as a tiebreaker for a stable order.
 	slices.SortFunc(resp.Tags, func(a, b TagRow) int {
 		if a.Cards != b.Cards {
 			return b.Cards - a.Cards
@@ -116,6 +118,7 @@ func tagRows(cards []types.Card, oracleTotal int) TagsResponse {
 		return cmp.Compare(a.Slug, b.Slug)
 	})
 
+	// Rank the tags common enough to trust by lift.
 	for _, row := range resp.Tags {
 		if row.Cards >= minDistinctiveCards {
 			resp.Distinctive = append(resp.Distinctive, row)

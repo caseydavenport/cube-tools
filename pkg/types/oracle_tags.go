@@ -92,6 +92,7 @@ func LoadOracleTags(path string) error {
 // buildTagIndex resolves each tag's ancestors, gives every tagged card its
 // tags with their ancestors, and counts the cards under each tag.
 func buildTagIndex(tags []rawTag) tagIndex {
+	// Ancestors are found by parent id, so index the tags by id first.
 	byID := map[string]rawTag{}
 	for _, tag := range tags {
 		byID[tag.ID] = tag
@@ -113,6 +114,7 @@ func buildTagIndex(tags []rawTag) tagIndex {
 			idx.byName[tagName(alias)] = tag.Slug
 		}
 
+		// A tagged card also carries every tag above this one.
 		for _, tagging := range tag.Taggings {
 			set := cardTags[tagging.OracleID]
 			if set == nil {
@@ -126,6 +128,8 @@ func buildTagIndex(tags []rawTag) tagIndex {
 		}
 	}
 
+	// Flatten each card's tag set to sorted slugs (HasRole binary-searches
+	// them) and count the cards under each tag.
 	for oracleID, set := range cardTags {
 		slugs := make([]string, 0, len(set))
 		for slug := range set {
