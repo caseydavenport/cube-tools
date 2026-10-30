@@ -35,3 +35,18 @@ export function switchCubeInPath(pathname, cube) {
   parts[0] = cube
   return "/" + parts.join("/")
 }
+
+// pageHrefWithMatch links to one of a cube's pages with its deck filter set to
+// match, keeping the date range when start or end is set. The page reads them
+// from the URL on load.
+export function pageHrefWithMatch(cube, path, match, start, end) {
+  const query = new URLSearchParams()
+  query.set("match", match)
+  if (start) {
+    query.set("start", start)
+  }
+  if (end) {
+    query.set("end", end)
+  }
+  return pageHref(cube, path) + "?" + query.toString().replace(/\+/g, "%20")
+}

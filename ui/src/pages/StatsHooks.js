@@ -54,7 +54,7 @@ export function useStatsFilters() {
   const [draftPlayers, setDraftPlayers] = useState([]);
   const [draftPacks, setDraftPacks] = useState([]);
   const [selectedPack, setSelectedPack] = useState(1);
-  const [playerSortBy, setPlayerSortBy] = useState("");
+  const [playerSortBy, setPlayerSortBy] = useState("matches");
   const [playerSortInvert, setPlayerSortInvert] = useState(false);
   const [oppSortBy, setOppSortBy] = useState("win_pct");
   const [oppSortInvert, setOppSortInvert] = useState(false);

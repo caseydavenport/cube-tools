@@ -6,7 +6,7 @@ import { WIN_CONFIDENCE_OPTS } from "../utils/Stats.js"
 
 // SORT_OPTIONS are the orders the player list offers, by the stats column each
 // one sorts on.
-const SORT_OPTIONS = ["name", "num_decks", "games", "win_percent", "trophies"]
+const SORT_OPTIONS = ["matches", "num_decks", "name", "games", "win_percent", "trophies"]
 
 // SortDirection flips the list's order. Names start A to Z and numbers start
 // highest first; flipping reverses either.
@@ -57,7 +57,7 @@ export function PlayerSettings({ filters, copy }) {
           size="xs"
           label={copy.sort}
           data={sortData}
-          value={filters.playerSortBy || "name"}
+          value={filters.playerSortBy || "matches"}
           onChange={onSort}
           allowDeselect={false}
           comboboxProps={{ withinPortal: false }}

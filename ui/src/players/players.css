@@ -29,3 +29,41 @@
   width: 100%;
   margin: 0;
 }
+
+/* The players table. */
+.players-page {
+  padding: 12px 16px;
+}
+
+.players-table {
+  width: 100%;
+}
+
+.players-row {
+  cursor: pointer;
+}
+
+.players-row-open {
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+}
+
+.players-name {
+  font-weight: 600;
+}
+
+.players-muted {
+  color: var(--se-muted);
+}
+
+.players-colors .mana-symbol {
+  width: 14px;
+  height: 14px;
+}
+
+.header-sortable {
+  cursor: pointer;
+}
+
+.players-profile-row > td {
+  padding: 12px;
+}

@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { pageSegment, pageHref, switchCubeInPath } from "./paths.js"
+import { pageSegment, pageHref, pageHrefWithMatch, switchCubeInPath } from "./paths.js"
 
 test("the page segment is the part after the cube id", () => {
   assert.equal(pageSegment("/polyverse/cards"), "cards")
@@ -21,4 +21,20 @@ test("switching cubes keeps the rest of the path", () => {
   assert.equal(switchCubeInPath("/polyverse/cards", "aurora"), "/aurora/cards")
   assert.equal(switchCubeInPath("/polyverse/import/photos", "aurora"), "/aurora/import/photos")
   assert.equal(switchCubeInPath("/", "aurora"), "/aurora")
+})
+
+test("pageHrefWithMatch encodes the player term", () => {
+  const href = pageHrefWithMatch("polyverse", "cards", 'player:"Joan Jett"', "", "")
+  assert.equal(href, "/polyverse/cards?match=" + encodeURIComponent('player:"Joan Jett"'))
+  const query = new URLSearchParams(href.split("?")[1])
+  assert.equal(query.get("match"), 'player:"Joan Jett"')
+  assert.equal(query.has("start"), false)
+  assert.equal(query.has("end"), false)
+})
+
+test("pageHrefWithMatch keeps the date range when set", () => {
+  const href = pageHrefWithMatch("polyverse", "decks", 'player:"Ozzy"', "2025-01-01", "2025-12-31")
+  const query = new URLSearchParams(href.split("?")[1])
+  assert.equal(query.get("start"), "2025-01-01")
+  assert.equal(query.get("end"), "2025-12-31")
 })

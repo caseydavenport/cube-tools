@@ -1,18 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useStatsData, useStatsFilters } from "./StatsHooks.js"
 import { useCube } from "../contexts/CubeContext.js"
-import { PlayerDetailsPanel, playerRowsInOrder } from "./Players.js"
+import { PlayerDetailsPanel } from "./Players.js"
 import { useSelection } from "../hooks/useSelection.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
 import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
 import { useCubeWritable } from "../utils/useCubeWritable.js"
 import { fetchPlayers, isAnonymous } from "../utils/Players.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
-import { ListDetail } from "../components/kit/ListDetail.js"
-import { EmptyState } from "../components/kit/EmptyState.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
-import { PlayerList } from "../players/PlayerList.js"
+import { PlayersTable } from "../players/PlayersTable.js"
+import { sortPlayerRows } from "../players/playerTable.js"
 import { PlayerSettings } from "../players/PlayerSettings.js"
 import { PlayerSummaryCard } from "../players/PlayerSummaryCard.js"
 import "../decks/decks.css"
@@ -40,6 +39,7 @@ const COPY = {
   sort: "Sort by",
   reverseSort: "Reverse order",
   sortLabels: {
+    matches: "Matches",
     name: "Player",
     num_decks: "Decks",
     games: "Games",
@@ -198,12 +198,31 @@ export function PlayersPage(props) {
   const players = usePlayerList(refresh)
   const selection = usePlayerSelection(players)
 
-  const rows = playerRowsInOrder({
-    parsed,
-    minGames: filters.minGames,
-    sortBy: filters.playerSortBy,
-    invertSort: filters.playerSortInvert,
-  })
+  const rows = sortPlayerRows(
+    [...parsed.playerData.values()].filter(row => row.wins + row.losses >= filters.minGames),
+    filters.playerSortBy,
+    filters.playerSortInvert,
+  )
+
+  // onSort sorts by a column, or reverses it when it's already the sort.
+  function onSort(id) {
+    const current = filters.playerSortBy || "matches"
+    if (id === current) {
+      filters.setPlayerSortInvert(!filters.playerSortInvert)
+      return
+    }
+    filters.setPlayerSortBy(id)
+    filters.setPlayerSortInvert(false)
+  }
+
+  // onToggle opens a player's profile, or closes it when it's already open.
+  function onToggle(name) {
+    if (name === selection.name) {
+      selection.select("")
+      return
+    }
+    selection.select(name)
+  }
 
   // The left and right arrow keys step through the list.
   useArrowNav(rows, selection.name, row => row.name, selection.select)
@@ -218,10 +237,8 @@ export function PlayersPage(props) {
     return [...names].sort()
   }, [parsed.filteredDecks])
 
-  const row = parsed.playerData.get(selection.name)
-
-  let detail = <EmptyState>{COPY.pickPlayer}</EmptyState>
-  if (row) {
+  // renderProfile draws an open row's profile.
+  function renderProfile(row) {
     const header = (
       <PlayerSummaryCard
         row={row}
@@ -232,12 +249,12 @@ export function PlayersPage(props) {
         copy={COPY}
       />
     )
-    detail = (
+    return (
       <PlayerDetailsPanel
         {...detailProps(filters)}
         parsed={parsed}
         decks={parsed.filteredDecks}
-        player={selection.name}
+        player={row.name}
         onSelectPlayer={selection.select}
         confidence={filters.winConfidence}
         header={header}
@@ -263,10 +280,18 @@ export function PlayersPage(props) {
         <LoadFailedNotice failed={failed} onRetry={() => setRefresh(r => r + 1)} copy={COPY} />
       </div>
 
-      <ListDetail
-        list={<PlayerList rows={rows} selectedName={selection.name} selectionFor={selection.selectionFor} copy={COPY} />}
-        detail={detail}
-      />
+      <div className="players-page">
+        <PlayersTable
+          rows={rows}
+          sortBy={filters.playerSortBy}
+          invert={filters.playerSortInvert}
+          onSort={onSort}
+          confidence={filters.winConfidence}
+          expandedName={selection.name}
+          onToggle={onToggle}
+          renderProfile={renderProfile}
+        />
+      </div>
     </>
   )
 }
