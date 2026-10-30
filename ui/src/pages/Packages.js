@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Select } from "@mantine/core"
 import { useCube } from "../contexts/CubeContext.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
-import { RichText } from "../components/kit/RichText.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { SettingsPopover } from "../components/kit/SettingsPopover.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
@@ -50,10 +49,10 @@ const COPY = {
   },
 
   columnTips: {
-    buildRate: "Packages built divided by populated decks.",
-    packages: "Decks that built this package: 2 or more cards on each side of one of its wires, 3 or more cards in all.",
+    buildRate: "Packages built divided by populated decks, those with any non-basic mainboard card. Hover a cell for its interval at the chosen confidence.",
+    packages: "Decks that built this package: 2 or more cards on each side of one of its wires (1 for a side with a single card), 3 or more cards in all.",
     has3: "Decks carrying at least three of this package's cards.",
-    commitment: "Package decks divided by has-3 decks: how often the cards, once present, form a package.",
+    commitment: "Package decks divided by has-3 decks: how often the cards, once present, form a package. Low means the cards show up but rarely come together.",
   },
 
   tooltips: {
@@ -63,20 +62,6 @@ const COPY = {
     has3: ({ has3, rate }) => `${has3} decks carry 3+ of this package's cards (${rate} of populated)`,
     commitment: "package decks / has-3 decks: how often the cards, once present, actually form a package",
   },
-
-  hint: [
-    "A deck is ",
-    { bold: "populated" },
-    " if it has any non-basic mainboard card. ",
-    { bold: "Has 3+" },
-    " counts decks carrying at least three of a package's cards; a ",
-    { bold: "package" },
-    " is built when the deck plays 2 or more cards on each side of one of the package's wires (1 for a side with a single card), 3 or more in all. ",
-    { bold: "Build rate" },
-    " is packages over populated decks (with a Wilson interval at the chosen confidence);",
-    { bold: " commitment" },
-    " is packages over has-3 decks - low means the cards show up but rarely cohere.",
-  ],
 }
 
 // The Packages page shows how often decks build each package. Build rate is
@@ -229,9 +214,6 @@ export function Packages(props) {
         <SectionCard title={COPY.tableTitle} action={summary}>
           {table}
         </SectionCard>
-        <p className="player-filter-hint stats-section-gap">
-          <RichText parts={COPY.hint} />
-        </p>
       </div>
     </>
   )
