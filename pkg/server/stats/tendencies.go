@@ -198,10 +198,7 @@ func archetypeCounts(decks []*storage.Deck) []NamedCount {
 func packageCounts(decks []*storage.Deck, pkgs []design.PackageCards) []NamedCount {
 	counts := map[string]int{}
 	for _, d := range decks {
-		deck := map[string]bool{}
-		for _, name := range nonBasicMainboard(d) {
-			deck[name] = true
-		}
+		deck := distinctSpells(d)
 		for _, p := range pkgs {
 			if p.BuiltBy(deck) {
 				counts[p.Name]++
