@@ -276,6 +276,12 @@ func (s *Store) Index(cube string) (*CubeIndex, error) {
 	return s.backend.Index(cube)
 }
 
+// GetSnapshot returns the cube list a draft was played with, or an error when
+// the draft has none (ErrDeckNotFound) or the cube keeps none (ErrUnsupported).
+func (s *Store) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
+	return s.backend.GetSnapshot(cube, draftID)
+}
+
 // GetDraftLog returns a draft's raw log, or ErrUnsupported if the cube keeps
 // none.
 func (s *Store) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {

@@ -33,6 +33,11 @@ func (m *mockDeckStorage) GetRules(_ string) (*design.DesignMapConfig, error) {
 	return nil, storage.ErrUnsupported
 }
 
+// GetSnapshot reports no snapshot for any draft.
+func (m *mockDeckStorage) GetSnapshot(_ string, _ int) (*types.Cube, error) {
+	return nil, storage.ErrDeckNotFound
+}
+
 func makeStorageDeck(player string, draftID int, labels []string, games []types.Game, matches []types.Match) *storage.Deck {
 	d := &storage.Deck{}
 	d.Player = player

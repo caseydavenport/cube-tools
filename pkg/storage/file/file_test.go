@@ -358,3 +358,27 @@ func TestFileReadsSkipOnlyTheUnreadableDeck(t *testing.T) {
 	}
 	assert.ElementsMatch(t, []storage.IndexedDeck{{ID: 1}, {ID: 2}}, index.Drafts[0].Decks)
 }
+
+func TestFileGetSnapshot(t *testing.T) {
+	root := t.TempDir()
+	t.Chdir(root)
+	writeConfFixture(t, root)
+	snapPath := filepath.Join(root, "data/conf/0001_2024-01-01/cube-snapshot.json")
+	if err := os.WriteFile(snapPath, []byte(`{"cards":[{"name":"Lightning Bolt"}]}`), 0o644); err != nil {
+		t.Fatalf("write cube-snapshot.json: %v", err)
+	}
+
+	got, err := New(nil).GetSnapshot("conf", 1)
+	assert.NoError(t, err)
+	assert.Len(t, got.Cards, 1)
+	assert.Equal(t, "Lightning Bolt", got.Cards[0].Name)
+}
+
+func TestFileGetSnapshotMissing(t *testing.T) {
+	root := t.TempDir()
+	t.Chdir(root)
+	writeConfFixture(t, root)
+
+	_, err := New(nil).GetSnapshot("conf", 1)
+	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
+}

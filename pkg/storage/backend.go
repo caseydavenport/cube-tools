@@ -6,6 +6,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // ErrUnsupported is returned when a cube has no data of the kind asked for,
@@ -49,6 +50,10 @@ type Backend interface {
 	// GetDraftLog returns a draft's raw log. Its shape is backend-defined, so
 	// Store passes it through unparsed.
 	GetDraftLog(cube string, draftID int) (json.RawMessage, error)
+
+	// GetSnapshot returns the cube list a draft was played with, or
+	// ErrDeckNotFound when the draft has none recorded.
+	GetSnapshot(cube string, draftID int) (*types.Cube, error)
 
 	// Writable reports whether the cube accepts writes.
 	Writable(cube string) bool

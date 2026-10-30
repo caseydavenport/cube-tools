@@ -136,3 +136,18 @@ func TestMemoryGetDraftLogMissing(t *testing.T) {
 	_, err := b.GetDraftLog("conf", 1)
 	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
 }
+
+func TestMemoryGetSnapshotRoundTrip(t *testing.T) {
+	b := New()
+	snap := &types.Cube{Cards: []types.Card{{Name: "Lightning Bolt"}}}
+	b.SeedSnapshot("conf", 1, snap)
+
+	got, err := b.GetSnapshot("conf", 1)
+	assert.NoError(t, err)
+	assert.Equal(t, snap, got)
+}
+
+func TestMemoryGetSnapshotMissing(t *testing.T) {
+	_, err := New().GetSnapshot("conf", 1)
+	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
+}

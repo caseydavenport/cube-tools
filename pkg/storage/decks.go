@@ -171,6 +171,10 @@ type DeckStorage interface {
 	// GetRules returns the cube's design-map rules. CubeCobra cubes get
 	// polyverse's rules, since CubeCobra has none.
 	GetRules(cube string) (*design.DesignMapConfig, error)
+
+	// GetSnapshot returns the cube list a draft was played with, or an error
+	// when there's none to read.
+	GetSnapshot(cube string, draftID int) (*types.Cube, error)
 }
 
 // DeckMetaWrite carries the annotation fields for a deck. MacroArchetype,

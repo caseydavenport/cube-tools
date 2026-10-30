@@ -9,6 +9,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // Backend is an in-memory deck store for tests. It holds decks per cube and
@@ -19,6 +20,7 @@ type Backend struct {
 	rules     map[string]*design.DesignMapConfig
 	index     map[string]*storage.CubeIndex
 	draftLogs map[string]json.RawMessage
+	snapshots map[string]*types.Cube
 	players   *players.List
 	readOnly  map[string]bool
 }
@@ -32,6 +34,7 @@ func New() *Backend {
 		rules:     map[string]*design.DesignMapConfig{},
 		index:     map[string]*storage.CubeIndex{},
 		draftLogs: map[string]json.RawMessage{},
+		snapshots: map[string]*types.Cube{},
 		readOnly:  map[string]bool{},
 	}
 }
@@ -209,6 +212,24 @@ func (b *Backend) GetDraftLog(cube string, draftID int) (json.RawMessage, error)
 		return nil, storage.ErrDeckNotFound
 	}
 	return log, nil
+}
+
+// GetSnapshot returns a draft's seeded cube list, or ErrDeckNotFound.
+func (b *Backend) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	snapshot, ok := b.snapshots[draftLogKey(cube, draftID)]
+	if !ok {
+		return nil, storage.ErrDeckNotFound
+	}
+	return snapshot, nil
+}
+
+// SeedSnapshot preloads the cube list a draft was played with.
+func (b *Backend) SeedSnapshot(cube string, draftID int, snapshot *types.Cube) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.snapshots[draftLogKey(cube, draftID)] = snapshot
 }
 
 // SeedRules preloads a cube's design-map rules. Call before wrapping in a Store.

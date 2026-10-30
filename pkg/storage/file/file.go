@@ -176,6 +176,20 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 	return out, nil
 }
 
+// GetSnapshot returns the cube list saved with a draft, or ErrDeckNotFound if
+// the draft doesn't exist or has no snapshot.
+func (b *Backend) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
+	draft, err := findDraft(cube, draftID)
+	if err != nil {
+		return nil, err
+	}
+	snapshot, err := draft.Snapshot()
+	if errors.Is(err, drafts.ErrNotFound) {
+		return nil, storage.ErrDeckNotFound
+	}
+	return snapshot, err
+}
+
 // GetDraftLog returns a draft's raw log bytes, or ErrDeckNotFound if the draft
 // doesn't exist or has no log.
 func (b *Backend) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {

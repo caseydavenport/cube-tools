@@ -6,6 +6,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // FileBackend is the writable, registry-cube backend the router delegates to
@@ -18,6 +19,7 @@ type FileBackend interface {
 	GetRules(cube string) (*design.DesignMapConfig, error)
 	PutRules(cube string, rules *design.DesignMapConfig) error
 	GetDraftLog(cube string, draftID int) (json.RawMessage, error)
+	GetSnapshot(cube string, draftID int) (*types.Cube, error)
 }
 
 // CCBackend is the read-only CubeCobra backend the router delegates to for cc:
@@ -90,6 +92,15 @@ func (r *Router) PutRules(cube string, rules *design.DesignMapConfig) error {
 		return storage.ErrReadOnly
 	}
 	return r.file.PutRules(cube, rules)
+}
+
+// GetSnapshot returns a draft's cube list from the file backend. Cube Cobra
+// cubes keep no snapshots.
+func (r *Router) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
+	if cubes.IsCubeCobra(cube) {
+		return nil, storage.ErrUnsupported
+	}
+	return r.file.GetSnapshot(cube, draftID)
 }
 
 // GetDraftLog returns a draft's log from the file backend. Cube Cobra cubes

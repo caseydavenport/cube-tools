@@ -8,6 +8,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 type fakeFile struct {
@@ -43,6 +44,10 @@ func (f *fakeFile) GetRules(cube string) (*design.DesignMapConfig, error) {
 func (f *fakeFile) PutRules(cube string, r *design.DesignMapConfig) error { f.wrote = true; return nil }
 func (f *fakeFile) GetDraftLog(cube string, d int) (json.RawMessage, error) {
 	return json.RawMessage(`{}`), nil
+}
+
+func (f *fakeFile) GetSnapshot(cube string, d int) (*types.Cube, error) {
+	return &types.Cube{}, nil
 }
 
 type fakeCC struct{}
