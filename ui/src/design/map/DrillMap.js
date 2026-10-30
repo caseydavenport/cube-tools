@@ -5,7 +5,8 @@ import React, { useRef, useEffect, useMemo } from 'react'
 import { CardImageURL } from "../../utils/Utils.js"
 import { cardRefName } from "../../utils/DesignRules.js"
 import { edgeColorFor, whyLinked } from "./designData.js"
-import { ForceGraph, cardColor, getNodeColor } from "./ForceGraph.js"
+import { cardColor, getNodeColor } from "../../components/map/nodeColors.js"
+import { MapView } from "../../components/map/MapView.js"
 import { ruleColor } from "./ruleColors.js"
 import { MAP_COPY } from "./copy.js"
 import { Loom, bridgeLoom } from "../Loom.js"
@@ -55,7 +56,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, packag
   }, [])
 
   // Build the node/edge set for the current drill level.
-  const { simNodes, simEdges, showLabels, caption } = useMemo(() => {
+  const { simNodes, simEdges, caption } = useMemo(() => {
     if (focus.level === "themes") {
       const max = groupNodes.reduce((m, g) => Math.max(m, g.card_count), 1)
       const sn = groupNodes.map(g => {
@@ -73,8 +74,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, packag
           id: g.name,
           radius: Math.max(10, Math.min(38, 10 + (g.card_count / max) * 28)),
           color: groupColor(g.name),
-          label: g.name,
-          count: g.card_count,
+          label: MAP_COPY.drillMap.nodeLabelWithCount({ label: g.name, count: g.card_count }),
         }
       })
       const se = groupEdges.map(e => ({
@@ -86,7 +86,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, packag
       if (nRefs) {
         themesCaption = MAP_COPY.drillMap.captionThemesAndCards({ themes: sn.length - nRefs, cards: nRefs })
       }
-      return { simNodes: sn, simEdges: se, showLabels: true, caption: themesCaption }
+      return { simNodes: sn, simEdges: se, caption: themesCaption }
     }
 
     if (focus.level === "group") {
@@ -105,7 +105,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, packag
       const se = edges
         .filter(e => names.has(e.source) && names.has(e.target))
         .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.packages, packageIndex) }))
-      return { simNodes: sn, simEdges: se, showLabels: sn.length <= 34, caption: MAP_COPY.drillMap.captionGroup({ cards: sn.length, group: focus.group }) }
+      return { simNodes: sn, simEdges: se, caption: MAP_COPY.drillMap.captionGroup({ cards: sn.length, group: focus.group }) }
     }
 
     // card level: the focused card and its direct neighbors.
@@ -130,15 +130,14 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, packag
     const se = edges
       .filter(e => nbrs.has(e.source) && nbrs.has(e.target) && (e.source === center || e.target === center))
       .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.packages, packageIndex) }))
-    return { simNodes: sn, simEdges: se, showLabels: true, caption: MAP_COPY.drillMap.captionCard({ cards: sn.length - 1, card: center }) }
+    return { simNodes: sn, simEdges: se, caption: MAP_COPY.drillMap.captionCard({ cards: sn.length - 1, card: center }) }
   }, [focus, groupNodes, groupEdges, edges, nodeMap])
 
   return (
     <div className="dm-panel dm-map" ref={mapRef}>
-      <ForceGraph
+      <MapView
         nodes={simNodes}
         edges={simEdges}
-        showLabels={showLabels}
         hoveredId={hovered}
         selectedId={focus.level === "card" ? focus.card : null}
         onHover={onHover}

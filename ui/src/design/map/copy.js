@@ -49,15 +49,11 @@ export const MAP_COPY = {
     captionThemes: ({ themes }) => `${themes} themes · click to drill in`,
     captionGroup: ({ cards, group }) => `${cards} cards in ${group} · click a card`,
     captionCard: ({ cards, card }) => `${cards} cards connected to ${card}`,
+    nodeLabelWithCount: ({ label, count }) => `${label} (${count})`,
     sharedRule: "shared rule",
     between: "⇄",
     packageCount: ({ count }) => (count === 1 ? "1 package" : `${count} packages`),
     cardGroups: ({ card }) => `${card}'s groups`,
-  },
-
-  // ForceGraph.js: a theme's label on the canvas.
-  forceGraph: {
-    nodeLabelWithCount: ({ label, count }) => `${label} (${count})`,
   },
 
   // GroupEditModal.js: the group dialog and its query reference.

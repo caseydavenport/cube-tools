@@ -134,9 +134,13 @@ function HoverPreview({ point, children }) {
 // FADED is how far a node outside the focus fades into the card color.
 const FADED = 0.82
 
+// MAX_FORCED_LABELS is the most neighbors whose labels a focus forces on.
+// Past that they'd pile up, so Sigma's usual label culling decides instead.
+const MAX_FORCED_LABELS = 24
+
 // styleNode decides how one node draws for the current focus. Nodes outside
-// the focus fade and lose their label; the focus and its neighbors always
-// show their labels, and the focus gets a ring. Fading blends toward the card
+// the focus fade and lose their label; the focus always shows its label, and
+// so do its neighbors when there are few enough. The focus gets a ring. Fading blends toward the card
 // color, since Sigma's WebGL drawing mishandles see-through colors.
 function styleNode(id, attrs, state) {
   const theme = currentChartTheme()
@@ -165,7 +169,8 @@ function styleNode(id, attrs, state) {
     return { ...styled, highlighted: true, forceLabel: true, zIndex: 2 }
   }
   if (state.graph.areNeighbors(id, focus)) {
-    return { ...styled, forceLabel: true, zIndex: 1 }
+    const fewNeighbors = state.graph.degree(focus) <= MAX_FORCED_LABELS
+    return { ...styled, forceLabel: fewNeighbors, zIndex: 1 }
   }
   return { ...styled, color: blendHex(fill, theme.card, FADED), label: "", zIndex: 0 }
 }

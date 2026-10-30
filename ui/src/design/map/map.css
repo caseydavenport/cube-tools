@@ -80,7 +80,6 @@
 
 /* Map */
 .dm-map { position: relative; }
-.dm-canvaswrap { flex: 1; min-height: 0; position: relative; cursor: grab; }
 .dm-map-caption {
   position: absolute; left: 12px; bottom: 10px;
   color: var(--se-muted); font-size: 0.75rem; font-family: 'Fira Code', monospace;

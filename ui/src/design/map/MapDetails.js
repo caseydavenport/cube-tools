@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 import { UnstyledButton } from "@mantine/core"
 import { cardRefName, effectiveCards, requestForConditions } from "../../utils/DesignRules.js"
 import { useDesignMatch } from "../../utils/useDesignMatch.js"
-import { getNodeColor } from "./ForceGraph.js"
+import { getNodeColor } from "../../components/map/nodeColors.js"
 import { ConditionTooltip } from "./RuleInputs.js"
 import { useCardMemberships } from "./designData.js"
 import { readableRuleColor, ruleColor } from "./ruleColors.js"
