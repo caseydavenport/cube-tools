@@ -20,6 +20,7 @@ export const QueryTerms = [
   "player",
   "dcolor",
   "draftSize",
+  "package",
   "community",
   "cctag",
 ]

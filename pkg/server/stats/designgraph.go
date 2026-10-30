@@ -1382,8 +1382,12 @@ func SaveDesignRulesHandler(store *storage.Store) http.Handler {
 			return
 		}
 
+		// Unknown fields are refused so a page still running an older UI, which
+		// sends "links" instead of "packages", can't save rules with no packages.
 		var config design.DesignMapConfig
-		if err := json.NewDecoder(r.Body).Decode(&config); err != nil {
+		dec := json.NewDecoder(r.Body)
+		dec.DisallowUnknownFields()
+		if err := dec.Decode(&config); err != nil {
 			http.Error(rw, fmt.Sprintf("invalid JSON: %v", err), http.StatusBadRequest)
 			return
 		}

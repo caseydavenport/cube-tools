@@ -1,12 +1,15 @@
 package stats
 
 import (
+	"net/http"
 	"os"
 	"path/filepath"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/file"
+	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -697,4 +700,46 @@ func seedOracle(t *testing.T, cardsJSON string) {
 			t.Logf("could not reset oracle data: %v", err)
 		}
 	})
+}
+
+// savedRulesStore holds one cube with one group and one package, for the save
+// handler tests.
+func savedRulesStore() *storage.Store {
+	return memory.NewStore(func(b *memory.Backend) {
+		b.SeedRules("testcube", &design.DesignMapConfig{
+			Groups:   []design.Group{{Name: "Graveyard", Conditions: []string{"o:graveyard"}}},
+			Packages: []design.Package{{Name: "Graveyard", Wires: []design.Wire{{Sources: []string{"Graveyard"}, Targets: []string{"Graveyard"}}}}},
+		})
+	})
+}
+
+// TestSaveDesignRules_RoundTrip checks that rules saved in the current format
+// load back with every group and package.
+func TestSaveDesignRules_RoundTrip(t *testing.T) {
+	store := savedRulesStore()
+	body := `{"groups":[{"name":"Ramp","conditions":["o:add"]}],"packages":[{"name":"Ramp","wires":[{"sources":["Ramp"],"targets":["Ramp"]}]}]}`
+
+	rec := serve(t, SaveDesignRulesHandler(store), http.MethodPost, "/api/testcube/save-design-rules", body)
+	require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
+
+	got, err := store.GetRules("testcube")
+	require.NoError(t, err)
+	require.Len(t, got.Packages, 1)
+	assert.Equal(t, "Ramp", got.Packages[0].Name)
+	assert.Equal(t, []string{"Ramp"}, got.Packages[0].Wires[0].Sources)
+}
+
+// TestSaveDesignRules_RejectsOldFormat checks that a save from a page still
+// running the old UI, which sends "links" with "label"s, is refused rather
+// than silently writing the rules with no packages.
+func TestSaveDesignRules_RejectsOldFormat(t *testing.T) {
+	store := savedRulesStore()
+	body := `{"groups":[{"name":"Graveyard","conditions":["o:graveyard"]}],"links":[{"label":"Graveyard","wires":[{"sources":["Graveyard"],"targets":["Graveyard"]}]}]}`
+
+	rec := serve(t, SaveDesignRulesHandler(store), http.MethodPost, "/api/testcube/save-design-rules", body)
+	assert.Equal(t, http.StatusBadRequest, rec.Code)
+
+	got, err := store.GetRules("testcube")
+	require.NoError(t, err)
+	require.Len(t, got.Packages, 1, "the saved package survives a rejected save")
 }
