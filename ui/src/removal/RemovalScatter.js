@@ -37,9 +37,12 @@ const costColumnShading = {
   },
 }
 
+// LEGEND_MARGIN is the space, in pixels, between the legend and the dots.
+const LEGEND_MARGIN = 24
+
 // legendMargin adds space under the legend, which Chart.js has no setting
-// for, so the top row of dots doesn't crowd the key. The margin is read from
-// the chart's options, like costColumnShading's columns.
+// for, so the top row of dots doesn't crowd the key. It's passed to this
+// chart alone, never registered for every chart.
 const legendMargin = {
   id: "legendMargin",
   beforeInit(chart) {
@@ -50,15 +53,12 @@ const legendMargin = {
     const fit = legend.fit
     legend.fit = function fitWithMargin() {
       fit.call(this)
-      const margin = chart.options.plugins.legendMargin
-      if (margin) {
-        this.height += margin
-      }
+      this.height += LEGEND_MARGIN
     }
   },
 }
 
-ChartJS.register(LinearScale, PointElement, Tooltip, Legend, costColumnShading, legendMargin)
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend, costColumnShading)
 
 // SYMBOL_SIZE is the width and height, in pixels, of a mana symbol point.
 const SYMBOL_SIZE = 18
@@ -168,7 +168,6 @@ export function RemovalScatter({ cards, mode }) {
     plugins: {
       legend: { labels: { usePointStyle: true, color: theme.text } },
       costColumns: { costs: columns.costs, fill: withAlpha(theme.text, 0.05) },
-      legendMargin: 24,
       // Every card under the pointer gets a line, so touching dots stay readable.
       tooltip: chartTooltip(theme, {
         callbacks: {
@@ -181,7 +180,7 @@ export function RemovalScatter({ cards, mode }) {
 
   return (
     <div className="removal-scatter">
-      <Scatter data={data} options={options} />
+      <Scatter data={data} options={options} plugins={[legendMargin]} />
     </div>
   )
 }
