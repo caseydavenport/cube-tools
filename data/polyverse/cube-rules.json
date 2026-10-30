@@ -286,6 +286,55 @@
       ]
     },
     {
+      "name": "Fetches basics",
+      "conditions": [
+        "o:\"search your library\" o:\"a basic\""
+      ]
+    },
+    {
+      "name": "Fetches forest",
+      "conditions": [
+        "o:\"search your library\" o:\"a forest\""
+      ],
+      "exclude": [
+        "Knight of the Reliquary"
+      ]
+    },
+    {
+      "name": "Fetches island",
+      "conditions": [
+        "o:\"search your library\" o:\"an island\""
+      ]
+    },
+    {
+      "name": "Fetches land",
+      "conditions": [
+        "o:\"search your library\" o:\"a land\"",
+        "o:\"search your library\" o:\"or land\""
+      ],
+      "exclude": [
+        "Edge of Autumn"
+      ]
+    },
+    {
+      "name": "Fetches mountain",
+      "conditions": [
+        "o:\"search your library\" o:\"a mountain\""
+      ]
+    },
+    {
+      "name": "Fetches plains",
+      "conditions": [
+        "o:\"search your library\" o:\"a plains\""
+      ]
+    },
+    {
+      "name": "Fetches swamp",
+      "conditions": [
+        "o:\"search your library\" o:\"a swamp\""
+      ]
+    },
+    {
       "name": "Fill graveyard",
       "conditions": [
         "o:surveil",
@@ -917,6 +966,59 @@
       ]
     },
     {
+      "name": "Fixing",
+      "wires": [
+        {
+          "sources": [
+            "Fetches plains"
+          ],
+          "targets": [
+            "Plains"
+          ]
+        },
+        {
+          "sources": [
+            "Fetches island"
+          ],
+          "targets": [
+            "Islands"
+          ]
+        },
+        {
+          "sources": [
+            "Fetches swamp"
+          ],
+          "targets": [
+            "Swamps"
+          ]
+        },
+        {
+          "sources": [
+            "Fetches mountain"
+          ],
+          "targets": [
+            "Mountains"
+          ]
+        },
+        {
+          "sources": [
+            "Fetches forest"
+          ],
+          "targets": [
+            "Forests"
+          ]
+        },
+        {
+          "sources": [
+            "Fetches land"
+          ],
+          "targets": [
+            "Lands"
+          ]
+        }
+      ]
+    },
+    {
       "name": "Graveyard",
       "wires": [
         {
@@ -979,96 +1081,6 @@
           "targets": [
             "Forests",
             "Plains"
-          ]
-        },
-        {
-          "sources": [
-            "card:Arid Mesa"
-          ],
-          "targets": [
-            "Mountains",
-            "Plains"
-          ]
-        },
-        {
-          "sources": [
-            "card:Flooded Strand"
-          ],
-          "targets": [
-            "Plains",
-            "Islands"
-          ]
-        },
-        {
-          "sources": [
-            "card:Polluted Delta"
-          ],
-          "targets": [
-            "Swamps",
-            "Islands"
-          ]
-        },
-        {
-          "sources": [
-            "card:Bloodstained Mire"
-          ],
-          "targets": [
-            "Swamps",
-            "Mountains"
-          ]
-        },
-        {
-          "sources": [
-            "card:Wooded Foothills"
-          ],
-          "targets": [
-            "Mountains",
-            "Forests"
-          ]
-        },
-        {
-          "sources": [
-            "card:Windswept Heath"
-          ],
-          "targets": [
-            "Forests",
-            "Plains"
-          ]
-        },
-        {
-          "sources": [
-            "card:Marsh Flats"
-          ],
-          "targets": [
-            "Plains",
-            "Swamps"
-          ]
-        },
-        {
-          "sources": [
-            "card:Scalding Tarn"
-          ],
-          "targets": [
-            "Islands",
-            "Mountains"
-          ]
-        },
-        {
-          "sources": [
-            "card:Verdant Catacombs"
-          ],
-          "targets": [
-            "Swamps",
-            "Forests"
-          ]
-        },
-        {
-          "sources": [
-            "card:Misty Rainforest"
-          ],
-          "targets": [
-            "Islands",
-            "Forests"
           ]
         },
         {
