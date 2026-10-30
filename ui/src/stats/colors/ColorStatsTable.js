@@ -3,10 +3,10 @@
 import React from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
-import { HoverStats } from "../../components/kit/HoverStats.js"
+import { WinRateCell } from "../../components/kit/WinRateCell.js"
 import { asEvent } from "../../components/kit/controls.js"
 import { Group, SegmentedControl } from "@mantine/core"
-import { ColorImages, CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
+import { ColorImages } from "../../utils/Colors.js"
 import { colorName } from "../../utils/colorNames.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { colorColumnShown, shownColorSort } from "./colorSort.js"
@@ -36,31 +36,17 @@ const COLOR_COLUMNS = [
     cell: (color) => <ColorCell key="color" color={color} />,
   },
   {
-    id: "win",
-    text: COLORS_COPY.statsTable.winPct.text,
-    tip: COLORS_COPY.statsTable.winPct.tip,
-    needs: ["results"],
-    cell: (color) => <WinPercentCell key="win" color={color} />,
+    id: "build",
+    text: COLORS_COPY.statsTable.buildPct.text,
+    tip: COLORS_COPY.statsTable.buildPct.tip,
+    cell: (color) => <td key="build">{color.build_percent.toFixed(0)}%</td>,
   },
   {
     id: "bayes_win",
     text: COLORS_COPY.statsTable.bayesWinPct.text,
     tip: COLORS_COPY.statsTable.bayesWinPct.tip,
     needs: ["results"],
-    cell: (color) => <BayesWinPercentCell key="bayes_win" color={color} />,
-  },
-  {
-    id: "delta",
-    text: COLORS_COPY.statsTable.delta.text,
-    tip: COLORS_COPY.statsTable.delta.tip,
-    needs: ["results"],
-    cell: (color) => <DeltaCell key="delta" color={color} />,
-  },
-  {
-    id: "build",
-    text: COLORS_COPY.statsTable.buildPct.text,
-    tip: COLORS_COPY.statsTable.buildPct.tip,
-    cell: (color) => <td key="build">{color.build_percent.toFixed(0)}%</td>,
+    cell: (color, input) => <WinRateCell key="bayes_win" record={color} confidence={input.confidence} />,
   },
   {
     id: "pwin",
@@ -135,17 +121,6 @@ function winningPercentText(color) {
   return Pct(color.top_half, color.num_decks) + "%"
 }
 
-// vsAverageText is a win rate's difference from the cube average, signed, like
-// "+4%" or "-3%".
-function vsAverageText(winPercent) {
-  const delta = winPercent - CUBE_AVG_WIN_PERCENT
-  let sign = ""
-  if (delta >= 0) {
-    sign = "+"
-  }
-  return sign + delta.toFixed(0) + "%"
-}
-
 // ColorCell shows a row's color pips, with the guild or shard name in small
 // text beside a multi-color group.
 function ColorCell({ color }) {
@@ -161,75 +136,10 @@ function ColorCell({ color }) {
   )
 }
 
-// BayesWinPercentCell shows a color's Bayesian win rate, with its difference
-// from the cube average on hover.
-function BayesWinPercentCell({ color }) {
-  if (color.win_percent_low == null) {
-    return <td>{color.bayesian_win_percent.toFixed(0)}%</td>
-  }
-
-  const rows = [{
-    label: COLORS_COPY.statsTable.vsCubeAverage,
-    value: vsAverageText(color.bayesian_win_percent),
-  }]
-  return (
-    <HoverStats rows={rows}>
-      <td>{color.bayesian_win_percent.toFixed(0)}%</td>
-    </HoverStats>
-  )
-}
-
-// WinPercentCell shows a color's win rate, greyed when it can't be told apart
-// from a coin flip, with the confidence interval on hover.
-function WinPercentCell({ color }) {
-  if (color.win_percent_low == null) {
-    return <td>{color.win_percent.toFixed(0)}%</td>
-  }
-
-  let style = undefined
-  let verdict = COLORS_COPY.statsTable.distinguishable
-  if (!color.significant) {
-    style = { color: "var(--se-muted)" }
-    verdict = COLORS_COPY.statsTable.notDistinguishable
-  }
-  const rows = [
-    {
-      label: COLORS_COPY.statsTable.winIntervalLabel,
-      value: COLORS_COPY.statsTable.winInterval({
-        low: color.win_percent_low.toFixed(0),
-        high: color.win_percent_high.toFixed(0),
-      }),
-    },
-    {
-      label: COLORS_COPY.statsTable.vsCubeAverage,
-      value: vsAverageText(color.win_percent),
-    },
-  ]
-  return (
-    <HoverStats rows={rows} footer={verdict}>
-      <td style={style}>{color.win_percent.toFixed(0)}%</td>
-    </HoverStats>
-  )
-}
-
-// DeltaCell shows a color's win rate above or below the cube average, signed
-// and colored good or bad.
-function DeltaCell({ color }) {
-  let className = "negative"
-  if (color.win_percent >= CUBE_AVG_WIN_PERCENT) {
-    className = "positive"
-  }
-  return <td className={className}>{vsAverageText(color.win_percent)}</td>
-}
-
-// colorSortValue is the value a row sorts by for the chosen column, win rate
-// unless another column was clicked.
+// colorSortValue is the value a row sorts by for the chosen column, Bayes win
+// rate unless another column was clicked.
 function colorSortValue(color, sortBy) {
-  if (sortBy === "delta") {
-    return color.win_percent - CUBE_AVG_WIN_PERCENT
-  } else if (sortBy === "bayes_win") {
-    return color.bayesian_win_percent
-  } else if (sortBy === "build") {
+  if (sortBy === "build") {
     return color.build_percent
   } else if (sortBy === "decks") {
     return color.num_decks
@@ -255,7 +165,7 @@ function colorSortValue(color, sortBy) {
     }
     return -1
   }
-  return color.win_percent
+  return color.bayesian_win_percent
 }
 
 // ColorStatsTable displays the win percentages and records by color.
@@ -316,7 +226,7 @@ export function ColorStatsTable(input) {
             filtered.map(function(color, idx) {
               return (
                 <tr key={idx} sort={colorSortValue(color, sortBy)} className="widget-table-row">
-                  {columns.map(column => column.cell(color))}
+                  {columns.map(column => column.cell(color, input))}
                 </tr>
               );
             }).sort(SortFunc)

@@ -76,6 +76,7 @@ export function ColorWidget(input) {
             sortBy={input.colorSortBy}
             selectedBucket={input.selectedBucket}
             info={input.info}
+            confidence={input.winConfidence}
           />
         </SectionCard>
       </div>

@@ -29,17 +29,9 @@ export const COLORS_COPY = {
       text: "Color",
       tip: "The colors of the decks bucketed into this row. Color mode controls whether the row represents any deck that includes these colors (inclusive), only decks with exactly this color identity (exact), or only decks where these are the primary two colors (primary pair).",
     },
-    winPct: {
-      text: "Win %",
-      tip: "Percentage of games played by this color/colors that were wins. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
-    },
     bayesWinPct: {
       text: "Bayes Win %",
-      tip: "Win rate pulled toward the cube average in proportion to how few games a row has, so a color with one lucky deck doesn't top the table. Hover for the difference from average.",
-    },
-    delta: {
-      text: "vs avg",
-      tip: "Win rate relative to the cube-wide average (50%). Positive (green) means this color wins more than its share of games; negative (red) means it loses more.",
+      tip: "Win rate pulled toward the cube average in proportion to how few games a row has, so a color with one lucky deck doesn't top the table. Greyed when it can't be told apart from 50%. Hover for the raw win %, its interval, the games and the difference from average.",
     },
     buildPct: {
       text: "Build %",
@@ -82,11 +74,6 @@ export const COLORS_COPY = {
       tip: "This color's share of all mainboarded cards across every deck. Sums to ~100% across rows.",
     },
 
-    notDistinguishable: "not distinguishable from 50%",
-    distinguishable: "distinguishable from 50%",
-    winInterval: ({ low, high }) => `${low}–${high}%`,
-    winIntervalLabel: "Win % interval",
-    vsCubeAverage: "vs cube average",
 
     colorTypeLabel: "Color type",
     bucketLabel: "Bucket",

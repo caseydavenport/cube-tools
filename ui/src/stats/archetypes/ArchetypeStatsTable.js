@@ -4,7 +4,7 @@ import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
-import { HoverStats } from "../../components/kit/HoverStats.js"
+import { WinRateCell } from "../../components/kit/WinRateCell.js"
 import { visibleItems } from "../../utils/dataKinds.js"
 import { macroArchetypes, watermark } from "./archetypeHelpers.js"
 import "../stats.css"
@@ -26,18 +26,11 @@ const ARCHETYPE_COLUMNS = [
     cell: (t) => <td key="build_percent">{t.build_percent.toFixed(0)}%</td>,
   },
   {
-    id: "win_percent",
-    text: ARCHETYPES_COPY.statsTable.winPct.text,
-    tip: ARCHETYPES_COPY.statsTable.winPct.tip,
-    needs: ["results"],
-    cell: (t) => <ArchetypeWinCell key="win_percent" stats={t} />,
-  },
-  {
     id: "bayes_win",
     text: ARCHETYPES_COPY.statsTable.bayesWinPct.text,
     tip: ARCHETYPES_COPY.statsTable.bayesWinPct.tip,
     needs: ["results"],
-    cell: (t) => <td key="bayes_win">{t.bayesian_win_percent.toFixed(0)}%</td>,
+    cell: (t, input) => <WinRateCell key="bayes_win" record={t} confidence={input.confidence} />,
   },
   {
     id: "pwin",
@@ -104,42 +97,25 @@ function winningPercentText(t) {
   return Pct(t.winning, t.count) + "%"
 }
 
-// ArchetypeWinCell shows a win rate, greyed when it can't be told apart from a
-// coin flip, with the confidence interval on hover.
-function ArchetypeWinCell({ stats }) {
-  if (stats.win_percent_low == null) {
-    return <td>{stats.win_percent.toFixed(0)}%</td>
+// shownArchetypeSort returns sortBy when one of the shown columns has that id.
+// Otherwise it falls back to Bayes win % when that column shows, and to Build %
+// for a cube without results, so rows never sort by a hidden column.
+function shownArchetypeSort(sortBy, columns) {
+  const ids = columns.map(column => column.id)
+  if (ids.includes(sortBy)) {
+    return sortBy
   }
-
-  let style = undefined
-  let verdict = ARCHETYPES_COPY.statsTable.distinguishable
-  if (!stats.significant) {
-    style = { color: "var(--se-muted)" }
-    verdict = ARCHETYPES_COPY.statsTable.notDistinguishable
+  if (ids.includes("bayes_win")) {
+    return "bayes_win"
   }
-  const rows = [{
-    label: ARCHETYPES_COPY.statsTable.winIntervalLabel,
-    value: ARCHETYPES_COPY.statsTable.winInterval({
-      low: stats.win_percent_low.toFixed(0),
-      high: stats.win_percent_high.toFixed(0),
-    }),
-  }]
-
-  return (
-    <HoverStats rows={rows} footer={verdict}>
-      <td style={style}>{stats.win_percent.toFixed(0)}%</td>
-    </HoverStats>
-  )
+  return "build_percent"
 }
 
-// archetypeSortValue is the value a row sorts by for the clicked column,
-// build rate unless another column was clicked.
+// archetypeSortValue is the value a row sorts by for the chosen column.
 function archetypeSortValue(t, sortBy) {
   switch (sortBy) {
     case "type":
       return t.type
-    case "win_percent":
-      return t.win_percent
     case "bayes_win":
       return t.bayesian_win_percent
     case "shared":
@@ -189,7 +165,7 @@ function ArchetypeTableRows(input) {
       {
         input.data.map(function(t) {
           return (
-            <tr key={t.type} sort={archetypeSortValue(t, input.sortBy)} className="widget-table-row">
+            <tr key={t.type} sort={archetypeSortValue(t, shownArchetypeSort(input.sortBy, input.columns))} className="widget-table-row">
               {input.columns.map(column => column.cell(t, input))}
             </tr>
           )
@@ -224,7 +200,7 @@ export function ArchetypeStatsTable(input) {
         <div className="table-scroll">
           <table className="widget-table">
             <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
-            <ArchetypeTableRows columns={columns} data={microData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
+            <ArchetypeTableRows columns={columns} data={microData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} confidence={input.confidence} />
           </table>
         </div>
       </>
@@ -237,7 +213,7 @@ export function ArchetypeStatsTable(input) {
       <div className="table-scroll">
         <table className="widget-table">
           <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
-          <ArchetypeTableRows columns={columns} data={macroData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
+          <ArchetypeTableRows columns={columns} data={macroData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} confidence={input.confidence} />
         </table>
       </div>
       {tagsTable}

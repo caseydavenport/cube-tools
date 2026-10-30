@@ -23,7 +23,7 @@ export function useStatsFilters() {
   const [manaValue, setManaValue] = useState(-1);
   const [selectedBucket, setSelectedBucket] = useState("ALL");
   const [colorTypeSelection, setColorTypeSelection] = useState("Any");
-  const [colorSortBy, setColorSortBy] = useState("win");
+  const [colorSortBy, setColorSortBy] = useState("bayes_win");
   const [colorMode, setColorMode] = useState("exact");
   const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
   const [cardWidgetSelection, setCardWidgetSelection] = useState("Overview");

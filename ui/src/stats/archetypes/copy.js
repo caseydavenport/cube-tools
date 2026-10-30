@@ -42,10 +42,6 @@ export const ARCHETYPES_COPY = {
       text: "Build %",
       tip: "Percentage of all built decks that have this archetype / tag.",
     },
-    winPct: {
-      text: "Win %",
-      tip: "Win percentage of decks that have this archetype / tag. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
-    },
     percentOfWins: {
       text: "% of wins",
       tip: "Number of wins from decks with this tag, divided by the total number of wins across all decks.",
@@ -56,7 +52,7 @@ export const ARCHETYPES_COPY = {
     },
     bayesWinPct: {
       text: "Bayes Win %",
-      tip: "Bayesian estimate of the win percentage, which is more accurate for archetypes with few decks.",
+      tip: "Win rate pulled toward the cube average in proportion to how few games a row has, so a tag with one lucky deck doesn't top the table. Greyed when it can't be told apart from 50%. Hover for the raw win %, its interval, the games and the difference from average.",
     },
     lastPlace: {
       text: "Last place",
@@ -83,10 +79,6 @@ export const ARCHETYPES_COPY = {
       tip: "How many other tags the average deck in this row also carries, not counting aggro, midrange or control. Near 0 means the theme usually stands alone; 2 or more means it usually comes with others.",
     },
     tooFewDecks: "—",
-    notDistinguishable: "not distinguishable from 50%",
-    distinguishable: "distinguishable from 50%",
-    winIntervalLabel: "Win % interval",
-    winInterval: ({ low, high }) => `${low}–${high}%`,
     tagsHeading: "Tags",
     archetypesHeading: "Archetypes",
   },

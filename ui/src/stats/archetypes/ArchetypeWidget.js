@@ -104,6 +104,7 @@ export function ArchetypeWidget(input) {
           handleRowClick={input.handleRowClick}
           selectedArchetype={input.selectedArchetype}
           info={input.info}
+          confidence={input.winConfidence}
         />
       </Section>
 

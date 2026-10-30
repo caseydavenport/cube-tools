@@ -279,17 +279,6 @@
   margin: 2rem 0;
 }
 
-/* Signed performance-delta values: green when above the cube average, red when below. */
-.positive {
-  color: var(--se-good);
-  font-weight: bold;
-}
-
-.negative {
-  color: var(--se-bad);
-  font-weight: bold;
-}
-
 /* Layout */
 .house-for-widgets {
   display: block;

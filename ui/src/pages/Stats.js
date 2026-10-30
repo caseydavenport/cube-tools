@@ -169,6 +169,7 @@ export function StatsViewer(props) {
       <ColorWidget
         info={info}
         copy={COPY}
+        winConfidence={winConfidence}
         parsed={parsed}
         ddOpts={[
           { label: COLORS_COPY.widget.typeAny, value: "Any" },
@@ -193,6 +194,7 @@ export function StatsViewer(props) {
     widget = (
       <ArchetypeWidget
         info={info}
+        winConfidence={winConfidence}
         parsed={parsed} cardData={cardData} decks={decks} cube={cube}
         show={true} bucketSize={bucketSize} matchups={archetypeMatchups}
         dropdownSelection={colorTypeSelection} onSelected={(e) => setCardWidgetSelection(e.target.value)}
