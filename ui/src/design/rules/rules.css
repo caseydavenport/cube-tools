@@ -97,8 +97,6 @@
 }
 
 /* Overview */
-.de-lede { color: var(--se-muted); font-size: 0.9rem; line-height: 1.55; max-width: 60ch; }
-.de-lede b { color: var(--se-text); }
 .de-vitals { display: flex; gap: 2.25rem; margin: 0.9rem 0 0.4rem; flex-wrap: wrap; }
 .de-vital { display: flex; flex-direction: column; }
 .de-vital-num { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; }

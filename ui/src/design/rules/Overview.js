@@ -3,8 +3,11 @@
 import React from 'react'
 import { UnstyledButton } from '@mantine/core'
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
-import { RichText } from "../../components/kit/RichText.js"
 import { RULES_COPY } from "./copy.js"
+
+// GROUPS_TIP and PACKAGES_TIP define the rulebook's two building blocks.
+const GROUPS_TIP = "Card sets defined by query conditions. Pick one on the left to see and edit its cards."
+const PACKAGES_TIP = "Groups wired together as a synergy: each wire joins source groups to target groups. Pick one on the left, or search a card on the right to see where it sits."
 
 // EDGES_TIP says what the edge count covers, since the card graph elsewhere
 // also counts cards cut from the cube.
@@ -20,12 +23,11 @@ export function Overview({ nodes, groups, packages, edges, audit, membershipsLoa
       <div className="de-pane-head">
         <h3 className="de-pane-title">{RULES_COPY.overview.heading}</h3>
       </div>
-      <p className="de-lede"><RichText parts={RULES_COPY.overview.lede} /></p>
 
       <div className="de-vitals">
         <Vital value={nodes.length} label={RULES_COPY.overview.vitalCards} />
-        <Vital value={groups.length} label={RULES_COPY.overview.vitalGroups} />
-        <Vital value={packages.length} label={RULES_COPY.overview.vitalPackages} />
+        <Vital value={groups.length} label={RULES_COPY.overview.vitalGroups} tip={GROUPS_TIP} />
+        <Vital value={packages.length} label={RULES_COPY.overview.vitalPackages} tip={PACKAGES_TIP} />
         <Vital value={edges.length} label={RULES_COPY.overview.vitalEdges} tip={EDGES_TIP} />
       </div>
 

@@ -5,6 +5,7 @@ import { ruleColor } from '../map/ruleColors.js'
 import { cardRefName } from '../../utils/DesignRules.js'
 import { EditActions } from "./rulesParts.js"
 import { Loom } from "../Loom.js"
+import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { RULES_COPY } from "./copy.js"
 
 // PackageDetail shows one package as a wiring diagram: source groups on the left,
@@ -57,9 +58,10 @@ export function PackageDetail({ pkg, color, edgeCount, groupIndex, groupCards, w
       </div>
       {warn && <div className="de-warn-note">⚠ {warn}</div>}
 
-      <div className="de-loom-labels"><span>{RULES_COPY.packageDetail.sources}</span><span>{RULES_COPY.packageDetail.targets}</span></div>
+      <HoverInfo title={RULES_COPY.packageDetail.wiresTitle} info={RULES_COPY.packageDetail.note}>
+        <div className="de-loom-labels"><span>{RULES_COPY.packageDetail.sources}</span><span>{RULES_COPY.packageDetail.targets}</span></div>
+      </HoverInfo>
       <Loom left={left} right={right} threads={threads} />
-      <p className="de-muted de-loom-note">{RULES_COPY.packageDetail.note}</p>
     </div>
   )
 }

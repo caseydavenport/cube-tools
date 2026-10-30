@@ -24,13 +24,6 @@ export const RULES_COPY = {
   // Overview.js: the resting pane.
   overview: {
     heading: "Rules editor",
-    lede: [
-      "The rulebook behind the synergy map: ",
-      { bold: "groups" },
-      " are card sets defined by query conditions, and ",
-      { bold: "packages" },
-      " wire groups together. Pick one on the left, or search a card on the right to see where it sits.",
-    ],
     vitalCards: "cards",
     vitalGroups: "groups",
     vitalPackages: "packages",
@@ -165,6 +158,7 @@ export const RULES_COPY = {
     sources: "Sources",
     targets: "Targets",
     note: "Within each wire, every card in a source group connects to every card in a target group.",
+    wiresTitle: "Wires",
   },
 
   // ReviewDetail.js: the card-by-card review pane.
