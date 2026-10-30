@@ -326,3 +326,4 @@
 .de-page button:focus-visible, .de-page input:focus-visible {
   outline: 2px solid var(--mantine-primary-color-filled); outline-offset: 1px;
 }
+.de-try-card { width: 200px; }

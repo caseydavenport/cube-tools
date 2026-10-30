@@ -41,6 +41,12 @@ function PlayTiles({ play, history }) {
   return tiles
 }
 
+// everInCube reports whether any draft had the card in its cube or played it.
+// A card never in the cube has nothing for the history strip to show.
+function everInCube(history) {
+  return history.some(cell => cell.state === "played" || cell.state === "in")
+}
+
 // ScryfallLink opens the card on Scryfall, for its rulings and printings.
 function ScryfallLink({ card }) {
   if (!card.url) {
@@ -65,7 +71,7 @@ export function CardHeader({ page }) {
       actions={<ScryfallLink card={page.card} />}
       tiles={tiles}
     >
-      <HistoryStrip history={page.history} />
+      {everInCube(page.history) && <HistoryStrip history={page.history} />}
     </DetailHeader>
   )
 }

@@ -2,9 +2,10 @@
 // selection in the URL, and saves edits. The panes live in the other files here.
 
 import React, { useState, useEffect, useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Alert } from '@mantine/core'
 import { useCube } from '../../contexts/CubeContext.js'
+import { cardPageHref } from '../../shell/paths.js'
 import { CardImageURL } from '../../utils/Utils.js'
 import { useAllMemberships, whyLinked, saveDesignMap, cleanWires } from '../map/designData.js'
 import { ruleColor } from '../map/ruleColors.js'
@@ -34,6 +35,7 @@ import "../../decks/decks.css"
 // Selection lives in the URL (card, vs, view) so any state is shareable.
 export function DesignEditorPage() {
   const cube = useCube()
+  const navigate = useNavigate()
   const writable = useCubeWritable(cube)
   const [params, setParams] = useSearchParams()
   const focal = params.get('card') || ''
@@ -228,10 +230,19 @@ export function DesignEditorPage() {
   // read-only notice waits for it to say it isn't, so it doesn't flash on load.
   const canEdit = writable === true
 
+  // tryCard opens the card page of any card, in the cube or not, to see what
+  // the rules would make of it.
+  function tryCard(name) {
+    if (name) {
+      navigate(cardPageHref(cube, name))
+    }
+  }
+
   const toolbar = (
     <EditorToolbar
       view={view} auditCount={data ? audit.structural : 0}
       compareReady={Boolean(focal && vs)} onSelectView={selectView}
+      cube={cube} onTryCard={tryCard}
     />
   )
 

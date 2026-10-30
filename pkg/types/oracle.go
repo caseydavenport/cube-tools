@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -259,4 +260,37 @@ type OracleCardFace struct {
 	Power      string            `json:"power,omitempty"`
 	Toughness  string            `json:"toughness,omitempty"`
 	ImageURLs  map[string]string `json:"image_uris"`
+}
+
+// SearchOracleNames finds up to limit card names in the oracle data that
+// contain query, ignoring case: names that start with it first, then the
+// rest, each alphabetically. Split and double-faced cards come back once, by
+// their full name.
+func SearchOracleNames(query string, limit int) []string {
+	q := strings.ToLower(query)
+	seen := map[string]bool{}
+	var starts, contains []string
+	for _, card := range oracleCards {
+		if seen[card.Name] {
+			continue
+		}
+		seen[card.Name] = true
+		lower := strings.ToLower(card.Name)
+		if strings.HasPrefix(lower, q) {
+			starts = append(starts, card.Name)
+		} else if strings.Contains(lower, q) {
+			contains = append(contains, card.Name)
+		}
+	}
+	slices.Sort(starts)
+	slices.Sort(contains)
+
+	out := []string{}
+	for _, name := range slices.Concat(starts, contains) {
+		if len(out) == limit {
+			break
+		}
+		out = append(out, name)
+	}
+	return out
 }

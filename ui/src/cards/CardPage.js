@@ -2,12 +2,14 @@
 // it interacts with. The server computes everything (/stats/card).
 
 import React, { useEffect, useMemo, useState } from "react"
-import { useParams, useSearchParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { useCube } from "../contexts/CubeContext.js"
 import { asEvent } from "../components/kit/controls.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
+import { cardPageHref } from "../shell/paths.js"
+import { AnyCardSearch } from "./AnyCardSearch.js"
 import { CardCompare } from "./CardCompare.js"
 import { CardHeader } from "./CardHeader.js"
 import { CardInteraction } from "./CardInteraction.js"
@@ -132,10 +134,19 @@ export function CardPage(props) {
   const cube = useCube()
   const { page, missing } = useCardPage(cube, name, props.startDate, props.endDate)
   const onMatch = value => props.onMatchUpdated(asEvent(value))
+  const navigate = useNavigate()
+
+  // openCard goes to the page of a card picked in the toolbar's search.
+  function openCard(picked) {
+    if (picked) {
+      navigate(cardPageHref(cube, picked))
+    }
+  }
 
   const toolbar = (
     <PageToolbar title={name}>
       <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={RANGE_COPY} />
+      <AnyCardSearch cube={cube} onPick={openCard} placeholder="Find a card" className="card-page-find" />
     </PageToolbar>
   )
 

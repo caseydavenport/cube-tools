@@ -5,24 +5,11 @@ import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { Loom } from "../design/Loom.js"
-import { CardSearch } from "../design/rules/CardLens.js"
+import { AnyCardSearch } from "./AnyCardSearch.js"
 import { pageHrefWithMatch } from "../shell/paths.js"
 import { CardImageURL } from "../utils/Utils.js"
 import { CardLink } from "../components/CardLink.js"
 import { bothCardsMatch, compareLoom } from "./cardPageModel.js"
-
-// useCubeNames loads the cube's distinct card names, for the compare search.
-// A cube can hold several copies of a card, such as a fetch land.
-function useCubeNames(cube) {
-  const [names, setNames] = useState([])
-  useEffect(() => {
-    fetch(`/api/${cube}/cube`)
-      .then(r => r.json())
-      .then(body => setNames([...new Set((body.cards || []).map(c => c.name))].sort()))
-      .catch(() => setNames([]))
-  }, [cube])
-  return names
-}
 
 // useCompareLinks fetches how the rules link cards a and b, or null while
 // loading or when there's no b.
@@ -84,16 +71,15 @@ function CompareBody({ card, vs, links, packageIndex, nav }) {
   )
 }
 
-// CardCompare is the compare section. vs is the card being compared, kept in
-// the URL by the page, and onVs changes it. nav carries the cube, date range
+// CardCompare is the compare section. vs is the card being compared, any
+// Magic card, kept in the URL by the page, and onVs changes it. nav carries the cube, date range
 // and onMatch for the decks link.
 export function CardCompare({ card, vs, onVs, packageIndex, nav }) {
-  const names = useCubeNames(nav.cube)
   const links = useCompareLinks(nav.cube, card, vs)
 
   return (
     <SectionCard title="Compare with a card">
-      <CardSearch value={vs} onPick={onVs} names={names} placeholder="Pick a card to compare" />
+      <AnyCardSearch cube={nav.cube} value={vs} onPick={onVs} placeholder="Pick any card to compare" />
       {vs && <CompareBody card={card} vs={vs} links={links} packageIndex={packageIndex} nav={nav} />}
     </SectionCard>
   )

@@ -4,6 +4,7 @@ import React from 'react'
 import { SegmentedControl } from '@mantine/core'
 import { PageToolbar } from '../../toolbar/PageToolbar.js'
 import { RULES_COPY } from "./copy.js"
+import { AnyCardSearch } from "../../cards/AnyCardSearch.js"
 
 // TOOLBAR_VIEWS are the view= values the toolbar switches between. Overview is
 // the empty value; the control needs a non-empty one, so it uses 'overview'.
@@ -23,8 +24,9 @@ function toolbarValue(view) {
 
 // EditorToolbar is the page toolbar: the title and a switch between the
 // rulebook-wide views. Compare needs two cards picked in the card lens, and
-// Audit carries a count of structural issues when there are any.
-export function EditorToolbar({ view, auditCount, compareReady, onSelectView }) {
+// Audit carries a count of structural issues when there are any. The "Try a
+// card" search opens any card's page through onTryCard.
+export function EditorToolbar({ view, auditCount, compareReady, onSelectView, cube, onTryCard }) {
   let auditLabel = RULES_COPY.toolbar.audit
   if (auditCount > 0) {
     auditLabel = <span className="de-view-label">{RULES_COPY.toolbar.audit}<span className="de-badge-warn">{auditCount}</span></span>
@@ -48,6 +50,7 @@ export function EditorToolbar({ view, auditCount, compareReady, onSelectView }) 
   return (
     <PageToolbar title={RULES_COPY.toolbar.title}>
       <SegmentedControl size="xs" aria-label={RULES_COPY.toolbar.viewsLabel} data={views} value={toolbarValue(view)} onChange={onChange} />
+      <AnyCardSearch cube={cube} onPick={onTryCard} placeholder="Try a card" className="de-try-card" />
     </PageToolbar>
   )
 }
