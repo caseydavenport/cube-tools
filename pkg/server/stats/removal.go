@@ -345,6 +345,12 @@ type RemovalResponse struct {
 	CreatureCount   int           `json:"creature_count"`
 	TotalPlayWeight int           `json:"total_play_weight"`
 	Excluded        int           `json:"excluded"`
+
+	// RemovalCards counts distinct spot-removal cards, so a multi-mode card
+	// counts once. Creatures and ByColor are built from the same cards.
+	RemovalCards int               `json:"removal_cards"`
+	Creatures    []HardToRemoveRow `json:"creatures"`
+	ByColor      []RemovalColorRow `json:"by_color"`
 }
 
 func RemovalHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
@@ -387,14 +393,20 @@ func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := RemovalResponse{CreatureCount: len(creatures), TotalPlayWeight: totalWeight}
+	var spot []spotCard
 	for _, c := range cube.Cards {
+		card := spotCard{name: c.Name, colors: c.Colors}
+
 		// Multi-mode removal (kicker, revolt) is emitted as one row per mode.
 		if o, ok := removalOverrides[c.Name]; ok && len(o.modes) > 0 {
 			for _, m := range o.modes {
 				rc := buildRemovalCard(c, m.profile, m.cost, creatures, playWeight, totalWeight)
 				rc.Name = fmt.Sprintf("%s (%s)", c.Name, m.label)
 				resp.Cards = append(resp.Cards, rc)
+				card.modes = append(card.modes, m.profile)
+				card.rows = append(card.rows, rc)
 			}
+			spot = append(spot, card)
 			continue
 		}
 		prof := classifyRemoval(c)
@@ -404,17 +416,24 @@ func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			}
 			continue
 		}
-		resp.Cards = append(resp.Cards, buildRemovalCard(c, prof, effectiveCost(c), creatures, playWeight, totalWeight))
+		rc := buildRemovalCard(c, prof, effectiveCost(c), creatures, playWeight, totalWeight)
+		resp.Cards = append(resp.Cards, rc)
+		card.modes = append(card.modes, prof)
+		card.rows = append(card.rows, rc)
+		spot = append(spot, card)
 	}
+	resp.RemovalCards = len(spot)
+	resp.Creatures = hardToRemove(spot, creatures)
+	resp.ByColor = removalByColor(spot)
 
-	// Default to widest reach first, with scalable removal grouped at the bottom
-	// (it has no comparable efficiency number).
+	// Default to widest coverage first, with scalable removal grouped at the
+	// bottom (it has no comparable coverage).
 	sort.SliceStable(resp.Cards, func(i, j int) bool {
 		a, b := resp.Cards[i], resp.Cards[j]
 		if a.Scalable != b.Scalable {
 			return !a.Scalable
 		}
-		return a.ReachEff > b.ReachEff
+		return a.PctCube > b.PctCube
 	})
 
 	logrus.WithFields(logrus.Fields{"spot": len(resp.Cards), "excluded": resp.Excluded}).Info("/api/stats/removal")
