@@ -105,6 +105,12 @@ function draftHeader(deck) {
   return `${name} · ${badge.month} ${badge.day}`
 }
 
+// isDeckInList reports whether the loaded list holds the deck named by ref.
+// Only those can be opened, since the details pane shows decks from the list.
+export function isDeckInList(decks, ref) {
+  return decks.some(deck => deckRef(deck) === ref)
+}
+
 // quickFilterDecks keeps the decks that pass the deck list's quick filters:
 // archetype ("" for any), colors (a deck must have every chosen color), and
 // hideAnonymous (drop anonymous seats). A deck with no colors fails any color

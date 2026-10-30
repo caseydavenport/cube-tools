@@ -52,7 +52,7 @@ function SelectedDeck({ deck, page, copy }) {
       </div>
 
       <DecklistCard deck={deck} page={page} copy={copy} />
-      <SimilarDecks cube={page.cube} deck={deck} hrefFor={page.selection.hrefFor} />
+      <SimilarDecks cube={page.cube} deck={deck} decks={page.decks} hrefFor={page.selection.hrefFor} />
       <NotesCard deck={deck} edits={edits} copy={copy} />
     </div>
   )

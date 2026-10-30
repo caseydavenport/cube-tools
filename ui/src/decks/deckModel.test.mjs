@@ -7,6 +7,7 @@ import {
   copyListText,
   deckRef,
   quickFilterDecks,
+  isDeckInList,
   groupByDraft,
   leansInto,
   listSummary,
@@ -202,4 +203,10 @@ test("quickFilterDecks hides anonymous seats", () => {
 test("quickFilterDecks can return nothing", () => {
   const decks = [quickDeck(1, "aggro", ["R"])]
   assert.deepEqual(quickFilterDecks(decks, { archetype: "control", colors: [], hideAnonymous: false }), [])
+})
+
+test("isDeckInList finds a deck by its ref", () => {
+  const decks = [{ id: 5, metadata: { draft_id: 47 } }]
+  assert.equal(isDeckInList(decks, "47/5"), true)
+  assert.equal(isDeckInList(decks, "12/3"), false)
 })
