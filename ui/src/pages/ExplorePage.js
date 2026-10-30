@@ -259,7 +259,7 @@ function winColor(c) {
   if (!c) return undefined
   const s = winCI(c)
   if (!s || !s.significant) return "var(--se-card)"
-  return absColor(c.win_pct)
+  return absColor(c.win_percent)
 }
 
 // barColor tints a group's bar by its color identity (shared guildColor scheme).
@@ -273,7 +273,7 @@ function metricText(metric, c) {
   if (!c) return ""
   if (metric === "record") return `${c.wins}-${c.losses}${c.draws ? "-" + c.draws : ""}`
   if (metric === "games") return `${cellGames(c)}`
-  return cellGames(c) > 0 ? `${Math.round(c.win_pct)}%` : ""
+  return cellGames(c) > 0 ? `${Math.round(c.win_percent)}%` : ""
 }
 
 // winCI reshapes the Wilson interval the server computed for this cell (at the
@@ -285,8 +285,8 @@ function winCI(c) {
   if (!c) return null
   const n = cellGames(c)
   if (n === 0) return null
-  const lo = c.win_pct_low ?? 0
-  const hi = c.win_pct_high ?? 0
+  const lo = c.win_percent_low ?? 0
+  const hi = c.win_percent_high ?? 0
   return { margin: (hi - lo) / 2, lo, hi, significant: !!c.significant }
 }
 
@@ -307,7 +307,7 @@ function withWinStats(c, confidence, cell, key) {
   const level = Math.round(parseFloat(confidence || "0.8") * 100)
   const rows = [{
     label: COPY.tooltip.interval({ level }),
-    value: COPY.tooltip.intervalValue({ winPct: c.win_pct, margin: s.margin, low: s.lo, high: s.hi }),
+    value: COPY.tooltip.intervalValue({ winPct: c.win_percent, margin: s.margin, low: s.lo, high: s.hi }),
   }]
   let verdict = COPY.tooltip.notDistinguishable
   if (s.significant) {
@@ -513,7 +513,7 @@ function ExploreResult({ result, groupBy, splitBy, metric, usesTime, confidence 
 function PivotTable({ result, groupBy, metric, confidence }) {
   const rows = result.rows
   const labels = rows.map(r => keyLabel(groupBy.dim, r.key))
-  const data = rows.map(r => r.cells[""]?.win_pct || 0)
+  const data = rows.map(r => r.cells[""]?.win_percent || 0)
 
   const barColors = rows.map(r => barColor(groupBy.dim, r.key))
   // 90% CI half-widths per bar, for the error whiskers.
@@ -555,7 +555,7 @@ function PivotTable({ result, groupBy, metric, confidence }) {
                   <td className="header-cell stats-bold">{keyLabel(groupBy.dim, r.key)}</td>
                   {withWinStats(c, confidence, (
                     <td style={{ textAlign: "center", background: winColor(c) }}>
-                      {cellGames(c) > 0 ? `${c.win_pct}%` : "-"}
+                      {cellGames(c) > 0 ? `${c.win_percent}%` : "-"}
                     </td>
                   ))}
                   <td className="page-center-cell">{c.wins}-{c.losses}{c.draws ? `-${c.draws}` : ""}</td>
@@ -580,7 +580,7 @@ function PivotHeatmap({ result, groupBy, splitBy, metric, confidence }) {
 
   let rows = result.rows
   if (sortColumn !== null) {
-    rows = [...rows].sort((a, b) => (b.cells[sortColumn]?.win_pct ?? -1) - (a.cells[sortColumn]?.win_pct ?? -1))
+    rows = [...rows].sort((a, b) => (b.cells[sortColumn]?.win_percent ?? -1) - (a.cells[sortColumn]?.win_percent ?? -1))
   }
 
   return (
@@ -679,7 +679,7 @@ function PivotLineChart({ result, groupBy, splitBy, metric }) {
 function metricValue(metric, c) {
   if (!c) return null
   if (metric === "games") return cellGames(c)
-  return c.win_pct // record falls back to win% for a numeric line
+  return c.win_percent // record falls back to win% for a numeric line
 }
 
 function groupLabel(dim) {

@@ -68,22 +68,11 @@ type PivotRequest struct {
 	Confidence float64 `json:"confidence"`
 }
 
-// PivotCell is one group×split record. deckSet is internal bookkeeping for the
-// distinct-deck count; it isn't serialized.
+// PivotCell is one group×split record: the shared win-rate Record plus how
+// many distinct decks it covers. deckSet is internal bookkeeping for that
+// count; it isn't serialized.
 type PivotCell struct {
-	Wins   int     `json:"wins"`
-	Losses int     `json:"losses"`
-	Draws  int     `json:"draws"`
-	WinPct float64 `json:"win_pct"`
-
-	// Wilson score interval around WinPct at the request's confidence level, on
-	// the same 0-100 scale. See confidence.go.
-	WinPctLow  float64 `json:"win_pct_low"`
-	WinPctHigh float64 `json:"win_pct_high"`
-
-	// Significant reports whether the interval excludes 50%, i.e. the cell is
-	// distinguishable from a coin flip at the chosen confidence.
-	Significant bool `json:"significant"`
+	Record
 
 	Decks   int             `json:"decks"`
 	deckSet map[string]bool `json:"-"`
@@ -284,15 +273,14 @@ func computePivot(allDecks, subjects []*storage.Deck, req *PivotRequest, cubeCar
 		}
 	}
 
-	// Finalize win percentages, intervals, and distinct-deck counts.
+	// Finalize win percentages, Bayes rates, intervals, and distinct-deck counts.
 	z := zForConfidence(req.Confidence)
+	prior := pivotPriorGames(req.GroupBy)
 	for _, row := range rows {
 		for _, cell := range row.Cells {
-			cell.WinPct = winPctOf(cell.Wins, cell.Losses, cell.Draws)
-			cell.WinPctLow, cell.WinPctHigh = wilsonInterval(cell.Wins, cell.Losses, cell.Draws, z)
-			if cell.Wins+cell.Losses+cell.Draws > 0 {
-				cell.Significant = cell.WinPctLow > 50 || cell.WinPctHigh < 50
-			}
+			cell.Finalize()
+			cell.SetBayesian(prior)
+			cell.SetInterval(z)
 			cell.Decks = len(cell.deckSet)
 		}
 	}
@@ -684,11 +672,27 @@ func orderRows(rows map[string]*PivotRow, dim PivotDimension) []*PivotRow {
 	return out
 }
 
+// overallWinPct is the Bayes win rate of a row's unsplit cell, which ranks
+// rows that have no natural order.
 func overallWinPct(r *PivotRow) float64 {
 	if c, ok := r.Cells[""]; ok {
-		return c.WinPct
+		return c.BayesianWinPercent
 	}
 	return 0
+}
+
+// pivotPriorGames is the Bayes prior for the cells of a pivot grouped by dim,
+// matching the measured prior of the table that dimension mirrors. Time and
+// numeric dimensions use the archetype prior, the middle of the measured ones.
+func pivotPriorGames(dim PivotDimension) float64 {
+	switch dim.Dim {
+	case "color":
+		return bayesPriorGames(dim.ColorMode)
+	case "player":
+		return playerBayesPriorGames
+	default:
+		return archetypeBayesPriorGames
+	}
 }
 
 // sortKeys orders keys in place by the dimension's natural order.

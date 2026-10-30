@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"math"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -83,7 +84,7 @@ func TestPivot_ColorExcludesBlack(t *testing.T) {
 	require.NotNil(t, w)
 	assert.Equal(t, 1, w.Cells[""].Wins)
 	assert.Equal(t, 1, w.Cells[""].Losses)
-	assert.InDelta(t, 50.0, w.Cells[""].WinPct, 0.1)
+	assert.InDelta(t, 50.0, w.Cells[""].WinPercent, 0.1)
 	assert.Nil(t, rowByKey(filtered, "B"), "B row gone once black decks are excluded")
 	assert.Equal(t, 1, w.Cells[""].Decks, "only the mono-white deck counts")
 }
@@ -323,4 +324,53 @@ func TestPivotCardQueryPackage(t *testing.T) {
 	assert.True(t, predicatePasses(ozzy, p, nil, pkgs))
 	assert.False(t, predicatePasses(stevie, p, nil, pkgs))
 	assert.False(t, predicatePasses(ozzy, p, nil, nil), "without the packages no deck builds one")
+}
+
+// sixAndOh is one mono-red deck for the player that won all six games.
+func sixAndOh(player string) *storage.Deck {
+	var games []types.Game
+	for range 6 {
+		games = append(games, types.Game{Opponent: "Ozzy", Winner: player})
+	}
+	return makePivotDeck(player, 1, "2025-01-01", []string{"R"}, "aggro", nil, games)
+}
+
+func TestPivotCell_HasBayes(t *testing.T) {
+	decks := []*storage.Deck{sixAndOh("Joan")}
+	resp := computePivot(decks, decks, &PivotRequest{GroupBy: dim("color", 1, "exact")}, nil, nil)
+	r := rowByKey(resp, "R")
+	require.NotNil(t, r)
+	cell := r.Cells[""]
+	assert.Equal(t, 100.0, cell.WinPercent)
+	assert.Less(t, cell.BayesianWinPercent, 70.0, "six games shouldn't read as a sure thing")
+	assert.Greater(t, cell.BayesianWinPercent, 50.0)
+}
+
+func TestPivotCell_DrawsOnly(t *testing.T) {
+	d := makePivotDeck("Joan", 1, "2025-01-01", []string{"R"}, "aggro", nil, []types.Game{{Opponent: "Ozzy", Tie: true}, {Opponent: "Ozzy", Tie: true}})
+	resp := computePivot([]*storage.Deck{d}, []*storage.Deck{d}, &PivotRequest{GroupBy: dim("color", 1, "exact")}, nil, nil)
+	cell := rowByKey(resp, "R").Cells[""]
+	assert.InDelta(t, 50.0, cell.BayesianWinPercent, 0.01)
+	assert.False(t, math.IsNaN(cell.WinPercentLow))
+	assert.False(t, math.IsNaN(cell.WinPercentHigh))
+}
+
+// TestPivot_PlayerRowsSortByBayes checks that rows without a natural order
+// rank by Bayes, so a 6-0 newcomer doesn't outrank a long winning record.
+func TestPivot_PlayerRowsSortByBayes(t *testing.T) {
+	var long []types.Game
+	for i := range 40 {
+		winner := "Stevie"
+		if i%4 == 0 {
+			winner = "Ozzy"
+		}
+		long = append(long, types.Game{Opponent: "Ozzy", Winner: winner})
+	}
+	decks := []*storage.Deck{
+		sixAndOh("Joan"),
+		makePivotDeck("Stevie", 1, "2025-01-01", []string{"G"}, "midrange", nil, long),
+	}
+	resp := computePivot(decks, decks, &PivotRequest{GroupBy: dim("player", 0, "")}, nil, nil)
+	require.GreaterOrEqual(t, len(resp.Rows), 2)
+	assert.Equal(t, "Stevie", resp.Rows[0].Key, "30-10 ranks above 6-0 on Bayes")
 }
