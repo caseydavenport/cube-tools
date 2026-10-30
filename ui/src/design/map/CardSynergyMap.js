@@ -1,9 +1,9 @@
 // The Map view of one deck: its cards as a graph, connected by the design rules.
 
 import React, { useEffect, useState, useMemo } from 'react'
-import { SegmentedControl, UnstyledButton, useComputedColorScheme } from "@mantine/core"
+import { SegmentedControl, UnstyledButton } from "@mantine/core"
 import { useCube } from "../../contexts/CubeContext.js"
-import { buildDeckSubgraph, rankByDegree, dominantLabel, neutralColor } from "../../utils/DeckGraph"
+import { buildDeckSubgraph, rankByDegree, dominantLabel } from "../../utils/DeckGraph"
 import { RULE_COLORS, ruleColor } from "./ruleColors.js"
 import { edgeColorFor, editorHref } from "./designData.js"
 import { cardColor } from "../../components/map/nodeColors.js"
@@ -17,8 +17,6 @@ import { MAP_COPY } from "./copy.js"
 // click pins the focus on it.
 export function CardSynergyMap({ cards, edges, packages }) {
   const cube = useCube()
-  // The neutral community color depends on the scheme, so a toggle recomputes both memos.
-  const scheme = useComputedColorScheme("light")
   const [hovered, setHovered] = useState(null)
   const [selected, setSelected] = useState(null)
   const [hoveredCommunity, setHoveredCommunity] = useState(null)
@@ -35,7 +33,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
 
   // Deck-subgraph analytics: most-connected ranking, and communities with a color
   // and dominant rule label each. Multi-card communities get a palette color;
-  // singletons and isolated cards stay neutral and aren't listed.
+  // singletons and isolated cards get null, drawn in the theme gray, and aren't listed.
   const analytics = useMemo(() => {
     const names = [...byName.keys()]
     const g = buildDeckSubgraph(names, edges || [])
@@ -51,7 +49,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
     for (const comm of communities) {
       const label = comm.length >= 2 ? dominantLabel(g, comm) : ""
       if (!label) {
-        for (const n of comm) communityColorOf[n] = neutralColor()
+        for (const n of comm) communityColorOf[n] = null
         continue
       }
       let color = ruleColor(packageIndex[label] ?? 0)
@@ -64,7 +62,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
       list.push({ color, label, size: comm.length, members: comm })
     }
     return { ranking, communities: list, communityColorOf }
-  }, [byName, edges, packageIndex, scheme])
+  }, [byName, edges, packageIndex])
 
   const { simNodes, simEdges } = useMemo(() => {
     const names = new Set(byName.keys())
@@ -82,11 +80,11 @@ export function CardSynergyMap({ cards, edges, packages }) {
       id: n,
       radius: Math.max(5, Math.min(12, 5 + ((degree[n] || 0) / max) * 7)),
       color: cardColor((byName.get(n) || {}).colors),
-      communityColor: analytics.communityColorOf[n] || neutralColor(),
+      communityColor: analytics.communityColorOf[n] || null,
       label: n,
     }))
     return { simNodes: sn, simEdges: se }
-  }, [byName, edges, packageIndex, analytics, scheme])
+  }, [byName, edges, packageIndex, analytics])
 
   // Drop stale focus when the pool changes (deck or board switch).
   useEffect(() => { setHovered(null); setSelected(null); setHoveredCommunity(null) }, [byName])

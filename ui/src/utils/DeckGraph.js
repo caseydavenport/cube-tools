@@ -1,15 +1,6 @@
 // Deck-subgraph analytics for the Map view, ported from the hack/deckgraph Go
 // prototype. The analytics are pure and deterministic (sorted nodes, lexical
-// tie-breaks) so repeated renders produce identical output. Only neutralColor
-// reads the screen, for the color scheme.
-
-import { currentChartTheme } from "../theme/chartTheme.js"
-
-// neutralColor is the muted theme color for nodes with no community color. It
-// is read when called, so it follows the light or dark scheme on screen.
-function neutralColor() {
-  return currentChartTheme().muted
-}
+// tie-breaks) so repeated renders produce identical output.
 
 // buildDeckSubgraph induces the subgraph on `names` from the cube-wide edge
 // list. An edge survives only when both endpoints are in the name set; every
@@ -78,4 +69,3 @@ export function dominantLabel(g, community) {
   return best
 }
 
-export { neutralColor }
