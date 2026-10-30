@@ -9,6 +9,7 @@ import { ManaThemesCard } from "./ManaThemesCard.js"
 import { MatchesCard } from "./MatchesCard.js"
 import { DecklistCard } from "./DecklistCard.js"
 import { NotesCard } from "./NotesCard.js"
+import { SimilarDecks } from "./SimilarDecks.js"
 import { CompareView } from "./CompareView.js"
 
 // SaveError is the one line under the identity card that reports the last
@@ -34,7 +35,8 @@ function SaveError({ deck, page, copy }) {
 }
 
 // SelectedDeck lays out one deck's details, top to bottom: who and what, the
-// numbers, mana and themes beside the matches, the cards, then the notes.
+// numbers, mana and themes beside the matches, the cards, the decks most like
+// it, then the notes.
 function SelectedDeck({ deck, page, copy }) {
   const edits = useDeckEdits(page.cube, deck, page)
 
@@ -50,6 +52,7 @@ function SelectedDeck({ deck, page, copy }) {
       </div>
 
       <DecklistCard deck={deck} page={page} copy={copy} />
+      <SimilarDecks cube={page.cube} deck={deck} hrefFor={page.selection.hrefFor} />
       <NotesCard deck={deck} edits={edits} copy={copy} />
     </div>
   )
