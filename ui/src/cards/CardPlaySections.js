@@ -13,7 +13,7 @@ import { archetypeLabel } from "../decks/deckModel.js"
 import { deckHrefWithMatch, pageHrefWithMatch } from "../shell/paths.js"
 import { ColorImages } from "../utils/Colors.js"
 import { hasData } from "../utils/dataKinds.js"
-import { deckRecord, pickLine, whoPlaysMatch } from "./cardPageModel.js"
+import { deckRecord, notInCubeTag, pickLine, whoPlaysMatch } from "./cardPageModel.js"
 
 // DECKS_SHOWN is how many decks the decks section lists before "Show all".
 const DECKS_SHOWN = 10
@@ -75,13 +75,13 @@ export function WhoPlaysIt({ page, info, nav }) {
 }
 
 // SameRole lists the cube cards that share the card's rarer groups and tags.
-// For a card outside the cube, they're the cards it might replace.
+// For a card never in the cube, they're the cards it might replace.
 export function SameRole({ page, cube }) {
   if (page.same_role.length === 0) {
     return null
   }
   let label = "Same role"
-  if (!page.in_cube) {
+  if (!page.in_cube && notInCubeTag(page.history) === "Not in the cube") {
     label = "Cards it might replace"
   }
   const title = (

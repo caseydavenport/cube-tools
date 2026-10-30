@@ -207,6 +207,16 @@ export function draftsTile(history) {
   return { value: `${inCube} of ${known}`, detail }
 }
 
+// notInCubeTag is the header tag for a card the cube doesn't have now:
+// "Cut from the cube" when any draft had it, else "Not in the cube".
+export function notInCubeTag(history) {
+  const wasIn = history.some(h => h.state === "played" || h.state === "in")
+  if (wasIn) {
+    return "Cut from the cube"
+  }
+  return "Not in the cube"
+}
+
 // isNewToCube reports whether the cube lists show the card in fewer than
 // NEW_CARD_DRAFTS drafts. Without any cube lists there's no telling.
 export function isNewToCube(history) {

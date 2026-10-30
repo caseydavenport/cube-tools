@@ -6,13 +6,13 @@ import { DetailHeader } from "../components/kit/DetailHeader.js"
 import { StatTile } from "../components/kit/StatTile.js"
 import { CardImageURL } from "../utils/Utils.js"
 import { HistoryStrip } from "./HistoryStrip.js"
-import { cardSubtitle, draftsTile, isNewToCube, playedTile, popularityLabel, popularityTip } from "./cardPageModel.js"
+import { cardSubtitle, draftsTile, isNewToCube, notInCubeTag, playedTile, popularityLabel, popularityTip } from "./cardPageModel.js"
 
 // headerTags lists the small badges beside the card's name.
 function headerTags(page) {
   const tags = []
   if (!page.in_cube) {
-    tags.push("Not in the cube")
+    tags.push(notInCubeTag(page.history))
   } else if (isNewToCube(page.history)) {
     tags.push("New to the cube")
   }

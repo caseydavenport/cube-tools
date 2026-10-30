@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { bothCardsMatch, cardSubtitle, compareLoom, deckRecord, draftsTile, historyTitle, isNewToCube, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
+import { bothCardsMatch, cardSubtitle, compareLoom, deckRecord, draftsTile, historyTitle, isNewToCube, notInCubeTag, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 
 const bombardment = { drafts_played: 18, drafts_available: 37, rate: 48.6, popularity: "niche", peers: "R", peer_median: 52.1 }
@@ -103,4 +103,10 @@ test("a card is new only when the cube lists say so", () => {
   assert.equal(isNewToCube(historyOf("ppio")), true)
   assert.equal(isNewToCube(historyOf("pppppo")), false)
   assert.equal(isNewToCube(historyOf("uu")), false)
+})
+
+test("a card out of the cube is cut only when its history shows it in", () => {
+  assert.equal(notInCubeTag(historyOf("ppio")), "Cut from the cube")
+  assert.equal(notInCubeTag(historyOf("uuoo")), "Not in the cube")
+  assert.equal(notInCubeTag([]), "Not in the cube")
 })
