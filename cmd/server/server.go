@@ -74,6 +74,7 @@ func main() {
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler(deckStore))
 	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore, packagesFor))
 	cubeRoute("GET /api/{cube}/decks/summary", decks.SummaryHandler(deckStore))
+	cubeRoute("GET /api/{cube}/decks/similar", decks.SimilarDecksHandler(deckStore))
 	cubeRoute("POST /api/{cube}/decks/update", decks.UpdateDeckHandler(deckStore))
 	cubeRoute("POST /api/{cube}/decks/record", decks.UpdateDeckRecordHandler(deckStore))
 	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler(deckStore, packagesFor))
