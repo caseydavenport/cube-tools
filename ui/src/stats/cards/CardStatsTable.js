@@ -5,10 +5,12 @@ import React from 'react'
 import { DropdownHeader, Checkbox } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { asEvent } from "../../components/kit/controls.js"
-import { SegmentedControl } from "@mantine/core"
+import { SegmentedControl, Select } from "@mantine/core"
 import { availableValue, hasData, visibleItems } from "../../utils/dataKinds.js"
 import { PillSearchInput } from "../../components/PillSearchInput.js"
 import { CardMatches } from "../../utils/Query.js"
+import { cardMatchesTagFilter } from "../../utils/cardRoles.js"
+import { tagOptions } from "../../utils/tagOptions.js"
 import { CARDS_COPY } from "./copy.js"
 import { BY_ARCH_COLUMNS, METADATA_COLUMNS, OVERVIEW_COLUMNS, VS_ARCH_COLUMNS, isNewCard, sortValue } from "./cardColumns.js"
 import "../stats.css"
@@ -61,6 +63,9 @@ export function shouldSkip(card, input) {
     }
 
     if (input.tagFilter && !(card.tags || []).includes(input.tagFilter)) {
+      return true
+    }
+    if (!cardMatchesTagFilter(card, input.oracleTagFilter)) {
       return true
     }
 
@@ -212,6 +217,18 @@ export function CardWidgetOptions(input) {
           options={input.tagOpts}
           value={input.tagFilter}
           onChange={input.onTagFilterSelected}
+        />
+
+        <Select
+          size="xs"
+          label="Scryfall tag"
+          placeholder="Any"
+          data={tagOptions(input.cubeTags.tags)}
+          value={input.oracleTagFilter || null}
+          onChange={value => input.onOracleTagFilterSelected(value || "")}
+          searchable
+          clearable
+          comboboxProps={{ withinPortal: false }}
         />
 
         <SignificantOnly {...input} />

@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { cardHasOracleTag, isCounterspell, isInteraction, isRemoval } from "./cardRoles.js"
+import { cardHasOracleTag, cardMatchesTagFilter, isCounterspell, isInteraction, isRemoval } from "./cardRoles.js"
 
 test("cardHasOracleTag reads full tags, then roles, by slug in any spelling", () => {
   const statsRow = { oracle_tags: ["cycle", "removal", "removal-creature"] }
@@ -24,4 +24,11 @@ test("isInteraction counts removal, counterspells and hand disruption", () => {
   assert.equal(isInteraction({ roles: ["counterspell"] }), true)
   assert.equal(isInteraction({ roles: ["hand-disruption"] }), true)
   assert.equal(isInteraction({ roles: ["draw", "discard-outlet"] }), false)
+})
+
+test("cardMatchesTagFilter passes every card when no tag is chosen", () => {
+  assert.equal(cardMatchesTagFilter({ name: "Bear" }, ""), true)
+  assert.equal(cardMatchesTagFilter({ name: "Bear" }, null), true)
+  assert.equal(cardMatchesTagFilter({ oracle_tags: ["persist"] }, "persist"), true)
+  assert.equal(cardMatchesTagFilter({ name: "Bear" }, "persist"), false)
 })

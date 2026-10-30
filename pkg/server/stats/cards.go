@@ -700,6 +700,7 @@ type Cards struct {
 func newCardStats(c types.Card) *cardStats {
 	return &cardStats{
 		Card:         c,
+		TagSlugs:     c.OracleTags,
 		Archetypes:   make(map[string]int),
 		Players:      make(map[string]int),
 		Sideboarders: make(map[string]int),
@@ -725,6 +726,10 @@ func newCardStats(c types.Card) *cardStats {
 type cardStats struct {
 	// Embed a types.Card so we inherit its fields for consistency.
 	types.Card `json:",inline"`
+
+	// TagSlugs are the card's Scryfall oracle tags. Deck cards keep theirs
+	// off the wire, but the Cards page filters on them.
+	TagSlugs []string `json:"oracle_tags"`
 
 	///////////////////////////////////////////////
 	// Augment the base Card with computed statistics.

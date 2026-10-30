@@ -3,25 +3,19 @@
 
 import React from "react"
 import { Select } from "@mantine/core"
-import { useLoaded } from "../../stats/useLoaded.js"
-import { statsUrl } from "../../stats/statsUrls.js"
-import { fetchJson } from "../../utils/fetchJson.js"
-import { tagOptions } from "./tagOptions.js"
-
-// EMPTY_TAGS is what the picker shows until the cube's tags arrive.
-const EMPTY_TAGS = { tags: [] }
+import { useCubeTags } from "../../stats/useCubeTags.js"
+import { tagOptions } from "../../utils/tagOptions.js"
 
 // TagOption draws one tag in the list, with Scryfall's description of it
 // in the hover text.
-function TagOption({ option }) {
+export function TagOption({ option }) {
   return <div title={option.description}>{option.label}</div>
 }
 
 // TagPicker loads the cube's tags and calls onPick with the slug of the one
 // chosen. It clears itself after each pick, so the same tag can be added again.
 export function TagPicker({ cube, onPick }) {
-  const loaded = useLoaded(cube, true, () => fetchJson(statsUrl(cube, "tags", {})), [], EMPTY_TAGS)
-  const options = tagOptions(loaded.value.tags)
+  const options = tagOptions(useCubeTags(cube).tags)
 
   return (
     <Select

@@ -48,3 +48,12 @@ export function isCounterspell(card) {
 export function isInteraction(card) {
   return isRemoval(card) || isCounterspell(card) || hasRole(card, "hand-disruption")
 }
+
+// cardMatchesTagFilter reports whether a card stats row passes the Cards
+// page's Scryfall tag filter. With no tag chosen, every card passes.
+export function cardMatchesTagFilter(card, slug) {
+  if (!slug) {
+    return true
+  }
+  return cardHasOracleTag(card, slug)
+}

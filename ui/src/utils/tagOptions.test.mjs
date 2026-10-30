@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { addTagCondition, tagOptions } from "./tagOptions.js"
+import { addTagCondition, distinctiveLabel, tagOptions } from "./tagOptions.js"
 
 test("tagOptions labels each tag with its cube card count, keeping order", () => {
   const tags = [
@@ -20,4 +20,8 @@ test("addTagCondition fills the first empty condition", () => {
 
 test("addTagCondition appends when no condition is empty", () => {
   assert.deepEqual(addTagCondition(["t:creature"], "sweeper"), ["t:creature", "otag:sweeper"])
+})
+
+test("distinctiveLabel shows the tag, its cube cards and its whole-number lift", () => {
+  assert.equal(distinctiveLabel({ slug: "persist", cards: 12, lift: 45.6 }), "persist · 12 cards · 46×")
 })

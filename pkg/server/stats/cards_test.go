@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"encoding/json"
 	"math"
 	"math/rand"
 	"testing"
@@ -315,4 +316,15 @@ func TestCardPlayersCountsSeatsSeparately(t *testing.T) {
 	if assert.NotNil(t, bolt) {
 		assert.Len(t, bolt.Players, 2)
 	}
+}
+
+func TestCardStats_CarriesOracleTags(t *testing.T) {
+	stats := newCardStats(types.Card{Name: "Lightning Bolt", OracleTags: []string{"burn", "removal"}})
+	b, err := json.Marshal(stats)
+	assert.NoError(t, err)
+	assert.Contains(t, string(b), `"oracle_tags":["burn","removal"]`)
+
+	b, err = json.Marshal(types.Card{Name: "Lightning Bolt", OracleTags: []string{"burn"}})
+	assert.NoError(t, err)
+	assert.NotContains(t, string(b), "oracle_tags", "deck cards keep their full tags off the wire")
 }
