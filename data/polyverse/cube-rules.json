@@ -41,6 +41,12 @@
       ]
     },
     {
+      "name": "Basic lands",
+      "conditions": [
+        "t:land t:basic"
+      ]
+    },
+    {
       "name": "Battle cry",
       "conditions": [
         "o:\"battle cry\""
@@ -310,7 +316,8 @@
       "name": "Fetches land",
       "conditions": [
         "o:\"search your library\" o:\"a land\"",
-        "o:\"search your library\" o:\"or land\""
+        "o:\"search your library\" o:\"or land\"",
+        "n:\"Once Upon a Time\""
       ],
       "exclude": [
         "Edge of Autumn"
@@ -1014,6 +1021,14 @@
           ],
           "targets": [
             "Lands"
+          ]
+        },
+        {
+          "sources": [
+            "Fetches basics"
+          ],
+          "targets": [
+            "Basic lands"
           ]
         }
       ]
