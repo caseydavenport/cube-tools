@@ -25,8 +25,16 @@
   cursor: pointer;
 }
 
-.players-row-open {
-  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+/* The open row and its profile share a tinted band with an accent bar on
+   the left, so they read as one unit apart from the rows around them. */
+.players-row-open > td,
+.players-profile-row > td {
+  background: color-mix(in srgb, var(--mantine-primary-color-filled) 7%, var(--se-card));
+}
+
+.players-row-open > td:first-child,
+.players-profile-row > td:first-child {
+  box-shadow: inset 4px 0 0 var(--mantine-primary-color-filled);
 }
 
 .players-name {
@@ -47,14 +55,19 @@
 }
 
 .players-profile-row > td {
-  padding: 12px;
+  padding: 4px 16px 16px 20px;
 }
 
 /* An expanded player's profile. */
 .players-profile {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--se-card);
+  border: 1px solid var(--se-border);
+  border-radius: 10px;
+  box-shadow: var(--se-shadow);
 }
 
 .players-profile-header {
@@ -126,8 +139,49 @@
   vertical-align: middle;
 }
 
-.players-signature-list {
+.players-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 14px;
+  gap: 6px;
+}
+
+.players-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 4px 3px 10px;
+  border-radius: 999px;
+}
+
+.players-chip-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 16%, transparent);
+}
+
+/* Packages share the orange of the deck page's "Leans into" chips. */
+.players-chip-package {
+  background: var(--mantine-color-orange-light);
+  color: var(--mantine-color-orange-light-color);
+}
+
+.players-chip-archetype {
+  background: var(--mantine-color-violet-light);
+  color: var(--mantine-color-violet-light-color);
+}
+
+.players-chip-card {
+  background: var(--mantine-color-teal-light);
+  color: var(--mantine-color-teal-light-color);
+}
+
+.players-chip-more {
+  padding-right: 10px;
+  color: var(--se-muted);
+  border: 1px dashed var(--se-border);
+  text-decoration: none;
 }

@@ -102,12 +102,40 @@ function ColorsSection({ row, link }) {
   )
 }
 
-// countList shows named counts as "Aggro 4 · Midrange 4", or the empty text.
-function countList(entries, labelFor, emptyText) {
+// MAX_CHIPS is the most chips a profile section shows; the rest are a
+// "+N more" chip linking to the page that lists them all.
+const MAX_CHIPS = 5
+
+// MoreChip stands for the entries past MAX_CHIPS, linking to the full list.
+function MoreChip({ hidden, link }) {
+  if (hidden <= 0) {
+    return null
+  }
+  return (
+    <Link to={link.href} onClick={link.onClick} className="players-chip players-chip-more">
+      +{hidden} more
+    </Link>
+  )
+}
+
+// CountChips shows named counts as chips, "Aggro" with a 4 badge, at most
+// MAX_CHIPS of them. kind picks the chip color; emptyText shows when there
+// are none.
+function CountChips({ entries, kind, labelFor, emptyText, link }) {
   if (entries.length === 0) {
     return <span className="players-muted">{emptyText}</span>
   }
-  return entries.map(e => `${labelFor(e.name)} ${e.count}`).join(" · ")
+  return (
+    <div className="players-chips">
+      {entries.slice(0, MAX_CHIPS).map(e => (
+        <span key={e.name} className={`players-chip players-chip-${kind}`}>
+          {labelFor(e.name)}
+          <span className="players-chip-count">{e.count}</span>
+        </span>
+      ))}
+      <MoreChip hidden={entries.length - MAX_CHIPS} link={link} />
+    </div>
+  )
 }
 
 // archetypeName is an archetype's display name.
@@ -115,24 +143,29 @@ function archetypeName(name) {
   return archetypeLabel({ macro_archetype: name }) || name
 }
 
-// SignatureCards lists the player's signature cards, each with its counts in
-// words on hover.
-function SignatureCards({ row }) {
+// SignatureCards shows the player's signature cards as chips, each badged
+// with how many of their decks played it, and the comparison in words on
+// hover. The server sends at most MAX_CHIPS.
+function SignatureCards({ row, link }) {
   const cards = (row.tendencies || {}).signature_cards || []
   if (cards.length === 0) {
     return <span className="players-muted">None stand out yet.</span>
   }
   return (
-    <div className="players-signature-list">
-      {cards.map(card => {
+    <div className="players-chips">
+      {cards.slice(0, MAX_CHIPS).map(card => {
         const othersShare = Math.round((100 * card.others) / Math.max(1, card.others_available))
         const info = `In ${card.decks} of ${row.name}'s ${card.available} decks; ${othersShare}% of everyone else's.`
         return (
           <HoverInfo key={card.name} title={card.name} info={info}>
-            <span className="players-signature">{card.name}</span>
+            <span className="players-chip players-chip-card">
+              {card.name}
+              <span className="players-chip-count">{card.decks}/{card.available}</span>
+            </span>
           </HoverInfo>
         )
       })}
+      <MoreChip hidden={cards.length - MAX_CHIPS} link={link} />
     </div>
   )
 }
@@ -168,13 +201,13 @@ export function PlayerProfile({ row, cube, start, end, decks, onMatch, playerId,
       <div className="players-profile-grid">
         <ColorsSection row={row} link={linkTo("colors")} />
         <ProfileSection title="Archetypes" linkLabel="Their decks →" link={linkTo("decks")}>
-          {countList(t.archetypes || [], archetypeName, "No archetypes recorded.")}
+          <CountChips entries={t.archetypes || []} kind="archetype" labelFor={archetypeName} emptyText="No archetypes recorded." link={linkTo("decks")} />
         </ProfileSection>
         <ProfileSection title="Packages built" linkLabel="Packages →" link={linkTo("packages")}>
-          {countList(t.packages || [], name => name, "No packages built.")}
+          <CountChips entries={t.packages || []} kind="package" labelFor={name => name} emptyText="No packages built." link={linkTo("packages")} />
         </ProfileSection>
         <ProfileSection title="Signature cards" linkLabel="Cards →" link={linkTo("cards")}>
-          <SignatureCards row={row} />
+          <SignatureCards row={row} link={linkTo("cards")} />
         </ProfileSection>
       </div>
     </div>
