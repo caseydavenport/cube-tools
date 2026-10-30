@@ -3,7 +3,7 @@
 
 import React from "react"
 import { HoverCard } from "@mantine/core"
-import { HOVER_PROPS, POP_CLASSES, PopTitle, targetId, useEscapeToClose } from "./HoverInfo.js"
+import { HOVER_PROPS, POP_CLASSES, PopTitle, lazyTarget, targetId, useEscapeToClose, useLazyHover } from "./HoverInfo.js"
 import { meterWidth, toneClass } from "./hoverStatsHelpers.js"
 
 // HoverStats shows rows of numbers while the pointer rests on its child. Each
@@ -11,10 +11,17 @@ import { meterWidth, toneClass } from "./hoverStatsHelpers.js"
 // value, share (0-1) draws a meter under it, and ends names the meter's two
 // ends, such as both sides of a matchup. footer is an optional muted last line.
 export function HoverStats({ title, lead, badge, rows = [], footer, width, position = "top", children }) {
-  const escape = useEscapeToClose()
+  const lazy = useLazyHover()
+  const escape = useEscapeToClose(lazy.armed)
+
+  // The popover mounts only once the pointer rests on the target (see
+  // useLazyHover), already open.
+  if (!lazy.armed) {
+    return lazyTarget(children, lazy)
+  }
 
   return (
-    <HoverCard {...HOVER_PROPS} {...escape} id={targetId(children)} width={width} position={position} withArrow classNames={POP_CLASSES}>
+    <HoverCard {...HOVER_PROPS} {...escape} initiallyOpened id={targetId(children)} width={width} position={position} withArrow classNames={POP_CLASSES}>
       <HoverCard.Target>{children}</HoverCard.Target>
       <HoverCard.Dropdown>
         <PopTitle title={title} lead={lead} badge={badge} />

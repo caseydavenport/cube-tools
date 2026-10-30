@@ -1,4 +1,4 @@
-import React, { cloneElement, useEffect, useState } from "react"
+import React, { cloneElement, useEffect, useRef, useState } from "react"
 import { HoverCard } from "@mantine/core"
 import "./popover.css"
 
@@ -23,10 +23,17 @@ export const POP_CLASSES = { dropdown: "kit-pop" }
 // useEscapeToClose lets Escape close an open hover popover. Mantine's HoverCard
 // can't be closed from outside, so Escape disables it until the pointer leaves
 // the target, which resets it for the next hover. Spread the result onto the
-// HoverCard.
-export function useEscapeToClose() {
+// HoverCard. mountedOpen is true once a lazy popover mounts already open, which
+// Mantine doesn't report as an open.
+export function useEscapeToClose(mountedOpen) {
   const [open, setOpen] = useState(false)
   const [dismissed, setDismissed] = useState(false)
+
+  useEffect(() => {
+    if (mountedOpen) {
+      setOpen(true)
+    }
+  }, [mountedOpen])
 
   useEffect(() => {
     if (!open) {
@@ -51,17 +58,69 @@ export function useEscapeToClose() {
   }
 }
 
+// useLazyHover holds off mounting a hover popover until the pointer has rested
+// on its target for the open delay. A table with a popover in every cell then
+// mounts only the few someone looks at, which keeps filtering it quick. Once
+// armed, the popover stays mounted and opens like any other.
+export function useLazyHover() {
+  const [armed, setArmed] = useState(false)
+  const timer = useRef(null)
+
+  // Drop a pending timer if the target goes away mid-hover.
+  useEffect(() => () => clearTimeout(timer.current), [])
+
+  function arm() {
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => setArmed(true), HOVER_PROPS.openDelay)
+  }
+  function disarm() {
+    clearTimeout(timer.current)
+  }
+  return { armed, arm, disarm }
+}
+
+// lazyTarget returns the hover target with mouse handlers that arm the lazy
+// hover, keeping any mouse handlers the target already had.
+export function lazyTarget(child, lazy) {
+  if (!child || !child.props) {
+    return child
+  }
+  const { onMouseEnter, onMouseLeave } = child.props
+  return cloneElement(child, {
+    onMouseEnter: event => {
+      lazy.arm()
+      if (onMouseEnter) {
+        onMouseEnter(event)
+      }
+    },
+    onMouseLeave: event => {
+      lazy.disarm()
+      if (onMouseLeave) {
+        onMouseLeave(event)
+      }
+    },
+  })
+}
+
 // HoverInfo shows a small card of extra detail (info, under an optional title)
 // while the pointer rests on its child, such as what a column header means or
 // the numbers behind a table cell. The child is used as is, so a table cell
 // can be the target without breaking the table. lead and badge are optional
 // nodes before and after the title, such as mana pips and a game count.
 export function HoverInfo({ title, info, width, position = "top", lead, badge, children }) {
-  const escape = useEscapeToClose()
+  const lazy = useLazyHover()
+  const escape = useEscapeToClose(lazy.armed)
+  const target = markTarget(children, info)
+
+  // Until the pointer rests here, the target stands alone; armed, the popover
+  // mounts already open, since the pointer is on it.
+  if (!lazy.armed) {
+    return lazyTarget(target, lazy)
+  }
 
   return (
-    <HoverCard {...HOVER_PROPS} {...escape} id={targetId(children)} width={width} position={position} withArrow classNames={popClasses(width, info)}>
-      <HoverCard.Target>{markTarget(children, info)}</HoverCard.Target>
+    <HoverCard {...HOVER_PROPS} {...escape} initiallyOpened id={targetId(children)} width={width} position={position} withArrow classNames={popClasses(width, info)}>
+      <HoverCard.Target>{target}</HoverCard.Target>
       <HoverCard.Dropdown>
         <PopTitle title={title} lead={lead} badge={badge} />
         <PopBody info={info} />
