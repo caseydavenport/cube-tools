@@ -1,5 +1,7 @@
 import React from "react"
+import { HoverStats } from "../components/kit/HoverStats.js"
 import { StatTile } from "../components/kit/StatTile.js"
+import { confidencePercent, winRateRows, winRateText } from "../components/kit/winRate.js"
 import { PlayerRename } from "./PlayerRename.js"
 
 // percent formats a number as a whole percentage, or a dash when it's unknown.
@@ -12,8 +14,9 @@ function percent(value) {
 
 // PlayerSummaryCard is the top of a player's details: their name (with rename
 // on writable cubes) and game record, then a row of their headline numbers.
-// row is the player's entry from the stats (PlayerData).
-export function PlayerSummaryCard({ row, playerId, editable, onRenamed, copy }) {
+// row is the player's entry from the server's player stats, and confidence
+// labels the interval in the win rate's hover.
+export function PlayerSummaryCard({ row, playerId, editable, onRenamed, confidence, copy }) {
   return (
     <>
       <section className="kit-card deck-identity">
@@ -21,10 +24,12 @@ export function PlayerSummaryCard({ row, playerId, editable, onRenamed, copy }) 
           <PlayerRename player={{ id: playerId, name: row.name }} editable={editable} onRenamed={onRenamed} copy={copy} />
         </div>
         <div className="deck-identity-record">
-          <div className="deck-record">
-            {percent(row.win_percent)}
-            <small>{copy.games} {row.wins}-{row.losses}</small>
-          </div>
+          <HoverStats title="Bayes win %" rows={winRateRows(row, confidencePercent(confidence))}>
+            <div className="deck-record">
+              {winRateText(row)}
+              <small>{copy.games} {row.wins}-{row.losses}</small>
+            </div>
+          </HoverStats>
         </div>
       </section>
 

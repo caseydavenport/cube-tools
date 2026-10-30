@@ -26,3 +26,13 @@ test("an unknown view needs every source", () => {
 test("the archetypes page loads its over-time stats from the server", () => {
   assert.equal(viewNeeds("types", "archetypeStatsOverTime"), true)
 })
+
+test("the players page loads its rows and over-time rows from the server", () => {
+  assert.equal(viewNeeds("players", "playerStats"), true)
+  assert.equal(viewNeeds("players", "playerStatsOverTime"), true)
+})
+
+test("pages that don't show players don't load player stats", () => {
+  assert.equal(viewNeeds("cards", "playerStats"), false)
+  assert.equal(viewNeeds("deckstats", "playerStats"), false)
+})

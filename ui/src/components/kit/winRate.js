@@ -43,6 +43,13 @@ export function winRateMuted(record) {
   return hasInterval && !record.significant
 }
 
+// confidencePercent turns a confidence setting like "0.8" into 80, defaulting
+// to 80 when none is set.
+export function confidencePercent(confidence) {
+  const value = parseFloat(confidence || "0.8")
+  return Math.round(value * 100)
+}
+
 // signedPercent formats a difference like "+8%" or "-3%".
 function signedPercent(value) {
   const rounded = Math.round(value)

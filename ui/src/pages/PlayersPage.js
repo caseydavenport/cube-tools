@@ -42,7 +42,7 @@ const COPY = {
     name: "Player",
     num_decks: "Decks",
     games: "Games",
-    win_percent: "Win %",
+    win_percent: "Bayes Win %",
     trophies: "Trophies",
   },
 
@@ -69,23 +69,23 @@ const COPY = {
 
   details: {
     opponentHeader: ({ minGames }) => `Opponent (min ${minGames} games)`,
-    winPct: "Win %",
-    opponentWinPctHeader: "Your win % vs them",
+    winPct: "Bayes Win %",
+    opponentWinPctHeader: "Your Bayes win % vs them",
     games: "Games",
     arch: "Arch",
     buildPct: "Build %",
     wins: "Wins",
     losses: "Losses",
     color: "Color",
-    opponentWinPctTip: "Share of the player's games against this opponent that they won.",
+    opponentWinPctTip: "Share of the player's games against this opponent that they won, pulled toward 50% in proportion to how few games they've played. Greyed when it can't be told apart from 50%. Hover for the raw win %, its interval and the record.",
     gamesTip: "Number of games the player has played against this opponent.",
     archBuildPctTip: "Share of the player's decks that were this archetype.",
     colorBuildPctTip: "Share of the player's decks that included this color.",
-    winPctTip: "Share of the player's games won with these decks.",
+    winPctTip: "Share of the player's games won with these decks, pulled toward 50% in proportion to how few games there are. Greyed when it can't be told apart from 50%. Hover for the raw win %, its interval and the record.",
     winsTip: "Games the player won with these decks.",
     lossesTip: "Games the player lost with these decks.",
     buildTitle: ({ bucketSize }) => `Build % (bucket size = ${bucketSize} drafts)`,
-    winTitle: ({ bucketSize }) => `Win % (buckets size = ${bucketSize} drafts)`,
+    winTitle: ({ bucketSize }) => `Bayes win % (bucket size = ${bucketSize} drafts)`,
   },
 }
 
@@ -227,6 +227,7 @@ export function PlayersPage(props) {
         playerId={selection.id}
         editable={editable}
         onRenamed={() => setRefresh(r => r + 1)}
+        confidence={filters.winConfidence}
         copy={COPY}
       />
     )
@@ -237,6 +238,7 @@ export function PlayersPage(props) {
         decks={parsed.filteredDecks}
         player={selection.name}
         onSelectPlayer={selection.select}
+        confidence={filters.winConfidence}
         header={header}
         copy={COPY}
       />

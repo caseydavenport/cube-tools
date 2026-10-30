@@ -6,7 +6,7 @@ export const ALL_SOURCES = [
   "decks", "cube", "drafts", "archetypeMatchups",
   "cardStats", "cardStatsOverTime",
   "colorStats", "colorStatsOverTime", "colorMatchups",
-  "archetypeStats", "archetypeStatsOverTime", "playerStats", "deckCharts",
+  "archetypeStats", "archetypeStatsOverTime", "playerStats", "playerStatsOverTime", "deckCharts",
   "synergy", "synergyCompare",
   "designGraph", "health",
 ]
@@ -15,14 +15,14 @@ export const ALL_SOURCES = [
 // summary on every page but the Synergy map, and cube feeds the filter's card
 // suggestions.
 export const VIEW_SOURCES = {
-  cards: ["decks", "cube", "drafts", "cardStats", "cardStatsOverTime", "archetypeStats", "playerStats"],
+  cards: ["decks", "cube", "drafts", "cardStats", "cardStatsOverTime", "archetypeStats"],
   colors: ["decks", "cube", "colorStats", "colorStatsOverTime", "colorMatchups"],
   types: ["decks", "cube", "archetypeMatchups", "cardStats", "archetypeStats", "archetypeStatsOverTime"],
-  deckstats: ["decks", "cube", "drafts", "archetypeStats", "playerStats", "deckCharts"],
+  deckstats: ["decks", "cube", "drafts", "archetypeStats", "deckCharts"],
   synergy: ["decks", "cube", "synergy", "synergyCompare"],
   health: ["decks", "cube", "health"],
   designmap: ["cube", "designGraph"],
-  players: ["decks", "cube", "playerStats"],
+  players: ["decks", "cube", "playerStats", "playerStatsOverTime"],
 }
 
 // viewNeeds reports whether a page needs a source. A page the table doesn't

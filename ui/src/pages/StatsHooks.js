@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { LoadCube, LoadDecks, LoadArchetypeData, LoadDrafts } from "../utils/Fetch.js";
 import { useCube } from "../contexts/CubeContext.js";
-import { PlayerData } from "./Players.js";
 import { DeckBuckets } from "../utils/Buckets.js";
 import { AggregatedPickInfo } from "../utils/DraftLog.js";
 import { draftLabel } from "../utils/DraftInfo.js";
@@ -183,19 +182,35 @@ function toArchetypeBuckets(response) {
   return buckets;
 }
 
-// toPlayerStats turns the players answer into a map by player, with each
-// player's cards, archetypes, and colors as maps.
-function toPlayerStats(response) {
+// toPlayerMap turns one set of player rows into a map by player, with each
+// player's cards, archetypes, colors and opponents as maps.
+function toPlayerMap(rows) {
   const players = new Map();
-  for (const [name, data] of Object.entries(response.players)) {
+  for (const [name, data] of Object.entries(rows || {})) {
     players.set(name, {
       ...data,
       cards: new Map(Object.entries(data.unique_cards || {}).map(([cardName, count]) => [cardName, { name: cardName, count }])),
       archetype_stats: new Map(Object.entries(data.archetype_stats || {})),
       color_stats: new Map(Object.entries(data.color_stats || {})),
+      opponents: new Map(Object.entries(data.opponents || {})),
     });
   }
   return players;
+}
+
+// toPlayerStats turns the players answer into a map by player.
+function toPlayerStats(response) {
+  return toPlayerMap(response.players);
+}
+
+// toPlayerBuckets turns a bucketed players answer into a list of time
+// buckets, each with its name, start date and player rows as a map.
+function toPlayerBuckets(response) {
+  const buckets = [];
+  for (const bucket of response.buckets || []) {
+    buckets.push({ name: bucket.name, start: bucket.start, playerData: toPlayerMap(bucket.players) });
+  }
+  return buckets;
 }
 
 // useStatsData loads the data a stats page shows and works out the values the
@@ -288,9 +303,16 @@ export function useStatsData(filters, props, refresh, view) {
 
   const playerStatsSource = useLoaded(cubeID, needs("playerStats"),
     () => fetchJson(statsUrl(cubeID, "players", {
-      start: startDate, end: endDate, size: minDraftSize, match,
+      start: startDate, end: endDate, size: minDraftSize, confidence: winConfidence, match: archetypeMatch,
     })).then(toPlayerStats),
-    [startDate, endDate, minDraftSize, match, refresh], NO_MAP);
+    [startDate, endDate, minDraftSize, winConfidence, archetypeMatch, refresh], NO_MAP);
+
+  const playerStatsOverTimeSource = useLoaded(cubeID, needs("playerStatsOverTime"),
+    () => fetchJson(statsUrl(cubeID, "players", {
+      start: startDate, end: endDate, size: minDraftSize, confidence: winConfidence,
+      bucket_size: bucketSize, sliding: true, match: archetypeMatch,
+    })).then(toPlayerBuckets),
+    [startDate, endDate, minDraftSize, winConfidence, bucketSize, archetypeMatch, refresh], NO_LIST);
 
   // The synergy settings both synergy requests share.
   const synergyParams = {
@@ -337,7 +359,7 @@ export function useStatsData(filters, props, refresh, view) {
     cardStats: cardStatsSource, cardStatsOverTime: cardStatsOverTimeSource,
     colorStats: colorStatsSource, colorStatsOverTime: colorStatsOverTimeSource, colorMatchups: colorMatchupsSource,
     archetypeStats: archetypeStatsSource, archetypeStatsOverTime: archetypeStatsOverTimeSource,
-    playerStats: playerStatsSource, deckCharts: deckChartsSource,
+    playerStats: playerStatsSource, playerStatsOverTime: playerStatsOverTimeSource, deckCharts: deckChartsSource,
     synergy: synergySource, synergyCompare: synergyCompareSource,
     designGraph: designGraphSource, health: healthSource,
   };
@@ -356,7 +378,8 @@ export function useStatsData(filters, props, refresh, view) {
   const archetypeStats = archetypeStatsSource.value;
   const archetypeBuckets = archetypeStatsOverTimeSource.value;
   const deckCharts = deckChartsSource.value;
-  const playerStats = playerStatsSource.value;
+  const playerData = playerStatsSource.value;
+  const playerBuckets = playerStatsOverTimeSource.value;
   const synergyData = synergySource.value;
   const synergyCompare = synergyCompareSource.value;
   const colorMatchupData = colorMatchupsSource.value;
@@ -381,30 +404,16 @@ export function useStatsData(filters, props, refresh, view) {
 
   const archetypeData = archetypeStats;
 
-  const playerData = useMemo(() => {
-    let filterByColor = filters.colorCheckboxes.some(e => e);
-    if (filterByColor || props.matchStr) {
-      return PlayerData(filteredDecks);
-    }
-    return playerStats instanceof Map ? playerStats : new Map(Object.entries(playerStats));
-  }, [filteredDecks, playerStats, filters.colorCheckboxes, props.matchStr]);
-
   const deckBuckets = useMemo(() => {
     if (filteredDecks.length === 0) return [];
-    const db = DeckBuckets(filteredDecks, bucketSize, false);
-    for (let b of db) {
-      let bucketDecks = [];
-      for (let draft of b) bucketDecks = bucketDecks.concat(draft.decks);
-      b.playerData = PlayerData(bucketDecks);
-    }
-    return db;
+    return DeckBuckets(filteredDecks, bucketSize, false);
   }, [filteredDecks, bucketSize]);
 
   const pickInfo = useMemo(() => AggregatedPickInfo(drafts, cube, ""), [drafts, cube]);
 
   const parsed = useMemo(() => ({
-    bucketSize, filteredDecks, archetypeData, archetypeBuckets, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets,
-  }), [bucketSize, filteredDecks, archetypeData, archetypeBuckets, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets]);
+    bucketSize, filteredDecks, archetypeData, archetypeBuckets, playerData, playerBuckets, pickInfo, colorData, colorDataBucketed, deckBuckets,
+  }), [bucketSize, filteredDecks, archetypeData, archetypeBuckets, playerData, playerBuckets, pickInfo, colorData, colorDataBucketed, deckBuckets]);
 
   const graphData = useMemo(() => BuildGraphData({ filteredDecks, deckBuckets, bucketSize }), [filteredDecks, deckBuckets, bucketSize]);
 

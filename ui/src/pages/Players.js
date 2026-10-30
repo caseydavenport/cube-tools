@@ -1,11 +1,10 @@
 import React from 'react'
-import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
-import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
-import { BucketName, bucketXScale } from "../utils/Buckets.js"
+import { bucketXScale } from "../utils/Buckets.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
-import { isAnonymous, recordsByOpponent } from "../utils/Players.js"
+import { WinRateCell } from "../components/kit/WinRateCell.js"
+import { winRateValue } from "../components/kit/winRate.js"
 
 import {
   Chart as ChartJS,
@@ -33,129 +32,13 @@ ChartJS.register(
   Legend
 );
 
-export function PlayerData(decks) {
-
-  // Go through each deck and build up information about what each player picks.
-  let map = new Map()
-  for (var i in decks) {
-    let deck = decks[i]
-
-    // Seat labels recur in every draft, so anonymous decks belong to no player.
-    if (isAnonymous(deck)) {
-      continue
-    }
-    let player = deck.player
-    if (!map.has(player)) {
-      // Player not seen yet - initialize.
-      map.set(player, {
-        id: deck.player_id || 0,
-        name: player,
-        num_decks: 0,
-        decks: new Array(),
-        cards: new Map(),
-        total_picks: 0,
-        white_picks: 0,
-        blue_picks: 0,
-        green_picks: 0,
-        black_picks: 0,
-        red_picks: 0,
-        wins: 0,
-        losses: 0,
-        trophies: 0,
-        last_place: 0,
-        opponent_win_percentage: 0,
-      })
-    }
-
-    // Add per-deck data here. Like win / loss count.
-    map.get(player).wins += Wins(deck)
-    map.get(player).losses += Losses(deck)
-    map.get(player).num_decks += 1
-    map.get(player).decks.push(deck)
-    map.get(player).trophies += Trophies(deck)
-    map.get(player).last_place += LastPlaceFinishes(deck)
-
-    // Go through each card and increase the player's per-card stats.
-    for (var j in deck.mainboard) {
-      let card = deck.mainboard[j]
-      if (IsBasicLand(card)) {
-        continue
-      }
-
-      // Add this card to the player.
-      if (!map.get(player).cards.has(card.name)) {
-        map.get(player).cards.set(card.name, {
-          name: card.name,
-          count: 0
-        })
-      }
-      map.get(player).cards.get(card.name).count += 1
-      map.get(player).total_picks += 1
-
-      // Perform per-color per-card actions.
-      for (var c in card.colors) {
-        let color = card.colors[c]
-        switch(color) {
-          case "W":
-            map.get(player).white_picks += 1
-            break;
-          case "U":
-            map.get(player).blue_picks += 1
-            break;
-          case "B":
-            map.get(player).black_picks += 1
-            break;
-          case "R":
-            map.get(player).red_picks += 1
-            break;
-          case "G":
-            map.get(player).green_picks += 1
-            break;
-        }
-      }
-    }
-  }
-
-  // Convert the mapped data into a list of rows to display - one per player.
-  for (let row of map.values()) {
-    // First, calculate a percentage of this player's total picks for each color.
-    row.white_percent = Math.round(row.white_picks / row.total_picks * 100)
-    row.blue_percent = Math.round(row.blue_picks / row.total_picks * 100)
-    row.black_percent = Math.round(row.black_picks / row.total_picks * 100)
-    row.red_percent = Math.round(row.red_picks / row.total_picks * 100)
-    row.green_percent = Math.round(row.green_picks / row.total_picks * 100)
-
-    // Add in win and loss percentages.
-    row.win_percent = Math.round(row.wins / (row.wins + row.losses) * 100)
-    row.loss_percent = Math.round(row.losses / (row.wins + row.losses) * 100)
-    row.games = row.wins + row.losses
-
-    // Average the opponent win percentages this player has faced, weighted by
-    // how many opponents each deck's figure covers, as the server does.
-    let total = 0.0
-    let count = 0
-    for (let d of row.decks) {
-      if (!d.rated_opponents) {
-        continue
-      }
-      total += d.opponent_win_percentage * d.rated_opponents
-      count += d.rated_opponents
-    }
-    if (count > 0) {
-      total /= count
-    }
-    row.opponent_win_percentage = Math.round(total)
-  }
-  return map
-}
-
 // playerSortValue returns the sort key for a player row under the active sort
 // column. Pulled out so the table render and arrow-key navigation order the
 // roster the same way.
 function playerSortValue(row, sortBy) {
   switch (sortBy) {
     case "win_pct":
-    case "win_percent": return row.win_percent
+    case "win_percent": return row.bayesian_win_percent
     case "loss_percent": return row.loss_percent
     case "games": return row.games
     case "white_percent":
@@ -237,69 +120,11 @@ export function PlayerDetailsPanel(input) {
     return null;
   }
 
-  // Iterate the selected players games and build up record
-  // against each opponent.
-  let decks = []
-  for (let deck of input.decks) {
-    if (deck.player == input.player) {
-      decks.push(deck)
-    }
-  }
-
-  let newTracker = function(n) {
-    let m = new Map()
-    m.set("name", n)
-    m.set("wins", 0)
-    m.set("losses", 0)
-    m.set("count", 0)
-    return m
-  }
-
-
-  // Get the player's total deck count for percentage calculations
-  const playerEntry = playerData.get(input.player);
-  const totalPlayerDecks = playerEntry.num_decks;
-
-  // Add archetype data from the given player's decks.
-  let archData = playerEntry.archetype_stats
-
-  let archRows = [newTracker("aggro"), newTracker("control"), newTracker("midrange")]
-  for (let a of archRows) {
-    let name = a.get("name")
-    // Check for both exact match and lowercase match
-    let data = null;
-    if (archData && archData.has) {
-      if (archData.has(name)) {
-        data = archData.get(name);
-      } else if (archData.has(name.charAt(0).toUpperCase() + name.slice(1))) {
-        data = archData.get(name.charAt(0).toUpperCase() + name.slice(1));
-      }
-    }
-
-    if (data) {
-      a.set("wins", data.wins || 0)
-      a.set("losses", data.losses || 0)
-      a.set("count", data.count || 0)
-    }
-  }
-
-  // Add color data.
-  let colorData = playerEntry.color_stats
-  let colorRows = [newTracker("W"), newTracker("U"), newTracker("B"), newTracker("R"), newTracker("G")]
-  for (let c of colorRows) {
-    let color = c.get("name")
-    if (colorData && colorData.has && colorData.has(color)) {
-      const data = colorData.get(color);
-      c.set("wins", data.wins || 0)
-      c.set("losses", data.losses || 0)
-      // Server uses 'count', client-side uses 'num_decks'
-      c.set("count", data.count ?? data.num_decks ?? 0)
-    }
-  }
-
-  let minGames = 5
-
-  let oppRows = recordsByOpponent(decks)
+  const playerEntry = playerData.get(input.player)
+  const minGames = 5
+  const oppRows = opponentRows(playerEntry, minGames)
+  const archRows = breakdownRows(playerEntry.archetype_stats, ["aggro", "control", "midrange"], playerEntry.num_decks)
+  const colorRows = breakdownRows(playerEntry.color_stats, ["W", "U", "B", "R", "G"], playerEntry.num_decks)
 
   return (
     <div className="deck-details">
@@ -319,185 +144,33 @@ export function PlayerDetailsPanel(input) {
             </tr>
           </thead>
           <tbody>
-            {
-              oppRows.map(function(opponent) {
-                // Filter out any opponent that doesn't meet the minimum games requirement.
-                if (opponent.wins + opponent.losses < minGames) {
-                  return
-                }
-                let win_pct = Math.round(opponent.wins / (opponent.wins + opponent.losses) * 100)
-                let sort = win_pct
-                switch (input.oppSortBy) {
-                  case "name":
-                    sort = opponent.name
-                    break;
-                  case "win_pct":
-                    sort = win_pct
-                    break;
-                  case "games":
-                    sort = opponent.wins + opponent.losses
-                    break;
-                }
-                if (input.oppSortInvert && typeof sort === 'number') {
-                  sort = -1 * sort
-                }
-                // Opponents who are themselves in the roster link to their page.
-                const canLink = input.onSelectPlayer && playerData.has(opponent.name)
-                return (
-                  <tr key={opponent.name} sort={sort} className="widget-table-row">
-                    <td key="name" className={canLink ? "xlink" : undefined} onClick={canLink ? () => input.onSelectPlayer(opponent.name) : undefined}>{opponent.name}</td>
-                    <td key="win_pct">{win_pct}%</td>
-                    <td key="total">{opponent.wins + opponent.losses}</td>
-                  </tr>
-                )
-              }).sort(SortFunc)
-            }
+            {sortRows(oppRows, input.oppSortBy, input.oppSortInvert).map(opponent => {
+              // Opponents who are themselves in the roster link to their page.
+              const canLink = input.onSelectPlayer && playerData.has(opponent.name)
+              return (
+                <tr key={opponent.name} className="widget-table-row">
+                  <td className={canLink ? "xlink" : undefined} onClick={canLink ? () => input.onSelectPlayer(opponent.name) : undefined}>{opponent.name}</td>
+                  <WinRateCell record={opponent.record} confidence={input.confidence} />
+                  <td>{opponent.games}</td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </SectionCard>
 
       <SectionCard title={input.copy.archetypes}>
-        <table className="widget-table">
-          <thead className="table-header">
-            <tr>
-              <td onClick={input.onPlayerArchHeaderClick} id="name" className="header-cell">{input.copy.details.arch}</td>
-              <HoverInfo title={input.copy.details.buildPct} info={input.copy.details.archBuildPctTip}>
-                <td onClick={input.onPlayerArchHeaderClick} id="build" className="header-cell">{input.copy.details.buildPct}</td>
-              </HoverInfo>
-              <HoverInfo title={input.copy.details.winPct} info={input.copy.details.winPctTip}>
-                <td onClick={input.onPlayerArchHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
-              </HoverInfo>
-              <HoverInfo title={input.copy.details.wins} info={input.copy.details.winsTip}>
-                <td onClick={input.onPlayerArchHeaderClick} id="wins" className="header-cell">{input.copy.details.wins}</td>
-              </HoverInfo>
-              <HoverInfo title={input.copy.details.losses} info={input.copy.details.lossesTip}>
-                <td onClick={input.onPlayerArchHeaderClick} id="losses" className="header-cell">{input.copy.details.losses}</td>
-              </HoverInfo>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              archRows.map(function(arch) {
-                let wins = arch.get("wins")
-                let loss = arch.get("losses")
-                let name = arch.get("name")
-                let count = arch.get("count")
-                let win_pct = 0
-                let bld_pct = 0
-                if (wins + loss > 0) {
-                  win_pct = Math.round(100 * wins / (wins + loss))
-                }
-                if (totalPlayerDecks > 0) {
-                  bld_pct = Math.round(100 * count / totalPlayerDecks)
-                }
-
-                let sort = bld_pct
-                switch (input.playerArchSortBy) {
-                  case "name":
-                    sort = name;
-                    break;
-                  case "build":
-                    sort = bld_pct;
-                    break;
-                  case "win_pct":
-                    sort = win_pct;
-                    break;
-                  case "wins":
-                    sort = wins;
-                    break;
-                  case "losses":
-                    sort = loss;
-                    break;
-                }
-                if (input.playerArchSortInvert && typeof sort === 'number') {
-                  sort = -1 * sort
-                }
-
-                return (
-                  <tr key={name} sort={sort} className="widget-table-row">
-                    <td key="name">{name}</td>
-                    <td key="bld_pct">{bld_pct}%</td>
-                    <td key="win_pct">{win_pct}%</td>
-                    <td key="wins">{wins}</td>
-                    <td key="losses">{loss}</td>
-                  </tr>
-                )
-              }).sort(SortFunc)
-            }
-          </tbody>
-        </table>
+        <BreakdownTable rows={archRows} input={input}
+          nameHeader={input.copy.details.arch} buildTip={input.copy.details.archBuildPctTip}
+          onHeaderClick={input.onPlayerArchHeaderClick} sortBy={input.playerArchSortBy} invert={input.playerArchSortInvert}
+          renderName={name => name} />
       </SectionCard>
 
       <SectionCard title={input.copy.colors}>
-        <table className="widget-table">
-          <thead className="table-header">
-            <tr>
-              <td onClick={input.onPlayerColorHeaderClick} id="name" className="header-cell">{input.copy.details.color}</td>
-              <HoverInfo title={input.copy.details.buildPct} info={input.copy.details.colorBuildPctTip}>
-                <td onClick={input.onPlayerColorHeaderClick} id="build_pct" className="header-cell">{input.copy.details.buildPct}</td>
-              </HoverInfo>
-              <HoverInfo title={input.copy.details.winPct} info={input.copy.details.winPctTip}>
-                <td onClick={input.onPlayerColorHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
-              </HoverInfo>
-              <HoverInfo title={input.copy.details.wins} info={input.copy.details.winsTip}>
-                <td onClick={input.onPlayerColorHeaderClick} id="wins" className="header-cell">{input.copy.details.wins}</td>
-              </HoverInfo>
-              <HoverInfo title={input.copy.details.losses} info={input.copy.details.lossesTip}>
-                <td onClick={input.onPlayerColorHeaderClick} id="losses" className="header-cell">{input.copy.details.losses}</td>
-              </HoverInfo>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              colorRows.map(function(arch) {
-                let wins = arch.get("wins")
-                let loss = arch.get("losses")
-                let name = arch.get("name")
-                let count = arch.get("count")
-                let win_pct = 0
-                let bld_pct = 0
-                if (wins + loss > 0) {
-                  win_pct = Math.round(100 * wins / (wins + loss))
-                }
-                if (totalPlayerDecks > 0) {
-                  bld_pct = Math.round(100 * count / totalPlayerDecks)
-                }
-
-                let sort = bld_pct
-                switch (input.playerColorSortBy) {
-                  case "name":
-                    sort = name;
-                    break;
-                  case "build_pct":
-                    sort = bld_pct;
-                    break;
-                  case "win_pct":
-                    sort = win_pct;
-                    break;
-                  case "wins":
-                    sort = wins;
-                    break;
-                  case "losses":
-                    sort = loss;
-                    break;
-                }
-                if (input.playerColorSortInvert && typeof sort === 'number') {
-                  sort = -1 * sort
-                }
-
-                return (
-                  <tr key={name} sort={sort} className="widget-table-row">
-                    <td key="name">{ColorImages(name)}</td>
-                    <td key="bld_pct">{bld_pct}%</td>
-                    <td key="win_pct">{win_pct}%</td>
-                    <td key="wins">{wins}</td>
-                    <td key="losses">{loss}</td>
-                  </tr>
-                )
-              }).sort(SortFunc)
-            }
-          </tbody>
-        </table>
+        <BreakdownTable rows={colorRows} input={input}
+          nameHeader={input.copy.details.color} buildTip={input.copy.details.colorBuildPctTip}
+          onHeaderClick={input.onPlayerColorHeaderClick} sortBy={input.playerColorSortBy} invert={input.playerColorSortInvert}
+          renderName={name => ColorImages(name)} />
       </SectionCard>
 
       <SectionCard title={input.copy.winRateOverTime}>
@@ -508,29 +181,18 @@ export function PlayerDetailsPanel(input) {
   );
 }
 
+// WinRateChart plots the player's Bayes win rate in each time bucket the
+// server computed. A bucket the player didn't play in leaves a gap.
 function WinRateChart(input) {
-  // Split the given decks into fixed-size buckets.
-  // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.deckBuckets
-
-  // Use the starting date of the bucket as the label. This is just an approximation,
-  // as the bucket really includes a variable set of dates, but it allows the viewer to
-  // at least place some sense of time to the chart.
-  const labels = []
-  for (let bucket of buckets) {
-    labels.push(BucketName(bucket))
-  }
-
-  var values = []
-  for (let bucket of buckets) {
-    let stats = bucket.playerData.get(input.player)
-    if (stats != null) {
-      values.push(stats.win_percent)
-    } else {
-      // Player was not in this bucket.
-      values.push(null)
+  const buckets = input.parsed.playerBuckets || []
+  const labels = buckets.map(bucket => bucket.start)
+  const values = buckets.map(bucket => {
+    const stats = bucket.playerData.get(input.player)
+    if (stats == null) {
+      return null
     }
-  }
+    return winRateValue(stats)
+  })
 
   let dataset = [
       {
@@ -577,4 +239,114 @@ function WinRateChart(input) {
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
+}
+
+// opponentRows lists the player's record against each named opponent with at
+// least minGames games.
+function opponentRows(playerEntry, minGames) {
+  const rows = []
+  for (const [name, record] of playerEntry.opponents || new Map()) {
+    const games = record.wins + record.losses + record.draws
+    if (games < minGames) {
+      continue
+    }
+    rows.push({ name, record, games })
+  }
+  return rows
+}
+
+// breakdownRows turns a player's per-archetype or per-color records into table
+// rows for the given names, in that order, with each one's share of the
+// player's decks. A name the player never played shows an empty record.
+function breakdownRows(stats, names, totalDecks) {
+  return names.map(name => {
+    const record = (stats && stats.get(name)) || { wins: 0, losses: 0, draws: 0, count: 0 }
+    let buildPercent = 0
+    if (totalDecks > 0) {
+      buildPercent = Math.round(100 * record.count / totalDecks)
+    }
+    return { name, record, games: record.wins + record.losses + record.draws, buildPercent }
+  })
+}
+
+// rowSortValue is what a breakdown or opponent row sorts by for a column id.
+// Names sort A to Z; everything else sorts highest first, with the Bayes win
+// rate as the default.
+function rowSortValue(row, sortBy) {
+  switch (sortBy) {
+    case "name":
+      return row.name
+    case "build":
+    case "build_pct":
+      return row.buildPercent
+    case "games":
+      return row.games
+    case "wins":
+      return row.record.wins
+    case "losses":
+      return row.record.losses
+    default: {
+      const value = winRateValue(row.record)
+      if (value === null) {
+        return -1
+      }
+      return value
+    }
+  }
+}
+
+// sortRows returns the rows ordered by the column id, flipped when invert is set.
+function sortRows(rows, sortBy, invert) {
+  const sorted = [...rows].sort((a, b) => {
+    const av = rowSortValue(a, sortBy)
+    const bv = rowSortValue(b, sortBy)
+    let cmp
+    if (typeof av === "string") {
+      cmp = av.localeCompare(bv)
+    } else {
+      cmp = compareHighestFirst(av, bv)
+    }
+    if (invert) {
+      cmp = -cmp
+    }
+    return cmp
+  })
+  return sorted
+}
+
+// BreakdownTable is the player's record split by archetype or by color: build
+// share, Bayes win rate, wins and losses. renderName draws the first cell.
+function BreakdownTable({ rows, input, nameHeader, buildTip, onHeaderClick, sortBy, invert, renderName }) {
+  return (
+    <table className="widget-table">
+      <thead className="table-header">
+        <tr>
+          <td onClick={onHeaderClick} id="name" className="header-cell">{nameHeader}</td>
+          <HoverInfo title={input.copy.details.buildPct} info={buildTip}>
+            <td onClick={onHeaderClick} id="build" className="header-cell">{input.copy.details.buildPct}</td>
+          </HoverInfo>
+          <HoverInfo title={input.copy.details.winPct} info={input.copy.details.winPctTip}>
+            <td onClick={onHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
+          </HoverInfo>
+          <HoverInfo title={input.copy.details.wins} info={input.copy.details.winsTip}>
+            <td onClick={onHeaderClick} id="wins" className="header-cell">{input.copy.details.wins}</td>
+          </HoverInfo>
+          <HoverInfo title={input.copy.details.losses} info={input.copy.details.lossesTip}>
+            <td onClick={onHeaderClick} id="losses" className="header-cell">{input.copy.details.losses}</td>
+          </HoverInfo>
+        </tr>
+      </thead>
+      <tbody>
+        {sortRows(rows, sortBy, invert).map(row => (
+          <tr key={row.name} className="widget-table-row">
+            <td>{renderName(row.name)}</td>
+            <td>{row.buildPercent}%</td>
+            <WinRateCell record={row.record} confidence={input.confidence} />
+            <td>{row.record.wins}</td>
+            <td>{row.record.losses}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
 }

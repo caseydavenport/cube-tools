@@ -4,15 +4,8 @@
 
 import React from "react"
 import { HoverStats } from "./HoverStats.js"
-import { winRateMuted, winRateRows, winRateText } from "./winRate.js"
+import { confidencePercent, winRateMuted, winRateRows, winRateText } from "./winRate.js"
 import "./kit.css"
-
-// confidencePercent turns a confidence setting like "0.8" into 80, defaulting
-// to 80 when none is set.
-function confidencePercent(confidence) {
-  const value = parseFloat(confidence || "0.8")
-  return Math.round(value * 100)
-}
 
 // WinRateCell renders a <td> for a server win-rate Record. confidence is the
 // page's confidence setting, used to label the interval. onClick and id pass

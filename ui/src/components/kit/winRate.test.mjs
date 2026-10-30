@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { winRateMuted, winRateRows, winRateText, winRateValue } from "./winRate.js"
+import { confidencePercent, winRateMuted, winRateRows, winRateText, winRateValue } from "./winRate.js"
 
 // record builds a server Record with the given counts and rates.
 function record(fields) {
@@ -48,6 +48,11 @@ test("winRateRows shows draws only when there are some, and signs a deficit", ()
   const rows = winRateRows(record({ wins: 2, losses: 5, draws: 1, win_percent: 31, bayesian_win_percent: 47 }), 80)
   assert.equal(rows.find(r => r.label === "Record").value, "2-5-1")
   assert.equal(rows.find(r => r.label === "vs average").value, "-3%")
+})
+
+test("confidencePercent turns a setting into a whole percent, defaulting to 80", () => {
+  assert.equal(confidencePercent("0.95"), 95)
+  assert.equal(confidencePercent(undefined), 80)
 })
 
 test("winRateRows is empty with no games", () => {

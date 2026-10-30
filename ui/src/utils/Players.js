@@ -25,26 +25,6 @@ export function personLabel(deck) {
   return deck.player
 }
 
-// recordsByOpponent tallies a player's games by opponent: wins, losses, and
-// ties, which count as neither. Anonymous opponents are skipped, since seats
-// in different drafts share labels, and so are games with no opponent named.
-export function recordsByOpponent(decks) {
-  const byOpponent = new Map()
-  for (const deck of decks) {
-    for (const game of deck.games || []) {
-      if (!game.opponent || isSeatLabel(game.opponent)) continue
-      if (!byOpponent.has(game.opponent)) {
-        byOpponent.set(game.opponent, { name: game.opponent, wins: 0, losses: 0, ties: 0 })
-      }
-      const r = byOpponent.get(game.opponent)
-      if (game.tie || !game.winner) r.ties += 1
-      else if (game.winner === game.opponent) r.losses += 1
-      else r.wins += 1
-    }
-  }
-  return Array.from(byOpponent.values())
-}
-
 // playerNameMatches reports whether a player: search value names this player.
 // It takes the whole name, ignoring case and quotes, so p3 doesn't also match
 // seat p30. The server's query engine uses the same rule.
