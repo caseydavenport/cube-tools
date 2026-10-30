@@ -32,11 +32,11 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }
   const nodes = data.nodes || []
   const edges = data.edges || []
   const groups = data.groups || []
-  const links = data.links || []
+  const packages = data.packages || []
   const groupNodes = data.group_nodes || []
   // Wire the theme constellation from the rule-defined links (sparse, meaningful),
   // not from incidental card co-membership (near-complete graph, unreadable).
-  const groupEdges = data.link_edges || []
+  const groupEdges = data.package_edges || []
   const dataKey = groupNodes.length
 
   // Memoized so that hovering a node - which re-renders this component - doesn't
@@ -120,7 +120,7 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }
           edges={edges}
           groupNodes={groupNodes}
           groupEdges={groupEdges}
-          links={links}
+          packages={packages}
           groupColor={groupColor}
           cardGroups={cardGroups}
           cardData={cardData}
@@ -133,7 +133,7 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }
           focus={focus}
           groups={groups}
           groupNodes={groupNodes}
-          links={links}
+          packages={packages}
           edges={edges}
           nodeMap={nodeMap}
           groupColor={groupColor}

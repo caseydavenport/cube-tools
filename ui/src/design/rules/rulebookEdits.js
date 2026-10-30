@@ -10,10 +10,10 @@ export function withExclude(group, exclude) {
 }
 
 // Propagate a group rename through every wire end of a link.
-export function renameInLink(link, oldName, newName) {
+export function renameInPackage(pkg, oldName, newName) {
   return {
-    ...link,
-    wires: (link.wires || []).map(w => ({
+    ...pkg,
+    wires: (pkg.wires || []).map(w => ({
       sources: (w.sources || []).map(s => s === oldName ? newName : s),
       targets: (w.targets || []).map(t => t === oldName ? newName : t),
     })),

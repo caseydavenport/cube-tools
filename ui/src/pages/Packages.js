@@ -160,7 +160,7 @@ export function Packages(props) {
   }
 
   const sortVal = {
-    label: s => s.label.toLowerCase(),
+    name: s => s.name.toLowerCase(),
     package: s => s.package,
     buildRate: s => s.buildRate,
     has3: s => s.has3,
@@ -190,7 +190,7 @@ export function Packages(props) {
         <table className="widget-table stats-full-width">
           <thead>
             <tr>
-              {header("label", COPY.columns.label, undefined, false)}
+              {header("name", COPY.columns.label, undefined, false)}
               {header("buildRate", COPY.columns.buildRate, COPY.columnTips.buildRate)}
               {header("package", COPY.columns.packages, COPY.columnTips.packages)}
               {header("has3", COPY.columns.has3, COPY.columnTips.has3)}
@@ -199,8 +199,8 @@ export function Packages(props) {
           </thead>
           <tbody>
             {rows.map(s => (
-              <tr key={s.label} className="widget-table-row">
-                <td className="header-cell stats-bold">{s.label}</td>
+              <tr key={s.name} className="widget-table-row">
+                <td className="header-cell stats-bold">{s.name}</td>
                 <BuildRateCell s={s} populated={data.populatedDecks} confidence={confidence} />
                 <td className="page-right-cell">{s.package}</td>
                 <HoverInfo info={COPY.tooltips.has3({ has3: s.has3, rate: pct(s.has3Rate) })}>

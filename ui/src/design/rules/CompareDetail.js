@@ -12,16 +12,16 @@ import { RULES_COPY } from "./copy.js"
 // CompareDetail traces the links between two specific cards: the two card images
 // flank a loom of the group-to-group bridges that connect them, colored by rule.
 export function CompareDetail({
-  focal, vs, between, nodeByName, cardGroups, groupIndex, linkIndex,
-  canEdit, onSelectGroup, onSelectLink, onEditLink, onSwap, onClear,
+  focal, vs, between, nodeByName, cardGroups, groupIndex, packageIndex,
+  canEdit, onSelectGroup, onSelectPackage, onEditPackage, onSwap, onClear,
 }) {
-  const { left, right, threads } = bridgeLoom(between, groupIndex, linkIndex, onSelectGroup)
+  const { left, right, threads } = bridgeLoom(between, groupIndex, packageIndex, onSelectGroup)
 
   return (
     <div className="de-pane">
       <div className="de-pane-head">
         <h3 className="de-pane-title">{RULES_COPY.compare.heading}</h3>
-        <span className="de-pane-sub">{RULES_COPY.compare.linkCount(between.length)}</span>
+        <span className="de-pane-sub">{RULES_COPY.compare.packageCount(between.length)}</span>
         <span className="de-pane-actions">
           <Button size="xs" variant="default" onClick={onSwap}>{RULES_COPY.compare.swap}</Button>
           <Button size="xs" variant="default" onClick={onClear}>{RULES_COPY.compare.clear}</Button>
@@ -44,12 +44,12 @@ export function CompareDetail({
       </div>
 
       {between.map(r => (
-        <div key={r.label} className="de-linkgroup">
-          <UnstyledButton className="de-wire" onClick={() => onSelectLink(r.label)}>
-            <span className="dm-swatch" style={{ background: ruleColor(linkIndex[r.label] ?? 0) }} />
-            <span className="de-wire-label">{r.label}</span>
+        <div key={r.name} className="de-linkgroup">
+          <UnstyledButton className="de-wire" onClick={() => onSelectPackage(r.name)}>
+            <span className="dm-swatch" style={{ background: ruleColor(packageIndex[r.name] ?? 0) }} />
+            <span className="de-wire-label">{r.name}</span>
             {canEdit &&
-              <span className="de-edit-hint" onClick={e => { e.stopPropagation(); onEditLink(r.label) }}>{RULES_COPY.compare.editLink}</span>
+              <span className="de-edit-hint" onClick={e => { e.stopPropagation(); onEditPackage(r.name) }}>{RULES_COPY.compare.editPackage}</span>
             }
           </UnstyledButton>
           {r.bridges.map((b, i) => (

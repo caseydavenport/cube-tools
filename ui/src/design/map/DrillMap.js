@@ -13,13 +13,13 @@ import { PopTitle } from "../../components/kit/HoverInfo.js"
 
 // --- Drill map (the leveled constellation) -----------------------------------
 
-export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupColor, cardGroups, cardData, hovered, onHover, onDrill }) {
+export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, packages, groupColor, cardGroups, cardData, hovered, onHover, onDrill }) {
   const mapRef = useRef(null)
   const tipRef = useRef(null)
-  const linkIndex = {}
-  links.forEach((l, i) => { linkIndex[l.label] = i })
-  const linkByLabel = {}
-  links.forEach(l => { linkByLabel[l.label] = l })
+  const packageIndex = {}
+  packages.forEach((l, i) => { packageIndex[l.name] = i })
+  const packageByName = {}
+  packages.forEach(l => { packageByName[l.name] = l })
   // Indexed as the map's groupColor is, so tip chips match the legend.
   const groupIndex = {}
   groupNodes.forEach((g, i) => { groupIndex[g.name] = i })
@@ -29,7 +29,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
   // that matched. Recomputed only when the hovered neighbor changes.
   const why = useMemo(() => {
     if (focus.level !== "card" || !hovered || hovered === focus.card) return null
-    const w = whyLinked(focus.card, hovered, edges, linkByLabel, cardGroups || {})
+    const w = whyLinked(focus.card, hovered, edges, packageByName, cardGroups || {})
     return w.length > 0 ? w : null
   }, [focus, hovered, edges, cardGroups])
 
@@ -79,7 +79,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
       })
       const se = groupEdges.map(e => ({
         source: e.source, target: e.target, weight: e.weight,
-        color: edgeColorFor(e.labels, linkIndex),
+        color: edgeColorFor(e.packages, packageIndex),
       }))
       const nRefs = sn.filter(n => cardRefName(n.id)).length
       let themesCaption = MAP_COPY.drillMap.captionThemes({ themes: sn.length })
@@ -104,7 +104,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
       })
       const se = edges
         .filter(e => names.has(e.source) && names.has(e.target))
-        .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.rule_labels, linkIndex) }))
+        .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.packages, packageIndex) }))
       return { simNodes: sn, simEdges: se, showLabels: sn.length <= 34, caption: MAP_COPY.drillMap.captionGroup({ cards: sn.length, group: focus.group }) }
     }
 
@@ -129,7 +129,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
     })
     const se = edges
       .filter(e => nbrs.has(e.source) && nbrs.has(e.target) && (e.source === center || e.target === center))
-      .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.rule_labels, linkIndex) }))
+      .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.packages, packageIndex) }))
     return { simNodes: sn, simEdges: se, showLabels: true, caption: MAP_COPY.drillMap.captionCard({ cards: sn.length - 1, card: center }) }
   }, [focus, groupNodes, groupEdges, edges, nodeMap])
 
@@ -164,7 +164,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
       {why && (
         <WhyLinkedTip
           tipRef={tipRef} focusCard={focus.card} hovered={hovered} why={why}
-          nodeMap={nodeMap} groupIndex={groupIndex} linkIndex={linkIndex}
+          nodeMap={nodeMap} groupIndex={groupIndex} packageIndex={packageIndex}
         />
       )}
     </div>
@@ -175,9 +175,9 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
 // picture: the focused card's groups on the left, the hovered card's on the
 // right, one thread per bridge colored by its link, and a legend of the links.
 // A link with no bridges between groups shows in the legend as a shared rule.
-function WhyLinkedTip({ tipRef, focusCard, hovered, why, nodeMap, groupIndex, linkIndex }) {
+function WhyLinkedTip({ tipRef, focusCard, hovered, why, nodeMap, groupIndex, packageIndex }) {
   const bridged = why.filter(w => w.bridges.length > 0)
-  const { left, right, threads } = bridgeLoom(bridged, groupIndex, linkIndex)
+  const { left, right, threads } = bridgeLoom(bridged, groupIndex, packageIndex)
 
   return (
     <div ref={tipRef} className="kit-pop dm-why-tip">
@@ -189,7 +189,7 @@ function WhyLinkedTip({ tipRef, focusCard, hovered, why, nodeMap, groupIndex, li
             <CardName name={hovered} card={nodeMap[hovered]} />
           </span>
         }
-        badge={MAP_COPY.drillMap.linkCount({ count: why.length })}
+        badge={MAP_COPY.drillMap.packageCount({ count: why.length })}
       />
       {bridged.length > 0 && (
         <>
@@ -201,7 +201,7 @@ function WhyLinkedTip({ tipRef, focusCard, hovered, why, nodeMap, groupIndex, li
         </>
       )}
       <div className="dm-why-legend">
-        {why.map(w => <WhyLegendEntry key={w.label} link={w} color={ruleColor(linkIndex[w.label] ?? 0)} />)}
+        {why.map(w => <WhyLegendEntry key={w.name} pkg={w} color={ruleColor(packageIndex[w.name] ?? 0)} />)}
       </div>
     </div>
   )
@@ -225,12 +225,12 @@ function CardDot({ card }) {
 
 // WhyLegendEntry is one link in the tip's legend: a short bar in the link's
 // color and its label, marked as a shared rule when it has no bridges.
-function WhyLegendEntry({ link, color }) {
+function WhyLegendEntry({ pkg, color }) {
   return (
     <span className="dm-why-key">
       <span className="dm-why-bar" style={{ background: color }} />
-      {link.label}
-      {link.bridges.length === 0 && <span className="dm-why-shared">{MAP_COPY.drillMap.sharedRule}</span>}
+      {pkg.name}
+      {pkg.bridges.length === 0 && <span className="dm-why-shared">{MAP_COPY.drillMap.sharedRule}</span>}
     </span>
   )
 }

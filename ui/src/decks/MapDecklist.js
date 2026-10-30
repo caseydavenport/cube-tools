@@ -6,5 +6,5 @@ import { CardSynergyMap } from "../design/map/CardSynergyMap.js"
 // design rules. Basic lands aren't in the design graph, so they're left off.
 export function MapDecklist({ cards, designGraph }) {
   const mapCards = cards.filter(card => !IsBasicLand(card))
-  return <CardSynergyMap cards={mapCards} edges={designGraph.edges || []} links={designGraph.links || []} />
+  return <CardSynergyMap cards={mapCards} edges={designGraph.edges || []} packages={designGraph.packages || []} />
 }

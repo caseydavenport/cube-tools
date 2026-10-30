@@ -11,10 +11,10 @@ import { ruleColor } from "./ruleColors.js"
 import { MAP_COPY } from "./copy.js"
 import "./map.css"
 
-export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSave, onCancel, onGroupSaved }) {
-  const [editLabel, setEditLabel] = useState(link.label || "")
+export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, onSave, onCancel, onGroupSaved }) {
+  const [editLabel, setEditLabel] = useState(pkg.name || "")
   const [editWires, setEditWires] = useState(() =>
-    (link.wires && link.wires.length > 0 ? link.wires : [{ sources: [""], targets: [""] }])
+    (pkg.wires && pkg.wires.length > 0 ? pkg.wires : [{ sources: [""], targets: [""] }])
       .map(w => ({
         sources: (w.sources && w.sources.length > 0) ? [...w.sources] : [""],
         targets: (w.targets && w.targets.length > 0) ? [...w.targets] : [""],
@@ -56,7 +56,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
         <div className="edit-modal-list">
           {cards.length === 0 && !loading && (
             <p className="edit-modal-empty">
-              {MAP_COPY.linkEdit.noMatchingCards}
+              {MAP_COPY.packageEdit.noMatchingCards}
             </p>
           )}
           {cards.map(card => (
@@ -94,14 +94,14 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
         }}
       >
         {/* Left: source cards (for the active wire) */}
-        {renderCardList(editWires.length > 1 ? MAP_COPY.linkEdit.sourceCardsWire({ wire: activeWire + 1 }) : MAP_COPY.linkEdit.sourceCards, sourceCards)}
+        {renderCardList(editWires.length > 1 ? MAP_COPY.packageEdit.sourceCardsWire({ wire: activeWire + 1 }) : MAP_COPY.packageEdit.sourceCards, sourceCards)}
 
         {/* Center: edit form */}
         <div className="link-edit-panel">
           <h4 style={{color, margin: "0 0 1rem 0", fontSize: "1rem"}}>
-            {MAP_COPY.linkEdit.editLink}
+            {MAP_COPY.packageEdit.editPackage}
           </h4>
-          <RuleInput label={MAP_COPY.linkEdit.labelLabel} value={editLabel} onChange={setEditLabel} placeholder={MAP_COPY.linkEdit.labelPlaceholder} />
+          <RuleInput label={MAP_COPY.packageEdit.labelLabel} value={editLabel} onChange={setEditLabel} placeholder={MAP_COPY.packageEdit.labelPlaceholder} />
           {editWires.map((w, wi) => (
             <div
               key={wi}
@@ -117,28 +117,28 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
               {editWires.length > 1 && (
                 <div className="link-edit-field-header">
                   <span style={{fontSize: "0.75em", fontWeight: "bold", color: wi === activeWire ? color : "var(--se-muted)"}}>
-                    {MAP_COPY.linkEdit.wireTitle({ wire: wi + 1 })}
+                    {MAP_COPY.packageEdit.wireTitle({ wire: wi + 1 })}
                   </span>
-                  <ActionIcon variant="subtle" color="gray" size="sm" aria-label={MAP_COPY.linkEdit.removeWire}
+                  <ActionIcon variant="subtle" color="gray" size="sm" aria-label={MAP_COPY.packageEdit.removeWire}
                     onClick={(e) => { e.stopPropagation(); removeWire(wi); }}
-                    title={MAP_COPY.linkEdit.removeWire}
+                    title={MAP_COPY.packageEdit.removeWire}
                   ><IconX size={14} /></ActionIcon>
                 </div>
               )}
-              <GroupMultiSelect label={MAP_COPY.linkEdit.sourcesLabel} values={w.sources} onChange={(v) => updateWire(wi, { sources: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
-              <GroupMultiSelect label={MAP_COPY.linkEdit.targetsLabel} values={w.targets} onChange={(v) => updateWire(wi, { targets: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
+              <GroupMultiSelect label={MAP_COPY.packageEdit.sourcesLabel} values={w.sources} onChange={(v) => updateWire(wi, { sources: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
+              <GroupMultiSelect label={MAP_COPY.packageEdit.targetsLabel} values={w.targets} onChange={(v) => updateWire(wi, { targets: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
             </div>
           ))}
-          <Button size="xs" variant="subtle" leftSection={<IconPlus size={14} />} onClick={addWire}>{MAP_COPY.linkEdit.addWire}</Button>
+          <Button size="xs" variant="subtle" leftSection={<IconPlus size={14} />} onClick={addWire}>{MAP_COPY.packageEdit.addWire}</Button>
           <div className="edit-modal-fill" />
           <div className="edit-modal-actions">
-            <Button size="xs" variant="filled" onClick={() => onSave({ label: editLabel, wires: editWires })}>{MAP_COPY.linkEdit.save}</Button>
-            <Button size="xs" variant="default" onClick={onCancel}>{MAP_COPY.linkEdit.cancel}</Button>
+            <Button size="xs" variant="filled" onClick={() => onSave({ name: editLabel, wires: editWires })}>{MAP_COPY.packageEdit.save}</Button>
+            <Button size="xs" variant="default" onClick={onCancel}>{MAP_COPY.packageEdit.cancel}</Button>
           </div>
         </div>
 
         {/* Right: target cards (for the active wire) */}
-        {renderCardList(editWires.length > 1 ? MAP_COPY.linkEdit.targetCardsWire({ wire: activeWire + 1 }) : MAP_COPY.linkEdit.targetCards, targetCards)}
+        {renderCardList(editWires.length > 1 ? MAP_COPY.packageEdit.targetCardsWire({ wire: activeWire + 1 }) : MAP_COPY.packageEdit.targetCards, targetCards)}
       </div>
 
       {editingGroup && (

@@ -17,7 +17,7 @@ import (
 // PackageStat is one rule label's corpus build rate: how often its cards cohere
 // into a package versus how often the deck merely carries enough of them.
 type PackageStat struct {
-	Label string `json:"label"`
+	Name string `json:"name"`
 
 	// Package is the number of populated decks where this label's cards form a
 	// cohesive community; BuildRate is that count over the populated-deck total,
@@ -156,7 +156,7 @@ func packageStats(designGraph DesignGraphResponse, decks []*storage.Deck, conf f
 			has3Rate = round3(float64(has3[l]) / n)
 		}
 		stats = append(stats, PackageStat{
-			Label:           l,
+			Name:            l,
 			Package:         pkg[l],
 			BuildRate:       buildRate,
 			BuildRateLow:    round3(low / 100),
@@ -171,7 +171,7 @@ func packageStats(designGraph DesignGraphResponse, decks []*storage.Deck, conf f
 		if stats[i].Package != stats[j].Package {
 			return stats[i].Package > stats[j].Package
 		}
-		return stats[i].Label < stats[j].Label
+		return stats[i].Name < stats[j].Name
 	})
 
 	return PackageStatsResponse{
@@ -196,7 +196,7 @@ func EdgesForCube(store storage.DeckStorage, src types.CubeSource, cubeID string
 func toGraphEdges(designGraph DesignGraphResponse) []graph.Edge {
 	out := make([]graph.Edge, 0, len(designGraph.Edges))
 	for _, e := range designGraph.Edges {
-		out = append(out, graph.Edge{A: e.Source, B: e.Target, Weight: e.Weight, Labels: e.RuleLabels})
+		out = append(out, graph.Edge{A: e.Source, B: e.Target, Weight: e.Weight, Labels: e.Packages})
 	}
 	return out
 }

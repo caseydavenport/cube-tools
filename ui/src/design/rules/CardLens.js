@@ -10,14 +10,14 @@ import { RULES_COPY } from "./copy.js"
 // CardLens is the right rail: pick any card and see its image, which groups hold
 // it (and via which condition), and every card it links to, grouped by rule.
 export function CardLens({
-  names, focal, vs, node, memberships, membershipsLoading, neighbors, groupIndex, linkIndex,
-  onPickFocal, onPickVs, onSelectGroup, onSelectLink, onCompare, onHoverCard,
+  names, focal, vs, node, memberships, membershipsLoading, neighbors, groupIndex, packageIndex,
+  onPickFocal, onPickVs, onSelectGroup, onSelectPackage, onCompare, onHoverCard,
 }) {
   // Bucket the neighbors by rule label so linked cards read by-reason.
   const byLabel = useMemo(() => {
     const m = {}
     for (const n of neighbors) {
-      for (const l of (n.labels.length ? n.labels : [RULES_COPY.cardLens.unlabeled])) {
+      for (const l of (n.packages.length ? n.packages : [RULES_COPY.cardLens.unlabeled])) {
         (m[l] = m[l] || []).push(n.name)
       }
     }
@@ -63,8 +63,8 @@ export function CardLens({
           {byLabel.length === 0 && <div className="de-muted">{RULES_COPY.cardLens.noLinks}</div>}
           <div className="de-lens-links" onMouseLeave={() => onHoverCard('')}>
             {byLabel.map(([label, cards]) => (
-              <div key={label} className="de-lens-rule" style={{ borderLeft: `3px solid ${ruleColor(linkIndex[label] ?? 0)}` }}>
-                <UnstyledButton className="de-lens-rule-label" onClick={() => onSelectLink(label)}>{label}</UnstyledButton>
+              <div key={label} className="de-lens-rule" style={{ borderLeft: `3px solid ${ruleColor(packageIndex[label] ?? 0)}` }}>
+                <UnstyledButton className="de-lens-rule-label" onClick={() => onSelectPackage(label)}>{label}</UnstyledButton>
                 {cards.map(c => (
                   <UnstyledButton
                     key={c} className="de-lens-linked"

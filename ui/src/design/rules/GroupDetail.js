@@ -11,8 +11,8 @@ import { RULES_COPY } from "./copy.js"
 // use it, and every member with the condition that pulled it in - hover for the
 // card image, so scanning a group for intruders is fast.
 export function GroupDetail({
-  group, color, members, excluded, cardGroups, nodeByName, linksTouching, linkIndex, warn,
-  canEdit, onEdit, onDelete, onExclude, onRestore, onSelectLink, onFocusCard, onHoverCard,
+  group, color, members, excluded, cardGroups, nodeByName, packagesTouching, packageIndex, warn,
+  canEdit, onEdit, onDelete, onExclude, onRestore, onSelectPackage, onFocusCard, onHoverCard,
 }) {
   const [confirming, setConfirming] = useState(false)
   const memberConds = (name) => (cardGroups[name] || []).find(m => m.group === group.name)?.conds || []
@@ -34,12 +34,12 @@ export function GroupDetail({
         {(group.conditions || []).map((c, i) => <code key={i} className="de-cond">{c}</code>)}
       </div>
 
-      <div className="de-subhead">{RULES_COPY.group.wiredInto(linksTouching.length)}</div>
-      {linksTouching.length === 0 && <div className="de-muted">{RULES_COPY.group.noLinks}</div>}
-      {linksTouching.map(l => (
-        <UnstyledButton key={l.label} className="de-wire" onClick={() => onSelectLink(l.label)}>
-          <span className="dm-swatch" style={{ background: ruleColor(linkIndex[l.label] ?? 0) }} />
-          <span className="de-wire-label">{l.label}</span>
+      <div className="de-subhead">{RULES_COPY.group.wiredInto(packagesTouching.length)}</div>
+      {packagesTouching.length === 0 && <div className="de-muted">{RULES_COPY.group.noLinks}</div>}
+      {packagesTouching.map(l => (
+        <UnstyledButton key={l.name} className="de-wire" onClick={() => onSelectPackage(l.name)}>
+          <span className="dm-swatch" style={{ background: ruleColor(packageIndex[l.name] ?? 0) }} />
+          <span className="de-wire-label">{l.name}</span>
           <span className="de-wire-ends">
             {(l.wires || []).filter(w => (w.sources || []).includes(group.name) || (w.targets || []).includes(group.name)).map((w, wi) => (
               <span key={wi} className="de-wire-pair">

@@ -27,9 +27,9 @@ func TestBuildDesignGraphWithConfig(t *testing.T) {
 			{Name: "Damage Dealers", Conditions: []string{"o:damage"}},
 			{Name: "Artifacts", Conditions: []string{"t:artifact"}},
 		},
-		Links: []design.Link{
-			{Label: "Red-Damage", Wires: []design.Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Damage Dealers"}}}},
-			{Label: "Artifact Link", Wires: []design.Wire{{Sources: []string{"Artifacts"}, Targets: []string{"Red Stuff"}}}},
+		Packages: []design.Package{
+			{Name: "Red-Damage", Wires: []design.Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Damage Dealers"}}}},
+			{Name: "Artifact Link", Wires: []design.Wire{{Sources: []string{"Artifacts"}, Targets: []string{"Red Stuff"}}}},
 		},
 	}
 
@@ -45,15 +45,15 @@ func TestBuildDesignGraphWithConfig(t *testing.T) {
 	// Normalized: "Bolt" < "Sword"
 	assert.Equal(t, "Bolt", edge.Source)
 	assert.Equal(t, "Sword", edge.Target)
-	assert.Contains(t, edge.RuleLabels, "Artifact Link")
+	assert.Contains(t, edge.Packages, "Artifact Link")
 
-	// Groups and links should be returned sorted.
+	// Groups and packages should be returned sorted.
 	assert.Len(t, resp.Groups, 3)
-	assert.Len(t, resp.Links, 2)
+	assert.Len(t, resp.Packages, 2)
 }
 
-// TestBuildDesignGraphSharedGroup verifies that two links sharing the same
-// group produce correct edges for both links.
+// TestBuildDesignGraphSharedGroup verifies that two packages sharing the same
+// group produce correct edges for both packages.
 func TestBuildDesignGraphSharedGroup(t *testing.T) {
 	cube := &types.Cube{
 		Cards: []types.Card{
@@ -69,9 +69,9 @@ func TestBuildDesignGraphSharedGroup(t *testing.T) {
 			{Name: "Delve Payoffs", Conditions: []string{"o:delve"}},
 			{Name: "Flashback Payoffs", Conditions: []string{"o:flashback"}},
 		},
-		Links: []design.Link{
-			{Label: "Delve", Wires: []design.Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
-			{Label: "Graveyard Spells", Wires: []design.Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+		Packages: []design.Package{
+			{Name: "Delve", Wires: []design.Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+			{Name: "Graveyard Spells", Wires: []design.Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
 		},
 	}
 
@@ -81,14 +81,14 @@ func TestBuildDesignGraphSharedGroup(t *testing.T) {
 	// Edges: Delve Card <-> Mill Card (Delve), Flashback Card <-> Mill Card (Graveyard Spells)
 	assert.Len(t, resp.Edges, 2)
 
-	labels := map[string]bool{}
+	names := map[string]bool{}
 	for _, e := range resp.Edges {
-		for _, l := range e.RuleLabels {
-			labels[l] = true
+		for _, n := range e.Packages {
+			names[n] = true
 		}
 	}
-	assert.True(t, labels["Delve"])
-	assert.True(t, labels["Graveyard Spells"])
+	assert.True(t, names["Delve"])
+	assert.True(t, names["Graveyard Spells"])
 }
 
 // TestBuildDesignGraphMultiWire verifies that wires within a link stay
@@ -108,9 +108,9 @@ func TestBuildDesignGraphMultiWire(t *testing.T) {
 			{Name: "Payoffs", Conditions: []string{"o:dies"}},
 			{Name: "Token Makers", Conditions: []string{"o:token"}},
 		},
-		Links: []design.Link{
+		Packages: []design.Package{
 			{
-				Label: "Sacrifice",
+				Name: "Sacrifice",
 				Wires: []design.Wire{
 					{Sources: []string{"Outlets"}, Targets: []string{"Payoffs"}},
 					{Sources: []string{"Token Makers"}, Targets: []string{"Outlets"}},
@@ -126,13 +126,13 @@ func TestBuildDesignGraphMultiWire(t *testing.T) {
 	pairs := map[string]bool{}
 	for _, e := range resp.Edges {
 		pairs[e.Source+"|"+e.Target] = true
-		assert.Contains(t, e.RuleLabels, "Sacrifice")
+		assert.Contains(t, e.Packages, "Sacrifice")
 	}
 	assert.True(t, pairs["Outlet|Payoff"])
 	assert.True(t, pairs["Outlet|Token Maker"])
 
 	// Same independence in the link-derived group view.
-	assert.Len(t, resp.LinkEdges, 2)
+	assert.Len(t, resp.PackageEdges, 2)
 }
 
 // TestBuildGroupGraph verifies the aggregated group-level view: one node per
@@ -152,9 +152,9 @@ func TestBuildGroupGraph(t *testing.T) {
 			{Name: "Delve Payoffs", Conditions: []string{"o:delve"}},
 			{Name: "Flashback Payoffs", Conditions: []string{"o:flashback"}},
 		},
-		Links: []design.Link{
-			{Label: "Delve", Wires: []design.Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
-			{Label: "Graveyard Spells", Wires: []design.Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+		Packages: []design.Package{
+			{Name: "Delve", Wires: []design.Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+			{Name: "Graveyard Spells", Wires: []design.Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
 		},
 	}
 
@@ -169,7 +169,7 @@ func TestBuildGroupGraph(t *testing.T) {
 	}
 	assert.Equal(t, []string{"Delve Card"}, byName["Delve Payoffs"].Cards)
 
-	// Card-derived edges: Mill Enablers connects to both other groups via real card links.
+	// Card-derived edges: Mill Enablers connects to both other groups via real card edges.
 	assert.Len(t, resp.GroupEdges, 2)
 	for _, e := range resp.GroupEdges {
 		assert.Equal(t, 1, e.Weight)
@@ -177,8 +177,8 @@ func TestBuildGroupGraph(t *testing.T) {
 	}
 
 	// Link-derived edges mirror the two rule definitions, which also point at Mill Enablers.
-	assert.Len(t, resp.LinkEdges, 2)
-	for _, e := range resp.LinkEdges {
+	assert.Len(t, resp.PackageEdges, 2)
+	for _, e := range resp.PackageEdges {
 		assert.Equal(t, "Mill Enablers", e.Target)
 	}
 }
@@ -202,16 +202,16 @@ func TestBuildGroupGraphMultiGroupCard(t *testing.T) {
 			{Name: "Ramp Payoffs", Conditions: []string{"o:ramp"}},
 		},
 		// Only Red is linked to Ramp Payoffs. Artifacts is named in no link.
-		Links: []design.Link{
-			{Label: "Ramp", Wires: []design.Wire{{Sources: []string{"Red"}, Targets: []string{"Ramp Payoffs"}}}},
+		Packages: []design.Package{
+			{Name: "Ramp", Wires: []design.Wire{{Sources: []string{"Red"}, Targets: []string{"Ramp Payoffs"}}}},
 		},
 	}
 
 	resp := buildDesignGraph(cube, config, nil)
 
 	// Link view: just the one declared edge Red <-> Ramp Payoffs.
-	assert.Len(t, resp.LinkEdges, 1)
-	assert.Equal(t, "Ramp", resp.LinkEdges[0].Labels[0])
+	assert.Len(t, resp.PackageEdges, 1)
+	assert.Equal(t, "Ramp", resp.PackageEdges[0].Packages[0])
 
 	// Card view: Bridge is in both Red and Artifacts, so its card-level link to Payoff
 	// also pulls Artifacts <-> Ramp Payoffs into the graph.
@@ -240,9 +240,9 @@ func TestBuildDesignGraphCardRef(t *testing.T) {
 		Groups: []design.Group{
 			{Name: "Blue Fetchables", Conditions: []string{"o:island t:land"}},
 		},
-		Links: []design.Link{
-			{Label: "Fetches", Wires: []design.Wire{{Sources: []string{"card:Flooded Strand"}, Targets: []string{"Blue Fetchables"}}}},
-			{Label: "Bogus", Wires: []design.Wire{{Sources: []string{"card:No Such Card"}, Targets: []string{"Blue Fetchables"}}}},
+		Packages: []design.Package{
+			{Name: "Fetches", Wires: []design.Wire{{Sources: []string{"card:Flooded Strand"}, Targets: []string{"Blue Fetchables"}}}},
+			{Name: "Bogus", Wires: []design.Wire{{Sources: []string{"card:No Such Card"}, Targets: []string{"Blue Fetchables"}}}},
 		},
 	}
 
@@ -254,7 +254,7 @@ func TestBuildDesignGraphCardRef(t *testing.T) {
 	pairs := map[string]bool{}
 	for _, e := range resp.Edges {
 		pairs[e.Source+"|"+e.Target] = true
-		assert.Equal(t, []string{"Fetches"}, e.RuleLabels)
+		assert.Equal(t, []string{"Fetches"}, e.Packages)
 	}
 	assert.True(t, pairs["Flooded Strand|Hallowed Fountain"])
 	assert.True(t, pairs["Flooded Strand|Steam Vents"])
@@ -271,12 +271,12 @@ func TestBuildDesignGraphCardRef(t *testing.T) {
 	assert.Equal(t, 0, byName["card:No Such Card"].CardCount)
 
 	// Both group edge views join the card ref to the group it fetches.
-	assert.Len(t, resp.LinkEdges, 2)
-	linkPairs := map[string]bool{}
-	for _, e := range resp.LinkEdges {
-		linkPairs[e.Source+"|"+e.Target] = true
+	assert.Len(t, resp.PackageEdges, 2)
+	packagePairs := map[string]bool{}
+	for _, e := range resp.PackageEdges {
+		packagePairs[e.Source+"|"+e.Target] = true
 	}
-	assert.True(t, linkPairs["Blue Fetchables|card:Flooded Strand"])
+	assert.True(t, packagePairs["Blue Fetchables|card:Flooded Strand"])
 	assert.Len(t, resp.GroupEdges, 1)
 	assert.Equal(t, "Blue Fetchables", resp.GroupEdges[0].Source)
 	assert.Equal(t, "card:Flooded Strand", resp.GroupEdges[0].Target)
@@ -298,8 +298,8 @@ func TestBuildDesignGraphCardRefMixed(t *testing.T) {
 			{Name: "Tutors", Conditions: []string{"t:sorcery"}},
 			{Name: "Shuffle Payoffs", Conditions: []string{"o:shuffle"}},
 		},
-		Links: []design.Link{
-			{Label: "Shuffles", Wires: []design.Wire{{Sources: []string{"card:Fetch", "Tutors"}, Targets: []string{"Shuffle Payoffs"}}}},
+		Packages: []design.Package{
+			{Name: "Shuffles", Wires: []design.Wire{{Sources: []string{"card:Fetch", "Tutors"}, Targets: []string{"Shuffle Payoffs"}}}},
 		},
 	}
 
@@ -332,8 +332,8 @@ func TestBuildDesignGraphExclude(t *testing.T) {
 			{Name: "Red Stuff", Conditions: []string{"c:R"}, Exclude: []string{"Bolt", "No Such Card"}},
 			{Name: "Creatures", Conditions: []string{"t:creature"}},
 		},
-		Links: []design.Link{
-			{Label: "Red-Creature", Wires: []design.Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Creatures"}}}},
+		Packages: []design.Package{
+			{Name: "Red-Creature", Wires: []design.Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Creatures"}}}},
 		},
 	}
 
@@ -571,8 +571,8 @@ func TestBuildDesignGraphIncludesCutCards(t *testing.T) {
 			{Name: "Creatures", Conditions: []string{"t:creature"}},
 			{Name: "Burn", Conditions: []string{"o:damage"}},
 		},
-		Links: []design.Link{
-			{Label: "Burn-Creature", Wires: []design.Wire{{Sources: []string{"Burn"}, Targets: []string{"Creatures"}}}},
+		Packages: []design.Package{
+			{Name: "Burn-Creature", Wires: []design.Wire{{Sources: []string{"Burn"}, Targets: []string{"Creatures"}}}},
 		},
 	}
 
@@ -581,7 +581,7 @@ func TestBuildDesignGraphIncludesCutCards(t *testing.T) {
 	assert.Empty(t, base.Edges)
 
 	// With Shock referenced by a deck, the cut card resolves into "Burn" and
-	// links to Bear.
+	// connects to Bear.
 	resp := buildDesignGraph(cube, config, []string{"Shock"})
 	require.Len(t, resp.Edges, 1)
 	edge := resp.Edges[0]

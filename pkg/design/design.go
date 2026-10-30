@@ -18,14 +18,15 @@ type Wire struct {
 	Targets []string `json:"targets"`
 }
 
-// Link connects named groups under a single label, via one or more wires.
-type Link struct {
-	Label string `json:"label"`
+// Package is a named strategy: one or more wires that join groups of cards
+// that work together.
+type Package struct {
+	Name  string `json:"name"`
 	Wires []Wire `json:"wires"`
 }
 
 // DesignMapConfig is the persistent format stored in cube-rules.json.
 type DesignMapConfig struct {
-	Groups []Group `json:"groups"`
-	Links  []Link  `json:"links"`
+	Groups   []Group   `json:"groups"`
+	Packages []Package `json:"packages"`
 }

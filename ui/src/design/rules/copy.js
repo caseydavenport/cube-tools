@@ -107,7 +107,7 @@ export const RULES_COPY = {
     groupsHeading: "Groups",
     linksHeading: "Links",
     newGroup: "New group",
-    newLink: "New link",
+    newPackage: "New link",
     noGroups: "No groups match.",
     noLinks: "No links match.",
   },
@@ -131,11 +131,11 @@ export const RULES_COPY = {
   // CompareDetail.js: the pane comparing two cards.
   compare: {
     heading: "Compare",
-    linkCount: (count) => `${count} link${count === 1 ? "" : "s"} between`,
+    packageCount: (count) => `${count} link${count === 1 ? "" : "s"} between`,
     swap: "⇄ Swap",
     clear: "Clear",
     noLinks: "No links between these two cards.",
-    editLink: "edit ▸",
+    editPackage: "edit ▸",
     direct: "direct",
   },
 
@@ -155,8 +155,8 @@ export const RULES_COPY = {
     restoreToGroup: "Restore to this group",
   },
 
-  // LinkDetail.js: the pane for one link.
-  link: {
+  // PackageDetail.js: the pane for one package.
+  packageDetail: {
     subCard: "card",
     subMissingCard: "missing card",
     subMissingGroup: "missing group",

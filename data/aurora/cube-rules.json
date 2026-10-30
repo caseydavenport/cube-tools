@@ -370,7 +370,7 @@
     {
       "name": "Big creatures",
       "conditions": [
-        "t:creature cmc>=5"
+        "t:creature cmc\u003e=5"
       ]
     },
     {
@@ -385,9 +385,9 @@
       ]
     }
   ],
-  "links": [
+  "packages": [
     {
-      "label": "Elves",
+      "name": "Elves",
       "wires": [
         {
           "sources": [
@@ -401,7 +401,7 @@
       ]
     },
     {
-      "label": "Goblins",
+      "name": "Goblins",
       "wires": [
         {
           "sources": [
@@ -415,7 +415,7 @@
       ]
     },
     {
-      "label": "Kithkin",
+      "name": "Kithkin",
       "wires": [
         {
           "sources": [
@@ -429,7 +429,7 @@
       ]
     },
     {
-      "label": "Merfolk",
+      "name": "Merfolk",
       "wires": [
         {
           "sources": [
@@ -443,7 +443,7 @@
       ]
     },
     {
-      "label": "Treefolk",
+      "name": "Treefolk",
       "wires": [
         {
           "sources": [
@@ -457,7 +457,7 @@
       ]
     },
     {
-      "label": "Faeries",
+      "name": "Faeries",
       "wires": [
         {
           "sources": [
@@ -471,7 +471,7 @@
       ]
     },
     {
-      "label": "Elementals",
+      "name": "Elementals",
       "wires": [
         {
           "sources": [
@@ -485,7 +485,7 @@
       ]
     },
     {
-      "label": "Warriors",
+      "name": "Warriors",
       "wires": [
         {
           "sources": [
@@ -499,7 +499,7 @@
       ]
     },
     {
-      "label": "Wizards",
+      "name": "Wizards",
       "wires": [
         {
           "sources": [
@@ -513,7 +513,7 @@
       ]
     },
     {
-      "label": "Rogues",
+      "name": "Rogues",
       "wires": [
         {
           "sources": [
@@ -527,7 +527,7 @@
       ]
     },
     {
-      "label": "Soldiers",
+      "name": "Soldiers",
       "wires": [
         {
           "sources": [
@@ -541,7 +541,7 @@
       ]
     },
     {
-      "label": "Type matters",
+      "name": "Type matters",
       "wires": [
         {
           "sources": [
@@ -554,7 +554,7 @@
       ]
     },
     {
-      "label": "Kinship",
+      "name": "Kinship",
       "wires": [
         {
           "sources": [
@@ -567,7 +567,7 @@
       ]
     },
     {
-      "label": "-1/-1 counters",
+      "name": "-1/-1 counters",
       "wires": [
         {
           "sources": [
@@ -580,7 +580,7 @@
       ]
     },
     {
-      "label": "+1/+1 counters",
+      "name": "+1/+1 counters",
       "wires": [
         {
           "sources": [
@@ -593,7 +593,7 @@
       ]
     },
     {
-      "label": "Sacrifice",
+      "name": "Sacrifice",
       "wires": [
         {
           "sources": [
@@ -609,7 +609,7 @@
       ]
     },
     {
-      "label": "Mill",
+      "name": "Mill",
       "wires": [
         {
           "sources": [
@@ -622,7 +622,7 @@
       ]
     },
     {
-      "label": "Go wide",
+      "name": "Go wide",
       "wires": [
         {
           "sources": [
@@ -635,7 +635,7 @@
       ]
     },
     {
-      "label": "Conspire",
+      "name": "Conspire",
       "wires": [
         {
           "sources": [
@@ -649,7 +649,7 @@
       ]
     },
     {
-      "label": "Prowl",
+      "name": "Prowl",
       "wires": [
         {
           "sources": [
@@ -663,7 +663,7 @@
       ]
     },
     {
-      "label": "Tap / untap",
+      "name": "Tap / untap",
       "wires": [
         {
           "sources": [
@@ -676,7 +676,7 @@
       ]
     },
     {
-      "label": "Tap-down",
+      "name": "Tap-down",
       "wires": [
         {
           "sources": [
@@ -690,7 +690,7 @@
       ]
     },
     {
-      "label": "Impromptu Raid",
+      "name": "Impromptu Raid",
       "wires": [
         {
           "sources": [

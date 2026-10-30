@@ -88,8 +88,8 @@ func newSpy() *spyStore {
 		b.SeedPlayers(players.Player{ID: 1, Name: "Ozzy"}, players.Player{ID: 2, Name: "Stevie"})
 		b.Seed("testcube", queryDeck(1, "2026-01-10", "gy1", "gy2", "gy3", "Grizzly Bears"), queryDeck(2, "2026-08-01", "gy1", "gy2", "Grizzly Bears"))
 		b.SeedRules("testcube", &design.DesignMapConfig{
-			Groups: []design.Group{{Name: "Graveyard", Conditions: []string{"o:graveyard"}}},
-			Links:  []design.Link{{Label: "Graveyard", Wires: []design.Wire{{Sources: []string{"Graveyard"}, Targets: []string{"Graveyard"}}}}},
+			Groups:   []design.Group{{Name: "Graveyard", Conditions: []string{"o:graveyard"}}},
+			Packages: []design.Package{{Name: "Graveyard", Wires: []design.Wire{{Sources: []string{"Graveyard"}, Targets: []string{"Graveyard"}}}}},
 		})
 	})}
 }

@@ -21,20 +21,20 @@ export function useAllMemberships(cube, groups) {
 
 // Explain why two cards are linked: for each rule connecting them, the specific
 // group each card belongs to (and the condition that put it there).
-export function whyLinked(focusCard, neighbor, edges, linkByLabel, cardGroups) {
-  const labels = new Set()
+export function whyLinked(focusCard, neighbor, edges, packageByName, cardGroups) {
+  const names = new Set()
   for (const e of edges) {
     const hit = (e.source === focusCard && e.target === neighbor) || (e.target === focusCard && e.source === neighbor)
-    if (hit) for (const l of (e.rule_labels || [])) labels.add(l)
+    if (hit) for (const n of (e.packages || [])) names.add(n)
   }
   const fg = cardGroups[focusCard] || []
   const ng = cardGroups[neighbor] || []
   const groupConds = (mem, name) => { const g = mem.find(x => x.group === name); return g ? g.conds : [] }
   const out = []
-  for (const label of labels) {
-    const link = linkByLabel[label]
+  for (const name of names) {
+    const pkg = packageByName[name]
     const bridges = []
-    if (link) {
+    if (pkg) {
       const seen = new Set()
       const add = (fGroup, nGroup) => {
         const k = fGroup + ">" + nGroup
@@ -49,7 +49,7 @@ export function whyLinked(focusCard, neighbor, edges, linkByLabel, cardGroups) {
       // group memberships.
       const fgNames = [...fg.map(x => x.group), CARD_REF_PREFIX + focusCard]
       const ngNames = [...ng.map(x => x.group), CARD_REF_PREFIX + neighbor]
-      for (const wire of (link.wires || [])) {
+      for (const wire of (pkg.wires || [])) {
         for (const s of (wire.sources || [])) {
           for (const t of (wire.targets || [])) {
             if (fgNames.includes(s) && ngNames.includes(t)) add(s, t)
@@ -58,7 +58,7 @@ export function whyLinked(focusCard, neighbor, edges, linkByLabel, cardGroups) {
         }
       }
     }
-    out.push({ label, bridges })
+    out.push({ name, bridges })
   }
   return out
 }
@@ -72,9 +72,9 @@ export function useCardMemberships(cube, cardName, groups) {
   )
 }
 
-export function edgeColorFor(labels, linkIndex) {
+export function edgeColorFor(labels, packageIndex) {
   if (labels && labels.length > 0) {
-    const idx = linkIndex[labels[0]] ?? 0
+    const idx = packageIndex[labels[0]] ?? 0
     return RULE_COLORS[idx % RULE_COLORS.length]
   }
   return null
@@ -94,11 +94,11 @@ export function editorHref(cube, card, vs) {
 
 // saveDesignMap posts the rules. Callers only offer saving on writable cubes;
 // the server refuses a read-only cube with a 403.
-export function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
+export function saveDesignMap(cube, groups, packages, onRulesChanged, onStatus) {
   fetch(`/api/${cube}/save-design-rules`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ groups, links }),
+    body: JSON.stringify({ groups, packages }),
   }).then(r => {
     if (r.ok) {
       if (onStatus) onStatus("")

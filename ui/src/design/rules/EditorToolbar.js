@@ -10,7 +10,7 @@ import { RULES_COPY } from "./copy.js"
 const TOOLBAR_VIEWS = ['audit', 'review', 'compare']
 
 // toolbarValue maps the view= parameter to the toolbar segment it lights up.
-// Group and link views ('g:…', 'l:…') light up none, so it returns null.
+// Group and package views ('g:…', 'p:…') light up none, so it returns null.
 function toolbarValue(view) {
   if (view === '') {
     return 'overview'

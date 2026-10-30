@@ -9,14 +9,14 @@ import { RULES_COPY } from "./copy.js"
 // Registry is the left rail: every group and link with live counts and warning
 // dots. One filter box narrows both lists.
 export function Registry({
-  groups, links, view, groupCards, linkEdgeCounts, groupWarn, linkWarn, canEdit,
-  onSelectGroup, onSelectLink, onNewGroup, onNewLink,
+  groups, packages, view, groupCards, packageEdgeCounts, groupWarn, packageWarn, canEdit,
+  onSelectGroup, onSelectPackage, onNewGroup, onNewPackage,
 }) {
   const [filter, setFilter] = useState('')
   const [closed, setClosed] = useState({})
   const q = filter.trim().toLowerCase()
   const shownGroups = q ? groups.filter(g => g.name.toLowerCase().includes(q)) : groups
-  const shownLinks = q ? links.filter(l => l.label.toLowerCase().includes(q)) : links
+  const shownPackages = q ? packages.filter(l => l.name.toLowerCase().includes(q)) : packages
   const toggle = (key) => setClosed(c => ({ ...c, [key]: !c[key] }))
   const isOpen = (key) => Boolean(q) || !closed[key]
 
@@ -58,28 +58,28 @@ export function Registry({
       <div className="de-reg-head" onClick={() => toggle('links')} role="button" aria-expanded={isOpen('links')}>
         <span className="de-reg-caret">{isOpen('links') ? '▾' : '▸'}</span>
         <span>{RULES_COPY.registry.linksHeading}</span>
-        <span className="de-reg-count">{links.length}</span>
-        {canEdit && <AddButton label={RULES_COPY.registry.newLink} onClick={onNewLink} />}
+        <span className="de-reg-count">{packages.length}</span>
+        {canEdit && <AddButton label={RULES_COPY.registry.newPackage} onClick={onNewPackage} />}
       </div>
       {isOpen('links') && <div className="de-reg-list">
-        {shownLinks.map(l => {
-          const warn = linkWarn(l.label)
-          const active = view === 'l:' + l.label
-          const color = ruleColor(links.indexOf(l))
+        {shownPackages.map(l => {
+          const warn = packageWarn(l.name)
+          const active = view === 'p:' + l.name
+          const color = ruleColor(packages.indexOf(l))
           return (
             <UnstyledButton
-              key={l.label} className="de-row" data-active={active || undefined}
+              key={l.name} className="de-row" data-active={active || undefined}
               style={active ? { boxShadow: `inset 3px 0 0 ${color}` } : undefined}
-              onClick={() => onSelectLink(l.label)}
+              onClick={() => onSelectPackage(l.name)}
             >
               <span className="dm-swatch de-swatch-link" style={{ background: color }} />
-              <span className="de-row-name">{l.label}</span>
+              <span className="de-row-name">{l.name}</span>
               {warn && <span className="de-warn-dot" title={warn} />}
-              <span className="de-row-count">{linkEdgeCounts[l.label] || 0}</span>
+              <span className="de-row-count">{packageEdgeCounts[l.name] || 0}</span>
             </UnstyledButton>
           )
         })}
-        {shownLinks.length === 0 && <div className="de-muted">{RULES_COPY.registry.noLinks}</div>}
+        {shownPackages.length === 0 && <div className="de-muted">{RULES_COPY.registry.noLinks}</div>}
       </div>}
     </aside>
   )

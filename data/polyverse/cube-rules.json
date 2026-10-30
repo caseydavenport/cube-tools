@@ -703,9 +703,9 @@
       ]
     }
   ],
-  "links": [
+  "packages": [
     {
-      "label": "5-color",
+      "name": "5-color",
       "wires": [
         {
           "sources": [
@@ -725,7 +725,7 @@
       ]
     },
     {
-      "label": "Artifacts",
+      "name": "Artifacts",
       "wires": [
         {
           "sources": [
@@ -748,7 +748,7 @@
       ]
     },
     {
-      "label": "Auras/Equipment",
+      "name": "Auras/Equipment",
       "wires": [
         {
           "sources": [
@@ -770,7 +770,7 @@
       ]
     },
     {
-      "label": "Cauldron",
+      "name": "Cauldron",
       "wires": [
         {
           "sources": [
@@ -783,7 +783,7 @@
       ]
     },
     {
-      "label": "Control",
+      "name": "Control",
       "wires": [
         {
           "sources": [
@@ -806,7 +806,7 @@
       ]
     },
     {
-      "label": "Counters",
+      "name": "Counters",
       "wires": [
         {
           "sources": [
@@ -828,7 +828,7 @@
       ]
     },
     {
-      "label": "Creature Value",
+      "name": "Creature Value",
       "wires": [
         {
           "sources": [
@@ -852,7 +852,7 @@
       ]
     },
     {
-      "label": "Delirium",
+      "name": "Delirium",
       "wires": [
         {
           "sources": [
@@ -866,7 +866,7 @@
       ]
     },
     {
-      "label": "Discard",
+      "name": "Discard",
       "wires": [
         {
           "sources": [
@@ -892,7 +892,7 @@
       ]
     },
     {
-      "label": "ETB",
+      "name": "ETB",
       "wires": [
         {
           "sources": [
@@ -917,7 +917,7 @@
       ]
     },
     {
-      "label": "Graveyard",
+      "name": "Graveyard",
       "wires": [
         {
           "sources": [
@@ -949,7 +949,7 @@
       ]
     },
     {
-      "label": "Lands",
+      "name": "Lands",
       "wires": [
         {
           "sources": [
@@ -1082,7 +1082,7 @@
       ]
     },
     {
-      "label": "Life Loss",
+      "name": "Life Loss",
       "wires": [
         {
           "sources": [
@@ -1103,7 +1103,7 @@
       ]
     },
     {
-      "label": "Ninjas",
+      "name": "Ninjas",
       "wires": [
         {
           "sources": [
@@ -1116,7 +1116,7 @@
       ]
     },
     {
-      "label": "Pump",
+      "name": "Pump",
       "wires": [
         {
           "sources": [
@@ -1131,7 +1131,7 @@
       ]
     },
     {
-      "label": "Ramp",
+      "name": "Ramp",
       "wires": [
         {
           "sources": [
@@ -1161,7 +1161,7 @@
       ]
     },
     {
-      "label": "Reanimate",
+      "name": "Reanimate",
       "wires": [
         {
           "sources": [
@@ -1175,7 +1175,7 @@
       ]
     },
     {
-      "label": "Sacrifice",
+      "name": "Sacrifice",
       "wires": [
         {
           "sources": [
@@ -1222,7 +1222,7 @@
       ]
     },
     {
-      "label": "Second Draw",
+      "name": "Second Draw",
       "wires": [
         {
           "sources": [
@@ -1235,7 +1235,7 @@
       ]
     },
     {
-      "label": "Shuffle",
+      "name": "Shuffle",
       "wires": [
         {
           "sources": [
@@ -1248,7 +1248,7 @@
       ]
     },
     {
-      "label": "Skimmer",
+      "name": "Skimmer",
       "wires": [
         {
           "sources": [
@@ -1266,7 +1266,7 @@
       ]
     },
     {
-      "label": "Spells",
+      "name": "Spells",
       "wires": [
         {
           "sources": [
@@ -1305,7 +1305,7 @@
       ]
     },
     {
-      "label": "Tokens",
+      "name": "Tokens",
       "wires": [
         {
           "sources": [
@@ -1319,7 +1319,7 @@
       ]
     },
     {
-      "label": "Valiant",
+      "name": "Valiant",
       "wires": [
         {
           "sources": [
@@ -1333,7 +1333,7 @@
       ]
     },
     {
-      "label": "Weenies",
+      "name": "Weenies",
       "wires": [
         {
           "sources": [

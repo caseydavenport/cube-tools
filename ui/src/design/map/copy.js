@@ -51,7 +51,7 @@ export const MAP_COPY = {
     captionCard: ({ cards, card }) => `${cards} cards linked to ${card}`,
     sharedRule: "shared rule",
     between: "⇄",
-    linkCount: ({ count }) => (count === 1 ? "1 link" : `${count} links`),
+    packageCount: ({ count }) => (count === 1 ? "1 link" : `${count} links`),
     cardGroups: ({ card }) => `${card}'s groups`,
   },
 
@@ -100,14 +100,14 @@ export const MAP_COPY = {
     excludeFromGroup: "Exclude from group",
   },
 
-  // LinkEditModal.js: the link dialog and its source and target card lists.
-  linkEdit: {
+  // PackageEditModal.js: the package dialog and its source and target card lists.
+  packageEdit: {
     noMatchingCards: "No matching cards.",
     sourceCards: "Source Cards",
     sourceCardsWire: ({ wire }) => `Source Cards · Wire ${wire}`,
     targetCards: "Target Cards",
     targetCardsWire: ({ wire }) => `Target Cards · Wire ${wire}`,
-    editLink: "Edit Link",
+    editPackage: "Edit Link",
     labelLabel: "Label",
     labelPlaceholder: "e.g. Delve",
     wireTitle: ({ wire }) => `Wire ${wire}`,

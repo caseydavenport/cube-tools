@@ -40,16 +40,16 @@ function useJson(url, fallback) {
 function buildSynergy(edges) {
   const synergy = new Map()
 
-  function add(from, to, labels) {
+  function add(from, to, packageNames) {
     if (!synergy.has(from)) {
       synergy.set(from, [])
     }
-    synergy.get(from).push({ other: to, labels: labels || [] })
+    synergy.get(from).push({ other: to, packages: packageNames || [] })
   }
 
   for (const edge of edges) {
-    add(edge.source, edge.target, edge.rule_labels)
-    add(edge.target, edge.source, edge.rule_labels)
+    add(edge.source, edge.target, edge.packages)
+    add(edge.target, edge.source, edge.packages)
   }
   return synergy
 }

@@ -9,12 +9,12 @@ import { RULES_COPY } from "./copy.js"
 // the toolbar badge; the coverage lists (judgment calls) only show on the audit
 // board. ungroupedCards and isolatedCards are null while memberships are
 // still loading.
-export function auditRulebook({ links, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf }) {
+export function auditRulebook({ packages, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf }) {
   const groupSet = new Set(groupNames)
   const cardSet = new Set(names)
   const referenced = new Set()
-  const brokenLinks = []
-  for (const l of links) {
+  const brokenPackages = []
+  for (const l of packages) {
     const wires = l.wires || []
     const ends = wires.flatMap(w => [...(w.sources || []), ...(w.targets || [])])
     ends.forEach(n => referenced.add(n))
@@ -25,26 +25,26 @@ export function auditRulebook({ links, groups, groupNames, groupCards, names, ca
     })
     const oneSided = wires.some(w => !(w.sources || []).length || !(w.targets || []).length)
     if (missing.length || !wires.length || oneSided) {
-      brokenLinks.push({ label: l.label, missing })
+      brokenPackages.push({ name: l.name, missing })
     }
   }
   // The same group pair wired by more than one link — the edges are identical,
   // so it's usually two rules that drifted into overlap. Direction ignored:
   // A->B and B->A produce the same card edges.
-  const pairLinks = {}
-  for (const l of links) {
+  const pairPackages = {}
+  for (const l of packages) {
     for (const w of (l.wires || [])) {
       for (const s of (w.sources || [])) {
         for (const t of (w.targets || [])) {
           const key = [s, t].sort().join('|')
-          ;(pairLinks[key] = pairLinks[key] || new Set()).add(l.label)
+          ;(pairPackages[key] = pairPackages[key] || new Set()).add(l.name)
         }
       }
     }
   }
-  const duplicatePairs = Object.entries(pairLinks)
+  const duplicatePairs = Object.entries(pairPackages)
     .filter(([, labels]) => labels.size > 1)
-    .map(([key, labels]) => ({ key, groups: key.split('|'), labels: [...labels].sort() }))
+    .map(([key, names]) => ({ key, groups: key.split('|'), names: [...names].sort() }))
     .sort((a, b) => a.key.localeCompare(b.key))
   // Two groups whose memberships nearly coincide — usually the same idea
   // captured twice by slightly different queries. Jaccard >= 0.75 keeps
@@ -76,8 +76,8 @@ export function auditRulebook({ links, groups, groupNames, groupCards, names, ca
   const ungroupedCards = membershipsLoading ? null : names.filter(n => !(cardGroups[n] || []).length && !directlyWired.has(n))
   const isolatedCards = membershipsLoading ? null :
     names.filter(n => (cardGroups[n] || []).length > 0 && !(neighborsOf[n] || []).length)
-  const structural = brokenLinks.length + unlinkedGroups.length + emptyGroups.length + staleExcludes.length
-  return { brokenLinks, duplicatePairs, similarGroups, unlinkedGroups, emptyGroups, staleExcludes, ungroupedCards, isolatedCards, structural }
+  const structural = brokenPackages.length + unlinkedGroups.length + emptyGroups.length + staleExcludes.length
+  return { brokenPackages, duplicatePairs, similarGroups, unlinkedGroups, emptyGroups, staleExcludes, ungroupedCards, isolatedCards, structural }
 }
 
 // groupWarning describes what's wrong with one group, or returns null.
@@ -91,8 +91,8 @@ export function groupWarning(audit, name) {
 }
 
 // linkWarning describes what's wrong with one link, or returns null.
-export function linkWarning(audit, label) {
-  const b = audit.brokenLinks.find(x => x.label === label)
+export function packageWarning(audit, label) {
+  const b = audit.brokenPackages.find(x => x.name === label)
   if (!b) return null
   return b.missing.length ? RULES_COPY.rulebookAudit.linkMissing(b.missing.join(', ')) : RULES_COPY.rulebookAudit.linkOneSided
 }

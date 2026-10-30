@@ -11,8 +11,8 @@ import { RULES_COPY } from "./copy.js"
 // (definitionally wrong), then coverage lists (worth a human look). Every item
 // jumps straight to the place you'd fix it.
 export function AuditBoard({
-  audit, membershipsLoading, nodeByName, groupIndex, linkIndex,
-  onSelectGroup, onSelectLink, onFocusCard, onHoverCard, onReview,
+  audit, membershipsLoading, nodeByName, groupIndex, packageIndex,
+  onSelectGroup, onSelectPackage, onFocusCard, onHoverCard, onReview,
 }) {
   return (
     <div className="de-pane">
@@ -55,13 +55,13 @@ export function AuditBoard({
       </AuditSection>
 
       <AuditSection
-        title={RULES_COPY.audit.brokenLinksTitle} count={audit.brokenLinks.length}
+        title={RULES_COPY.audit.brokenLinksTitle} count={audit.brokenPackages.length}
         blurb={RULES_COPY.audit.brokenLinksBlurb}
         okMsg={RULES_COPY.audit.brokenLinksOk}
       >
-        {audit.brokenLinks.map(b => (
-          <ChipButton key={b.label} lead={<span className="dm-swatch" style={{ background: ruleColor(linkIndex[b.label] ?? 0) }} />} onClick={() => onSelectLink(b.label)}>
-            {b.label}
+        {audit.brokenPackages.map(b => (
+          <ChipButton key={b.name} lead={<span className="dm-swatch" style={{ background: ruleColor(packageIndex[b.name] ?? 0) }} />} onClick={() => onSelectPackage(b.name)}>
+            {b.name}
             <span className="de-chip-sub">{b.missing.length ? RULES_COPY.audit.missingSub(b.missing.join(', ')) : RULES_COPY.audit.emptyWireSide}</span>
           </ChipButton>
         ))}
@@ -87,8 +87,8 @@ export function AuditBoard({
         blurb={RULES_COPY.audit.doubledLinksBlurb}
         okMsg={RULES_COPY.audit.doubledLinksOk}
       >
-        {audit.duplicatePairs.flatMap(d => d.labels.map(label => (
-          <ChipButton key={d.key + '>' + label} lead={<span className="dm-swatch" style={{ background: ruleColor(linkIndex[label] ?? 0) }} />} onClick={() => onSelectLink(label)}>
+        {audit.duplicatePairs.flatMap(d => d.names.map(label => (
+          <ChipButton key={d.key + '>' + label} lead={<span className="dm-swatch" style={{ background: ruleColor(packageIndex[label] ?? 0) }} />} onClick={() => onSelectPackage(label)}>
             {label}
             <span className="de-chip-sub">{d.groups[0]} ↔ {d.groups[1]}</span>
           </ChipButton>

@@ -12,7 +12,7 @@ const EDGES_TIP = "Pairs of cards in the current cube that at least one link joi
 
 // Overview is the resting state of the detail pane: rulebook vitals, group
 // coverage, and a pointer at anything the audit flagged.
-export function Overview({ nodes, groups, links, edges, audit, membershipsLoading, cardGroups, onAudit }) {
+export function Overview({ nodes, groups, packages, edges, audit, membershipsLoading, cardGroups, onAudit }) {
   const grouped = membershipsLoading ? null : nodes.filter(n => (cardGroups[n.name] || []).length > 0).length
   const pct = grouped === null || nodes.length === 0 ? 0 : Math.round(100 * grouped / nodes.length)
   return (
@@ -25,7 +25,7 @@ export function Overview({ nodes, groups, links, edges, audit, membershipsLoadin
       <div className="de-vitals">
         <Vital value={nodes.length} label={RULES_COPY.overview.vitalCards} />
         <Vital value={groups.length} label={RULES_COPY.overview.vitalGroups} />
-        <Vital value={links.length} label={RULES_COPY.overview.vitalLinks} />
+        <Vital value={packages.length} label={RULES_COPY.overview.vitalLinks} />
         <Vital value={edges.length} label={RULES_COPY.overview.vitalEdges} tip={EDGES_TIP} />
       </div>
 

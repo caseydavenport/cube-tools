@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { auditRulebook, groupWarning, linkWarning } from "./rulebookAudit.js"
+import { auditRulebook, groupWarning, packageWarning } from "./rulebookAudit.js"
 
 // RULEBOOK is a small rulebook with one of each problem the audit looks for:
 // A and B hold the same cards, Empty matches nothing, Lonely is never wired,
@@ -12,12 +12,12 @@ function rulebook({ membershipsLoading = false } = {}) {
     { name: "Empty", conditions: ["t:none"] },
     { name: "Lonely", conditions: ["t:z"] },
   ]
-  const links = [
-    { label: "L1", wires: [{ sources: ["A"], targets: ["B"] }] },
-    { label: "L2", wires: [{ sources: ["A"], targets: ["B"] }] },
-    { label: "Broken", wires: [{ sources: ["A"], targets: ["Missing"] }] },
-    { label: "OneSided", wires: [{ sources: ["A"], targets: [] }] },
-    { label: "Direct", wires: [{ sources: ["A"], targets: ["card:Nowhere"] }] },
+  const packages = [
+    { name: "L1", wires: [{ sources: ["A"], targets: ["B"] }] },
+    { name: "L2", wires: [{ sources: ["A"], targets: ["B"] }] },
+    { name: "Broken", wires: [{ sources: ["A"], targets: ["Missing"] }] },
+    { name: "OneSided", wires: [{ sources: ["A"], targets: [] }] },
+    { name: "Direct", wires: [{ sources: ["A"], targets: ["card:Nowhere"] }] },
   ]
   const groupCards = {
     A: { cards: ["x", "y"] },
@@ -31,26 +31,26 @@ function rulebook({ membershipsLoading = false } = {}) {
     z: [{ group: "Lonely" }],
   }
   const neighborsOf = {
-    x: [{ name: "y", labels: ["L1"] }],
-    y: [{ name: "x", labels: ["L1"] }],
+    x: [{ name: "y", packages: ["L1"] }],
+    y: [{ name: "x", packages: ["L1"] }],
   }
   return {
-    links, groups, groupNames: groups.map(g => g.name), groupCards,
+    packages, groups, groupNames: groups.map(g => g.name), groupCards,
     names: ["x", "y", "z"], cardGroups, membershipsLoading, neighborsOf,
   }
 }
 
 test("flags links naming a missing group or card", () => {
   const audit = auditRulebook(rulebook())
-  assert.deepEqual(audit.brokenLinks.map(b => b.label), ["Broken", "OneSided", "Direct"])
-  assert.deepEqual(audit.brokenLinks[0].missing, ["Missing"])
+  assert.deepEqual(audit.brokenPackages.map(b => b.name), ["Broken", "OneSided", "Direct"])
+  assert.deepEqual(audit.brokenPackages[0].missing, ["Missing"])
 })
 
 test("flags group pairs wired twice", () => {
   const audit = auditRulebook(rulebook())
   assert.equal(audit.duplicatePairs.length, 1)
   assert.equal(audit.duplicatePairs[0].key, "A|B")
-  assert.deepEqual(audit.duplicatePairs[0].labels, ["L1", "L2"])
+  assert.deepEqual(audit.duplicatePairs[0].names, ["L1", "L2"])
 })
 
 test("flags groups with nearly the same members", () => {
@@ -86,5 +86,5 @@ test("group warning joins its problems", () => {
 })
 
 test("link warning names what's missing", () => {
-  assert.equal(linkWarning(auditRulebook(rulebook()), "Broken"), "References missing group/card: Missing")
+  assert.equal(packageWarning(auditRulebook(rulebook()), "Broken"), "References missing group/card: Missing")
 })

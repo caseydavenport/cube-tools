@@ -18,7 +18,7 @@ export function DetailPanel(props) {
   return <OverviewDetail {...props} />
 }
 
-function OverviewDetail({ groupNodes, links, nodeMap, onDrill }) {
+function OverviewDetail({ groupNodes, packages, nodeMap, onDrill }) {
   const themes = useMemo(() => groupNodes.filter(g => g.kind !== "card"), [groupNodes])
   const biggest = useMemo(
     () => [...themes].sort((a, b) => b.card_count - a.card_count).slice(0, 8),
@@ -31,7 +31,7 @@ function OverviewDetail({ groupNodes, links, nodeMap, onDrill }) {
       <span className="section-heading">{MAP_COPY.details.overview}</span>
       <div className="dm-statgrid">
         <Stat label={MAP_COPY.details.statThemes} value={themes.length} />
-        <Stat label={MAP_COPY.details.statLinks} value={links.length} />
+        <Stat label={MAP_COPY.details.statLinks} value={packages.length} />
         <Stat label={MAP_COPY.details.statCards} value={totalCards} />
         <Stat label={MAP_COPY.details.statUnlinked} value={unconnected} />
       </div>
@@ -58,7 +58,7 @@ function Stat({ label, value }) {
   )
 }
 
-function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDrill, onHover, hovered, nodeMap }) {
+function GroupDetail({ cube, focus, groups, groupNodes, packages, groupColor, onDrill, onHover, hovered, nodeMap }) {
   const group = groups.find(g => g.name === focus.group)
   const gnode = groupNodes.find(g => g.name === focus.group)
   const request = requestForConditions(group ? group.conditions : [], group ? group.name : null)
@@ -72,7 +72,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
   // Which other groups this one links to, and via which link labels.
   const linkedGroups = useMemo(() => {
     const out = {}
-    for (const l of links) {
+    for (const l of packages) {
       for (const w of (l.wires || [])) {
         const inSrc = (w.sources || []).includes(focus.group)
         const inTgt = (w.targets || []).includes(focus.group)
@@ -81,13 +81,13 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
         for (const o of others) {
           if (o === focus.group) continue
           if (!out[o]) out[o] = new Set()
-          out[o].add(l.label)
+          out[o].add(l.name)
         }
       }
     }
-    return Object.entries(out).map(([name, labels]) => ({ name, labels: [...labels] }))
+    return Object.entries(out).map(([name, packageNames]) => ({ name, packages: [...packageNames] }))
       .sort((a, b) => a.name.localeCompare(b.name))
-  }, [links, focus.group])
+  }, [packages, focus.group])
 
   const sorted = useMemo(() => [...cards].sort((a, b) => a.name.localeCompare(b.name)), [cards])
 
@@ -113,7 +113,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
                   key={lg.name}
                   className="dm-chip"
                   style={{ borderColor: color, color: readableRuleColor(color) }}
-                  title={MAP_COPY.details.viaLabels({ labels: lg.labels.join(", ") })}
+                  title={MAP_COPY.details.viaLabels({ labels: lg.packages.join(", ") })}
                   onClick={() => onDrill(cardName ? { level: "card", card: cardName } : { level: "group", group: lg.name })}
                 >
                   {cardName || lg.name}
@@ -156,7 +156,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
   )
 }
 
-function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, onDrill, onHover, hovered }) {
+function CardDetail({ cube, focus, groups, edges, packages, nodeMap, groupColor, onDrill, onHover, hovered }) {
   const card = nodeMap[focus.card] || { name: focus.card, colors: [], types: [] }
   const memberships = useCardMemberships(cube, focus.card, groups)
 
@@ -170,18 +170,18 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
       if (!other) continue
       // Skip neighbors cut from the cube; the editor is cube-only.
       if (!nodeMap[other]) continue
-      for (const label of (e.rule_labels || [MAP_COPY.details.unlabeledRule])) {
-        if (!map[label]) map[label] = new Set()
-        map[label].add(other)
+      for (const name of (e.packages || [MAP_COPY.details.unlabeledRule])) {
+        if (!map[name]) map[name] = new Set()
+        map[name].add(other)
       }
     }
     return Object.entries(map)
-      .map(([label, set]) => ({ label, cards: [...set].sort((a, b) => a.name?.localeCompare?.(b.name) ?? String(a).localeCompare(String(b))) }))
-      .sort((a, b) => a.label.localeCompare(b.label))
+      .map(([name, set]) => ({ name, cards: [...set].sort((a, b) => a.name?.localeCompare?.(b.name) ?? String(a).localeCompare(String(b))) }))
+      .sort((a, b) => a.name.localeCompare(b.name))
   }, [edges, focus.card, nodeMap])
 
-  const linkIndex = {}
-  links.forEach((l, i) => { linkIndex[l.label] = i })
+  const packageIndex = {}
+  packages.forEach((l, i) => { packageIndex[l.name] = i })
 
   return (
     <div className="dm-panel dm-detail">
@@ -215,12 +215,12 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
       <div className="dm-subhead">{MAP_COPY.details.linkedCards} {byRule.length > 0 ? `(${new Set(byRule.flatMap(r => r.cards)).size})` : ""}</div>
       {byRule.length === 0 && <p className="dm-muted dm-pad">{MAP_COPY.details.noLinksFromCard}</p>}
       {byRule.map(r => {
-        const li = linkIndex[r.label]
+        const li = packageIndex[r.name]
         const color = li != null ? ruleColor(li) : "var(--se-muted)"
         return (
-          <div key={r.label} className="dm-rulegroup">
+          <div key={r.name} className="dm-rulegroup">
             <div className="dm-rulelabel" style={{ color }}>
-              <span className="dm-swatch" style={{ background: color }} /> {r.label}
+              <span className="dm-swatch" style={{ background: color }} /> {r.name}
             </div>
             {r.cards.map(name => {
               const node = nodeMap[name] || { colors: [] }

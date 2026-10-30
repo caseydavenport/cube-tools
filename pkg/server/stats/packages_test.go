@@ -22,7 +22,7 @@ func deckOf(names ...string) *storage.Deck {
 func statFor(t *testing.T, resp PackageStatsResponse, label string) PackageStat {
 	t.Helper()
 	for _, s := range resp.Packages {
-		if s.Label == label {
+		if s.Name == label {
 			return s
 		}
 	}
@@ -37,15 +37,15 @@ func statFor(t *testing.T, resp PackageStatsResponse, label string) PackageStat 
 func packageTestGraph() DesignGraphResponse {
 	return DesignGraphResponse{
 		Edges: []DesignGraphEdge{
-			{Source: "gy1", Target: "gy2", Weight: 5, RuleLabels: []string{"Graveyard"}},
-			{Source: "gy2", Target: "gy3", Weight: 5, RuleLabels: []string{"Graveyard"}},
-			{Source: "gy1", Target: "gy3", Weight: 5, RuleLabels: []string{"Graveyard"}},
-			{Source: "r1", Target: "r2", Weight: 5, RuleLabels: []string{"Ramp"}},
-			{Source: "r2", Target: "r3", Weight: 5, RuleLabels: []string{"Ramp"}},
-			{Source: "r1", Target: "r3", Weight: 5, RuleLabels: []string{"Ramp"}},
-			{Source: "f1", Target: "gy1", Weight: 1, RuleLabels: []string{"Fetches"}},
-			{Source: "f2", Target: "gy2", Weight: 1, RuleLabels: []string{"Fetches"}},
-			{Source: "f3", Target: "gy3", Weight: 1, RuleLabels: []string{"Fetches"}},
+			{Source: "gy1", Target: "gy2", Weight: 5, Packages: []string{"Graveyard"}},
+			{Source: "gy2", Target: "gy3", Weight: 5, Packages: []string{"Graveyard"}},
+			{Source: "gy1", Target: "gy3", Weight: 5, Packages: []string{"Graveyard"}},
+			{Source: "r1", Target: "r2", Weight: 5, Packages: []string{"Ramp"}},
+			{Source: "r2", Target: "r3", Weight: 5, Packages: []string{"Ramp"}},
+			{Source: "r1", Target: "r3", Weight: 5, Packages: []string{"Ramp"}},
+			{Source: "f1", Target: "gy1", Weight: 1, Packages: []string{"Fetches"}},
+			{Source: "f2", Target: "gy2", Weight: 1, Packages: []string{"Fetches"}},
+			{Source: "f3", Target: "gy3", Weight: 1, Packages: []string{"Fetches"}},
 		},
 	}
 }
@@ -100,7 +100,7 @@ func TestPackageStats_SortedByPackageDescending(t *testing.T) {
 	for i := 1; i < len(resp.Packages); i++ {
 		assert.GreaterOrEqual(t, resp.Packages[i-1].Package, resp.Packages[i].Package)
 	}
-	assert.Equal(t, "Graveyard", resp.Packages[0].Label)
+	assert.Equal(t, "Graveyard", resp.Packages[0].Name)
 }
 
 func TestPackageStats_CIBracketsBuildRate(t *testing.T) {
@@ -112,8 +112,8 @@ func TestPackageStats_CIBracketsBuildRate(t *testing.T) {
 
 	resp := packageStats(packageTestGraph(), decks, 0.95)
 	for _, s := range resp.Packages {
-		assert.LessOrEqual(t, s.BuildRateLow, s.BuildRate, "low above point for %s", s.Label)
-		assert.GreaterOrEqual(t, s.BuildRateHigh, s.BuildRate, "high below point for %s", s.Label)
+		assert.LessOrEqual(t, s.BuildRateLow, s.BuildRate, "low above point for %s", s.Name)
+		assert.GreaterOrEqual(t, s.BuildRateHigh, s.BuildRate, "high below point for %s", s.Name)
 	}
 
 	// A build rate of 1.0 pins the upper bound at 1.0.

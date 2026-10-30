@@ -25,14 +25,14 @@ function chipFor(name, groupIndex, onSelectGroup) {
 // bridgeLoom turns the links between two cards (whyLinked's output) into Loom
 // input: the first card's groups on the left, the second's on the right, and
 // one thread per bridge, colored by its link.
-export function bridgeLoom(between, groupIndex, linkIndex, onSelectGroup) {
+export function bridgeLoom(between, groupIndex, packageIndex, onSelectGroup) {
   const leftSeen = new Set()
   const rightSeen = new Set()
   const left = []
   const right = []
   const threads = []
   for (const r of between) {
-    const color = ruleColor(linkIndex[r.label] ?? 0)
+    const color = ruleColor(packageIndex[r.name] ?? 0)
     for (const b of r.bridges) {
       if (!leftSeen.has(b.focusGroup)) {
         leftSeen.add(b.focusGroup)
@@ -42,7 +42,7 @@ export function bridgeLoom(between, groupIndex, linkIndex, onSelectGroup) {
         rightSeen.add(b.neighGroup)
         right.push(chipFor(b.neighGroup, groupIndex, onSelectGroup))
       }
-      threads.push({ from: b.focusGroup, to: b.neighGroup, color, key: r.label + ':' + b.focusGroup + '>' + b.neighGroup })
+      threads.push({ from: b.focusGroup, to: b.neighGroup, color, key: r.name + ':' + b.focusGroup + '>' + b.neighGroup })
     }
   }
   return { left, right, threads }

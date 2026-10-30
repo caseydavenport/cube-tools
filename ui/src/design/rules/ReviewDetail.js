@@ -14,7 +14,7 @@ import { RULES_COPY } from "./copy.js"
 // card URL param, so a half-finished pass resumes from wherever you left off.
 export function ReviewDetail({
   names, card, node, memberships, membershipsLoading, neighbors,
-  groupIndex, linkIndex, keysEnabled, onGo, onSelectGroup, onSelectLink,
+  groupIndex, packageIndex, keysEnabled, onGo, onSelectGroup, onSelectPackage,
 }) {
   const idx = names.indexOf(card)
   const go = (delta) => {
@@ -38,7 +38,7 @@ export function ReviewDetail({
   const ruleCounts = useMemo(() => {
     const m = {}
     for (const n of neighbors) {
-      for (const l of (n.labels.length ? n.labels : [RULES_COPY.review.unlabeled])) {
+      for (const l of (n.packages.length ? n.packages : [RULES_COPY.review.unlabeled])) {
         (m[l] = m[l] || new Set()).add(n.name)
       }
     }
@@ -89,7 +89,7 @@ export function ReviewDetail({
           {!membershipsLoading && ruleCounts.length === 0 && !ungrouped && <div className="de-muted">{RULES_COPY.review.noLinks}</div>}
           <div className="de-chips de-review-rules">
             {ruleCounts.map(([label, count]) => (
-              <ChipButton key={label} lead={<span className="dm-swatch" style={{ background: ruleColor(linkIndex[label] ?? 0) }} />} onClick={() => onSelectLink(label)}>
+              <ChipButton key={label} lead={<span className="dm-swatch" style={{ background: ruleColor(packageIndex[label] ?? 0) }} />} onClick={() => onSelectPackage(label)}>
                 {label}
                 <span className="de-chip-count">{count}</span>
               </ChipButton>

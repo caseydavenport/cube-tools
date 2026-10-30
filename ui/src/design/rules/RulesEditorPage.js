@@ -9,13 +9,13 @@ import { CardImageURL } from '../../utils/Utils.js'
 import { useAllMemberships, whyLinked, saveDesignMap, cleanWires } from '../map/designData.js'
 import { ruleColor } from '../map/ruleColors.js'
 import { GroupEditModal } from '../map/GroupEditModal.js'
-import { LinkEditModal } from '../map/LinkEditModal.js'
+import { PackageEditModal } from '../map/PackageEditModal.js'
 import { useCubeWritable } from '../../utils/useCubeWritable.js'
-import { renameInLink, withExclude } from "./rulebookEdits.js"
-import { auditRulebook, groupWarning, linkWarning } from "./rulebookAudit.js"
+import { renameInPackage, withExclude } from "./rulebookEdits.js"
+import { auditRulebook, groupWarning, packageWarning } from "./rulebookAudit.js"
 import { EditorToolbar } from "./EditorToolbar.js"
 import { GroupDetail } from "./GroupDetail.js"
-import { LinkDetail } from "./LinkDetail.js"
+import { PackageDetail } from "./PackageDetail.js"
 import { AuditBoard } from "./AuditBoard.js"
 import { ReviewDetail } from "./ReviewDetail.js"
 import { CompareDetail } from "./CompareDetail.js"
@@ -55,7 +55,7 @@ export function DesignEditorPage() {
 
   const nodes = data?.nodes || []
   const groups = data?.groups || []
-  const links = data?.links || []
+  const packages = data?.packages || []
   const allEdges = data?.edges || []
   const groupNodes = data?.group_nodes || []
 
@@ -74,25 +74,25 @@ export function DesignEditorPage() {
   const nodeByName = useMemo(() => Object.fromEntries(nodes.map(n => [n.name, n])), [nodes])
   const names = useMemo(() => nodes.map(n => n.name).sort(), [nodes])
   const groupIndex = useMemo(() => Object.fromEntries(groups.map((g, i) => [g.name, i])), [groups])
-  const linkIndex = useMemo(() => Object.fromEntries(links.map((l, i) => [l.label, i])), [links])
-  const linkByLabel = useMemo(() => Object.fromEntries(links.map(l => [l.label, l])), [links])
+  const packageIndex = useMemo(() => Object.fromEntries(packages.map((l, i) => [l.name, i])), [packages])
+  const packageByName = useMemo(() => Object.fromEntries(packages.map(l => [l.name, l])), [packages])
   const groupNames = useMemo(() => groups.map(g => g.name), [groups])
   const groupCards = useMemo(() => Object.fromEntries(groupNodes.map(g => [g.name, g])), [groupNodes])
 
   // label -> number of card-to-card edges that link creates.
-  const linkEdgeCounts = useMemo(() => {
+  const packageEdgeCounts = useMemo(() => {
     const m = {}
-    for (const e of edges) for (const l of (e.rule_labels || [])) m[l] = (m[l] || 0) + 1
+    for (const e of edges) for (const n of (e.packages || [])) m[n] = (m[n] || 0) + 1
     return m
   }, [edges])
 
   // name -> [{ name, labels }] : every card a card links to, with the rules why.
   const neighborsOf = useMemo(() => {
     const m = {}
-    const add = (a, b, labels) => { (m[a] = m[a] || []).push({ name: b, labels: labels || [] }) }
+    const add = (a, b, packageNames) => { (m[a] = m[a] || []).push({ name: b, packages: packageNames || [] }) }
     for (const e of edges) {
-      add(e.source, e.target, e.rule_labels)
-      add(e.target, e.source, e.rule_labels)
+      add(e.source, e.target, e.packages)
+      add(e.target, e.source, e.packages)
     }
     return m
   }, [edges])
@@ -101,12 +101,12 @@ export function DesignEditorPage() {
   // wrong) feed the registry badge; coverage lists (judgment calls) only show on
   // the audit board.
   const audit = useMemo(
-    () => auditRulebook({ links, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf }),
-    [links, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf],
+    () => auditRulebook({ packages, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf }),
+    [packages, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf],
   )
 
   const groupWarn = (name) => groupWarning(audit, name)
-  const linkWarn = (label) => linkWarning(audit, label)
+  const packageWarn = (label) => packageWarning(audit, label)
 
   // --- URL state ---------------------------------------------------------------
   function patchParams(patch) {
@@ -116,7 +116,7 @@ export function DesignEditorPage() {
   }
   const selectView = (v) => patchParams({ view: v })
   const selectGroup = (name) => patchParams({ view: 'g:' + name })
-  const selectLink = (label) => patchParams({ view: 'l:' + label })
+  const selectPackage = (label) => patchParams({ view: 'p:' + label })
   const setFocal = (name) => patchParams({ card: name, ...(name ? {} : { vs: '', view: view === 'compare' ? '' : view }) })
   const setVs = (name) => patchParams({ vs: name, view: name ? 'compare' : (view === 'compare' ? '' : view) })
   const swapCards = () => patchParams({ card: vs, vs: focal })
@@ -124,7 +124,7 @@ export function DesignEditorPage() {
   // Editor state. Each holds { original } - the group/link being edited, or null
   // `original` for a brand-new one.
   const [groupEditor, setGroupEditor] = useState(null)
-  const [linkEditor, setLinkEditor] = useState(null)
+  const [packageEditor, setPackageEditor] = useState(null)
   const [status, setStatus] = useState('')
 
   // One hover preview for the whole page, pinned to the viewport corner.
@@ -138,35 +138,35 @@ export function DesignEditorPage() {
     const newName = updated.name.trim() || 'Untitled group'
     const entry = withExclude({ name: newName, conditions }, (updated.exclude || []).filter(Boolean))
     const orig = groupEditor?.original
-    let newGroups, newLinks = links
+    let newGroups, newPackages = packages
     if (orig) {
       newGroups = groups.map(g => g.name === orig.name ? entry : g)
       if (orig.name !== newName) {
-        newLinks = links.map(l => renameInLink(l, orig.name, newName))
+        newPackages = packages.map(l => renameInPackage(l, orig.name, newName))
         if (view === 'g:' + orig.name) selectGroup(newName)
       }
     } else {
       newGroups = [...groups, entry]
     }
-    saveDesignMap(cube, newGroups, newLinks, refetch, setStatus)
+    saveDesignMap(cube, newGroups, newPackages, refetch, setStatus)
     setGroupEditor(null)
   }
 
-  function saveLink(updated) {
+  function savePackage(updated) {
     const wires = cleanWires(updated.wires)
     if (!wires) {
       setStatus(RULES_COPY.page.wireNeedsEnds); return
     }
     // copy-ok: name saved to the rules file
-    const label = updated.label.trim() || 'Untitled link'
-    const orig = linkEditor?.original
-    const entry = { label, wires }
-    const newLinks = orig
-      ? links.map(l => l.label === orig.label ? entry : l)
-      : [...links, entry]
-    if (orig && orig.label !== label && view === 'l:' + orig.label) selectLink(label)
-    saveDesignMap(cube, groups, newLinks, refetch, setStatus)
-    setLinkEditor(null)
+    const name = updated.name.trim() || 'Untitled package'
+    const orig = packageEditor?.original
+    const entry = { name, wires }
+    const newPackages = orig
+      ? packages.map(l => l.name === orig.name ? entry : l)
+      : [...packages, entry]
+    if (orig && orig.name !== name && view === 'p:' + orig.name) selectPackage(name)
+    saveDesignMap(cube, groups, newPackages, refetch, setStatus)
+    setPackageEditor(null)
   }
 
   // Group edits triggered from inside the link editor (by group index).
@@ -178,11 +178,11 @@ export function DesignEditorPage() {
     const newName = updated.name.trim() || 'Untitled group'
     const entry = withExclude({ name: newName, conditions }, (updated.exclude || []).filter(Boolean))
     const newGroups = groups.map((g, i) => i === idx ? entry : g)
-    let newLinks = links
+    let newPackages = packages
     if (orig.name !== newName) {
-      newLinks = links.map(l => renameInLink(l, orig.name, newName))
+      newPackages = packages.map(l => renameInPackage(l, orig.name, newName))
     }
-    saveDesignMap(cube, newGroups, newLinks, refetch, setStatus)
+    saveDesignMap(cube, newGroups, newPackages, refetch, setStatus)
     setGroupEditor(null)
   }
 
@@ -195,34 +195,34 @@ export function DesignEditorPage() {
       ? [...(g.exclude || []).filter(n => n !== cardName), cardName]
       : (g.exclude || []).filter(n => n !== cardName)
     const newGroups = groups.map(x => x.name === groupName ? withExclude(x, exclude) : x)
-    saveDesignMap(cube, newGroups, links, refetch, setStatus)
+    saveDesignMap(cube, newGroups, packages, refetch, setStatus)
   }
 
   // Deleting a group also removes it from every wire end; a wire left with an
   // empty side shows up on the audit board rather than silently vanishing.
   function deleteGroup(name) {
     const newGroups = groups.filter(g => g.name !== name)
-    const newLinks = links.map(l => ({
+    const newPackages = packages.map(l => ({
       ...l,
       wires: (l.wires || []).map(w => ({
         sources: (w.sources || []).filter(s => s !== name),
         targets: (w.targets || []).filter(t => t !== name),
       })),
     }))
-    saveDesignMap(cube, newGroups, newLinks, refetch, setStatus)
+    saveDesignMap(cube, newGroups, newPackages, refetch, setStatus)
     if (view === 'g:' + name) selectView('')
   }
 
-  function deleteLink(label) {
-    saveDesignMap(cube, groups, links.filter(l => l.label !== label), refetch, setStatus)
-    if (view === 'l:' + label) selectView('')
+  function deletePackage(label) {
+    saveDesignMap(cube, groups, packages.filter(l => l.name !== label), refetch, setStatus)
+    if (view === 'p:' + label) selectView('')
   }
 
   // Links between the two selected cards, with the "why" bridges.
   const between = useMemo(() => {
     if (!focal || !vs) return []
-    return whyLinked(focal, vs, edges, linkByLabel, cardGroups)
-  }, [focal, vs, edges, linkByLabel, cardGroups])
+    return whyLinked(focal, vs, edges, packageByName, cardGroups)
+  }, [focal, vs, edges, packageByName, cardGroups])
 
   // Edit controls only show once the server says the cube is writable; the
   // read-only notice waits for it to say it isn't, so it doesn't flash on load.
@@ -246,9 +246,9 @@ export function DesignEditorPage() {
     const g = groups.find(x => x.name === name)
     if (g) setGroupEditor({ original: g })
   }
-  function openLink(label) {
-    const l = links.find(x => x.label === label)
-    if (l) setLinkEditor({ original: l })
+  function openPackage(label) {
+    const l = packages.find(x => x.name === label)
+    if (l) setPackageEditor({ original: l })
   }
 
   // Resolve the detail pane from the view param.
@@ -261,28 +261,28 @@ export function DesignEditorPage() {
       members={(groupCards[g.name]?.cards || []).slice().sort()}
       excluded={(groupCards[g.name]?.excluded_cards || []).slice().sort()}
       cardGroups={cardGroups} nodeByName={nodeByName}
-      linksTouching={links.filter(l => (l.wires || []).some(w => (w.sources || []).includes(g.name) || (w.targets || []).includes(g.name)))}
-      linkIndex={linkIndex} warn={groupWarn(g.name)}
+      packagesTouching={packages.filter(l => (l.wires || []).some(w => (w.sources || []).includes(g.name) || (w.targets || []).includes(g.name)))}
+      packageIndex={packageIndex} warn={groupWarn(g.name)}
       canEdit={canEdit} onEdit={() => openGroup(g.name)} onDelete={() => deleteGroup(g.name)}
       onExclude={(card) => setCardExcluded(g.name, card, true)}
       onRestore={(card) => setCardExcluded(g.name, card, false)}
-      onSelectLink={selectLink} onFocusCard={setFocal} onHoverCard={setHoverCard}
+      onSelectPackage={selectPackage} onFocusCard={setFocal} onHoverCard={setHoverCard}
     />
-  } else if (view.startsWith('l:') && linkByLabel[view.slice(2)]) {
-    const l = linkByLabel[view.slice(2)]
-    detail = <LinkDetail
-      key={l.label}
-      link={l} color={ruleColor(linkIndex[l.label])}
-      edgeCount={linkEdgeCounts[l.label] || 0}
-      groupIndex={groupIndex} groupCards={groupCards} warn={linkWarn(l.label)}
-      canEdit={canEdit} onEdit={() => openLink(l.label)} onDelete={() => deleteLink(l.label)}
+  } else if (view.startsWith('p:') && packageByName[view.slice(2)]) {
+    const l = packageByName[view.slice(2)]
+    detail = <PackageDetail
+      key={l.name}
+      pkg={l} color={ruleColor(packageIndex[l.name])}
+      edgeCount={packageEdgeCounts[l.name] || 0}
+      groupIndex={groupIndex} groupCards={groupCards} warn={packageWarn(l.name)}
+      canEdit={canEdit} onEdit={() => openPackage(l.name)} onDelete={() => deletePackage(l.name)}
       onSelectGroup={selectGroup} onFocusCard={setFocal}
     />
   } else if (view === 'audit') {
     detail = <AuditBoard
       audit={audit} membershipsLoading={membershipsLoading}
-      nodeByName={nodeByName} groupIndex={groupIndex} linkIndex={linkIndex}
-      onSelectGroup={selectGroup} onSelectLink={selectLink}
+      nodeByName={nodeByName} groupIndex={groupIndex} packageIndex={packageIndex}
+      onSelectGroup={selectGroup} onSelectPackage={selectPackage}
       onFocusCard={setFocal} onHoverCard={setHoverCard}
       onReview={() => selectView('review')}
     />
@@ -293,21 +293,21 @@ export function DesignEditorPage() {
       memberships={(cardGroups[current] || []).slice().sort((a, b) => a.group.localeCompare(b.group))}
       membershipsLoading={membershipsLoading}
       neighbors={neighborsOf[current] || []}
-      groupIndex={groupIndex} linkIndex={linkIndex}
-      keysEnabled={!groupEditor && !linkEditor}
+      groupIndex={groupIndex} packageIndex={packageIndex}
+      keysEnabled={!groupEditor && !packageEditor}
       onGo={(n) => patchParams({ card: n })}
-      onSelectGroup={selectGroup} onSelectLink={selectLink}
+      onSelectGroup={selectGroup} onSelectPackage={selectPackage}
     />
   } else if (view === 'compare' && focal && vs) {
     detail = <CompareDetail
       focal={focal} vs={vs} between={between} nodeByName={nodeByName}
-      cardGroups={cardGroups} groupIndex={groupIndex} linkIndex={linkIndex}
-      canEdit={canEdit} onSelectGroup={selectGroup} onSelectLink={selectLink} onEditLink={openLink}
+      cardGroups={cardGroups} groupIndex={groupIndex} packageIndex={packageIndex}
+      canEdit={canEdit} onSelectGroup={selectGroup} onSelectPackage={selectPackage} onEditPackage={openPackage}
       onSwap={swapCards} onClear={() => setVs('')}
     />
   } else {
     detail = <Overview
-      nodes={nodes} groups={groups} links={links} edges={edges}
+      nodes={nodes} groups={groups} packages={packages} edges={edges}
       audit={audit} membershipsLoading={membershipsLoading} cardGroups={cardGroups}
       onAudit={() => selectView('audit')}
     />
@@ -324,12 +324,12 @@ export function DesignEditorPage() {
     {readOnlyNotice}
     <div className={'de-page' + (view === 'review' ? ' de-page-review' : '')}>
       <Registry
-        groups={groups} links={links} view={view}
-        groupCards={groupCards} linkEdgeCounts={linkEdgeCounts}
-        groupWarn={groupWarn} linkWarn={linkWarn} canEdit={canEdit}
-        onSelectGroup={selectGroup} onSelectLink={selectLink}
+        groups={groups} packages={packages} view={view}
+        groupCards={groupCards} packageEdgeCounts={packageEdgeCounts}
+        groupWarn={groupWarn} packageWarn={packageWarn} canEdit={canEdit}
+        onSelectGroup={selectGroup} onSelectPackage={selectPackage}
         onNewGroup={() => setGroupEditor({ original: null })}
-        onNewLink={() => setLinkEditor({ original: null })}
+        onNewPackage={() => setPackageEditor({ original: null })}
       />
 
       <div className="de-main-col">
@@ -340,15 +340,15 @@ export function DesignEditorPage() {
           memberships={(cardGroups[focal] || []).slice().sort((a, b) => a.group.localeCompare(b.group))}
           membershipsLoading={membershipsLoading}
           neighbors={neighborsOf[focal] || []}
-          groupIndex={groupIndex} linkIndex={linkIndex}
+          groupIndex={groupIndex} packageIndex={packageIndex}
           onPickFocal={setFocal} onPickVs={setVs}
-          onSelectGroup={selectGroup} onSelectLink={selectLink}
+          onSelectGroup={selectGroup} onSelectPackage={selectPackage}
           onCompare={() => selectView('compare')} onHoverCard={setHoverCard}
         />}
       </div>
 
       {status && <div className="de-status" role="status">{status}</div>}
-      {hoverCard && !groupEditor && !linkEditor &&
+      {hoverCard && !groupEditor && !packageEditor &&
         <div className="deck-hover-preview"><img className="kit-card-image" src={CardImageURL({ name: hoverCard })} alt={hoverCard} /></div>
       }
 
@@ -360,15 +360,15 @@ export function DesignEditorPage() {
           onCancel={() => setGroupEditor(null)}
         />
       }
-      {linkEditor &&
-        <LinkEditModal
-          link={linkEditor.original || { label: '', wires: [{ sources: [''], targets: [''] }] }}
-          color={ruleColor(linkEditor.original ? (linkIndex[linkEditor.original.label] ?? 0) : links.length)}
+      {packageEditor &&
+        <PackageEditModal
+          pkg={packageEditor.original || { name: '', wires: [{ sources: [''], targets: [''] }] }}
+          color={ruleColor(packageEditor.original ? (packageIndex[packageEditor.original.name] ?? 0) : packages.length)}
           groupNames={groupNames}
           cardNames={names}
           groups={groups}
-          onSave={saveLink}
-          onCancel={() => setLinkEditor(null)}
+          onSave={savePackage}
+          onCancel={() => setPackageEditor(null)}
           onGroupSaved={saveGroupByIndex}
         />
       }

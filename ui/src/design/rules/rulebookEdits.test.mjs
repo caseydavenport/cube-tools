@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { renameInLink, withExclude } from "./rulebookEdits.js"
+import { renameInPackage, withExclude } from "./rulebookEdits.js"
 
 test("withExclude drops an empty exclude list", () => {
   const group = withExclude({ name: "A", conditions: ["t:a"], exclude: ["x"] }, [])
@@ -12,6 +12,6 @@ test("withExclude sets a non-empty exclude list", () => {
 })
 
 test("renameInLink renames every wire end", () => {
-  const link = { label: "L", wires: [{ sources: ["Old", "B"], targets: ["Old"] }] }
-  assert.deepEqual(renameInLink(link, "Old", "New").wires, [{ sources: ["New", "B"], targets: ["New"] }])
+  const pkg = { name: "L", wires: [{ sources: ["Old", "B"], targets: ["Old"] }] }
+  assert.deepEqual(renameInPackage(pkg, "Old", "New").wires, [{ sources: ["New", "B"], targets: ["New"] }])
 })

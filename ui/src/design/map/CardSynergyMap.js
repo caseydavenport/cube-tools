@@ -13,7 +13,7 @@ import { MAP_COPY } from "./copy.js"
 // CardSynergyMap renders an arbitrary pool of cards (e.g. a decklist) as a force
 // graph wired by the design rules - the same engine as the design map, scoped to
 // the given cards. Hover previews a card; click pins the focus on it.
-export function CardSynergyMap({ cards, edges, links }) {
+export function CardSynergyMap({ cards, edges, packages }) {
   const cube = useCube()
   // The neutral community color depends on the scheme, so a toggle recomputes both memos.
   const scheme = useComputedColorScheme("light")
@@ -21,11 +21,11 @@ export function CardSynergyMap({ cards, edges, links }) {
   const [selected, setSelected] = useState(null)
   const [hoveredCommunity, setHoveredCommunity] = useState(null)
 
-  const linkIndex = useMemo(() => {
+  const packageIndex = useMemo(() => {
     const idx = {}
-    ;(links || []).forEach((l, i) => { idx[l.label] = i })
+    ;(packages || []).forEach((l, i) => { idx[l.name] = i })
     return idx
-  }, [links])
+  }, [packages])
 
   const byName = useMemo(() => new Map((cards || []).map(c => [c.name, c])), [cards])
 
@@ -51,7 +51,7 @@ export function CardSynergyMap({ cards, edges, links }) {
         for (const n of comm) communityColorOf[n] = neutralColor()
         continue
       }
-      let color = ruleColor(linkIndex[label] ?? 0)
+      let color = ruleColor(packageIndex[label] ?? 0)
       if (used.has(color)) {
         const free = RULE_COLORS.find(c => !used.has(c))
         if (free) color = free
@@ -61,13 +61,13 @@ export function CardSynergyMap({ cards, edges, links }) {
       list.push({ color, label, size: comm.length, members: comm })
     }
     return { ranking, communities: list, q, communityColorOf }
-  }, [byName, edges, linkIndex, scheme])
+  }, [byName, edges, packageIndex, scheme])
 
   const { simNodes, simEdges } = useMemo(() => {
     const names = new Set(byName.keys())
     const se = (edges || [])
       .filter(e => names.has(e.source) && names.has(e.target))
-      .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.rule_labels, linkIndex) }))
+      .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.packages, packageIndex) }))
     // Size nodes by how connected they are within this pool, not the whole cube.
     const degree = {}
     for (const e of se) {
@@ -83,7 +83,7 @@ export function CardSynergyMap({ cards, edges, links }) {
       label: n,
     }))
     return { simNodes: sn, simEdges: se }
-  }, [byName, edges, linkIndex, analytics, scheme])
+  }, [byName, edges, packageIndex, analytics, scheme])
 
   // Drop stale focus when the pool changes (deck or board switch).
   useEffect(() => { setHovered(null); setSelected(null); setHoveredCommunity(null) }, [byName])

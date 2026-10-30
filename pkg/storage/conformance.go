@@ -152,20 +152,20 @@ func runRecordConformance(t *testing.T, s *Store) {
 }
 
 // runRulesConformance checks that a small design-map config written and read
-// back returns equal groups and links.
+// back returns equal groups and packages.
 func runRulesConformance(t *testing.T, s *Store) {
 	t.Helper()
 
 	rules := &design.DesignMapConfig{
-		Groups: []design.Group{{Name: "Aggro"}},
-		Links:  []design.Link{{Label: "combo"}},
+		Groups:   []design.Group{{Name: "Aggro"}},
+		Packages: []design.Package{{Name: "combo"}},
 	}
 	assert.NoError(t, s.PutRules("conf", rules))
 
 	got, err := s.GetRules("conf")
 	assert.NoError(t, err)
 	assert.Equal(t, rules.Groups, got.Groups)
-	assert.Equal(t, rules.Links, got.Links)
+	assert.Equal(t, rules.Packages, got.Packages)
 }
 
 // runIndexConformance checks the cube index against the canonical dataset's
