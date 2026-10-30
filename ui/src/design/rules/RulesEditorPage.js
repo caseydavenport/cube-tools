@@ -28,9 +28,9 @@ import "./rules.css"
 import "../../decks/decks.css"
 
 // DesignEditorPage is the workbench for the design rulebook. Three panes:
-// a registry of every group and link (browse, create, spot problems), a detail
-// pane for whatever's selected (group roster, link wiring, card-vs-card compare,
-// or the audit board), and a card lens showing any card's memberships and links.
+// a registry of every group and package (browse, create, spot problems), a detail
+// pane for whatever's selected (group roster, package wiring, card-vs-card compare,
+// or the audit board), and a card lens showing any card's memberships and packages.
 // Selection lives in the URL (card, vs, view) so any state is shareable.
 export function DesignEditorPage() {
   const cube = useCube()
@@ -79,14 +79,14 @@ export function DesignEditorPage() {
   const groupNames = useMemo(() => groups.map(g => g.name), [groups])
   const groupCards = useMemo(() => Object.fromEntries(groupNodes.map(g => [g.name, g])), [groupNodes])
 
-  // label -> number of card-to-card edges that link creates.
+  // package name -> number of card-to-card edges that package creates.
   const packageEdgeCounts = useMemo(() => {
     const m = {}
     for (const e of edges) for (const n of (e.packages || [])) m[n] = (m[n] || 0) + 1
     return m
   }, [edges])
 
-  // name -> [{ name, labels }] : every card a card links to, with the rules why.
+  // name -> [{ name, packages }] : every card a card connects to, and through which packages.
   const neighborsOf = useMemo(() => {
     const m = {}
     const add = (a, b, packageNames) => { (m[a] = m[a] || []).push({ name: b, packages: packageNames || [] }) }
@@ -121,7 +121,7 @@ export function DesignEditorPage() {
   const setVs = (name) => patchParams({ vs: name, view: name ? 'compare' : (view === 'compare' ? '' : view) })
   const swapCards = () => patchParams({ card: vs, vs: focal })
 
-  // Editor state. Each holds { original } - the group/link being edited, or null
+  // Editor state. Each holds { original } - the group/package being edited, or null
   // `original` for a brand-new one.
   const [groupEditor, setGroupEditor] = useState(null)
   const [packageEditor, setPackageEditor] = useState(null)
@@ -169,7 +169,7 @@ export function DesignEditorPage() {
     setPackageEditor(null)
   }
 
-  // Group edits triggered from inside the link editor (by group index).
+  // Group edits triggered from inside the package editor (by group index).
   const saveGroupByIndex = (idx, updated) => {
     const conditions = updated.conditions.map(c => c.trim()).filter(Boolean)
     if (conditions.length === 0) { setStatus(RULES_COPY.page.conditionRequired); return }
@@ -218,7 +218,7 @@ export function DesignEditorPage() {
     if (view === 'p:' + label) selectView('')
   }
 
-  // Links between the two selected cards, with the "why" bridges.
+  // Packages between the two selected cards, with the "why" bridges.
   const between = useMemo(() => {
     if (!focal || !vs) return []
     return whyLinked(focal, vs, edges, packageByName, cardGroups)

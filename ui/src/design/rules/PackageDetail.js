@@ -1,4 +1,4 @@
-// The Rules editor pane for one link, drawn as a wiring diagram.
+// The Rules editor pane for one package, drawn as a wiring diagram.
 
 import React, { useState } from 'react'
 import { ruleColor } from '../map/ruleColors.js'
@@ -7,7 +7,7 @@ import { EditActions } from "./rulesParts.js"
 import { Loom } from "../Loom.js"
 import { RULES_COPY } from "./copy.js"
 
-// LinkDetail shows one link as a wiring diagram: source groups on the left,
+// PackageDetail shows one package as a wiring diagram: source groups on the left,
 // target groups on the right, one thread per declared wire pair.
 export function PackageDetail({ pkg, color, edgeCount, groupIndex, groupCards, warn, canEdit, onEdit, onDelete, onSelectGroup, onFocusCard }) {
   const [confirming, setConfirming] = useState(false)

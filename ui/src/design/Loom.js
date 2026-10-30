@@ -1,5 +1,5 @@
 // Loom draws two columns of group chips joined by threads, for a link's wiring.
-// The Rules editor and the Synergy map's "why linked" tip both use it.
+// The Rules editor and the Synergy map's "why connected" tip both use it.
 
 import React, { useState, useRef, useLayoutEffect } from 'react'
 import { UnstyledButton } from '@mantine/core'
@@ -22,9 +22,9 @@ function chipFor(name, groupIndex, onSelectGroup) {
   return chip
 }
 
-// bridgeLoom turns the links between two cards (whyLinked's output) into Loom
+// bridgeLoom turns the packages between two cards (whyLinked's output) into Loom
 // input: the first card's groups on the left, the second's on the right, and
-// one thread per bridge, colored by its link.
+// one thread per bridge, colored by its package.
 export function bridgeLoom(between, groupIndex, packageIndex, onSelectGroup) {
   const leftSeen = new Set()
   const rightSeen = new Set()
@@ -49,7 +49,7 @@ export function bridgeLoom(between, groupIndex, packageIndex, onSelectGroup) {
 }
 
 // Loom draws group chips in two columns with SVG threads connecting them - the
-// wiring-diagram view of a link. Thread endpoints are measured from the rendered
+// wiring-diagram view of a package. Thread endpoints are measured from the rendered
 // chips, so it survives wrapping and resizes. compact draws smaller chips with
 // no thread animation, for inside a popover.
 export function Loom({ left, right, threads, compact = false }) {

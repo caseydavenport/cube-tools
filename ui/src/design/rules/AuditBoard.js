@@ -43,9 +43,9 @@ export function AuditBoard({
       </AuditSection>
 
       <AuditSection
-        title={RULES_COPY.audit.unlinkedGroupsTitle} count={audit.unlinkedGroups.length}
-        blurb={RULES_COPY.audit.unlinkedGroupsBlurb}
-        okMsg={RULES_COPY.audit.unlinkedGroupsOk}
+        title={RULES_COPY.audit.unusedGroupsTitle} count={audit.unlinkedGroups.length}
+        blurb={RULES_COPY.audit.unusedGroupsBlurb}
+        okMsg={RULES_COPY.audit.unusedGroupsOk}
       >
         {audit.unlinkedGroups.map(n => (
           <ChipButton key={n} lead={<span className="dm-swatch" style={{ background: ruleColor(groupIndex[n] ?? 0) }} />} onClick={() => onSelectGroup(n)}>
@@ -55,9 +55,9 @@ export function AuditBoard({
       </AuditSection>
 
       <AuditSection
-        title={RULES_COPY.audit.brokenLinksTitle} count={audit.brokenPackages.length}
-        blurb={RULES_COPY.audit.brokenLinksBlurb}
-        okMsg={RULES_COPY.audit.brokenLinksOk}
+        title={RULES_COPY.audit.brokenPackagesTitle} count={audit.brokenPackages.length}
+        blurb={RULES_COPY.audit.brokenPackagesBlurb}
+        okMsg={RULES_COPY.audit.brokenPackagesOk}
       >
         {audit.brokenPackages.map(b => (
           <ChipButton key={b.name} lead={<span className="dm-swatch" style={{ background: ruleColor(packageIndex[b.name] ?? 0) }} />} onClick={() => onSelectPackage(b.name)}>
@@ -83,9 +83,9 @@ export function AuditBoard({
       <div className="de-subhead de-audit-divider">{RULES_COPY.audit.coverageDivider}</div>
 
       <AuditSection
-        title={RULES_COPY.audit.doubledLinksTitle} count={audit.duplicatePairs.length}
-        blurb={RULES_COPY.audit.doubledLinksBlurb}
-        okMsg={RULES_COPY.audit.doubledLinksOk}
+        title={RULES_COPY.audit.doubledPackagesTitle} count={audit.duplicatePairs.length}
+        blurb={RULES_COPY.audit.doubledPackagesBlurb}
+        okMsg={RULES_COPY.audit.doubledPackagesOk}
       >
         {audit.duplicatePairs.flatMap(d => d.names.map(label => (
           <ChipButton key={d.key + '>' + label} lead={<span className="dm-swatch" style={{ background: ruleColor(packageIndex[label] ?? 0) }} />} onClick={() => onSelectPackage(label)}>

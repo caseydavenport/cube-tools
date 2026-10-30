@@ -1,4 +1,4 @@
-// The dialog for editing one link's wires, with a group dialog on top of it
+// The dialog for editing one package's wires, with a group dialog on top of it
 // for editing a group from inside a wire.
 
 import React, { useState } from 'react'
@@ -101,7 +101,7 @@ export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, on
           <h4 style={{color, margin: "0 0 1rem 0", fontSize: "1rem"}}>
             {MAP_COPY.packageEdit.editPackage}
           </h4>
-          <RuleInput label={MAP_COPY.packageEdit.labelLabel} value={editLabel} onChange={setEditLabel} placeholder={MAP_COPY.packageEdit.labelPlaceholder} />
+          <RuleInput label={MAP_COPY.packageEdit.nameLabel} value={editLabel} onChange={setEditLabel} placeholder={MAP_COPY.packageEdit.namePlaceholder} />
           {editWires.map((w, wi) => (
             <div
               key={wi}

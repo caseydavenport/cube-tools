@@ -14,7 +14,7 @@ function neutralColor() {
 // buildDeckSubgraph induces the subgraph on `names` from the cube-wide edge
 // list. An edge survives only when both endpoints are in the name set; every
 // name becomes a node even with no surviving edges. Each edge is normalized so
-// a < b with its rule labels sorted.
+// a < b with its package names sorted.
 export function buildDeckSubgraph(names, edges) {
   const inDeck = new Set(names)
   const nodes = [...new Set(names)].sort()
@@ -31,7 +31,7 @@ export function buildDeckSubgraph(names, edges) {
       a = t
       b = s
     }
-    const labels = [...(e.rule_labels || [])].sort()
+    const labels = [...(e.packages || [])].sort()
     subEdges.push({ a, b, weight: e.weight, labels })
     adj[a][b] = e.weight
     adj[b][a] = e.weight

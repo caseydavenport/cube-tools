@@ -31,9 +31,9 @@ function OverviewDetail({ groupNodes, packages, nodeMap, onDrill }) {
       <span className="section-heading">{MAP_COPY.details.overview}</span>
       <div className="dm-statgrid">
         <Stat label={MAP_COPY.details.statThemes} value={themes.length} />
-        <Stat label={MAP_COPY.details.statLinks} value={packages.length} />
+        <Stat label={MAP_COPY.details.statPackages} value={packages.length} />
         <Stat label={MAP_COPY.details.statCards} value={totalCards} />
-        <Stat label={MAP_COPY.details.statUnlinked} value={unconnected} />
+        <Stat label={MAP_COPY.details.statUnconnected} value={unconnected} />
       </div>
       <p className="dm-hint">{MAP_COPY.details.drillHint}</p>
       <div className="dm-subhead">{MAP_COPY.details.largestThemes}</div>
@@ -69,7 +69,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, packages, groupColor, on
   const loading = match.loading
   const color = groupColor(focus.group)
 
-  // Which other groups this one links to, and via which link labels.
+  // Which other groups this one connects to, and via which packages.
   const linkedGroups = useMemo(() => {
     const out = {}
     for (const l of packages) {
@@ -101,10 +101,10 @@ function GroupDetail({ cube, focus, groups, groupNodes, packages, groupColor, on
 
       {linkedGroups.length > 0 && (
         <>
-          <div className="dm-subhead">{MAP_COPY.details.linksTo}</div>
+          <div className="dm-subhead">{MAP_COPY.details.connectsTo}</div>
           <div className="dm-chiprow">
             {linkedGroups.map(lg => {
-              // A card: ref links to a single card, not a group - color it like the
+              // A card: ref points at a single card, not a group - color it like the
               // card and drill straight to card level.
               const cardName = cardRefName(lg.name)
               const color = cardName ? getNodeColor((nodeMap[cardName] || {}).colors) : groupColor(lg.name)
@@ -160,7 +160,7 @@ function CardDetail({ cube, focus, groups, edges, packages, nodeMap, groupColor,
   const card = nodeMap[focus.card] || { name: focus.card, colors: [], types: [] }
   const memberships = useCardMemberships(cube, focus.card, groups)
 
-  // Neighbors grouped by the rule label that connects them.
+  // Neighbors grouped by the package that connects them.
   const byRule = useMemo(() => {
     const map = {}
     for (const e of edges) {
@@ -212,8 +212,8 @@ function CardDetail({ cube, focus, groups, edges, packages, nodeMap, groupColor,
         </>
       )}
 
-      <div className="dm-subhead">{MAP_COPY.details.linkedCards} {byRule.length > 0 ? `(${new Set(byRule.flatMap(r => r.cards)).size})` : ""}</div>
-      {byRule.length === 0 && <p className="dm-muted dm-pad">{MAP_COPY.details.noLinksFromCard}</p>}
+      <div className="dm-subhead">{MAP_COPY.details.connectedCards} {byRule.length > 0 ? `(${new Set(byRule.flatMap(r => r.cards)).size})` : ""}</div>
+      {byRule.length === 0 && <p className="dm-muted dm-pad">{MAP_COPY.details.noPackagesFromCard}</p>}
       {byRule.map(r => {
         const li = packageIndex[r.name]
         const color = li != null ? ruleColor(li) : "var(--se-muted)"

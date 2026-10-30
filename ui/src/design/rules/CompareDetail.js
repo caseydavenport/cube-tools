@@ -34,7 +34,7 @@ export function CompareDetail({
           <figcaption>{nodeByName[focal] && <span className="de-pips">{ColorImages(nodeByName[focal].colors)}</span>}{focal}</figcaption>
         </figure>
         <div className="de-compare-mid">
-          {between.length === 0 && <div className="de-empty">{RULES_COPY.compare.noLinks}</div>}
+          {between.length === 0 && <div className="de-empty">{RULES_COPY.compare.noPackages}</div>}
           {between.length > 0 && <Loom left={left} right={right} threads={threads} />}
         </div>
         <figure className="de-compare-card">

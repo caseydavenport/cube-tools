@@ -1,4 +1,4 @@
-// The inputs the group and link dialogs share: a rule text box, group
+// The inputs the group and package dialogs share: a rule text box, group
 // pickers, OR clauses, excluded cards, and the why-it-matched tooltip.
 
 import React, { useRef, useState } from 'react'

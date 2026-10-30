@@ -1,4 +1,4 @@
-// The colors that tell rules (groups and links) apart on the map and in the
+// The colors that tell rules (groups and packages) apart on the map and in the
 // Rules editor.
 
 // 20 categorical colors, keyed by label index - more colors, fewer collisions.

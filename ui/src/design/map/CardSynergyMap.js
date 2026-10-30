@@ -1,4 +1,4 @@
-// The Map view of one deck: its cards as a graph, linked by the design rules.
+// The Map view of one deck: its cards as a graph, connected by the design rules.
 
 import React, { useEffect, useState, useMemo } from 'react'
 import { SegmentedControl, UnstyledButton, useComputedColorScheme } from "@mantine/core"
@@ -31,7 +31,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
 
   const [colorBy, setColorBy] = useState("identity")
 
-  // Deck-subgraph analytics: most-linked ranking, and communities with a color
+  // Deck-subgraph analytics: most-connected ranking, and communities with a color
   // and dominant rule label each. Multi-card communities get a palette color;
   // singletons and isolated cards stay neutral and aren't listed.
   const analytics = useMemo(() => {
@@ -97,8 +97,8 @@ export function CardSynergyMap({ cards, edges, packages }) {
 
   const topLinked = analytics.ranking.filter(r => r.weightedDegree > 0).slice(0, 8)
 
-  // Neighbors of the pinned card in this pool, heaviest link first. Feeds the
-  // "Linked with" list, whose rows deep-link the pair into the design editor.
+  // Neighbors of the pinned card in this pool, heaviest connection first. Feeds the
+  // "Connected to" list, whose rows deep-link the pair into the design editor.
   const linkedTo = []
   if (selected) {
     const w = {}
@@ -141,9 +141,9 @@ export function CardSynergyMap({ cards, edges, packages }) {
       </div>
       <aside className="dm-deckmap-side">
         <div className="dm-panel dm-deckmap-stats">
-          <div className="dm-subhead">{MAP_COPY.cardSynergyMap.mostLinked}</div>
+          <div className="dm-subhead">{MAP_COPY.cardSynergyMap.mostConnected}</div>
           {topLinked.length === 0 ? (
-            <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noLinkedCards}</p>
+            <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noConnectedCards}</p>
           ) : topLinked.map(r => (
             <UnstyledButton
               key={r.card}
@@ -179,10 +179,10 @@ export function CardSynergyMap({ cards, edges, packages }) {
               <a className="dm-editor-link" href={editorHref(cube, selected)} target="_blank" rel="noopener noreferrer" title={MAP_COPY.cardSynergyMap.openInEditor}>⧉</a>
             </div>
             {linkedTo.length === 0 ? (
-              <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noLinksInPool}</p>
+              <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noConnectionsInPool}</p>
             ) : (
               <>
-                <div className="dm-subhead">{MAP_COPY.cardSynergyMap.linkedWith}</div>
+                <div className="dm-subhead">{MAP_COPY.cardSynergyMap.connectedTo}</div>
                 {linkedTo.map(n => (
                   <div key={n.card} className="dm-legend-row dm-legend-static">
                     <span className="dm-legend-name">{n.card}</span>

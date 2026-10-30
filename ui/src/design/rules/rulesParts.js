@@ -6,7 +6,7 @@ import { Button } from '@mantine/core'
 import { cardRefName } from '../../utils/DesignRules.js'
 import { RULES_COPY } from "./copy.js"
 
-// EditActions are the Edit and Delete buttons on a group or link. Delete asks
+// EditActions are the Edit and Delete buttons on a group or package. Delete asks
 // once more before it saves.
 export function EditActions({ confirming, setConfirming, onEdit, onDelete }) {
   if (confirming) {
@@ -31,7 +31,7 @@ export function Emph({ me, name }) {
   return <span className={'de-end' + (name === me ? ' de-end-me' : '')}>{cardRefName(name) || name}</span>
 }
 
-// ChipButton is one small clickable item in an audit list or link summary: lead
+// ChipButton is one small clickable item in an audit list or package summary: lead
 // is the color swatch or mana pips in front of the label.
 export function ChipButton({ lead, children, ...buttonProps }) {
   return (

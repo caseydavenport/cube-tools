@@ -25,7 +25,7 @@ import "./pages.css"
 // to replace.
 const COPY = {
   title: "Packages",
-  tableTitle: "Rule labels",
+  tableTitle: "Packages",
   settings: "Settings",
   confidence: "Build-rate confidence",
   filterPlaceholder: "Filter decks",
@@ -39,10 +39,10 @@ const COPY = {
   to: "To",
   apply: "Apply",
 
-  summary: ({ labels, populated }) => `${labels} labels · ${populated} populated decks`,
+  summary: ({ packages, populated }) => `${packages} packages · ${populated} populated decks`,
 
   columns: {
-    label: "Label",
+    label: "Package",
     buildRate: "Build rate",
     packages: "Packages",
     has3: "Has 3+",
@@ -52,7 +52,7 @@ const COPY = {
   columnTips: {
     buildRate: "Packages built divided by populated decks.",
     packages: "Decks that built this package: 2 or more cards on each side of one of its wires, 3 or more cards in all.",
-    has3: "Decks carrying at least three cards that touch this label.",
+    has3: "Decks carrying at least three of this package's cards.",
     commitment: "Package decks divided by has-3 decks: how often the cards, once present, form a package.",
   },
 
@@ -60,7 +60,7 @@ const COPY = {
     buildRate: ({ packages, populated }) => `${packages} of ${populated} populated decks built this package`,
     buildRateLabel: ({ level }) => `${level}% CI`,
     buildRateRange: ({ rate, low, high }) => `${rate} (${low}–${high})`,
-    has3: ({ has3, rate }) => `${has3} decks carry 3+ of this label's cards (${rate} of populated)`,
+    has3: ({ has3, rate }) => `${has3} decks carry 3+ of this package's cards (${rate} of populated)`,
     commitment: "package decks / has-3 decks: how often the cards, once present, actually form a package",
   },
 
@@ -69,7 +69,7 @@ const COPY = {
     { bold: "populated" },
     " if it has any non-basic mainboard card. ",
     { bold: "Has 3+" },
-    " counts decks carrying at least three cards that touch a label; a ",
+    " counts decks carrying at least three of a package's cards; a ",
     { bold: "package" },
     " is built when the deck plays 2 or more cards on each side of one of the package's wires (1 for a side with a single card), 3 or more in all. ",
     { bold: "Build rate" },
@@ -79,10 +79,10 @@ const COPY = {
   ],
 }
 
-// The Packages page shows how often each rule label coheres into a package across
-// the corpus. Build rate is package/populated decks; commitment ratio is
-// package/has3, a strategy-vs-glue score. Compute lives in /stats/packages; this
-// page just fetches and renders a sortable table.
+// The Packages page shows how often decks build each package. Build rate is
+// built decks over populated decks; commitment is built decks over decks with
+// 3+ of the package's cards. /stats/packages computes them; this page renders
+// a sortable table.
 
 const pct = v => `${Math.round(v * 100)}%`
 
@@ -106,7 +106,7 @@ function BuildRateCell({ s, populated, confidence }) {
 }
 
 // Packages is the Packages page: the toolbar with its date range, deck filter,
-// and confidence setting, then the table of rule labels.
+// and confidence setting, then the table of packages.
 export function Packages(props) {
   const cubeID = useCube()
   const start = props.startDate || ""
@@ -176,7 +176,7 @@ export function Packages(props) {
 
   const summary = (
     <span className="player-filter-hint">
-      {COPY.summary({ labels: rows.length, populated: data.populatedDecks })}
+      {COPY.summary({ packages: rows.length, populated: data.populatedDecks })}
     </span>
   )
 

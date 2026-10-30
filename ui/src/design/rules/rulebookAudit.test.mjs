@@ -4,7 +4,7 @@ import { auditRulebook, groupWarning, packageWarning } from "./rulebookAudit.js"
 
 // RULEBOOK is a small rulebook with one of each problem the audit looks for:
 // A and B hold the same cards, Empty matches nothing, Lonely is never wired,
-// A excludes a card that isn't in the cube, and three links are broken.
+// A excludes a card that isn't in the cube, and three packages are broken.
 function rulebook({ membershipsLoading = false } = {}) {
   const groups = [
     { name: "A", conditions: ["t:a"], exclude: ["Ghost"] },
@@ -40,7 +40,7 @@ function rulebook({ membershipsLoading = false } = {}) {
   }
 }
 
-test("flags links naming a missing group or card", () => {
+test("flags packages naming a missing group or card", () => {
   const audit = auditRulebook(rulebook())
   assert.deepEqual(audit.brokenPackages.map(b => b.name), ["Broken", "OneSided", "Direct"])
   assert.deepEqual(audit.brokenPackages[0].missing, ["Missing"])
@@ -82,9 +82,9 @@ test("structural counts broken, unlinked, empty and stale", () => {
 })
 
 test("group warning joins its problems", () => {
-  assert.equal(groupWarning(auditRulebook(rulebook()), "Empty"), "Matches no cards; No link uses this group")
+  assert.equal(groupWarning(auditRulebook(rulebook()), "Empty"), "Matches no cards; No package uses this group")
 })
 
-test("link warning names what's missing", () => {
+test("package warning names what's missing", () => {
   assert.equal(packageWarning(auditRulebook(rulebook()), "Broken"), "References missing group/card: Missing")
 })

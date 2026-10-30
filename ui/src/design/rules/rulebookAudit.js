@@ -5,7 +5,7 @@ import { cardRefName } from '../../utils/DesignRules.js'
 import { RULES_COPY } from "./copy.js"
 
 // auditRulebook runs the editor's health checks. Structural issues (wrong by
-// definition, like a link naming a missing group) are counted in structural for
+// definition, like a package naming a missing group) are counted in structural for
 // the toolbar badge; the coverage lists (judgment calls) only show on the audit
 // board. ungroupedCards and isolatedCards are null while memberships are
 // still loading.
@@ -28,7 +28,7 @@ export function auditRulebook({ packages, groups, groupNames, groupCards, names,
       brokenPackages.push({ name: l.name, missing })
     }
   }
-  // The same group pair wired by more than one link — the edges are identical,
+  // The same group pair wired by more than one package — the edges are identical,
   // so it's usually two rules that drifted into overlap. Direction ignored:
   // A->B and B->A produce the same card edges.
   const pairPackages = {}
@@ -43,7 +43,7 @@ export function auditRulebook({ packages, groups, groupNames, groupCards, names,
     }
   }
   const duplicatePairs = Object.entries(pairPackages)
-    .filter(([, labels]) => labels.size > 1)
+    .filter(([, names]) => names.size > 1)
     .map(([key, names]) => ({ key, groups: key.split('|'), names: [...names].sort() }))
     .sort((a, b) => a.key.localeCompare(b.key))
   // Two groups whose memberships nearly coincide — usually the same idea
@@ -84,15 +84,15 @@ export function auditRulebook({ packages, groups, groupNames, groupCards, names,
 export function groupWarning(audit, name) {
   const msgs = []
   if (audit.emptyGroups.includes(name)) msgs.push(RULES_COPY.rulebookAudit.groupEmpty)
-  if (audit.unlinkedGroups.includes(name)) msgs.push(RULES_COPY.rulebookAudit.groupUnlinked)
+  if (audit.unlinkedGroups.includes(name)) msgs.push(RULES_COPY.rulebookAudit.groupUnused)
   const stale = audit.staleExcludes.filter(s => s.group === name).map(s => s.name)
   if (stale.length) msgs.push(RULES_COPY.rulebookAudit.staleExcludes({ count: stale.length, names: stale.join(', ') }))
   return msgs.length ? msgs.join('; ') : null
 }
 
-// linkWarning describes what's wrong with one link, or returns null.
+// packageWarning describes what's wrong with one package, or returns null.
 export function packageWarning(audit, label) {
   const b = audit.brokenPackages.find(x => x.name === label)
   if (!b) return null
-  return b.missing.length ? RULES_COPY.rulebookAudit.linkMissing(b.missing.join(', ')) : RULES_COPY.rulebookAudit.linkOneSided
+  return b.missing.length ? RULES_COPY.rulebookAudit.packageMissing(b.missing.join(', ')) : RULES_COPY.rulebookAudit.packageOneSided
 }

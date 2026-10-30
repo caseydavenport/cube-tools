@@ -8,23 +8,23 @@ import {
 // star: center A linked to B, C, D, plus an A-X edge that must be dropped
 // because X is not in the card set.
 const starEdges = () => [
-  { source: "A", target: "B", weight: 2, rule_labels: ["L1"] },
-  { source: "A", target: "C", weight: 1, rule_labels: ["L1", "L2"] },
-  { source: "A", target: "D", weight: 1, rule_labels: ["L2"] },
-  { source: "A", target: "X", weight: 5, rule_labels: ["L3"] },
+  { source: "A", target: "B", weight: 2, packages: ["L1"] },
+  { source: "A", target: "C", weight: 1, packages: ["L1", "L2"] },
+  { source: "A", target: "D", weight: 1, packages: ["L2"] },
+  { source: "A", target: "X", weight: 5, packages: ["L3"] },
 ]
 
 // twoTriangles: cliques {A,B,C} and {D,E,F}, optionally bridged by one edge.
 const twoTriangles = (bridge) => {
   const e = [
-    { source: "A", target: "B", weight: 1, rule_labels: [] },
-    { source: "A", target: "C", weight: 1, rule_labels: [] },
-    { source: "B", target: "C", weight: 1, rule_labels: [] },
-    { source: "D", target: "E", weight: 1, rule_labels: [] },
-    { source: "D", target: "F", weight: 1, rule_labels: [] },
-    { source: "E", target: "F", weight: 1, rule_labels: [] },
+    { source: "A", target: "B", weight: 1, packages: [] },
+    { source: "A", target: "C", weight: 1, packages: [] },
+    { source: "B", target: "C", weight: 1, packages: [] },
+    { source: "D", target: "E", weight: 1, packages: [] },
+    { source: "D", target: "F", weight: 1, packages: [] },
+    { source: "E", target: "F", weight: 1, packages: [] },
   ]
-  if (bridge) e.push({ source: "C", target: "D", weight: 1, rule_labels: [] })
+  if (bridge) e.push({ source: "C", target: "D", weight: 1, packages: [] })
   return e
 }
 
@@ -71,8 +71,8 @@ test("greedy modularity is zero without edges", () => {
 
 test("dominantLabel picks the heaviest internal label", () => {
   const g = buildDeckSubgraph(["A", "B", "C"], [
-    { source: "A", target: "B", weight: 3, rule_labels: ["Elves"] },
-    { source: "A", target: "C", weight: 1, rule_labels: ["Tokens"] },
+    { source: "A", target: "B", weight: 3, packages: ["Elves"] },
+    { source: "A", target: "C", weight: 1, packages: ["Tokens"] },
   ])
   expect(dominantLabel(g, ["A", "B"])).toBe("Elves")
   expect(dominantLabel(g, ["C"])).toBe("")

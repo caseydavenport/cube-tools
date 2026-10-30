@@ -57,7 +57,7 @@ export function Registry({
 
       <div className="de-reg-head" onClick={() => toggle('links')} role="button" aria-expanded={isOpen('links')}>
         <span className="de-reg-caret">{isOpen('links') ? '▾' : '▸'}</span>
-        <span>{RULES_COPY.registry.linksHeading}</span>
+        <span>{RULES_COPY.registry.packagesHeading}</span>
         <span className="de-reg-count">{packages.length}</span>
         {canEdit && <AddButton label={RULES_COPY.registry.newPackage} onClick={onNewPackage} />}
       </div>
@@ -79,7 +79,7 @@ export function Registry({
             </UnstyledButton>
           )
         })}
-        {shownPackages.length === 0 && <div className="de-muted">{RULES_COPY.registry.noLinks}</div>}
+        {shownPackages.length === 0 && <div className="de-muted">{RULES_COPY.registry.noPackages}</div>}
       </div>}
     </aside>
   )

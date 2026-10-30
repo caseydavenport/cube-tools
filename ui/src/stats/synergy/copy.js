@@ -117,7 +117,7 @@ export const SYNERGY_COPY = {
     descriptionGoldRing: "gold ring",
     descriptionMiddle: " = peak pair (depth). A big ring-less node is support glue, not a hub. ",
     descriptionGrayNodes: "Gray nodes",
-    descriptionEnd: " are below-cut partners pulled in so their hubs aren't left floating. Links scale with synergy. Hover to name, click to select, drag to move.",
+    descriptionEnd: " are below-cut partners pulled in so their hubs aren't left floating. Lines scale with synergy. Hover to name, click to select, drag to move.",
     hoverTag: ({ focal, peak }) => `  (focal ${focal}, peak ${peak}x)`,
   },
 

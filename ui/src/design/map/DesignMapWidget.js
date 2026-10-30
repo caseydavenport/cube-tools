@@ -16,7 +16,7 @@ import "./map.css"
 // drilled through, so the breadcrumb can climb back out:
 //   themes            -> the whole set of groups (the overview constellation)
 //   group:<name>      -> a single group's member cards
-//   card:<name>       -> a card and its directly-linked neighbors
+//   card:<name>       -> a card and its directly connected neighbors
 // Selecting anywhere (legend, map, detail rail) drives all three panels in sync.
 export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }) {
   const cube = useCube()
@@ -34,7 +34,7 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }
   const groups = data.groups || []
   const packages = data.packages || []
   const groupNodes = data.group_nodes || []
-  // Wire the theme constellation from the rule-defined links (sparse, meaningful),
+  // Wire the theme constellation from the rule-defined packages (sparse, meaningful),
   // not from incidental card co-membership (near-complete graph, unreadable).
   const groupEdges = data.package_edges || []
   const dataKey = groupNodes.length
@@ -54,7 +54,7 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }
     return (name) => ruleColor(idx[name] ?? 0)
   }, [groupNodes])
 
-  // Every card's group memberships, so the map can explain exactly why two cards link.
+  // Every card's group memberships, so the map can explain exactly why two cards connect.
   const cardGroups = useAllMemberships(cube, groups)
 
   // Full card data (image, oracle text) keyed by name, for the preview panel. The

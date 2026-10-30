@@ -8,7 +8,7 @@ import { RULES_COPY } from "./copy.js"
 
 // EDGES_TIP says what the edge count covers, since the card graph elsewhere
 // also counts cards cut from the cube.
-const EDGES_TIP = "Pairs of cards in the current cube that at least one link joins. Cards cut from the cube keep their edges for old decks, but aren't counted here."
+const EDGES_TIP = "Pairs of cards in the current cube that at least one package joins. Cards cut from the cube keep their edges for old decks, but aren't counted here."
 
 // Overview is the resting state of the detail pane: rulebook vitals, group
 // coverage, and a pointer at anything the audit flagged.
@@ -25,7 +25,7 @@ export function Overview({ nodes, groups, packages, edges, audit, membershipsLoa
       <div className="de-vitals">
         <Vital value={nodes.length} label={RULES_COPY.overview.vitalCards} />
         <Vital value={groups.length} label={RULES_COPY.overview.vitalGroups} />
-        <Vital value={packages.length} label={RULES_COPY.overview.vitalLinks} />
+        <Vital value={packages.length} label={RULES_COPY.overview.vitalPackages} />
         <Vital value={edges.length} label={RULES_COPY.overview.vitalEdges} tip={EDGES_TIP} />
       </div>
 

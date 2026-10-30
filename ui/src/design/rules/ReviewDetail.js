@@ -85,8 +85,8 @@ export function ReviewDetail({
             </UnstyledButton>
           ))}
 
-          <div className="de-subhead">{RULES_COPY.review.linkedCards(neighbors.length ? new Set(neighbors.map(n => n.name)).size : 0)}</div>
-          {!membershipsLoading && ruleCounts.length === 0 && !ungrouped && <div className="de-muted">{RULES_COPY.review.noLinks}</div>}
+          <div className="de-subhead">{RULES_COPY.review.connectedCards(neighbors.length ? new Set(neighbors.map(n => n.name)).size : 0)}</div>
+          {!membershipsLoading && ruleCounts.length === 0 && !ungrouped && <div className="de-muted">{RULES_COPY.review.noPackages}</div>}
           <div className="de-chips de-review-rules">
             {ruleCounts.map(([label, count]) => (
               <ChipButton key={label} lead={<span className="dm-swatch" style={{ background: ruleColor(packageIndex[label] ?? 0) }} />} onClick={() => onSelectPackage(label)}>

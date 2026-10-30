@@ -1,4 +1,4 @@
-// The Rules editor pane for one group: its conditions, links, and members.
+// The Rules editor pane for one group: its conditions, packages, and members.
 
 import React, { useState } from 'react'
 import { UnstyledButton } from '@mantine/core'
@@ -7,7 +7,7 @@ import { ruleColor } from '../map/ruleColors.js'
 import { EditActions, Emph } from "./rulesParts.js"
 import { RULES_COPY } from "./copy.js"
 
-// GroupDetail is the roster review surface: the group's conditions, the links that
+// GroupDetail is the roster review surface: the group's conditions, the packages that
 // use it, and every member with the condition that pulled it in - hover for the
 // card image, so scanning a group for intruders is fast.
 export function GroupDetail({
@@ -35,7 +35,7 @@ export function GroupDetail({
       </div>
 
       <div className="de-subhead">{RULES_COPY.group.wiredInto(packagesTouching.length)}</div>
-      {packagesTouching.length === 0 && <div className="de-muted">{RULES_COPY.group.noLinks}</div>}
+      {packagesTouching.length === 0 && <div className="de-muted">{RULES_COPY.group.noPackages}</div>}
       {packagesTouching.map(l => (
         <UnstyledButton key={l.name} className="de-wire" onClick={() => onSelectPackage(l.name)}>
           <span className="dm-swatch" style={{ background: ruleColor(packageIndex[l.name] ?? 0) }} />

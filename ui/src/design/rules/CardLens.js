@@ -13,7 +13,7 @@ export function CardLens({
   names, focal, vs, node, memberships, membershipsLoading, neighbors, groupIndex, packageIndex,
   onPickFocal, onPickVs, onSelectGroup, onSelectPackage, onCompare, onHoverCard,
 }) {
-  // Bucket the neighbors by rule label so linked cards read by-reason.
+  // Bucket the neighbors by package so connected cards read by reason.
   const byLabel = useMemo(() => {
     const m = {}
     for (const n of neighbors) {
@@ -55,12 +55,12 @@ export function CardLens({
 
           <div className="de-subhead">{RULES_COPY.cardLens.compareHeading}</div>
           <CardSearch value={vs} onPick={onPickVs} names={names} placeholder={RULES_COPY.cardLens.comparePlaceholder} />
-          {focal && vs && <Button size="xs" variant="default" fullWidth className="de-compare-btn" onClick={onCompare}>{RULES_COPY.cardLens.viewLinksBetween}</Button>}
+          {focal && vs && <Button size="xs" variant="default" fullWidth className="de-compare-btn" onClick={onCompare}>{RULES_COPY.cardLens.viewPackagesBetween}</Button>}
         </div>
 
         <div className="de-lens-col de-lens-col-links">
-          <div className="de-subhead">{RULES_COPY.cardLens.linkedCards(neighbors.length ? new Set(neighbors.map(n => n.name)).size : 0)}</div>
-          {byLabel.length === 0 && <div className="de-muted">{RULES_COPY.cardLens.noLinks}</div>}
+          <div className="de-subhead">{RULES_COPY.cardLens.connectedCards(neighbors.length ? new Set(neighbors.map(n => n.name)).size : 0)}</div>
+          {byLabel.length === 0 && <div className="de-muted">{RULES_COPY.cardLens.noPackages}</div>}
           <div className="de-lens-links" onMouseLeave={() => onHoverCard('')}>
             {byLabel.map(([label, cards]) => (
               <div key={label} className="de-lens-rule" style={{ borderLeft: `3px solid ${ruleColor(packageIndex[label] ?? 0)}` }}>
