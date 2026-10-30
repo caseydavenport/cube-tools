@@ -2,6 +2,7 @@ package stats
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -43,7 +44,7 @@ func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 	d2.OpponentWinPercentage = 40
 	d2.RatedOpponents = 1
 
-	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: []*storage.Deck{d1, d2}}, testCubeSource{})}
+	handler := PlayerStatsHandler(&mockDeckStorage{decks: []*storage.Deck{d1, d2}}, testCubeSource{})
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/players", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -72,7 +73,7 @@ func TestPlayerStats_OpponentWinPercent_SkipsUnratedDecks(t *testing.T) {
 	unnamed.Player = "Ozzy"
 	unnamed.Matches = []types.Match{{Wins: 2, Losses: 1}}
 
-	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: []*storage.Deck{named, unnamed}}, testCubeSource{})}
+	handler := PlayerStatsHandler(&mockDeckStorage{decks: []*storage.Deck{named, unnamed}}, testCubeSource{})
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/players", nil))
 
@@ -103,7 +104,7 @@ func TestPlayerStats_BasicAggregation(t *testing.T) {
 		{Opponent: "Grace", Winner: "Grace"},
 	})
 
-	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: []*storage.Deck{d1, d2}}, testCubeSource{})}
+	handler := PlayerStatsHandler(&mockDeckStorage{decks: []*storage.Deck{d1, d2}}, testCubeSource{})
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/players", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -135,7 +136,7 @@ func TestPlayerStatsSkipsAnonymous(t *testing.T) {
 	}
 	decks := []*storage.Deck{seat(1), seat(2), named(1), named(2)}
 
-	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
+	handler := PlayerStatsHandler(&mockDeckStorage{decks: decks}, testCubeSource{})
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/players", nil))
 
@@ -153,7 +154,7 @@ func TestPlayerStatsSkipsAnonymous(t *testing.T) {
 // string and decodes the response.
 func playerStatsFor(t *testing.T, decks []*storage.Deck, query string) PlayerStatsResponse {
 	t.Helper()
-	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
+	handler := PlayerStatsHandler(&mockDeckStorage{decks: decks}, testCubeSource{})
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/players?"+query, nil))
 	var resp PlayerStatsResponse
@@ -228,4 +229,66 @@ func TestPlayerStats_Buckets(t *testing.T) {
 	assert.NotContains(t, resp.Buckets[0].Players, "Stevie")
 	assert.Contains(t, resp.Buckets[1].Players, "Stevie")
 	assert.Equal(t, "2026-01-01", resp.Buckets[0].Start)
+}
+
+// playerFilterStore returns only Freddie's decks when the request carries a
+// deck filter, as a player: filter would, and every deck otherwise.
+type playerFilterStore struct {
+	mockDeckStorage
+}
+
+// List answers filtered requests with Freddie's decks only.
+func (s *playerFilterStore) List(cube string, req *storage.DecksRequest) ([]*storage.Deck, error) {
+	if req.Match == "" {
+		return s.decks, nil
+	}
+	var out []*storage.Deck
+	for _, d := range s.decks {
+		if d.Player == "Freddie" {
+			out = append(out, d)
+		}
+	}
+	return out, nil
+}
+
+// petCardDecks gives Freddie (player 1) five decks, three with Pet Card, and
+// Ozzy (player 2) sixty decks without it. Each deck won one match.
+func petCardDecks() []*storage.Deck {
+	var decks []*storage.Deck
+	for i := 0; i < 5; i++ {
+		d := makeStorageDeck("Freddie", i+1, nil, nil, []types.Match{{Opponent: "Ozzy", Wins: 2, Winner: "Freddie"}})
+		d.PlayerID = 1
+		d.Mainboard = []types.Card{{Name: fmt.Sprintf("filler%d", i)}}
+		if i < 3 {
+			d.Mainboard = append(d.Mainboard, types.Card{Name: "Pet Card"})
+		}
+		decks = append(decks, d)
+	}
+	for i := 0; i < 60; i++ {
+		d := makeStorageDeck("Ozzy", 100+i, nil, nil, nil)
+		d.PlayerID = 2
+		d.Mainboard = []types.Card{{Name: fmt.Sprintf("ozzy%d", i)}}
+		decks = append(decks, d)
+	}
+	return decks
+}
+
+func TestPlayerStats_Tendencies(t *testing.T) {
+	freddie := playerStatsFor(t, petCardDecks(), "").Players["Freddie"]
+	require.NotNil(t, freddie)
+	assert.Equal(t, 5, freddie.Tendencies.Matches)
+	require.Len(t, freddie.Tendencies.SignatureCards, 1)
+	assert.Equal(t, "Pet Card", freddie.Tendencies.SignatureCards[0].Name)
+}
+
+func TestPlayerStats_BaselineIgnoresDeckFilter(t *testing.T) {
+	store := &playerFilterStore{mockDeckStorage{decks: petCardDecks()}}
+	rr := httptest.NewRecorder()
+	PlayerStatsHandler(store, testCubeSource{}).ServeHTTP(rr, httptest.NewRequest(http.MethodGet, `/api/stats/players?match=player:"Freddie"`, nil))
+
+	var resp PlayerStatsResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	freddie := resp.Players["Freddie"]
+	require.NotNil(t, freddie)
+	assert.Equal(t, 60, freddie.Tendencies.SignatureCards[0].OthersAvailable)
 }

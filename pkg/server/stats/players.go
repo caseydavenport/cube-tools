@@ -2,10 +2,13 @@ package stats
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"math"
 	"net/http"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
@@ -67,6 +70,10 @@ type PlayerStats struct {
 	// Opponents is the player's game record against each named opponent.
 	// Anonymous seats and unnamed opponents are left out.
 	Opponents map[string]*Record `json:"opponents"`
+
+	// Tendencies is what the player tends to draft. Bucketed responses leave
+	// it empty.
+	Tendencies PlayerTendencies `json:"tendencies"`
 }
 
 type winLossStats struct {
@@ -80,12 +87,17 @@ type opponentWinAccum struct {
 	totalMatches int
 }
 
+// PlayerStatsHandler serves one row per named player, with their records and
+// what they tend to draft. store and src also supply the packages and each
+// draft's cube list that tendencies compare against.
 func PlayerStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &playerStatsHandler{q: newQuery(store, src)}
+	return &playerStatsHandler{q: newQuery(store, src), store: store, src: src}
 }
 
 type playerStatsHandler struct {
-	q *deckquery.Query
+	q     *deckquery.Query
+	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -93,6 +105,21 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	logrus.WithField("params", dr).Info("/api/stats/players")
 
 	cubeID := server.CubeFromRequest(r)
+	bucketSize := query.GetInt(r, "bucket_size")
+
+	// The tendency baseline loads before the filtered decks, so the filtered
+	// decks are the handler's last read, as on every stats page.
+	var baseline *tendencyBaseline
+	if bucketSize == 0 {
+		var err error
+		baseline, err = s.loadBaseline(cubeID, dr)
+		if err != nil {
+			logrus.WithError(err).Error("could not load the player tendency baseline")
+			http.Error(rw, "could not load decks", http.StatusInternalServerError)
+			return
+		}
+	}
+
 	allDecks, err := s.q.Decks(cubeID, dr)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
@@ -101,7 +128,6 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 
 	z := zForConfidence(query.GetFloat(r, "confidence"))
 	resp := PlayerStatsResponse{}
-	bucketSize := query.GetInt(r, "bucket_size")
 	if bucketSize > 0 {
 		for _, b := range decks.DeckBuckets(allDecks, bucketSize, !query.GetBool(r, "sliding")) {
 			resp.Buckets = append(resp.Buckets, &PlayerBucket{
@@ -112,6 +138,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		}
 	} else {
 		resp.Players = playerRows(allDecks, z)
+		baseline.addTendencies(allDecks, resp.Players)
 	}
 
 	b, err := json.Marshal(resp)
@@ -123,6 +150,72 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	if _, err := rw.Write(b); err != nil {
 		logrus.WithError(err).Error("could not write player stats response")
 	}
+}
+
+// tendencyBaseline is what player tendencies are compared against: every deck
+// in the request's date range, without its deck filter, the cube's packages,
+// and each draft's cube list.
+type tendencyBaseline struct {
+	decks    []*storage.Deck
+	packages []design.PackageCards
+	cubes    cubeLists
+}
+
+// loadBaseline reads the tendency baseline for the request. Leaving out the
+// deck filter means filtering to one player still leaves everyone else to
+// compare with. Missing packages only empty that section, so they're logged.
+func (s *playerStatsHandler) loadBaseline(cubeID string, dr *storage.DecksRequest) (*tendencyBaseline, error) {
+	all, err := s.q.Decks(cubeID, &storage.DecksRequest{Start: dr.Start, End: dr.End, DraftSize: dr.DraftSize})
+	if err != nil {
+		return nil, fmt.Errorf("load baseline decks: %w", err)
+	}
+	pkgs, err := PackagesForCube(s.store, s.src, cubeID)
+	if err != nil {
+		logrus.WithError(err).Warn("could not load packages for player tendencies")
+	}
+	return &tendencyBaseline{decks: all, packages: pkgs, cubes: loadCubeLists(s.store, cubeID, all)}, nil
+}
+
+// addTendencies fills each row's Tendencies from the player's decks in mine.
+func (b *tendencyBaseline) addTendencies(mine []*storage.Deck, rows map[string]*PlayerStats) {
+	byPlayer := map[string][]*storage.Deck{}
+	for _, d := range mine {
+		if _, ok := rows[d.Player]; ok {
+			byPlayer[d.Player] = append(byPlayer[d.Player], d)
+		}
+	}
+	for name, row := range rows {
+		row.Tendencies = playerTendencies(row.ID, byPlayer[name], b.decks, b.packages, b.cubes)
+	}
+}
+
+// loadCubeLists reads the cube list each of the decks' drafts was played
+// with. A draft without one is left out, which counts every card as available
+// there.
+func loadCubeLists(store storage.DeckStorage, cubeID string, decks []*storage.Deck) cubeLists {
+	lists := cubeLists{}
+	tried := map[int]bool{}
+	for _, d := range decks {
+		draftID := d.Metadata.DraftID
+		if tried[draftID] {
+			continue
+		}
+		tried[draftID] = true
+
+		snapshot, err := store.GetSnapshot(cubeID, draftID)
+		if err != nil {
+			if !errors.Is(err, storage.ErrDeckNotFound) && !errors.Is(err, storage.ErrUnsupported) {
+				logrus.WithError(err).WithField("draft", draftID).Warn("could not read cube snapshot")
+			}
+			continue
+		}
+		names := map[string]bool{}
+		for _, c := range snapshot.Cards {
+			names[c.Name] = true
+		}
+		lists[draftID] = names
+	}
+	return lists
 }
 
 // playerRows aggregates decks into one row per named player, with per-archetype,
