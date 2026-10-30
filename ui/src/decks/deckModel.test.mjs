@@ -6,6 +6,7 @@ import {
   deckCounts,
   copyListText,
   deckRef,
+  quickFilterDecks,
   groupByDraft,
   leansInto,
   listSummary,
@@ -166,4 +167,39 @@ test("opponent strength shows the percent when an opponent was rated", () => {
 
 test("opponent strength shows a dash when no opponent could be rated", () => {
   assert.equal(opponentStrengthText({ opponent_win_percentage: 0, rated_opponents: 0 }), "–")
+})
+
+// quickDeck builds a deck for the quick-filter tests.
+function quickDeck(id, archetype, colors, player = "Freddie", playerId = 1) {
+  return { id, seat: id, player, player_id: playerId, macro_archetype: archetype, colors, metadata: { draft_id: 1 } }
+}
+
+test("quickFilterDecks keeps every deck with no filters", () => {
+  const decks = [quickDeck(1, "aggro", ["R"]), quickDeck(2, "control", ["U"])]
+  assert.deepEqual(quickFilterDecks(decks, { archetype: "", colors: [], hideAnonymous: false }), decks)
+})
+
+test("quickFilterDecks matches archetype", () => {
+  const decks = [quickDeck(1, "aggro", ["R"]), quickDeck(2, "control", ["U"])]
+  assert.deepEqual(quickFilterDecks(decks, { archetype: "control", colors: [], hideAnonymous: false }).map(d => d.id), [2])
+})
+
+test("quickFilterDecks requires every chosen color", () => {
+  const decks = [quickDeck(1, "aggro", ["W", "R", "G"]), quickDeck(2, "aggro", ["R"])]
+  assert.deepEqual(quickFilterDecks(decks, { archetype: "", colors: ["W", "R"], hideAnonymous: false }).map(d => d.id), [1])
+})
+
+test("quickFilterDecks skips decks without colors when colors are chosen", () => {
+  const decks = [quickDeck(1, "aggro", undefined), quickDeck(2, "aggro", ["R"])]
+  assert.deepEqual(quickFilterDecks(decks, { archetype: "", colors: ["R"], hideAnonymous: false }).map(d => d.id), [2])
+})
+
+test("quickFilterDecks hides anonymous seats", () => {
+  const decks = [quickDeck(3, "aggro", ["R"], "p3", 0), quickDeck(4, "aggro", ["R"])]
+  assert.deepEqual(quickFilterDecks(decks, { archetype: "", colors: [], hideAnonymous: true }).map(d => d.id), [4])
+})
+
+test("quickFilterDecks can return nothing", () => {
+  const decks = [quickDeck(1, "aggro", ["R"])]
+  assert.deepEqual(quickFilterDecks(decks, { archetype: "control", colors: [], hideAnonymous: false }), [])
 })

@@ -5,7 +5,7 @@ import { mergeChangedDecks } from "../utils/RecordEditor.js"
 import { filterSuggestions } from "./filterSuggestions.js"
 import { addToComparison, comparisonMap, formatCompare, parseCompare } from "../utils/Compare.js"
 import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
-import { deckRef, sortDecks } from "./deckModel.js"
+import { deckRef, sortDecks, quickFilterDecks } from "./deckModel.js"
 
 // useJson fetches a JSON endpoint once per url, giving fallback until it
 // loads or if it fails. The alive flag drops a response that arrives after the
@@ -101,6 +101,9 @@ function useDeckSelection() {
   }
 }
 
+// NO_QUICK_FILTERS is the deck list's quick filters with nothing chosen.
+const NO_QUICK_FILTERS = { archetype: "", colors: [], hideAnonymous: false }
+
 // useDecksPage loads and holds everything the Decks page shows: the filtered
 // deck list in the chosen order, the selection and comparison from the URL, the
 // board and view toggles, and the design-map data the decklist views use.
@@ -145,7 +148,9 @@ export function useDecksPage(cube, props) {
   const groupDistributions = useJson(`/api/${cube}/stats/group-distributions`, null)
 
   const synergy = useMemo(() => buildSynergy(designGraph.edges || []), [designGraph])
-  const sortedDecks = useMemo(() => sortDecks(decks, sort), [decks, sort])
+  // The list's quick filters narrow what's shown, sorted and stepped through.
+  const [quick, setQuick] = useState(NO_QUICK_FILTERS)
+  const sortedDecks = useMemo(() => sortDecks(quickFilterDecks(decks, quick), sort), [decks, sort, quick])
   const suggestions = useMemo(() => filterSuggestions(decks), [decks])
   const cardNames = useMemo(() => cubeData.cards.map(c => c.name), [cubeData])
 
@@ -175,6 +180,8 @@ export function useDecksPage(cube, props) {
     reportSaveError,
     clearSaveError: () => setSaveError(null),
     sortedDecks,
+    quick,
+    setQuick,
     sort,
     setSort,
     board,

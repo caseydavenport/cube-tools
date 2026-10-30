@@ -1,5 +1,6 @@
 import React from "react"
-import { Text } from "@mantine/core"
+import { Checkbox, SegmentedControl, Text, UnstyledButton } from "@mantine/core"
+import { EmptyState } from "../components/kit/EmptyState.js"
 import { ListGroupHeader, ListRow } from "../components/kit/ListDetail.js"
 import { ColorImages } from "../utils/Colors.js"
 import { MatchDraws, MatchLosses, MatchWins } from "../utils/Deck.js"
@@ -61,6 +62,66 @@ function DeckRow({ deck, page, compareMode, copy }) {
   )
 }
 
+// ARCHETYPE_CHOICES are the quick filter's archetype options; "" is any.
+const ARCHETYPE_CHOICES = [
+  { label: "Any", value: "" },
+  { label: "Aggro", value: "aggro" },
+  { label: "Midrange", value: "midrange" },
+  { label: "Control", value: "control" },
+]
+
+// MANA_COLORS are the colors the quick filter can require, in WUBRG order.
+const MANA_COLORS = ["W", "U", "B", "R", "G"]
+
+// QuickFilters are the controls above the deck list: an archetype, colors the
+// deck must include, and whether to hide anonymous seats.
+function QuickFilters({ page }) {
+  const quick = page.quick
+
+  // toggleColor adds the color to the chosen ones, or removes it if chosen.
+  function toggleColor(color) {
+    let colors = [...quick.colors, color]
+    if (quick.colors.includes(color)) {
+      colors = quick.colors.filter(c => c !== color)
+    }
+    page.setQuick({ ...quick, colors })
+  }
+
+  return (
+    <div className="deck-quick-filters">
+      <SegmentedControl
+        size="xs"
+        aria-label="Archetype"
+        data={ARCHETYPE_CHOICES}
+        value={quick.archetype}
+        onChange={archetype => page.setQuick({ ...quick, archetype })}
+      />
+      <span className="deck-quick-colors">
+        {MANA_COLORS.map(color => {
+          const on = quick.colors.includes(color)
+          return (
+            <UnstyledButton
+              key={color}
+              className={"deck-quick-mana" + (on ? " deck-quick-mana-on" : "")}
+              aria-pressed={on}
+              aria-label={`Include ${color}`}
+              onClick={() => toggleColor(color)}
+            >
+              {ColorImages([color])}
+            </UnstyledButton>
+          )
+        })}
+      </span>
+      <Checkbox
+        size="xs"
+        label="Hide anonymous seats"
+        checked={quick.hideAnonymous}
+        onChange={event => page.setQuick({ ...quick, hideAnonymous: event.currentTarget.checked })}
+      />
+    </div>
+  )
+}
+
 // DeckListPane is the left pane of the Decks page. Sorted by date, the decks are
 // grouped under a header per draft; other sorts show one flat list, since a
 // header per row would be noise.
@@ -75,7 +136,9 @@ export function DeckListPane({ page, compareMode, copy }) {
 
   return (
     <>
+      <QuickFilters page={page} />
       <Text className="deck-list-summary">{summaryText(decks, filtered, copy)}</Text>
+      {decks.length === 0 && <EmptyState>No decks match these filters.</EmptyState>}
 
       {groups.map(group => (
         <React.Fragment key={group.draft}>

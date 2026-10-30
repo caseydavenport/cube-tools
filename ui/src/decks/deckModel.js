@@ -5,6 +5,7 @@ import { Losses, MatchDraws, MatchLosses, MatchRecord, MatchWins, Record, Wins }
 import { compareDrafts } from "../utils/DraftInfo.js"
 import { isInteraction } from "../utils/cardRoles.js"
 import { dateBadge } from "../home/recentDrafts.js"
+import { isAnonymous } from "../utils/Players.js"
 
 // deckRef is the opaque selection token for a deck: its draft plus its id.
 // It's unique across drafts; never split the id back out of it.
@@ -102,6 +103,28 @@ function draftHeader(deck) {
     return name
   }
   return `${name} · ${badge.month} ${badge.day}`
+}
+
+// quickFilterDecks keeps the decks that pass the deck list's quick filters:
+// archetype ("" for any), colors (a deck must have every chosen color), and
+// hideAnonymous (drop anonymous seats). A deck with no colors fails any color
+// choice.
+export function quickFilterDecks(decks, { archetype, colors, hideAnonymous }) {
+  return decks.filter(deck => {
+    if (archetype && (deck.macro_archetype || "").toLowerCase() !== archetype) {
+      return false
+    }
+    const deckColors = deck.colors || []
+    for (const color of colors) {
+      if (!deckColors.includes(color)) {
+        return false
+      }
+    }
+    if (hideAnonymous && isAnonymous(deck)) {
+      return false
+    }
+    return true
+  })
 }
 
 // groupByDraft splits an already sorted deck list into runs of decks from the

@@ -23,6 +23,32 @@
   height: 14px;
 }
 
+.deck-quick-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.deck-quick-colors {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.deck-quick-mana {
+  opacity: 0.35;
+}
+
+.deck-quick-mana .mana-symbol {
+  width: 18px;
+  height: 18px;
+}
+
+.deck-quick-mana-on {
+  opacity: 1;
+}
+
 /* Details */
 
 .deck-details {
