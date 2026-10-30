@@ -151,11 +151,11 @@ func playerRows(allDecks []*storage.Deck, z float64) map[string]*PlayerStats {
 				Opponents:      make(map[string]*Record),
 			}
 		}
-		ps := rows[deck.Player]
-		ps.NumDecks++
-		ps.Add(deck)
-		ps.Trophies += deck.Trophies()
-		ps.LastPlace += deck.LastPlace()
+		stats := rows[deck.Player]
+		stats.NumDecks++
+		stats.Add(deck)
+		stats.Trophies += deck.Trophies()
+		stats.LastPlace += deck.LastPlace()
 		if _, ok := owpAccum[deck.Player]; !ok {
 			owpAccum[deck.Player] = &opponentWinAccum{}
 		}
@@ -173,10 +173,10 @@ func playerRows(allDecks []*storage.Deck, z float64) map[string]*PlayerStats {
 		}
 		for _, label := range archLabels {
 			l := strings.ToLower(label)
-			if _, ok := ps.ArchetypeStats[l]; !ok {
-				ps.ArchetypeStats[l] = &winLossStats{}
+			if _, ok := stats.ArchetypeStats[l]; !ok {
+				stats.ArchetypeStats[l] = &winLossStats{}
 			}
-			as := ps.ArchetypeStats[l]
+			as := stats.ArchetypeStats[l]
 			as.Add(deck)
 			as.Count++
 		}
@@ -184,28 +184,29 @@ func playerRows(allDecks []*storage.Deck, z float64) map[string]*PlayerStats {
 		// Track color identity win/loss for the player.
 		colors := deck.GetColors()
 		for color := range colors {
-			if _, ok := ps.ColorStats[color]; !ok {
-				ps.ColorStats[color] = &winLossStats{}
+			if _, ok := stats.ColorStats[color]; !ok {
+				stats.ColorStats[color] = &winLossStats{}
 			}
-			cs := ps.ColorStats[color]
+			cs := stats.ColorStats[color]
 			cs.Add(deck)
 			cs.Count++
 		}
 
-		addOpponentRecords(ps, deck)
+		addOpponentRecords(stats, deck)
 
 		for _, card := range deck.Mainboard {
 			if card.IsBasicLand() {
 				continue
 			}
-			ps.TotalPicks++
-			ps.UniqueCards[card.Name]++
+			stats.TotalPicks++
+			stats.UniqueCards[card.Name]++
 			for _, color := range card.Colors {
-				ps.ColorPicks[color]++
+				stats.ColorPicks[color]++
 			}
 		}
 	}
 
+	// Derive each player's rates from the accumulated counts.
 	for _, ps := range rows {
 		ps.Games = ps.Wins + ps.Losses + ps.Draws
 		finishRecord(&ps.Record, z)
@@ -216,8 +217,8 @@ func playerRows(allDecks []*storage.Deck, z float64) map[string]*PlayerStats {
 		for _, cs := range ps.ColorStats {
 			finishRecord(&cs.Record, z)
 		}
-		for _, or := range ps.Opponents {
-			finishRecord(or, z)
+		for _, opponentRecord := range ps.Opponents {
+			finishRecord(opponentRecord, z)
 		}
 		if accum, ok := owpAccum[ps.Name]; ok && accum.totalMatches > 0 {
 			// accum.weightedSum is already a percentage; just round to 2 decimals.
