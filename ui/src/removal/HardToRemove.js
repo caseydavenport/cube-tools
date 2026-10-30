@@ -26,12 +26,14 @@ function removalCardsFor(color, byColor, removalCards) {
   return count
 }
 
-// description says which removal the counts include.
-function description(color) {
-  if (!color) {
-    return "Spot-removal cards in the cube that can kill each creature."
+// answeredByTip explains the count column, and which removal it includes
+// under the page's color filter.
+function answeredByTip(color) {
+  let which = "Spot-removal cards in the cube"
+  if (color) {
+    which = `Spot-removal cards a ${COLOR_NAMES[color]} deck can play (${COLOR_NAMES[color]} or colorless)`
   }
-  return `Spot-removal cards a ${COLOR_NAMES[color]} deck can play (${COLOR_NAMES[color]} or colorless) that can kill each creature.`
+  return `${which} that can kill this creature, given their restrictions. X spells count, since enough mana kills anything.`
 }
 
 // HardToRemove lists the cube's creatures by how many spot-removal cards can
@@ -41,7 +43,6 @@ export function HardToRemove({ creatures, byColor, removalCards, color }) {
 
   return (
     <SectionCard title="Hard to remove">
-      <p className="player-filter-hint">{description(color)}</p>
       <div className="removal-hard-scroll">
         <table className="widget-table stats-full-width">
           <thead>
@@ -49,7 +50,7 @@ export function HardToRemove({ creatures, byColor, removalCards, color }) {
               <td className="header-cell">Creature</td>
               <td className="header-cell">Colors</td>
               <td className="header-cell page-right-cell">MV</td>
-              <HoverInfo title="Answered by" info="How many of those removal cards can kill it, given their restrictions. X spells count, since enough mana kills anything.">
+              <HoverInfo title="Answered by" info={answeredByTip(color)}>
                 <td className="header-cell page-right-cell">Answered by</td>
               </HoverInfo>
             </tr>

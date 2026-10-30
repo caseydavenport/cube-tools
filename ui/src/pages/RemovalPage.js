@@ -3,7 +3,6 @@ import { SegmentedControl } from "@mantine/core"
 import { useCube } from "../contexts/CubeContext.js"
 import { DropdownHeader } from "../components/Dropdown.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
-import { RichText } from "../components/kit/RichText.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
@@ -61,12 +60,6 @@ const COPY = {
   costTitle: ({ manaCost, mv }) => `printed ${manaCost} (MV ${mv})`,
   scalable: "scalable — depends on mana invested",
 
-  hint: [
-    { bold: "Coverage" },
-    " is the share of the cube's creatures a card can kill, given its restrictions; ",
-    { bold: "cost" },
-    " is the effective mana to fire it (delve, X≈3, reduced or activated costs), with * marking an adjusted cost. Multi-mode cards (kicker, revolt) show one row per mode, and sweepers, edicts, bounce and tap effects are left out.",
-  ],
 }
 
 // The Removal page scores each piece of spot removal by how much of the cube's
@@ -225,9 +218,6 @@ export function RemovalPage(props) {
             </table>
           </div>
         </SectionCard>
-        <p className="player-filter-hint stats-section-gap">
-          <RichText parts={COPY.hint} />
-        </p>
         <RemovalByColor rows={data.by_color || []} mode={shownMode} />
         <HardToRemove
           creatures={data.creatures || []}
