@@ -42,3 +42,7 @@
   text-align: center;
   color: var(--se-muted);
 }
+
+.removal-scatter {
+  height: 380px;
+}

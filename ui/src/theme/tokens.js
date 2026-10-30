@@ -52,6 +52,9 @@ export const MANA = {
   G: "#93c775",
 }
 
+// MULTICOLOR marks multicolor cards in charts, the way gold card frames do.
+export const MULTICOLOR = "#c9a227"
+
 // SERIES colors chart lines and bars that don't stand for a Magic color. Each
 // reads on both the light and dark page, and none matches a MANA color.
 export const SERIES = [

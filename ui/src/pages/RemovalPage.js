@@ -9,9 +9,9 @@ import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { SortHeader } from "../stats/sortHeader.js"
 import { compareBy } from "../stats/sortOrder.js"
-import { goodBadTint } from "../stats/tints.js"
 import { availableValue, visibleItems } from "../utils/dataKinds.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
+import { RemovalScatter } from "../removal/RemovalScatter.js"
 import "../stats/stats.css"
 import "./pages.css"
 
@@ -20,6 +20,7 @@ import "./pages.css"
 const COPY = {
   title: "Removal",
   tableTitle: "Spot removal",
+  scatterTitle: "Coverage against cost",
   coverage: "Coverage",
   loading: "Loading removal…",
 
@@ -44,8 +45,6 @@ const COPY = {
     targets: "Targets (% cube)",
     percentPlayed: "% of played",
     maxMv: "Max MV",
-    reach: "Reach Δ",
-    avg: "Avg Δ",
   },
 
   columnTips: {
@@ -55,30 +54,24 @@ const COPY = {
     targets: "Share of the cube's creatures this removal can answer.",
     percentPlayed: "Share of creatures played in decks that this removal can answer.",
     maxMv: "Highest mana value of a creature the card can answer.",
-    reach: "The priciest threat it can answer, minus its cost.",
-    avg: "The typical threat it kills, minus its cost.",
   },
 
   costTitle: ({ manaCost, mv }) => `printed ${manaCost} (MV ${mv})`,
   scalable: "scalable — depends on mana invested",
 
   hint: [
-    "Cost is the effective mana to fire the removal (delve, X≈3, reduced/activated costs); * marks an adjusted cost (hover for printed). ",
-    { bold: "Reach Δ" },
-    " = priciest threat it can answer minus cost;",
-    { bold: " Avg Δ" },
-    " = typical threat it kills minus cost. Multi-mode cards (kicker/revolt) show one row per mode. Classification is heuristic; sweepers, edicts, and bounce/tap are excluded.",
+    { bold: "Coverage" },
+    " is the share of the cube's creatures a card can kill, given its restrictions; ",
+    { bold: "cost" },
+    " is the effective mana to fire it (delve, X≈3, reduced or activated costs), with * marking an adjusted cost. Multi-mode cards (kicker, revolt) show one row per mode, and sweepers, edicts, bounce and tap effects are left out.",
   ],
 }
 
 // The Removal page scores each piece of spot removal by how much of the cube's
-// creature base it can kill (given its restrictions) and how mana-efficient it is
-// versus the threats it answers. Compute is server-side (/stats/removal); this
-// page fetches and renders a sortable table with a raw / play-weighted toggle.
-//
-// Two efficiency lenses: Reach (priciest threat it can answer, minus cost) and
-// Avg (typical threat it kills, minus cost). Scalable removal (variable X, fights)
-// has no comparable number and is grouped at the bottom.
+// creature base it can kill (given its restrictions) against what it costs.
+// Compute is server-side (/stats/removal); this page draws the scatter and a
+// sortable table with a raw / play-weighted toggle. Scalable removal (variable
+// X, fights) has no comparable coverage and sits at the bottom.
 
 // COVERAGE_OPTS are the two ways to count what a spell can kill: against the
 // cube's creatures, or weighted by how often each creature was played, which
@@ -94,13 +87,6 @@ const COLOR_OPTS = [
   { value: "R", label: COPY.colors.R }, { value: "G", label: COPY.colors.G },
 ]
 
-// effColor tints an efficiency delta: good when the spell answers threats
-// pricier than itself, bad when it costs more than what it kills. ±3 MV
-// saturates.
-function effColor(v) {
-  return goodBadTint(v / 3)
-}
-
 // matchesColorFilter keeps a removal row under the chosen color. Colorless
 // removal, such as artifacts, fits any deck, so it stays under every color.
 function matchesColorFilter(card, color) {
@@ -114,8 +100,6 @@ function matchesColorFilter(card, color) {
   return colors.includes(color)
 }
 
-const fmtDelta = v => v >= 0 ? `+${v}` : `${v}`
-
 // RemovalPage is the Removal page: the toolbar with its date range, then the
 // table of spot removal with its coverage and color controls.
 export function RemovalPage(props) {
@@ -126,7 +110,7 @@ export function RemovalPage(props) {
   const [data, setData] = useState(null)
   const [mode, setMode] = useState("raw")
   const [colorFilter, setColorFilter] = useState("")
-  const [sort, setSort] = useState({ key: "reach", dir: "desc" })
+  const [sort, setSort] = useState({ key: "coverage", dir: "desc" })
 
   useEffect(() => {
     const p = new URLSearchParams()
@@ -156,14 +140,11 @@ export function RemovalPage(props) {
   // A cube without decks can only count against the raw cube.
   const shownMode = availableValue(mode, COVERAGE_OPTS, info)
   const coverage = c => shownMode === "raw" ? c.pct_cube : c.pct_played
-  const avgEff = c => shownMode === "raw" ? c.efficiency : c.played_efficiency
 
   const sortVal = {
     name: c => c.name.toLowerCase(),
     cost: c => c.eff_cost,
     coverage: c => coverage(c),
-    reach: c => c.reach_eff,
-    avg: c => avgEff(c),
   }
 
   let rows = (data.cards || []).filter(c => matchesColorFilter(c, colorFilter))
@@ -199,6 +180,9 @@ export function RemovalPage(props) {
     <>
       {toolbar}
       <div className="analyze-page">
+        <SectionCard title={COPY.scatterTitle}>
+          <RemovalScatter cards={rows} mode={shownMode} />
+        </SectionCard>
         <SectionCard title={COPY.tableTitle} action={controls}>
           <div className="stats-table-wrap">
             <table className="widget-table stats-full-width">
@@ -212,8 +196,6 @@ export function RemovalPage(props) {
                     ? header("coverage", COPY.columns.targets, COPY.columnTips.targets)
                     : header("coverage", COPY.columns.percentPlayed, COPY.columnTips.percentPlayed)}
                   <HoverInfo title={COPY.columns.maxMv} info={COPY.columnTips.maxMv}><td className="header-cell page-right-cell">{COPY.columns.maxMv}</td></HoverInfo>
-                  {header("reach", COPY.columns.reach, COPY.columnTips.reach)}
-                  {header("avg", COPY.columns.avg, COPY.columnTips.avg)}
                 </tr>
               </thead>
               <tbody>
@@ -226,15 +208,13 @@ export function RemovalPage(props) {
                     <td>{c.kind}</td>
                     <td className="stats-muted">{c.restriction}</td>
                     {c.scalable ? (
-                      <td className="page-muted-center-cell" colSpan={4}>{COPY.scalable}</td>
+                      <td className="page-muted-center-cell" colSpan={2}>{COPY.scalable}</td>
                     ) : (
                       <>
                         <td className="page-right-cell">
                           {shownMode === "raw" ? `${c.targets} (${c.pct_cube}%)` : `${c.pct_played}%`}
                         </td>
                         <td className="page-right-cell">{c.max_mv_killed}</td>
-                        <td style={{ textAlign: "right", background: effColor(c.reach_eff) }}>{fmtDelta(c.reach_eff)}</td>
-                        <td style={{ textAlign: "right", background: effColor(avgEff(c)) }}>{fmtDelta(avgEff(c))}</td>
                       </>
                     )}
                   </tr>
