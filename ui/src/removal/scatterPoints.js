@@ -17,43 +17,66 @@ export function colorGroup(colors) {
   return colors[0]
 }
 
-// nameSpread turns a card name into a number between -0.3 and 0.3, the same
-// every time, so cards at one cost sit side by side instead of on top of each
-// other.
-function nameSpread(name) {
-  let hash = 0
-  for (const ch of name) {
-    hash = (hash * 31 + ch.codePointAt(0)) % 1000
+// SPREAD is how far, in cost units, the dots in one crowded spot fan out to
+// either side of their cost.
+const SPREAD = 0.3
+
+// CLUSTER_PERCENT groups dots whose coverage is this close, since a mana
+// symbol is about that tall on the chart.
+const CLUSTER_PERCENT = 5
+
+// coverageOf is the coverage a card plots at: play-weighted in "played" mode,
+// raw otherwise.
+function coverageOf(card, mode) {
+  if (mode === "played") {
+    return card.pct_played
   }
-  return (hash / 999) * 0.6 - 0.3
+  return card.pct_cube
 }
 
-// scatterX is where a card sits on the cost axis: its effective cost, nudged
-// a little by its name.
-export function scatterX(card) {
-  return card.eff_cost + nameSpread(card.name)
+// spreadOffsets gives each card a sideways nudge so cards at one cost and a
+// similar coverage sit side by side, evenly spaced in name order, instead of
+// on top of each other. A card alone in its spot stays on its cost.
+function spreadOffsets(cards, mode) {
+  const clusters = new Map()
+  for (const card of cards) {
+    const key = `${card.eff_cost}|${Math.round(coverageOf(card, mode) / CLUSTER_PERCENT)}`
+    if (!clusters.has(key)) {
+      clusters.set(key, [])
+    }
+    clusters.get(key).push(card)
+  }
+
+  const offsets = new Map()
+  for (const cluster of clusters.values()) {
+    if (cluster.length === 1) {
+      offsets.set(cluster[0], 0)
+      continue
+    }
+    const step = (2 * SPREAD) / (cluster.length - 1)
+    cluster.forEach((card, i) => offsets.set(card, -SPREAD + i * step))
+  }
+  return offsets
 }
 
 // scatterSeries groups the cards into one series per color group, in
 // GROUP_ORDER, each point carrying what its tooltip shows. Scalable cards have
 // no coverage, so they're left out, and so are groups with no cards. mode
 // "played" plots play-weighted coverage; anything else plots raw coverage.
+// Points come in name order, so re-sorting the table doesn't move them.
 export function scatterSeries(cards, mode) {
+  const plotted = cards.filter(card => !card.scalable).sort((a, b) => a.name.localeCompare(b.name))
+  const offsets = spreadOffsets(plotted, mode)
+
   const byGroup = new Map()
-  for (const card of cards) {
-    if (card.scalable) {
-      continue
-    }
-    let coverage = card.pct_cube
-    if (mode === "played") {
-      coverage = card.pct_played
-    }
+  for (const card of plotted) {
+    const coverage = coverageOf(card, mode)
     const group = colorGroup(card.colors)
     if (!byGroup.has(group)) {
       byGroup.set(group, [])
     }
     byGroup.get(group).push({
-      x: scatterX(card),
+      x: card.eff_cost + offsets.get(card),
       y: coverage,
       name: card.name,
       cost: card.eff_cost,

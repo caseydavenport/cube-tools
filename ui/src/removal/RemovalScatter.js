@@ -94,6 +94,7 @@ export function RemovalScatter({ cards, mode }) {
     responsive: true,
     maintainAspectRatio: false,
     layout: { padding: { top: SYMBOL_SIZE / 2 } },
+    interaction: { mode: "point", intersect: true },
     scales: {
       x: {
         title: { display: true, text: "Effective cost", color: theme.text },
@@ -110,10 +111,11 @@ export function RemovalScatter({ cards, mode }) {
     },
     plugins: {
       legend: { labels: { usePointStyle: true, color: theme.text } },
+      // Every card under the pointer gets a line, so touching dots stay readable.
       tooltip: chartTooltip(theme, {
         callbacks: {
-          title: items => items[0].raw.name,
-          label: item => `Cost ${item.raw.cost} · kills ${item.raw.coverage}% · ${item.raw.restriction}`,
+          title: () => "",
+          label: item => `${item.raw.name}: cost ${item.raw.cost}, kills ${item.raw.coverage}% (${item.raw.restriction})`,
         },
       }),
     },

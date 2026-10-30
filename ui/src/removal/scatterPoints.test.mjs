@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { colorGroup, hardToRemoveRows, scatterSeries, scatterX } from "./scatterPoints.js"
+import { colorGroup, hardToRemoveRows, scatterSeries } from "./scatterPoints.js"
 
 test("colorGroup names a card's color, multicolor, or colorless", () => {
   assert.equal(colorGroup([]), "colorless")
@@ -9,14 +9,33 @@ test("colorGroup names a card's color, multicolor, or colorless", () => {
   assert.equal(colorGroup(["W", "B"]), "multi")
 })
 
-test("scatterX spreads cards at one cost deterministically", () => {
-  const bolt = scatterX({ name: "Lightning Bolt", eff_cost: 2 })
-  const path = scatterX({ name: "Path to Exile", eff_cost: 2 })
-  assert.notEqual(bolt, path)
-  for (const x of [bolt, path]) {
-    assert.ok(x >= 1.7 && x <= 2.3, `${x} is within 0.3 of the cost`)
+test("scatterSeries spreads cards that would overlap evenly, in name order", () => {
+  const cards = [
+    { name: "Seal of Fire", colors: ["R"], eff_cost: 1, pct_cube: 73.4 },
+    { name: "Unholy Heat", colors: ["R"], eff_cost: 1, pct_cube: 72.9 },
+    { name: "Barbarian Ring", colors: [], eff_cost: 1, pct_cube: 73.4 },
+    { name: "Murder", colors: ["B"], eff_cost: 1, pct_cube: 100 },
+  ]
+  const xs = {}
+  for (const series of scatterSeries(cards, "raw")) {
+    for (const point of series.points) {
+      xs[point.name] = point.x
+    }
   }
-  assert.equal(scatterX({ name: "Lightning Bolt", eff_cost: 2 }), bolt)
+  assert.deepEqual(
+    [xs["Barbarian Ring"], xs["Seal of Fire"], xs["Unholy Heat"]].map(x => Math.round(x * 100) / 100),
+    [0.7, 1, 1.3],
+    "three near-equal points share the cost evenly, sorted by name",
+  )
+  assert.equal(xs["Murder"], 1, "a point alone at its height stays on its cost")
+})
+
+test("scatterSeries lists points in name order, so a re-sorted table doesn't shuffle them", () => {
+  const cards = [
+    { name: "Shock", colors: ["R"], eff_cost: 1, pct_cube: 40 },
+    { name: "Bolt", colors: ["R"], eff_cost: 1, pct_cube: 90 },
+  ]
+  assert.deepEqual(scatterSeries(cards, "raw")[0].points.map(p => p.name), ["Bolt", "Shock"])
 })
 
 test("scatterSeries groups by color in a fixed order, skipping scalable cards", () => {
