@@ -5,8 +5,9 @@ import React from "react"
 import { DetailHeader } from "../components/kit/DetailHeader.js"
 import { StatTile } from "../components/kit/StatTile.js"
 import { CardImageURL } from "../utils/Utils.js"
+import { hasData } from "../utils/dataKinds.js"
 import { HistoryStrip } from "./HistoryStrip.js"
-import { cardSubtitle, draftsTile, isNewToCube, notInCubeTag, playedTile, popularityLabel, popularityTip } from "./cardPageModel.js"
+import { cardSubtitle, draftsTile, gamesWonTile, isNewToCube, notInCubeTag, playedTile, popularityLabel, popularityTip } from "./cardPageModel.js"
 
 // headerTags lists the small badges beside the card's name.
 function headerTags(page) {
@@ -19,9 +20,20 @@ function headerTags(page) {
   return tags
 }
 
+// GamesWon is the "Games won" tile, greyed when the rate can't be told apart
+// from a coin flip.
+function GamesWon({ tile }) {
+  let value = tile.value
+  if (tile.muted) {
+    value = <span className="kit-win-muted">{tile.value}</span>
+  }
+  return <StatTile label="Games won" value={value} tip={tile.tip} />
+}
+
 // PlayTiles are the header's numbers: decks that played the card, times it
-// was sideboarded, drafts it was in the cube for, and how popular it is.
-function PlayTiles({ play, history }) {
+// was sideboarded, drafts it was in the cube for, how popular it is, and its
+// games won when the cube records results.
+function PlayTiles({ play, history, record, info }) {
   const played = playedTile(play)
   const tiles = [
     <StatTile key="played" label="Drafts played in" value={played.value} detail={played.detail}
@@ -37,6 +49,10 @@ function PlayTiles({ play, history }) {
   const label = popularityLabel(play.popularity)
   if (label) {
     tiles.push(<StatTile key="popularity" label="Popularity" value={label} tip={popularityTip(play)} />)
+  }
+  const won = gamesWonTile(record)
+  if (won && hasData(info, "results")) {
+    tiles.push(<GamesWon key="won" tile={won} />)
   }
   return tiles
 }
@@ -56,11 +72,12 @@ function ScryfallLink({ card }) {
 }
 
 // CardHeader is the card page's header band. Cards outside the cube have no
-// play numbers, so they show only the image, name and tag.
-export function CardHeader({ page }) {
+// play numbers, so they show only the image, name and tag. info is the
+// cube's info, which says whether it records results.
+export function CardHeader({ page, info }) {
   let tiles = null
   if (page.in_cube || page.play.drafts_played > 0) {
-    tiles = <PlayTiles play={page.play} history={page.history} />
+    tiles = <PlayTiles play={page.play} history={page.history} record={page.record} info={info} />
   }
   return (
     <DetailHeader

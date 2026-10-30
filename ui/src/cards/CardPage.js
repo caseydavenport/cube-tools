@@ -14,7 +14,7 @@ import { CardCompare } from "./CardCompare.js"
 import { CardHeader } from "./CardHeader.js"
 import { CardInteraction } from "./CardInteraction.js"
 import { CardPartners } from "./CardPartners.js"
-import { DecksPlayed, RecordAndPicks, SameRole, WhoPlaysIt } from "./CardPlaySections.js"
+import { DecksPlayed, PickHistory, SameRole, WhoPlaysIt } from "./CardPlaySections.js"
 import { PartnerMap } from "./PartnerMap.js"
 import { packageIndexOf } from "./cardPageModel.js"
 import "../pages/pages.css"
@@ -100,10 +100,9 @@ function useCompareCard() {
 
 // CardSections are the sections under the header: partners beside the
 // partner map, the compare, then who plays the card and what it interacts
-// with, its decks, and its record and picks. Empty sections hide themselves.
-function CardSections({ page, cube, start, end, onMatch }) {
+// with, its decks, and its picks. Empty sections hide themselves.
+function CardSections({ page, cube, info, start, end, onMatch }) {
   const [vs, setVs] = useCompareCard()
-  const info = useCubeInfo(cube)
   const packageIndex = useMemo(() => packageIndexOf(page.package_names), [page.package_names])
   const nav = { cube, start, end, onMatch }
   const partnerLinks = { ...nav, onCompare: setVs }
@@ -121,7 +120,7 @@ function CardSections({ page, cube, start, end, onMatch }) {
         <CardInteraction page={page} cube={cube} />
       </div>
       <DecksPlayed page={page} nav={nav} />
-      <RecordAndPicks page={page} info={info} />
+      <PickHistory page={page} />
     </div>
   )
 }
@@ -133,6 +132,7 @@ export function CardPage(props) {
   const { name } = useParams()
   const cube = useCube()
   const { page, missing } = useCardPage(cube, name, props.startDate, props.endDate)
+  const info = useCubeInfo(cube)
   const onMatch = value => props.onMatchUpdated(asEvent(value))
   const navigate = useNavigate()
 
@@ -156,8 +156,8 @@ export function CardPage(props) {
   } else if (page) {
     body = (
       <>
-        <CardHeader page={page} />
-        <CardSections page={page} cube={cube} start={props.startDate} end={props.endDate} onMatch={onMatch} />
+        <CardHeader page={page} info={info} />
+        <CardSections page={page} cube={cube} info={info} start={props.startDate} end={props.endDate} onMatch={onMatch} />
       </>
     )
   }

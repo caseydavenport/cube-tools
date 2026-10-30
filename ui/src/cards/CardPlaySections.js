@@ -1,14 +1,12 @@
 // The card page's play sections: who plays the card, the cards that fill the
-// same role, the decks that played it, and its record and picks.
+// same role, the decks that played it, and its picks.
 
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { UnstyledButton } from "@mantine/core"
 import { CardLink } from "../components/CardLink.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
-import { HoverStats } from "../components/kit/HoverStats.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
-import { confidencePercent, winRateMuted, winRateRows, winRateText } from "../components/kit/winRate.js"
 import { archetypeLabel } from "../decks/deckModel.js"
 import { deckHrefWithMatch, pageHrefWithMatch } from "../shell/paths.js"
 import { ColorImages } from "../utils/Colors.js"
@@ -146,48 +144,16 @@ export function DecksPlayed({ page, nav }) {
   )
 }
 
-// WinRecord shows the card's games won, with the interval and record on hover,
-// greyed when it can't be told apart from a coin flip.
-function WinRecord({ record, confidence }) {
-  const rows = winRateRows(record, confidencePercent(confidence))
-  if (rows.length === 0) {
+// PickHistory lists the card's picks from drafts with pick logs.
+export function PickHistory({ page }) {
+  if (page.picks.length === 0) {
     return null
   }
-  let className = "card-record-value"
-  if (winRateMuted(record)) {
-    className += " kit-win-muted"
-  }
-  return (
-    <div className="card-record">
-      <span className="card-trait-title">Games won</span>
-      <HoverStats title="Bayes win %" rows={rows}>
-        <span className={className}>{winRateText(record)}</span>
-      </HoverStats>
-    </div>
-  )
-}
-
-// RecordAndPicks is the small section at the bottom: the win record, when the
-// cube records results, and the card's picks from drafts with pick logs.
-export function RecordAndPicks({ page, info, confidence }) {
-  let record = null
-  if (hasData(info, "results") && winRateRows(page.record, confidencePercent(confidence)).length > 0) {
-    record = <WinRecord record={page.record} confidence={confidence} />
-  }
-  if (!record && page.picks.length === 0) {
-    return null
-  }
-
   const draftCount = new Set(page.picks.map(p => p.draft_id)).size
   return (
-    <SectionCard title="Record and picks">
-      {record}
-      {page.picks.length > 0 && (
-        <div className="card-picks">
-          <span className="card-trait-title">Picked in {draftCount} {draftCount === 1 ? "draft" : "drafts"} with logs</span>
-          {page.picks.map((pick, i) => <div key={i} className="card-pick-line">{pickLine(pick)}</div>)}
-        </div>
-      )}
+    <SectionCard title="Pick history">
+      <span className="card-trait-title">Picked in {draftCount} {draftCount === 1 ? "draft" : "drafts"} with logs</span>
+      {page.picks.map((pick, i) => <div key={i} className="card-pick-line">{pickLine(pick)}</div>)}
     </SectionCard>
   )
 }

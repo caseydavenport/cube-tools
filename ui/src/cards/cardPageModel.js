@@ -3,6 +3,7 @@
 
 import { ruleColor } from "../design/map/ruleColors.js"
 import { isNewCard } from "./newCard.js"
+import { confidencePercent, winRateMuted, winRateRows, winRateText } from "../components/kit/winRate.js"
 
 // PEER_NAMES names each color group a card's popularity is compared within.
 export const PEER_NAMES = {
@@ -222,4 +223,20 @@ export function notInCubeTag(history) {
 export function isNewToCube(history) {
   const { known, inCube } = knownDrafts(history)
   return known > 0 && isNewCard(inCube)
+}
+
+// gamesWonTile is the header's "Games won" tile for the card's record: the
+// Bayes win %, muted when it can't be told apart from a coin flip, with the
+// raw rate, interval and record in the tip. It's null with no games.
+export function gamesWonTile(record) {
+  const rows = winRateRows(record, confidencePercent())
+  if (rows.length === 0) {
+    return null
+  }
+  const details = rows.map(row => `${row.label}: ${row.value}`).join(" · ")
+  return {
+    value: winRateText(record),
+    muted: winRateMuted(record),
+    tip: `Bayes win % of the decks that mainboarded it. ${details}`,
+  }
 }

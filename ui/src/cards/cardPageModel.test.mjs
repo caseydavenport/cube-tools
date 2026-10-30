@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { bothCardsMatch, cardSubtitle, compareLoom, deckRecord, draftsTile, historyTitle, isNewToCube, notInCubeTag, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
+import { bothCardsMatch, cardSubtitle, compareLoom, deckRecord, draftsTile, gamesWonTile, historyTitle, isNewToCube, notInCubeTag, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 
 const bombardment = { drafts_played: 18, drafts_available: 37, rate: 48.6, popularity: "niche", peers: "R", peer_median: 52.1 }
@@ -109,4 +109,21 @@ test("a card out of the cube is cut only when its history shows it in", () => {
   assert.equal(notInCubeTag(historyOf("ppio")), "Cut from the cube")
   assert.equal(notInCubeTag(historyOf("uuoo")), "Not in the cube")
   assert.equal(notInCubeTag([]), "Not in the cube")
+})
+
+test("the games won tile shows the Bayes rate with the record in its tip", () => {
+  const record = {
+    wins: 12, losses: 8, draws: 0, win_percent: 60, bayesian_win_percent: 56.4,
+    win_percent_low: 45, win_percent_high: 72, significant: false,
+  }
+  const tile = gamesWonTile(record)
+  assert.equal(tile.value, "56%")
+  assert.equal(tile.muted, true)
+  assert.match(tile.tip, /Record: 12-8/)
+  assert.match(tile.tip, /80% interval: 45–72%/)
+})
+
+test("a card with no games has no games won tile", () => {
+  assert.equal(gamesWonTile({ wins: 0, losses: 0, draws: 0 }), null)
+  assert.equal(gamesWonTile(undefined), null)
 })
