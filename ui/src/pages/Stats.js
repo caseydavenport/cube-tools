@@ -103,7 +103,7 @@ export function StatsViewer(props) {
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
     winConfidence, setWinConfidence, significantOnly, setSignificantOnly,
     minPlayers, setMinPlayers, maxPlayers, setMaxPlayers, selectedCard, setSelectedCard,
-    cardFilter, setCardFilter, tagFilter, setTagFilter, oracleTagFilter, setOracleTagFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
+    cardFilter, setCardFilter, tagFilter, setTagFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy, cardWidgetSortInvert, setCardWidgetSortInvert, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
     selectedArchetype, setSelectedArchetype,
@@ -223,8 +223,7 @@ export function StatsViewer(props) {
         cardData={cardData} cardDataBucketed={cardDataBucketed}
         decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
         cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
-        tagFilter={tagFilter} onTagFilterSelected={(e) => setTagFilter(e.target.value)}
-        oracleTagFilter={oracleTagFilter} onOracleTagFilterSelected={setOracleTagFilter}
+        tagFilter={tagFilter} onTagFilterSelected={setTagFilter}
         onSelected={(e) => setCardWidgetSelection(e.target.value)}
         onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
         selectedCard={selectedCard}

@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { cardHasOracleTag, cardMatchesTagFilter, isCounterspell, isInteraction, isRemoval } from "./cardRoles.js"
+import { cardHasOracleTag, cardMatchesTagChoice, isCounterspell, isInteraction, isRemoval } from "./cardRoles.js"
 
 test("cardHasOracleTag reads full tags, then roles, by slug in any spelling", () => {
   const statsRow = { oracle_tags: ["cycle", "removal", "removal-creature"] }
@@ -26,9 +26,12 @@ test("isInteraction counts removal, counterspells and hand disruption", () => {
   assert.equal(isInteraction({ roles: ["draw", "discard-outlet"] }), false)
 })
 
-test("cardMatchesTagFilter passes every card when no tag is chosen", () => {
-  assert.equal(cardMatchesTagFilter({ name: "Bear" }, ""), true)
-  assert.equal(cardMatchesTagFilter({ name: "Bear" }, null), true)
-  assert.equal(cardMatchesTagFilter({ oracle_tags: ["persist"] }, "persist"), true)
-  assert.equal(cardMatchesTagFilter({ name: "Bear" }, "persist"), false)
+test("cardMatchesTagChoice reads Cube Cobra and Scryfall choices, and passes everything with none", () => {
+  const card = { tags: ["watch"], oracle_tags: ["persist"] }
+  assert.equal(cardMatchesTagChoice(card, ""), true)
+  assert.equal(cardMatchesTagChoice(card, null), true)
+  assert.equal(cardMatchesTagChoice(card, "cctag:watch"), true)
+  assert.equal(cardMatchesTagChoice(card, "cctag:remove"), false)
+  assert.equal(cardMatchesTagChoice(card, "otag:persist"), true)
+  assert.equal(cardMatchesTagChoice({ name: "Bear" }, "otag:persist"), false)
 })

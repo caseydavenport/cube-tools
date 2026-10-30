@@ -5,7 +5,6 @@ import React from 'react'
 import { hasData, visibleItems } from "../../utils/dataKinds.js"
 import { useCube } from "../../contexts/CubeContext.js"
 import { useCubeTags } from "../useCubeTags.js"
-import { DistinctiveTags } from "./DistinctiveTags.js"
 import { Section, SectionNav } from "../../components/PageSections.js"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { CardWidgetOptions, CardWidgetTable, matchOpts, tagOpts } from "./CardStatsTable.js"
@@ -52,7 +51,6 @@ export function CardWidget(input) {
     <div className="analyze-page">
       <SectionNav sections={sections} />
       <CardWidgetOptions {...input} {...matchInput} />
-      <DistinctiveTags tags={cubeTags} selected={input.oracleTagFilter} onSelect={input.onOracleTagFilterSelected} />
 
       <Section id="stats">
         <h3 className="section-heading">{CARDS_COPY.widget.statsHeading}</h3>

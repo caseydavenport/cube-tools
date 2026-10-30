@@ -33,3 +33,32 @@ export function addTagCondition(conditions, slug) {
 export function distinctiveLabel(row) {
   return `${row.slug} · ${row.cards} cards · ${Math.round(row.lift)}×`
 }
+
+// tagFilterOptions builds the Cards page's one tag dropdown, in groups: the
+// cube's Cube Cobra tags, the Scryfall tags most distinctive to this cube,
+// then every other Scryfall tag by how many cube cards carry it. Values are
+// "cctag:NAME" or "otag:SLUG", and empty groups are left out.
+export function tagFilterOptions(cubeCobraTags, cubeTags) {
+  const cubeCobra = []
+  for (const tag of cubeCobraTags) {
+    if (tag.value) {
+      cubeCobra.push({ value: `cctag:${tag.value}`, label: tag.label })
+    }
+  }
+
+  const distinctiveSlugs = new Set(cubeTags.distinctive.map(row => row.slug))
+  const distinctive = cubeTags.distinctive.map(row => ({ value: `otag:${row.slug}`, label: distinctiveLabel(row) }))
+  const rest = []
+  for (const row of cubeTags.tags) {
+    if (!distinctiveSlugs.has(row.slug)) {
+      rest.push({ value: `otag:${row.slug}`, label: `${row.slug} (${row.cards})` })
+    }
+  }
+
+  const groups = [
+    { group: "Cube Cobra tags", items: cubeCobra },
+    { group: "Distinctive Scryfall tags", items: distinctive },
+    { group: "Scryfall tags", items: rest },
+  ]
+  return groups.filter(group => group.items.length > 0)
+}

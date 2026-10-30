@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button as MantineButton, Checkbox as MantineCheckbox, Group, NativeSelect, NumberInput, Text } from "@mantine/core"
+import { Button as MantineButton, Checkbox as MantineCheckbox, Group, NativeSelect, NumberInput, Select, Text } from "@mantine/core"
 import { asEvent, optionKey } from "./kit/controls.js"
 import "./components.css"
 
@@ -13,6 +13,31 @@ function ControlLabel({ children }) {
     return null
   }
   return <Text size="sm" component="span">{children}</Text>
+}
+
+// SearchableDropdownHeader is DropdownHeader for long lists: you can type to
+// narrow it and clear it with an x. data is Mantine Select data, flat or in
+// { group, items } groups. Only the first limit matches render, which keeps a
+// list of hundreds quick to open. onChange gets the chosen value, or "" when
+// cleared, rather than an event.
+export function SearchableDropdownHeader({ label, value, data, onChange, placeholder, limit = 100 }) {
+  return (
+    <Group gap={6} wrap="nowrap" className="dropdown">
+      <ControlLabel>{label}</ControlLabel>
+      <Select
+        size="xs"
+        aria-label={label}
+        placeholder={placeholder}
+        data={data}
+        value={value || null}
+        onChange={chosen => onChange(chosen || "")}
+        searchable
+        clearable
+        limit={limit}
+        comboboxProps={{ withinPortal: false, width: 320, position: "bottom-start" }}
+      />
+    </Group>
+  )
 }
 
 // DropdownHeader is a labeled dropdown of { label, value } options. onChange

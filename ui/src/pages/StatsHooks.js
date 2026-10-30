@@ -36,7 +36,6 @@ export function useStatsFilters() {
   const [selectedCard, setSelectedCard] = useState("");
   const [cardFilter, setCardFilter] = useState("");
   const [tagFilter, setTagFilter] = useState("");
-  const [oracleTagFilter, setOracleTagFilter] = useState("");
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const [cardWidgetSortBy, setCardWidgetSortBy] = useState("");
   const [cardWidgetSortInvert, setCardWidgetSortInvert] = useState(false);
@@ -93,7 +92,6 @@ export function useStatsFilters() {
     selectedCard, setSelectedCard,
     cardFilter, setCardFilter,
     tagFilter, setTagFilter,
-    oracleTagFilter, setOracleTagFilter,
     cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy,
     cardWidgetSortInvert, setCardWidgetSortInvert,

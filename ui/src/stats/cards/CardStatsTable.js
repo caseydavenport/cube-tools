@@ -2,15 +2,15 @@
 // card search, match and tag pickers, and the significant-only checkbox.
 
 import React from 'react'
-import { DropdownHeader, Checkbox } from "../../components/Dropdown.js"
+import { DropdownHeader, Checkbox, SearchableDropdownHeader } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { asEvent } from "../../components/kit/controls.js"
-import { SegmentedControl, Select } from "@mantine/core"
+import { SegmentedControl } from "@mantine/core"
 import { availableValue, hasData, visibleItems } from "../../utils/dataKinds.js"
 import { PillSearchInput } from "../../components/PillSearchInput.js"
 import { CardMatches } from "../../utils/Query.js"
-import { cardMatchesTagFilter } from "../../utils/cardRoles.js"
-import { tagOptions } from "../../utils/tagOptions.js"
+import { cardMatchesTagChoice } from "../../utils/cardRoles.js"
+import { tagFilterOptions } from "../../utils/tagOptions.js"
 import { CARDS_COPY } from "./copy.js"
 import { BY_ARCH_COLUMNS, METADATA_COLUMNS, OVERVIEW_COLUMNS, VS_ARCH_COLUMNS, isNewCard, sortValue } from "./cardColumns.js"
 import "../stats.css"
@@ -62,10 +62,7 @@ export function shouldSkip(card, input) {
       return true
     }
 
-    if (input.tagFilter && !(card.tags || []).includes(input.tagFilter)) {
-      return true
-    }
-    if (!cardMatchesTagFilter(card, input.oracleTagFilter)) {
+    if (!cardMatchesTagChoice(card, input.tagFilter)) {
       return true
     }
 
@@ -174,6 +171,10 @@ export function CardWidgetTable(input) {
 }
 
 export function CardWidgetOptions(input) {
+  // The tag list runs to hundreds of options, so it's only rebuilt when the
+  // cube's tags change, not on every filter change.
+  const tagData = React.useMemo(() => tagFilterOptions(input.tagOpts, input.cubeTags), [input.tagOpts, input.cubeTags])
+
   let num = 0
   for (let [name, card] of input.cardData) {
     if (shouldSkip(card, input)) {
@@ -212,23 +213,12 @@ export function CardWidgetOptions(input) {
           onChange={input.onCardFilterSelected}
         />
 
-        <DropdownHeader
+        <SearchableDropdownHeader
           label={CARDS_COPY.statsTable.tagLabel}
-          options={input.tagOpts}
+          placeholder="Any"
+          data={tagData}
           value={input.tagFilter}
           onChange={input.onTagFilterSelected}
-        />
-
-        <Select
-          size="xs"
-          label="Scryfall tag"
-          placeholder="Any"
-          data={tagOptions(input.cubeTags.tags)}
-          value={input.oracleTagFilter || null}
-          onChange={value => input.onOracleTagFilterSelected(value || "")}
-          searchable
-          clearable
-          comboboxProps={{ withinPortal: false }}
         />
 
         <SignificantOnly {...input} />
