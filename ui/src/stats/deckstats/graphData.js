@@ -2,7 +2,7 @@
 
 import { deckRef } from "../../decks/deckModel.js"
 import { BucketName } from "../../utils/Buckets.js"
-import { isCounterspell, isRemoval } from "../../utils/cardRoles.js"
+import { isCounterspell, isInteraction, isRemoval } from "../../utils/cardRoles.js"
 
 // BuildGraphData is common logic to calculate various bit of data for plotting graphs, so that we don't
 // need to iterate the complete data set for each graph.
@@ -36,17 +36,15 @@ export function BuildGraphData(parsed) {
     }
 
     for (let card of deck.mainboard) {
-      const counters = isCounterspell(card)
-      const removes = isRemoval(card)
-      if (counters) {
+      if (isCounterspell(card)) {
         mbCounterspells += 1
       }
-      if (removes) {
+      if (isRemoval(card)) {
         removal.mb.count += 1
         removal.mb.cmc += card.cmc
       }
 
-      if (removes || counters) {
+      if (isInteraction(card)) {
         for (let color of card.colors) {
           interaction.mb.byColor.set(color, (interaction.mb.byColor.get(color) || 0) + 1)
         }
