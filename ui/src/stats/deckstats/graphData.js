@@ -2,7 +2,7 @@
 
 import { deckRef } from "../../decks/deckModel.js"
 import { BucketName } from "../../utils/Buckets.js"
-import { CounterspellMatches, RemovalMatches } from "../../utils/cardMatches.js"
+import { isCounterspell, isRemoval } from "../../utils/cardRoles.js"
 
 // BuildGraphData is common logic to calculate various bit of data for plotting graphs, so that we don't
 // need to iterate the complete data set for each graph.
@@ -36,28 +36,17 @@ export function BuildGraphData(parsed) {
     }
 
     for (let card of deck.mainboard) {
-      let isCounterspell = false
-      let isRemoval = false
-      const oracle = (card.oracle_text || "").toLowerCase()
-
-      for (let match of CounterspellMatches) {
-        if (oracle.includes(match)) {
-          mbCounterspells += 1
-          isCounterspell = true
-          break
-        }
+      const counters = isCounterspell(card)
+      const removes = isRemoval(card)
+      if (counters) {
+        mbCounterspells += 1
+      }
+      if (removes) {
+        removal.mb.count += 1
+        removal.mb.cmc += card.cmc
       }
 
-      for (let match of RemovalMatches) {
-        if (oracle.includes(match)) {
-          removal.mb.count += 1
-          removal.mb.cmc += card.cmc
-          isRemoval = true
-          break
-        }
-      }
-
-      if (isRemoval || isCounterspell) {
+      if (removes || counters) {
         for (let color of card.colors) {
           interaction.mb.byColor.set(color, (interaction.mb.byColor.get(color) || 0) + 1)
         }
@@ -65,19 +54,12 @@ export function BuildGraphData(parsed) {
     }
 
     for (let card of (deck.sideboard || [])) {
-      const oracle = (card.oracle_text || "").toLowerCase()
-      for (let match of CounterspellMatches) {
-        if (oracle.includes(match)) {
-          sbCounterspells += 1
-          break
-        }
+      if (isCounterspell(card)) {
+        sbCounterspells += 1
       }
-      for (let match of RemovalMatches) {
-        if (oracle.includes(match)) {
-          removal.sb.count += 1
-          removal.sb.cmc += card.cmc
-          break
-        }
+      if (isRemoval(card)) {
+        removal.sb.count += 1
+        removal.sb.cmc += card.cmc
       }
     }
 

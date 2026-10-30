@@ -1,15 +1,12 @@
 import React from "react"
 import { StatTile } from "../components/kit/StatTile.js"
-import { CounterspellMatches, RemovalMatches } from "../utils/cardMatches.js"
 import { deckCounts, opponentStrengthText } from "./deckModel.js"
-
-const INTERACTION_PHRASES = RemovalMatches.concat(CounterspellMatches)
 
 // DeckStatTiles is the row of five numbers under the identity card, all for
 // the deck's mainboard: card, creature, and interaction counts, average mana
 // value, and how well its opponents did overall.
 export function DeckStatTiles({ deck, copy }) {
-  const counts = deckCounts(deck.mainboard || [], INTERACTION_PHRASES)
+  const counts = deckCounts(deck.mainboard || [])
 
   let avgManaValue = "–"
   if (deck.avg_cmc) {

@@ -9,7 +9,6 @@ import { CloseMatchChart, HeadToHeadChart } from "./HeadToHeadCharts.js"
 import { ForestPlot } from "./ForestPlot.js"
 import { ManaCurveChart, SplashSizeChart, TypeMixChart } from "./BuildShapeCharts.js"
 import { DeckBasicLandCountChart, DeckManaValueChart, NumColorsOverTimeChart, NumColorsPieChart, SideboardSizeOverTimeChart } from "./DeckShapeCharts.js"
-import { CounterspellMatches, RemovalMatches } from "../../utils/cardMatches.js"
 import { ManaCostByOracleTextOverTime, OracleTextByColor, OracleTextOverTimeChart } from "./OracleTextCharts.js"
 import { DeckGraph } from "./DeckScatter.js"
 import { DECKSTATS_COPY } from "./copy.js"
@@ -83,10 +82,10 @@ export function DeckWidget(input) {
       case "deck_avg_mana": return <DeckManaValueChart decks={input.decks} parsed={input.parsed} />;
       case "total_basics": return <DeckBasicLandCountChart decks={input.decks} parsed={input.parsed} />;
       case "interaction_color": return <OracleTextByColor title={DECKSTATS_COPY.widget.titleInteractionColor} parsed={input.parsed} data={data} />;
-      case "avg_removal": return <OracleTextOverTimeChart info={input.info} title={DECKSTATS_COPY.widget.titleAvgRemoval} parsed={input.parsed} matches={RemovalMatches} data={data} />;
-      case "avg_counterspells": return <OracleTextOverTimeChart info={input.info} title={DECKSTATS_COPY.widget.titleAvgCounterspells} parsed={input.parsed} matches={CounterspellMatches} data={data} />;
+      case "avg_removal": return <OracleTextOverTimeChart info={input.info} title={DECKSTATS_COPY.widget.titleAvgRemoval} parsed={input.parsed} role="removal" data={data} />;
+      case "avg_counterspells": return <OracleTextOverTimeChart info={input.info} title={DECKSTATS_COPY.widget.titleAvgCounterspells} parsed={input.parsed} role="counterspell" data={data} />;
       case "sideboard_size": return <SideboardSizeOverTimeChart decks={input.decks} parsed={input.parsed} />;
-      case "removal_mana_cost": return <ManaCostByOracleTextOverTime info={input.info} title={DECKSTATS_COPY.widget.titleRemovalManaCost} parsed={input.parsed} decks={input.decks} matches={RemovalMatches} data={data} />;
+      case "removal_mana_cost": return <ManaCostByOracleTextOverTime info={input.info} title={DECKSTATS_COPY.widget.titleRemovalManaCost} parsed={input.parsed} decks={input.decks} role="removal" data={data} />;
       case "avg_colors_time": return <NumColorsOverTimeChart decks={input.decks} parsed={input.parsed} />;
       case "deck_scatter": return <DeckGraph {...input} />;
       default: return null;

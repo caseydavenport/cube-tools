@@ -26,3 +26,25 @@ function cardTags(card) {
 export function cardHasOracleTag(card, name) {
   return cardTags(card).includes(tagSlug(name))
 }
+
+// hasRole reports whether a card carries one of the role tags the server
+// sends with every card, such as "removal" or "counterspell".
+export function hasRole(card, slug) {
+  return (card.roles || []).includes(slug)
+}
+
+// isRemoval reports whether Scryfall tags the card as removal of any kind.
+export function isRemoval(card) {
+  return hasRole(card, "removal")
+}
+
+// isCounterspell reports whether Scryfall tags the card as a counterspell.
+export function isCounterspell(card) {
+  return hasRole(card, "counterspell")
+}
+
+// isInteraction reports whether the card interacts with an opponent's game:
+// removal, a counterspell or hand disruption.
+export function isInteraction(card) {
+  return isRemoval(card) || isCounterspell(card) || hasRole(card, "hand-disruption")
+}

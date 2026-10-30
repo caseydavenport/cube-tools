@@ -3,6 +3,7 @@
 // and copyable list are worked out. Pure functions, tested in deckModel.test.mjs.
 import { Losses, MatchDraws, MatchLosses, MatchRecord, MatchWins, Record, Wins } from "../utils/Deck.js"
 import { compareDrafts } from "../utils/DraftInfo.js"
+import { isInteraction } from "../utils/cardRoles.js"
 import { dateBadge } from "../home/recentDrafts.js"
 
 // deckRef is the opaque selection token for a deck: its draft plus its id.
@@ -311,10 +312,9 @@ export function boardCards(deck, board) {
   return cards || []
 }
 
-// deckCounts counts a list's cards, creatures, and interaction (removal and
-// counterspells), for the stat tiles. A card counts as interaction when its
-// rules text contains any of the given phrases.
-export function deckCounts(cards, interactionPhrases) {
+// deckCounts counts a list's cards, creatures, and interaction (removal,
+// counterspells and hand disruption, from Scryfall's tags), for the stat tiles.
+export function deckCounts(cards) {
   let creatures = 0
   let interaction = 0
 
@@ -323,8 +323,7 @@ export function deckCounts(cards, interactionPhrases) {
       creatures += 1
     }
 
-    const text = (card.oracle_text || "").toLowerCase()
-    if (interactionPhrases.some(phrase => text.match(phrase))) {
+    if (isInteraction(card)) {
       interaction += 1
     }
   }

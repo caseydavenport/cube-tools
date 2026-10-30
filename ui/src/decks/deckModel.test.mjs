@@ -150,13 +150,14 @@ test("boardCards picks the chosen board, empty when the deck lacks it", () => {
   assert.equal(boardCards(d, "Pool").length, 2)
 })
 
-test("deckCounts counts cards, creatures, and interaction", () => {
+test("deckCounts counts interaction from roles, not rules text", () => {
   const cards = [
     { name: "Goblin Guide", types: ["Creature"], oracle_text: "Haste" },
-    { name: "Doom Blade", types: ["Instant"], oracle_text: "Destroy target nonblack creature." },
-    { name: "Opt", types: ["Instant"], oracle_text: "Scry 1. Draw a card." },
+    { name: "Doom Blade", types: ["Instant"], roles: ["removal", "removal-creature"] },
+    { name: "Duress", types: ["Sorcery"], roles: ["hand-disruption"] },
+    { name: "Opt", types: ["Instant"], oracle_text: "Destroy target creature.", roles: ["cantrip", "draw"] },
   ]
-  assert.deepEqual(deckCounts(cards, ["destroy target"]), { cards: 3, creatures: 1, interaction: 1 })
+  assert.deepEqual(deckCounts(cards), { cards: 4, creatures: 1, interaction: 2 })
 })
 
 test("opponent strength shows the percent when an opponent was rated", () => {

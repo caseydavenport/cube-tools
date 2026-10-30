@@ -5,7 +5,6 @@ import { Red, Green, Black, White, Blue } from "../../utils/Colors.js"
 import { bucketXScale } from "../../utils/Buckets.js"
 import { Line } from 'react-chartjs-2'
 import { hasData } from "../../utils/dataKinds.js"
-import { CounterspellMatches, RemovalMatches } from "../../utils/cardMatches.js"
 import { inDeckColor, inSideboardColor } from "./deckChartHelpers.js"
 import { DECKSTATS_COPY } from "./copy.js"
 import "../stats.css"
@@ -83,10 +82,10 @@ export function OracleTextOverTimeChart(input) {
 
   let mbValues = []
   let sbValues = []
-  if (input.matches == RemovalMatches) {
+  if (input.role === "removal") {
     mbValues = input.data.bucketed.removal.mb.count
     sbValues = input.data.bucketed.removal.sb.count
-  } else if (input.matches == CounterspellMatches) {
+  } else if (input.role === "counterspell") {
     mbValues = input.data.bucketed.mbCounterspells
     sbValues = input.data.bucketed.sbCounterspells
   }
