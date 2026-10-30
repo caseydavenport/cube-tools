@@ -5,11 +5,14 @@ import React, { useEffect, useMemo, useState } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { useCube } from "../contexts/CubeContext.js"
 import { asEvent } from "../components/kit/controls.js"
+import { useCubeInfo } from "../utils/useCubeWritable.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { CardCompare } from "./CardCompare.js"
 import { CardHeader } from "./CardHeader.js"
+import { CardInteraction } from "./CardInteraction.js"
 import { CardPartners } from "./CardPartners.js"
+import { DecksPlayed, RecordAndPicks, SameRole, WhoPlaysIt } from "./CardPlaySections.js"
 import { PartnerMap } from "./PartnerMap.js"
 import { packageIndexOf } from "./cardPageModel.js"
 import "../pages/pages.css"
@@ -94,9 +97,11 @@ function useCompareCard() {
 }
 
 // CardSections are the sections under the header: partners beside the
-// partner map, then the compare.
+// partner map, the compare, then who plays the card and what it interacts
+// with, its decks, and its record and picks. Empty sections hide themselves.
 function CardSections({ page, cube, start, end, onMatch }) {
   const [vs, setVs] = useCompareCard()
+  const info = useCubeInfo(cube)
   const packageIndex = useMemo(() => packageIndexOf(page.package_names), [page.package_names])
   const nav = { cube, start, end, onMatch }
   const partnerLinks = { ...nav, onCompare: setVs }
@@ -108,6 +113,13 @@ function CardSections({ page, cube, start, end, onMatch }) {
       <div className="card-page-wide">
         <CardCompare card={page.card.name} vs={vs} onVs={setVs} packageIndex={packageIndex} nav={nav} />
       </div>
+      <WhoPlaysIt page={page} info={info} nav={nav} />
+      <div className="card-page-stack">
+        <SameRole page={page} cube={cube} />
+        <CardInteraction page={page} cube={cube} />
+      </div>
+      <DecksPlayed page={page} nav={nav} />
+      <RecordAndPicks page={page} info={info} />
     </div>
   )
 }

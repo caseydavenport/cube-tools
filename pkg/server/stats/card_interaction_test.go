@@ -64,3 +64,11 @@ func TestCardInteraction_NeitherIsEmpty(t *testing.T) {
 	assert.Empty(t, got.AnsweredBy)
 	assert.Empty(t, got.Removal)
 }
+
+func TestCardInteraction_CopiesAnswerOnce(t *testing.T) {
+	cube := interactionCube()
+	cube.Cards = append(cube.Cards, removalCard("Murder", "Destroy target creature."))
+
+	got := cardInteraction(cube.Cards[1], cube)
+	assert.Equal(t, []string{"Murder"}, got.AnsweredBy)
+}

@@ -37,6 +37,9 @@ func cardInteraction(c types.Card, cube *types.Cube) CardInteraction {
 			}
 		}
 		slices.Sort(out.AnsweredBy)
+
+		// A cube can hold two copies of a removal spell; name it once.
+		out.AnsweredBy = slices.Compact(out.AnsweredBy)
 	}
 
 	if card, ok := spotRemovalCard(c, creatures, nil, 0); ok {

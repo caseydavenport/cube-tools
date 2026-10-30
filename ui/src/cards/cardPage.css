@@ -183,3 +183,75 @@
   color: var(--mantine-primary-color-filled);
   text-decoration: none;
 }
+
+.card-page-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card-page-stack:empty {
+  display: none;
+}
+
+/* Who plays it, records and picks */
+
+.card-trait-row + .card-trait-row {
+  margin-top: 10px;
+}
+
+.card-trait-title {
+  display: block;
+  font-size: 12px;
+  color: var(--se-muted);
+  margin-bottom: 4px;
+}
+
+.card-record + .card-picks {
+  margin-top: 12px;
+}
+
+.card-record-value {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.card-pick-line {
+  font-size: 13px;
+  padding: 2px 0;
+}
+
+/* Decks that played it */
+
+.card-deck-row {
+  display: grid;
+  grid-template-columns: 90px 1fr auto 80px 48px;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  border-top: 1px solid var(--se-border);
+  font-size: 13px;
+  color: var(--se-text);
+  text-decoration: none;
+}
+
+.card-deck-row:hover {
+  background: var(--mantine-primary-color-light);
+}
+
+.card-deck-date,
+.card-deck-arch {
+  color: var(--se-muted);
+}
+
+.card-deck-record {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Interaction */
+
+.card-interaction-line {
+  font-size: 13px;
+  margin-bottom: 8px;
+}

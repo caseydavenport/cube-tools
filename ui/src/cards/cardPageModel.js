@@ -2,6 +2,7 @@
 // show, kept apart from the components so they can be tested.
 
 import { ruleColor } from "../design/map/ruleColors.js"
+import { isNewCard } from "./newCard.js"
 
 // PEER_NAMES names each color group a card's popularity is compared within.
 export const PEER_NAMES = {
@@ -141,4 +142,72 @@ export function packageIndexOf(packageNames) {
     index[name] = i
   })
   return index
+}
+
+// whoPlaysMatch is the deck filter for decks that mainboarded the card and
+// share one trait: kind is "colors", "archetype" or "player".
+export function whoPlaysMatch(card, kind, value) {
+  const cardTerm = `card:"${card}"`
+  if (kind === "colors") {
+    return `${cardTerm} dcolor=${value}`
+  }
+  if (kind === "archetype") {
+    return `${cardTerm} arch:${value}`
+  }
+  return `${cardTerm} player:"${value}"`
+}
+
+// pickLine describes one logged pick of the card.
+export function pickLine(pick) {
+  return `${pick.date} · ${pick.player} · pack ${pick.pack}, pick ${pick.pick}`
+}
+
+// deckRecord is a deck's match record, "2-1", with draws only when it has any.
+export function deckRecord(deck) {
+  if (deck.draws > 0) {
+    return `${deck.wins}-${deck.losses}-${deck.draws}`
+  }
+  return `${deck.wins}-${deck.losses}`
+}
+
+// knownDrafts counts the drafts on a card's history that have a cube list,
+// and how many of those had the card in the cube.
+function knownDrafts(history) {
+  let known = 0
+  let inCube = 0
+  for (const cell of history) {
+    if (cell.state === "unknown") {
+      continue
+    }
+    known++
+    if (cell.state === "played" || cell.state === "in") {
+      inCube++
+    }
+  }
+  return { known, inCube }
+}
+
+// draftsTile is the "Drafts in the cube" tile: drafts with the card out of
+// those with a cube list, noting the drafts without one. It's null when no
+// draft has a cube list, since then there's nothing to count.
+export function draftsTile(history) {
+  const { known, inCube } = knownDrafts(history)
+  if (known === 0) {
+    return null
+  }
+  const unknown = history.length - known
+  let detail = ""
+  if (unknown === 1) {
+    detail = "1 draft has no cube list"
+  } else if (unknown > 1) {
+    detail = `${unknown} drafts have no cube list`
+  }
+  return { value: `${inCube} of ${known}`, detail }
+}
+
+// isNewToCube reports whether the cube lists show the card in fewer than
+// NEW_CARD_DRAFTS drafts. Without any cube lists there's no telling.
+export function isNewToCube(history) {
+  const { known, inCube } = knownDrafts(history)
+  return known > 0 && isNewCard(inCube)
 }

@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { bothCardsMatch, cardSubtitle, compareLoom, historyTitle, partnerMapData, playedTile, popularityLabel, popularityTip } from "./cardPageModel.js"
+import { bothCardsMatch, cardSubtitle, compareLoom, deckRecord, draftsTile, historyTitle, isNewToCube, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 
 const bombardment = { mainboard: 20, available: 314, rate: 6.4, popularity: "niche", peers: "R", peer_median: 9.1 }
@@ -70,4 +70,37 @@ test("the partner map puts each partner once around the card", () => {
   assert.equal(devil.source, "Goblin Bombardment")
   assert.equal(devil.color, ruleColor(1))
   assert.equal(devil.weight, 1)
+})
+
+test("who-plays links filter to the card plus one trait", () => {
+  assert.equal(whoPlaysMatch("Goblin Bombardment", "colors", "WBR"), 'card:"Goblin Bombardment" dcolor=WBR')
+  assert.equal(whoPlaysMatch("Goblin Bombardment", "archetype", "aggro"), 'card:"Goblin Bombardment" arch:aggro')
+  assert.equal(whoPlaysMatch("Goblin Bombardment", "player", "Ozzy Osbourne"), 'card:"Goblin Bombardment" player:"Ozzy Osbourne"')
+})
+
+test("a pick reads as date, player, pack and pick", () => {
+  assert.equal(pickLine({ date: "2025-08-31", player: "Freddie", pack: 1, pick: 5 }), "2025-08-31 · Freddie · pack 1, pick 5")
+})
+
+test("a deck's record shows draws only when there are some", () => {
+  assert.equal(deckRecord({ wins: 2, losses: 1, draws: 0 }), "2-1")
+  assert.equal(deckRecord({ wins: 1, losses: 1, draws: 1 }), "1-1-1")
+})
+
+// historyOf builds a history list from a string of state initials.
+function historyOf(states) {
+  const names = { p: "played", i: "in", o: "out", u: "unknown" }
+  return [...states].map((c, i) => ({ draft_id: i + 1, state: names[c] }))
+}
+
+test("the drafts tile counts only drafts with a cube list", () => {
+  assert.deepEqual(draftsTile(historyOf("uupio")), { value: "2 of 3", detail: "2 drafts have no cube list" })
+  assert.deepEqual(draftsTile(historyOf("pio")), { value: "2 of 3", detail: "" })
+  assert.equal(draftsTile(historyOf("uu")), null)
+})
+
+test("a card is new only when the cube lists say so", () => {
+  assert.equal(isNewToCube(historyOf("ppio")), true)
+  assert.equal(isNewToCube(historyOf("pppppo")), false)
+  assert.equal(isNewToCube(historyOf("uu")), false)
 })

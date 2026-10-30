@@ -112,7 +112,7 @@ function MoreChip({ hidden, link }) {
     return null
   }
   return (
-    <Link to={link.href} onClick={link.onClick} className="players-chip players-chip-more">
+    <Link to={link.href} onClick={link.onClick} className="kit-chip kit-chip-more">
       +{hidden} more
     </Link>
   )
@@ -126,11 +126,11 @@ function CountChips({ entries, kind, labelFor, emptyText, link }) {
     return <span className="players-muted">{emptyText}</span>
   }
   return (
-    <div className="players-chips">
+    <div className="kit-chips">
       {entries.slice(0, MAX_CHIPS).map(e => (
-        <span key={e.name} className={`players-chip players-chip-${kind}`}>
+        <span key={e.name} className={`kit-chip kit-chip-${kind}`}>
           {labelFor(e.name)}
-          <span className="players-chip-count">{e.count}</span>
+          <span className="kit-chip-count">{e.count}</span>
         </span>
       ))}
       <MoreChip hidden={entries.length - MAX_CHIPS} link={link} />
@@ -152,15 +152,15 @@ function SignatureCards({ row, link }) {
     return <span className="players-muted">None stand out yet.</span>
   }
   return (
-    <div className="players-chips">
+    <div className="kit-chips">
       {cards.slice(0, MAX_CHIPS).map(card => {
         const othersShare = Math.round((100 * card.others) / Math.max(1, card.others_available))
         const info = `In ${card.decks} of ${row.name}'s ${card.available} decks; ${othersShare}% of everyone else's.`
         return (
           <HoverInfo key={card.name} title={card.name} info={info}>
-            <span className="players-chip players-chip-card">
+            <span className="kit-chip kit-chip-card">
               {card.name}
-              <span className="players-chip-count">{card.decks}/{card.available}</span>
+              <span className="kit-chip-count">{card.decks}/{card.available}</span>
             </span>
           </HoverInfo>
         )
