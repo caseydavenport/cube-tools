@@ -22,21 +22,24 @@ const (
 	draftOut     = "out"
 )
 
-// CardPlay is how much a card gets played in the page's date range.
-// Available counts the decks from drafts whose cube had the card. Rate is
-// Mainboard as a percent of Available, and Popularity compares it with the
-// other cube cards of the same color group, Peers, whose median is PeerMedian.
-// Drafts and DraftsInCube cover all time.
+// CardPlay is how much a card gets played in the page's date range, counted
+// in drafts: a singleton card can be in only one deck per draft. DraftsPlayed
+// counts drafts where a deck mainboarded it, out of DraftsAvailable, the
+// drafts whose cube had it; Rate is that as a percent. Popularity compares Rate
+// with the other cube cards of the same color group, Peers, whose median is
+// PeerMedian. Mainboard and Sideboard count decks. Drafts and DraftsInCube
+// cover all time.
 type CardPlay struct {
-	Mainboard    int     `json:"mainboard"`
-	Available    int     `json:"available"`
-	Sideboard    int     `json:"sideboard"`
-	DraftsInCube int     `json:"drafts_in_cube"`
-	Drafts       int     `json:"drafts"`
-	Popularity   string  `json:"popularity"`
-	Rate         float64 `json:"rate"`
-	PeerMedian   float64 `json:"peer_median"`
-	Peers        string  `json:"peers"`
+	Mainboard       int     `json:"mainboard"`
+	Sideboard       int     `json:"sideboard"`
+	DraftsPlayed    int     `json:"drafts_played"`
+	DraftsAvailable int     `json:"drafts_available"`
+	DraftsInCube    int     `json:"drafts_in_cube"`
+	Drafts          int     `json:"drafts"`
+	Popularity      string  `json:"popularity"`
+	Rate            float64 `json:"rate"`
+	PeerMedian      float64 `json:"peer_median"`
+	Peers           string  `json:"peers"`
 }
 
 // DraftPresence is one draft on a card's cube history: "played" when a deck
@@ -113,8 +116,8 @@ func deckPlays(d *storage.Deck, card string) bool {
 }
 
 // cardPlay counts a card's play over ranged, the decks in the page's date
-// range, and compares its rate with the same-color cards in cube. history
-// supplies the all-time draft counts.
+// range, and compares its per-draft rate with the same-color cards in cube.
+// history supplies the all-time draft counts.
 func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cube *types.Cube, cubes cubeLists) CardPlay {
 	play := CardPlay{Drafts: len(history), Peers: colorBucket(card)}
 	for _, h := range history {
@@ -123,25 +126,28 @@ func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cub
 		}
 	}
 
-	play.Mainboard, play.Available = countWithCard(ranged, card.Name, cubes)
+	play.Mainboard, _ = countWithCard(ranged, card.Name, cubes)
 	for _, d := range ranged {
 		if slices.ContainsFunc(d.deck.Sideboard, func(c types.Card) bool { return c.Name == card.Name }) {
 			play.Sideboard++
 		}
 	}
-	if play.Available == 0 {
+
+	byDraft := decksByDraft(ranged)
+	play.DraftsPlayed, play.DraftsAvailable = draftsWithCard(byDraft, card.Name, cubes)
+	if play.DraftsAvailable == 0 {
 		return play
 	}
-	play.Rate = round1(100 * float64(play.Mainboard) / float64(play.Available))
+	play.Rate = round1(100 * float64(play.DraftsPlayed) / float64(play.DraftsAvailable))
 
 	var peerRates []float64
 	for _, c := range cube.Cards {
 		if c.Name == card.Name || c.IsBasicLand() || colorBucket(c) != play.Peers {
 			continue
 		}
-		with, available := countWithCard(ranged, c.Name, cubes)
+		played, available := draftsWithCard(byDraft, c.Name, cubes)
 		if available > 0 {
-			peerRates = append(peerRates, 100*float64(with)/float64(available))
+			peerRates = append(peerRates, 100*float64(played)/float64(available))
 		}
 	}
 	if len(peerRates) > 0 {
@@ -149,6 +155,38 @@ func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cub
 	}
 	play.Popularity = popularity(play.Rate, peerRates)
 	return play
+}
+
+// decksByDraft groups decks by their draft.
+func decksByDraft(decks []deckSpells) map[int][]deckSpells {
+	out := map[int][]deckSpells{}
+	for _, d := range decks {
+		draftID := d.deck.Metadata.DraftID
+		out[draftID] = append(out[draftID], d)
+	}
+	return out
+}
+
+// draftsWithCard counts the drafts whose cube had the card, and how many of
+// those had a deck mainboard it. A deck that played it proves its draft had it.
+// A draft with no cube list counts only then, since otherwise there's no
+// telling whether its cube had the card.
+func draftsWithCard(byDraft map[int][]deckSpells, card string, cubes cubeLists) (int, int) {
+	played, available := 0, 0
+	for draftID, decks := range byDraft {
+		with, could := countWithCard(decks, card, cubes)
+		if _, listed := cubes[draftID]; !listed && with == 0 {
+			continue
+		}
+		if could == 0 {
+			continue
+		}
+		available++
+		if with > 0 {
+			played++
+		}
+	}
+	return played, available
 }
 
 // colorBucket groups a card with others of its color: "W" through "G" for one

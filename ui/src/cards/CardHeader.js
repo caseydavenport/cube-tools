@@ -24,8 +24,8 @@ function headerTags(page) {
 function PlayTiles({ play, history }) {
   const played = playedTile(play)
   const tiles = [
-    <StatTile key="played" label="Decks that played it" value={played.value} detail={played.detail}
-      tip="Decks that mainboarded it, out of the decks from drafts where it was in the cube." />,
+    <StatTile key="played" label="Drafts played in" value={played.value} detail={played.detail}
+      tip={`Drafts where a deck mainboarded it, out of the drafts whose cube had it, in the date range. ${play.mainboard} decks in all.`} />,
     <StatTile key="sideboarded" label="Sideboarded" value={play.sideboard}
       tip="Decks that had it in the sideboard." />,
   ]
@@ -59,7 +59,7 @@ function ScryfallLink({ card }) {
 // play numbers, so they show only the image, name and tag.
 export function CardHeader({ page }) {
   let tiles = null
-  if (page.in_cube || page.play.mainboard > 0) {
+  if (page.in_cube || page.play.drafts_played > 0) {
     tiles = <PlayTiles play={page.play} history={page.history} />
   }
   return (

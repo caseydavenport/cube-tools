@@ -23,14 +23,16 @@ const STATE_WORDS = {
   unknown: "no cube list",
 }
 
-// playedTile is the "Decks that played it" tile's value and detail: "20 of
-// 314" and "6% of decks that could". The detail is blank when no deck could.
+// playedTile is the "Drafts played in" tile's value and detail: "18 of 37"
+// and "49% of the drafts it was in". It counts drafts, not decks, since a
+// singleton card can be in only one deck per draft. The detail is blank when
+// no draft had the card.
 export function playedTile(play) {
-  const value = `${play.mainboard} of ${play.available}`
-  if (play.available === 0) {
+  const value = `${play.drafts_played} of ${play.drafts_available}`
+  if (play.drafts_available === 0) {
     return { value, detail: "" }
   }
-  return { value, detail: `${Math.round(play.rate)}% of decks that could` }
+  return { value, detail: `${Math.round(play.rate)}% of the drafts it was in` }
 }
 
 // popularityLabel turns the server's popularity word into the tile's label.
@@ -41,14 +43,14 @@ export function popularityLabel(popularity) {
   return popularity[0].toUpperCase() + popularity.slice(1)
 }
 
-// popularityTip explains the popularity label: the card's mainboard rate and
-// the median for its color group. Blank when there's no label.
+// popularityTip explains the popularity label: the share of drafts the card
+// was played in and the median for its color group. Blank when there's no label.
 export function popularityTip(play) {
   if (!play.popularity) {
     return ""
   }
   const peers = PEER_NAMES[play.peers] || play.peers
-  return `Mainboarded in ${play.rate}% of the decks that could have. The median ${peers} card: ${play.peer_median}%.`
+  return `Played in ${play.rate}% of the drafts it was in. The median ${peers} card: ${play.peer_median}%.`
 }
 
 // historyTitle is one history square's tip: its draft, date and state.
