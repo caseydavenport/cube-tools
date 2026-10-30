@@ -404,35 +404,9 @@ func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := RemovalResponse{CreatureCount: len(creatures), TotalPlayWeight: totalWeight}
-	var spot []spotCard
-	for _, c := range cube.Cards {
-		card := spotCard{colors: c.Colors}
-
-		// Multi-mode removal (kicker, revolt) is emitted as one row per mode.
-		if o, ok := removalOverrides[c.Name]; ok && len(o.modes) > 0 {
-			for _, m := range o.modes {
-				rc := buildRemovalCard(c, m.profile, m.cost, creatures, playWeight, totalWeight)
-				rc.Name = fmt.Sprintf("%s (%s)", c.Name, m.label)
-				resp.Cards = append(resp.Cards, rc)
-				card.modes = append(card.modes, m.profile)
-				card.rows = append(card.rows, rc)
-			}
-			spot = append(spot, card)
-			continue
-		}
-		prof := classifyRemoval(c)
-		if !prof.Spot {
-			if c.IsRemoval() {
-				resp.Excluded++
-			}
-			continue
-		}
-		rc := buildRemovalCard(c, prof, effectiveCost(c), creatures, playWeight, totalWeight)
-		resp.Cards = append(resp.Cards, rc)
-		card.modes = append(card.modes, prof)
-		card.rows = append(card.rows, rc)
-		spot = append(spot, card)
-	}
+	spot, rows, excluded := cubeSpotRemoval(cube, creatures, playWeight, totalWeight)
+	resp.Cards = rows
+	resp.Excluded = excluded
 	resp.RemovalCards = len(spot)
 	resp.Creatures = hardToRemove(spot, creatures)
 	resp.ByColor = removalByColor(spot)
@@ -542,4 +516,49 @@ func min(a, b int) int {
 		return a
 	}
 	return b
+}
+
+// cubeSpotRemoval builds the cube's spot removal: one spotCard per card, the
+// table rows (one per mode for multi-mode cards), and how many removal cards
+// weren't spot removal. playWeight and totalWeight weight coverage by play;
+// nil and 0 leave the play-weighted numbers at zero.
+func cubeSpotRemoval(cube *types.Cube, creatures []creatureInfo, playWeight map[string]int, totalWeight int) ([]spotCard, []RemovalCard, int) {
+	var spot []spotCard
+	var rows []RemovalCard
+	excluded := 0
+	for _, c := range cube.Cards {
+		card, ok := spotRemovalCard(c, creatures, playWeight, totalWeight)
+		if !ok {
+			if c.IsRemoval() {
+				excluded++
+			}
+			continue
+		}
+		spot = append(spot, card)
+		rows = append(rows, card.rows...)
+	}
+	return spot, rows, excluded
+}
+
+// spotRemovalCard builds one card's spot-removal entry, false when it isn't
+// spot removal. Multi-mode removal (kicker, revolt) gets one row per mode.
+func spotRemovalCard(c types.Card, creatures []creatureInfo, playWeight map[string]int, totalWeight int) (spotCard, bool) {
+	card := spotCard{name: c.Name, colors: c.Colors}
+	if o, ok := removalOverrides[c.Name]; ok && len(o.modes) > 0 {
+		for _, m := range o.modes {
+			rc := buildRemovalCard(c, m.profile, m.cost, creatures, playWeight, totalWeight)
+			rc.Name = fmt.Sprintf("%s (%s)", c.Name, m.label)
+			card.modes = append(card.modes, m.profile)
+			card.rows = append(card.rows, rc)
+		}
+		return card, true
+	}
+	prof := classifyRemoval(c)
+	if !prof.Spot {
+		return spotCard{}, false
+	}
+	rc := buildRemovalCard(c, prof, effectiveCost(c), creatures, playWeight, totalWeight)
+	card.modes = append(card.modes, prof)
+	card.rows = append(card.rows, rc)
+	return card, true
 }
