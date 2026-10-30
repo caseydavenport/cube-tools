@@ -6,6 +6,7 @@ import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { HoverStats } from "../../components/kit/HoverStats.js"
 import { ColorImages } from "../../utils/Colors.js"
 import { CardMainboardTooltipContent } from "./CardTooltip.js"
+import { NEW_CARD_DRAFTS, isNewCard as isNewDraftCount } from "../../cards/newCard.js"
 import { CARDS_COPY } from "./copy.js"
 import "../stats.css"
 
@@ -137,14 +138,10 @@ function deckLinkHref(card, input) {
   return `${window.location.pathname}#/${currentCubeId()}/decks?${params.toString()}`
 }
 
-// NEW_CARD_DRAFTS is how many drafts a card needs before its numbers are
-// trusted. Cards seen in fewer drafts are marked new and sorted below the rest.
-export const NEW_CARD_DRAFTS = 3
-
 // isNewCard reports whether a card has been in too few drafts to compare
 // fairly against the rest of the cube.
 export function isNewCard(card) {
-  return (card.drafts || 0) < NEW_CARD_DRAFTS
+  return isNewDraftCount(card.drafts || 0)
 }
 
 // newCardBadge marks a card that has been in too few drafts for its numbers

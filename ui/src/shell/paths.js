@@ -50,3 +50,17 @@ export function pageHrefWithMatch(cube, path, match, start, end) {
   }
   return pageHref(cube, path) + "?" + query.toString().replace(/\+/g, "%20")
 }
+
+// cardPageHref links to a card's own page. The name is encoded as one URL
+// segment, so a split card's " // " doesn't read as extra path parts.
+export function cardPageHref(cube, name) {
+  return pageHref(cube, "cards") + "/" + encodeURIComponent(name)
+}
+
+// deckHrefWithMatch links to one deck on the Decks page, with the deck filter
+// set to match and the date range kept, like pageHrefWithMatch. ref is the
+// deck's "<draft>/<deck>" id.
+export function deckHrefWithMatch(cube, ref, match, start, end) {
+  const href = pageHrefWithMatch(cube, "decks", match, start, end)
+  return href + "&deck=" + encodeURIComponent(ref)
+}

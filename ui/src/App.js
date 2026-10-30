@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, Outlet, useSearchParams } from "re
 import { DecksPage } from './pages/DecksPage.js'
 import {StatsViewer} from './pages/Stats.js'
 import { PlayersPage } from './pages/PlayersPage.js'
+import { CardPage } from './cards/CardPage.js'
 import { DraftsPage } from './pages/DraftsPage.js'
 import { ExplorePage } from './pages/ExplorePage.js'
 import { RemovalPage } from './pages/RemovalPage.js'
@@ -107,6 +108,7 @@ export default function Main() {
         <Route path='/:cube' element={<CubeProvider><AppLayout><Outlet /></AppLayout></CubeProvider>}>
           <Route index element={<CubeHome />} />
           <Route path='cards' element={<StatsViewer view='cards' {...statsProps} />} />
+          <Route path='cards/:name' element={<CardPage {...statsProps} />} />
           <Route path='colors' element={<StatsViewer view='colors' {...statsProps} />} />
           <Route path='charts' element={<ExplorePage {...statsProps} />} />
           <Route path='removal' element={<RemovalPage {...statsProps} />} />

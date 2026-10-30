@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { pageSegment, pageHref, pageHrefWithMatch, switchCubeInPath } from "./paths.js"
+import { cardPageHref, deckHrefWithMatch, pageSegment, pageHref, pageHrefWithMatch, switchCubeInPath } from "./paths.js"
 
 test("the page segment is the part after the cube id", () => {
   assert.equal(pageSegment("/polyverse/cards"), "cards")
@@ -37,4 +37,22 @@ test("pageHrefWithMatch keeps the date range when set", () => {
   const query = new URLSearchParams(href.split("?")[1])
   assert.equal(query.get("start"), "2025-01-01")
   assert.equal(query.get("end"), "2025-12-31")
+})
+
+test("cardPageHref encodes the name", () => {
+  assert.equal(cardPageHref("polyverse", "Fire // Ice"), "/polyverse/cards/Fire%20%2F%2F%20Ice")
+})
+
+test("cardPageHref round-trips split card names", () => {
+  for (const name of ["Fire // Ice", "Kellan, the Fae-Blooded // Birthright Boon", "Ashnod's Altar"]) {
+    const href = cardPageHref("polyverse", name)
+    const parts = href.split("/")
+    assert.equal(parts.length, 4)
+    assert.equal(decodeURIComponent(parts[3]), name)
+  }
+})
+
+test("deckHrefWithMatch sets deck and match", () => {
+  const href = deckHrefWithMatch("polyverse", "31/5", 'card:"Goblin Bombardment"', "2025-01-01", "")
+  assert.equal(href, "/polyverse/decks?match=card%3A%22Goblin%20Bombardment%22&start=2025-01-01&deck=31%2F5")
 })
