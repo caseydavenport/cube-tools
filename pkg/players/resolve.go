@@ -2,6 +2,8 @@ package players
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 
@@ -12,6 +14,17 @@ import (
 // number, which is unique within its draft.
 func SeatLabel(seat int) string {
 	return fmt.Sprintf("p%d", seat)
+}
+
+// IsSeatLabel reports whether name has the form SeatLabel gives an anonymous
+// seat: "p" followed by a seat number.
+func IsSeatLabel(name string) bool {
+	digits, ok := strings.CutPrefix(name, "p")
+	if !ok || digits == "" {
+		return false
+	}
+	_, err := strconv.Atoi(digits)
+	return err == nil
 }
 
 // ResolveDraft fills in the display names deck files don't store: each deck's

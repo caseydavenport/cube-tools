@@ -6,15 +6,37 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
+	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
+// playerBayesPriorGames is the coin-flip games mixed into a player's Bayes
+// rate. On polyverse (2026-10-29) players with 10+ games differ by about 9
+// points beyond chance, which fits about 31.
+const playerBayesPriorGames = 30
+
 type PlayerStatsResponse struct {
+	Players map[string]*PlayerStats `json:"players"`
+
+	// Buckets holds one set of player rows per time bucket when the request
+	// sets bucket_size. Players is empty then.
+	Buckets []*PlayerBucket `json:"buckets,omitempty"`
+}
+
+// PlayerBucket is the player rows for one time bucket of drafts.
+type PlayerBucket struct {
+	// Name labels the bucket by the dates it spans.
+	Name string `json:"name"`
+
+	// Start is the bucket's first draft date, used as the x-axis label.
+	Start string `json:"start"`
+
 	Players map[string]*PlayerStats `json:"players"`
 }
 
@@ -41,6 +63,10 @@ type PlayerStats struct {
 	ColorPicks         map[string]int           `json:"color_picks"`
 	ArchetypeStats     map[string]*winLossStats `json:"archetype_stats"`
 	ColorStats         map[string]*winLossStats `json:"color_stats"`
+
+	// Opponents is the player's game record against each named opponent.
+	// Anonymous seats and unnamed opponents are left out.
+	Opponents map[string]*Record `json:"opponents"`
 }
 
 type winLossStats struct {
@@ -73,9 +99,37 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	resp := PlayerStatsResponse{
-		Players: make(map[string]*PlayerStats),
+	z := zForConfidence(query.GetFloat(r, "confidence"))
+	resp := PlayerStatsResponse{}
+	bucketSize := query.GetInt(r, "bucket_size")
+	if bucketSize > 0 {
+		for _, b := range decks.DeckBuckets(allDecks, bucketSize, !query.GetBool(r, "sliding")) {
+			resp.Buckets = append(resp.Buckets, &PlayerBucket{
+				Name:    b.Name(),
+				Start:   b.Start(),
+				Players: playerRows(b.AllDecks(), z),
+			})
+		}
+	} else {
+		resp.Players = playerRows(allDecks, z)
 	}
+
+	b, err := json.Marshal(resp)
+	if err != nil {
+		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
+		return
+	}
+	rw.Header().Set("Content-Type", "application/json")
+	if _, err := rw.Write(b); err != nil {
+		logrus.WithError(err).Error("could not write player stats response")
+	}
+}
+
+// playerRows aggregates decks into one row per named player, with per-archetype,
+// per-color and per-opponent records. Every record gets its Bayes rate and an
+// interval at critical value z. Anonymous seats belong to no player.
+func playerRows(allDecks []*storage.Deck, z float64) map[string]*PlayerStats {
+	rows := make(map[string]*PlayerStats)
 
 	// Track weighted opponent win percentage accumulation per player.
 	owpAccum := make(map[string]*opponentWinAccum)
@@ -86,17 +140,18 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		if deck.IsAnonymous() {
 			continue
 		}
-		if _, ok := resp.Players[deck.Player]; !ok {
-			resp.Players[deck.Player] = &PlayerStats{
+		if _, ok := rows[deck.Player]; !ok {
+			rows[deck.Player] = &PlayerStats{
 				ID:             deck.PlayerID,
 				Name:           deck.Player,
 				UniqueCards:    make(map[string]int),
 				ColorPicks:     make(map[string]int),
 				ArchetypeStats: make(map[string]*winLossStats),
 				ColorStats:     make(map[string]*winLossStats),
+				Opponents:      make(map[string]*Record),
 			}
 		}
-		ps := resp.Players[deck.Player]
+		ps := rows[deck.Player]
 		ps.NumDecks++
 		ps.Add(deck)
 		ps.Trophies += deck.Trophies()
@@ -137,6 +192,8 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 			cs.Count++
 		}
 
+		addOpponentRecords(ps, deck)
+
 		for _, card := range deck.Mainboard {
 			if card.IsBasicLand() {
 				continue
@@ -149,15 +206,18 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		}
 	}
 
-	for _, ps := range resp.Players {
+	for _, ps := range rows {
 		ps.Games = ps.Wins + ps.Losses + ps.Draws
-		ps.Finalize()
+		finishRecord(&ps.Record, z)
 		ps.LossPercent = pct(float64(ps.Losses), float64(ps.Games))
 		for _, as := range ps.ArchetypeStats {
-			as.Finalize()
+			finishRecord(&as.Record, z)
 		}
 		for _, cs := range ps.ColorStats {
-			cs.Finalize()
+			finishRecord(&cs.Record, z)
+		}
+		for _, or := range ps.Opponents {
+			finishRecord(or, z)
 		}
 		if accum, ok := owpAccum[ps.Name]; ok && accum.totalMatches > 0 {
 			// accum.weightedSum is already a percentage; just round to 2 decimals.
@@ -169,12 +229,30 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		ps.RedPercent = pct(float64(ps.ColorPicks["R"]), float64(ps.TotalPicks))
 		ps.GreenPercent = pct(float64(ps.ColorPicks["G"]), float64(ps.TotalPicks))
 	}
+	return rows
+}
 
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
+// finishRecord computes a player record's win rate, Bayes rate and interval.
+func finishRecord(r *Record, z float64) {
+	r.Finalize()
+	r.SetBayesian(playerBayesPriorGames)
+	r.SetInterval(z)
+}
+
+// addOpponentRecords adds the deck's game results to the player's record
+// against each named opponent. Anonymous seats and unnamed opponents are
+// skipped, since they don't name a person.
+func addOpponentRecords(ps *PlayerStats, deck *storage.Deck) {
+	for _, m := range deck.Matches {
+		if m.Opponent == "" || (m.OpponentPlayerID == 0 && players.IsSeatLabel(m.Opponent)) {
+			continue
+		}
+		if _, ok := ps.Opponents[m.Opponent]; !ok {
+			ps.Opponents[m.Opponent] = &Record{}
+		}
+		r := ps.Opponents[m.Opponent]
+		r.Wins += m.Wins
+		r.Losses += m.Losses
+		r.Draws += m.Draws
 	}
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(b)
 }

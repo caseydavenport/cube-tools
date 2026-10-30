@@ -9,6 +9,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // --- OpponentWinPercent: weighted by match count ---
@@ -146,4 +147,85 @@ func TestPlayerStatsSkipsAnonymous(t *testing.T) {
 		assert.Equal(t, 1, freddie.ID)
 		assert.Equal(t, 2, freddie.NumDecks)
 	}
+}
+
+// playerStatsFor serves /api/stats/players over decks with the given query
+// string and decodes the response.
+func playerStatsFor(t *testing.T, decks []*storage.Deck, query string) PlayerStatsResponse {
+	t.Helper()
+	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/players?"+query, nil))
+	var resp PlayerStatsResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	return resp
+}
+
+// eightAndTwo is one aggro, white-red deck for Freddie that went 8-2 in games
+// against Ozzy.
+func eightAndTwo() *storage.Deck {
+	d := makeStorageDeck("Freddie", 1, nil, nil, []types.Match{{Opponent: "Ozzy", Wins: 8, Losses: 2}})
+	d.MacroArchetype = "aggro"
+	d.Mainboard = []types.Card{{Name: "Boros Charm", Colors: []string{"W", "R"}}}
+	d.Colors = []string{"W", "R"}
+	return d
+}
+
+func TestPlayerStats_BayesAndInterval(t *testing.T) {
+	freddie := playerStatsFor(t, []*storage.Deck{eightAndTwo()}, "").Players["Freddie"]
+	require.NotNil(t, freddie)
+	assert.Greater(t, freddie.BayesianWinPercent, 50.0)
+	assert.Less(t, freddie.BayesianWinPercent, 80.0)
+	assert.Less(t, freddie.WinPercentLow, 80.0)
+	assert.Greater(t, freddie.WinPercentHigh, 80.0)
+}
+
+func TestPlayerStats_IntervalFollowsConfidence(t *testing.T) {
+	narrow := playerStatsFor(t, []*storage.Deck{eightAndTwo()}, "confidence=0.8").Players["Freddie"]
+	wide := playerStatsFor(t, []*storage.Deck{eightAndTwo()}, "confidence=0.95").Players["Freddie"]
+	assert.Less(t, wide.WinPercentLow, narrow.WinPercentLow)
+	assert.Greater(t, wide.WinPercentHigh, narrow.WinPercentHigh)
+}
+
+func TestPlayerStats_SubRowsHaveBayes(t *testing.T) {
+	freddie := playerStatsFor(t, []*storage.Deck{eightAndTwo()}, "").Players["Freddie"]
+	aggro := freddie.ArchetypeStats["aggro"]
+	require.NotNil(t, aggro)
+	assert.Greater(t, aggro.BayesianWinPercent, 50.0)
+	assert.Greater(t, aggro.WinPercentHigh, 0.0)
+
+	white := freddie.ColorStats["W"]
+	require.NotNil(t, white)
+	assert.Greater(t, white.BayesianWinPercent, 50.0)
+	assert.Greater(t, white.WinPercentHigh, 0.0)
+}
+
+func TestPlayerStats_Opponents(t *testing.T) {
+	d := makeStorageDeck("Ozzy", 1, nil, nil, []types.Match{
+		{Opponent: "Stevie", Wins: 2, Losses: 1},
+		{Opponent: "p3", Wins: 2},
+		{Wins: 2},
+	})
+	ozzy := playerStatsFor(t, []*storage.Deck{d}, "").Players["Ozzy"]
+	require.NotNil(t, ozzy)
+	require.Len(t, ozzy.Opponents, 1, "seat labels and unnamed opponents are skipped")
+	stevie := ozzy.Opponents["Stevie"]
+	require.NotNil(t, stevie)
+	assert.Equal(t, 2, stevie.Wins)
+	assert.Equal(t, 1, stevie.Losses)
+	assert.Greater(t, stevie.BayesianWinPercent, 50.0)
+}
+
+func TestPlayerStats_Buckets(t *testing.T) {
+	first := makeStorageDeck("Joan", 1, nil, nil, []types.Match{{Opponent: "Ozzy", Wins: 2}})
+	first.Date = "2026-01-01"
+	second := makeStorageDeck("Stevie", 2, nil, nil, []types.Match{{Opponent: "Ozzy", Wins: 2}})
+	second.Date = "2026-02-01"
+
+	resp := playerStatsFor(t, []*storage.Deck{first, second}, "bucket_size=1")
+	require.Len(t, resp.Buckets, 2)
+	assert.Contains(t, resp.Buckets[0].Players, "Joan")
+	assert.NotContains(t, resp.Buckets[0].Players, "Stevie")
+	assert.Contains(t, resp.Buckets[1].Players, "Stevie")
+	assert.Equal(t, "2026-01-01", resp.Buckets[0].Start)
 }
