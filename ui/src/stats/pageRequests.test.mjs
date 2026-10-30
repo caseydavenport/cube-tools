@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { packagesUrl, pivotRequest } from "./pageRequests.js"
+import { colorStatsUrl, packagesUrl, pivotRequest } from "./pageRequests.js"
 
 test("packagesUrl leaves out empty dates and filter", () => {
   const url = packagesUrl("polyverse", { confidence: "0.8", start: "", end: "", match: "" })
@@ -40,4 +40,14 @@ test("pivotRequest carries the deck filter", () => {
   assert.deepEqual(body.exclude_players, ["Ozzy"])
   assert.equal(body.confidence, 0.8)
   assert.equal(pivotRequest(pivotInput({ usesTime: true })).bucket_size, 3)
+})
+
+test("colorStatsUrl sends the confidence with and without time buckets", () => {
+  const filters = { start: "", end: "", size: 0, colorMode: "inclusive", confidence: "0.8", match: "" }
+  const plain = colorStatsUrl("polyverse", filters, 0)
+  const bucketed = colorStatsUrl("polyverse", filters, 3)
+  assert.match(plain, /confidence=0.8/)
+  assert.doesNotMatch(plain, /bucket_size/)
+  assert.match(bucketed, /confidence=0.8/)
+  assert.match(bucketed, /bucket_size=3&sliding=true/)
 })

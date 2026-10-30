@@ -11,6 +11,7 @@ import { requestFilters } from "../stats/hiddenFilters.js";
 import { fetchJson } from "../utils/fetchJson.js";
 import { fromCallback } from "../stats/loading.js";
 import { statsUrl, matchWithDeckColors } from "../stats/statsUrls.js";
+import { colorStatsUrl } from "../stats/pageRequests.js";
 import { ALL_SOURCES, viewNeeds } from "../stats/viewSources.js";
 import { useLoaded } from "../stats/useLoaded.js";
 import { NO_DECK_CHARTS, toDeckCharts } from "../stats/deckstats/deckChartsData.js";
@@ -269,17 +270,16 @@ export function useStatsData(filters, props, refresh, view) {
     })).then(toBuckets),
     [cardWidgetColorSelection, minDrafts, minGames, bucketSize, match, refresh], NO_LIST);
 
+  const colorFilters = {
+    start: startDate, end: endDate, size: minDraftSize, colorMode, confidence: winConfidence, match,
+  }
   const colorStatsSource = useLoaded(cubeID, needs("colorStats"),
-    () => fetchJson(statsUrl(cubeID, "colors", {
-      start: startDate, end: endDate, size: minDraftSize, color_mode: colorMode, confidence: winConfidence, match,
-    })).then(toAllData),
+    () => fetchJson(colorStatsUrl(cubeID, colorFilters, 0)).then(toAllData),
     [colorMode, winConfidence, startDate, endDate, minDraftSize, match, refresh], NO_MAP);
 
   const colorStatsOverTimeSource = useLoaded(cubeID, needs("colorStatsOverTime"),
-    () => fetchJson(statsUrl(cubeID, "colors", {
-      start: startDate, end: endDate, size: minDraftSize, color_mode: colorMode, bucket_size: bucketSize, sliding: true, match,
-    })).then(toBuckets),
-    [colorMode, bucketSize, startDate, endDate, minDraftSize, match, refresh], NO_LIST);
+    () => fetchJson(colorStatsUrl(cubeID, colorFilters, bucketSize)).then(toBuckets),
+    [colorMode, winConfidence, bucketSize, startDate, endDate, minDraftSize, match, refresh], NO_LIST);
 
   const archetypeStatsSource = useLoaded(cubeID, needs("archetypeStats"),
     () => fetchJson(statsUrl(cubeID, "archetypes", {

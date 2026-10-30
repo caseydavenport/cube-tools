@@ -1,4 +1,4 @@
-// The requests the Packages and Charts pages send, built here without React
+// The requests the Packages, Colors and Charts pages send, built here without React
 // so node tests can check them.
 
 import { statsUrl } from "./statsUrls.js"
@@ -21,6 +21,18 @@ export function packagesUrl(cube, { confidence, start, end, match }) {
     end: emptyToUndefined(end),
     match: emptyToUndefined(match),
   })
+}
+
+// colorStatsUrl is the Colors page's request: color stats for the color mode
+// at the chosen confidence. A bucketSize above 0 asks for sliding time
+// buckets of that many drafts instead of one total.
+export function colorStatsUrl(cube, { start, end, size, colorMode, confidence, match }, bucketSize) {
+  const params = { start, end, size, color_mode: colorMode, confidence, match }
+  if (bucketSize > 0) {
+    params.bucket_size = bucketSize
+    params.sliding = true
+  }
+  return statsUrl(cube, "colors", params)
 }
 
 // hasValue reports whether a Charts predicate has a value to filter on, since
