@@ -11,6 +11,8 @@ import { SortHeader } from "../stats/sortHeader.js"
 import { compareBy } from "../stats/sortOrder.js"
 import { availableValue, visibleItems } from "../utils/dataKinds.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
+import { HardToRemove } from "../removal/HardToRemove.js"
+import { RemovalByColor } from "../removal/RemovalByColor.js"
 import { RemovalScatter } from "../removal/RemovalScatter.js"
 import "../stats/stats.css"
 import "./pages.css"
@@ -226,6 +228,13 @@ export function RemovalPage(props) {
         <p className="player-filter-hint stats-section-gap">
           <RichText parts={COPY.hint} />
         </p>
+        <RemovalByColor rows={data.by_color || []} mode={shownMode} />
+        <HardToRemove
+          creatures={data.creatures || []}
+          byColor={data.by_color || []}
+          removalCards={data.removal_cards || 0}
+          color={colorFilter}
+        />
       </div>
     </>
   )

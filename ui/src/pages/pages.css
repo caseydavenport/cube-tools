@@ -46,3 +46,14 @@
 .removal-scatter {
   height: 380px;
 }
+
+.removal-hard-scroll {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.removal-color-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}

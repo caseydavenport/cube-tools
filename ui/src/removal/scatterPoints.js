@@ -1,5 +1,5 @@
-// Pure helpers behind the Removal page's coverage-against-cost scatter, kept
-// free of React so node tests can load them.
+// Pure helpers behind the Removal page's scatter and hard-to-remove table,
+// kept free of React so node tests can load them.
 
 // GROUP_ORDER is the fixed order of the scatter's color groups, so a color
 // keeps its place in the legend whatever the filter shows.
@@ -69,4 +69,21 @@ export function scatterSeries(cards, mode) {
     }
   }
   return series
+}
+
+// hardToRemoveRows orders creatures hardest to answer first for a deck of the
+// chosen color ("" for any): fewest answers, then highest mana value, then by
+// name. The server counts each color's answers; this only picks and sorts.
+export function hardToRemoveRows(creatures, color) {
+  return [...creatures].sort((a, b) => {
+    const answersA = a.answers[color] || 0
+    const answersB = b.answers[color] || 0
+    if (answersA !== answersB) {
+      return answersA - answersB
+    }
+    if (a.mv !== b.mv) {
+      return b.mv - a.mv
+    }
+    return a.name.localeCompare(b.name)
+  })
 }

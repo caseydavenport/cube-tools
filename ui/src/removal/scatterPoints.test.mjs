@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { colorGroup, scatterSeries, scatterX } from "./scatterPoints.js"
+import { colorGroup, hardToRemoveRows, scatterSeries, scatterX } from "./scatterPoints.js"
 
 test("colorGroup names a card's color, multicolor, or colorless", () => {
   assert.equal(colorGroup([]), "colorless")
@@ -34,4 +34,14 @@ test("scatterSeries groups by color in a fixed order, skipping scalable cards", 
 
   const played = scatterSeries(cards, "played")
   assert.equal(played[0].points[0].y, 99)
+})
+
+test("hardToRemoveRows sorts by the chosen color's answers, then mana value, then name", () => {
+  const creatures = [
+    { name: "Bear", mv: 2, answers: { "": 2, R: 2 } },
+    { name: "Titan", mv: 6, answers: { "": 5, R: 1 } },
+    { name: "Giant", mv: 6, answers: { "": 5, R: 1 } },
+  ]
+  assert.deepEqual(hardToRemoveRows(creatures, "R").map(c => c.name), ["Giant", "Titan", "Bear"])
+  assert.deepEqual(hardToRemoveRows(creatures, "").map(c => c.name), ["Bear", "Giant", "Titan"])
 })
