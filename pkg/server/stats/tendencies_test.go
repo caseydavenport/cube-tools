@@ -155,6 +155,8 @@ func TestTendencies_MainColors(t *testing.T) {
 
 	got := playerTendencies(tendencyPlayer, mine, mine, nil, cubeLists{})
 	assert.Equal(t, []string{"W", "R"}, got.MainColors)
+	assert.Equal(t, 50.0, got.ColorShares["R"])
+	assert.Equal(t, 5.0, got.ColorShares["G"])
 }
 
 func TestTendencies_ColorGap(t *testing.T) {

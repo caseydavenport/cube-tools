@@ -6,7 +6,7 @@ export const ALL_SOURCES = [
   "decks", "cube", "drafts", "archetypeMatchups",
   "cardStats", "cardStatsOverTime",
   "colorStats", "colorStatsOverTime", "colorMatchups",
-  "archetypeStats", "archetypeStatsOverTime", "playerStats", "playerStatsOverTime", "deckCharts",
+  "archetypeStats", "archetypeStatsOverTime", "playerStats", "deckCharts",
   "synergy", "synergyCompare",
   "designGraph", "health",
 ]
@@ -22,7 +22,7 @@ export const VIEW_SOURCES = {
   synergy: ["decks", "cube", "synergy", "synergyCompare"],
   health: ["decks", "cube", "health"],
   designmap: ["cube", "designGraph"],
-  players: ["decks", "cube", "playerStats", "playerStatsOverTime"],
+  players: ["decks", "cube", "playerStats"],
 }
 
 // viewNeeds reports whether a page needs a source. A page the table doesn't

@@ -27,9 +27,9 @@ test("the archetypes page loads its over-time stats from the server", () => {
   assert.equal(viewNeeds("types", "archetypeStatsOverTime"), true)
 })
 
-test("the players page loads its rows and over-time rows from the server", () => {
+test("the players page loads its rows but no over-time rows", () => {
   assert.equal(viewNeeds("players", "playerStats"), true)
-  assert.equal(viewNeeds("players", "playerStatsOverTime"), true)
+  assert.equal(viewNeeds("players", "playerStatsOverTime"), false)
 })
 
 test("pages that don't show players don't load player stats", () => {

@@ -33,11 +33,6 @@
   text-align: right;
 }
 
-.players-line-chart {
-  height: 500px;
-  width: 100%;
-}
-
 .page-muted-center-cell {
   text-align: center;
   color: var(--se-muted);

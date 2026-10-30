@@ -27,16 +27,18 @@ const (
 )
 
 // PlayerTendencies is what a player tends to draft, for the Players page.
-// Matches counts their matches with a result. MainColors are the colors with
-// at least mainColorShare of their colored cards, in WUBRG order. ColorGap is
-// the color where they differ most from the cube, nil without colored cards.
+// Matches counts their matches with a result. ColorShares is each color's
+// percent of their colored cards, and MainColors those with mainColorShare or
+// more, in WUBRG order. ColorGap is the color where they differ most from the
+// cube, nil without colored cards.
 type PlayerTendencies struct {
-	Matches        int             `json:"matches"`
-	MainColors     []string        `json:"main_colors"`
-	ColorGap       *ColorGap       `json:"color_gap"`
-	Archetypes     []NamedCount    `json:"archetypes"`
-	Packages       []NamedCount    `json:"packages"`
-	SignatureCards []SignatureCard `json:"signature_cards"`
+	Matches        int                `json:"matches"`
+	ColorShares    map[string]float64 `json:"color_shares"`
+	MainColors     []string           `json:"main_colors"`
+	ColorGap       *ColorGap          `json:"color_gap"`
+	Archetypes     []NamedCount       `json:"archetypes"`
+	Packages       []NamedCount       `json:"packages"`
+	SignatureCards []SignatureCard    `json:"signature_cards"`
 }
 
 // NamedCount is how many of a player's decks had something, such as an
@@ -101,6 +103,7 @@ func playerTendencies(playerID int, mine, baseline []*storage.Deck, pkgs []desig
 	playerShares := colorShares(mine)
 	return PlayerTendencies{
 		Matches:        matchesWithResults(mine),
+		ColorShares:    playerShares,
 		MainColors:     mainColors(playerShares),
 		ColorGap:       biggestColorGap(playerShares, colorShares(baseline)),
 		Archetypes:     archetypeCounts(mine),

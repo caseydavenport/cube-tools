@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useStatsData, useStatsFilters } from "./StatsHooks.js"
 import { useCube } from "../contexts/CubeContext.js"
-import { PlayerDetailsPanel } from "./Players.js"
 import { useSelection } from "../hooks/useSelection.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
 import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
@@ -13,7 +12,8 @@ import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PlayersTable } from "../players/PlayersTable.js"
 import { sortPlayerRows } from "../players/playerTable.js"
 import { PlayerSettings } from "../players/PlayerSettings.js"
-import { PlayerSummaryCard } from "../players/PlayerSummaryCard.js"
+import { PlayerProfile } from "../players/PlayerProfile.js"
+import { asEvent } from "../components/kit/controls.js"
 import "../decks/decks.css"
 import "../players/players.css"
 import { LoadFailedNotice } from "../stats/LoadFailedNotice.js"
@@ -41,53 +41,15 @@ const COPY = {
   sortLabels: {
     matches: "Matches",
     name: "Player",
-    num_decks: "Decks",
+    num_decks: "Drafts",
     games: "Games",
     win_percent: "Bayes Win %",
     trophies: "Trophies",
   },
 
-  playersLower: "players",
-  deckLower: "deck",
-  decksLower: "decks",
-  pickPlayer: "Pick a player from the list",
-
-  games: "games",
-  decks: "Decks",
-  gamesTile: "Games",
-  trophies: "Trophies",
-  lastPlace: "Last place",
-  opponentWinPercent: "Opponent strength",
-  opponentStrengthTip: "How well this player's opponents did in their other games: a measure of how tough their pairings were.",
-
   renameLabel: "name",
   renameError: "Couldn't rename",
 
-  opponents: "Opponents",
-  archetypes: "Archetypes",
-  colors: "Colors",
-  winRateOverTime: "Win rate over time",
-
-  details: {
-    opponentHeader: ({ minGames }) => `Opponent (min ${minGames} games)`,
-    winPct: "Bayes Win %",
-    opponentWinPctHeader: "Your Bayes win % vs them",
-    games: "Games",
-    arch: "Arch",
-    buildPct: "Build %",
-    wins: "Wins",
-    losses: "Losses",
-    color: "Color",
-    opponentWinPctTip: "Share of the player's games against this opponent that they won, pulled toward 50% in proportion to how few games they've played. Greyed when it can't be told apart from 50%. Hover for the raw win %, its interval and the record.",
-    gamesTip: "Number of games the player has played against this opponent.",
-    archBuildPctTip: "Share of the player's decks that were this archetype.",
-    colorBuildPctTip: "Share of the player's decks that included this color.",
-    winPctTip: "Share of the player's games won with these decks, pulled toward 50% in proportion to how few games there are. Greyed when it can't be told apart from 50%. Hover for the raw win %, its interval and the record.",
-    winsTip: "Games the player won with these decks.",
-    lossesTip: "Games the player lost with these decks.",
-    buildTitle: ({ bucketSize }) => `Build % (bucket size = ${bucketSize} drafts)`,
-    winTitle: ({ bucketSize }) => `Bayes win % (bucket size = ${bucketSize} drafts)`,
-  },
 }
 
 // usePlayerList loads the global player list, again whenever refresh changes
@@ -148,37 +110,8 @@ function usePlayerSelection(players) {
   return { name, id, selectionFor, select }
 }
 
-// detailProps wires the stats tables' sort headers to the shared filter state,
-// the way the stats pages pass them to PlayerDetailsPanel.
-function detailProps(filters) {
-  // headerClick returns a click handler for a table's headers: a new column
-  // sorts by it, and clicking the same column again reverses the order.
-  function headerClick(sortBy, setSortBy, invert, setInvert) {
-    return event => {
-      if (sortBy === event.currentTarget.id) {
-        setInvert(!invert)
-      } else {
-        setInvert(false)
-        setSortBy(event.currentTarget.id)
-      }
-    }
-  }
-
-  return {
-    bucketSize: filters.bucketSize,
-    oppSortBy: filters.oppSortBy,
-    oppSortInvert: filters.oppSortInvert,
-    onOppHeaderClick: headerClick(filters.oppSortBy, filters.setOppSortBy, filters.oppSortInvert, filters.setOppSortInvert),
-    playerArchSortBy: filters.playerArchSortBy,
-    playerArchSortInvert: filters.playerArchSortInvert,
-    onPlayerArchHeaderClick: headerClick(filters.playerArchSortBy, filters.setPlayerArchSortBy, filters.playerArchSortInvert, filters.setPlayerArchSortInvert),
-    playerColorSortBy: filters.playerColorSortBy,
-    playerColorSortInvert: filters.playerColorSortInvert,
-    onPlayerColorHeaderClick: headerClick(filters.playerColorSortBy, filters.setPlayerColorSortBy, filters.playerColorSortInvert, filters.setPlayerColorSortInvert),
-  }
-}
-
-// PlayersPage lists the cube's players beside the selected player's records.
+// PlayersPage lists the cube's players by matches played, with what each tends
+// to draft; a row expands into the player's profile.
 // The toolbar holds the date range, the deck filter (kept in the URL like on
 // Decks), and the list settings. props carry the app-wide dates and filter.
 export function PlayersPage(props) {
@@ -239,25 +172,17 @@ export function PlayersPage(props) {
 
   // renderProfile draws an open row's profile.
   function renderProfile(row) {
-    const header = (
-      <PlayerSummaryCard
+    return (
+      <PlayerProfile
         row={row}
+        cube={cubeId}
+        start={props.startDate}
+        end={props.endDate}
+        decks={parsed.filteredDecks}
+        onMatch={value => props.onMatchUpdated(asEvent(value))}
         playerId={selection.id}
         editable={editable}
         onRenamed={() => setRefresh(r => r + 1)}
-        confidence={filters.winConfidence}
-        copy={COPY}
-      />
-    )
-    return (
-      <PlayerDetailsPanel
-        {...detailProps(filters)}
-        parsed={parsed}
-        decks={parsed.filteredDecks}
-        player={row.name}
-        onSelectPlayer={selection.select}
-        confidence={filters.winConfidence}
-        header={header}
         copy={COPY}
       />
     )

@@ -1,23 +1,5 @@
 /* The Players page. Its cards share the deck page's card styles (decks.css). */
 
-.player-stat-tiles {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 10px;
-}
-
-@media (max-width: 74.99em) {
-  .player-stat-tiles {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 47.99em) {
-  .player-stat-tiles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 .player-rename-error {
   margin-top: 4px;
   font-size: 12px;
@@ -66,4 +48,86 @@
 
 .players-profile-row > td {
   padding: 12px;
+}
+
+/* An expanded player's profile. */
+.players-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.players-profile-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.players-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+@media (max-width: 47.99em) {
+  .players-profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.players-profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.players-profile-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.players-profile-title {
+  color: var(--se-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.players-profile-link {
+  font-size: 0.8rem;
+}
+
+.players-color-bar {
+  display: flex;
+  height: 12px;
+  border-radius: 4px;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.players-color-W { background: var(--se-mana-w); }
+.players-color-U { background: var(--se-mana-u); }
+.players-color-B { background: var(--se-mana-b); }
+.players-color-R { background: var(--se-mana-r); }
+.players-color-G { background: var(--se-mana-g); }
+
+.players-color-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 0.8rem;
+}
+
+.players-color-legend .mana-symbol {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
+.players-signature-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
 }
