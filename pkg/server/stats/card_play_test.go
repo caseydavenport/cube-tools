@@ -71,11 +71,25 @@ func TestCardPlay_CountsDraftsNotDecks(t *testing.T) {
 	assert.Equal(t, 2, got.DraftsAvailable)
 	assert.Equal(t, 50.0, got.Rate)
 
-	// A draft with no cube list counts only when a deck played the card there,
-	// since otherwise there's no telling whether its cube had it.
+	// With no cube lists at all, every draft counts as having the card.
 	unknown := cardPlay(card, withSpells(decks), nil, &types.Cube{Cards: []types.Card{card}}, cubeLists{})
-	assert.Equal(t, 1, unknown.DraftsAvailable)
+	assert.Equal(t, 3, unknown.DraftsAvailable)
 	assert.Equal(t, 1, unknown.DraftsPlayed)
+}
+
+func TestCardPlay_SkipsDraftsWithoutList(t *testing.T) {
+	card := tendencySpell("Goblin Bombardment", "R")
+	decks := []*storage.Deck{
+		// Draft 1 has no cube list, so it says nothing about the card even
+		// though a deck played it there.
+		playDeck("Freddie", 1, 1, "2024-01-01", "Goblin Bombardment"),
+		playDeck("Freddie", 2, 1, "2024-02-01", "Shock"),
+	}
+	cubes := cubeLists{2: {"Shock": true, "Goblin Bombardment": true}}
+
+	got := cardPlay(card, withSpells(decks), nil, &types.Cube{Cards: []types.Card{card}}, cubes)
+	assert.Equal(t, 0, got.DraftsPlayed)
+	assert.Equal(t, 1, got.DraftsAvailable)
 }
 
 func TestCardPlay_PlayedProvesAvailable(t *testing.T) {
@@ -107,6 +121,77 @@ func TestPopularity_Thresholds(t *testing.T) {
 	assert.Equal(t, "", popularity(6, peers[:9]))
 }
 
+func TestPopularity_NoLabelWhenPeersAllEqual(t *testing.T) {
+	peers := []float64{100, 100, 100, 100, 100, 100, 100, 100, 100, 100}
+	assert.Equal(t, "", popularity(100, peers))
+}
+
+func TestCardPlay_NoPopularityUnderFiveDrafts(t *testing.T) {
+	got := popularityFixture(t, 4, 4, func(i int) int { return i % 4 })
+	assert.Equal(t, 4, got.DraftsAvailable)
+	assert.Equal(t, "", got.Popularity)
+}
+
+func TestCardPlay_PeersUnderFiveDraftsLeftOut(t *testing.T) {
+	// Twelve peers played more than the card make it niche, but when eight of
+	// them sit in only four drafts' lists, four peers are left: too few to label.
+	peerPlayed := func(i int) int { return 4 + i%3 }
+	got := popularityFixture(t, 6, 3, peerPlayed)
+	assert.Equal(t, "niche", got.Popularity)
+
+	got = popularityFixture(t, 6, 3, peerPlayed, 4)
+	assert.Equal(t, "", got.Popularity)
+}
+
+func TestCardPlay_TiesCompareUnrounded(t *testing.T) {
+	// The card and six peers sit at 4 of 6 drafts; six more peers at 0. Ties
+	// aren't below, so half the peers are below: typical, not popular.
+	got := popularityFixture(t, 6, 4, func(i int) int {
+		if i < 6 {
+			return 4
+		}
+		return 0
+	})
+	assert.Equal(t, 66.7, got.Rate)
+	assert.Equal(t, "typical", got.Popularity)
+}
+
+// popularityFixture runs cardPlay for Goblin Bombardment over drafts one-deck
+// drafts, every one listing every card. The card is played in the first
+// played drafts and each red peer i in the first peerPlayed(i) drafts. There
+// are twelve peers, or limited of them when given, the rest listed in only
+// four drafts.
+func popularityFixture(t *testing.T, drafts, played int, peerPlayed func(int) int, limited ...int) CardPlay {
+	t.Helper()
+	card := tendencySpell("Goblin Bombardment", "R")
+	cube := &types.Cube{Cards: []types.Card{card}}
+	for i := 0; i < 12; i++ {
+		cube.Cards = append(cube.Cards, tendencySpell(peerName(i), "R"))
+	}
+
+	var decks []*storage.Deck
+	cubes := cubeLists{}
+	for draft := 1; draft <= drafts; draft++ {
+		var names []string
+		cubes[draft] = map[string]bool{}
+		if draft <= played {
+			names = append(names, card.Name)
+		}
+		cubes[draft][card.Name] = true
+		for i := 0; i < 12; i++ {
+			if len(limited) > 0 && i >= limited[0] && draft > 4 {
+				continue
+			}
+			cubes[draft][peerName(i)] = true
+			if draft <= peerPlayed(i) {
+				names = append(names, peerName(i))
+			}
+		}
+		decks = append(decks, playDeck("Freddie", draft, 1, "2024-01-01", names...))
+	}
+	return cardPlay(card, withSpells(decks), nil, cube, cubes)
+}
+
 func TestCardPlay_RangeWithoutDecks(t *testing.T) {
 	card := tendencySpell("Goblin Bombardment", "R")
 	history := []DraftPresence{{State: "played"}, {State: "in"}}
@@ -123,12 +208,13 @@ func TestCardPlay_PopularityAgainstSameColor(t *testing.T) {
 	cube := &types.Cube{Cards: []types.Card{card}}
 	var decks []*storage.Deck
 
-	// Twenty one-deck drafts: ten red peers each in one of them, Bombardment in
-	// all of them, and a blue card in every one that doesn't count against it.
+	// Twenty one-deck drafts: red peer p played in the first p+1 of them,
+	// Bombardment in all of them, and a blue card in every one that doesn't
+	// count against it.
 	for i := 0; i < 20; i++ {
 		names := []string{"Goblin Bombardment", "Counterspell"}
-		if i < 10 {
-			names = append(names, peerName(i))
+		for p := i; p < 10; p++ {
+			names = append(names, peerName(p))
 		}
 		decks = append(decks, playDeck("Freddie", i+1, 1, "2024-01-01", names...))
 	}
@@ -148,7 +234,7 @@ func TestCardPlay_PopularityAgainstSameColor(t *testing.T) {
 
 	got := cardPlay(card, withSpells(decks), nil, cube, cubes)
 	assert.Equal(t, "popular", got.Popularity)
-	assert.Equal(t, 5.0, got.PeerMedian)
+	assert.Equal(t, 27.5, got.PeerMedian)
 }
 
 // peerName names the i-th filler red card.

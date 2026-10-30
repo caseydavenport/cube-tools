@@ -15,6 +15,11 @@ const (
 	// compared against before it gets a popular, typical or niche label.
 	minPopularityPeers = 10
 
+	// minPopularityDrafts is how many drafts a card, or a peer, must have been
+	// available in to count toward a popularity label. It matches the UI's
+	// "New to the cube" cutoff.
+	minPopularityDrafts = 5
+
 	// Draft states on a card's cube history.
 	draftPlayed  = "played"
 	draftInCube  = "in"
@@ -135,12 +140,13 @@ func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cub
 		}
 	}
 
-	byDraft := decksByDraft(ranged)
+	byDraft := listedDrafts(decksByDraft(ranged), cubes)
 	play.DraftsPlayed, play.DraftsAvailable = draftsWithCard(byDraft, card.Name, cubes)
 	if play.DraftsAvailable == 0 {
 		return play
 	}
-	play.Rate = round1(100 * float64(play.DraftsPlayed) / float64(play.DraftsAvailable))
+	rate := 100 * float64(play.DraftsPlayed) / float64(play.DraftsAvailable)
+	play.Rate = round1(rate)
 
 	// Compare against the median rate of same-color cube cards.
 	var peerRates []float64
@@ -149,15 +155,34 @@ func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cub
 			continue
 		}
 		played, available := draftsWithCard(byDraft, c.Name, cubes)
-		if available > 0 {
+		if available >= minPopularityDrafts {
 			peerRates = append(peerRates, 100*float64(played)/float64(available))
 		}
 	}
 	if len(peerRates) > 0 {
 		play.PeerMedian = median(peerRates)
 	}
-	play.Popularity = popularity(play.Rate, peerRates)
+	if play.DraftsAvailable >= minPopularityDrafts {
+		play.Popularity = popularity(rate, peerRates)
+	}
 	return play
+}
+
+// listedDrafts drops the drafts with no cube list when any draft has one,
+// since a missing list can't say whether a card went unplayed or was absent.
+// With no lists at all it keeps every draft, and each card counts as
+// available in all of them.
+func listedDrafts(byDraft map[int][]deckSpells, cubes cubeLists) map[int][]deckSpells {
+	out := map[int][]deckSpells{}
+	for draftID, decks := range byDraft {
+		if _, ok := cubes[draftID]; ok {
+			out[draftID] = decks
+		}
+	}
+	if len(out) == 0 {
+		return byDraft
+	}
+	return out
 }
 
 // decksByDraft groups decks by their draft.
@@ -172,15 +197,10 @@ func decksByDraft(decks []deckSpells) map[int][]deckSpells {
 
 // draftsWithCard counts the drafts whose cube had the card, and how many of
 // those had a deck mainboard it. A deck that played it proves its draft had it.
-// A draft with no cube list counts only then, since otherwise there's no
-// telling whether its cube had the card.
 func draftsWithCard(byDraft map[int][]deckSpells, card string, cubes cubeLists) (int, int) {
 	played, available := 0, 0
-	for draftID, decks := range byDraft {
+	for _, decks := range byDraft {
 		with, could := countWithCard(decks, card, cubes)
-		if _, listed := cubes[draftID]; !listed && with == 0 {
-			continue
-		}
 		if could == 0 {
 			continue
 		}
@@ -207,9 +227,13 @@ func colorBucket(c types.Card) string {
 
 // popularity labels a mainboard rate against its peers' rates: "popular" when
 // at least two thirds of them are lower, "niche" when under a third are, else
-// "typical". Fewer than minPopularityPeers peers gives no label.
+// "typical". Fewer than minPopularityPeers peers, or peers that all share
+// one rate, give no label.
 func popularity(rate float64, peerRates []float64) string {
 	if len(peerRates) < minPopularityPeers {
+		return ""
+	}
+	if slices.Min(peerRates) == slices.Max(peerRates) {
 		return ""
 	}
 	below := 0
