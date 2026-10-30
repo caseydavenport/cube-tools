@@ -153,7 +153,18 @@ function CardStatsTable(cards, allColumns, input) {
   )
 }
 
+// CardWidgetTable is the Cards page's stats table. Rendering hundreds of rows
+// is the slow part of the page, so it renders from a deferred copy of its
+// inputs: a filter change updates the controls at once, and the rows follow
+// without freezing the page.
 export function CardWidgetTable(input) {
+  const deferred = React.useDeferredValue(input)
+  return <CardTableForInputs input={deferred} />
+}
+
+// CardTableForInputs draws the table for one set of inputs. It's memoized so
+// the quick update that runs before the deferred one skips the table entirely.
+const CardTableForInputs = React.memo(function CardTableForInputs({ input }) {
   let cards = []
   for (let [name, card] of input.cardData) {
     cards.push(card)
@@ -168,7 +179,7 @@ export function CardWidgetTable(input) {
     default:
       return CardStatsTable(cards, OVERVIEW_COLUMNS, input)
   }
-}
+})
 
 export function CardWidgetOptions(input) {
   // The tag list runs to hundreds of options, so it's only rebuilt when the
