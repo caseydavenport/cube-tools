@@ -6,7 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/design"
+
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/stretchr/testify/assert"
 )
@@ -29,8 +30,8 @@ func getDecks(h http.Handler, query string) *httptest.ResponseRecorder {
 }
 
 func TestDeckHandlerEdgeErrorIs500(t *testing.T) {
-	edges := func(string) ([]graph.Edge, error) { return nil, errors.New("no rules") }
-	rec := getDecks(DeckHandler(newStore(), edges), "match=community:graveyard")
+	packagesFor := func(string) ([]design.PackageCards, error) { return nil, errors.New("no rules") }
+	rec := getDecks(DeckHandler(newStore(), packagesFor), "match=package:graveyard")
 	assert.Equal(t, http.StatusInternalServerError, rec.Code)
 }
 

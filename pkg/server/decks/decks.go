@@ -18,9 +18,9 @@ type DecksResponse struct {
 }
 
 // DeckHandler serves the cube's decks that match the request's filters.
-// edgesFor answers community: terms; nil makes them match no decks.
-func DeckHandler(store storage.DeckStorage, edgesFor deckquery.EdgesLoader) http.Handler {
-	return &deckHandler{q: deckquery.New(store, nil, edgesFor)}
+// packagesFor answers package: terms; nil makes them match no decks.
+func DeckHandler(store storage.DeckStorage, packagesFor deckquery.PackagesLoader) http.Handler {
+	return &deckHandler{q: deckquery.New(store, nil, packagesFor)}
 }
 
 type deckHandler struct {

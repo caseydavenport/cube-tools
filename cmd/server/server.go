@@ -6,7 +6,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
-	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
@@ -56,8 +56,8 @@ func main() {
 	writeRoute := func(pattern string, h http.Handler) {
 		cubeRoute(pattern, server.RequireWritable(deckStore, h))
 	}
-	edgesFor := func(cubeID string) ([]graph.Edge, error) {
-		return stats.EdgesForCube(deckStore, provider, cubeID)
+	packagesFor := func(cubeID string) ([]design.PackageCards, error) {
+		return stats.PackagesForCube(deckStore, provider, cubeID)
 	}
 	mux.Handle("GET /api/players", server.PlayersListHandler("data"))
 	mux.Handle("POST /api/players", server.PlayerAddHandler("data"))
@@ -66,11 +66,11 @@ func main() {
 	cubeRoute("GET /api/{cube}/info", server.CubeInfoHandler(deckStore))
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler(deckStore))
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler(deckStore))
-	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore, edgesFor))
+	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore, packagesFor))
 	cubeRoute("GET /api/{cube}/decks/summary", decks.SummaryHandler(deckStore))
 	cubeRoute("POST /api/{cube}/decks/update", decks.UpdateDeckHandler(deckStore))
 	cubeRoute("POST /api/{cube}/decks/record", decks.UpdateDeckRecordHandler(deckStore))
-	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler(deckStore, edgesFor))
+	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler(deckStore, packagesFor))
 	cubeRoute("GET /api/{cube}/stats/cards", stats.CardStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/colors", stats.ColorStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/synergy", stats.SynergyStatsHandler(deckStore, provider))

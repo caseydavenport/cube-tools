@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
-	"github.com/caseydavenport/cube-tools/pkg/graph"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -88,9 +87,10 @@ type DecksRequest struct {
 	Match     string `json:"match,omitempty"`
 	Board     string `json:"board,omitempty"`
 
-	// CommunityEdges carries the cube design graph for a community: term in Match.
-	// The handler sets it only when Match needs it; nil means no community filter.
-	CommunityEdges []graph.Edge `json:"-"`
+	// Packages carries the cube's resolved packages for a package: term in
+	// Match. The handler sets it only when Match needs it; nil means no
+	// package filter.
+	Packages []design.PackageCards `json:"-"`
 }
 
 func (d *Deck) GetPlayer() string { return d.Player }
@@ -197,8 +197,8 @@ type RecordEdit struct {
 }
 
 func filter(decks []*Deck, r *DecksRequest) []*Deck {
-	// Check if we need to do any filtering. CommunityEdges alone never filters -
-	// it's inert without a community: term in Match - so it's left out here.
+	// Check if we need to do any filtering. Packages alone never filters - it's
+	// inert without a package: term in Match - so it's left out here.
 	if r == nil || (r.Player == "" && r.Start == "" && r.End == "" && r.DraftSize == 0 && r.Match == "" && r.Board == "") {
 		return decks
 	}
@@ -246,7 +246,7 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 		}
 
 		// Check the query string.
-		if r.Match != "" && !query.DeckMatchesBoardGraph(d, r.Match, r.Board, r.CommunityEdges) {
+		if r.Match != "" && !query.DeckMatchesBoardPackages(d, r.Match, r.Board, r.Packages) {
 			continue
 		}
 

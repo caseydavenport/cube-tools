@@ -313,14 +313,14 @@ func TestPivot_OpponentCompositionSplit(t *testing.T) {
 	assert.Equal(t, 1, b.Cells["aggro"].Wins)
 }
 
-func TestPivotCardQueryCommunity(t *testing.T) {
-	edges, err := graveyardEdges("testcube")
+func TestPivotCardQueryPackage(t *testing.T) {
+	pkgs, err := graveyardPackages("testcube")
 	require.NoError(t, err)
 	ozzy := queryDeck(1, "2026-01-10", "gy1", "gy2", "gy3")
 	stevie := queryDeck(2, "2026-01-10", "gy1", "gy2", "Forest")
-	p := PivotPredicate{Dim: "card_query", Op: "includes", Value: "community:graveyard"}
+	p := PivotPredicate{Dim: "card_query", Op: "includes", Value: "package:graveyard"}
 
-	assert.True(t, predicatePasses(ozzy, p, nil, edges))
-	assert.False(t, predicatePasses(stevie, p, nil, edges))
-	assert.False(t, predicatePasses(ozzy, p, nil, nil), "without the design graph no deck forms a package")
+	assert.True(t, predicatePasses(ozzy, p, nil, pkgs))
+	assert.False(t, predicatePasses(stevie, p, nil, pkgs))
+	assert.False(t, predicatePasses(ozzy, p, nil, nil), "without the packages no deck builds one")
 }

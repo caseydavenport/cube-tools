@@ -1,8 +1,10 @@
 package stats
 
 import (
+	"fmt"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
@@ -18,52 +20,59 @@ func deckOf(names ...string) *storage.Deck {
 	return &storage.Deck{Deck: types.Deck{Mainboard: cards}}
 }
 
-// statFor returns the row for a label, failing the test if it's absent.
-func statFor(t *testing.T, resp PackageStatsResponse, label string) PackageStat {
+// statFor returns the row for a package, failing the test if it's absent.
+func statFor(t *testing.T, resp PackageStatsResponse, name string) PackageStat {
 	t.Helper()
 	for _, s := range resp.Packages {
-		if s.Name == label {
+		if s.Name == name {
 			return s
 		}
 	}
-	require.Failf(t, "label not found", "no package row for %q", label)
+	require.Failf(t, "package not found", "no package row for %q", name)
 	return PackageStat{}
 }
 
-// packageTestGraph is the cube-wide edge set the aggregation tests induce over:
-// a heavy Graveyard triangle, a heavy Ramp triangle, and light Fetches edges that
-// only ever attach fetch cards to graveyard cards (so fetches never cohere on
-// their own).
-func packageTestGraph() DesignGraphResponse {
-	return DesignGraphResponse{
-		Edges: []DesignGraphEdge{
-			{Source: "gy1", Target: "gy2", Weight: 5, Packages: []string{"Graveyard"}},
-			{Source: "gy2", Target: "gy3", Weight: 5, Packages: []string{"Graveyard"}},
-			{Source: "gy1", Target: "gy3", Weight: 5, Packages: []string{"Graveyard"}},
-			{Source: "r1", Target: "r2", Weight: 5, Packages: []string{"Ramp"}},
-			{Source: "r2", Target: "r3", Weight: 5, Packages: []string{"Ramp"}},
-			{Source: "r1", Target: "r3", Weight: 5, Packages: []string{"Ramp"}},
-			{Source: "f1", Target: "gy1", Weight: 1, Packages: []string{"Fetches"}},
-			{Source: "f2", Target: "gy2", Weight: 1, Packages: []string{"Fetches"}},
-			{Source: "f3", Target: "gy3", Weight: 1, Packages: []string{"Fetches"}},
-		},
+// cardSet builds a set of card names, the shape a resolved wire side takes.
+func cardSet(names ...string) map[string]bool {
+	out := make(map[string]bool, len(names))
+	for _, n := range names {
+		out[n] = true
+	}
+	return out
+}
+
+// twoSided is a package with one wire whose sides each need two cards.
+func twoSided(name string, sources, targets map[string]bool) design.PackageCards {
+	return design.PackageCards{
+		Name:  name,
+		Wires: []design.WireCards{{Sources: sources, Targets: targets, NeedSources: 2, NeedTargets: 2}},
+	}
+}
+
+// packageTestPackages are the resolved packages the aggregation tests run
+// over: Graveyard and Ramp, each two cards wired to two others, and Fetches,
+// whose fetch side decks rarely play two of.
+func packageTestPackages() []design.PackageCards {
+	return []design.PackageCards{
+		twoSided("Graveyard", cardSet("gy1", "gy2"), cardSet("gy3", "gy4")),
+		twoSided("Ramp", cardSet("r1", "r2"), cardSet("r3", "r4")),
+		twoSided("Fetches", cardSet("f1", "f2"), cardSet("gy1", "gy2", "gy3", "gy4")),
 	}
 }
 
 func TestPackageStats_TalliesBuildRateAndCommitment(t *testing.T) {
 	decks := []*storage.Deck{
-		// Graveyard + Ramp, two separate cohesive triangles. Basics are stripped.
-		deckOf("gy1", "gy2", "gy3", "r1", "r2", "r3", "Forest", "Snow-Covered Island"),
+		// Graveyard and Ramp both built. Basics are stripped.
+		deckOf("gy1", "gy2", "gy3", "gy4", "r1", "r2", "r3", "r4", "Forest", "Snow-Covered Island"),
 
 		// Graveyard alone.
-		deckOf("gy1", "gy2", "gy3"),
+		deckOf("gy1", "gy2", "gy3", "gy4"),
 
-		// Graveyard triangle with fetches hanging off it: fetches touch >=3 cards
-		// but never form their own package.
-		deckOf("gy1", "gy2", "gy3", "f1", "f2", "f3"),
+		// Graveyard with one fetch: Fetches has the cards but only one source.
+		deckOf("gy1", "gy2", "gy3", "gy4", "f1"),
 	}
 
-	resp := packageStats(packageTestGraph(), decks, 0.95)
+	resp := packageStats(packageTestPackages(), decks, 0.95)
 	assert.Equal(t, 3, resp.PopulatedDecks)
 	assert.Equal(t, 0.95, resp.Confidence)
 
@@ -79,7 +88,7 @@ func TestPackageStats_TalliesBuildRateAndCommitment(t *testing.T) {
 	assert.Equal(t, 0.333, ramp.BuildRate)
 	assert.Equal(t, 1.0, ramp.CommitmentRatio)
 
-	// Fetches: present on enough cards but never cohesive - glue, not a strategy.
+	// Fetches: enough cards present, but never two from the fetch side.
 	fetches := statFor(t, resp, "Fetches")
 	assert.Equal(t, 0, fetches.Package)
 	assert.Equal(t, 1, fetches.Has3)
@@ -90,12 +99,12 @@ func TestPackageStats_TalliesBuildRateAndCommitment(t *testing.T) {
 
 func TestPackageStats_SortedByPackageDescending(t *testing.T) {
 	decks := []*storage.Deck{
-		deckOf("gy1", "gy2", "gy3", "r1", "r2", "r3"),
-		deckOf("gy1", "gy2", "gy3"),
-		deckOf("gy1", "gy2", "gy3", "f1", "f2", "f3"),
+		deckOf("gy1", "gy2", "gy3", "gy4", "r1", "r2", "r3", "r4"),
+		deckOf("gy1", "gy2", "gy3", "gy4"),
+		deckOf("gy1", "gy2", "gy3", "gy4", "f1"),
 	}
 
-	resp := packageStats(packageTestGraph(), decks, 0.95)
+	resp := packageStats(packageTestPackages(), decks, 0.95)
 	require.GreaterOrEqual(t, len(resp.Packages), 2)
 	for i := 1; i < len(resp.Packages); i++ {
 		assert.GreaterOrEqual(t, resp.Packages[i-1].Package, resp.Packages[i].Package)
@@ -105,12 +114,12 @@ func TestPackageStats_SortedByPackageDescending(t *testing.T) {
 
 func TestPackageStats_CIBracketsBuildRate(t *testing.T) {
 	decks := []*storage.Deck{
-		deckOf("gy1", "gy2", "gy3", "r1", "r2", "r3"),
-		deckOf("gy1", "gy2", "gy3"),
-		deckOf("gy1", "gy2", "gy3", "f1", "f2", "f3"),
+		deckOf("gy1", "gy2", "gy3", "gy4", "r1", "r2", "r3", "r4"),
+		deckOf("gy1", "gy2", "gy3", "gy4"),
+		deckOf("gy1", "gy2", "gy3", "gy4", "f1"),
 	}
 
-	resp := packageStats(packageTestGraph(), decks, 0.95)
+	resp := packageStats(packageTestPackages(), decks, 0.95)
 	for _, s := range resp.Packages {
 		assert.LessOrEqual(t, s.BuildRateLow, s.BuildRate, "low above point for %s", s.Name)
 		assert.GreaterOrEqual(t, s.BuildRateHigh, s.BuildRate, "high below point for %s", s.Name)
@@ -123,7 +132,7 @@ func TestPackageStats_CIBracketsBuildRate(t *testing.T) {
 
 func TestPackageStats_EmptyDecksExcludedFromDenominator(t *testing.T) {
 	decks := []*storage.Deck{
-		deckOf("gy1", "gy2", "gy3"),
+		deckOf("gy1", "gy2", "gy3", "gy4"),
 
 		// Only basics: not populated, must not count toward the denominator.
 		deckOf("Plains", "Island"),
@@ -132,7 +141,7 @@ func TestPackageStats_EmptyDecksExcludedFromDenominator(t *testing.T) {
 		deckOf(),
 	}
 
-	resp := packageStats(packageTestGraph(), decks, 0.95)
+	resp := packageStats(packageTestPackages(), decks, 0.95)
 	assert.Equal(t, 1, resp.PopulatedDecks)
 
 	gy := statFor(t, resp, "Graveyard")
@@ -140,9 +149,82 @@ func TestPackageStats_EmptyDecksExcludedFromDenominator(t *testing.T) {
 }
 
 // A deck filter that matches nothing leaves no decks, which should give no
-// label rows rather than rows at a 0% build rate.
-func TestPackageStats_NoDecksGivesNoLabels(t *testing.T) {
-	resp := packageStats(packageTestGraph(), nil, 0.8)
+// package rows rather than rows at a 0% build rate.
+func TestPackageStats_NoDecksGivesNoPackages(t *testing.T) {
+	resp := packageStats(packageTestPackages(), nil, 0.8)
 	assert.Equal(t, 0, resp.PopulatedDecks)
 	assert.Empty(t, resp.Packages)
+}
+
+func TestPackageStats_BothSides(t *testing.T) {
+	pkgs := []design.PackageCards{twoSided("Combo", cardSet("A", "B"), cardSet("C", "D", "E"))}
+	decks := []*storage.Deck{
+		deckOf("A", "B", "C", "D"),
+
+		// Plenty of the package's cards, but only one source.
+		deckOf("A", "C", "D", "E"),
+
+		deckOf("Z"),
+	}
+
+	resp := packageStats(pkgs, decks, 0.95)
+	assert.Equal(t, 3, resp.PopulatedDecks)
+	combo := statFor(t, resp, "Combo")
+	assert.Equal(t, 1, combo.Package)
+	assert.Equal(t, 2, combo.Has3)
+	assert.Equal(t, 0.333, combo.BuildRate)
+}
+
+func TestPackageStats_IgnoresBasics(t *testing.T) {
+	pkgs := []design.PackageCards{twoSided("Mountains", cardSet("A", "B"), cardSet("Mountain", "C"))}
+
+	// Mountain would be the second target, but basics never count.
+	resp := packageStats(pkgs, []*storage.Deck{deckOf("A", "B", "Mountain", "C")}, 0.95)
+	assert.Equal(t, 0, statFor(t, resp, "Mountains").Package)
+
+	// With a second non-basic target the same deck builds it.
+	pkgs = []design.PackageCards{twoSided("Mountains", cardSet("A", "B"), cardSet("Mountain", "C", "D"))}
+	resp = packageStats(pkgs, []*storage.Deck{deckOf("A", "B", "Mountain", "C", "D")}, 0.95)
+	assert.Equal(t, 1, statFor(t, resp, "Mountains").Package)
+}
+
+func TestPackageStats_ListsUnbuiltPackages(t *testing.T) {
+	pkgs := []design.PackageCards{
+		twoSided("Built", cardSet("A", "B"), cardSet("C", "D")),
+		twoSided("Unused", cardSet("X", "Y"), cardSet("W", "V")),
+	}
+
+	resp := packageStats(pkgs, []*storage.Deck{deckOf("A", "B", "C", "D")}, 0.95)
+	require.Len(t, resp.Packages, 2)
+	unused := statFor(t, resp, "Unused")
+	assert.Equal(t, 0, unused.Package)
+	assert.Equal(t, 0, unused.Has3)
+}
+
+// BenchmarkPackageStats measures the per-deck check at about polyverse's
+// size: 25 packages of 40 cards each and 250 decks of 40 cards.
+func BenchmarkPackageStats(b *testing.B) {
+	var pkgs []design.PackageCards
+	for p := range 25 {
+		sources := map[string]bool{}
+		targets := map[string]bool{}
+		for c := range 20 {
+			sources[fmt.Sprintf("card%d", (p*7+c)%400)] = true
+			targets[fmt.Sprintf("card%d", (p*13+c+200)%400)] = true
+		}
+		pkgs = append(pkgs, twoSided(fmt.Sprintf("pkg%d", p), sources, targets))
+	}
+	var decks []*storage.Deck
+	for d := range 250 {
+		var names []string
+		for c := range 40 {
+			names = append(names, fmt.Sprintf("card%d", (d*11+c*9)%400))
+		}
+		decks = append(decks, deckOf(names...))
+	}
+
+	b.ReportAllocs()
+	for b.Loop() {
+		packageStats(pkgs, decks, 0.8)
+	}
 }

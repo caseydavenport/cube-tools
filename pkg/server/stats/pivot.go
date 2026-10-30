@@ -9,7 +9,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/design"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
@@ -151,14 +152,14 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	edges, err := pivotEdges(h.q, cubeID, req.Predicates)
+	pkgs, err := pivotPackages(h.q, cubeID, req.Predicates)
 	if err != nil {
 		logrus.WithError(err).Error("could not load design graph")
 		http.Error(rw, "could not load design graph", http.StatusInternalServerError)
 		return
 	}
 
-	resp := computePivot(allDecks, subjects, &req, cubeCards, edges)
+	resp := computePivot(allDecks, subjects, &req, cubeCards, pkgs)
 
 	b, err := json.Marshal(resp)
 	if err != nil {
@@ -171,12 +172,12 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// pivotEdges loads the cube's design graph when a card query predicate has a
-// community: term, and returns nil otherwise.
-func pivotEdges(q *deckquery.Query, cubeID string, preds []PivotPredicate) ([]graph.Edge, error) {
+// pivotPackages loads the cube's resolved packages when a card query
+// predicate has a package: term, and returns nil otherwise.
+func pivotPackages(q *deckquery.Query, cubeID string, preds []PivotPredicate) ([]design.PackageCards, error) {
 	for _, p := range preds {
-		if p.Dim == "card_query" && query.HasCommunityTerm(p.Value) {
-			return q.Edges(cubeID, p.Value)
+		if p.Dim == "card_query" && query.HasPackageTerm(p.Value) {
+			return q.Packages(cubeID, p.Value)
 		}
 	}
 	return nil, nil
@@ -187,7 +188,7 @@ func pivotEdges(q *deckquery.Query, cubeID string, preds []PivotPredicate) ([]gr
 // boundaries come from it, so narrowing the subjects with the deck filter
 // doesn't lose an opponent or move a bucket's dates. A bucket with no subject
 // games still gets no row or column.
-func computePivot(allDecks, subjects []*storage.Deck, req *PivotRequest, cubeCards map[string]types.Card, edges []graph.Edge) *PivotResponse {
+func computePivot(allDecks, subjects []*storage.Deck, req *PivotRequest, cubeCards map[string]types.Card, pkgs []design.PackageCards) *PivotResponse {
 	idx := storage.NewOpponentIndex(allDecks)
 
 	// A time dimension needs a stable draft->bucket label map, built over the
@@ -240,7 +241,7 @@ func computePivot(allDecks, subjects []*storage.Deck, req *PivotRequest, cubeCar
 		if excluded[strings.ToLower(d.Player)] {
 			continue
 		}
-		if !deckPasses(d, req.Predicates, cubeCards, edges) {
+		if !deckPasses(d, req.Predicates, cubeCards, pkgs) {
 			continue
 		}
 		groupKeys := groupKeyer(d)
@@ -564,16 +565,16 @@ func compBucketLabel(dim string, v float64) string {
 }
 
 // deckPasses reports whether a deck satisfies every predicate (implicit AND).
-func deckPasses(d *storage.Deck, preds []PivotPredicate, cubeCards map[string]types.Card, edges []graph.Edge) bool {
+func deckPasses(d *storage.Deck, preds []PivotPredicate, cubeCards map[string]types.Card, pkgs []design.PackageCards) bool {
 	for _, p := range preds {
-		if !predicatePasses(d, p, cubeCards, edges) {
+		if !predicatePasses(d, p, cubeCards, pkgs) {
 			return false
 		}
 	}
 	return true
 }
 
-func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]types.Card, edges []graph.Edge) bool {
+func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]types.Card, pkgs []design.PackageCards) bool {
 	switch p.Dim {
 	case "color":
 		colors := d.GetColors()
@@ -615,7 +616,7 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 		}
 		return has
 	case "card_query":
-		m := query.DeckMatchesBoardGraph(d, p.Value, "mainboard", edges)
+		m := query.DeckMatchesBoardPackages(d, p.Value, "mainboard", pkgs)
 		if p.Op == "excludes" {
 			return !m
 		}

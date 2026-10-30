@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"sort"
 
-	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -14,22 +14,22 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// PackageStat is one rule label's corpus build rate: how often its cards cohere
-// into a package versus how often the deck merely carries enough of them.
+// PackageStat is one package's build rate across decks: how often decks build
+// it versus how often they merely carry enough of its cards.
 type PackageStat struct {
 	Name string `json:"name"`
 
-	// Package is the number of populated decks where this label's cards form a
-	// cohesive community; BuildRate is that count over the populated-deck total,
-	// bracketed by a Wilson interval at the request's confidence level.
+	// Package is the number of populated decks that build the package, per
+	// design.PackageCards.BuiltBy; BuildRate is that count over the populated
+	// decks, bracketed by a Wilson interval at the request's confidence level.
 	Package       int     `json:"package"`
 	BuildRate     float64 `json:"buildRate"`
 	BuildRateLow  float64 `json:"buildRateLow"`
 	BuildRateHigh float64 `json:"buildRateHigh"`
 
-	// Has3 is the number of decks carrying >=3 cards that touch this label -
-	// package-sized footprint, whether or not the cards cohere. CommitmentRatio
-	// is Package/Has3: low means the cards show up but rarely form a strategy.
+	// Has3 is the number of decks carrying 3 or more of the package's cards,
+	// per design.PackageCards.HasCards, built or not. CommitmentRatio is
+	// Package/Has3: low means the cards show up but rarely come together.
 	Has3            int     `json:"has3"`
 	Has3Rate        float64 `json:"has3Rate"`
 	CommitmentRatio float64 `json:"commitmentRatio"`
@@ -56,13 +56,13 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	logrus.Info("/api/stats/packages")
 
 	cubeID := server.CubeFromRequest(r)
-	graph, err := DesignGraphForCube(h.store, h.src, cubeID)
+	pkgs, err := PackagesForCube(h.store, h.src, cubeID)
 	if err != nil {
-		http.Error(rw, "could not load design graph", http.StatusInternalServerError)
+		http.Error(rw, "could not load packages", http.StatusInternalServerError)
 		return
 	}
 
-	// The design graph is cube-wide; only the decks it's measured over follow
+	// The packages are cube-wide; only the decks they're measured over follow
 	// the date range and the deck filter.
 	dr := &storage.DecksRequest{
 		Start: query.GetString(r, "start"),
@@ -75,7 +75,7 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	resp := packageStats(graph, allDecks, query.GetFloat(r, "confidence"))
+	resp := packageStats(pkgs, allDecks, query.GetFloat(r, "confidence"))
 	b, err := json.Marshal(resp)
 	if err != nil {
 		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
@@ -87,17 +87,14 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 }
 
-// packageStats induces each populated deck's subgraph, clusters it, and rolls the
-// per-deck footprints up to a per-label build rate. A deck is populated when it
-// has at least one non-basic mainboard card; empty decks stay out of the
-// denominator so they can't drag every rate down.
-func packageStats(designGraph DesignGraphResponse, decks []*storage.Deck, conf float64) PackageStatsResponse {
-	edges := toGraphEdges(designGraph)
-
+// packageStats counts, for each package, the decks that build it and the
+// decks that carry enough of its cards. A deck is populated when it has at
+// least one non-basic mainboard card; empty decks stay out of the denominator
+// so they can't drag every rate down. No populated decks means no rows.
+func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float64) PackageStatsResponse {
 	populated := 0
 	has3 := map[string]int{}
 	pkg := map[string]int{}
-	labels := map[string]bool{}
 
 	for _, d := range decks {
 		cards := nonBasicMainboard(d)
@@ -106,65 +103,41 @@ func packageStats(designGraph DesignGraphResponse, decks []*storage.Deck, conf f
 		}
 		populated++
 
-		g := graph.BuildDeckSubgraph(cards, edges)
-
-		// Tag footprint: distinct cards touching each label's edges. A card counts
-		// for a label when it is an endpoint of an edge carrying that label.
-		labelCards := map[string]map[string]bool{}
-		for _, e := range g.Edges {
-			for _, l := range e.Labels {
-				if labelCards[l] == nil {
-					labelCards[l] = map[string]bool{}
-				}
-				labelCards[l][e.A] = true
-				labelCards[l][e.B] = true
+		deck := make(map[string]bool, len(cards))
+		for _, name := range cards {
+			deck[name] = true
+		}
+		for _, p := range pkgs {
+			if p.HasCards(deck) {
+				has3[p.Name]++
 			}
-		}
-		for l, s := range labelCards {
-			labels[l] = true
-			if len(s) >= graph.MinPackageSize {
-				has3[l]++
+			if p.BuiltBy(deck) {
+				pkg[p.Name]++
 			}
-		}
-
-		// Package footprint: each cohesive community contributes its dominant
-		// label once per deck, so a deck with two Graveyard clusters still counts
-		// as one Graveyard build.
-		deckPackages := map[string]bool{}
-		for _, lab := range g.PackageLabels() {
-			deckPackages[lab] = true
-		}
-		for l := range deckPackages {
-			labels[l] = true
-			pkg[l]++
 		}
 	}
 
-	z := zForConfidence(conf)
-	n := float64(populated)
-	stats := make([]PackageStat, 0, len(labels))
-	for l := range labels {
-		low, high := wilsonInterval(pkg[l], populated-pkg[l], 0, z)
-		ratio := 0.0
-		if has3[l] > 0 {
-			ratio = round3(float64(pkg[l]) / float64(has3[l]))
+	stats := []PackageStat{}
+	if populated > 0 {
+		z := zForConfidence(conf)
+		n := float64(populated)
+		for _, p := range pkgs {
+			low, high := wilsonInterval(pkg[p.Name], populated-pkg[p.Name], 0, z)
+			ratio := 0.0
+			if has3[p.Name] > 0 {
+				ratio = round3(float64(pkg[p.Name]) / float64(has3[p.Name]))
+			}
+			stats = append(stats, PackageStat{
+				Name:            p.Name,
+				Package:         pkg[p.Name],
+				BuildRate:       round3(float64(pkg[p.Name]) / n),
+				BuildRateLow:    round3(low / 100),
+				BuildRateHigh:   round3(high / 100),
+				Has3:            has3[p.Name],
+				Has3Rate:        round3(float64(has3[p.Name]) / n),
+				CommitmentRatio: ratio,
+			})
 		}
-		buildRate := 0.0
-		has3Rate := 0.0
-		if populated > 0 {
-			buildRate = round3(float64(pkg[l]) / n)
-			has3Rate = round3(float64(has3[l]) / n)
-		}
-		stats = append(stats, PackageStat{
-			Name:            l,
-			Package:         pkg[l],
-			BuildRate:       buildRate,
-			BuildRateLow:    round3(low / 100),
-			BuildRateHigh:   round3(high / 100),
-			Has3:            has3[l],
-			Has3Rate:        has3Rate,
-			CommitmentRatio: ratio,
-		})
 	}
 
 	sort.Slice(stats, func(i, j int) bool {
@@ -181,28 +154,8 @@ func packageStats(designGraph DesignGraphResponse, decks []*storage.Deck, conf f
 	}
 }
 
-// EdgesForCube loads a cube's design graph and returns its clustering edges, so
-// the deck filter can ask whether a deck's cards cohere into a package without
-// depending on the stats package's response types.
-func EdgesForCube(store storage.DeckStorage, src types.CubeSource, cubeID string) ([]graph.Edge, error) {
-	resp, err := DesignGraphForCube(store, src, cubeID)
-	if err != nil {
-		return nil, err
-	}
-	return toGraphEdges(resp), nil
-}
-
-// toGraphEdges converts the design graph's edges into the clustering edge type.
-func toGraphEdges(designGraph DesignGraphResponse) []graph.Edge {
-	out := make([]graph.Edge, 0, len(designGraph.Edges))
-	for _, e := range designGraph.Edges {
-		out = append(out, graph.Edge{A: e.Source, B: e.Target, Weight: e.Weight, Labels: e.Packages})
-	}
-	return out
-}
-
-// nonBasicMainboard returns the deck's non-basic mainboard card names, matching
-// the Map view (which hides basics because they carry no rule edges).
+// nonBasicMainboard returns the deck's non-basic mainboard card names. Basics
+// never count toward a package.
 func nonBasicMainboard(d *storage.Deck) []string {
 	var out []string
 	for _, c := range d.Mainboard {

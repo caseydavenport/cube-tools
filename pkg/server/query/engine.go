@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -40,17 +40,17 @@ func DeckMatches(d Deck, matchStr string) bool {
 }
 
 // DeckMatchesBoard reports whether the deck matches the query. It can't evaluate
-// a community: term without the cube's design graph, so callers that support one
-// use DeckMatchesBoardGraph instead.
+// a package: term without the cube's packages, so callers that support one use
+// DeckMatchesBoardPackages instead.
 func DeckMatchesBoard(d Deck, matchStr, board string) bool {
-	return DeckMatchesBoardGraph(d, matchStr, board, nil)
+	return DeckMatchesBoardPackages(d, matchStr, board, nil)
 }
 
-// DeckMatchesBoardGraph reports whether the deck matches the query. Card terms
-// match against the named board ("Sideboard" or "Pool", else the mainboard). A
-// community: term clusters the mainboard against edges (the cube design graph);
-// pass nil when no community term is present.
-func DeckMatchesBoardGraph(d Deck, matchStr, board string, edges []graph.Edge) bool {
+// DeckMatchesBoardPackages reports whether the deck matches the query. Card
+// terms match against the named board ("Sideboard" or "Pool", else the
+// mainboard). A package: term checks the mainboard against pkgs, the cube's
+// resolved packages; pass nil when no package term is present.
+func DeckMatchesBoardPackages(d Deck, matchStr, board string, pkgs []design.PackageCards) bool {
 	if matchStr == "" {
 		return true
 	}
@@ -146,8 +146,8 @@ func DeckMatchesBoardGraph(d Deck, matchStr, board string, edges []graph.Edge) b
 				if !matches {
 					return false
 				}
-			} else if label, negate, ok := communityTerm(term); ok {
-				if deckFormsPackage(d, edges, label) == negate {
+			} else if name, negate, ok := packageTerm(term); ok {
+				if deckBuildsPackage(d, pkgs, name) == negate {
 					return false
 				}
 			}
@@ -272,7 +272,7 @@ func isTermQuery(matchStr string) bool {
 	queryTerms := []string{"color", "c", "dcolor", "cmc", "t", "o", "name", "pow", "games", "mb", "sb", "players", "drafts", "winpct", "arch", "player", "event", "draftSize", "minCards", "cctag"}
 	splits := parseTerms(matchStr)
 	for _, term := range splits {
-		if _, _, ok := communityTerm(term); ok {
+		if _, _, ok := packageTerm(term); ok {
 			return true
 		}
 		for _, qt := range queryTerms {
@@ -299,7 +299,7 @@ func boardCards(d Deck, board string) []types.Card {
 }
 
 func isDeckOnly(term string) bool {
-	if _, _, ok := communityTerm(term); ok {
+	if _, _, ok := packageTerm(term); ok {
 		return true
 	}
 	deckOnlyTerms := []string{"arch", "player", "event", "dcolor", "draftSize", "minCards"}
@@ -311,58 +311,68 @@ func isDeckOnly(term string) bool {
 	return false
 }
 
-// HasCommunityTerm reports whether the query has a community: term, which needs
-// the cube's design graph to answer. Callers use it to load the graph only
+// HasPackageTerm reports whether the query has a package: term, which needs
+// the cube's resolved packages to answer. Callers use it to load them only
 // when a query asks for it.
-func HasCommunityTerm(matchStr string) bool {
+func HasPackageTerm(matchStr string) bool {
 	for _, term := range parseTerms(matchStr) {
-		if _, _, ok := communityTerm(term); ok {
+		if _, _, ok := packageTerm(term); ok {
 			return true
 		}
 	}
 	return false
 }
 
-// communityTerm parses a community: term, returning the target label (empty means
-// "any package"), whether it's negated, and whether it's a community term at all.
+// packageTermPrefixes are the spellings of a package term and whether each
+// negates. community: is the term's old name, kept so saved links still work.
+var packageTermPrefixes = []packageTermPrefix{
+	{prefix: "package!=", negate: true},
+	{prefix: "package:", negate: false},
+	{prefix: "community!=", negate: true},
+	{prefix: "community:", negate: false},
+}
+
+// packageTermPrefix is one spelling of the package term.
+type packageTermPrefix struct {
+	prefix string
+	negate bool
+}
+
+// packageTerm parses a package: term, returning the package name (empty means
+// "any package"), whether it's negated, and whether it's a package term at all.
 // Negation is a leading "-" or the "!=" operator, as elsewhere in the grammar.
-func communityTerm(term string) (label string, negate bool, ok bool) {
+func packageTerm(term string) (string, bool, bool) {
 	t := term
+	negate := false
 	if strings.HasPrefix(t, "-") {
 		negate = true
 		t = t[1:]
 	}
-	if v, found := strings.CutPrefix(t, "community!="); found {
-		return strings.Trim(v, "\""), !negate, true
-	}
-	if v, found := strings.CutPrefix(t, "community:"); found {
-		return strings.Trim(v, "\""), negate, true
+	for _, p := range packageTermPrefixes {
+		if v, found := strings.CutPrefix(t, p.prefix); found {
+			return strings.Trim(v, "\""), negate != p.negate, true
+		}
 	}
 	return "", false, false
 }
 
-// deckFormsPackage clusters the deck's non-basic mainboard against the design
-// graph and reports whether a package forms - any package for an empty label,
-// else one whose dominant label matches. Always the mainboard, since packages are
-// a mainboard notion. False when no edges are supplied (can't cluster without).
-func deckFormsPackage(d Deck, edges []graph.Edge, label string) bool {
-	if len(edges) == 0 {
-		return false
-	}
-	var names []string
+// deckBuildsPackage reports whether the deck's non-basic mainboard builds a
+// package: any package for an empty name, else the one with that name. Always
+// the mainboard, since packages are a mainboard notion. False when no packages
+// are supplied.
+func deckBuildsPackage(d Deck, pkgs []design.PackageCards, name string) bool {
+	deck := make(map[string]bool)
 	for _, c := range d.GetMainboard() {
 		if types.IsBasic(c.Name) {
 			continue
 		}
-		names = append(names, c.Name)
+		deck[c.Name] = true
 	}
-	g := graph.BuildDeckSubgraph(names, edges)
-	labels := g.PackageLabels()
-	if label == "" {
-		return len(labels) > 0
-	}
-	for _, l := range labels {
-		if strings.EqualFold(l, label) {
+	for _, p := range pkgs {
+		if name != "" && !strings.EqualFold(p.Name, name) {
+			continue
+		}
+		if p.BuiltBy(deck) {
 			return true
 		}
 	}

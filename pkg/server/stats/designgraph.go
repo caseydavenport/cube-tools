@@ -164,16 +164,46 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 // empty config. Paths
 // resolve from the working directory, so run from the repo root.
 func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID string) (DesignGraphResponse, error) {
-	cube, err := src.Current(cubeID)
+	in, err := loadDesignInputs(store, src, cubeID)
 	if err != nil {
 		return DesignGraphResponse{}, err
+	}
+	return buildDesignGraph(in.cube, in.config, in.deckCardNames), nil
+}
+
+// PackagesForCube resolves a cube's packages to card names, ready to test
+// which decks build each one. It loads the same rules and cards as
+// DesignGraphForCube and fails the same way.
+func PackagesForCube(store storage.DeckStorage, src types.CubeSource, cubeID string) ([]design.PackageCards, error) {
+	in, err := loadDesignInputs(store, src, cubeID)
+	if err != nil {
+		return nil, err
+	}
+	return resolvePackages(in.cube, in.config, in.deckCardNames), nil
+}
+
+// designInputs is what the design graph and package detection are built from:
+// the current cube list, its rules, and the cards its decks have played.
+type designInputs struct {
+	cube          *types.Cube
+	config        design.DesignMapConfig
+	deckCardNames []string
+}
+
+// loadDesignInputs loads a cube's list, rules and deck card names. A store
+// without rules support gives an empty config; a failure to list deck cards
+// is logged, since it only loses cut cards.
+func loadDesignInputs(store storage.DeckStorage, src types.CubeSource, cubeID string) (designInputs, error) {
+	cube, err := src.Current(cubeID)
+	if err != nil {
+		return designInputs{}, err
 	}
 	cfg, err := store.GetRules(cubeID)
 	var config design.DesignMapConfig
 	if errors.Is(err, storage.ErrUnsupported) {
 		config = design.DesignMapConfig{}
 	} else if err != nil {
-		return DesignGraphResponse{}, err
+		return designInputs{}, err
 	} else {
 		config = *cfg
 	}
@@ -181,7 +211,7 @@ func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID 
 	if err != nil {
 		logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
 	}
-	return buildDesignGraph(cube, config, names), nil
+	return designInputs{cube: cube, config: config, deckCardNames: names}, nil
 }
 
 // deckCardNames returns the distinct non-basic mainboard card names across all of
@@ -566,6 +596,30 @@ func registerCardRefs(packages []design.Package, cardMap map[string]types.Card, 
 	}
 }
 
+// wireSide returns every card in the named groups and card: entries of one
+// side of a wire.
+func wireSide(groupCards map[string]map[string]bool, entries []string) map[string]bool {
+	out := make(map[string]bool)
+	for _, entry := range entries {
+		for name := range groupCards[entry] {
+			out[name] = true
+		}
+	}
+	return out
+}
+
+// withoutBasics returns the side's cards minus basic lands, which never count
+// toward building a package.
+func withoutBasics(side map[string]bool) map[string]bool {
+	out := make(map[string]bool, len(side))
+	for name := range side {
+		if !types.IsBasic(name) {
+			out[name] = true
+		}
+	}
+	return out
+}
+
 // buildCardEdges creates one undirected edge per pair of cards joined by a
 // package, stamped with every package that joins them.
 func buildCardEdges(packages []design.Package, groupCards map[string]map[string]bool) []DesignGraphEdge {
@@ -574,19 +628,8 @@ func buildCardEdges(packages []design.Package, groupCards map[string]map[string]
 
 	for _, pkg := range packages {
 		for _, wire := range pkg.Wires {
-			// Union cards from all source groups and all target groups.
-			sources := make(map[string]bool)
-			for _, gn := range wire.Sources {
-				for name := range groupCards[gn] {
-					sources[name] = true
-				}
-			}
-			targets := make(map[string]bool)
-			for _, gn := range wire.Targets {
-				for name := range groupCards[gn] {
-					targets[name] = true
-				}
-			}
+			sources := wireSide(groupCards, wire.Sources)
+			targets := wireSide(groupCards, wire.Targets)
 
 			for s := range sources {
 				for t := range targets {
@@ -624,30 +667,69 @@ func buildCardEdges(packages []design.Package, groupCards map[string]map[string]
 	return edges
 }
 
-func buildDesignGraph(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) DesignGraphResponse {
-	cardMap := buildCardMap(cube)
+// resolvedGroups holds every group and card: entry resolved to card names.
+// cube covers the cube list alone; widened adds cards cut from the cube that
+// old decks still play, so those decks keep their edges and packages.
+// excluded lists the matches each group's exclude list carved out.
+type resolvedGroups struct {
+	cube     map[string]map[string]bool
+	widened  map[string]map[string]bool
+	excluded map[string][]string
+}
 
-	// The edge set spans the cube plus any cards that appear in decks but were
-	// cut from the cube; cut cards hydrate from oracle data so they still resolve
-	// group membership and keep their edges. Without this, old decks render their
-	// cut cards as disconnected. Nodes and the group graph stay cube-only, so the
-	// cube's own design view is unchanged.
-	edgeCardMap := widenWithDeckCards(cardMap, deckCardNames)
-
-	// Pre-resolve all groups to card sets. Excluded cards are subtracted here,
-	// so everything downstream (nodes, group edges) never sees them; the
-	// carved-out matches are kept aside for the editor to display. Resolve over
-	// the cube for the display graph, and over the wider set for edges only.
+// resolveGroups resolves the rules' groups and card: entries over the cube and
+// over the cube plus the cards decks have played. Excluded cards are already
+// subtracted, so nothing downstream sees them.
+func resolveGroups(cardMap map[string]types.Card, config design.DesignMapConfig, deckCardNames []string) resolvedGroups {
 	groupCards, groupExcluded := resolveGroupCards(cardMap, config.Groups)
 	registerCardRefs(config.Packages, cardMap, groupCards)
 
-	edgeGroupCards := groupCards
+	widened := groupCards
+	edgeCardMap := widenWithDeckCards(cardMap, deckCardNames)
 	if len(edgeCardMap) != len(cardMap) {
-		edgeGroupCards, _ = resolveGroupCards(edgeCardMap, config.Groups)
-		registerCardRefs(config.Packages, edgeCardMap, edgeGroupCards)
+		widened, _ = resolveGroupCards(edgeCardMap, config.Groups)
+		registerCardRefs(config.Packages, edgeCardMap, widened)
 	}
+	return resolvedGroups{cube: groupCards, widened: widened, excluded: groupExcluded}
+}
 
-	edges := buildCardEdges(config.Packages, edgeGroupCards)
+// resolvePackages turns each package's wires into card sets, sorted by
+// package name. A side holds the cards decks may play, cut cards included;
+// how many of them a deck needs comes from the side's size in the cube alone.
+// Basic lands are left out of both.
+func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) []design.PackageCards {
+	groups := resolveGroups(buildCardMap(cube), config, deckCardNames)
+
+	out := make([]design.PackageCards, 0, len(config.Packages))
+	for _, pkg := range config.Packages {
+		resolved := design.PackageCards{Name: pkg.Name}
+		for _, wire := range pkg.Wires {
+			cubeSources := withoutBasics(wireSide(groups.cube, wire.Sources))
+			cubeTargets := withoutBasics(wireSide(groups.cube, wire.Targets))
+			resolved.Wires = append(resolved.Wires, design.WireCards{
+				Sources:     withoutBasics(wireSide(groups.widened, wire.Sources)),
+				Targets:     withoutBasics(wireSide(groups.widened, wire.Targets)),
+				NeedSources: design.SideMinimum(len(cubeSources)),
+				NeedTargets: design.SideMinimum(len(cubeTargets)),
+			})
+		}
+		out = append(out, resolved)
+	}
+	slices.SortFunc(out, func(a, b design.PackageCards) int {
+		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+	})
+	return out
+}
+
+func buildDesignGraph(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) DesignGraphResponse {
+	cardMap := buildCardMap(cube)
+
+	// Edges also reach cards cut from the cube that decks still play, so old
+	// decks keep them connected. Nodes and the group graph stay cube-only.
+	resolved := resolveGroups(cardMap, config, deckCardNames)
+	groupCards, groupExcluded := resolved.cube, resolved.excluded
+
+	edges := buildCardEdges(config.Packages, resolved.widened)
 
 	// Connection counts reflect cube-to-cube edges only, so a cut card's edges
 	// don't inflate the counts shown in the cube's design view.

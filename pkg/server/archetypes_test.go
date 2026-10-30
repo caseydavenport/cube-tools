@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
-	"github.com/caseydavenport/cube-tools/pkg/graph"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
@@ -171,7 +170,7 @@ func TestArchetypesHandlerReadsCubeCobraCube(t *testing.T) {
 	assert.Equal(t, []VersusData{{Name: "control", Win: 1}}, aggro.Versus)
 }
 
-func TestArchetypesHandlerCommunityFilters(t *testing.T) {
+func TestArchetypesHandlerPackageFilters(t *testing.T) {
 	ozzy := makeStorageDeck("Ozzy", 1, []string{"aggro"}, nil, nil)
 	stevie := makeStorageDeck("Stevie", 1, []string{"control"}, nil, nil)
 	for _, d := range []*storage.Deck{ozzy, stevie} {
@@ -180,16 +179,28 @@ func TestArchetypesHandlerCommunityFilters(t *testing.T) {
 	ozzy.Mainboard = []types.Card{{Name: "gy1"}, {Name: "gy2"}, {Name: "gy3"}}
 	stevie.Mainboard = []types.Card{{Name: "gy1"}, {Name: "gy2"}, {Name: "Forest"}}
 	store := memory.NewStore(func(b *memory.Backend) { b.Seed("testcube", ozzy, stevie) })
-	edges := func(string) ([]graph.Edge, error) {
-		return []graph.Edge{
-			{A: "gy1", B: "gy2", Weight: 5, Labels: []string{"Graveyard"}},
-			{A: "gy2", B: "gy3", Weight: 5, Labels: []string{"Graveyard"}},
-			{A: "gy1", B: "gy3", Weight: 5, Labels: []string{"Graveyard"}},
-		}, nil
+	packagesFor := func(string) ([]design.PackageCards, error) {
+		return []design.PackageCards{{
+			Name: "Graveyard",
+			Wires: []design.WireCards{{
+				Sources: map[string]bool{
+					"gy1": true,
+					"gy2": true,
+					"gy3": true,
+				},
+				Targets: map[string]bool{
+					"gy1": true,
+					"gy2": true,
+					"gy3": true,
+				},
+				NeedSources: 2,
+				NeedTargets: 2,
+			}},
+		}}, nil
 	}
 
 	rr := httptest.NewRecorder()
-	ArchetypesHandler(store, edges).ServeHTTP(rr, archetypesRequest("testcube", "match=community:graveyard"))
+	ArchetypesHandler(store, packagesFor).ServeHTTP(rr, archetypesRequest("testcube", "match=package:graveyard"))
 	require.Equal(t, http.StatusOK, rr.Code)
 
 	var resp ArchetypesResponse

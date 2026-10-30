@@ -43,7 +43,7 @@ export const QueryTermMetadata = [
   { term: "event", description: "Draft / event ID", operators: [":"], valueType: "text", example: "event:ccc2025", isDeckOnly: true },
   { term: "draftSize", description: "Draft size", operators: ["<", ">", "="], valueType: "number", example: "draftSize>6", isDeckOnly: true },
   { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3", isDeckOnly: true },
-  { term: "community", description: "Builds a package (cohesive community); bare community: means any", operators: [":", "!="], valueType: "text", example: "community:graveyard", isDeckOnly: true },
+  { term: "package", description: "Builds a package: 2+ cards on each side of one of its wires; bare package: means any", operators: [":", "!="], valueType: "text", example: "package:graveyard", isDeckOnly: true },
   { term: "cctag", description: "Cube Cobra tag", operators: [":"], valueType: "text", example: "cctag:watch", values: ["🧬", "watch", "remove", "\"creature removal\"", "\"artifact removal\"", "\"enchantment removal\"", "\"planeswalker removal\"", "\"land removal\"", "\"board wipe\"", "burn", "\"grave hate\""] },
 ]
 

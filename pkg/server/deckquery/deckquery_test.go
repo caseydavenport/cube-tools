@@ -4,7 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/design"
+
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
@@ -15,14 +16,26 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// graveyardEdges is a triangle, so a deck holding all three cards forms a
-// graveyard package and a deck holding two doesn't.
-func graveyardEdges() []graph.Edge {
-	return []graph.Edge{
-		{A: "gy1", B: "gy2", Weight: 5, Labels: []string{"Graveyard"}},
-		{A: "gy2", B: "gy3", Weight: 5, Labels: []string{"Graveyard"}},
-		{A: "gy1", B: "gy3", Weight: 5, Labels: []string{"Graveyard"}},
-	}
+// graveyardPackages wires three graveyard cards to each other, so a deck
+// holding all three builds the package and a deck holding two doesn't.
+func graveyardPackages() []design.PackageCards {
+	return []design.PackageCards{{
+		Name: "Graveyard",
+		Wires: []design.WireCards{{
+			Sources: map[string]bool{
+				"gy1": true,
+				"gy2": true,
+				"gy3": true,
+			},
+			Targets: map[string]bool{
+				"gy1": true,
+				"gy2": true,
+				"gy3": true,
+			},
+			NeedSources: 2,
+			NeedTargets: 2,
+		}},
+	}}
 }
 
 func deck(playerID int, names ...string) *storage.Deck {
@@ -36,7 +49,7 @@ func deck(playerID int, names ...string) *storage.Deck {
 	return d
 }
 
-// testStore holds Ozzy's deck, which forms the graveyard package, and Stevie's,
+// testStore holds Ozzy's deck, which builds the graveyard package, and Stevie's,
 // which doesn't.
 func testStore() storage.DeckStorage {
 	return memory.NewStore(func(b *memory.Backend) {
@@ -45,8 +58,8 @@ func testStore() storage.DeckStorage {
 	})
 }
 
-func staticEdges(string) ([]graph.Edge, error) {
-	return graveyardEdges(), nil
+func staticPackages(string) ([]design.PackageCards, error) {
+	return graveyardPackages(), nil
 }
 
 func playersOf(decks []*storage.Deck) []string {
@@ -57,27 +70,27 @@ func playersOf(decks []*storage.Deck) []string {
 	return out
 }
 
-func TestDecksCommunityFilters(t *testing.T) {
-	q := New(testStore(), nil, staticEdges)
-	decks, err := q.Decks("testcube", &storage.DecksRequest{Match: "community:graveyard"})
+func TestDecksPackageFilters(t *testing.T) {
+	q := New(testStore(), nil, staticPackages)
+	decks, err := q.Decks("testcube", &storage.DecksRequest{Match: "package:graveyard"})
 	require.NoError(t, err)
 	assert.Equal(t, []string{"Ozzy"}, playersOf(decks))
 }
 
-func TestDecksNegatedCommunity(t *testing.T) {
-	q := New(testStore(), nil, staticEdges)
-	decks, err := q.Decks("testcube", &storage.DecksRequest{Match: "community!=graveyard"})
+func TestDecksNegatedPackage(t *testing.T) {
+	q := New(testStore(), nil, staticPackages)
+	decks, err := q.Decks("testcube", &storage.DecksRequest{Match: "package!=graveyard"})
 	require.NoError(t, err)
 	assert.Equal(t, []string{"Stevie"}, playersOf(decks))
 }
 
-func TestDecksSkipsLoaderWithoutCommunity(t *testing.T) {
+func TestDecksSkipsLoaderWithoutPackage(t *testing.T) {
 	calls := 0
-	q := New(testStore(), nil, func(string) ([]graph.Edge, error) {
+	q := New(testStore(), nil, func(string) ([]design.PackageCards, error) {
 		calls++
-		return graveyardEdges(), nil
+		return graveyardPackages(), nil
 	})
-	for _, match := range []string{"Community Garden", "arch:aggro"} {
+	for _, match := range []string{"Package Deal", "arch:aggro"} {
 		_, err := q.Decks("testcube", &storage.DecksRequest{Match: match})
 		require.NoError(t, err)
 	}
@@ -85,21 +98,21 @@ func TestDecksSkipsLoaderWithoutCommunity(t *testing.T) {
 }
 
 func TestDecksLoaderErrorFails(t *testing.T) {
-	q := New(testStore(), nil, func(string) ([]graph.Edge, error) { return nil, errors.New("no rules") })
-	_, err := q.Decks("testcube", &storage.DecksRequest{Match: "community:graveyard"})
+	q := New(testStore(), nil, func(string) ([]design.PackageCards, error) { return nil, errors.New("no rules") })
+	_, err := q.Decks("testcube", &storage.DecksRequest{Match: "package:graveyard"})
 	assert.ErrorContains(t, err, "no rules")
 }
 
 func TestDecksLeavesRequestUntouched(t *testing.T) {
-	q := New(testStore(), nil, staticEdges)
-	dr := &storage.DecksRequest{Match: "community:graveyard"}
+	q := New(testStore(), nil, staticPackages)
+	dr := &storage.DecksRequest{Match: "package:graveyard"}
 	_, err := q.Decks("testcube", dr)
 	require.NoError(t, err)
-	assert.Nil(t, dr.CommunityEdges)
+	assert.Nil(t, dr.Packages)
 }
 
 func TestDecksNilRequestListsAll(t *testing.T) {
-	q := New(testStore(), nil, staticEdges)
+	q := New(testStore(), nil, staticPackages)
 	decks, err := q.Decks("testcube", nil)
 	require.NoError(t, err)
 	assert.ElementsMatch(t, []string{"Ozzy", "Stevie"}, playersOf(decks))
@@ -108,9 +121,9 @@ func TestDecksNilRequestListsAll(t *testing.T) {
 func TestDecksLoaderErrorIsLogged(t *testing.T) {
 	hook := logtest.NewGlobal()
 	defer hook.Reset()
-	q := New(testStore(), nil, func(string) ([]graph.Edge, error) { return nil, errors.New("no rules") })
+	q := New(testStore(), nil, func(string) ([]design.PackageCards, error) { return nil, errors.New("no rules") })
 
-	_, err := q.Decks("testcube", &storage.DecksRequest{Match: "community:graveyard"})
+	_, err := q.Decks("testcube", &storage.DecksRequest{Match: "package:graveyard"})
 	require.Error(t, err)
 	require.NotNil(t, hook.LastEntry())
 	assert.Equal(t, logrus.ErrorLevel, hook.LastEntry().Level)

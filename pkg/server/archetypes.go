@@ -26,10 +26,10 @@ type VersusData struct {
 }
 
 // ArchetypesHandler serves each archetype's win/loss record against every other
-// archetype, over the decks the request's filters select. edgesFor answers
-// community: terms; nil makes them match no decks.
-func ArchetypesHandler(store storage.DeckStorage, edgesFor deckquery.EdgesLoader) http.Handler {
-	return &archetypesHandler{q: deckquery.New(store, nil, edgesFor)}
+// archetype, over the decks the request's filters select. packagesFor
+// answers package: terms; nil makes them match no decks.
+func ArchetypesHandler(store storage.DeckStorage, packagesFor deckquery.PackagesLoader) http.Handler {
+	return &archetypesHandler{q: deckquery.New(store, nil, packagesFor)}
 }
 
 type archetypesHandler struct {

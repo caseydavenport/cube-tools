@@ -10,7 +10,6 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
-	"github.com/caseydavenport/cube-tools/pkg/graph"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
@@ -62,12 +61,26 @@ func stubCube() *types.Cube {
 	}}
 }
 
-func graveyardEdges(string) ([]graph.Edge, error) {
-	return []graph.Edge{
-		{A: "gy1", B: "gy2", Weight: 5, Labels: []string{"Graveyard"}},
-		{A: "gy2", B: "gy3", Weight: 5, Labels: []string{"Graveyard"}},
-		{A: "gy1", B: "gy3", Weight: 5, Labels: []string{"Graveyard"}},
-	}, nil
+// graveyardPackages wires three graveyard cards to each other, so a deck
+// holding all three builds the package and a deck holding two doesn't.
+func graveyardPackages(string) ([]design.PackageCards, error) {
+	return []design.PackageCards{{
+		Name: "Graveyard",
+		Wires: []design.WireCards{{
+			Sources: map[string]bool{
+				"gy1": true,
+				"gy2": true,
+				"gy3": true,
+			},
+			Targets: map[string]bool{
+				"gy1": true,
+				"gy2": true,
+				"gy3": true,
+			},
+			NeedSources: 2,
+			NeedTargets: 2,
+		}},
+	}}, nil
 }
 
 func queryDeck(playerID int, date string, names ...string) *storage.Deck {
@@ -105,13 +118,15 @@ func serve(t *testing.T, h http.Handler, method, target, body string) *httptest.
 }
 
 // TestFilteredHandlersMatchDecksPage builds each filtered stats handler through
-// its public constructor, so the real design graph answers the community term,
+// its public constructor, so the real packages answer the package term,
 // and checks it reads the same decks as the Decks endpoint.
 func TestFilteredHandlersMatchDecksPage(t *testing.T) {
-	const target = "?match=community:graveyard"
+	const target = "?match=package:graveyard"
 	decksSpy := newSpy()
-	edges := func(cubeID string) ([]graph.Edge, error) { return EdgesForCube(decksSpy, stubCubes{}, cubeID) }
-	rec := serve(t, decks.DeckHandler(decksSpy, edges), http.MethodGet, "/api/testcube/decks"+target, "")
+	packagesFor := func(cubeID string) ([]design.PackageCards, error) {
+		return PackagesForCube(decksSpy, stubCubes{}, cubeID)
+	}
+	rec := serve(t, decks.DeckHandler(decksSpy, packagesFor), http.MethodGet, "/api/testcube/decks"+target, "")
 	require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
 	require.Equal(t, []string{"Ozzy"}, decksSpy.lastPlayers)
 
@@ -137,7 +152,7 @@ func TestFilteredHandlersMatchDecksPage(t *testing.T) {
 	// opponents in.
 	t.Run("pivot", func(t *testing.T) {
 		spy := newSpy()
-		body := `{"match":"community:graveyard","group_by":{"dim":"player"}}`
+		body := `{"match":"package:graveyard","group_by":{"dim":"player"}}`
 		rec := serve(t, PivotHandler(spy, stubCubes{}), http.MethodPost, "/api/testcube/stats/pivot", body)
 		require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
 		assert.Equal(t, decksSpy.lastPlayers, spy.lastPlayers)

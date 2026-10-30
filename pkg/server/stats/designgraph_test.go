@@ -547,19 +547,9 @@ func TestMatchCards(t *testing.T) {
 // old decks don't render it disconnected. The cube view stays cube-only: the cut
 // card is not a node and doesn't inflate a cube card's connection count.
 func TestBuildDesignGraphIncludesCutCards(t *testing.T) {
-	// Seed oracle data with just the cut card so hydration is deterministic.
-	dir := t.TempDir()
-	path := filepath.Join(dir, "oracle-cards.json")
-	require.NoError(t, os.WriteFile(path, []byte(`[
+	seedOracle(t, `[
 		{"name":"Shock","type_line":"Instant","oracle_text":"Shock deals 2 damage to any target.","colors":["R"],"cmc":1}
-	]`), 0o644))
-	require.NoError(t, types.LoadOracleData(path))
-	t.Cleanup(func() {
-		empty := filepath.Join(dir, "empty.json")
-		if os.WriteFile(empty, []byte("[]"), 0o644) == nil {
-			_ = types.LoadOracleData(empty)
-		}
-	})
+	]`)
 
 	cube := &types.Cube{
 		Cards: []types.Card{
@@ -609,4 +599,102 @@ func TestDesignGraphForCube(t *testing.T) {
 		require.NotEmpty(t, e.Target)
 		require.GreaterOrEqual(t, e.Weight, 1)
 	}
+}
+
+// resolveTestCube has three blue duals and a bear, enough for a fetch package
+// with a single-card side and a two-card side.
+func resolveTestCube() *types.Cube {
+	return &types.Cube{
+		Cards: []types.Card{
+			{Name: "Flooded Strand", Colors: []string{}, Types: []string{"Land"}, OracleText: "search your library for a Plains or Island card"},
+			{Name: "Hallowed Fountain", Colors: []string{}, Types: []string{"Land"}, OracleText: "plains island"},
+			{Name: "Steam Vents", Colors: []string{}, Types: []string{"Land"}, OracleText: "island mountain"},
+			{Name: "Bear", Colors: []string{"G"}, Types: []string{"Creature"}, CMC: 2, OracleText: "just a bear", Power: "2", Toughness: "2"},
+		},
+	}
+}
+
+// TestResolvePackages_DanglingGroup checks that a wire naming a group that
+// doesn't exist resolves an empty side the package can never be built from.
+func TestResolvePackages_DanglingGroup(t *testing.T) {
+	config := design.DesignMapConfig{
+		Groups: []design.Group{{Name: "Real", Conditions: []string{"o:island t:land"}}},
+		Packages: []design.Package{
+			{Name: "Broken", Wires: []design.Wire{{Sources: []string{"Real"}, Targets: []string{"Missing"}}}},
+		},
+	}
+
+	pkgs := resolvePackages(resolveTestCube(), config, nil)
+	require.Len(t, pkgs, 1)
+	require.Len(t, pkgs[0].Wires, 1)
+	assert.Equal(t, 2, pkgs[0].Wires[0].NeedSources)
+	assert.Equal(t, 0, pkgs[0].Wires[0].NeedTargets)
+
+	deck := map[string]bool{
+		"Flooded Strand":    true,
+		"Hallowed Fountain": true,
+		"Steam Vents":       true,
+		"Bear":              true,
+	}
+	assert.False(t, pkgs[0].BuiltBy(deck))
+}
+
+// TestResolvePackages_SingleCardRef checks that a card: entry is a one-card
+// side needing only that card, while a group side of three needs two.
+func TestResolvePackages_SingleCardRef(t *testing.T) {
+	config := design.DesignMapConfig{
+		Groups: []design.Group{{Name: "Blue Fetchables", Conditions: []string{"o:island t:land"}}},
+		Packages: []design.Package{
+			{Name: "Fetches", Wires: []design.Wire{{Sources: []string{"card:Flooded Strand"}, Targets: []string{"Blue Fetchables"}}}},
+		},
+	}
+
+	pkgs := resolvePackages(resolveTestCube(), config, nil)
+	require.Len(t, pkgs, 1)
+	w := pkgs[0].Wires[0]
+	assert.Equal(t, 1, w.NeedSources)
+	assert.Equal(t, 2, w.NeedTargets)
+	assert.True(t, pkgs[0].BuiltBy(cardSet("Flooded Strand", "Hallowed Fountain", "Steam Vents")))
+	assert.False(t, pkgs[0].BuiltBy(cardSet("Hallowed Fountain", "Steam Vents", "Bear")))
+}
+
+// TestResolvePackages_CutCardsJoinSides checks that a card cut from the cube
+// but present in old decks still counts toward its side, without changing how
+// many cards the side needs.
+func TestResolvePackages_CutCardsJoinSides(t *testing.T) {
+	seedOracle(t, `[
+		{"name":"Watery Grave","type_line":"Land","oracle_text":"island swamp","colors":[],"cmc":0}
+	]`)
+
+	config := design.DesignMapConfig{
+		Groups: []design.Group{{Name: "Blue Fetchables", Conditions: []string{"o:island t:land"}}},
+		Packages: []design.Package{
+			{Name: "Fetches", Wires: []design.Wire{{Sources: []string{"card:Flooded Strand"}, Targets: []string{"Blue Fetchables"}}}},
+		},
+	}
+
+	pkgs := resolvePackages(resolveTestCube(), config, []string{"Watery Grave"})
+	w := pkgs[0].Wires[0]
+	assert.Equal(t, 2, w.NeedTargets)
+	assert.True(t, w.Targets["Watery Grave"], "cut dual should join the target side")
+}
+
+// seedOracle loads oracle data holding only the given cards, so a cut card
+// hydrates the same way on every run, and empties it again when the test ends.
+func seedOracle(t *testing.T, cardsJSON string) {
+	t.Helper()
+	dir := t.TempDir()
+	path := filepath.Join(dir, "oracle-cards.json")
+	require.NoError(t, os.WriteFile(path, []byte(cardsJSON), 0o644))
+	require.NoError(t, types.LoadOracleData(path))
+	t.Cleanup(func() {
+		empty := filepath.Join(dir, "empty.json")
+		if err := os.WriteFile(empty, []byte("[]"), 0o644); err != nil {
+			t.Logf("could not write empty oracle data: %v", err)
+			return
+		}
+		if err := types.LoadOracleData(empty); err != nil {
+			t.Logf("could not reset oracle data: %v", err)
+		}
+	})
 }

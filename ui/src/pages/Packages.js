@@ -51,7 +51,7 @@ const COPY = {
 
   columnTips: {
     buildRate: "Packages built divided by populated decks.",
-    packages: "Decks where this label's cards clustered into a package of three or more cards.",
+    packages: "Decks that built this package: 2 or more cards on each side of one of its wires, 3 or more cards in all.",
     has3: "Decks carrying at least three cards that touch this label.",
     commitment: "Package decks divided by has-3 decks: how often the cards, once present, form a package.",
   },
@@ -71,7 +71,7 @@ const COPY = {
     { bold: "Has 3+" },
     " counts decks carrying at least three cards that touch a label; a ",
     { bold: "package" },
-    " is when those cards cluster into a cohesive community (size 3+) whose dominant label is this one. ",
+    " is built when the deck plays 2 or more cards on each side of one of the package's wires (1 for a side with a single card), 3 or more in all. ",
     { bold: "Build rate" },
     " is packages over populated decks (with a Wilson interval at the chosen confidence);",
     { bold: " commitment" },
