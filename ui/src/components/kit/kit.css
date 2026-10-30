@@ -68,6 +68,11 @@
   padding: 14px 16px;
 }
 
+/* Stacked section cards keep a small gap, so each reads as its own panel. */
+.kit-section + .kit-section {
+  margin-top: 12px;
+}
+
 .kit-section-header {
   display: flex;
   justify-content: space-between;

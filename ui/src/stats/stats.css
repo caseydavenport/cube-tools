@@ -218,7 +218,7 @@
 .analyze-page {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1rem 3rem;
+  padding: 12px 1rem 3rem;
 }
 
 /* Standard panel for a page's local controls (filters, dropdowns). */
