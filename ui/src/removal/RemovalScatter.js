@@ -6,11 +6,38 @@ import React, { useEffect, useState } from "react"
 import { useComputedColorScheme } from "@mantine/core"
 import { Chart as ChartJS, Legend, LinearScale, PointElement, Tooltip } from "chart.js"
 import { Scatter } from "react-chartjs-2"
-import { chartTooltip, currentChartTheme } from "../theme/chartTheme.js"
+import { chartTooltip, currentChartTheme, withAlpha } from "../theme/chartTheme.js"
 import { MULTICOLOR } from "../theme/tokens.js"
-import { scatterSeries } from "./scatterPoints.js"
+import { costColumns, scatterSeries } from "./scatterPoints.js"
 
-ChartJS.register(LinearScale, PointElement, Tooltip, Legend)
+// costColumnShading shades every other cost column behind the dots, so cards
+// nudged sideways still read as sharing one cost. It's registered once and
+// reads its columns from the chart's options, since react-chartjs-2 doesn't
+// refresh a per-chart plugin when the data changes.
+const costColumnShading = {
+  id: "costColumns",
+  beforeDatasetsDraw(chart) {
+    const settings = chart.options.plugins.costColumns
+    if (!settings || !settings.costs) {
+      return
+    }
+    const { ctx, chartArea } = chart
+    const x = chart.scales.x
+    ctx.save()
+    ctx.fillStyle = settings.fill
+    settings.costs.forEach((cost, i) => {
+      if (i % 2 === 1) {
+        return
+      }
+      const left = x.getPixelForValue(cost - 0.5)
+      const right = x.getPixelForValue(cost + 0.5)
+      ctx.fillRect(left, chartArea.top, right - left, chartArea.bottom - chartArea.top)
+    })
+    ctx.restore()
+  },
+}
+
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend, costColumnShading)
 
 // SYMBOL_SIZE is the width and height, in pixels, of a mana symbol point.
 const SYMBOL_SIZE = 18
@@ -90,16 +117,24 @@ export function RemovalScatter({ cards, mode }) {
   const theme = currentChartTheme()
 
   const data = { datasets: scatterSeries(cards, mode).map(series => dataset(series, theme)) }
+  const columns = costColumns(cards)
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     layout: { padding: { top: SYMBOL_SIZE / 2 } },
     interaction: { mode: "point", intersect: true },
     scales: {
+      // One shaded column per cost, labeled at its whole number. Dots sit
+      // side by side within their column, so there are no gridlines through them.
       x: {
-        title: { display: true, text: "Effective cost", color: theme.text },
-        ticks: { stepSize: 1, color: theme.muted },
-        grid: { color: theme.grid },
+        title: { display: true, text: "Effective cost (cards at one cost share a column)", color: theme.text },
+        min: columns.min,
+        max: columns.max,
+        afterBuildTicks: axis => {
+          axis.ticks = columns.costs.map(cost => ({ value: cost }))
+        },
+        ticks: { color: theme.muted },
+        grid: { display: false },
       },
       y: {
         title: { display: true, text: "Coverage (% of creatures)", color: theme.text },
@@ -111,6 +146,7 @@ export function RemovalScatter({ cards, mode }) {
     },
     plugins: {
       legend: { labels: { usePointStyle: true, color: theme.text } },
+      costColumns: { costs: columns.costs, fill: withAlpha(theme.text, 0.05) },
       // Every card under the pointer gets a line, so touching dots stay readable.
       tooltip: chartTooltip(theme, {
         callbacks: {

@@ -94,6 +94,24 @@ export function scatterSeries(cards, mode) {
   return series
 }
 
+// costColumns lays the cost axis out as one column per whole cost, from half
+// a point below the cheapest plotted card to half a point above the priciest,
+// so a column holds every card at that cost. Scalable cards aren't plotted.
+export function costColumns(cards) {
+  const costs = cards.filter(card => !card.scalable).map(card => card.eff_cost)
+  let low = 0
+  let high = 0
+  if (costs.length > 0) {
+    low = Math.min(...costs)
+    high = Math.max(...costs)
+  }
+  const columns = []
+  for (let cost = low; cost <= high; cost++) {
+    columns.push(cost)
+  }
+  return { min: low - 0.5, max: high + 0.5, costs: columns }
+}
+
 // hardToRemoveRows orders creatures hardest to answer first for a deck of the
 // chosen color ("" for any): fewest answers, then highest mana value, then by
 // name. The server counts each color's answers; this only picks and sorts.
