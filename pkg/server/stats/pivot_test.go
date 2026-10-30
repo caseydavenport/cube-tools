@@ -158,7 +158,7 @@ func TestPivot_DeckFilterKeepsOpponents(t *testing.T) {
 
 // A numeric composition predicate filters on the per-deck count.
 func TestPivot_CompositionPredicate(t *testing.T) {
-	removalCard := types.Card{Name: "Doom Blade", Colors: []string{"B"}, OracleText: "Destroy target creature."}
+	removalCard := types.Card{Name: "Doom Blade", Colors: []string{"B"}, OracleTags: []string{"removal"}}
 	vanilla := types.Card{Name: "Bear", Colors: []string{"B"}, Types: []string{"Creature"}, OracleText: "A bear."}
 
 	decks := []*storage.Deck{
@@ -247,8 +247,8 @@ func TestPivot_ExcludePlayers(t *testing.T) {
 func TestComposition(t *testing.T) {
 	d := &storage.Deck{}
 	d.Mainboard = []types.Card{
-		{Name: "Doom Blade", OracleText: "Destroy target creature.", CMC: 2},
-		{Name: "Counterspell", OracleText: "Counter target spell.", CMC: 2},
+		{Name: "Doom Blade", OracleTags: []string{"removal"}, CMC: 2},
+		{Name: "Counterspell", OracleTags: []string{"counterspell"}, CMC: 2},
 		{Name: "Bear", Types: []string{"Creature"}, OracleText: "grr", CMC: 4},
 		{Name: "Island", Types: []string{"Basic", "Land"}},
 	}

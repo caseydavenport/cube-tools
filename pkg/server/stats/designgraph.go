@@ -1337,7 +1337,7 @@ func matchIs(card types.Card, keyword string) bool {
 	case "interaction":
 		return card.IsInteraction()
 	case "handhate":
-		return card.IsHandHate()
+		return card.IsHandDisruption()
 	default:
 		logrus.WithField("keyword", keyword).Warn("unknown is: keyword")
 		return false

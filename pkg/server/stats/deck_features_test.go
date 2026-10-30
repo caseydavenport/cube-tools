@@ -14,6 +14,12 @@ func spell(cardType string, cmc int, oracle string) types.Card {
 	return types.Card{Name: oracle, Types: []string{cardType}, CMC: cmc, OracleText: oracle}
 }
 
+// tagged returns a mainboard card of one type and mana value that carries the
+// given Scryfall oracle tags, which is what the role checks read.
+func tagged(cardType string, cmc int, tags ...string) types.Card {
+	return types.Card{Name: cardType + " with " + tags[0], Types: []string{cardType}, CMC: cmc, OracleTags: tags}
+}
+
 // basicLand returns a basic Plains.
 func basicLand() types.Card {
 	return types.Card{Name: "Plains", Types: []string{"Basic", "Land"}}
@@ -60,22 +66,25 @@ func TestForestFeatures_Values(t *testing.T) {
 	deck := recordDeck("Ozzy", []types.Card{
 		spell("Creature", 2, ""),
 		spell("Creature", 4, ""),
-		spell("Instant", 1, "Counter target spell."),
-		spell("Sorcery", 3, "Destroy target creature."),
+		tagged("Instant", 1, "counterspell"),
+		tagged("Sorcery", 3, "removal"),
+		tagged("Sorcery", 1, "hand-disruption"),
 		basicLand(),
 		nonbasicLand(),
 	}, 0, 0)
 
-	assert.Equal(t, 2.5, featureValue(t, "avg_mana_value", deck))
+	assert.Equal(t, 2.2, featureValue(t, "avg_mana_value", deck))
 	assert.Equal(t, 2.0, featureValue(t, "creatures", deck))
 	assert.Equal(t, 1.0, featureValue(t, "instants", deck))
-	assert.Equal(t, 1.0, featureValue(t, "sorceries", deck))
+	assert.Equal(t, 2.0, featureValue(t, "sorceries", deck))
 	assert.Equal(t, 2.0, featureValue(t, "lands", deck))
 	assert.Equal(t, 1.0, featureValue(t, "nonbasic_lands", deck))
 	assert.Equal(t, 1.0, featureValue(t, "removal", deck))
 	assert.Equal(t, 1.0, featureValue(t, "counterspells", deck))
+	assert.Equal(t, 1.0, featureValue(t, "hand_disruption", deck))
+	assert.Equal(t, 0.0, featureValue(t, "discard_outlets", deck))
 	assert.Equal(t, 0.0, featureValue(t, "planeswalkers", deck))
-	assert.Equal(t, 2.0, interactionFeature.Value(deck))
+	assert.Equal(t, 3.0, interactionFeature.Value(deck), "interaction counts removal, counterspells and hand disruption")
 }
 
 func TestForestFeatures_Order(t *testing.T) {
@@ -86,7 +95,8 @@ func TestForestFeatures_Order(t *testing.T) {
 	assert.Equal(t, []string{
 		"avg_mana_value", "creatures", "sorceries", "instants", "planeswalkers",
 		"enchantments", "lands", "nonbasic_lands", "colors", "removal",
-		"counterspells", "card_draw", "lifegain", "graveyard", "discard",
+		"counterspells", "card_draw", "lifegain", "graveyard", "discard_outlets",
+		"hand_disruption",
 	}, keys)
 }
 

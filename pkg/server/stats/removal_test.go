@@ -7,8 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// removalCard returns an instant Scryfall tags as removal, with the rules
+// text the kill-restriction parsing reads.
 func removalCard(name, oracle string) types.Card {
-	return types.Card{Name: name, Types: []string{"Instant"}, OracleText: oracle}
+	return types.Card{Name: name, Types: []string{"Instant"}, OracleText: oracle, OracleTags: []string{"removal"}}
 }
 
 func TestClassifyRemoval(t *testing.T) {

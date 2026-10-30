@@ -43,12 +43,13 @@ var forestFeatures = []deckFeature{
 	{Key: "card_draw", Value: cardCounter(types.Card.IsCardDraw)},
 	{Key: "lifegain", Value: cardCounter(types.Card.IsLifegain)},
 	{Key: "graveyard", Value: cardCounter(types.Card.IsGraveyard)},
-	{Key: "discard", Value: cardCounter(types.Card.IsDiscard)},
+	{Key: "discard_outlets", Value: cardCounter(types.Card.IsDiscardOutlet)},
+	{Key: "hand_disruption", Value: cardCounter(types.Card.IsHandDisruption)},
 }
 
-// interactionFeature counts removal and counterspells together. Hand
-// disruption is left out.
-var interactionFeature = deckFeature{Key: "interaction", Value: cardCounter(isRemovalOrCounter)}
+// interactionFeature counts removal, counterspells and hand disruption
+// together.
+var interactionFeature = deckFeature{Key: "interaction", Value: cardCounter(types.Card.IsInteraction)}
 
 // hasDecklist reports whether the deck's mainboard is known. Decks recorded
 // without a list have zero of everything, so the charts skip them.
@@ -104,9 +105,4 @@ func colorCount(d *storage.Deck) float64 {
 // isNonbasicLand reports whether the card is a land that isn't a basic.
 func isNonbasicLand(c types.Card) bool {
 	return c.IsLand() && !c.IsBasicLand()
-}
-
-// isRemovalOrCounter reports whether the card is removal or a counterspell.
-func isRemovalOrCounter(c types.Card) bool {
-	return c.IsRemoval() || c.IsCounterspell()
 }

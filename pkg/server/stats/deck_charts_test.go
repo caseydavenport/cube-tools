@@ -46,7 +46,7 @@ func TestDeckChartsHandler_Shape(t *testing.T) {
 	assert.Contains(t, resp.HeadToHead, "creatures")
 	assert.Contains(t, resp.HeadToHead, "interaction")
 	assert.Equal(t, 1, gapBucket(t, resp.HeadToHead["creatures"], "3").Wins)
-	assert.Len(t, resp.Forest, 15)
+	assert.Len(t, resp.Forest, 16)
 	assert.Len(t, resp.CloseMatches, 3)
 	assert.Len(t, resp.ManaCurve, 3)
 	assert.Len(t, resp.TypeMix, 3)

@@ -25,8 +25,9 @@ const FOREST_ROWS = {
   counterspells: { label: "Counterspells", unit: "counterspells" },
   card_draw: { label: "Card draw", unit: "card draw spells" },
   lifegain: { label: "Lifegain", unit: "lifegain cards" },
-  graveyard: { label: "Graveyard", unit: "graveyard cards" },
-  discard: { label: "Discard", unit: "discard cards" },
+  graveyard: { label: "Graveyard", unit: "self-mill, reanimation or recursion cards" },
+  discard_outlets: { label: "Discard outlets", unit: "discard outlets" },
+  hand_disruption: { label: "Hand disruption", unit: "hand disruption cards" },
 }
 
 // rowName returns the label for a row key, or the key itself if it's new.
