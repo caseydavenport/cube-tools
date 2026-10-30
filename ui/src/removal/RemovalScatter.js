@@ -37,7 +37,28 @@ const costColumnShading = {
   },
 }
 
-ChartJS.register(LinearScale, PointElement, Tooltip, Legend, costColumnShading)
+// legendMargin adds space under the legend, which Chart.js has no setting
+// for, so the top row of dots doesn't crowd the key. The margin is read from
+// the chart's options, like costColumnShading's columns.
+const legendMargin = {
+  id: "legendMargin",
+  beforeInit(chart) {
+    const legend = chart.legend
+    if (!legend) {
+      return
+    }
+    const fit = legend.fit
+    legend.fit = function fitWithMargin() {
+      fit.call(this)
+      const margin = chart.options.plugins.legendMargin
+      if (margin) {
+        this.height += margin
+      }
+    }
+  },
+}
+
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend, costColumnShading, legendMargin)
 
 // SYMBOL_SIZE is the width and height, in pixels, of a mana symbol point.
 const SYMBOL_SIZE = 18
@@ -147,6 +168,7 @@ export function RemovalScatter({ cards, mode }) {
     plugins: {
       legend: { labels: { usePointStyle: true, color: theme.text } },
       costColumns: { costs: columns.costs, fill: withAlpha(theme.text, 0.05) },
+      legendMargin: 24,
       // Every card under the pointer gets a line, so touching dots stay readable.
       tooltip: chartTooltip(theme, {
         callbacks: {
