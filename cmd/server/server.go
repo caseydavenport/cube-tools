@@ -126,7 +126,7 @@ func main() {
 	cubeRoute("POST /api/{cube}/import/check", importer.CheckHandler(provider))
 	cubeRoute("GET /api/{cube}/import/hedron", importer.HedronListHandler())
 	writeRoute("POST /api/{cube}/import/hedron", importer.HedronImportHandler())
-	writeRoute("POST /api/{cube}/import/photos", importer.PhotoImportHandler())
+	writeRoute("POST /api/{cube}/import/photos", importer.PhotoImportHandler(provider))
 
 	fmt.Println("Server listening on port 8888")
 	if err := http.ListenAndServe(":8888", server.Gzip(mux)); err != nil {

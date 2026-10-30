@@ -9,8 +9,11 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/server"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // maxPhotoUpload caps the whole import request body. Deck photos run a couple MB
@@ -26,8 +29,9 @@ var photoUploadExts = map[string]bool{
 // PhotoImportHandler builds an OCR-ready draft directory from uploaded deck
 // photos (one per player) and returns the local draft id the UI opens in the
 // OCR flow. The request is a multipart form: the image files under "images"
-// plus the date, slug, event_name, and flight fields.
-func PhotoImportHandler() http.Handler {
+// plus the date, slug, event_name, and flight fields. src supplies the live
+// cube list, saved with the draft as its snapshot.
+func PhotoImportHandler(src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		if cube == "" {
@@ -59,7 +63,15 @@ func PhotoImportHandler() http.Handler {
 		}
 		defer os.RemoveAll(tmp)
 
-		draftID, err := commands.BuildPhotoDraft(cube, tmp, date, slug, r.FormValue("event_name"), r.FormValue("flight"))
+		// The live list is the one this draft was just played with.
+		cl, err := src.Refresh(cube)
+		if err != nil {
+			logrus.WithError(err).WithField("cube", cube).Error("could not fetch the cube list for a photo import")
+			http.Error(rw, "could not fetch the cube list", http.StatusServiceUnavailable)
+			return
+		}
+
+		draftID, err := commands.BuildPhotoDraft(cube, cl, tmp, date, slug, r.FormValue("event_name"), r.FormValue("flight"))
 		if err != nil {
 			http.Error(rw, err.Error(), http.StatusBadRequest)
 			return

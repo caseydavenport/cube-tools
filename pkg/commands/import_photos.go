@@ -52,11 +52,12 @@ func ScanPhotoFolder(dir string) ([]string, error) {
 }
 
 // buildPhotoDraftDir writes an OCR-ready draft skeleton under dataRoot/cube from
-// a folder of deck photos: metadata.json, one img/pN/deck-1.<ext> per image
-// (pN in natural filename order), and an anonymous deck stub per photo. It
-// returns the new draft and the deck image paths it wrote, for the caller to
-// normalize. A failure partway removes the draft.
-func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, flight string) (drafts.Draft, []string, error) {
+// a folder of deck photos: metadata.json, the cube list cl as the draft's
+// snapshot, one img/pN/deck-1.<ext> per image (pN in natural filename order),
+// and an anonymous deck stub per photo. It returns the new draft and the deck
+// image paths it wrote, for the caller to normalize. A failure partway removes
+// the draft.
+func buildPhotoDraftDir(dataRoot, cube string, cl *types.Cube, sourcePath, date, slug, eventName, flight string) (drafts.Draft, []string, error) {
 	if !photoSlugRE.MatchString(slug) {
 		return drafts.Draft{}, nil, fmt.Errorf("slug %q must be lowercase letters, digits, or hyphens", slug)
 	}
@@ -79,6 +80,10 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 	})
 	if err != nil {
 		return drafts.Draft{}, nil, err
+	}
+	if err := draft.SaveSnapshot(cl); err != nil {
+		discardDraft(draft)
+		return drafts.Draft{}, nil, fmt.Errorf("save cube snapshot: %w", err)
 	}
 	written, err := writePhotoDraft(draft, sourcePath, date, images)
 	if err != nil {
@@ -127,10 +132,11 @@ func copyFile(logc logrus.Entry, src, dst string) error {
 }
 
 // BuildPhotoDraft builds a draft under data/ from a folder of deck photos,
-// normalizes each photo to landscape, and returns the draft ID. Decks start as
+// normalizes each photo to landscape, and returns the draft ID. cl is the cube
+// list the draft was played with, saved as its snapshot. Decks start as
 // anonymous seats with no match records.
-func BuildPhotoDraft(cube, sourcePath, date, slug, eventName, flight string) (int, error) {
-	draft, images, err := buildPhotoDraftDir("data", cube, sourcePath, date, slug, eventName, flight)
+func BuildPhotoDraft(cube string, cl *types.Cube, sourcePath, date, slug, eventName, flight string) (int, error) {
+	draft, images, err := buildPhotoDraftDir("data", cube, cl, sourcePath, date, slug, eventName, flight)
 	if err != nil {
 		return 0, err
 	}

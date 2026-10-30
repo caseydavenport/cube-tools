@@ -43,7 +43,7 @@ func postPhotos(t *testing.T, cube string, fields, images map[string]string) *ht
 	req.Header.Set("Content-Type", contentType)
 	req = req.WithContext(server.ContextWithCube(req.Context(), cube))
 	rw := httptest.NewRecorder()
-	PhotoImportHandler().ServeHTTP(rw, req)
+	PhotoImportHandler(testCubeSource("aurora", []string{"Shock"})).ServeHTTP(rw, req)
 	return rw
 }
 
@@ -71,7 +71,7 @@ func TestPhotoImportHandlerNotMultipart(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 	req = req.WithContext(server.ContextWithCube(req.Context(), "aurora"))
 	rw := httptest.NewRecorder()
-	PhotoImportHandler().ServeHTTP(rw, req)
+	PhotoImportHandler(testCubeSource("aurora", []string{"Shock"})).ServeHTTP(rw, req)
 	if rw.Code != http.StatusBadRequest {
 		t.Fatalf("status %d, want 400", rw.Code)
 	}

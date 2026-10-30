@@ -84,7 +84,8 @@ func TestBuildPhotoDraftDir(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	draft, imgs, err := buildPhotoDraftDir(root, "aurora", src, "2026-06-20", "evt", "My Event", "Sat AM")
+	cube := &types.Cube{Cards: []types.Card{{Name: "Shock"}, {Name: "Counterspell"}}}
+	draft, imgs, err := buildPhotoDraftDir(root, "aurora", cube, src, "2026-06-20", "evt", "My Event", "Sat AM")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -102,6 +103,15 @@ func TestBuildPhotoDraftDir(t *testing.T) {
 	want := types.DraftMetadata{ID: 2, Date: "2026-06-20", EventName: "My Event", EventCode: "evt", Flight: "Sat AM"}
 	if found.DraftMetadata != want {
 		t.Fatalf("metadata = %+v, want %+v", found.DraftMetadata, want)
+	}
+
+	// The cube list is saved with the draft, so later pages know what was in it.
+	snapshot, err := found.Snapshot()
+	if err != nil {
+		t.Fatalf("snapshot: %v", err)
+	}
+	if len(snapshot.Cards) != 2 || snapshot.Cards[0].Name != "Shock" {
+		t.Fatalf("snapshot = %+v, want the two-card cube", snapshot.Cards)
 	}
 
 	// p1 gets img_1.png (sorted), p2 gets img_2.jpg; extension preserved.
@@ -131,7 +141,7 @@ func TestBuildPhotoDraftDirRemovesDraftOnFailure(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if _, _, err := buildPhotoDraftDir(root, "aurora", src, "2026-06-20", "evt", "", ""); err == nil {
+	if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, src, "2026-06-20", "evt", "", ""); err == nil {
 		t.Fatal("expected an error copying the unreadable photo")
 	}
 	left, err := drafts.List(filepath.Join(root, "aurora"))
@@ -156,19 +166,19 @@ func TestBuildPhotoDraftDirErrors(t *testing.T) {
 	writeFile(t, filepath.Join(src, "a.jpg"))
 
 	// bad slug
-	if _, _, err := buildPhotoDraftDir(root, "aurora", src, "2026-06-20", "Bad_Slug", "", ""); err == nil {
+	if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, src, "2026-06-20", "Bad_Slug", "", ""); err == nil {
 		t.Fatal("expected slug error")
 	}
 	// bad date
-	if _, _, err := buildPhotoDraftDir(root, "aurora", src, "06/20/2026", "evt", "", ""); err == nil {
+	if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, src, "06/20/2026", "evt", "", ""); err == nil {
 		t.Fatal("expected date error")
 	}
 	// no images
-	if _, _, err := buildPhotoDraftDir(root, "aurora", t.TempDir(), "2026-06-20", "evt", "", ""); err == nil {
+	if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, t.TempDir(), "2026-06-20", "evt", "", ""); err == nil {
 		t.Fatal("expected no-images error")
 	}
 	// nonexistent source path
-	if _, _, err := buildPhotoDraftDir(root, "aurora", filepath.Join(t.TempDir(), "nope"), "2026-06-20", "evt", "", ""); err == nil {
+	if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, filepath.Join(t.TempDir(), "nope"), "2026-06-20", "evt", "", ""); err == nil {
 		t.Fatal("expected error for missing source path")
 	}
 }
