@@ -801,3 +801,22 @@ func TestMatchCards_Otag(t *testing.T) {
 		})
 	}
 }
+
+// TestBuildCardEdges_PackagesSorted pins each card edge's package names in
+// name order, so the map colors an edge the same way on every load.
+func TestBuildCardEdges_PackagesSorted(t *testing.T) {
+	groupCards := map[string]map[string]bool{
+		"Left":  {"Ragavan": true},
+		"Right": {"Bolt": true},
+	}
+	var packages []design.Package
+	for _, name := range []string{"Zoo", "Tempo", "Ramp", "Mill", "Delve", "Burn", "Aggro"} {
+		packages = append(packages, design.Package{Name: name, Wires: []design.Wire{{Sources: []string{"Left"}, Targets: []string{"Right"}}}})
+	}
+
+	for range 20 {
+		edges := buildCardEdges(packages, groupCards)
+		require.Len(t, edges, 1)
+		assert.Equal(t, []string{"Aggro", "Burn", "Delve", "Mill", "Ramp", "Tempo", "Zoo"}, edges[0].Packages)
+	}
+}

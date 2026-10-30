@@ -657,6 +657,7 @@ func buildCardEdges(packages []design.Package, groupCards map[string]map[string]
 		for n := range nameSet {
 			names = append(names, n)
 		}
+		slices.Sort(names)
 		edges = append(edges, DesignGraphEdge{
 			Source:   k.source,
 			Target:   k.target,
