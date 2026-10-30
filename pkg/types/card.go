@@ -35,6 +35,15 @@ type Card struct {
 	// from the cube export. Used as a filter dimension in the UI, not to drive
 	// the IsRemoval/IsInteraction heuristics (tags drift out of sync).
 	Tags []string `json:"tags,omitempty"`
+
+	// OracleTags are Scryfall's community tags on the card's rules, with every
+	// broader tag above them (see LoadOracleTags). They stay off the wire: a
+	// card has a dozen, and the decks payload carries thousands of cards.
+	OracleTags []string `json:"-"`
+
+	// Roles are the OracleTags the code acts on, such as removal and
+	// counterspell, sent so the browser can count them.
+	Roles []string `json:"roles,omitempty"`
 }
 
 func (c Card) IsBasicLand() bool {
@@ -253,6 +262,7 @@ func FromOracle(o OracleCard) Card {
 	c.URL = o.ScryfallURI
 	c.Power = o.Power
 	c.Toughness = o.Toughness
+	c.OracleTags = OracleTagsFor(o.OracleID)
 
 	// Parse the type line. For multi-face cards (split, transform, modal_dfc,
 	// adventure, flip) Scryfall joins both faces with " // ". Split on that

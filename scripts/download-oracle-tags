@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# This URL provides metadata about the latest bulk data files.
+META_URL=https://api.scryfall.com/bulk-data
+
+# Fetch the metadata and extract the URL for the oracle tags JSONL file.
+TAGS_URL=$(curl -s $META_URL | jq -r '.data[] | select(.type == "oracle_tags") | .jsonl_download_uri')
+if [ -z "$TAGS_URL" ] || [ "$TAGS_URL" = "null" ]; then
+	echo "No oracle_tags download URL in $META_URL metadata" >&2
+	exit 1
+fi
+
+echo "Downloading oracle tags from: $TAGS_URL"
+wget $TAGS_URL -O $@.gz
+gunzip $@.gz

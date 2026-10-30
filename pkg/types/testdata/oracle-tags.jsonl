@@ -1,0 +1,4 @@
+{"object":"tag","id":"t-removal","label":"removal","slug":"removal","type":"oracle","description":"Cards that remove permanents.","parent_ids":[],"child_ids":["t-removal-creature"],"aliases":[],"taggings":[]}
+{"object":"tag","id":"t-removal-creature","label":"removal-creature","slug":"removal-creature","type":"oracle","description":"Cards that remove creatures.","parent_ids":["t-removal"],"child_ids":[],"aliases":["creature-removal"],"taggings":[{"oracle_id":"oid-bolt","weight":"median"}]}
+{"object":"tag","id":"t-mill-self","label":"mill-self","slug":"mill-self","type":"oracle","description":"Cards that mill their controller.","parent_ids":[],"child_ids":[],"aliases":["self mill"],"taggings":[{"oracle_id":"oid-dfc","weight":"median"}]}
+{"object":"tag","id":"t-cycle","label":"cycle","slug":"cycle","type":"oracle","description":"Cards printed as a set.","parent_ids":[],"child_ids":[],"aliases":[],"taggings":[{"oracle_id":"oid-bolt","weight":"median"}]}

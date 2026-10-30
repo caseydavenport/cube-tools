@@ -3,6 +3,7 @@ tmp/
 input/
 node_modules/
 data/oracle-cards.json
+data/oracle-tags.jsonl
 package-lock.json
 *.created
 venv/

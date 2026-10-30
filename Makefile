@@ -7,7 +7,7 @@ GO_FILES=$(shell find ./pkg -type f) $(shell find ./cmd -type f)
 # git-add on the host.
 DOCKER_USER=--user $(shell id -u):$(shell id -g)
 
-all: data/oracle-cards.json bin/parser
+all: data/oracle-cards.json data/oracle-tags.jsonl bin/parser
 build: bin/server bin/parser
 
 test: ut
@@ -16,7 +16,7 @@ ut:
 	go test ./...
 
 clean:
-	rm -f data/oracle-cards.json bin/parser
+	rm -f data/oracle-cards.json data/oracle-tags.jsonl bin/parser
 
 reparse:
 	go run ./main.go reparse
@@ -24,11 +24,14 @@ reparse:
 data/oracle-cards.json:
 	./scripts/download-oracle-data $@
 
+data/oracle-tags.jsonl:
+	./scripts/download-oracle-tags $@
+
 # Full local dev stack: the OCR backend on :8888 and the UI dev server on :6060
 # (proxies /api to :8888). Ctrl-C stops both. Runs the backend from the OCR
 # Docker image so OpenCV + tesseract come from the container, not the host - no
 # local install needed. The repo is mounted at /code so the container sees ./data.
-run: data/oracle-cards.json .server-ocr.created
+run: data/oracle-cards.json data/oracle-tags.jsonl .server-ocr.created
 	@[ -d ui/node_modules ] || ( cd ui && npm install )
 	-docker rm -f cube-tools-server-ocr 2>/dev/null
 	docker run --rm --name=cube-tools-server-ocr --detach -p 8888:8888 \
@@ -45,7 +48,7 @@ run: data/oracle-cards.json .server-ocr.created
 # repo is bind-mounted at /code, so host edits trigger rebuilds; the named
 # gocache volume keeps the Go build cache warm across runs so rebuilds stay fast.
 # Ctrl-C stops both.
-dev: data/oracle-cards.json .server-ocr-dev.created
+dev: data/oracle-cards.json data/oracle-tags.jsonl .server-ocr-dev.created
 	@[ -d ui/node_modules ] || ( cd ui && npm install )
 	-docker rm -f cube-tools-server-dev 2>/dev/null
 	docker run --rm --name=cube-tools-server-dev --detach -p 8888:8888 \

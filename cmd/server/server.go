@@ -29,6 +29,12 @@ func main() {
 		logrus.Fatal("no oracle card data loaded; run `make data/oracle-cards.json` to download it")
 	}
 
+	// Card roles (removal, counterspell and the rest) come from Scryfall's
+	// oracle tags, so without them every role count reads zero.
+	if types.OracleTagCount() == 0 {
+		logrus.Fatal("no oracle tag data loaded; run `make data/oracle-tags.jsonl` to download it")
+	}
+
 	reg, err := cubes.Load("data/cubes.json")
 	if err != nil {
 		logrus.WithError(err).Fatal("failed to load cube registry")

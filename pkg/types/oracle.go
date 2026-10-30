@@ -18,6 +18,9 @@ func init() {
 	if err := LoadOracleData("./data/oracle-cards.json"); err != nil && !errors.Is(err, os.ErrNotExist) {
 		panic(err)
 	}
+	if err := LoadOracleTags("./data/oracle-tags.jsonl"); err != nil && !errors.Is(err, os.ErrNotExist) {
+		panic(err)
+	}
 }
 
 // LoadOracleData loads the Scryfall oracle dataset from path into the lookup
@@ -79,6 +82,16 @@ var replaces = map[string]string{
 // no metadata.
 func OracleCardCount() int {
 	return len(oracleCards)
+}
+
+// DistinctOracleCardCount returns how many distinct cards, by oracle id, the
+// loaded oracle dataset holds. Front-face aliases of "//" cards count once.
+func DistinctOracleCardCount() int {
+	ids := map[string]bool{}
+	for _, card := range oracleCards {
+		ids[card.OracleID] = true
+	}
+	return len(ids)
 }
 
 func GetOracleData(name string) OracleCard {
