@@ -4,9 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"slices"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -36,6 +39,10 @@ type CardPageResponse struct {
 	Decks       []CardDeck        `json:"decks"`
 	Record      Record            `json:"record"`
 	Picks       []CardPick        `json:"picks"`
+
+	// PackageNames lists every package, sorted the way the Rules editor
+	// sorts them, so the page colors each package the same way it does.
+	PackageNames []string `json:"package_names"`
 }
 
 // CardCompareResponse lists the ways the rules link two cards.
@@ -150,6 +157,8 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 		Interaction: cardInteraction(page.card, page.design.cube),
 		Decks:       cardDecks(page.card.Name, page.ranged),
 		Picks:       []CardPick{},
+
+		PackageNames: packageNames(page.design.config.Packages),
 	}
 	resp.DeckColors, resp.Archetypes, resp.Players = whoPlays(page.card.Name, page.ranged)
 
@@ -252,4 +261,17 @@ func writeJSON(rw http.ResponseWriter, v any, what string) {
 	if _, err := rw.Write(b); err != nil {
 		logrus.WithError(err).WithField("response", what).Error("could not write response")
 	}
+}
+
+// packageNames lists the packages' names, sorted ignoring case as the design
+// graph sorts them.
+func packageNames(packages []design.Package) []string {
+	names := []string{}
+	for _, p := range packages {
+		names = append(names, p.Name)
+	}
+	slices.SortFunc(names, func(a, b string) int {
+		return strings.Compare(strings.ToLower(a), strings.ToLower(b))
+	})
+	return names
 }

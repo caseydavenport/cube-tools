@@ -1,12 +1,17 @@
 // A card's own page: how it relates to the cube, how it's played, and what
 // it interacts with. The server computes everything (/stats/card).
 
-import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from "react"
+import { useParams, useSearchParams } from "react-router-dom"
 import { useCube } from "../contexts/CubeContext.js"
+import { asEvent } from "../components/kit/controls.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
+import { CardCompare } from "./CardCompare.js"
 import { CardHeader } from "./CardHeader.js"
+import { CardPartners } from "./CardPartners.js"
+import { PartnerMap } from "./PartnerMap.js"
+import { packageIndexOf } from "./cardPageModel.js"
 import "../pages/pages.css"
 import "./cardPage.css"
 
@@ -68,12 +73,53 @@ function useCardPage(cube, name, start, end) {
   return state
 }
 
+// useCompareCard keeps the compared card in the URL as "vs", so a compare can
+// be shared. It returns the card and a setter.
+function useCompareCard() {
+  const [params, setParams] = useSearchParams()
+  const vs = params.get("vs") || ""
+
+  // setVs writes the compared card, or removes it when given "".
+  function setVs(name) {
+    const next = new URLSearchParams(params)
+    if (name) {
+      next.set("vs", name)
+    } else {
+      next.delete("vs")
+    }
+    setParams(next, { replace: true })
+  }
+
+  return [vs, setVs]
+}
+
+// CardSections are the sections under the header: partners beside the
+// partner map, then the compare.
+function CardSections({ page, cube, start, end, onMatch }) {
+  const [vs, setVs] = useCompareCard()
+  const packageIndex = useMemo(() => packageIndexOf(page.package_names), [page.package_names])
+  const nav = { cube, start, end, onMatch }
+  const partnerLinks = { ...nav, onCompare: setVs }
+
+  return (
+    <div className="card-page-grid">
+      <CardPartners page={page} packageIndex={packageIndex} links={partnerLinks} />
+      <PartnerMap page={page} packageIndex={packageIndex} cube={cube} />
+      <div className="card-page-wide">
+        <CardCompare card={page.card.name} vs={vs} onVs={setVs} packageIndex={packageIndex} nav={nav} />
+      </div>
+    </div>
+  )
+}
+
 // CardPage is the page for the card named in the URL. It follows the app's
-// date range but not its deck filter.
+// date range but not its deck filter; links out to filtered pages set the
+// filter through onMatch as they're followed.
 export function CardPage(props) {
   const { name } = useParams()
   const cube = useCube()
   const { page, missing } = useCardPage(cube, name, props.startDate, props.endDate)
+  const onMatch = value => props.onMatchUpdated(asEvent(value))
 
   const toolbar = (
     <PageToolbar title={name}>
@@ -85,7 +131,12 @@ export function CardPage(props) {
   if (missing) {
     body = <div className="browse-empty">No card named {name}.</div>
   } else if (page) {
-    body = <CardHeader page={page} />
+    body = (
+      <>
+        <CardHeader page={page} />
+        <CardSections page={page} cube={cube} start={props.startDate} end={props.endDate} onMatch={onMatch} />
+      </>
+    )
   }
 
   return (

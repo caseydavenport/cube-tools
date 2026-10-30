@@ -48,3 +48,9 @@ button.de-loom-chip:hover { border-color: var(--mantine-primary-color-filled); }
 @media (prefers-reduced-motion: reduce) {
   .de-thread { animation: none; stroke-dashoffset: 0; }
 }
+.de-loom-label {
+  position: absolute; transform: translate(-50%, -50%);
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 0.1rem 0.45rem; border-radius: 6px; color: var(--mantine-color-black);
+  pointer-events: none; white-space: nowrap;
+}

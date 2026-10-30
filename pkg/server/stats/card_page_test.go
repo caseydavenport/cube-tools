@@ -110,7 +110,7 @@ func TestCardPage_EmptyListsNotNull(t *testing.T) {
 
 	body := rr.Body.String()
 	assert.NotContains(t, body, "null")
-	for _, field := range []string{"groups", "history", "partners", "same_role", "deck_colors", "archetypes", "players", "decks", "picks", "answered_by", "removal"} {
+	for _, field := range []string{"groups", "history", "partners", "same_role", "deck_colors", "archetypes", "players", "decks", "picks", "answered_by", "removal", "package_names"} {
 		assert.Contains(t, body, `"`+field+`":[`, field)
 	}
 }
@@ -134,4 +134,13 @@ func TestCardCompare_Links(t *testing.T) {
 	unknown := serveCube(h, "/api/polyverse/stats/card-compare", url.Values{"a": {"Goblin Bombardment"}, "b": {"Not A Card"}})
 	require.Equal(t, http.StatusOK, unknown.Code)
 	assert.JSONEq(t, `{"links":[]}`, unknown.Body.String())
+}
+
+func TestCardPage_PackageNamesSortedLikeTheRulesEditor(t *testing.T) {
+	store := &rulesDeckStorage{config: design.DesignMapConfig{
+		Packages: []design.Package{{Name: "tokens"}, {Name: "Aggro"}, {Name: "Sacrifice"}},
+	}}
+	rr, resp := cardPageFor(t, store, url.Values{"name": {"Goblin Bombardment"}})
+	require.Equal(t, http.StatusOK, rr.Code)
+	assert.Equal(t, []string{"Aggro", "Sacrifice", "tokens"}, resp.PackageNames)
 }

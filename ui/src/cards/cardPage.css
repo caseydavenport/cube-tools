@@ -65,3 +65,121 @@
   font-size: 12px;
   color: var(--se-muted);
 }
+/* Sections under the header */
+
+.card-page-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.card-page-grid > .kit-section + .kit-section {
+  margin-top: 0;
+}
+
+.card-page-wide {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 900px) {
+  .card-page-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Partners */
+
+.card-partner-package + .card-partner-package {
+  margin-top: 14px;
+}
+
+.card-partner-package-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.card-partner-count {
+  font-size: 11px;
+  color: var(--se-muted);
+}
+
+.card-partner-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  border-top: 1px solid var(--se-border);
+  font-size: 13px;
+}
+
+.card-partner-name {
+  color: var(--se-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-partner-action {
+  font-size: 12px;
+  color: var(--mantine-primary-color-filled);
+  text-decoration: none;
+}
+
+.card-partner-more {
+  font-size: 12px;
+  color: var(--se-muted);
+  margin-top: 4px;
+}
+
+/* Partner map */
+
+.card-partner-map {
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--mantine-radius-sm);
+  overflow: hidden;
+}
+
+/* Compare */
+
+.card-compare {
+  display: grid;
+  grid-template-columns: 160px 1fr 160px;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.card-compare-card {
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+}
+
+.card-compare-card img {
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.card-compare-middle {
+  min-width: 0;
+}
+
+.card-compare-none {
+  text-align: center;
+  color: var(--se-muted);
+}
+
+.card-compare-decks {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--mantine-primary-color-filled);
+  text-decoration: none;
+}

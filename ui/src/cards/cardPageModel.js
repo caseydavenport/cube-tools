@@ -1,6 +1,8 @@
 // The card page's text helpers: the words and numbers its header and sections
 // show, kept apart from the components so they can be tested.
 
+import { ruleColor } from "../design/map/ruleColors.js"
+
 // PEER_NAMES names each color group a card's popularity is compared within.
 export const PEER_NAMES = {
   W: "white",
@@ -60,4 +62,83 @@ export function cardSubtitle(card) {
     return types
   }
   return `${card.mana_cost} · ${types}`
+}
+
+// CARD_REF_PREFIX marks a wire entry that names one card instead of a group.
+const CARD_REF_PREFIX = "card:"
+
+// bothCardsMatch is the deck filter for decks that mainboarded both cards.
+export function bothCardsMatch(a, b) {
+  return `card:"${a}" card:"${b}"`
+}
+
+// loomChip is one end of a compare link: a group, or a card: entry shown as
+// the card's name, colored like the first package that reaches it.
+function loomChip(entry, color) {
+  let label = entry
+  if (entry.startsWith(CARD_REF_PREFIX)) {
+    label = entry.slice(CARD_REF_PREFIX.length)
+  }
+  return { key: entry, label, color }
+}
+
+// compareLoom turns the compare endpoint's links into Loom input: the first
+// card's groups on the left, the second's on the right, and one thread per
+// link, colored by its package and labeled with the package's name.
+// packageIndex maps each package to its color index.
+export function compareLoom(links, packageIndex) {
+  const left = []
+  const right = []
+  const threads = []
+  const seenLeft = new Set()
+  const seenRight = new Set()
+  for (const link of links) {
+    const color = ruleColor(packageIndex[link.package] ?? 0)
+    if (!seenLeft.has(link.group)) {
+      seenLeft.add(link.group)
+      left.push(loomChip(link.group, color))
+    }
+    if (!seenRight.has(link.other_group)) {
+      seenRight.add(link.other_group)
+      right.push(loomChip(link.other_group, color))
+    }
+    threads.push({
+      key: `${link.package}:${link.group}>${link.other_group}`,
+      from: link.group,
+      to: link.other_group,
+      color,
+      label: link.package,
+    })
+  }
+  return { left, right, threads }
+}
+
+// partnerMapData builds the partner map's nodes and edges: the card in the
+// middle and each partner once, joined by an edge colored by the first
+// package that links them. Nodes carry their colors for the map to paint.
+export function partnerMapData(card, partners, packageIndex) {
+  const nodes = [{ id: card.name, label: card.name, radius: 10, colors: card.colors || [] }]
+  const edges = []
+  const seen = new Set([card.name])
+  for (const group of partners) {
+    for (const partner of group.cards) {
+      if (seen.has(partner.name)) {
+        continue
+      }
+      seen.add(partner.name)
+      nodes.push({ id: partner.name, label: partner.name, radius: 5, colors: partner.colors || [] })
+      edges.push({ source: card.name, target: partner.name, weight: 1, color: ruleColor(packageIndex[group.package] ?? 0) })
+    }
+  }
+  return { nodes, edges }
+}
+
+// packageIndexOf maps each package name to its position, the index its color
+// is picked by.
+export function packageIndexOf(packageNames) {
+  const index = {}
+  packageNames.forEach((name, i) => {
+    index[name] = i
+  })
+  return index
 }
