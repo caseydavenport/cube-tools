@@ -9,7 +9,7 @@ export const MAP_COPY = {
     colorBy: "Color by",
     colorByIdentity: "Identity",
     colorByCommunity: "Community",
-    caption: ({ cards, links, clusters, q }) => `${cards} cards · ${links} connections · ${clusters} clusters (Q ${q}) · hover to trace, click to pin`,
+    caption: ({ cards, links, clusters }) => `${cards} cards · ${links} connections · ${clusters} clusters · hover to trace, click to pin`,
     mostConnected: "Most connected",
     noConnectedCards: "No connected cards.",
     communities: "Communities",

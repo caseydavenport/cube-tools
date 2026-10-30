@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { applyChartTheme, chartThemeFor, chartTooltip, currentChartTheme, deltaFill, resetChartTheme, seriesColor, withAlpha, zeroLineGrid } from "./chartTheme.js"
+import { applyChartTheme, chartThemeFor, chartTooltip, currentChartTheme, deltaFill, resetChartTheme, seriesColor, withAlpha, zeroLineGrid, blendHex } from "./chartTheme.js"
 import { LIGHT, DARK, SERIES } from "./tokens.js"
 
 // fakeBrowser stands in for the browser APIs the scheme guess reads: the saved
@@ -132,4 +132,10 @@ test("chartTooltip lets an override replace a theme setting", () => {
   const tooltip = chartTooltip(chartThemeFor("dark"), { padding: 4 })
   assert.equal(tooltip.padding, 4)
   assert.equal(tooltip.backgroundColor, DARK.card)
+})
+
+test("blendHex mixes a color toward another by the given share", () => {
+  assert.equal(blendHex("#000000", "#ffffff", 0), "#000000")
+  assert.equal(blendHex("#000000", "#ffffff", 1), "#ffffff")
+  assert.equal(blendHex("#cb2a2a", "#ffffff", 0.5), "#e59595")
 })

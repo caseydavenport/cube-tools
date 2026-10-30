@@ -53,6 +53,18 @@ test("layoutMap is the same on every run", () => {
   })
 })
 
+test("layoutMap ignores the order nodes and edges arrive in", () => {
+  const { nodes, edges } = twoTriangles()
+  const forward = buildMapGraph(nodes, edges)
+  const reversed = buildMapGraph([...nodes].reverse(), [...edges].reverse())
+  layoutMap(forward)
+  layoutMap(reversed)
+  forward.forEachNode((id, attrs) => {
+    assert.equal(attrs.x, reversed.getNodeAttribute(id, "x"), id)
+    assert.equal(attrs.y, reversed.getNodeAttribute(id, "y"), id)
+  })
+})
+
 test("layoutMap keeps an unlinked node near the cluster", () => {
   const { nodes, edges } = twoTriangles()
   const graph = buildMapGraph([...nodes, node("Z")], edges)

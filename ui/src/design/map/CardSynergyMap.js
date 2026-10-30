@@ -3,16 +3,18 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { SegmentedControl, UnstyledButton, useComputedColorScheme } from "@mantine/core"
 import { useCube } from "../../contexts/CubeContext.js"
-import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, neutralColor } from "../../utils/DeckGraph"
+import { buildDeckSubgraph, rankByDegree, dominantLabel, neutralColor } from "../../utils/DeckGraph"
 import { RULE_COLORS, ruleColor } from "./ruleColors.js"
 import { edgeColorFor, editorHref } from "./designData.js"
-import { ForceGraph, cardColor } from "./ForceGraph.js"
+import { cardColor } from "./ForceGraph.js"
+import { MapView } from "../../components/map/MapView.js"
+import { buildMapGraph, findCommunities, groupCommunities } from "../../components/map/mapGraph.js"
 import { CardPreview } from "./DrillMap.js"
 import { MAP_COPY } from "./copy.js"
 
-// CardSynergyMap renders an arbitrary pool of cards (e.g. a decklist) as a force
-// graph wired by the design rules - the same engine as the design map, scoped to
-// the given cards. Hover previews a card; click pins the focus on it.
+// CardSynergyMap renders an arbitrary pool of cards (e.g. a decklist) as a map
+// wired by the design rules, scoped to the given cards. Hover previews a card;
+// click pins the focus on it.
 export function CardSynergyMap({ cards, edges, packages }) {
   const cube = useCube()
   // The neutral community color depends on the scheme, so a toggle recomputes both memos.
@@ -38,7 +40,8 @@ export function CardSynergyMap({ cards, edges, packages }) {
     const names = [...byName.keys()]
     const g = buildDeckSubgraph(names, edges || [])
     const ranking = rankByDegree(g)
-    const { communities, q } = greedyModularityCommunities(g)
+    const poolGraph = buildMapGraph(names.map(name => ({ id: name })), edges || [])
+    const communities = groupCommunities(findCommunities(poolGraph))
     const communityColorOf = {}
     const list = []
     // Color each community by its label so a package looks the same across decks.
@@ -60,7 +63,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
       for (const n of comm) communityColorOf[n] = color
       list.push({ color, label, size: comm.length, members: comm })
     }
-    return { ranking, communities: list, q, communityColorOf }
+    return { ranking, communities: list, communityColorOf }
   }, [byName, edges, packageIndex, scheme])
 
   const { simNodes, simEdges } = useMemo(() => {
@@ -92,8 +95,6 @@ export function CardSynergyMap({ cards, edges, packages }) {
     return <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noCards}</p>
   }
 
-  const previewName = (hovered && byName.has(hovered)) ? hovered : selected
-  const previewCard = previewName ? byName.get(previewName) : null
 
   const topLinked = analytics.ranking.filter(r => r.weightedDegree > 0).slice(0, 8)
 
@@ -124,19 +125,19 @@ export function CardSynergyMap({ cards, edges, packages }) {
             onChange={setColorBy}
           />
         </div>
-        <ForceGraph
+        <MapView
           nodes={simNodes}
           edges={simEdges}
-          showLabels={simNodes.length <= 34}
-          colorBy={colorBy}
+          nodeColor={colorBy === "community" ? communityColor : identityColor}
           hoveredId={hovered}
           selectedId={selected}
           highlightIds={hoveredCommunity}
           onHover={setHovered}
           onSelect={(id) => setSelected(prev => prev === id ? null : id)}
+          renderHover={id => <CardPreview card={byName.get(id)} inline />}
         />
         <div className="dm-map-caption">
-          {MAP_COPY.cardSynergyMap.caption({ cards: simNodes.length, links: simEdges.length, clusters: analytics.communities.length, q: analytics.q.toFixed(2) })}
+          {MAP_COPY.cardSynergyMap.caption({ cards: simNodes.length, links: simEdges.length, clusters: analytics.communities.length })}
         </div>
       </div>
       <aside className="dm-deckmap-side">
@@ -194,8 +195,17 @@ export function CardSynergyMap({ cards, edges, packages }) {
             )}
           </div>
         )}
-        {previewCard && <CardPreview card={previewCard} />}
       </aside>
     </div>
   )
+}
+
+// identityColor colors a card node by its mana colors.
+function identityColor(node) {
+  return node.color
+}
+
+// communityColor colors a card node by the community it falls in.
+function communityColor(node) {
+  return node.communityColor
 }

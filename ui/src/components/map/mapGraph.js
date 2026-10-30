@@ -13,14 +13,17 @@ const LAYOUT_SEED = 7
 // buildMapGraph turns a page's nodes ({ id, label, radius, color, ... }) and
 // edges ({ source, target, weight, color }) into a graph. Edges to nodes that
 // aren't in the list are dropped, and a pair listed twice becomes one edge
-// carrying both weights.
+// carrying both weights. Both are added in name order, so the layout doesn't
+// depend on the order the page lists them in.
 export function buildMapGraph(nodes, edges) {
   const graph = new UndirectedGraph()
-  for (const node of nodes) {
+  const sortedNodes = [...nodes].sort((a, b) => compareText(a.id, b.id))
+  for (const node of sortedNodes) {
     graph.mergeNode(node.id, { ...node, size: node.radius })
   }
 
-  for (const edge of edges) {
+  const sortedEdges = [...edges].sort((a, b) => compareText(pairKey(a), pairKey(b)))
+  for (const edge of sortedEdges) {
     if (!graph.hasNode(edge.source) || !graph.hasNode(edge.target)) {
       continue
     }
@@ -33,6 +36,25 @@ export function buildMapGraph(nodes, edges) {
     graph.addEdge(edge.source, edge.target, { weight, color: edge.color })
   }
   return graph
+}
+
+// pairKey names an edge by its two ends in name order, so A-B and B-A match.
+function pairKey(edge) {
+  if (edge.source < edge.target) {
+    return edge.source + "\u0000" + edge.target
+  }
+  return edge.target + "\u0000" + edge.source
+}
+
+// compareText orders two strings for sort().
+function compareText(a, b) {
+  if (a < b) {
+    return -1
+  }
+  if (a > b) {
+    return 1
+  }
+  return 0
 }
 
 // layoutMap places every node: a seeded random start, then ForceAtlas2. Strong

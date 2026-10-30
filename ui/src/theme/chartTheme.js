@@ -16,6 +16,20 @@ export function withAlpha(hex, alpha) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
+// blendHex mixes one "#rrggbb" color toward another: share 0 gives the first,
+// 1 the second. Maps use it to fade a node into the background, since their
+// WebGL renderer draws see-through colors wrongly.
+export function blendHex(hex, toward, share) {
+  let out = "#"
+  for (const start of [1, 3, 5]) {
+    const from = parseInt(hex.slice(start, start + 2), 16)
+    const to = parseInt(toward.slice(start, start + 2), 16)
+    const mixed = Math.round(from + (to - from) * share)
+    out += mixed.toString(16).padStart(2, "0")
+  }
+  return out
+}
+
 // chartThemeFor returns the colors charts use in one color scheme: text, muted
 // text, the page background (for halos behind canvas labels), the card and
 // border colors (for tooltips), grid lines, the emphasized zero line, and the

@@ -180,6 +180,7 @@
   position: fixed; bottom: 1rem; right: 1rem; z-index: 50;
   width: 330px; pointer-events: none;
 }
+.dm-preview-inline { width: 100%; }
 .dm-preview-img { width: 100%; }
 .dm-preview-text { position: relative; }
 .dm-preview-name { color: var(--se-text); font-weight: 700; font-size: 0.9rem; }

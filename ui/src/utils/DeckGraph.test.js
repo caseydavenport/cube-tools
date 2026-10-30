@@ -1,7 +1,6 @@
 import {
   buildDeckSubgraph,
   rankByDegree,
-  greedyModularityCommunities,
   dominantLabel,
 } from "./DeckGraph"
 
@@ -13,20 +12,6 @@ const starEdges = () => [
   { source: "A", target: "D", weight: 1, packages: ["L2"] },
   { source: "A", target: "X", weight: 5, packages: ["L3"] },
 ]
-
-// twoTriangles: cliques {A,B,C} and {D,E,F}, optionally bridged by one edge.
-const twoTriangles = (bridge) => {
-  const e = [
-    { source: "A", target: "B", weight: 1, packages: [] },
-    { source: "A", target: "C", weight: 1, packages: [] },
-    { source: "B", target: "C", weight: 1, packages: [] },
-    { source: "D", target: "E", weight: 1, packages: [] },
-    { source: "D", target: "F", weight: 1, packages: [] },
-    { source: "E", target: "F", weight: 1, packages: [] },
-  ]
-  if (bridge) e.push({ source: "C", target: "D", weight: 1, packages: [] })
-  return e
-}
 
 test("buildDeckSubgraph induces on the card set", () => {
   const g = buildDeckSubgraph(["A", "B", "C", "D"], starEdges())
@@ -47,26 +32,6 @@ test("rankByDegree tops the hub", () => {
   const g = buildDeckSubgraph(["A", "B", "C", "D"], starEdges())
   const ranked = rankByDegree(g)
   expect(ranked[0]).toMatchObject({ card: "A", weightedDegree: 4, degree: 3 })
-})
-
-test("greedy communities split bridged triangles", () => {
-  const g = buildDeckSubgraph(["A", "B", "C", "D", "E", "F"], twoTriangles(true))
-  const { communities, q } = greedyModularityCommunities(g)
-  expect(communities).toHaveLength(2)
-  expect(q).toBeGreaterThan(0)
-  for (const c of communities) expect(c).toHaveLength(3)
-})
-
-test("greedy communities keep a single clique whole", () => {
-  const g = buildDeckSubgraph(["A", "B", "C"], twoTriangles(false).slice(0, 3))
-  const { communities } = greedyModularityCommunities(g)
-  expect(communities).toHaveLength(1)
-})
-
-test("greedy modularity is zero without edges", () => {
-  const g = buildDeckSubgraph(["A", "B"], [])
-  const { q } = greedyModularityCommunities(g)
-  expect(q).toBe(0)
 })
 
 test("dominantLabel picks the heaviest internal label", () => {

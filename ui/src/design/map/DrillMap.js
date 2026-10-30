@@ -236,11 +236,16 @@ function WhyLegendEntry({ pkg, color }) {
 }
 
 // CardPreview overlays the hovered/selected card's actual image (or its rules text
-// if no image is available), pinned to the bottom-right of the viewport.
-export function CardPreview({ card }) {
+// if no image is available), pinned to the bottom-right of the viewport. With
+// inline set, it fills its parent instead, for a map's hover preview.
+export function CardPreview({ card, inline }) {
   if (!card) return null
+  let className = "dm-preview"
+  if (inline) {
+    className = "dm-preview-inline"
+  }
   return (
-    <div className="dm-preview">
+    <div className={className}>
       {(card.image || card.url) ? (
         <img className="kit-card-image dm-preview-img" src={CardImageURL(card)} alt={card.name} />
       ) : (
