@@ -411,3 +411,36 @@ func TestFreeTextMatchesEventName(t *testing.T) {
 	d := &mockDeck{events: []string{"advguild", "Adventurer's Guild"}}
 	assert.True(t, DeckMatches(d, "adventurer"))
 }
+
+// loadTestTags loads the types package's fixture tags, so otag: terms can
+// resolve aliases.
+func loadTestTags(t *testing.T) {
+	t.Helper()
+	if err := types.LoadOracleTags("../../types/testdata/oracle-tags.jsonl"); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestCardMatches_Otag(t *testing.T) {
+	loadTestTags(t)
+	bolt := types.Card{Name: "Lightning Bolt", OracleTags: []string{"removal", "removal-creature"}}
+	bears := types.Card{Name: "Grizzly Bears"}
+
+	assert.True(t, CardMatches(bolt, "otag:removal"))
+	assert.True(t, CardMatches(bolt, `otag:"creature removal"`))
+	assert.False(t, CardMatches(bears, "otag:removal"))
+	assert.False(t, CardMatches(bolt, "otag:nope"))
+}
+
+func TestDeckMatches_Otag(t *testing.T) {
+	loadTestTags(t)
+	bolt := types.Card{Name: "Lightning Bolt", OracleTags: []string{"removal", "removal-creature"}}
+	bears := types.Card{Name: "Grizzly Bears"}
+	aggro := &mockDeck{labels: []string{"aggro"}, mainboard: []types.Card{bolt, bears}}
+	creatures := &mockDeck{labels: []string{"aggro"}, mainboard: []types.Card{bears}}
+
+	assert.True(t, DeckMatches(aggro, "otag:removal"))
+	assert.False(t, DeckMatches(creatures, "otag:removal"))
+	assert.True(t, DeckMatches(aggro, "otag:removal arch:aggro"))
+	assert.False(t, DeckMatches(aggro, "otag:removal arch:control"))
+}

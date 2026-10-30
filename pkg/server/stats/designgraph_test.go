@@ -768,3 +768,36 @@ func TestResolvePackages_CutCardRefStillBuilds(t *testing.T) {
 	assert.Equal(t, 0, typo.Wires[0].NeedSources)
 	assert.False(t, typo.BuiltBy(cardSet("Polluted Delta", "Hallowed Fountain", "Steam Vents")))
 }
+
+// otagCase is one otag: query and the cards it should match.
+type otagCase struct {
+	query string
+	want  []string
+}
+
+func TestMatchCards_Otag(t *testing.T) {
+	require.NoError(t, types.LoadOracleTags("../../types/testdata/oracle-tags.jsonl"))
+	cards := map[string]types.Card{
+		"Bolt":  {Name: "Lightning Bolt", OracleTags: []string{"cycle", "removal", "removal-creature"}},
+		"Mill":  {Name: "Stitcher's Supplier", OracleTags: []string{"mill-self"}},
+		"Plain": {Name: "Grizzly Bears"},
+	}
+
+	tests := []otagCase{
+		{"otag:removal", []string{"Bolt"}},
+		{"otag:creature-removal", []string{"Bolt"}},
+		{`otag:"self mill"`, []string{"Mill"}},
+		{"otag:Mill-Self", []string{"Mill"}},
+		{"!otag:removal", []string{"Mill", "Plain"}},
+		{"otag:nope", nil},
+	}
+	for _, tt := range tests {
+		t.Run(tt.query, func(t *testing.T) {
+			var got []string
+			for name := range matchCards(cards, tt.query) {
+				got = append(got, name)
+			}
+			assert.ElementsMatch(t, tt.want, got)
+		})
+	}
+}

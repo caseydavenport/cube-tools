@@ -71,6 +71,7 @@ export const MAP_COPY = {
     queryManaCost: "mana cost",
     queryManaValue: "mana value",
     queryKeyword: "keyword",
+    queryTag: "Scryfall tag",
     comparisons: "Comparisons",
     //   is a non-breaking space, as the &nbsp; it replaces.
     comparisonsCmc: "cmc<=N   cmc>=N",

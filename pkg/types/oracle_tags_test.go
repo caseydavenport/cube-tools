@@ -85,3 +85,13 @@ func TestFromOracle_FrontFaceGetsTags(t *testing.T) {
 	}
 	assert.Equal(t, []string{"mill-self"}, HydrateCard("Front").OracleTags)
 }
+
+func TestHasTag(t *testing.T) {
+	loadFixtureTags(t)
+	bolt := Card{OracleTags: OracleTagsFor("oid-bolt")}
+
+	assert.True(t, bolt.HasTag("removal"))
+	assert.True(t, bolt.HasTag("Creature Removal"))
+	assert.False(t, bolt.HasTag("mill-self"))
+	assert.False(t, bolt.HasTag("nope"), "an unknown tag matches nothing")
+}

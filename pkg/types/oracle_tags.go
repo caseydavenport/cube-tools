@@ -194,3 +194,13 @@ func LookupOracleTag(name string) (OracleTag, bool) {
 func OracleTagCount() int {
 	return len(oracleTags.bySlug)
 }
+
+// HasTag reports whether the card carries the tag named by a slug, label or
+// alias, the way an otag: search reads it. An unknown tag matches no card.
+func (c Card) HasTag(name string) bool {
+	tag, ok := LookupOracleTag(strings.Trim(name, `"`))
+	if !ok {
+		return false
+	}
+	return c.HasRole(tag.Slug)
+}

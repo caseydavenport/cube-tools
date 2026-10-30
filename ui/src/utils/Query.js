@@ -1,6 +1,7 @@
 import { CombineColors } from "../utils/Colors.js"
 import { eventTerms } from "../utils/DraftInfo.js"
 import { playerNameMatches } from "../utils/Players.js"
+import { cardHasOracleTag } from "./cardRoles.js"
 
 
 export const QueryTerms = [
@@ -23,6 +24,7 @@ export const QueryTerms = [
   "package",
   "community",
   "cctag",
+  "otag",
 ]
 
 export const QueryTermMetadata = [
@@ -45,6 +47,7 @@ export const QueryTermMetadata = [
   { term: "draftSize", description: "Draft size", operators: ["<", ">", "="], valueType: "number", example: "draftSize>6", isDeckOnly: true },
   { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3", isDeckOnly: true },
   { term: "package", description: "Builds a package: 2+ cards on each side of one of its wires; bare package: means any", operators: [":", "!="], valueType: "text", example: "package:graveyard", isDeckOnly: true },
+  { term: "otag", description: "Scryfall tag", operators: [":"], valueType: "text", example: "otag:removal" },
   { term: "cctag", description: "Cube Cobra tag", operators: [":"], valueType: "text", example: "cctag:watch", values: ["🧬", "watch", "remove", "\"creature removal\"", "\"artifact removal\"", "\"enchantment removal\"", "\"planeswalker removal\"", "\"land removal\"", "\"board wipe\"", "burn", "\"grave hate\""] },
 ]
 
@@ -160,6 +163,15 @@ export function CardMatches(card, matchStr, checkText) {
     if (splits.some(term => isWinPercentageTerm(term))) {
       matchedAnyCardTerm = true
       if (!winPercentagesMatch(splits, card)) {
+        return false
+      }
+    }
+
+    // Scryfall tag queries.
+    const tagTerms = splits.filter(term => term.startsWith("otag:"))
+    for (const term of tagTerms) {
+      matchedAnyCardTerm = true
+      if (!cardHasOracleTag(card, term.slice("otag:".length))) {
         return false
       }
     }

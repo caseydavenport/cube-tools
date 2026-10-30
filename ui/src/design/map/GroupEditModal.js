@@ -131,6 +131,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                 ["m:", MAP_COPY.groupEdit.queryManaCost],
                 ["cmc:", MAP_COPY.groupEdit.queryManaValue],
                 ["is:", MAP_COPY.groupEdit.queryKeyword],
+                ["otag:", MAP_COPY.groupEdit.queryTag],
               ].map(([prefix, desc]) => (
                 <tr key={prefix}>
                   <td className="group-help-key">{prefix}</td>

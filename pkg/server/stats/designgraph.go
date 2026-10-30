@@ -980,6 +980,7 @@ func buildGroupGraph(
 //	tou>=N      - toughness at least N
 //	m:text      - mana cost contains text (e.g., m:X, m:{W}{W})
 //	is:keyword  - built-in classification (creature, land, removal, counterspell, interaction)
+//	otag:name   - Scryfall oracle tag by slug, label or alias (e.g., otag:removal, otag:"self mill")
 //
 // Negation: prefix any term with ! to negate it: !t:creature, !c:R, !is:land
 //
@@ -1285,6 +1286,8 @@ func matchPrefixedTerm(card types.Card, prefix, value string) bool {
 		return card.CMC == n
 	case "is":
 		return matchIs(card, lowerValue)
+	case "otag":
+		return card.HasTag(value)
 	default:
 		logrus.WithField("prefix", prefix).Warn("unknown query prefix")
 		return false
