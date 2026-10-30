@@ -90,6 +90,13 @@
 
 /* Partners */
 
+/* As tall as the partner map beside it; longer lists scroll. */
+.card-partner-list {
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
 .card-partner-package + .card-partner-package {
   margin-top: 14px;
 }
@@ -194,7 +201,7 @@
   display: none;
 }
 
-/* Who plays it, records and picks */
+/* Who plays it and picks */
 
 .card-trait-row + .card-trait-row {
   margin-top: 10px;
@@ -205,15 +212,6 @@
   font-size: 12px;
   color: var(--se-muted);
   margin-bottom: 4px;
-}
-
-.card-record + .card-picks {
-  margin-top: 12px;
-}
-
-.card-record-value {
-  font-size: 20px;
-  font-weight: 700;
 }
 
 .card-pick-line {

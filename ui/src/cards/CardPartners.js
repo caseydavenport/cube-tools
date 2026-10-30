@@ -62,9 +62,10 @@ function PackageBlock({ group, color, card, links }) {
   )
 }
 
-// CardPartners lists the card's partners by package. links carries the cube,
-// date range, onMatch (sets the deck filter as a link is followed) and
-// onCompare (puts a partner in the compare section).
+// CardPartners lists the card's partners by package, scrolling past the
+// partner map's height so it doesn't push the sections below it down. links
+// carries the cube, date range, onMatch (sets the deck filter as a link is
+// followed) and onCompare (puts a partner in the compare section).
 export function CardPartners({ page, packageIndex, links }) {
   if (page.partners.length === 0) {
     return null
@@ -76,15 +77,17 @@ export function CardPartners({ page, packageIndex, links }) {
   )
   return (
     <SectionCard title={title}>
-      {page.partners.map(group => (
-        <PackageBlock
-          key={group.package}
-          group={group}
-          color={ruleColor(packageIndex[group.package] ?? 0)}
-          card={page.card.name}
-          links={links}
-        />
-      ))}
+      <div className="card-partner-list">
+        {page.partners.map(group => (
+          <PackageBlock
+            key={group.package}
+            group={group}
+            color={ruleColor(packageIndex[group.package] ?? 0)}
+            card={page.card.name}
+            links={links}
+          />
+        ))}
+      </div>
     </SectionCard>
   )
 }
