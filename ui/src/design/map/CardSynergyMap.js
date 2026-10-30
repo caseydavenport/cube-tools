@@ -11,6 +11,7 @@ import { MapView } from "../../components/map/MapView.js"
 import { buildMapGraph, findCommunities, groupCommunities } from "../../components/map/mapGraph.js"
 import { CardPreview } from "./DrillMap.js"
 import { MAP_COPY } from "./copy.js"
+import { HoverInfo } from "../../components/kit/HoverInfo.js"
 
 // CardSynergyMap renders an arbitrary pool of cards (e.g. a decklist) as a map
 // wired by the design rules, scoped to the given cards. Hover previews a card;
@@ -140,20 +141,23 @@ export function CardSynergyMap({ cards, edges, packages }) {
       </div>
       <aside className="dm-deckmap-side">
         <div className="dm-panel dm-deckmap-stats">
-          <div className="dm-subhead">{MAP_COPY.cardSynergyMap.mostConnected}</div>
+          <HoverInfo title={MAP_COPY.cardSynergyMap.mostConnected} info="Cards linked to the most others in this deck by the design rules, counting every package that links a pair.">
+            <div className="dm-subhead">{MAP_COPY.cardSynergyMap.mostConnected}</div>
+          </HoverInfo>
           {topLinked.length === 0 ? (
             <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noConnectedCards}</p>
           ) : topLinked.map(r => (
-            <UnstyledButton
-              key={r.card}
-              className={"dm-legend-row" + (selected === r.card ? " dm-legend-on" : "")}
-              onClick={() => setSelected(prev => prev === r.card ? null : r.card)}
-              onMouseEnter={() => setHovered(r.card)}
-              onMouseLeave={() => setHovered(null)}
-            >
-              <span className="dm-legend-name">{r.card}</span>
-              <span className="dm-legend-count">{r.weightedDegree}·{r.degree}</span>
-            </UnstyledButton>
+            <HoverInfo key={r.card} title={r.card} info={`${r.weightedDegree} package links to ${r.degree} of this deck's cards`}>
+              <UnstyledButton
+                className={"dm-legend-row" + (selected === r.card ? " dm-legend-on" : "")}
+                onClick={() => setSelected(prev => prev === r.card ? null : r.card)}
+                onMouseEnter={() => setHovered(r.card)}
+                onMouseLeave={() => setHovered(null)}
+              >
+                <span className="dm-legend-name">{r.card}</span>
+                <span className="dm-legend-count">{r.degree} cards</span>
+              </UnstyledButton>
+            </HoverInfo>
           ))}
           <div className="dm-subhead">{MAP_COPY.cardSynergyMap.communities}</div>
           {analytics.communities.length === 0 ? (

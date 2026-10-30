@@ -1,4 +1,6 @@
 .map-view { flex: 1; min-height: 0; position: relative; cursor: grab; }
 .map-view-canvas { position: absolute; inset: 0; }
-.map-hover { position: absolute; z-index: 5; pointer-events: none; }
+.map-hover { position: absolute; top: 12px; width: 180px; z-index: 5; pointer-events: none; }
+.map-hover-left { left: 12px; }
+.map-hover-right { right: 12px; }
 .map-hover img { display: block; width: 100%; }

@@ -7,24 +7,23 @@ import React, { useEffect, useMemo, useRef, useState } from "react"
 import Sigma from "sigma"
 import { useComputedColorScheme } from "@mantine/core"
 import { blendHex, currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
+import { theme as appTheme } from "../../theme/theme.js"
 import { buildMapGraph, layoutMap } from "./mapGraph.js"
+import { previewSide } from "./hoverPlacement.js"
 import "./mapView.css"
-
-// HOVER_WIDTH is the hover preview's width in pixels, used to flip it to the
-// node's left when it would run off the right edge.
-const HOVER_WIDTH = 220
 
 // MapView renders nodes ({ id, label, radius, color }) and edges ({ source,
 // target, weight, color }). nodeColor(node) picks a node's color, null meaning
 // the theme's muted gray; it defaults to node.color. The focus is selectedId,
 // else hoveredId; a highlightIds set lights a whole group instead.
-// renderHover(id) returns what to show beside the hovered node.
+// renderHover(id) returns a preview, shown in the canvas corner away from the
+// hovered node.
 export function MapView({ nodes, edges, nodeColor, hoveredId, selectedId, highlightIds, onHover, onSelect, renderHover }) {
   // Reading the scheme re-renders on a light or dark switch, which repaints.
   const scheme = useComputedColorScheme("light")
   const containerRef = useRef(null)
   const rendererRef = useRef(null)
-  const [hoverPoint, setHoverPoint] = useState(null)
+  const [hoverSide, setHoverSide] = useState(null)
 
   // Layout runs only when the data changes, never on hover or a scheme switch.
   const graph = useMemo(() => {
@@ -47,7 +46,7 @@ export function MapView({ nodes, edges, nodeColor, hoveredId, selectedId, highli
       labelGridCellSize: 70,
       labelRenderedSizeThreshold: 6,
       labelSize: 13,
-      labelFont: "Inter, sans-serif",
+      labelFont: appTheme.fontFamily,
       labelWeight: "500",
       zIndex: true,
       defaultDrawNodeLabel: drawLabel,
@@ -74,6 +73,8 @@ export function MapView({ nodes, edges, nodeColor, hoveredId, selectedId, highli
     observer.observe(container)
 
     return () => {
+      // kill() sends no leaveNode, so clear the page's hover or it outlives the map.
+      if (latest.current.onHover) latest.current.onHover(null)
       observer.disconnect()
       renderer.kill()
       rendererRef.current = null
@@ -87,48 +88,38 @@ export function MapView({ nodes, edges, nodeColor, hoveredId, selectedId, highli
     }
   }, [hoveredId, selectedId, highlightIds, nodeColor, scheme])
 
-  // Find where the hovered node sits on screen, for the preview.
+  // Pick the corner for the preview: the side of the canvas away from the
+  // hovered node.
   useEffect(() => {
     const renderer = rendererRef.current
     if (!renderer || !hoveredId || !renderHover) {
-      setHoverPoint(null)
+      setHoverSide(null)
       return
     }
     const data = renderer.getNodeDisplayData(hoveredId)
     if (!data) {
-      setHoverPoint(null)
+      setHoverSide(null)
       return
     }
     const point = renderer.framedGraphToViewport(data)
-    const size = renderer.scaleSize(data.size)
-    setHoverPoint({ x: point.x, y: point.y, size, width: containerRef.current.clientWidth })
+    setHoverSide(previewSide(point.x, containerRef.current.clientWidth))
   }, [hoveredId, renderHover, graph])
 
   return (
     <div className="map-view">
       <div ref={containerRef} className="map-view-canvas" />
-      {hoverPoint && <HoverPreview point={hoverPoint}>{renderHover(hoveredId)}</HoverPreview>}
+      {hoverSide && <HoverPreview side={hoverSide}>{renderHover(hoveredId)}</HoverPreview>}
     </div>
   )
 }
 
-// HoverPreview floats its children beside a node: to the right, or to the
-// left when there isn't room. It ignores the mouse, so it never blocks a click.
-function HoverPreview({ point, children }) {
+// HoverPreview shows its children in one top corner of the canvas, "left" or
+// "right". It ignores the mouse, so it never blocks a click.
+function HoverPreview({ side, children }) {
   if (!children) {
     return null
   }
-  const gap = point.size + 12
-  let left = point.x + gap
-  if (left + HOVER_WIDTH > point.width) {
-    left = point.x - gap - HOVER_WIDTH
-  }
-  const top = Math.max(0, point.y - 60)
-  return (
-    <div className="map-hover" style={{ left, top, width: HOVER_WIDTH }}>
-      {children}
-    </div>
-  )
+  return <div className={"map-hover map-hover-" + side}>{children}</div>
 }
 
 // FADED is how far a node outside the focus fades into the card color.
@@ -140,8 +131,9 @@ const MAX_FORCED_LABELS = 24
 
 // styleNode decides how one node draws for the current focus. Nodes outside
 // the focus fade and lose their label; the focus always shows its label, and
-// so do its neighbors when there are few enough. The focus gets a ring. Fading blends toward the card
-// color, since Sigma's WebGL drawing mishandles see-through colors.
+// so do its neighbors when there are few enough. The focus gets a ring.
+// Fading blends toward the card color, since Sigma's WebGL drawing mishandles
+// see-through colors.
 function styleNode(id, attrs, state) {
   const theme = currentChartTheme()
   let fill = attrs.color
