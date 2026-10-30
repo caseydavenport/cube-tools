@@ -17,7 +17,7 @@ func TestCardSearch_ShortQueryEmpty(t *testing.T) {
 	assert.JSONEq(t, `{"names":[]}`, rr.Body.String())
 }
 
-func TestCardSearch_Answers(t *testing.T) {
+func TestCardSearch_NoMatchIsEmptyList(t *testing.T) {
 	rr := httptest.NewRecorder()
 	CardSearchHandler().ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/polyverse/cards/search?q=zz-no-such-card", nil))
 

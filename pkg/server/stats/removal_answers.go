@@ -13,8 +13,8 @@ var manaColors = []string{"W", "U", "B", "R", "G"}
 var removalColors = []string{"W", "U", "B", "R", "G", "C"}
 
 // spotCard is one spot-removal card, by name, with its modes' kill conditions
-// and the rows built from them. Most cards have one mode; kicker and revolt cards
-// have several, but count as one card.
+// and the rows built from them. Most cards have one mode; kicker and revolt
+// cards have several, but count as one card.
 type spotCard struct {
 	name   string
 	colors []string

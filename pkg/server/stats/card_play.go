@@ -119,6 +119,7 @@ func deckPlays(d *storage.Deck, card string) bool {
 // range, and compares its per-draft rate with the same-color cards in cube.
 // history supplies the all-time draft counts.
 func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cube *types.Cube, cubes cubeLists) CardPlay {
+	// All-time counts come from the history.
 	play := CardPlay{Drafts: len(history), Peers: colorBucket(card)}
 	for _, h := range history {
 		if h.State == draftPlayed || h.State == draftInCube {
@@ -126,6 +127,7 @@ func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cub
 		}
 	}
 
+	// Range counts: decks with the card, then drafts played out of available.
 	play.Mainboard, _ = countWithCard(ranged, card.Name, cubes)
 	for _, d := range ranged {
 		if slices.ContainsFunc(d.deck.Sideboard, func(c types.Card) bool { return c.Name == card.Name }) {
@@ -140,6 +142,7 @@ func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cub
 	}
 	play.Rate = round1(100 * float64(play.DraftsPlayed) / float64(play.DraftsAvailable))
 
+	// Compare against the median rate of same-color cube cards.
 	var peerRates []float64
 	for _, c := range cube.Cards {
 		if c.Name == card.Name || c.IsBasicLand() || colorBucket(c) != play.Peers {

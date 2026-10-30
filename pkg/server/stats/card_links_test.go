@@ -62,12 +62,12 @@ func TestCardRelations_GroupsOf(t *testing.T) {
 }
 
 func TestCardRelations_PartnersByPackage(t *testing.T) {
-	r := newCardRelations(relationsCube(), relationsConfig(), nil, nil)
-	decks := map[string]int{
+	relations := newCardRelations(relationsCube(), relationsConfig(), nil, nil)
+	numDecksByName := map[string]int{
 		"Mayhem Devil":      8,
 		"Cauldron Familiar": 2,
 	}
-	got := r.partners("Goblin Bombardment", decks)
+	got := relations.partners("Goblin Bombardment", numDecksByName)
 	want := []PackagePartners{{Package: "Sacrifice", Cards: []PartnerCard{
 		{Name: "Mayhem Devil", Colors: []string{"B", "R"}, Decks: 8},
 		{Name: "Cauldron Familiar", Colors: []string{"B"}, Decks: 2},
@@ -75,12 +75,12 @@ func TestCardRelations_PartnersByPackage(t *testing.T) {
 	assert.Equal(t, want, got)
 
 	// A card on the target side partners the sources, not its fellow targets.
-	devil := r.partners("Mayhem Devil", nil)
+	devil := relations.partners("Mayhem Devil", nil)
 	require.Len(t, devil, 1)
 	assert.Equal(t, []string{"Carrion Feeder", "Goblin Bombardment"}, partnerNames(devil[0]))
 
 	// A card in no wired group has no partners.
-	assert.Empty(t, r.partners("Small Creature 0", nil))
+	assert.Empty(t, relations.partners("Small Creature 0", nil))
 }
 
 func TestCardRelations_PartnersSkipCutCards(t *testing.T) {

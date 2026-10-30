@@ -95,10 +95,11 @@ func (r cardRelations) groupsOf(card string) []string {
 
 // partners lists the current cube cards that a package wire puts opposite the
 // card, grouped by package and sorted by package name. Within a package, cards
-// played in more decks come first; decks gives each card's count.
-func (r cardRelations) partners(card string, decks map[string]int) []PackagePartners {
+// played in more decks come first; numDecksByCard gives each card's count.
+func (r cardRelations) partners(card string, numDecksByCard map[string]int) []PackagePartners {
 	out := []PackagePartners{}
 	for _, pkg := range r.packages {
+		// Collect the cards on the opposite side of every wire the card is on.
 		names := map[string]bool{}
 		for _, wire := range pkg.Wires {
 			sources := wireSide(r.groups, wire.Sources)
@@ -111,13 +112,14 @@ func (r cardRelations) partners(card string, decks map[string]int) []PackagePart
 			}
 		}
 
+		// Keep only current cube cards, most played first.
 		var cards []PartnerCard
 		for name := range names {
 			c, ok := r.cube[name]
 			if !ok || name == card {
 				continue
 			}
-			cards = append(cards, PartnerCard{Name: name, Colors: c.Colors, Decks: decks[name]})
+			cards = append(cards, PartnerCard{Name: name, Colors: c.Colors, Decks: numDecksByCard[name]})
 		}
 		if len(cards) == 0 {
 			continue
@@ -173,6 +175,7 @@ func (r cardRelations) linksBetween(a, b string) []CardBridge {
 // groups and its Scryfall tags. A shared feature counts more the fewer cube
 // cards have it, so a sacrifice-outlet group outweighs a small-creatures one.
 func (r cardRelations) sameRole(card types.Card, limit int) []string {
+	// A card's features are its groups plus its Scryfall tags.
 	featuresOf := func(name string, tags []string) []string {
 		features := slices.Clone(r.groupsByCard[name])
 		for _, tag := range tags {
@@ -181,6 +184,7 @@ func (r cardRelations) sameRole(card types.Card, limit int) []string {
 		return features
 	}
 
+	// Count how many cube cards have each feature, to weight rare ones higher.
 	counts := map[string]int{}
 	for name, c := range r.cube {
 		for _, f := range featuresOf(name, c.OracleTags) {
@@ -194,6 +198,7 @@ func (r cardRelations) sameRole(card types.Card, limit int) []string {
 		mine[f] = true
 	}
 
+	// Score every other cube card by the rarity of the features it shares.
 	var candidates []roleCandidate
 	for name, c := range r.cube {
 		if name == card.Name {
@@ -209,6 +214,8 @@ func (r cardRelations) sameRole(card types.Card, limit int) []string {
 			candidates = append(candidates, roleCandidate{name: name, score: score})
 		}
 	}
+
+	// Best score first, ties by name.
 	slices.SortFunc(candidates, func(a, b roleCandidate) int {
 		if a.score != b.score {
 			return cmp.Compare(b.score, a.score)

@@ -86,6 +86,7 @@ func (h *cardPageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// All decks feed the history; the ranged ones feed everything else.
 	all, err := h.q.Decks(cubeID, &storage.DecksRequest{})
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
@@ -138,10 +139,10 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 	}
 	relations := newCardRelations(page.design.cube, page.design.config, page.design.deckCardNames, extras)
 
-	mainboardCounts := map[string]int{}
+	numMainboardsByCard := map[string]int{}
 	for _, d := range page.ranged {
 		for _, n := range nonBasicMainboard(d) {
-			mainboardCounts[n]++
+			numMainboardsByCard[n]++
 		}
 	}
 
@@ -152,7 +153,7 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 		Groups:      relations.groupsOf(page.card.Name),
 		Play:        cardPlay(page.card, withSpells(page.ranged), history, page.design.cube, page.cubes),
 		History:     history,
-		Partners:    relations.partners(page.card.Name, mainboardCounts),
+		Partners:    relations.partners(page.card.Name, numMainboardsByCard),
 		SameRole:    relations.sameRole(page.card, sameRoleLimit),
 		Interaction: cardInteraction(page.card, page.design.cube),
 		Decks:       cardDecks(page.card.Name, page.ranged),
