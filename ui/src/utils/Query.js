@@ -2,6 +2,7 @@ import { CombineColors } from "../utils/Colors.js"
 import { eventTerms } from "../utils/DraftInfo.js"
 import { playerNameMatches } from "../utils/Players.js"
 import { cardHasOracleTag } from "./cardRoles.js"
+import { exactNameMatches } from "./cardTerms.js"
 
 
 export const QueryTerms = [
@@ -179,11 +180,9 @@ export function CardMatches(card, matchStr, checkText) {
     }
 
     // Exact name queries, so card:"Bolt" doesn't also match Lightning Bolt.
-    const exactTerms = splits.filter(term => term.startsWith("card:"))
-    for (const term of exactTerms) {
+    if (splits.some(term => term.startsWith("card:"))) {
       matchedAnyCardTerm = true
-      const wanted = term.slice("card:".length).replace(/"/g, "").toLowerCase()
-      if (card.name.toLowerCase() !== wanted) {
+      if (!exactNameMatches(splits, card.name)) {
         return false
       }
     }
