@@ -36,6 +36,7 @@ const COPY = {
 
   settings: "List settings",
   minGames: "Min games",
+  winConfidence: "Win % confidence",
   sort: "Sort by",
   reverseSort: "Reverse order",
   sortLabels: {

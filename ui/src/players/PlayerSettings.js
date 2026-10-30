@@ -2,6 +2,7 @@ import React from "react"
 import { ActionIcon, Group, NumberInput, Select } from "@mantine/core"
 import { IconSortAscending, IconSortDescending } from "@tabler/icons-react"
 import { SettingsPopover } from "../components/kit/SettingsPopover.js"
+import { WIN_CONFIDENCE_OPTS } from "../utils/Stats.js"
 
 // SORT_OPTIONS are the orders the player list offers, by the stats column each
 // one sorts on.
@@ -22,7 +23,8 @@ function SortDirection({ inverted, onToggle, copy }) {
 }
 
 // PlayerSettings is the toolbar's settings popover for the Players page: the
-// minimum games a player needs to be listed, and the list's order.
+// minimum games a player needs to be listed, the confidence behind the win
+// rates' intervals and greying, and the list's order.
 export function PlayerSettings({ filters, copy }) {
   const sortData = SORT_OPTIONS.map(value => ({ value, label: copy.sortLabels[value] }))
 
@@ -40,6 +42,15 @@ export function PlayerSettings({ filters, copy }) {
         min={0}
         value={filters.minGames}
         onChange={value => filters.setMinGames(Number(value) || 0)}
+      />
+      <Select
+        size="xs"
+        label={copy.winConfidence}
+        data={WIN_CONFIDENCE_OPTS}
+        value={String(filters.winConfidence)}
+        onChange={filters.setWinConfidence}
+        allowDeselect={false}
+        comboboxProps={{ withinPortal: false }}
       />
       <Group gap={4} align="flex-end" wrap="nowrap">
         <Select
