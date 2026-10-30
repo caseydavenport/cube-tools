@@ -222,3 +222,8 @@ a.kit-card:visited {
   border-radius: 999px;
   background: var(--mantine-primary-color-filled);
 }
+
+/* A win rate that can't be told apart from a coin flip. */
+.kit-win-muted {
+  color: var(--se-muted);
+}
