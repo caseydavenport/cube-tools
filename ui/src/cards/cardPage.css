@@ -1,0 +1,67 @@
+/* The card page. */
+
+.card-page {
+  padding: 16px 24px 32px;
+  max-width: 1280px;
+}
+
+.card-page-scryfall {
+  font-size: 13px;
+  color: var(--se-muted);
+}
+
+/* Cube history strip */
+
+.card-history-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--se-muted);
+  margin-bottom: 6px;
+}
+
+.card-history-squares {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.card-history-square {
+  display: inline-block;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.card-history-played {
+  background: var(--mantine-color-orange-filled);
+}
+
+.card-history-in {
+  background: var(--mantine-primary-color-filled);
+}
+
+.card-history-out {
+  background: var(--se-border);
+}
+
+.card-history-unknown {
+  background: transparent;
+  border: 1px dashed var(--se-muted);
+  box-sizing: border-box;
+}
+
+.card-history-outside {
+  opacity: 0.35;
+}
+
+.card-history-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--se-muted);
+}

@@ -1,0 +1,69 @@
+// The card page's header band: the card's image and name, its play numbers
+// as tiles, and its cube history.
+
+import React from "react"
+import { DetailHeader } from "../components/kit/DetailHeader.js"
+import { StatTile } from "../components/kit/StatTile.js"
+import { CardImageURL } from "../utils/Utils.js"
+import { HistoryStrip } from "./HistoryStrip.js"
+import { cardSubtitle, playedTile, popularityLabel, popularityTip } from "./cardPageModel.js"
+import { isNewCard } from "./newCard.js"
+
+// headerTags lists the small badges beside the card's name.
+function headerTags(page) {
+  const tags = []
+  if (!page.in_cube) {
+    tags.push("Not in the cube")
+  } else if (isNewCard(page.play.drafts_in_cube)) {
+    tags.push("New to the cube")
+  }
+  return tags
+}
+
+// PlayTiles are the header's numbers: decks that played the card, times it
+// was sideboarded, drafts it was in the cube for, and how popular it is.
+function PlayTiles({ play }) {
+  const played = playedTile(play)
+  const tiles = [
+    <StatTile key="played" label="Decks that played it" value={played.value} detail={played.detail}
+      tip="Decks that mainboarded it, out of the decks from drafts where it was in the cube." />,
+    <StatTile key="sideboarded" label="Sideboarded" value={play.sideboard}
+      tip="Decks that had it in the sideboard." />,
+    <StatTile key="drafts" label="Drafts in the cube" value={`${play.drafts_in_cube} of ${play.drafts}`}
+      tip="Drafts whose cube list held it or whose decks played it, across all time." />,
+  ]
+  const label = popularityLabel(play.popularity)
+  if (label) {
+    tiles.push(<StatTile key="popularity" label="Popularity" value={label} tip={popularityTip(play)} />)
+  }
+  return tiles
+}
+
+// ScryfallLink opens the card on Scryfall, for its rulings and printings.
+function ScryfallLink({ card }) {
+  if (!card.url) {
+    return null
+  }
+  return <a href={card.url} target="_blank" rel="noopener noreferrer" className="card-page-scryfall">Scryfall ↗</a>
+}
+
+// CardHeader is the card page's header band. Cards outside the cube have no
+// play numbers, so they show only the image, name and tag.
+export function CardHeader({ page }) {
+  let tiles = null
+  if (page.in_cube || page.play.mainboard > 0) {
+    tiles = <PlayTiles play={page.play} />
+  }
+  return (
+    <DetailHeader
+      image={CardImageURL(page.card)}
+      title={page.card.name}
+      subtitle={cardSubtitle(page.card)}
+      tags={headerTags(page)}
+      actions={<ScryfallLink card={page.card} />}
+      tiles={tiles}
+    >
+      <HistoryStrip history={page.history} />
+    </DetailHeader>
+  )
+}

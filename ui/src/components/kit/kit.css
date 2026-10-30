@@ -232,3 +232,67 @@ a.kit-card:visited {
 .kit-win-muted {
   color: var(--se-muted);
 }
+
+/* Detail page header */
+
+.kit-detail-header {
+  display: flex;
+  gap: 20px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.kit-detail-image {
+  width: 200px;
+  flex: none;
+  align-self: flex-start;
+}
+
+.kit-detail-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.kit-detail-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kit-detail-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.kit-detail-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--mantine-primary-color-light);
+  color: var(--mantine-primary-color-light-color);
+}
+
+.kit-detail-actions {
+  margin-left: auto;
+}
+
+.kit-detail-subtitle {
+  color: var(--se-muted);
+  margin-top: 2px;
+}
+
+.kit-detail-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+@media (max-width: 640px) {
+  .kit-detail-header {
+    flex-direction: column;
+  }
+}
