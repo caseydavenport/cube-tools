@@ -395,7 +395,7 @@ func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	resp := RemovalResponse{CreatureCount: len(creatures), TotalPlayWeight: totalWeight}
 	var spot []spotCard
 	for _, c := range cube.Cards {
-		card := spotCard{name: c.Name, colors: c.Colors}
+		card := spotCard{colors: c.Colors}
 
 		// Multi-mode removal (kicker, revolt) is emitted as one row per mode.
 		if o, ok := removalOverrides[c.Name]; ok && len(o.modes) > 0 {

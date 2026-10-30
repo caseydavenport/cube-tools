@@ -161,7 +161,7 @@ func TestRemovalCoverage(t *testing.T) {
 // spot groups one removal card's modes and rows for the hard-to-remove and
 // per-color tests. Each profile becomes a row with the given cube coverage.
 func spot(name string, colors []string, pct float64, profiles ...RemovalProfile) spotCard {
-	sc := spotCard{name: name, colors: colors}
+	sc := spotCard{colors: colors}
 	for _, p := range profiles {
 		sc.modes = append(sc.modes, p)
 		sc.rows = append(sc.rows, RemovalCard{Name: name, Colors: colors, Scalable: p.Scalable, PctCube: pct, PctPlayed: pct})
@@ -169,8 +169,8 @@ func spot(name string, colors []string, pct float64, profiles ...RemovalProfile)
 	return sc
 }
 
-// answersOf finds a creature's row by name.
-func answersOf(t *testing.T, rows []HardToRemoveRow, name string) HardToRemoveRow {
+// findHardToRemoveRow returns a creature's row by name.
+func findHardToRemoveRow(t *testing.T, rows []HardToRemoveRow, name string) HardToRemoveRow {
 	t.Helper()
 	for _, r := range rows {
 		if r.Name == name {
@@ -194,7 +194,7 @@ func TestHardToRemove_FewestAnswersFirst(t *testing.T) {
 
 	assert.Equal(t, "Giant", rows[0].Name)
 	assert.Equal(t, 1, rows[0].Answers[""])
-	assert.Equal(t, 2, answersOf(t, rows, "Bear").Answers[""])
+	assert.Equal(t, 2, findHardToRemoveRow(t, rows, "Bear").Answers[""])
 }
 
 func TestHardToRemove_CountsPerColor(t *testing.T) {
@@ -203,7 +203,7 @@ func TestHardToRemove_CountsPerColor(t *testing.T) {
 		spot("Murder", []string{"B"}, 100, murder),
 		spot("Ratchet Bomb", nil, 100, murder),
 	}
-	giant := answersOf(t, hardToRemove(cards, []creatureInfo{giantInfo}), "Giant")
+	giant := findHardToRemoveRow(t, hardToRemove(cards, []creatureInfo{giantInfo}), "Giant")
 
 	assert.Equal(t, 2, giant.Answers["B"], "black removal plus colorless")
 	assert.Equal(t, 1, giant.Answers["R"], "only the colorless card")
@@ -213,21 +213,21 @@ func TestHardToRemove_CountsPerColor(t *testing.T) {
 
 func TestHardToRemove_MultiModeCountsOnce(t *testing.T) {
 	kicker := spot("Bloodchief's Thirst", []string{"B"}, 50, RemovalProfile{Spot: true, MaxMV: 2}, murder)
-	bear := answersOf(t, hardToRemove([]spotCard{kicker}, []creatureInfo{bearInfo}), "Bear")
+	bear := findHardToRemoveRow(t, hardToRemove([]spotCard{kicker}, []creatureInfo{bearInfo}), "Bear")
 	assert.Equal(t, 1, bear.Answers[""])
 }
 
 func TestHardToRemove_UnknownStatsCountsOnlyUnrestricted(t *testing.T) {
 	tarmogoyf := creatureInfo{name: "Tarmogoyf", mv: 2, known: false}
 	cards := []spotCard{spot("Shock", []string{"R"}, 30, smallBurn), spot("Murder", []string{"B"}, 100, murder)}
-	row := answersOf(t, hardToRemove(cards, []creatureInfo{tarmogoyf}), "Tarmogoyf")
+	row := findHardToRemoveRow(t, hardToRemove(cards, []creatureInfo{tarmogoyf}), "Tarmogoyf")
 	assert.Equal(t, 1, row.Answers[""])
 }
 
 func TestHardToRemove_ScalableCountsWhenRestrictionsAllow(t *testing.T) {
 	fireball := spot("Fireball", []string{"R"}, 0, RemovalProfile{Spot: true, Kind: "damage", Scalable: true})
 	flyingOnly := spot("Plummet", []string{"G"}, 10, RemovalProfile{Spot: true, FlyingOnly: true})
-	giant := answersOf(t, hardToRemove([]spotCard{fireball, flyingOnly}, []creatureInfo{giantInfo}), "Giant")
+	giant := findHardToRemoveRow(t, hardToRemove([]spotCard{fireball, flyingOnly}, []creatureInfo{giantInfo}), "Giant")
 	assert.Equal(t, 1, giant.Answers[""], "Fireball can kill anything given mana; Plummet needs a flier")
 }
 

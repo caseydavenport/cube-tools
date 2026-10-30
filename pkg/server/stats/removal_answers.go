@@ -13,7 +13,6 @@ var removalColors = []string{"W", "U", "B", "R", "G", "C"}
 // rows built from them. Most cards have one mode; kicker and revolt cards
 // have several, but count as one card.
 type spotCard struct {
-	name   string
 	colors []string
 	modes  []RemovalProfile
 	rows   []RemovalCard
@@ -103,7 +102,7 @@ func removalByColor(cards []spotCard) []RemovalColorRow {
 		row := RemovalColorRow{Color: color}
 		var cube, played []float64
 		for _, card := range cards {
-			if !card.hasColorOrColorless(color) {
+			if !card.inColorRow(color) {
 				continue
 			}
 			row.Cards++
@@ -120,9 +119,9 @@ func removalByColor(cards []spotCard) []RemovalColorRow {
 	return rows
 }
 
-// hasColorOrColorless reports whether the card belongs in the given color's
+// inColorRow reports whether the card belongs in the given color's
 // row: "C" holds colorless cards, and each color holds cards of that color.
-func (c spotCard) hasColorOrColorless(color string) bool {
+func (c spotCard) inColorRow(color string) bool {
 	if color == "C" {
 		return len(c.colors) == 0
 	}
