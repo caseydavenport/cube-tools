@@ -83,6 +83,8 @@ func main() {
 	cubeRoute("GET /api/{cube}/stats/synergy", stats.SynergyStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/archetypes", stats.ArchetypeStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/players", stats.PlayerStatsHandler(deckStore, provider))
+	cubeRoute("GET /api/{cube}/stats/card", stats.CardPageHandler(deckStore, deckStore, provider))
+	cubeRoute("GET /api/{cube}/stats/card-compare", stats.CardCompareHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/color-matchups", stats.ColorMatchupHandler(deckStore, provider))
 	cubeRoute("POST /api/{cube}/stats/pivot", stats.PivotHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/removal", stats.RemovalHandler(deckStore, provider))

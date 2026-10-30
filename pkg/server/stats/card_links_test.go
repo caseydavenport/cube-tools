@@ -30,8 +30,21 @@ func relationsConfig() design.DesignMapConfig {
 // creatures that share only their size.
 func relationsCube() *types.Cube {
 	cube := &types.Cube{Cards: []types.Card{
-		{Name: "Goblin Bombardment", Types: []string{"Enchantment"}, Colors: []string{"R"}, OracleText: "Sacrifice a creature: Goblin Bombardment deals 1 damage to any target.", OracleTags: []string{"sacrifice-outlet"}},
-		{Name: "Carrion Feeder", Types: []string{"Creature"}, Colors: []string{"B"}, Power: "1", OracleText: "Sacrifice a creature: Put a +1/+1 counter on Carrion Feeder.", OracleTags: []string{"sacrifice-outlet"}},
+		{
+			Name:       "Goblin Bombardment",
+			Types:      []string{"Enchantment"},
+			Colors:     []string{"R"},
+			OracleText: "Sacrifice a creature: Goblin Bombardment deals 1 damage to any target.",
+			OracleTags: []string{"sacrifice-outlet"},
+		},
+		{
+			Name:       "Carrion Feeder",
+			Types:      []string{"Creature"},
+			Colors:     []string{"B"},
+			Power:      "1",
+			OracleText: "Sacrifice a creature: Put a +1/+1 counter on Carrion Feeder.",
+			OracleTags: []string{"sacrifice-outlet"},
+		},
 		{Name: "Mayhem Devil", Types: []string{"Creature"}, Colors: []string{"B", "R"}, Power: "3", OracleText: "Whenever a player sacrifices a permanent, Mayhem Devil deals 1 damage to any target."},
 		{Name: "Cauldron Familiar", Types: []string{"Creature"}, Colors: []string{"B"}, Power: "1", OracleText: "Whenever a player sacrifices a Food, you gain 1 life."},
 	}}
@@ -50,7 +63,11 @@ func TestCardRelations_GroupsOf(t *testing.T) {
 
 func TestCardRelations_PartnersByPackage(t *testing.T) {
 	r := newCardRelations(relationsCube(), relationsConfig(), nil, nil)
-	got := r.partners("Goblin Bombardment", map[string]int{"Mayhem Devil": 8, "Cauldron Familiar": 2})
+	decks := map[string]int{
+		"Mayhem Devil":      8,
+		"Cauldron Familiar": 2,
+	}
+	got := r.partners("Goblin Bombardment", decks)
 	want := []PackagePartners{{Package: "Sacrifice", Cards: []PartnerCard{
 		{Name: "Mayhem Devil", Colors: []string{"B", "R"}, Decks: 8},
 		{Name: "Cauldron Familiar", Colors: []string{"B"}, Decks: 2},
@@ -107,7 +124,7 @@ func TestCardRelations_CardRefWire(t *testing.T) {
 
 func TestCardRelations_ExtraCardJoinsGroups(t *testing.T) {
 	extra := types.Card{Name: "Viscera Seer", Types: []string{"Creature"}, Colors: []string{"B"}, Power: "1", OracleText: "Sacrifice a creature: Scry 1."}
-	r := newCardRelations(relationsCube(), relationsConfig(), nil, &extra)
+	r := newCardRelations(relationsCube(), relationsConfig(), nil, []types.Card{extra})
 
 	assert.Equal(t, []string{"Pow<2", "Sacs creatures"}, r.groupsOf("Viscera Seer"))
 	got := r.partners("Viscera Seer", nil)

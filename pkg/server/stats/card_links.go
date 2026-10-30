@@ -53,14 +53,13 @@ type roleCandidate struct {
 }
 
 // newCardRelations resolves the rules' groups over the cube, the cut cards in
-// deckCardNames, and extra, a card in neither that the page is about (nil
-// when there's none).
-func newCardRelations(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string, extra *types.Card) cardRelations {
+// deckCardNames, and extras, cards in neither that the page is about.
+func newCardRelations(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string, extras []types.Card) cardRelations {
 	cardMap := buildCardMap(cube)
 	inCube := maps.Clone(cardMap)
-	if extra != nil {
+	for _, extra := range extras {
 		if _, ok := cardMap[extra.Name]; !ok {
-			cardMap[extra.Name] = *extra
+			cardMap[extra.Name] = extra
 		}
 	}
 

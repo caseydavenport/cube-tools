@@ -219,20 +219,20 @@ func cardDecks(card string, ranged []*storage.Deck) []CardDeck {
 // mainboarded the card, most common first. Decks without an archetype and
 // anonymous seats are left out of those counts.
 func whoPlays(card string, ranged []*storage.Deck) ([]NamedCount, []NamedCount, []NamedCount) {
-	colors := map[string]int{}
-	archetypes := map[string]int{}
-	players := map[string]int{}
+	numByColors := map[string]int{}
+	numByArchetype := map[string]int{}
+	numByPlayer := map[string]int{}
 	for _, d := range ranged {
 		if !deckPlays(d, card) {
 			continue
 		}
-		colors[d.GetColors().String()]++
+		numByColors[d.GetColors().String()]++
 		if d.MacroArchetype != "" {
-			archetypes[d.MacroArchetype]++
+			numByArchetype[d.MacroArchetype]++
 		}
 		if !d.IsAnonymous() {
-			players[d.Player]++
+			numByPlayer[d.Player]++
 		}
 	}
-	return sortedCounts(colors), sortedCounts(archetypes), sortedCounts(players)
+	return sortedCounts(numByColors), sortedCounts(numByArchetype), sortedCounts(numByPlayer)
 }
