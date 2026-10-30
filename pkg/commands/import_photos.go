@@ -77,13 +77,9 @@ func buildPhotoDraftDir(dataRoot, cube string, cl *types.Cube, sourcePath, date,
 		EventName: eventName,
 		EventCode: slug,
 		Flight:    flight,
-	})
+	}, cl)
 	if err != nil {
 		return drafts.Draft{}, nil, err
-	}
-	if err := draft.SaveSnapshot(cl); err != nil {
-		discardDraft(draft)
-		return drafts.Draft{}, nil, fmt.Errorf("save cube snapshot: %w", err)
 	}
 	written, err := writePhotoDraft(draft, sourcePath, date, images)
 	if err != nil {

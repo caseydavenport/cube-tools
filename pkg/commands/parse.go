@@ -134,12 +134,16 @@ func resolveDraft(cube string) (drafts.Draft, bool, error) {
 	if _, err := time.Parse("2006-01-02", date); err != nil {
 		return drafts.Draft{}, false, fmt.Errorf("a new draft needs --date in YYYY-MM-DD format, got %q", date)
 	}
+	cl, err := liveCube(cube)
+	if err != nil {
+		return drafts.Draft{}, false, fmt.Errorf("fetch the cube list for a new draft: %w", err)
+	}
 	draft, err := drafts.Create(cubeDir, types.DraftMetadata{
 		Date:             date,
 		EventName:        eventName,
 		EventCode:        eventCode,
 		EventDescription: eventDescription,
-	})
+	}, cl)
 	if err != nil {
 		return drafts.Draft{}, false, err
 	}

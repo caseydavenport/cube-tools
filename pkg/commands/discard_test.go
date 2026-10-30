@@ -13,7 +13,7 @@ import (
 
 func TestDiscardOnErrorRemovesNewDraft(t *testing.T) {
 	cubeDir := t.TempDir()
-	d, err := drafts.Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"})
+	d, err := drafts.Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"}, testCubeList)
 	require.NoError(t, err)
 
 	failed := errors.New("deck save failed")
@@ -24,7 +24,7 @@ func TestDiscardOnErrorRemovesNewDraft(t *testing.T) {
 
 func TestDiscardOnErrorKeepsExistingDraft(t *testing.T) {
 	cubeDir := t.TempDir()
-	d, err := drafts.Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"})
+	d, err := drafts.Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"}, testCubeList)
 	require.NoError(t, err)
 	deck := types.NewDeck()
 	deck.ID = 1
@@ -40,10 +40,13 @@ func TestDiscardOnErrorKeepsExistingDraft(t *testing.T) {
 
 func TestDiscardOnErrorKeepsDraftOnSuccess(t *testing.T) {
 	cubeDir := t.TempDir()
-	d, err := drafts.Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"})
+	d, err := drafts.Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"}, testCubeList)
 	require.NoError(t, err)
 
 	assert.NoError(t, discardOnError(d, true, nil))
 	_, err = drafts.Find(cubeDir, d.ID)
 	assert.NoError(t, err)
 }
+
+// testCubeList is the cube list tests create drafts with.
+var testCubeList = &types.Cube{Cards: []types.Card{{Name: "Test Card"}}}

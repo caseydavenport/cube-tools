@@ -125,7 +125,7 @@ func main() {
 	writeRoute("POST /api/{cube}/import/commit", importer.CommitHandler(provider, "data"))
 	cubeRoute("POST /api/{cube}/import/check", importer.CheckHandler(provider))
 	cubeRoute("GET /api/{cube}/import/hedron", importer.HedronListHandler())
-	writeRoute("POST /api/{cube}/import/hedron", importer.HedronImportHandler())
+	writeRoute("POST /api/{cube}/import/hedron", importer.HedronImportHandler(provider))
 	writeRoute("POST /api/{cube}/import/photos", importer.PhotoImportHandler(provider))
 
 	fmt.Println("Server listening on port 8888")

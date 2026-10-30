@@ -55,11 +55,13 @@ func TestSnapshotRoundTrip(t *testing.T) {
 func TestLatestSnapshotPicksHighestID(t *testing.T) {
 	cubeDir := t.TempDir()
 	for id := 1; id <= 12; id++ {
-		d, err := Create(cubeDir, types.DraftMetadata{Date: fmt.Sprintf("2026-01-%02d", id)})
+		d, err := Create(cubeDir, types.DraftMetadata{Date: fmt.Sprintf("2026-01-%02d", id)}, testCubeList)
 		require.NoError(t, err)
 		if id == 2 || id == 11 {
 			cube := &types.Cube{Cards: []types.Card{{Name: fmt.Sprintf("Card from draft %d", id)}}}
 			require.NoError(t, d.SaveSnapshot(cube))
+		} else {
+			removeSnapshot(t, d)
 		}
 	}
 
@@ -71,8 +73,9 @@ func TestLatestSnapshotPicksHighestID(t *testing.T) {
 
 func TestLatestSnapshotNone(t *testing.T) {
 	cubeDir := t.TempDir()
-	_, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"})
+	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"}, testCubeList)
 	require.NoError(t, err)
+	removeSnapshot(t, d)
 
 	_, ok, err := LatestSnapshot(cubeDir)
 	require.NoError(t, err)
@@ -104,4 +107,11 @@ func TestCopySourceCopiesOutsideFile(t *testing.T) {
 	contents, err := os.ReadFile(got)
 	require.NoError(t, err)
 	assert.Equal(t, "1 Lightning Bolt", string(contents))
+}
+
+// removeSnapshot deletes a draft's cube list, so it looks like a draft made
+// before every draft got one.
+func removeSnapshot(t *testing.T, d Draft) {
+	t.Helper()
+	require.NoError(t, os.Remove(filepath.Join(d.Dir, snapshotFile)))
 }

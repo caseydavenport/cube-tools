@@ -59,7 +59,7 @@ func TestLoadCubeForDraftFallsBackToLatestSnapshot(t *testing.T) {
 	withCubeSource(t, fixedCubeSource{cube: cubeOf("Live Card")})
 	withSnap := newDraft(t, root, types.DraftMetadata{})
 	require.NoError(t, withSnap.SaveSnapshot(cubeOf("Latest Card")))
-	bare := newDraft(t, root, types.DraftMetadata{})
+	bare := bareDraft(t, root, types.DraftMetadata{})
 
 	got, err := loadCubeForDraft(root, "polyverse", bare)
 	require.NoError(t, err)
@@ -69,7 +69,7 @@ func TestLoadCubeForDraftFallsBackToLatestSnapshot(t *testing.T) {
 func TestLoadCubeForDraftFallsBackToLiveSource(t *testing.T) {
 	root := t.TempDir()
 	withCubeSource(t, fixedCubeSource{cube: cubeOf("Live Card")})
-	bare := newDraft(t, root, types.DraftMetadata{})
+	bare := bareDraft(t, root, types.DraftMetadata{})
 
 	got, err := loadCubeForDraft(root, "polyverse", bare)
 	require.NoError(t, err)
@@ -79,7 +79,7 @@ func TestLoadCubeForDraftFallsBackToLiveSource(t *testing.T) {
 func TestLoadCubeForDraftErrorsWithNothing(t *testing.T) {
 	root := t.TempDir()
 	withCubeSource(t, nil)
-	bare := newDraft(t, root, types.DraftMetadata{})
+	bare := bareDraft(t, root, types.DraftMetadata{})
 
 	_, err := loadCubeForDraft(root, "polyverse", bare)
 	assert.ErrorContains(t, err, "polyverse")

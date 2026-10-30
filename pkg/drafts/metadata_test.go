@@ -13,7 +13,7 @@ import (
 
 func TestSaveMetadataRoundTrips(t *testing.T) {
 	cubeDir := t.TempDir()
-	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-02"})
+	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-02"}, testCubeList)
 	require.NoError(t, err)
 
 	d.EventName = "Rumours Tour"
@@ -26,7 +26,7 @@ func TestSaveMetadataRoundTrips(t *testing.T) {
 }
 
 func TestSaveMetadataLeavesNoTempFile(t *testing.T) {
-	d, err := Create(t.TempDir(), types.DraftMetadata{Date: "2026-01-02"})
+	d, err := Create(t.TempDir(), types.DraftMetadata{Date: "2026-01-02"}, testCubeList)
 	require.NoError(t, err)
 	require.NoError(t, d.SaveMetadata())
 
@@ -36,7 +36,7 @@ func TestSaveMetadataLeavesNoTempFile(t *testing.T) {
 	for _, e := range entries {
 		names = append(names, e.Name())
 	}
-	assert.Equal(t, []string{"metadata.json"}, names)
+	assert.Equal(t, []string{"cube-snapshot.json", "metadata.json"}, names)
 }
 
 func TestListSkipsUnparsableMetadata(t *testing.T) {

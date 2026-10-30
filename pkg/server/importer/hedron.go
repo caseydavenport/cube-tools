@@ -6,6 +6,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/server"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // HedronImportRequest selects one Hedron draft to import into the current cube.
@@ -39,7 +40,7 @@ func HedronListHandler() http.Handler {
 // HedronImportHandler imports a selected Hedron draft into the request's cube,
 // downloading its photos into an OCR-ready draft directory and reindexing. It
 // returns the local draft id the UI should open in the OCR flow.
-func HedronImportHandler() http.Handler {
+func HedronImportHandler(src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		if cube == "" {
@@ -55,7 +56,12 @@ func HedronImportHandler() http.Handler {
 			http.Error(rw, "cube_id and draft_id are required", http.StatusBadRequest)
 			return
 		}
-		localID, err := commands.ImportHedronDraft(cube, req.CubeID, req.DraftID)
+		cl, err := src.Refresh(cube)
+		if err != nil {
+			http.Error(rw, "could not fetch the cube list: "+err.Error(), http.StatusBadGateway)
+			return
+		}
+		localID, err := commands.ImportHedronDraft(cube, cl, req.CubeID, req.DraftID)
 		if err != nil {
 			http.Error(rw, err.Error(), http.StatusBadGateway)
 			return

@@ -124,10 +124,15 @@ func highestID(cubeDir string) (int, error) {
 
 // Create makes a new draft under cubeDir from meta, which must have a Date. It
 // assigns the next unused ID, creates the draft's directory, and writes its
-// metadata.json. It refuses to reuse a directory that already exists.
-func Create(cubeDir string, meta types.DraftMetadata) (Draft, error) {
+// metadata.json and cl, the cube list the draft was played with, as its
+// snapshot. Every draft gets one so pages can tell which cards it could have
+// had. It refuses to reuse a directory that already exists.
+func Create(cubeDir string, meta types.DraftMetadata, cl *types.Cube) (Draft, error) {
 	if meta.Date == "" {
 		return Draft{}, errors.New("a new draft needs a date")
+	}
+	if cl == nil {
+		return Draft{}, errors.New("a new draft needs the cube list it was played with")
 	}
 
 	// The date becomes part of the directory name, so it must be exactly
@@ -165,6 +170,12 @@ func Create(cubeDir string, meta types.DraftMetadata) (Draft, error) {
 	d := Draft{Dir: dir, DraftMetadata: meta}
 	if err := d.SaveMetadata(); err != nil {
 		return Draft{}, fmt.Errorf("write draft metadata: %w", err)
+	}
+	if err := d.SaveSnapshot(cl); err != nil {
+		if rmErr := d.Remove(); rmErr != nil {
+			logrus.WithError(rmErr).WithField("draft", d.ID).Error("could not remove a draft whose cube list failed to save")
+		}
+		return Draft{}, fmt.Errorf("write draft cube list: %w", err)
 	}
 	return d, nil
 }

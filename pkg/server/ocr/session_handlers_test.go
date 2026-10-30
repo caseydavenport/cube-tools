@@ -132,7 +132,7 @@ func (b blockingCubeSource) Refresh(cube string) (*types.Cube, error) {
 // a network fetch.
 func TestSessionSaveDoesNotHoldLockDuringCubeLoad(t *testing.T) {
 	root := t.TempDir()
-	d := newDraft(t, root, types.DraftMetadata{})
+	d := bareDraft(t, root, types.DraftMetadata{})
 	src := blockingCubeSource{entered: make(chan struct{}), release: make(chan struct{})}
 	withCubeSource(t, src)
 

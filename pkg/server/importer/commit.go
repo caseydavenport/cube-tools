@@ -105,13 +105,13 @@ func CommitHandler(src types.CubeSource, dataRoot string) http.Handler {
 			Date:      req.Date,
 			EventName: req.EventName,
 			EventCode: req.EventCode,
-		})
+		}, cl)
 		if err != nil {
 			http.Error(rw, "internal server error", http.StatusInternalServerError)
 			return
 		}
 
-		if err := writeImport(draft, cl, req); err != nil {
+		if err := writeImport(draft, req); err != nil {
 			logrus.WithError(err).WithField("draft", draft.ID).Error("Import failed; removing the half-written draft")
 			if err := draft.Remove(); err != nil {
 				logrus.WithError(err).WithField("draft", draft.ID).Error("Failed to remove the half-written draft")
@@ -124,12 +124,9 @@ func CommitHandler(src types.CubeSource, dataRoot string) http.Handler {
 	})
 }
 
-// writeImport writes a new draft's cube snapshot and its reviewed decks,
-// numbered in the order they were imported.
-func writeImport(draft drafts.Draft, cl *types.Cube, req CommitRequest) error {
-	if err := draft.SaveSnapshot(cl); err != nil {
-		return err
-	}
+// writeImport writes a new draft's reviewed decks, numbered in the order they
+// were imported. Create already saved the draft's cube list.
+func writeImport(draft drafts.Draft, req CommitRequest) error {
 	for i, pd := range req.Decks {
 		deck := buildDeck(pd, req.Date, draft.ID)
 		deck.ID = i + 1

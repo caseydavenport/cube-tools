@@ -17,14 +17,25 @@ import (
 )
 
 // newDraft creates the next numbered draft of cube "polyverse" under root,
-// dated 2026-01-17 unless meta says otherwise.
+// dated 2026-01-17 unless meta says otherwise, with a one-card cube list.
 func newDraft(t *testing.T, root string, meta types.DraftMetadata) drafts.Draft {
 	t.Helper()
 	if meta.Date == "" {
 		meta.Date = "2026-01-17"
 	}
-	d, err := drafts.Create(filepath.Join(root, "polyverse"), meta)
+	d, err := drafts.Create(filepath.Join(root, "polyverse"), meta, &types.Cube{Cards: []types.Card{{Name: "Test Card"}}})
 	if err != nil {
+		t.Fatal(err)
+	}
+	return d
+}
+
+// bareDraft creates a draft like newDraft, then removes its cube list, the
+// way drafts made before every draft got one look.
+func bareDraft(t *testing.T, root string, meta types.DraftMetadata) drafts.Draft {
+	t.Helper()
+	d := newDraft(t, root, meta)
+	if err := os.Remove(filepath.Join(d.Dir, "cube-snapshot.json")); err != nil {
 		t.Fatal(err)
 	}
 	return d

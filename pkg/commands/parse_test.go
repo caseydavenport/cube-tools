@@ -2,6 +2,8 @@ package commands
 
 import (
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"testing"
@@ -17,7 +19,7 @@ import (
 func newDraft(t *testing.T) drafts.Draft {
 	t.Helper()
 	t.Chdir(t.TempDir())
-	draft, err := drafts.Create(filepath.Join("data", "polyverse"), types.DraftMetadata{Date: "2026-01-02"})
+	draft, err := drafts.Create(filepath.Join("data", "polyverse"), types.DraftMetadata{Date: "2026-01-02"}, testCubeList)
 	require.NoError(t, err)
 	return draft
 }
@@ -122,6 +124,7 @@ func TestParseByNameWritesPlayerID(t *testing.T) {
 	date, draftID = "2026-01-02", 0
 	defer func() { date = "" }()
 
+	serveCubeList(t)
 	require.NoError(t, parseOne("polyverse", writeDeckList(t), "joan jett", ""))
 	raw, err := os.ReadFile(filepath.Join("data", "polyverse", "0001_2026-01-02", "1.json"))
 	require.NoError(t, err)
@@ -136,6 +139,7 @@ func TestParseAnonymousWritesNoPlayer(t *testing.T) {
 	date, draftID, anon = "2026-01-02", 0, true
 	defer func() { date, anon = "", false }()
 
+	serveCubeList(t)
 	require.NoError(t, parseOne("polyverse", writeDeckList(t), "", ""))
 	got, err := types.LoadDeck(filepath.Join("data", "polyverse", "0001_2026-01-02", "1.json"))
 	require.NoError(t, err)
@@ -155,4 +159,26 @@ func TestAnonymousParseIntoDraftWithSeatsNeedsForce(t *testing.T) {
 	force = true
 	defer func() { force = false }()
 	require.NoError(t, checkAnonymousRerun(draft))
+}
+
+// serveCubeList registers polyverse's Cube Cobra id in the working directory's
+// cube registry and serves its list, Monastery Mentor alone, from a test
+// server, so creating a draft can fetch a cube list offline.
+func serveCubeList(t *testing.T) {
+	t.Helper()
+	require.NoError(t, os.MkdirAll("data", 0o755))
+	registry := `{"cubes": [{"id": "polyverse", "name": "Polyverse", "cubecobra_id": "polyversal"}]}`
+	require.NoError(t, os.WriteFile(filepath.Join("data", "cubes.json"), []byte(registry), 0o644))
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if _, err := w.Write([]byte(`{"cards": {"mainboard": [{"details": {"name": "Monastery Mentor"}}]}}`)); err != nil {
+			t.Errorf("write the cube list: %v", err)
+		}
+	}))
+	oldURL := ccBaseURL
+	ccBaseURL = srv.URL
+	t.Cleanup(func() {
+		srv.Close()
+		ccBaseURL = oldURL
+	})
 }

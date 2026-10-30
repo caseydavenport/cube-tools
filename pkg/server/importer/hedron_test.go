@@ -19,7 +19,7 @@ func TestHedronListRequiresCubeID(t *testing.T) {
 }
 
 func TestHedronImportRequiresFields(t *testing.T) {
-	rw := postJSON(t, HedronImportHandler(), "polyverse", "/api/polyverse/import/hedron", HedronImportRequest{})
+	rw := postJSON(t, HedronImportHandler(testCubeSource("polyverse", []string{"Shock"})), "polyverse", "/api/polyverse/import/hedron", HedronImportRequest{})
 	if rw.Code != http.StatusBadRequest {
 		t.Fatalf("want 400 when cubeId/draftId absent, got %d", rw.Code)
 	}

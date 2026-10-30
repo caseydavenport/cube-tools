@@ -64,7 +64,11 @@ var ImportHedronCmd = &cobra.Command{
 			selectedDraft = &hedronDrafts[index]
 		}
 
-		localID, err := ImportHedronDraft(hedronOutCube, hedronCubeID, selectedDraft.DraftID)
+		cl, err := liveCube(hedronOutCube)
+		if err != nil {
+			logrus.WithError(err).Fatal("Failed to fetch the cube list for the new draft")
+		}
+		localID, err := ImportHedronDraft(hedronOutCube, cl, hedronCubeID, selectedDraft.DraftID)
 		if err != nil {
 			logrus.WithError(err).Fatal("Failed to import Hedron draft")
 		}
@@ -149,7 +153,7 @@ func hedronPlayerNum(playerID string) int {
 // anonymous deck per player, with ID N for Hedron's "Player N", their
 // downloaded photos under img/pN/, and both sides of every match. It returns
 // the new draft's ID.
-func importDraft(cube string, d *HedronDraft) (int, error) {
+func importDraft(cube string, cl *types.Cube, d *HedronDraft) (int, error) {
 	dateStr := d.Date[:10]
 	cubeDir := filepath.Join("data", cube)
 
@@ -171,7 +175,7 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 		EventCode:        d.EventCode,
 		EventDescription: desc,
 		Flight:           d.FlightName,
-	})
+	}, cl)
 	if err != nil {
 		return 0, err
 	}
@@ -262,8 +266,9 @@ func ListHedronDrafts(cubeID string) ([]HedronDraft, error) {
 
 // ImportHedronDraft imports one Hedron draft into outCube: it downloads the
 // player photos, writes the draft directory and match records, and returns the
-// local draft ID. It returns an error rather than exiting.
-func ImportHedronDraft(outCube, cubeID, hedronDraftID string) (int, error) {
+// local draft ID. cl is outCube's list, saved with the draft. It returns an
+// error rather than exiting.
+func ImportHedronDraft(outCube string, cl *types.Cube, cubeID, hedronDraftID string) (int, error) {
 	hedronDrafts, err := ListHedronDrafts(cubeID)
 	if err != nil {
 		return 0, err
@@ -281,7 +286,7 @@ func ImportHedronDraft(outCube, cubeID, hedronDraftID string) (int, error) {
 	if selected == nil {
 		return 0, fmt.Errorf("draft %s not found for cube %s", hedronDraftID, cubeID)
 	}
-	localID, err := importDraft(outCube, selected)
+	localID, err := importDraft(outCube, cl, selected)
 	if err != nil {
 		return 0, err
 	}

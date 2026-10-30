@@ -80,7 +80,7 @@ func TestBuildPhotoDraftDir(t *testing.T) {
 	writeFile(t, filepath.Join(src, "img_1.png"))
 
 	// An existing draft, so the new one takes the next id.
-	if _, err := drafts.Create(filepath.Join(root, "aurora"), types.DraftMetadata{ID: 0, Date: "2026-01-01"}); err != nil {
+	if _, err := drafts.Create(filepath.Join(root, "aurora"), types.DraftMetadata{ID: 0, Date: "2026-01-01"}, testCubeList); err != nil {
 		t.Fatal(err)
 	}
 

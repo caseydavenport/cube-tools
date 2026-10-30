@@ -15,7 +15,7 @@ func TestAddMatchBySeatAndName(t *testing.T) {
 	t.Chdir(t.TempDir())
 	_, err := players.Add("data", "Joan Jett")
 	require.NoError(t, err)
-	draft, err := drafts.Create(filepath.Join("data", "polyverse"), types.DraftMetadata{Date: "2026-01-02"})
+	draft, err := drafts.Create(filepath.Join("data", "polyverse"), types.DraftMetadata{Date: "2026-01-02"}, testCubeList)
 	require.NoError(t, err)
 	playerIDByDeck := map[int]int{
 		1: 1,
@@ -46,3 +46,6 @@ func TestAddMatchBySeatAndName(t *testing.T) {
 	require.ErrorContains(t, addMatch(draft, "Stevie Nicks", "p5", 2, 0, 0), "players add")
 	require.ErrorContains(t, addMatch(draft, "p1", "p5", 2, 0, 0), "not an anonymous seat")
 }
+
+// testCubeList is the cube list tests create drafts with.
+var testCubeList = &types.Cube{Cards: []types.Card{{Name: "Test Card"}}}

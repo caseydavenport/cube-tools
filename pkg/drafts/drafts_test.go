@@ -29,7 +29,7 @@ func writeDeck(t *testing.T, path string, id int) {
 func TestCreateAssignsNextIDAndDir(t *testing.T) {
 	cubeDir := t.TempDir()
 
-	first, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-02", EventName: "Local", EventCode: "local"})
+	first, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-02", EventName: "Local", EventCode: "local"}, testCubeList)
 	require.NoError(t, err)
 	assert.Equal(t, 1, first.ID)
 	assert.Equal(t, filepath.Join(cubeDir, "0001_2026-01-02"), first.Dir)
@@ -38,21 +38,21 @@ func TestCreateAssignsNextIDAndDir(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, types.DraftMetadata{ID: 1, Date: "2026-01-02", EventName: "Local", EventCode: "local"}, *meta)
 
-	second, err := Create(cubeDir, types.DraftMetadata{Date: "2025-12-31"})
+	second, err := Create(cubeDir, types.DraftMetadata{Date: "2025-12-31"}, testCubeList)
 	require.NoError(t, err)
 	assert.Equal(t, 2, second.ID)
 	assert.Equal(t, filepath.Join(cubeDir, "0002_2025-12-31"), second.Dir)
 }
 
 func TestCreateRequiresDate(t *testing.T) {
-	_, err := Create(t.TempDir(), types.DraftMetadata{EventName: "No date"})
+	_, err := Create(t.TempDir(), types.DraftMetadata{EventName: "No date"}, testCubeList)
 	assert.Error(t, err)
 }
 
 func TestCreateRejectsMalformedDate(t *testing.T) {
 	cubeDir := filepath.Join(t.TempDir(), "cube")
 	for _, date := range []string{"../escape", "2026-1-2", "2026-01-02/x"} {
-		_, err := Create(cubeDir, types.DraftMetadata{Date: date})
+		_, err := Create(cubeDir, types.DraftMetadata{Date: date}, testCubeList)
 		assert.Error(t, err, date)
 	}
 	entries, err := os.ReadDir(filepath.Dir(cubeDir))
@@ -116,7 +116,7 @@ func TestCreateConcurrentGetsUniqueIDs(t *testing.T) {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			d, err := Create(cubeDir, types.DraftMetadata{Date: fmt.Sprintf("2026-01-%02d", i+1)})
+			d, err := Create(cubeDir, types.DraftMetadata{Date: fmt.Sprintf("2026-01-%02d", i+1)}, testCubeList)
 			assert.NoError(t, err)
 			ids <- d.ID
 		}()
@@ -138,14 +138,14 @@ func TestCreateNeverReusesAnOrphanedDirsID(t *testing.T) {
 	// A crash between mkdir and writing metadata leaves a numbered dir with no id.
 	require.NoError(t, os.Mkdir(filepath.Join(cubeDir, "0005_2026-01-02"), 0o755))
 
-	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-03"})
+	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-03"}, testCubeList)
 	require.NoError(t, err)
 	assert.Equal(t, 6, d.ID)
 }
 
 func TestRemoveDeletesDraft(t *testing.T) {
 	cubeDir := t.TempDir()
-	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"})
+	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"}, testCubeList)
 	require.NoError(t, err)
 	writeDeck(t, filepath.Join(d.Dir, "1.json"), 1)
 
@@ -162,3 +162,27 @@ func TestRemoveRefusesUnnumberedDraft(t *testing.T) {
 	_, err := os.Stat(dir)
 	assert.NoError(t, err, "nothing removed")
 }
+
+func TestCreateSavesTheCubeList(t *testing.T) {
+	cubeDir := t.TempDir()
+	cl := &types.Cube{Cards: []types.Card{{Name: "Shock"}}}
+
+	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-02"}, cl)
+	require.NoError(t, err)
+	require.True(t, d.HasSnapshot())
+	snapshot, err := d.Snapshot()
+	require.NoError(t, err)
+	assert.Equal(t, []string{"Shock"}, snapshot.Names())
+}
+
+func TestCreateRequiresTheCubeList(t *testing.T) {
+	cubeDir := filepath.Join(t.TempDir(), "cube")
+	_, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-02"}, nil)
+	assert.Error(t, err)
+
+	_, statErr := os.Stat(cubeDir)
+	assert.True(t, os.IsNotExist(statErr), "nothing should be created")
+}
+
+// testCubeList is the cube list tests create drafts with.
+var testCubeList = &types.Cube{Cards: []types.Card{{Name: "Test Card"}}}
