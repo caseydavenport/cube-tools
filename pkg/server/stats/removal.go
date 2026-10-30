@@ -128,6 +128,10 @@ var (
 	reGeneric   = regexp.MustCompile(`\{(\d+)\}`)
 	reExileVerb = regexp.MustCompile(`exile target`)
 	reHasFlying = regexp.MustCompile(`(?:^|\W)flying(?:\W|$)`)
+
+	// reUntargetable finds hexproof or shroud on a keyword line ("Flying,
+	// shroud"), so it skips conditional grants and "hexproof from blue".
+	reUntargetable = regexp.MustCompile(`(?im)^(?:[a-z ]+, )*(?:hexproof|shroud)(?:,| \(|$)`)
 )
 
 var colorLetter = map[string]string{"white": "W", "blue": "U", "black": "B", "red": "R", "green": "G"}
@@ -277,9 +281,16 @@ type creatureInfo struct {
 	colors    []string
 	flying    bool
 	known     bool // false when power/toughness aren't plain integers (e.g. */*)
+
+	// untargetable is true for hexproof or shroud, which no spot removal can
+	// target.
+	untargetable bool
 }
 
 func (p RemovalProfile) killable(c creatureInfo) bool {
+	if c.untargetable {
+		return false
+	}
 	if !c.known && (p.MaxToughness > 0 || p.MaxPower > 0 || p.MaxPTSum > 0) {
 		return false
 	}
@@ -509,6 +520,8 @@ func toCreatureInfo(c types.Card) creatureInfo {
 		colors:    c.Colors,
 		flying:    reHasFlying.MatchString(strings.ToLower(c.OracleText)),
 		known:     pErr == nil && tErr == nil,
+
+		untargetable: reUntargetable.MatchString(c.OracleText),
 	}
 }
 

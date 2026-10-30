@@ -268,3 +268,27 @@ func TestRemovalByColor_MedianUsesBestModeAndSkipsScalable(t *testing.T) {
 	assert.Equal(t, 2, black.Cards)
 	assert.Equal(t, 90.0, black.MedianPctCube, "Fireball has no coverage, and Thirst counts at its best mode")
 }
+
+func TestToCreatureInfo_Untargetable(t *testing.T) {
+	creature := func(text string) types.Card {
+		return types.Card{Name: "x", Types: []string{"Creature"}, Power: "1", Toughness: "1", OracleText: text}
+	}
+	assert.True(t, toCreatureInfo(creature("Hexproof (This creature can't be the target of spells or abilities your opponents control.)\nEnchanted creature gets +1/+1.")).untargetable)
+	assert.True(t, toCreatureInfo(creature("Flying, shroud")).untargetable)
+	assert.False(t, toCreatureInfo(creature("Flying, hexproof from blue")).untargetable, "hexproof from one color leaves the rest")
+	assert.False(t, toCreatureInfo(creature("As long as you control an Elf, this creature has shroud.")).untargetable, "conditional shroud")
+	assert.False(t, toCreatureInfo(creature("Target creature gains hexproof until end of turn.")).untargetable)
+}
+
+func TestHardToRemove_HexproofHasNoAnswers(t *testing.T) {
+	bogle := creatureInfo{name: "Slippery Bogle", power: 1, toughness: 1, mv: 1, known: true, untargetable: true}
+	cards := []spotCard{spot("Murder", []string{"B"}, 100, murder)}
+	row := findHardToRemoveRow(t, hardToRemove(cards, []creatureInfo{bogle, bearInfo}), "Slippery Bogle")
+	assert.Equal(t, 0, row.Answers[""])
+}
+
+func TestHardToRemove_OneRowPerCreatureName(t *testing.T) {
+	cards := []spotCard{spot("Murder", []string{"B"}, 100, murder)}
+	rows := hardToRemove(cards, []creatureInfo{bearInfo, giantInfo, bearInfo})
+	assert.Len(t, rows, 2, "a cube with two copies of a creature lists it once")
+}

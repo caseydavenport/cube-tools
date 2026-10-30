@@ -5,8 +5,11 @@ import (
 	"slices"
 )
 
-// removalColors are the colors the Removal page breaks removal down by, in
-// the order it shows them. "C" is colorless.
+// manaColors are the five colors, in the order the Removal page shows them.
+var manaColors = []string{"W", "U", "B", "R", "G"}
+
+// removalColors are the rows of the Removal page's per-color table: the five
+// colors, then "C" for colorless.
 var removalColors = []string{"W", "U", "B", "R", "G", "C"}
 
 // spotCard is one spot-removal card with its modes' kill conditions and the
@@ -44,11 +47,18 @@ type RemovalColorRow struct {
 // it, overall and per color, and lists the creatures fewest answers first.
 // A card answers when any of its modes can kill the creature; scalable
 // removal answers whenever its restrictions allow, since mana is the only limit.
+// A creature the cube holds more than once gets one row.
 func hardToRemove(cards []spotCard, creatures []creatureInfo) []HardToRemoveRow {
 	rows := make([]HardToRemoveRow, 0, len(creatures))
+	seen := map[string]bool{}
 	for _, creature := range creatures {
+		if seen[creature.name] {
+			continue
+		}
+		seen[creature.name] = true
+
 		numAnswers := map[string]int{"": 0}
-		for _, color := range removalColors[:5] {
+		for _, color := range manaColors {
 			numAnswers[color] = 0
 		}
 		for _, card := range cards {
@@ -56,7 +66,7 @@ func hardToRemove(cards []spotCard, creatures []creatureInfo) []HardToRemoveRow 
 				continue
 			}
 			numAnswers[""]++
-			for _, color := range removalColors[:5] {
+			for _, color := range manaColors {
 				if card.playableIn(color) {
 					numAnswers[color]++
 				}
