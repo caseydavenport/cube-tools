@@ -292,3 +292,27 @@ func TestPlayerStats_BaselineIgnoresDeckFilter(t *testing.T) {
 	require.NotNil(t, freddie)
 	assert.Equal(t, 60, freddie.Tendencies.SignatureCards[0].OthersAvailable)
 }
+
+func TestPlayerStats_NegativeBucketSize(t *testing.T) {
+	resp := playerStatsFor(t, petCardDecks(), "bucket_size=-1")
+	assert.NotNil(t, resp.Players["Freddie"])
+}
+
+// BenchmarkPlayerStats serves the player stats for a cube of 270 decks by 50
+// players, 40 spells each from a pool of 400.
+func BenchmarkPlayerStats(b *testing.B) {
+	var decks []*storage.Deck
+	for i := 0; i < 270; i++ {
+		d := makeStorageDeck(fmt.Sprintf("player%d", i%50), i/8+1, nil, nil, []types.Match{{Opponent: "x", Wins: 2, Winner: fmt.Sprintf("player%d", i%50)}})
+		d.PlayerID = i%50 + 1
+		for c := 0; c < 40; c++ {
+			d.Mainboard = append(d.Mainboard, types.Card{Name: fmt.Sprintf("card%d", (i*7+c*13)%400)})
+		}
+		decks = append(decks, d)
+	}
+	handler := PlayerStatsHandler(&mockDeckStorage{decks: decks}, testCubeSource{})
+	b.ReportAllocs()
+	for b.Loop() {
+		handler.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodGet, "/api/stats/players", nil))
+	}
+}

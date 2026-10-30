@@ -110,7 +110,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	// The tendency baseline loads before the filtered decks, so the filtered
 	// decks are the handler's last read, as on every stats page.
 	var baseline *tendencyBaseline
-	if bucketSize == 0 {
+	if bucketSize <= 0 {
 		var err error
 		baseline, err = s.loadBaseline(cubeID, dr)
 		if err != nil {
@@ -156,7 +156,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 // in the request's date range, without its deck filter, the cube's packages,
 // and each draft's cube list.
 type tendencyBaseline struct {
-	decks    []*storage.Deck
+	decks    []deckSpells
 	packages []design.PackageCards
 	cubes    cubeLists
 }
@@ -173,7 +173,7 @@ func (s *playerStatsHandler) loadBaseline(cubeID string, dr *storage.DecksReques
 	if err != nil {
 		logrus.WithError(err).Warn("could not load packages for player tendencies")
 	}
-	return &tendencyBaseline{decks: all, packages: pkgs, cubes: loadCubeLists(s.store, cubeID, all)}, nil
+	return &tendencyBaseline{decks: withSpells(all), packages: pkgs, cubes: loadCubeLists(s.store, cubeID, all)}, nil
 }
 
 // addTendencies fills each row's Tendencies from the player's decks in mine.
@@ -185,13 +185,13 @@ func (b *tendencyBaseline) addTendencies(mine []*storage.Deck, rows map[string]*
 		}
 	}
 	for name, row := range rows {
-		row.Tendencies = playerTendencies(row.ID, byPlayer[name], b.decks, b.packages, b.cubes)
+		row.Tendencies = playerTendencies(name, byPlayer[name], b.decks, b.packages, b.cubes)
 	}
 }
 
 // loadCubeLists reads the cube list each of the decks' drafts was played
-// with. A draft without one is left out, which counts every card as available
-// there.
+// with. A draft without one, or with an empty one, is left out, which counts
+// every card as available there.
 func loadCubeLists(store storage.DeckStorage, cubeID string, decks []*storage.Deck) cubeLists {
 	lists := cubeLists{}
 	tried := map[int]bool{}
@@ -207,6 +207,11 @@ func loadCubeLists(store storage.DeckStorage, cubeID string, decks []*storage.De
 			if !errors.Is(err, storage.ErrDeckNotFound) && !errors.Is(err, storage.ErrUnsupported) {
 				logrus.WithError(err).WithField("draft", draftID).Warn("could not read cube snapshot")
 			}
+			continue
+		}
+
+		// Early drafts saved an empty snapshot; that says nothing about the cube.
+		if len(snapshot.Cards) == 0 {
 			continue
 		}
 		names := map[string]bool{}

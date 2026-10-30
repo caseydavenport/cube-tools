@@ -12,8 +12,12 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// tendencyPlayer is the player ID the tendency tests ask about.
-const tendencyPlayer = 7
+// tendencyPlayer is the player ID the tendency tests ask about, and
+// tendencyName the name tendencyDeck gives that player.
+const (
+	tendencyPlayer = 7
+	tendencyName   = "player7"
+)
 
 // tendencySpell is a nonland card with the given colors.
 func tendencySpell(name string, colors ...string) types.Card {
@@ -59,7 +63,7 @@ func TestSignatureCards_FindsHabit(t *testing.T) {
 	mine := decksWithCard(tendencyPlayer, 1, 7, 4, "Goblin Bombardment")
 	others := decksWithCard(8, 100, 225, 16, "Goblin Bombardment")
 
-	got := signatureCards(mine, others, cubeLists{})
+	got := signatureCards(withSpells(mine), withSpells(others), cubeLists{})
 	require.Len(t, got, 1)
 	assert.Equal(t, SignatureCard{Name: "Goblin Bombardment", Decks: 4, Available: 7, Others: 16, OthersAvailable: 225}, got[0])
 }
@@ -68,14 +72,14 @@ func TestSignatureCards_NeedsThreeDecks(t *testing.T) {
 	mine := decksWithCard(tendencyPlayer, 1, 2, 2, "Rare Card")
 	others := decksWithCard(8, 100, 50, 0, "Rare Card")
 
-	assert.Empty(t, signatureCards(mine, others, cubeLists{}))
+	assert.Empty(t, signatureCards(withSpells(mine), withSpells(others), cubeLists{}))
 }
 
 func TestSignatureCards_CommonCardNotReturned(t *testing.T) {
 	mine := decksWithCard(tendencyPlayer, 1, 8, 4, "Lightning Bolt")
 	others := decksWithCard(8, 100, 200, 100, "Lightning Bolt")
 
-	assert.Empty(t, signatureCards(mine, others, cubeLists{}))
+	assert.Empty(t, signatureCards(withSpells(mine), withSpells(others), cubeLists{}))
 }
 
 func TestSignatureCards_RespectsSnapshots(t *testing.T) {
@@ -86,12 +90,12 @@ func TestSignatureCards_RespectsSnapshots(t *testing.T) {
 	for i := 30; i < 35; i++ {
 		others[i].Mainboard = append(others[i].Mainboard, tendencySpell("New Card"))
 	}
-	cubes := cubeLists{4: {}}
+	cubes := cubeLists{4: {"Other Card": true}}
 	for draft := 100; draft < 130; draft++ {
-		cubes[draft] = map[string]bool{}
+		cubes[draft] = map[string]bool{"Other Card": true}
 	}
 
-	got := signatureCards(mine, others, cubes)
+	got := signatureCards(withSpells(mine), withSpells(others), cubes)
 	require.Len(t, got, 1)
 	assert.Equal(t, 3, got[0].Available)
 	assert.Equal(t, 30, got[0].OthersAvailable)
@@ -101,7 +105,7 @@ func TestSignatureCards_NoSnapshotCountsAvailable(t *testing.T) {
 	mine := decksWithCard(tendencyPlayer, 1, 5, 3, "Pet Card")
 	others := decksWithCard(8, 100, 60, 1, "Pet Card")
 
-	got := signatureCards(mine, others, cubeLists{})
+	got := signatureCards(withSpells(mine), withSpells(others), cubeLists{})
 	require.Len(t, got, 1)
 	assert.Equal(t, 5, got[0].Available)
 	assert.Equal(t, 60, got[0].OthersAvailable)
@@ -111,7 +115,7 @@ func TestSignatureCards_NobodyElsePlaysIt(t *testing.T) {
 	mine := decksWithCard(tendencyPlayer, 1, 5, 3, "Pet Card")
 	others := decksWithCard(8, 100, 60, 0, "Pet Card")
 
-	assert.Equal(t, []string{"Pet Card"}, signatureNames(signatureCards(mine, others, cubeLists{})))
+	assert.Equal(t, []string{"Pet Card"}, signatureNames(signatureCards(withSpells(mine), withSpells(others), cubeLists{})))
 }
 
 func TestSignatureCards_AtMostFive(t *testing.T) {
@@ -129,7 +133,7 @@ func TestSignatureCards_AtMostFive(t *testing.T) {
 	}
 	others := decksWithCard(8, 100, 100, 0, "nothing")
 
-	got := signatureNames(signatureCards(mine, others, cubeLists{}))
+	got := signatureNames(signatureCards(withSpells(mine), withSpells(others), cubeLists{}))
 	assert.Equal(t, []string{"pet6", "pet5", "pet4", "pet3", "pet2"}, got)
 }
 
@@ -153,7 +157,7 @@ func TestTendencies_MainColors(t *testing.T) {
 		"G": 1,
 	})}
 
-	got := playerTendencies(tendencyPlayer, mine, mine, nil, cubeLists{})
+	got := playerTendencies(tendencyName, mine, withSpells(mine), nil, cubeLists{})
 	assert.Equal(t, []string{"W", "R"}, got.MainColors)
 	assert.Equal(t, 50.0, got.ColorShares["R"])
 	assert.Equal(t, 5.0, got.ColorShares["G"])
@@ -170,7 +174,7 @@ func TestTendencies_ColorGap(t *testing.T) {
 	})}
 	baseline := append(append([]*storage.Deck{}, mine...), others...)
 
-	got := playerTendencies(tendencyPlayer, mine, baseline, nil, cubeLists{})
+	got := playerTendencies(tendencyName, mine, withSpells(baseline), nil, cubeLists{})
 	require.NotNil(t, got.ColorGap)
 	assert.Equal(t, "U", got.ColorGap.Color)
 	assert.Equal(t, 4.0, got.ColorGap.PlayerShare)
@@ -190,7 +194,7 @@ func TestTendencies_ArchetypesAndPackages(t *testing.T) {
 		tendencyDeck(tendencyPlayer, 4, "", tendencySpell("y")),
 	}
 
-	got := playerTendencies(tendencyPlayer, mine, mine, []design.PackageCards{graveyard}, cubeLists{})
+	got := playerTendencies(tendencyName, mine, withSpells(mine), []design.PackageCards{graveyard}, cubeLists{})
 	assert.Equal(t, []NamedCount{{Name: "aggro", Count: 2}, {Name: "midrange", Count: 1}}, got.Archetypes)
 	assert.Equal(t, []NamedCount{{Name: "Graveyard", Count: 2}}, got.Packages)
 }
@@ -203,16 +207,76 @@ func TestTendencies_CountsMatchesWithResults(t *testing.T) {
 		{Opponent: "c"},
 	}
 
-	got := playerTendencies(tendencyPlayer, []*storage.Deck{d}, []*storage.Deck{d}, nil, cubeLists{})
+	got := playerTendencies(tendencyName, []*storage.Deck{d}, withSpells([]*storage.Deck{d}), nil, cubeLists{})
 	assert.Equal(t, 2, got.Matches)
 }
 
 func TestTendencies_OneDeck(t *testing.T) {
 	mine := []*storage.Deck{tendencyDeck(tendencyPlayer, 1, "control", tendencySpell("x", "U"))}
 
-	got := playerTendencies(tendencyPlayer, mine, mine, nil, cubeLists{})
+	got := playerTendencies(tendencyName, mine, withSpells(mine), nil, cubeLists{})
 	assert.Equal(t, []NamedCount{{Name: "control", Count: 1}}, got.Archetypes)
 	assert.NotNil(t, got.SignatureCards)
 	assert.Empty(t, got.SignatureCards)
 	assert.NotNil(t, got.Packages)
+}
+
+func TestSignatureCards_PlayedCardCountsAvailable(t *testing.T) {
+	// The snapshots for drafts 1-4 leave the card out, but decks 1-3 played
+	// it, which proves it was in the cube for them.
+	mine := decksWithCard(tendencyPlayer, 1, 4, 3, "Pet Card")
+	others := decksWithCard(8, 100, 60, 0, "Pet Card")
+	cubes := cubeLists{}
+	for draft := 1; draft <= 4; draft++ {
+		cubes[draft] = map[string]bool{"Other Card": true}
+	}
+
+	got := signatureCards(withSpells(mine), withSpells(others), cubes)
+	require.Len(t, got, 1)
+	assert.Equal(t, 3, got[0].Available)
+}
+
+func TestTendencies_PlayerWithoutID(t *testing.T) {
+	// Cube Cobra players have no ID, so everyone else must be told apart by name.
+	mine := decksWithCard(0, 1, 3, 3, "Pet Card")
+	for _, d := range mine {
+		d.Player = "Freddie"
+	}
+	others := decksWithCard(0, 100, 20, 0, "Pet Card")
+	for _, d := range others {
+		d.Player = "Ozzy"
+	}
+	baseline := append(append([]*storage.Deck{}, mine...), others...)
+
+	got := playerTendencies("Freddie", mine, withSpells(baseline), nil, cubeLists{})
+	require.Len(t, got.SignatureCards, 1)
+	assert.Equal(t, 20, got.SignatureCards[0].OthersAvailable)
+}
+
+// snapshotStore answers GetSnapshot from a fixed map of draft snapshots.
+type snapshotStore struct {
+	mockDeckStorage
+	snapshots map[int]*types.Cube
+}
+
+// GetSnapshot returns the draft's snapshot, or ErrDeckNotFound.
+func (s *snapshotStore) GetSnapshot(_ string, draftID int) (*types.Cube, error) {
+	snapshot, ok := s.snapshots[draftID]
+	if !ok {
+		return nil, storage.ErrDeckNotFound
+	}
+	return snapshot, nil
+}
+
+func TestLoadCubeLists_EmptySnapshotIsMissing(t *testing.T) {
+	store := &snapshotStore{snapshots: map[int]*types.Cube{
+		1: {},
+		2: {Cards: []types.Card{{Name: "Lightning Bolt"}}},
+	}}
+	decks := []*storage.Deck{tendencyDeck(tendencyPlayer, 1, "aggro"), tendencyDeck(tendencyPlayer, 2, "aggro")}
+
+	lists := loadCubeLists(store, "testcube", decks)
+	_, hasEmpty := lists[1]
+	assert.False(t, hasEmpty)
+	assert.True(t, lists[2]["Lightning Bolt"])
 }

@@ -72,13 +72,33 @@ type SignatureCard struct {
 // from the map has no snapshot, so every card counts as available in it.
 type cubeLists map[int]map[string]bool
 
-// available reports whether the card was in the cube for the deck's draft.
-func (c cubeLists) available(d *storage.Deck, card string) bool {
-	cube, ok := c[d.Metadata.DraftID]
+// available reports whether the card was in the cube for the deck's draft. A
+// deck that played the card proves it was, whatever the snapshot says.
+func (c cubeLists) available(d deckSpells, card string) bool {
+	if d.spells[card] {
+		return true
+	}
+	cube, ok := c[d.deck.Metadata.DraftID]
 	if !ok {
 		return true
 	}
 	return cube[card]
+}
+
+// deckSpells is a deck with its set of distinct non-basic mainboard card
+// names, built once so checking many cards against it stays cheap.
+type deckSpells struct {
+	deck   *storage.Deck
+	spells map[string]bool
+}
+
+// withSpells pairs each deck with its card-name set.
+func withSpells(decks []*storage.Deck) []deckSpells {
+	out := make([]deckSpells, 0, len(decks))
+	for _, d := range decks {
+		out = append(out, deckSpells{deck: d, spells: distinctSpells(d)})
+	}
+	return out
 }
 
 // signatureCandidate is one card's counts while signature cards are picked,
@@ -88,14 +108,17 @@ type signatureCandidate struct {
 	chance float64
 }
 
-// playerTendencies works out what the player with playerID tends to draft.
-// mine are their decks; baseline is every deck in the page's date range,
-// which gives the cube's color shares and, without the player's own decks,
-// everyone else's rates for signature cards.
-func playerTendencies(playerID int, mine, baseline []*storage.Deck, pkgs []design.PackageCards, cubes cubeLists) PlayerTendencies {
-	var others []*storage.Deck
+// playerTendencies works out what the named player tends to draft. mine are
+// their decks; baseline is every deck in the page's date range, which gives
+// the cube's color shares and, without the player's own decks, everyone
+// else's rates for signature cards. Players are told apart by name, since a
+// Cube Cobra cube's players have no IDs.
+func playerTendencies(name string, mine []*storage.Deck, baseline []deckSpells, pkgs []design.PackageCards, cubes cubeLists) PlayerTendencies {
+	var others []deckSpells
+	var baselineDecks []*storage.Deck
 	for _, d := range baseline {
-		if d.PlayerID != playerID {
+		baselineDecks = append(baselineDecks, d.deck)
+		if d.deck.Player != name {
 			others = append(others, d)
 		}
 	}
@@ -105,10 +128,10 @@ func playerTendencies(playerID int, mine, baseline []*storage.Deck, pkgs []desig
 		Matches:        matchesWithResults(mine),
 		ColorShares:    playerShares,
 		MainColors:     mainColors(playerShares),
-		ColorGap:       biggestColorGap(playerShares, colorShares(baseline)),
+		ColorGap:       biggestColorGap(playerShares, colorShares(baselineDecks)),
 		Archetypes:     archetypeCounts(mine),
 		Packages:       packageCounts(mine, pkgs),
-		SignatureCards: signatureCards(mine, others, cubes),
+		SignatureCards: signatureCards(withSpells(mine), others, cubes),
 	}
 }
 
@@ -228,7 +251,7 @@ func sortedCounts(counts map[string]int) []NamedCount {
 // chance of that many at everyone else's rate must be under signatureChance.
 // Only decks from drafts whose cube had the card count. Lowest chance first,
 // at most maxSignatureCards.
-func signatureCards(mine, others []*storage.Deck, cubes cubeLists) []SignatureCard {
+func signatureCards(mine, others []deckSpells, cubes cubeLists) []SignatureCard {
 	candidates := []signatureCandidate{}
 	for card := range cardsInAtLeast(mine, minSignatureDecks) {
 		decks, available := countWithCard(mine, card, cubes)
@@ -265,10 +288,10 @@ func signatureCards(mine, others []*storage.Deck, cubes cubeLists) []SignatureCa
 
 // cardsInAtLeast returns the non-basic mainboard cards that appear in at least
 // n of the decks.
-func cardsInAtLeast(decks []*storage.Deck, n int) map[string]bool {
+func cardsInAtLeast(decks []deckSpells, n int) map[string]bool {
 	counts := map[string]int{}
 	for _, d := range decks {
-		for name := range distinctSpells(d) {
+		for name := range d.spells {
 			counts[name]++
 		}
 	}
@@ -283,14 +306,14 @@ func cardsInAtLeast(decks []*storage.Deck, n int) map[string]bool {
 
 // countWithCard counts, among the decks from drafts whose cube had the card,
 // how many mainboarded it and how many there were.
-func countWithCard(decks []*storage.Deck, card string, cubes cubeLists) (int, int) {
+func countWithCard(decks []deckSpells, card string, cubes cubeLists) (int, int) {
 	with, available := 0, 0
 	for _, d := range decks {
 		if !cubes.available(d, card) {
 			continue
 		}
 		available++
-		if distinctSpells(d)[card] {
+		if d.spells[card] {
 			with++
 		}
 	}
