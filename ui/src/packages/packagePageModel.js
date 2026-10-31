@@ -1,6 +1,9 @@
 // Pure helpers for the package page, kept free of React so node tests can
 // load them: the header's text, color cells, and the chart's data.
 
+import { winRateValue } from "../components/kit/winRate.js"
+import { entryLabel } from "../design/rules/boardModel.js"
+
 // plural is "1 group" or "4 groups".
 function plural(count, one, many) {
   if (count === 1) {
@@ -23,7 +26,7 @@ export function packageSubtitle(page) {
 
 // headerLine is the header's line of numbers in words, each with a tip that
 // gives the exact rule: decks that built it, linked pairs in a typical build,
-// and, when showWinRate, how those decks did.
+// and, when showWinRate and those decks played games, how they did.
 export function headerLine(page, showWinRate) {
   const items = [
     {
@@ -37,14 +40,55 @@ export function headerLine(page, showWinRate) {
       tip: "In each deck, one side's cards times the other side's, added up over the wires. The middle value over decks that built it.",
     },
   ]
-  if (showWinRate) {
+  const winRate = winRateValue(page.stat.record)
+  if (showWinRate && winRate !== null) {
     items.push({
       key: "win",
-      text: `${Math.round(page.stat.record.bayesian_win_percent)}% win rate`,
+      text: `${Math.round(winRate)}% win rate`,
       tip: "How the decks that built it did, Bayes-adjusted.",
     })
   }
   return items
+}
+
+// packageProblems lists what's broken in the package's rules, for the
+// header's red badge: entries that match nothing the cube has, then wires
+// with no groups on one side. It's empty for a healthy package.
+export function packageProblems(map) {
+  const problems = []
+  for (const group of map.groups) {
+    if (!group.missing) {
+      continue
+    }
+    if (group.card_entry) {
+      problems.push(`${entryLabel(group.name)} isn't in the cube`)
+    } else {
+      problems.push(`No group named ${group.name}`)
+    }
+  }
+  map.wires.forEach((wire, i) => {
+    if ((wire.sources || []).length === 0 || (wire.targets || []).length === 0) {
+      problems.push(`Wire ${i + 1} has no groups on one side`)
+    }
+  })
+  return problems
+}
+
+// groupPanelState says what the group panel shows for the entry called name,
+// from useRuleGroups' answer: "loading", "failed", "missing" when the package
+// has no such entry (say, just after a rename), or "members" with them.
+export function groupPanelState(answer, name) {
+  if (answer.failed) {
+    return { kind: "failed" }
+  }
+  if (!answer.groups) {
+    return { kind: "loading" }
+  }
+  const members = answer.groups.find(g => g.name === name)
+  if (!members) {
+    return { kind: "missing" }
+  }
+  return { kind: "members", members }
 }
 
 // colorCell is one cell of the support-by-color table: the group's card count

@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { chartSeries, colorCell, headerLine, packageSubtitle } from "./packagePageModel.js"
+import { chartSeries, colorCell, groupPanelState, headerLine, packageProblems, packageSubtitle } from "./packagePageModel.js"
 
 const wires = [
   { sources: [{ name: "Graveyard" }], targets: [{ name: "Delirium payoffs" }, { name: "Reanimate targets" }] },
@@ -13,13 +13,34 @@ test("the subtitle counts distinct groups and the package's cards", () => {
 })
 
 test("the header line reads the package's numbers in words", () => {
-  const page = { stat: { package: 43, record: { bayesian_win_percent: 51.4 } }, map: { typical_pairs: 12 } }
+  const page = { stat: { package: 43, record: { wins: 60, losses: 57, draws: 0, bayesian_win_percent: 51.4 } }, map: { typical_pairs: 12 } }
   assert.deepEqual(headerLine(page, true).map(item => [item.key, item.text]), [
     ["built", "43 decks built it"],
     ["pairs", "12 linked pairs in a typical build"],
     ["win", "51% win rate"],
   ])
   assert.deepEqual(headerLine(page, false).map(item => item.key), ["built", "pairs"])
+})
+
+test("the header leaves out the win rate when the builders played no games", () => {
+  const page = { stat: { package: 0, record: { wins: 0, losses: 0, draws: 0, bayesian_win_percent: 0 } }, map: { typical_pairs: 0 } }
+  assert.deepEqual(headerLine(page, true).map(item => item.key), ["built", "pairs"])
+})
+
+test("the problems name missing groups and wires with an empty side", () => {
+  const map = {
+    groups: [{ name: "Payoffs" }, { name: "Ghosts", missing: true }, { name: "card:Black Lotus", card_entry: true, missing: true }],
+    wires: [
+      { sources: ["Payoffs"], targets: ["Ghosts"] },
+      { sources: ["Payoffs"], targets: [] },
+    ],
+  }
+  assert.deepEqual(packageProblems(map), [
+    "No group named Ghosts",
+    "Black Lotus isn't in the cube",
+    "Wire 2 has no groups on one side",
+  ])
+  assert.deepEqual(packageProblems({ groups: [{ name: "Payoffs" }], wires: [{ sources: ["Payoffs"], targets: ["Payoffs"] }] }), [])
 })
 
 test("one deck reads in the singular", () => {
@@ -46,4 +67,12 @@ test("the chart keeps every draft and gives each draft's raw rate", () => {
     raw: [25, null, 50],
     inRange: [false, true, true],
   })
+})
+
+test("the group panel says when the package has no such entry instead of loading forever", () => {
+  const groups = [{ name: "Payoffs" }]
+  assert.deepEqual(groupPanelState({ groups: null, failed: false }, "Payoffs"), { kind: "loading" })
+  assert.deepEqual(groupPanelState({ groups: [], failed: true }, "Payoffs"), { kind: "failed" })
+  assert.deepEqual(groupPanelState({ groups, failed: false }, "Payoffs"), { kind: "members", members: groups[0] })
+  assert.deepEqual(groupPanelState({ groups, failed: false }, "Fodder"), { kind: "missing" })
 })

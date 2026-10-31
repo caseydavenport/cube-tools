@@ -150,7 +150,7 @@ export function PackagePage(props) {
 
   // The dialog that's open, if any: { kind: "group", group }, { kind:
   // "package", wire } for the package dialog opened on a wire, or
-  // { kind: "confirm", title, proposed, onSaved } to ask before saving.
+  // { kind: "confirm", ... } with ConfirmEdit's props and onSaved.
   const [dialog, setDialog] = useState(null)
   const [status, setStatus] = useState("")
 
@@ -168,6 +168,10 @@ export function PackagePage(props) {
     if (!entry) {
       setStatus("A group needs at least one condition.")
       return
+    }
+    // A rename from the open panel keeps the panel on the group.
+    if (openGroup === dialog.group.name) {
+      setOpenGroup(entry.name)
     }
     save(withGroup(rules, dialog.group.name, entry))
   }
@@ -195,7 +199,10 @@ export function PackagePage(props) {
     const packages = rules.packages.map(p => (p.name === pkg.name ? { name: newName, wires } : p))
     let onSaved = refetch
     if (newName !== pkg.name) {
-      onSaved = () => navigate(packagePageHref(cube, newName))
+      onSaved = () => {
+        refetch()
+        navigate(packagePageHref(cube, newName))
+      }
     }
     save({ groups: rules.groups, packages }, onSaved)
   }
@@ -230,6 +237,8 @@ export function PackagePage(props) {
     setDialog({
       kind: "confirm",
       title: `Delete ${pkg.name}?`,
+      message: `${pkg.name} leaves the rules. Its groups stay.`,
+      confirmLabel: "Delete",
       proposed: { groups: rules.groups, packages: rules.packages.filter(p => p.name !== pkg.name) },
       onSaved: () => navigate(pageHref(cube, "packages")),
     })
@@ -331,6 +340,7 @@ export function PackagePage(props) {
     dialogView = (
       <ConfirmEdit
         cube={cube} proposed={dialog.proposed} range={range} title={dialog.title}
+        message={dialog.message} confirmLabel={dialog.confirmLabel}
         onSave={proposed => save(proposed, dialog.onSaved)} onCancel={() => setDialog(null)}
       />
     )
