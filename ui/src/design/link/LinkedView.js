@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import { UnstyledButton } from "@mantine/core"
 import { ruleColor } from "../map/ruleColors.js"
 import { bothCardsMatch } from "../../cards/cardPageModel.js"
-import { editorViewHref, pageHrefWithMatch } from "../../shell/paths.js"
+import { editorViewHref, packagePageHref, pageHrefWithMatch } from "../../shell/paths.js"
 
 // CARD_ENTRY marks a wire entry that names one card instead of a group.
 const CARD_ENTRY = "card:"
@@ -51,7 +51,7 @@ function Thread({ link, check, color, cube, onExclude }) {
     <div className="link-thread">
       <ThreadSide entry={link.group_a} matched={link.matched_a} card={check.a.name} color={color} cube={cube} onExclude={onExclude} />
       <span className="link-line" style={{ background: color }} />
-      <Link className="link-pill" style={{ background: color }} to={editorViewHref(cube, "p:" + link.package)}>
+      <Link className="link-pill" style={{ background: color }} to={packagePageHref(cube, link.package)}>
         {link.package}
       </Link>
       <span className="link-line" style={{ background: color }} />

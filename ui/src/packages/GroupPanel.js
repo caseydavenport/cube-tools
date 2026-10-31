@@ -29,7 +29,7 @@ export function GroupPanel({ name, packageName, groupsByName, groupIndex, canEdi
           id="group-panel" members={members} group={groupsByName[name] || null} packageName={packageName}
           color={color} warning={null} canEdit={canEdit} showUses={false}
           onEdit={onEdit} onExclude={card => onExclude(name, card)} onRestore={card => onRestore(name, card)}
-          onOpenPackage={() => {}} initialCheck=""
+          initialCheck=""
         />
       )
     }

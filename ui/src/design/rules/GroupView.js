@@ -6,13 +6,12 @@ import { UnstyledButton } from '@mantine/core'
 import { useCube } from "../../contexts/CubeContext.js"
 import { EditActions } from "./rulesParts.js"
 import { GroupSection, useRuleGroups } from "./GroupSection.js"
-import "./workspace.css"
 
 // GroupView loads and shows the group called name. group is its rules entry,
 // or undefined when the rules have no such group.
 export function GroupView({
   name, group, color, warning, canEdit, refresh, range, initialCheck,
-  onBack, onEdit, onDelete, onExclude, onRestore, onOpenPackage,
+  onBack, onEdit, onDelete, onExclude, onRestore,
 }) {
   const cube = useCube()
   const [confirming, setConfirming] = useState(false)
@@ -28,7 +27,7 @@ export function GroupView({
       <GroupSection
         id="rg-group" members={groups[0]} group={group || null} packageName="" color={color} warning={warning}
         canEdit={canEdit} onEdit={null} onExclude={card => onExclude(name, card)}
-        onRestore={card => onRestore(name, card)} onOpenPackage={onOpenPackage} initialCheck={initialCheck}
+        onRestore={card => onRestore(name, card)} initialCheck={initialCheck}
       />
     )
   }

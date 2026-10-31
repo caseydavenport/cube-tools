@@ -2,14 +2,16 @@
 // condition each first matched, the excluded cards, and "Check a card".
 
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Button, UnstyledButton } from '@mantine/core'
 import { useCube } from "../../contexts/CubeContext.js"
 import { CardLink } from "../../components/CardLink.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { ruleGroupsUrl } from "../../stats/pageRequests.js"
+import { packagePageHref } from "../../shell/paths.js"
 import { cardsText, dotKeys, entryLabel } from "./boardModel.js"
 import { GroupCheck } from "./GroupCheck.js"
-import "./workspace.css"
+import "./rules.css"
 
 // useRuleGroups loads /stats/rule-groups for which, { package } or
 // { group }, again whenever refresh changes. range ({ start, end }) bounds
@@ -112,8 +114,9 @@ function memberCount(members) {
 // define. warning names what's broken in the group, or is null. onEdit,
 // onExclude and onRestore are only used when canEdit is true; a null
 // onEdit hides the section's Edit button. showUses false leaves out the
-// "Also used by" line.
-export function GroupSection({ id, members, group, packageName, color, warning, canEdit, onEdit, onExclude, onRestore, onOpenPackage, initialCheck, showUses = true }) {
+// "Also used by" line, whose names link to their package pages.
+export function GroupSection({ id, members, group, packageName, color, warning, canEdit, onEdit, onExclude, onRestore, initialCheck, showUses = true }) {
+  const cube = useCube()
   const others = alsoUsedBy(members.uses, packageName)
   const count = memberCount(members)
 
@@ -176,7 +179,7 @@ export function GroupSection({ id, members, group, packageName, color, warning, 
           {others.map((name, i) => (
             <span key={name}>
               {i > 0 && ', '}
-              <UnstyledButton className="ws-also-link" onClick={() => onOpenPackage(name)}>{name}</UnstyledButton>
+              <Link className="ws-also-link" to={packagePageHref(cube, name)}>{name}</Link>
             </span>
           ))}
         </div>

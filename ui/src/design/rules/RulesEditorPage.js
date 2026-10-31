@@ -3,7 +3,7 @@
 // files here.
 
 import React, { useState, useEffect, useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Alert } from '@mantine/core'
 import { useCube } from '../../contexts/CubeContext.js'
 import { rulesBoardUrl } from '../../stats/pageRequests.js'
@@ -12,12 +12,12 @@ import { ruleColor } from '../map/ruleColors.js'
 import { GroupEditModal } from '../map/GroupEditModal.js'
 import { PackageEditModal } from '../map/PackageEditModal.js'
 import { useCubeWritable } from '../../utils/useCubeWritable.js'
+import { packagePageHref } from '../../shell/paths.js'
 import { cleanGroup, withCardExcluded, withGroup } from "./rulebookEdits.js"
 import { auditRulebook, groupWarning, packageWarning } from "./rulebookAudit.js"
 import { EditorToolbar } from "./EditorToolbar.js"
 import { nextEditorParams } from "./editorParams.js"
 import { ReviewDetail } from "./ReviewDetail.js"
-import { PackageWorkspace } from "./PackageWorkspace.js"
 import { GroupView } from "./GroupView.js"
 import { PackageBoard } from "./PackageBoard.js"
 import { RULES_COPY } from "./copy.js"
@@ -26,11 +26,13 @@ import "./rules.css"
 import "../../decks/decks.css"
 
 // DesignEditorPage is the Rules editor. Its home is the package board; a
-// package or group opens full width, and Review steps through every card.
+// group opens full width, a package opens its own page, and Review steps
+// through every card.
 // The view, search, sort and review position live in the URL, so any state
 // can be shared. startDate and endDate bound the board's build stats.
 export function DesignEditorPage({ startDate, endDate }) {
   const cube = useCube()
+  const navigate = useNavigate()
   const writable = useCubeWritable(cube)
   const [params, setParams] = useSearchParams()
   const focal = params.get('card') || ''
@@ -111,7 +113,7 @@ export function DesignEditorPage({ startDate, endDate }) {
   }
   const selectView = (v) => patchParams({ view: v })
   const selectGroup = (name) => patchParams({ view: 'g:' + name })
-  const selectPackage = (label) => patchParams({ view: 'p:' + label })
+  const selectPackage = (label) => navigate(packagePageHref(cube, label))
 
   // Editor state. Each holds { original } - the group/package being edited, or null
   // `original` for a brand-new one.
@@ -142,7 +144,6 @@ export function DesignEditorPage({ startDate, endDate }) {
     const newPackages = orig
       ? packages.map(l => l.name === orig.name ? entry : l)
       : [...packages, entry]
-    if (orig && orig.name !== name && view === 'p:' + orig.name) selectPackage(name)
     saveDesignMap(cube, groups, newPackages, refetch, setStatus)
     setPackageEditor(null)
   }
@@ -182,11 +183,6 @@ export function DesignEditorPage({ startDate, endDate }) {
     if (view === 'g:' + name) selectView('')
   }
 
-  function deletePackage(label) {
-    saveDesignMap(cube, groups, packages.filter(l => l.name !== label), refetch, setStatus)
-    if (view === 'p:' + label) selectView('')
-  }
-
   // Edit controls only show once the server says the cube is writable; the
   // read-only notice waits for it to say it isn't, so it doesn't flash on load.
   const canEdit = writable === true
@@ -212,10 +208,6 @@ export function DesignEditorPage({ startDate, endDate }) {
     const g = groups.find(x => x.name === name)
     if (g) setGroupEditor({ original: g })
   }
-  function openPackage(label) {
-    const l = packages.find(x => x.name === label)
-    if (l) setPackageEditor({ original: l })
-  }
 
   // Share of cube cards in at least one group, once memberships have loaded.
   let coverage = null
@@ -227,7 +219,6 @@ export function DesignEditorPage({ startDate, endDate }) {
   // Resolve the main view from the view param; anything unknown is the board.
   let main
   const viewName = view.slice(2)
-  const openPkgIndex = board.packages.findIndex(p => p.name === viewName)
   const backToBoard = () => selectView('')
   if (view.startsWith('g:')) {
     let color = 'var(--se-muted)'
@@ -241,19 +232,6 @@ export function DesignEditorPage({ startDate, endDate }) {
       onBack={backToBoard} onEdit={() => openGroup(viewName)} onDelete={() => deleteGroup(viewName)}
       onExclude={(group, card) => setCardExcluded(group, card, true)}
       onRestore={(group, card) => setCardExcluded(group, card, false)}
-      onOpenPackage={selectPackage}
-    />
-  } else if (view.startsWith('p:') && openPkgIndex >= 0) {
-    main = <PackageWorkspace
-      key={viewName} pkg={board.packages[openPkgIndex]} index={openPkgIndex}
-      groupsByName={groupsByName} groupIndex={groupIndex}
-      problem={packageWarning(audit, viewName)} warningOf={name => groupWarning(audit, name)}
-      canEdit={canEdit} refresh={refresh} range={range} initialCheck={params.get('check') || ''}
-      onBack={backToBoard} onEditPackage={() => openPackage(viewName)} onDeletePackage={() => deletePackage(viewName)}
-      onEditGroup={openGroup}
-      onExclude={(group, card) => setCardExcluded(group, card, true)}
-      onRestore={(group, card) => setCardExcluded(group, card, false)}
-      onOpenPackage={selectPackage}
     />
   } else if (view === 'review' && names.length > 0) {
     const current = nodeByName[focal] ? focal : names[0]
