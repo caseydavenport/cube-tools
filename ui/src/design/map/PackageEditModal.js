@@ -4,14 +4,21 @@
 import React, { useState } from 'react'
 import { Modal, Button, ActionIcon } from "@mantine/core"
 import { IconPlus, IconX } from "@tabler/icons-react"
-import { useFetchGroupCards } from "./designData.js"
+import { cleanWires, useFetchGroupCards } from "./designData.js"
+import { withPackage } from "../rules/rulebookEdits.js"
+import { PreviewLine, usePreview } from "../rulesPreview.js"
+import { useCube } from "../../contexts/CubeContext.js"
 import { ConditionTooltip, GroupMultiSelect, RuleInput } from "./RuleInputs.js"
 import { GroupEditModal } from "./GroupEditModal.js"
 import { ruleColor } from "./ruleColors.js"
 import { MAP_COPY } from "./copy.js"
 import "./map.css"
 
-export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, onSave, onCancel, onGroupSaved }) {
+// PackageEditModal edits one package's name and wires. rules, the saved
+// { groups, packages }, turns on a preview of how the unsaved edit moves
+// package build counts; without it there's no preview.
+export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, rules, onSave, onCancel, onGroupSaved }) {
+  const cube = useCube()
   const [editLabel, setEditLabel] = useState(pkg.name || "")
   const [editWires, setEditWires] = useState(() =>
     (pkg.wires && pkg.wires.length > 0 ? pkg.wires : [{ sources: [""], targets: [""] }])
@@ -40,6 +47,17 @@ export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, on
     setEditWires(prev => prev.filter((_, j) => j !== i))
     setActiveWire(a => Math.min(a > i ? a - 1 : a, editWires.length - 2))
   }
+
+  // The rule set this edit would save, for the preview, once every wire has
+  // a group on each side.
+  let proposed = null
+  const cleaned = cleanWires(editWires)
+  if (rules && cleaned) {
+    // copy-ok: name saved to the rules file
+    const name = editLabel.trim() || "Untitled package"
+    proposed = withPackage(rules, pkg.name || "", { name, wires: cleaned })
+  }
+  const preview = usePreview(cube, proposed)
 
   const editingGroup = editingGroupName ? groups.find(g => g.name === editingGroupName) : null
   const editingGroupIndex = editingGroupName ? groups.findIndex(g => g.name === editingGroupName) : -1
@@ -131,6 +149,7 @@ export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, on
           ))}
           <Button size="xs" variant="subtle" leftSection={<IconPlus size={14} />} onClick={addWire}>{MAP_COPY.packageEdit.addWire}</Button>
           <div className="edit-modal-fill" />
+          {proposed && <PreviewLine preview={preview} />}
           <div className="edit-modal-actions">
             <Button size="xs" variant="filled" onClick={() => onSave({ name: editLabel, wires: editWires })}>{MAP_COPY.packageEdit.save}</Button>
             <Button size="xs" variant="default" onClick={onCancel}>{MAP_COPY.packageEdit.cancel}</Button>

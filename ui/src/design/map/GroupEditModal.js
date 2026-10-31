@@ -12,6 +12,8 @@ import { addTagCondition } from "../../utils/tagOptions.js"
 import { MAP_COPY } from "./copy.js"
 import { useGroupCheck } from "../rules/GroupCheck.js"
 import { checkRequest } from "../rules/groupCheckModel.js"
+import { cleanGroup, withGroup } from "../rules/rulebookEdits.js"
+import { PreviewLine, usePreview } from "../rulesPreview.js"
 import "../rules/rules.css"
 import "./map.css"
 
@@ -29,8 +31,9 @@ function PinnedCard({ card, result }) {
 
 // GroupEditModal edits one group, showing live which cards its conditions
 // match. pinnedCard, when set, is a card the group is being written for, and
-// the dialog says whether it matches yet.
-export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard }) {
+// the dialog says whether it matches yet. rules, the saved { groups,
+// packages }, turns on a preview of how the edit moves package build counts.
+export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard, rules }) {
   const cube = useCube()
   const [editName, setEditName] = useState(group.name)
   const [editConditions, setEditConditions] = useState([...(group.conditions || [""])])
@@ -112,6 +115,15 @@ export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard }) {
     pinnedBody = checkRequest(pinnedCard, editName, editConditions, editExclude)
   }
   const pinned = useGroupCheck(cube, pinnedBody, 300)
+
+  // The rule set this edit would save, for the preview, once the group has a
+  // condition.
+  let proposed = null
+  const cleaned = cleanGroup({ name: editName, conditions: editConditions, exclude: editExclude })
+  if (rules && cleaned) {
+    proposed = withGroup(rules, group.name || "", cleaned)
+  }
+  const preview = usePreview(cube, proposed)
 
   const excludedSet = React.useMemo(() => new Set(editExclude.filter(n => n)), [editExclude])
   function toggleExclude(name) {
@@ -214,6 +226,7 @@ export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard }) {
             />
             <ExcludeInputs values={editExclude} onChange={setEditExclude} options={excludeOptions} />
           </div>
+          {proposed && <PreviewLine preview={preview} />}
           <div className="edit-modal-actions">
             <Button size="xs" variant="filled" onClick={() => onSave({ name: editName, conditions: editConditions, exclude: editExclude })}>{MAP_COPY.groupEdit.save}</Button>
             <Button size="xs" variant="default" onClick={onCancel}>{MAP_COPY.groupEdit.cancel}</Button>

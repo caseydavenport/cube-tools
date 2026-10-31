@@ -19,3 +19,40 @@ export function renameInPackage(pkg, oldName, newName) {
     })),
   }
 }
+
+// cleanGroup trims a group from the editor the way it's saved: blank
+// conditions and excludes dropped, an empty name filled in. It's null when no
+// condition is left.
+export function cleanGroup(group) {
+  const conditions = group.conditions.map(c => c.trim()).filter(Boolean)
+  if (conditions.length === 0) {
+    return null
+  }
+  // copy-ok: name saved to the rules file
+  const name = group.name.trim() || "Untitled group"
+  return withExclude({ name, conditions }, (group.exclude || []).filter(Boolean))
+}
+
+// withGroup returns a copy of config with group in place of the group called
+// originalName, renamed in every wire if its name changed. An empty
+// originalName adds group instead. config itself is never changed.
+export function withGroup(config, originalName, group) {
+  if (!originalName) {
+    return { ...config, groups: [...config.groups, group] }
+  }
+  const groups = config.groups.map(g => g.name === originalName ? group : g)
+  let packages = config.packages
+  if (group.name !== originalName) {
+    packages = packages.map(p => renameInPackage(p, originalName, group.name))
+  }
+  return { ...config, groups, packages }
+}
+
+// withPackage returns a copy of config with pkg in place of the package
+// called originalName, or added when originalName is empty.
+export function withPackage(config, originalName, pkg) {
+  if (!originalName) {
+    return { ...config, packages: [...config.packages, pkg] }
+  }
+  return { ...config, packages: config.packages.map(p => p.name === originalName ? pkg : p) }
+}

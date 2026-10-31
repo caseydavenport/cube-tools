@@ -1,0 +1,10 @@
+/* The rule change preview line. */
+
+.rp-line {
+  font-size: 12px;
+  color: var(--se-muted);
+}
+
+.rp-item + .rp-item::before {
+  content: " · ";
+}

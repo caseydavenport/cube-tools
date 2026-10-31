@@ -197,10 +197,6 @@
   width: 260px;
 }
 
-.link-preview-item + .link-preview-item::before {
-  content: " · ";
-}
-
 .link-status {
   margin-top: 10px;
   font-size: 13px;

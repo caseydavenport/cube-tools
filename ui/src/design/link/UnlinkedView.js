@@ -2,10 +2,11 @@
 // groups and where they're used, and a bar to link two of them. It never
 // guesses which link is right.
 
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Button, Radio, Select, TextInput, UnstyledButton } from "@mantine/core"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { applyLink, linkOptions, usesText } from "./linkCheckModel.js"
+import { PreviewLine, usePreview } from "../rulesPreview.js"
 
 // wiresText lists a group's wires for its hover, like "Sacrifice wire 1".
 function wiresText(uses) {
@@ -58,55 +59,6 @@ function usesOf(card, group) {
   return found.uses
 }
 
-// usePreview asks the server how a proposed rule set moves package build
-// counts. It returns null while the answer is on its way.
-function usePreview(cube, proposed) {
-  const [changes, setChanges] = useState(null)
-  const body = proposed ? JSON.stringify(proposed) : ""
-  useEffect(() => {
-    setChanges(null)
-    if (!body) {
-      return
-    }
-    let cancelled = false
-    fetch(`/api/${cube}/stats/rules-preview`, { method: "POST", headers: { "Content-Type": "application/json" }, body })
-      .then(r => r.json())
-      .then(resp => {
-        if (!cancelled) {
-          setChanges(resp.packages || [])
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setChanges([])
-        }
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [cube, body])
-  return changes
-}
-
-// PreviewLine says how the change moves build counts.
-function PreviewLine({ changes }) {
-  if (changes === null) {
-    return <div className="link-muted">Working out the effect…</div>
-  }
-  if (changes.length === 0) {
-    return <div className="link-muted">No package would be built in more or fewer decks.</div>
-  }
-  return (
-    <div className="link-muted">
-      {changes.map(c => (
-        <span key={c.name} className="link-preview-item">
-          {c.name}: built in <b>{c.now} → {c.after}</b> decks
-        </span>
-      ))}
-    </div>
-  )
-}
-
 // LinkBar shows the link about to be made, the ways to make it, a preview,
 // and the button that saves it.
 function LinkBar({ cube, rules, groupA, groupB, check, onSave }) {
@@ -119,7 +71,7 @@ function LinkBar({ cube, rules, groupA, groupB, check, onSave }) {
   if (option && (option.kind === "add-to-wire" || packageName.trim())) {
     proposed = applyLink(rules, option, groupA, groupB, packageName.trim())
   }
-  const changes = usePreview(cube, proposed)
+  const preview = usePreview(cube, proposed)
 
   if (options.length === 0) {
     return <div className="link-bar link-muted">These groups already link through a wire.</div>
@@ -152,7 +104,7 @@ function LinkBar({ cube, rules, groupA, groupB, check, onSave }) {
       {option.kind === "new-package" && (
         <TextInput size="xs" placeholder="New package name" value={packageName} onChange={e => setPackageName(e.target.value)} className="link-input" />
       )}
-      {proposed && <PreviewLine changes={changes} />}
+      {proposed && <PreviewLine preview={preview} />}
       <Button size="xs" disabled={!proposed} onClick={() => onSave(proposed)}>Link them</Button>
     </div>
   )

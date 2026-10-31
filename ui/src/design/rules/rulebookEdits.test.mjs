@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { renameInPackage, withExclude } from "./rulebookEdits.js"
+import { cleanGroup, renameInPackage, withExclude, withGroup, withPackage } from "./rulebookEdits.js"
 
 test("withExclude drops an empty exclude list", () => {
   const group = withExclude({ name: "A", conditions: ["t:a"], exclude: ["x"] }, [])
@@ -14,4 +14,46 @@ test("withExclude sets a non-empty exclude list", () => {
 test("renameInLink renames every wire end", () => {
   const pkg = { name: "L", wires: [{ sources: ["Old", "B"], targets: ["Old"] }] }
   assert.deepEqual(renameInPackage(pkg, "Old", "New").wires, [{ sources: ["New", "B"], targets: ["New"] }])
+})
+
+test("cleanGroup trims what the editor leaves blank", () => {
+  const group = cleanGroup({ name: "  ", conditions: [" o:x ", ""], exclude: ["", "Shock"] })
+  assert.deepEqual(group, { name: "Untitled group", conditions: ["o:x"], exclude: ["Shock"] })
+})
+
+test("cleanGroup is null with no condition left", () => {
+  assert.equal(cleanGroup({ name: "A", conditions: [" ", ""], exclude: [] }), null)
+})
+
+// rules is a small rule set where Fodder sits in two packages.
+function rules() {
+  return {
+    groups: [{ name: "Outlets", conditions: ["o:a"] }, { name: "Fodder", conditions: ["o:b"] }],
+    packages: [
+      { name: "Sacrifice", wires: [{ sources: ["Outlets"], targets: ["Fodder"] }] },
+      { name: "Burn", wires: [{ sources: ["Fodder"], targets: ["card:Lightning Bolt"] }] },
+    ],
+  }
+}
+
+test("withGroup renames a group everywhere and leaves its input alone", () => {
+  const config = rules()
+  const before = structuredClone(config)
+  const next = withGroup(config, "Fodder", { name: "Chaff", conditions: ["o:c"] })
+  assert.deepEqual(next.groups[1], { name: "Chaff", conditions: ["o:c"] })
+  assert.deepEqual(next.packages[0].wires[0].targets, ["Chaff"])
+  assert.deepEqual(next.packages[1].wires[0].sources, ["Chaff"])
+  assert.deepEqual(config, before)
+})
+
+test("withGroup with no original name adds the group", () => {
+  const next = withGroup(rules(), "", { name: "New", conditions: ["o:n"] })
+  assert.deepEqual(next.groups.map(g => g.name), ["Outlets", "Fodder", "New"])
+})
+
+test("withPackage replaces a package by its original name", () => {
+  const pkg = { name: "Burn 2", wires: [{ sources: ["Outlets"], targets: ["Fodder"] }] }
+  const next = withPackage(rules(), "Burn", pkg)
+  assert.deepEqual(next.packages.map(p => p.name), ["Sacrifice", "Burn 2"])
+  assert.deepEqual(next.packages[1], pkg)
 })

@@ -12,7 +12,7 @@ import { ruleColor } from '../map/ruleColors.js'
 import { GroupEditModal } from '../map/GroupEditModal.js'
 import { PackageEditModal } from '../map/PackageEditModal.js'
 import { useCubeWritable } from '../../utils/useCubeWritable.js'
-import { renameInPackage, withExclude } from "./rulebookEdits.js"
+import { cleanGroup, withExclude, withGroup } from "./rulebookEdits.js"
 import { auditRulebook, groupWarning, packageWarning } from "./rulebookAudit.js"
 import { EditorToolbar } from "./EditorToolbar.js"
 import { ReviewDetail } from "./ReviewDetail.js"
@@ -120,23 +120,12 @@ export function DesignEditorPage({ startDate, endDate }) {
 
   // --- save/delete handlers ------------------------------------------------------
   function saveGroup(updated) {
-    const conditions = updated.conditions.map(c => c.trim()).filter(Boolean)
-    if (conditions.length === 0) { setStatus(RULES_COPY.page.conditionRequired); return }
-    // copy-ok: name saved to the rules file
-    const newName = updated.name.trim() || 'Untitled group'
-    const entry = withExclude({ name: newName, conditions }, (updated.exclude || []).filter(Boolean))
+    const entry = cleanGroup(updated)
+    if (!entry) { setStatus(RULES_COPY.page.conditionRequired); return }
     const orig = groupEditor?.original
-    let newGroups, newPackages = packages
-    if (orig) {
-      newGroups = groups.map(g => g.name === orig.name ? entry : g)
-      if (orig.name !== newName) {
-        newPackages = packages.map(l => renameInPackage(l, orig.name, newName))
-        if (view === 'g:' + orig.name) selectGroup(newName)
-      }
-    } else {
-      newGroups = [...groups, entry]
-    }
-    saveDesignMap(cube, newGroups, newPackages, refetch, setStatus)
+    const next = withGroup({ groups, packages }, orig ? orig.name : '', entry)
+    if (orig && orig.name !== entry.name && view === 'g:' + orig.name) selectGroup(entry.name)
+    saveDesignMap(cube, next.groups, next.packages, refetch, setStatus)
     setGroupEditor(null)
   }
 
@@ -159,18 +148,10 @@ export function DesignEditorPage({ startDate, endDate }) {
 
   // Group edits triggered from inside the package editor (by group index).
   const saveGroupByIndex = (idx, updated) => {
-    const conditions = updated.conditions.map(c => c.trim()).filter(Boolean)
-    if (conditions.length === 0) { setStatus(RULES_COPY.page.conditionRequired); return }
-    const orig = groups[idx]
-    // copy-ok: name saved to the rules file
-    const newName = updated.name.trim() || 'Untitled group'
-    const entry = withExclude({ name: newName, conditions }, (updated.exclude || []).filter(Boolean))
-    const newGroups = groups.map((g, i) => i === idx ? entry : g)
-    let newPackages = packages
-    if (orig.name !== newName) {
-      newPackages = packages.map(l => renameInPackage(l, orig.name, newName))
-    }
-    saveDesignMap(cube, newGroups, newPackages, refetch, setStatus)
+    const entry = cleanGroup(updated)
+    if (!entry) { setStatus(RULES_COPY.page.conditionRequired); return }
+    const next = withGroup({ groups, packages }, groups[idx].name, entry)
+    saveDesignMap(cube, next.groups, next.packages, refetch, setStatus)
     setGroupEditor(null)
   }
 
@@ -314,6 +295,7 @@ export function DesignEditorPage({ startDate, endDate }) {
         <GroupEditModal
           group={groupEditor.original || { name: '', conditions: [''] }}
           color={ruleColor(groupEditor.original ? (groupIndex[groupEditor.original.name] ?? 0) : groups.length)}
+          rules={{ groups, packages }}
           onSave={saveGroup}
           onCancel={() => setGroupEditor(null)}
         />
@@ -325,6 +307,7 @@ export function DesignEditorPage({ startDate, endDate }) {
           groupNames={groupNames}
           cardNames={names}
           groups={groups}
+          rules={{ groups, packages }}
           onSave={savePackage}
           onCancel={() => setPackageEditor(null)}
           onGroupSaved={saveGroupByIndex}

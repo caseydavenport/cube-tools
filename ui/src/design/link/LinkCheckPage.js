@@ -15,7 +15,7 @@ import { linkCheckUrl } from "../../stats/pageRequests.js"
 import { GroupEditModal } from "../map/GroupEditModal.js"
 import { saveDesignMap } from "../map/designData.js"
 import { ruleColor } from "../map/ruleColors.js"
-import { withExclude } from "../rules/rulebookEdits.js"
+import { cleanGroup } from "../rules/rulebookEdits.js"
 import { applyExclude } from "./linkCheckModel.js"
 import { LinkedView } from "./LinkedView.js"
 import { UnlinkedView } from "./UnlinkedView.js"
@@ -83,19 +83,6 @@ function useLinkCheck(cube, a, b, reload) {
     }
   }, [cube, a, b, reload])
   return state
-}
-
-// cleanGroup trims a group from the editor, as the Rules editor saves it:
-// blank conditions and excludes dropped, an empty name filled in. It's null
-// when no condition is left.
-function cleanGroup(group) {
-  const conditions = group.conditions.map(c => c.trim()).filter(Boolean)
-  if (conditions.length === 0) {
-    return null
-  }
-  // copy-ok: name saved to the rules file
-  const name = group.name.trim() || "Untitled group"
-  return withExclude({ name, conditions }, (group.exclude || []).filter(Boolean))
 }
 
 // CardSide is one card's image and name, linking to its card page.
@@ -210,6 +197,7 @@ export function LinkCheckPage(props) {
           group={{ name: "", conditions: [""] }}
           color={ruleColor(rules.groups.length)}
           pinnedCard={newGroupFor}
+          rules={rules}
           onSave={saveNewGroup}
           onCancel={() => setNewGroupFor("")}
         />
