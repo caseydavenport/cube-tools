@@ -4,41 +4,43 @@
 import React, { useEffect, useState } from "react"
 import { useCube } from "../../contexts/CubeContext.js"
 import { AnyCardSearch } from "../../cards/AnyCardSearch.js"
-import { checkSummary, failedConditions } from "./groupCheckModel.js"
+import { checkRequest, checkSummary, failedConditions } from "./groupCheckModel.js"
 
-// useGroupCheck asks the server how card fares against group. It returns
-// null with no card or while loading, and { missing: true } for a name the
-// server doesn't know.
-function useGroupCheck(cube, group, card) {
+// useGroupCheck posts body, a group-check request, waiting debounceMs first so
+// typing doesn't fire a request per keystroke. It returns null with no body
+// or while loading, and { missing: true } for a name the server doesn't know.
+export function useGroupCheck(cube, body, debounceMs = 0) {
   const [result, setResult] = useState(null)
-  const body = card ? JSON.stringify({ group, card }) : ""
   useEffect(() => {
     setResult(null)
     if (!body) {
       return
     }
     let cancelled = false
-    fetch(`/api/${cube}/stats/group-check`, { method: "POST", headers: { "Content-Type": "application/json" }, body })
-      .then(r => {
-        if (r.status === 404) {
-          return { missing: true }
-        }
-        return r.json()
-      })
-      .then(answer => {
-        if (!cancelled) {
-          setResult(answer)
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setResult({ missing: true })
-        }
-      })
+    const timer = setTimeout(() => {
+      fetch(`/api/${cube}/stats/group-check`, { method: "POST", headers: { "Content-Type": "application/json" }, body })
+        .then(r => {
+          if (r.status === 404) {
+            return { missing: true }
+          }
+          return r.json()
+        })
+        .then(answer => {
+          if (!cancelled) {
+            setResult(answer)
+          }
+        })
+        .catch(() => {
+          if (!cancelled) {
+            setResult({ missing: true })
+          }
+        })
+    }, debounceMs)
     return () => {
       cancelled = true
+      clearTimeout(timer)
     }
-  }, [cube, body])
+  }, [cube, body, debounceMs])
   return result
 }
 
@@ -85,7 +87,11 @@ function CheckAnswer({ result }) {
 export function GroupCheck({ group, initialCard }) {
   const cube = useCube()
   const [card, setCard] = useState(initialCard || "")
-  const result = useGroupCheck(cube, group, card)
+  let body = ""
+  if (card) {
+    body = checkRequest(card, group.name, group.conditions, group.exclude)
+  }
+  const result = useGroupCheck(cube, body)
   return (
     <div className="de-check">
       <div className="de-subhead">Check a card</div>

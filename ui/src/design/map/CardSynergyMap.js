@@ -4,6 +4,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { Select, SegmentedControl, UnstyledButton } from "@mantine/core"
 import { Link, useNavigate } from "react-router-dom"
 import { linkCheckHref } from "../../shell/paths.js"
+import { otherCardNames } from "../link/linkCheckModel.js"
 import { useCube } from "../../contexts/CubeContext.js"
 import { buildDeckSubgraph, rankByDegree, dominantLabel } from "../../utils/DeckGraph"
 import { RULE_COLORS, ruleColor } from "./ruleColors.js"
@@ -189,7 +190,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
             <Select
               size="xs"
               placeholder="Check a link with…"
-              data={Object.keys(byName).filter(name => name !== selected).sort()}
+              data={otherCardNames(byName, selected)}
               value={null}
               onChange={other => other && navigate(linkCheckHref(cube, selected, other))}
               searchable

@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { checkSummary, failedConditions } from "./groupCheckModel.js"
+import { checkRequest, checkSummary, failedConditions } from "./groupCheckModel.js"
 
 // result builds a group check answer from its conditions.
 function result(inGroup, excluded, conditions) {
@@ -24,4 +24,12 @@ test("the summary says a card that matches nothing isn't in", () => {
 
 test("only failed conditions are listed for a card that isn't in", () => {
   assert.deepEqual(failedConditions(result(false, false, [failed, passed])), [failed])
+})
+
+test("a check of an unsaved group drops blank conditions and excludes", () => {
+  const body = checkRequest("Black Lotus", "Untitled", [' n:"Black Lotus" ', ""], ["Mox Pearl", ""])
+  assert.deepEqual(JSON.parse(body), {
+    card: "Black Lotus",
+    group: { name: "Untitled", conditions: ['n:"Black Lotus"'], exclude: ["Mox Pearl"] },
+  })
 })

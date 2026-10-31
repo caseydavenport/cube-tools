@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { applyExclude, applyLink, linkOptions, usesText } from "./linkCheckModel.js"
+import { applyExclude, applyLink, linkOptions, otherCardNames, usesText } from "./linkCheckModel.js"
 
 // Where Sacs creatures and Self-sacs sit in the polyverse rules.
 const sacsCreatures = [
@@ -72,4 +72,9 @@ test("excluding a card adds it to the group's exclude list once", () => {
   assert.deepEqual(after.groups[1].exclude, ["Sakura-Tribe Elder"])
   assert.deepEqual(applyExclude(after, "Self-sacs", "Sakura-Tribe Elder").groups[1].exclude, ["Sakura-Tribe Elder"])
   assert.equal(before.groups[1].exclude, undefined)
+})
+
+test("the cards to check a link with are every other card on the map, sorted", () => {
+  const byName = new Map([["Sakura-Tribe Elder", {}], ["Goblin Bombardment", {}], ["Ashnod's Altar", {}]])
+  assert.deepEqual(otherCardNames(byName, "Goblin Bombardment"), ["Ashnod's Altar", "Sakura-Tribe Elder"])
 })

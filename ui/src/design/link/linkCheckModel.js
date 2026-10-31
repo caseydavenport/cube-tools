@@ -25,6 +25,12 @@ export function usesText(uses) {
   return names.join(" · ")
 }
 
+// otherCardNames lists the cards in byName, a Map keyed by card name, other
+// than selected, sorted: the cards to check a link with.
+export function otherCardNames(byName, selected) {
+  return [...byName.keys()].filter(name => name !== selected).sort()
+}
+
 // sameWire reports whether two uses are the same wire of the same package.
 function sameWire(a, b) {
   return a.package === b.package && a.wire === b.wire

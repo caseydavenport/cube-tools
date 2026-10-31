@@ -10,16 +10,18 @@ import { ClauseInputs, ConditionTooltip, ExcludeInputs, RuleInput } from "./Rule
 import { TagPicker } from "./TagPicker.js"
 import { addTagCondition } from "../../utils/tagOptions.js"
 import { MAP_COPY } from "./copy.js"
+import { useGroupCheck } from "../rules/GroupCheck.js"
+import { checkRequest } from "../rules/groupCheckModel.js"
 import "../rules/rules.css"
 import "./map.css"
 
-// PinnedCard says whether the card the group is being written for matches
-// the conditions as they stand.
-function PinnedCard({ card, matches, loading }) {
-  if (loading) {
+// PinnedCard says whether the card the group is being written for is in the
+// group as it stands. result is the server's group check, null while loading.
+function PinnedCard({ card, result }) {
+  if (!result) {
     return <div className="group-pinned">Checking {card}…</div>
   }
-  if (matches) {
+  if (result.in_group) {
     return <div className="group-pinned group-pinned-yes">{card} matches</div>
   }
   return <div className="group-pinned">{card} doesn't match yet</div>
@@ -102,6 +104,14 @@ export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard }) {
     setHighlightCondition(null)
     setHighlightCard(prev => prev === name ? null : name)
   }
+
+  // The pinned card is checked by the server, which knows cut cards the live
+  // match above doesn't cover, and applies the unsaved exclude list.
+  let pinnedBody = ""
+  if (pinnedCard) {
+    pinnedBody = checkRequest(pinnedCard, editName, editConditions, editExclude)
+  }
+  const pinned = useGroupCheck(cube, pinnedBody, 300)
 
   const excludedSet = React.useMemo(() => new Set(editExclude.filter(n => n)), [editExclude])
   function toggleExclude(name) {
@@ -194,7 +204,7 @@ export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard }) {
             {MAP_COPY.groupEdit.editGroup}
           </h4>
           <RuleInput label={MAP_COPY.groupEdit.nameLabel} value={editName} onChange={setEditName} placeholder={MAP_COPY.groupEdit.namePlaceholder} />
-          {pinnedCard && <PinnedCard card={pinnedCard} matches={currentNames.has(pinnedCard)} loading={loading} />}
+          {pinnedCard && <PinnedCard card={pinnedCard} result={pinned} />}
           <div className="edit-modal-fill">
             <ClauseInputs
               label={MAP_COPY.groupEdit.conditionsLabel} connects={editConditions}
