@@ -29,8 +29,8 @@ function existingCards(entries) {
 // PackageEditModal edits one package's name and wires. rules, the saved
 // { groups, packages }, turns on a preview of how the unsaved edit moves
 // package build counts, over range ({ start, end }) when given; without
-// rules there's no preview.
-export function PackageEditModal({ pkg, color, groupNames, groups, rules, range, onSave, onCancel, onGroupSaved }) {
+// rules there's no preview. initialWire is the wire it opens on.
+export function PackageEditModal({ pkg, color, groupNames, groups, rules, range, onSave, onCancel, onGroupSaved, initialWire = 0 }) {
   const cube = useCube()
   const [editLabel, setEditLabel] = useState(pkg.name || "")
   const [editWires, setEditWires] = useState(() =>
@@ -40,7 +40,7 @@ export function PackageEditModal({ pkg, color, groupNames, groups, rules, range,
         targets: (w.targets && w.targets.length > 0) ? [...w.targets] : [""],
       })))
   // Which wire the card lists on either side of the dialog show.
-  const [activeWire, setActiveWire] = useState(0)
+  const [activeWire, setActiveWire] = useState(initialWire)
   const [editingGroupName, setEditingGroupName] = useState(null)
 
   const wire = editWires[Math.min(activeWire, editWires.length - 1)] || { sources: [], targets: [] }
