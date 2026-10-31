@@ -57,7 +57,7 @@ function addToWireOptions(anchor, anchorUses, group, groupUses) {
       wire: use.wire,
       side: otherSide(use.side),
       group,
-      label: `Add ${group} to the other side of ${use.package}'s wire with ${anchor}`,
+      label: `Add ${group} to ${use.package} wire ${use.wire + 1}, opposite ${anchor}`,
     })
   }
   return out
@@ -102,6 +102,21 @@ export function applyLink(config, option, groupA, groupB, packageName) {
     pkg.wires[option.wire][option.side].push(option.group)
   } else {
     pkg.wires.push(wire)
+  }
+  return next
+}
+
+// applyExclude returns a copy of config with card on group's exclude list,
+// once, so the rules stop putting it in that group.
+export function applyExclude(config, group, card) {
+  const next = structuredClone(config)
+  const target = next.groups.find(g => g.name === group)
+  if (!target) {
+    return next
+  }
+  const exclude = target.exclude || []
+  if (!exclude.includes(card)) {
+    target.exclude = [...exclude, card]
   }
   return next
 }

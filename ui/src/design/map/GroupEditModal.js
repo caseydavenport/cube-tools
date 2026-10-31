@@ -13,7 +13,22 @@ import { MAP_COPY } from "./copy.js"
 import "../rules/rules.css"
 import "./map.css"
 
-export function GroupEditModal({ group, color, onSave, onCancel }) {
+// PinnedCard says whether the card the group is being written for matches
+// the conditions as they stand.
+function PinnedCard({ card, matches, loading }) {
+  if (loading) {
+    return <div className="group-pinned">Checking {card}…</div>
+  }
+  if (matches) {
+    return <div className="group-pinned group-pinned-yes">{card} matches</div>
+  }
+  return <div className="group-pinned">{card} doesn't match yet</div>
+}
+
+// GroupEditModal edits one group, showing live which cards its conditions
+// match. pinnedCard, when set, is a card the group is being written for, and
+// the dialog says whether it matches yet.
+export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard }) {
   const cube = useCube()
   const [editName, setEditName] = useState(group.name)
   const [editConditions, setEditConditions] = useState([...(group.conditions || [""])])
@@ -179,6 +194,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
             {MAP_COPY.groupEdit.editGroup}
           </h4>
           <RuleInput label={MAP_COPY.groupEdit.nameLabel} value={editName} onChange={setEditName} placeholder={MAP_COPY.groupEdit.namePlaceholder} />
+          {pinnedCard && <PinnedCard card={pinnedCard} matches={currentNames.has(pinnedCard)} loading={loading} />}
           <div className="edit-modal-fill">
             <ClauseInputs
               label={MAP_COPY.groupEdit.conditionsLabel} connects={editConditions}

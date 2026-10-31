@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { cardPageHref, deckHrefWithMatch, packageMatch, packagePageHref, pageSegment, pageHref, pageHrefWithMatch, switchCubeInPath } from "./paths.js"
+import { cardPageHref, deckHrefWithMatch, editorViewHref, packageMatch, packagePageHref, pageSegment, pageHref, pageHrefWithMatch, switchCubeInPath } from "./paths.js"
 
 test("the page segment is the part after the cube id", () => {
   assert.equal(pageSegment("/polyverse/cards"), "cards")
@@ -63,4 +63,8 @@ test("a package page link keeps a slash inside the name", () => {
 
 test("a package filter quotes the name", () => {
   assert.equal(packageMatch("Second Draw"), 'package:"Second Draw"')
+})
+
+test("an editor view link names the group or package to open", () => {
+  assert.equal(editorViewHref("polyverse", "g:Pow<2"), "/polyverse/rules-editor?view=g%3APow%3C2")
 })

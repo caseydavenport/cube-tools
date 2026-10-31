@@ -10,6 +10,7 @@ import { RemovalPage } from './pages/RemovalPage.js'
 import { PackagesPage } from './packages/PackagesPage.js'
 import { PackagePage } from './packages/PackagePage.js'
 import { DesignEditorPage } from './design/rules/RulesEditorPage.js'
+import { LinkCheckPage } from './design/link/LinkCheckPage.js'
 import { initialDates, todayString } from './toolbar/dateRanges.js'
 import { useState } from "react";
 import { CubeProvider } from './contexts/CubeContext.js';
@@ -153,6 +154,7 @@ function AppRoutes({ dateProps, initialMatch }) {
           <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
           <Route path='synergy-map' element={<Navigate to="../packages?view=map" replace />} />
           <Route path='rules-editor' element={<DesignEditorPage />} />
+          <Route path='rules-editor/link' element={<LinkCheckPage {...statsProps} />} />
           <Route path='decks' element={<DecksPage {...statsProps} />} />
           <Route path='import' element={<ImportHub />} />
           <Route path='import/:mode' element={<ImportHub />} />

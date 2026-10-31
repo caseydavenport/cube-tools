@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { applyLink, linkOptions, usesText } from "./linkCheckModel.js"
+import { applyExclude, applyLink, linkOptions, usesText } from "./linkCheckModel.js"
 
 // Where Sacs creatures and Self-sacs sit in the polyverse rules.
 const sacsCreatures = [
@@ -26,7 +26,8 @@ test("options add one group to the other side of a wire holding the other", () =
     ["new-wire", undefined, undefined, undefined, undefined],
     ["new-package", undefined, undefined, undefined, undefined],
   ])
-  assert.equal(options[0].label, "Add Self-sacs to the other side of Sacrifice's wire with Sacs creatures")
+  assert.equal(options[0].label, "Add Self-sacs to Sacrifice wire 1, opposite Sacs creatures")
+  assert.equal(options[1].label, "Add Sacs creatures to Sacrifice wire 2, opposite Self-sacs")
 })
 
 test("groups that already link offer nothing", () => {
@@ -63,4 +64,12 @@ test("a new wire goes in the named package", () => {
 test("a new package holds one wire between the two groups", () => {
   const after = applyLink(rules(), { kind: "new-package" }, "Sacs creatures", "Self-sacs", "Aristocrats")
   assert.deepEqual(after.packages[1], { name: "Aristocrats", wires: [{ sources: ["Sacs creatures"], targets: ["Self-sacs"] }] })
+})
+
+test("excluding a card adds it to the group's exclude list once", () => {
+  const before = rules()
+  const after = applyExclude(before, "Self-sacs", "Sakura-Tribe Elder")
+  assert.deepEqual(after.groups[1].exclude, ["Sakura-Tribe Elder"])
+  assert.deepEqual(applyExclude(after, "Self-sacs", "Sakura-Tribe Elder").groups[1].exclude, ["Sakura-Tribe Elder"])
+  assert.equal(before.groups[1].exclude, undefined)
 })

@@ -329,3 +329,15 @@
   outline: 2px solid var(--mantine-primary-color-filled); outline-offset: 1px;
 }
 .de-try-card { width: 200px; }
+
+/* The group editor's line about the card a new group is written for. */
+.group-pinned {
+  margin: -0.4rem 0 0.8rem;
+  font-size: 12px;
+  color: var(--se-muted);
+}
+
+.group-pinned-yes {
+  color: var(--se-good);
+  font-weight: 600;
+}

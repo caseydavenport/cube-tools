@@ -75,3 +75,9 @@ export function deckHrefWithMatch(cube, ref, match, start, end) {
   const href = pageHrefWithMatch(cube, "decks", match, start, end)
   return href + "&deck=" + encodeURIComponent(ref)
 }
+
+// editorViewHref links to the Rules editor showing one view, such as
+// "g:<group>" for a group or "p:<package>" for a package.
+export function editorViewHref(cube, view) {
+  return pageHref(cube, "rules-editor") + "?" + new URLSearchParams({ view }).toString()
+}
