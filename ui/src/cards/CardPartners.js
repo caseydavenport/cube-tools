@@ -8,7 +8,7 @@ import { CardLink } from "../components/CardLink.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { ruleColor } from "../design/map/ruleColors.js"
-import { pageHrefWithMatch } from "../shell/paths.js"
+import { packagePageHref, pageHrefWithMatch } from "../shell/paths.js"
 import { ColorImages } from "../utils/Colors.js"
 import { bothCardsMatch } from "./cardPageModel.js"
 
@@ -49,7 +49,7 @@ function PackageBlock({ group, color, card, links }) {
     <div className="card-partner-package">
       <div className="card-partner-package-head">
         <span className="dm-swatch" style={{ background: color }} />
-        <span className="card-partner-package-name">{group.package}</span>
+        <Link className="card-partner-package-name" to={packagePageHref(links.cube, group.package)}>{group.package}</Link>
         <span className="card-partner-count">{group.cards.length}</span>
       </div>
       {shown.map(partner => <PartnerRow key={partner.name} partner={partner} card={card} links={links} />)}

@@ -194,7 +194,7 @@ function toPlayerStats(response) {
 
 // useStatsData loads the data a stats page shows and works out the values the
 // widgets share. view is the page (cards, colors, types, deckstats, synergy,
-// health, designmap, or players); only that page's data is fetched, and all of
+// health, or players); only that page's data is fetched, and all of
 // it is fetched again when the cube changes. failed lists the page's data that
 // didn't load.
 export function useStatsData(filters, props, refresh, view) {
@@ -308,10 +308,6 @@ export function useStatsData(filters, props, refresh, view) {
     })).then(response => response.matchups || {}),
     [startDate, endDate, minDraftSize, colorMode, colorTypeSelection, match, refresh], NO_OBJECT);
 
-  const designGraphSource = useLoaded(cubeID, needs("designGraph"),
-    () => fetchJson(`/api/${cubeID}/stats/design-graph`),
-    [refresh], NO_OBJECT);
-
   const healthSource = useLoaded(cubeID, needs("health"),
     () => fetchJson(statsUrl(cubeID, "health", {
       bucket_size: bucketSize, sliding: true, start: startDate, end: endDate, size: minDraftSize, match,
@@ -326,7 +322,7 @@ export function useStatsData(filters, props, refresh, view) {
     archetypeStats: archetypeStatsSource, archetypeStatsOverTime: archetypeStatsOverTimeSource,
     playerStats: playerStatsSource, deckCharts: deckChartsSource,
     synergy: synergySource, synergyCompare: synergyCompareSource,
-    designGraph: designGraphSource, health: healthSource,
+    health: healthSource,
   };
   const failed = ALL_SOURCES.filter(name => needs(name) && sources[name].failed);
 
@@ -346,7 +342,6 @@ export function useStatsData(filters, props, refresh, view) {
   const synergyData = synergySource.value;
   const synergyCompare = synergyCompareSource.value;
   const colorMatchupData = colorMatchupsSource.value;
-  const designGraphData = designGraphSource.value;
   const healthData = healthSource.value;
 
   // Derived Data
@@ -409,6 +404,6 @@ export function useStatsData(filters, props, refresh, view) {
   return {
     decks, decksLoaded, cube, drafts, archetypeMatchups, cardData,
     colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
-    designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs, failed, deckCharts,
+    parsed, graphData, archetypeDropdownOptions, draftLogs, failed, deckCharts,
   };
 }

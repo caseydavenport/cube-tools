@@ -109,6 +109,15 @@
   margin-bottom: 4px;
 }
 
+.card-partner-package-name {
+  color: var(--se-text);
+  text-decoration: none;
+}
+
+.card-partner-package-name:hover {
+  text-decoration: underline;
+}
+
 .card-partner-count {
   font-size: 11px;
   color: var(--se-muted);

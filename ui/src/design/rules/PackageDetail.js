@@ -1,6 +1,9 @@
 // The Rules editor pane for one package, drawn as a wiring diagram.
 
 import React, { useState } from 'react'
+import { Link } from "react-router-dom"
+import { useCube } from "../../contexts/CubeContext.js"
+import { packagePageHref } from "../../shell/paths.js"
 import { ruleColor } from '../map/ruleColors.js'
 import { cardRefName } from '../../utils/DesignRules.js'
 import { EditActions } from "./rulesParts.js"
@@ -12,6 +15,7 @@ import { RULES_COPY } from "./copy.js"
 // target groups on the right, one thread per declared wire pair.
 export function PackageDetail({ pkg, color, edgeCount, groupIndex, groupCards, warn, canEdit, onEdit, onDelete, onSelectGroup, onFocusCard }) {
   const [confirming, setConfirming] = useState(false)
+  const cube = useCube()
   const chip = (name) => {
     // A card: ref is a single-card end. Known iff the pseudo-group resolved it.
     const refName = cardRefName(name)
@@ -52,7 +56,9 @@ export function PackageDetail({ pkg, color, edgeCount, groupIndex, groupCards, w
     <div className="de-pane" style={{ borderTop: `3px solid ${color}` }}>
       <div className="de-pane-head">
         <span className="dm-swatch dm-swatch-lg" style={{ background: color }} />
-        <h3 className="de-pane-title">{pkg.name}</h3>
+        <h3 className="de-pane-title">
+          <Link to={packagePageHref(cube, pkg.name)} className="de-pane-title-link">{pkg.name}</Link>
+        </h3>
         <span className="de-pane-sub">{RULES_COPY.packageDetail.edgeCount(edgeCount)}</span>
         {canEdit && <EditActions confirming={confirming} setConfirming={setConfirming} onEdit={onEdit} onDelete={onDelete} />}
       </div>

@@ -6,14 +6,12 @@ import { DeckWidget } from "../stats/deckstats/DeckWidget.js";
 import { CardWidget } from "../stats/cards/CardWidget.js";
 import { SynergyWidget } from "../stats/synergy/SynergyWidget.js";
 import { HealthWidget } from "./Health.js";
-import { DesignMapWidget } from "../design/map/DesignMapWidget.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
 import { isAnonymous } from "../utils/Players.js"
 import { useNavigate } from "react-router-dom"
 import { useCube } from "../contexts/CubeContext.js"
 import { cardPageHref } from "../shell/paths.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
-import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { StatsToolbar } from "../stats/StatsToolbar.js"
 import { StatsSettings } from "../stats/StatsSettings.js"
 import { noDecksMatch } from "../stats/statsSummary.js"
@@ -32,7 +30,6 @@ const COPY = {
     deckstats: "Deck stats",
     synergy: "Synergy",
     health: "Health",
-    designmap: "Synergy map",
   },
   filterPlaceholder: "Filter decks",
   refresh: "Refresh",
@@ -96,7 +93,7 @@ export function StatsViewer(props) {
   const {
     decks, decksLoaded, cube, archetypeMatchups, cardData,
     synergyData, synergyCompare, colorMatchupData, healthData,
-    designGraphData, parsed, graphData, archetypeDropdownOptions, failed, deckCharts,
+    parsed, graphData, archetypeDropdownOptions, failed, deckCharts,
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
@@ -274,28 +271,6 @@ export function StatsViewer(props) {
         copy={COPY}
         show={true} healthData={healthData} bucketSize={bucketSize}
       />
-    )
-  } else if (props.view === "designmap") {
-    widget = (
-      <DesignMapWidget
-        info={info}
-        show={true} designGraphData={designGraphData} cards={cube.cards}
-        onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
-      />
-    )
-  }
-
-  // The synergy map is built from the cube list and its rules, not from decks
-  // or dates, so its toolbar has only the title.
-  if (props.view === "designmap") {
-    return (
-      <div id="root" className="stats-root">
-        <PageToolbar title={COPY.titles.designmap} />
-        <div id="widgets" className="house-for-widgets">
-          <LoadFailedNotice failed={failed} onRetry={triggerRefresh} copy={COPY} />
-          {widget}
-        </div>
-      </div>
     )
   }
 

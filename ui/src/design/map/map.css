@@ -1,32 +1,7 @@
-/* Styles for the Synergy map page: its three-zone layout, legend, detail rail and hover tips. */
+/* Styles the map views share: the deck map's layout and panels, the drill map, and hover tips. */
 
-/* ============================================================
-   Design Map - drill-in explorer
-   ============================================================ */
-.dm-explore { padding: 1rem 1.25rem 1.5rem; }
-
-.dm-topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem; margin-bottom: 0.85rem; flex-wrap: wrap;
-}
-
-/* Breadcrumb */
-.dm-crumbs { margin-bottom: 0.5rem; }
-
-/* Three-zone layout */
-.dm-grid {
-  display: grid;
-  grid-template-columns: 250px minmax(0, 1fr) 350px;
-  gap: 14px;
-  height: calc(100vh - 230px);
-  min-height: 560px;
-}
-
-/* On narrow screens the three zones stack, with the legend and map given fixed
-   heights since the page no longer sets one. */
+/* On narrow screens the map gets a fixed height, since the page no longer sets one. */
 @media (max-width: 900px) {
-  .dm-grid { grid-template-columns: minmax(0, 1fr); height: auto; min-height: 0; }
-  .dm-legend { max-height: 320px; }
   .dm-map { height: 480px; }
 }
 
@@ -38,42 +13,29 @@
   min-height: 0; overflow: hidden;
 }
 
-/* Shared bits */
-.dm-count {
-  color: var(--se-muted); font-family: 'Fira Code', monospace;
-  font-size: 0.8rem; font-weight: 400;
-}
 .dm-muted { color: var(--se-muted); font-size: 0.85rem; }
 .dm-pad { padding: 0.5rem 0.75rem; font-style: italic; }
-.dm-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+
 .dm-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
-.dm-dot-lg { width: 13px; height: 13px; }
 
 .dm-subhead {
   color: var(--se-muted); text-transform: uppercase; font-size: 0.68rem;
   font-weight: 700; letter-spacing: 0.06em; margin: 0.9rem 0.85rem 0.4rem;
   display: flex; align-items: baseline; gap: 8px;
 }
-.dm-why-note { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 0.72rem; opacity: 0.7; }
-
-/* Legend */
-.dm-legend { padding: 0.85rem 0 0.5rem; }
-.dm-legend-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 0.85rem; }
-.dm-search { margin: 0.6rem 0.85rem 0.4rem; }
 
 /* Rule text reads best in a monospace face; dm-grow lets a control fill its row
    without pushing the buttons beside it out. */
 .dm-mono { font-family: monospace; }
 .dm-grow { flex: 1; min-width: 0; }
-.dm-sortrow { display: flex; gap: 6px; padding: 0 0.85rem 0.5rem; }
-.dm-legend-list { flex: 1; overflow-y: auto; padding: 0 0.4rem; }
+
 .dm-legend-row {
   display: flex; align-items: center; gap: 8px; width: 100%;
   background: transparent; border: none; border-radius: 6px; cursor: pointer;
   padding: 5px 8px; font-family: inherit; text-align: left;
   color: var(--se-text); font-size: 0.85rem; transition: background 0.1s;
 }
-.dm-legend-row:hover, .dm-legend-hot { background: var(--se-page); }
+.dm-legend-row:hover { background: var(--se-page); }
 .dm-legend-on { background: color-mix(in srgb, var(--mantine-primary-color-filled) 27%, transparent); }
 .dm-legend-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .dm-legend-count { color: var(--se-muted); font-family: 'Fira Code', monospace; font-size: 0.78rem; }
@@ -112,46 +74,6 @@
 }
 .dm-editor-link:hover { color: var(--se-text); background: var(--se-page); }
 
-/* Detail rail */
-.dm-detail { overflow-y: auto; padding-bottom: 0.75rem; }
-.dm-detail > .section-heading { margin: 0.85rem 0.85rem 0.5rem; }
-.dm-detail-title {
-  display: flex; align-items: center; gap: 9px; flex-wrap: wrap;
-  font-size: 1.05rem; font-weight: 700; color: var(--se-text);
-  padding: 0.85rem 0.85rem 0.2rem;
-}
-.dm-types { color: var(--se-muted); font-size: 0.8rem; padding: 0 0.85rem 0.2rem; font-family: 'Fira Code', monospace; }
-.dm-statgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 0.85rem; }
-.dm-stat { background: var(--se-page); border-radius: 8px; padding: 0.6rem 0.7rem; }
-.dm-stat-value { font-size: 1.4rem; font-weight: 700; color: var(--mantine-primary-color-filled); font-family: 'Fira Code', monospace; }
-.dm-stat-label { color: var(--se-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; }
-.dm-hint { color: var(--se-muted); font-size: 0.8rem; padding: 0.75rem 0.85rem 0; font-style: italic; }
-.dm-detail-list { display: flex; flex-direction: column; padding: 0 0.45rem; }
-.dm-detail-row {
-  display: flex; align-items: center; gap: 7px; width: 100%;
-  background: transparent; border: none; border-radius: 5px; cursor: pointer;
-  padding: 3px 8px; font-family: inherit; text-align: left;
-  color: var(--se-text); font-size: 0.85rem; transition: background 0.1s;
-}
-.dm-detail-row:hover { background: var(--se-page); }
-.dm-chiprow { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 0.85rem; }
-.dm-chip {
-  background: transparent; border: 1px solid var(--se-border); border-radius: 999px;
-  padding: 3px 11px; font-family: inherit; font-size: 0.78rem; font-weight: 600;
-  cursor: pointer; transition: background 0.1s;
-}
-.dm-chip:hover { background: var(--se-page); }
-.dm-rulegroup { margin: 0.15rem 0 0.35rem; }
-.dm-rulelabel {
-  display: flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 700;
-  padding: 0.3rem 0.85rem 0.15rem;
-}
-
-/* Empty state */
-.dm-empty { padding: 3rem 1.5rem; text-align: center; }
-.dm-empty p { margin: 0.4rem 0; }
-.dm-linkbtn { background: none; border: none; color: var(--mantine-primary-color-filled); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
-
 /* Card-level "why linked" hover tip: the kit-pop shell around a compact Loom. */
 .dm-why-tip {
   position: absolute; left: 14px; top: 14px; z-index: 50;
@@ -186,10 +108,6 @@
 .dm-preview-mana { color: var(--se-muted); font-family: 'Fira Code', monospace; font-size: 0.78rem; font-weight: 400; }
 .dm-preview-type { color: var(--se-muted); font-size: 0.75rem; margin: 3px 0 6px; }
 .dm-preview-oracle { font-size: 0.8rem; line-height: 1.45; white-space: pre-wrap; }
-
-.section-heading.dm-no-margin {
-  margin: 0;
-}
 
 .group-help-panel {
   padding: 1rem;
@@ -343,14 +261,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.35rem;
-}
-
-.dm-details-name {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex: 1;
-  min-width: 0;
 }
 
 .rule-input-field {

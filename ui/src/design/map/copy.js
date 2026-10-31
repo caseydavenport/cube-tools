@@ -26,23 +26,6 @@ export const MAP_COPY = {
     saveFailed: ({ reason }) => `Save failed: ${reason}`,
   },
 
-  // DesignMapWidget.js: the empty state, breadcrumb, and themes legend.
-  widget: {
-    emptyTitle: "No design map yet.",
-    emptyHintBefore: "Use the ",
-    emptyHintLink: "Rules editor",
-    emptyHintAfter: " to define groups (card queries) and packages (how groups work together). The map is built from those rules.",
-    allThemes: "All themes",
-    mapLocation: "Map location",
-    themesHeading: "Themes",
-    filterPlaceholder: "Filter themes…",
-    filterLabel: "Filter themes",
-    sortLabel: "Sort themes",
-    sortSize: "Size",
-    sortName: "A–Z",
-    noThemesMatch: "No themes match.",
-  },
-
   // DrillMap.js: the captions under the graph and the why-connected tooltip.
   drillMap: {
     captionThemesAndCards: ({ themes, cards }) => `${themes} themes + ${cards} cards · click to drill in`,
@@ -114,26 +97,6 @@ export const MAP_COPY = {
     addWire: "Add wire",
     save: "Save",
     cancel: "Cancel",
-  },
-
-  // MapDetails.js: the detail panel for the overview, a group, and a card.
-  details: {
-    overview: "Overview",
-    statThemes: "Themes",
-    statPackages: "Packages",
-    statCards: "Cards",
-    statUnconnected: "Unconnected",
-    drillHint: "Click a theme in the map or legend to drill in.",
-    largestThemes: "Largest themes",
-    connectsTo: "Connects to",
-    viaLabels: ({ labels }) => `via ${labels}`,
-    cardsHeading: "Cards",
-    hoverForWhy: "hover a card for why it matched",
-    inThemes: "In themes",
-    cardMv: ({ cmc }) => ` · ${cmc} MV`,
-    connectedCards: "Connected cards",
-    unlabeledRule: "(no package)",
-    noPackagesFromCard: "No packages connect this card to another.",
   },
 
   // RuleInputs.js: the inputs the group and package dialogs share.

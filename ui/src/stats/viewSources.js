@@ -8,12 +8,11 @@ export const ALL_SOURCES = [
   "colorStats", "colorStatsOverTime", "colorMatchups",
   "archetypeStats", "archetypeStatsOverTime", "playerStats", "deckCharts",
   "synergy", "synergyCompare",
-  "designGraph", "health",
+  "health",
 ]
 
 // VIEW_SOURCES lists the data each page reads. decks feed the toolbar's
-// summary on every page but the Synergy map, and cube feeds the filter's card
-// suggestions.
+// summary, and cube feeds the filter's card suggestions.
 export const VIEW_SOURCES = {
   cards: ["decks", "cube", "drafts", "cardStats", "archetypeStats"],
   colors: ["decks", "cube", "colorStats", "colorStatsOverTime", "colorMatchups"],
@@ -21,7 +20,6 @@ export const VIEW_SOURCES = {
   deckstats: ["decks", "cube", "drafts", "archetypeStats", "deckCharts"],
   synergy: ["decks", "cube", "synergy", "synergyCompare"],
   health: ["decks", "cube", "health"],
-  designmap: ["cube", "designGraph"],
   players: ["decks", "cube", "playerStats"],
 }
 
