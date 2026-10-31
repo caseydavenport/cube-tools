@@ -56,3 +56,18 @@ export function withPackage(config, originalName, pkg) {
   }
   return { ...config, packages: config.packages.map(p => p.name === originalName ? pkg : p) }
 }
+
+// withCardExcluded returns a copy of groups with card added to, or removed
+// from, the exclude list of the group called groupName.
+export function withCardExcluded(groups, groupName, card, excluded) {
+  return groups.map(g => {
+    if (g.name !== groupName) {
+      return g
+    }
+    const kept = (g.exclude || []).filter(n => n !== card)
+    if (excluded) {
+      kept.push(card)
+    }
+    return withExclude(g, kept)
+  })
+}

@@ -4,6 +4,7 @@ import (
 	"maps"
 	"net/http"
 	"slices"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 
@@ -16,8 +17,9 @@ import (
 )
 
 // RulesBoardResponse is the Rules editor's home: every package with what its
-// card on the board shows, in rules-file order so package colors match the
-// rest of the app, and the groups no wire uses.
+// card on the board shows, sorted by name ignoring case as the design graph
+// sorts them, so package colors match the rest of the app, and the groups no
+// wire uses.
 type RulesBoardResponse struct {
 	Packages     []BoardPackage `json:"packages"`
 	UnusedGroups []BoardGroup   `json:"unused_groups"`
@@ -99,7 +101,13 @@ func buildRulesBoard(rules designInputs, decks []*storage.Deck, conf float64) Ru
 	}
 
 	resp := RulesBoardResponse{Packages: []BoardPackage{}, UnusedGroups: unusedGroups(rules.config, groups)}
-	for _, pkg := range rules.config.Packages {
+
+	// Sort a copy the way the design graph does, so index-based colors agree.
+	pkgList := slices.Clone(rules.config.Packages)
+	slices.SortFunc(pkgList, func(a, b design.Package) int {
+		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+	})
+	for _, pkg := range pkgList {
 		cards := resolved[pkg.Name]
 		stat := stats[pkg.Name]
 		stat.Color = packageColor(cards, rules.cube)

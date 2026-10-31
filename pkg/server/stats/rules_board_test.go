@@ -41,10 +41,10 @@ func TestRulesBoard_Packages(t *testing.T) {
 	_, resp := rulesBoardFor(t, config)
 
 	require.Len(t, resp.Packages, 2)
-	assert.Equal(t, "Sacrifice", resp.Packages[0].Name)
-	assert.Equal(t, "Burn", resp.Packages[1].Name)
+	assert.Equal(t, "Burn", resp.Packages[0].Name)
+	assert.Equal(t, "Sacrifice", resp.Packages[1].Name)
 
-	sac := resp.Packages[0]
+	sac := resp.Packages[1]
 	assert.Equal(t, config.Packages[0].Wires, sac.Wires)
 	var names []string
 	for _, g := range sac.Groups {
@@ -54,6 +54,21 @@ func TestRulesBoard_Packages(t *testing.T) {
 	assert.Equal(t, 2, sac.Stat.Package)
 	assert.Equal(t, []string{"Burn"}, sac.SharesWith)
 	assert.Equal(t, 3, sac.Colors["R"])
+}
+
+func TestRulesBoard_NameOrder(t *testing.T) {
+	config := sacrificeRules("sacrifice")
+	config.Packages = append(config.Packages, design.Package{
+		Name:  "Aristocrats",
+		Wires: []design.Wire{{Sources: []string{"Outlets"}, Targets: []string{"Payoffs"}}},
+	})
+
+	_, resp := rulesBoardFor(t, config)
+	var names []string
+	for _, p := range resp.Packages {
+		names = append(names, p.Name)
+	}
+	assert.Equal(t, []string{"Aristocrats", "Burn", "sacrifice"}, names)
 }
 
 func TestRulesBoard_OneCardGroups(t *testing.T) {

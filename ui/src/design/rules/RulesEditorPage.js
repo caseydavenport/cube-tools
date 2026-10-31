@@ -12,9 +12,10 @@ import { ruleColor } from '../map/ruleColors.js'
 import { GroupEditModal } from '../map/GroupEditModal.js'
 import { PackageEditModal } from '../map/PackageEditModal.js'
 import { useCubeWritable } from '../../utils/useCubeWritable.js'
-import { cleanGroup, withExclude, withGroup } from "./rulebookEdits.js"
+import { cleanGroup, withCardExcluded, withGroup } from "./rulebookEdits.js"
 import { auditRulebook, groupWarning, packageWarning } from "./rulebookAudit.js"
 import { EditorToolbar } from "./EditorToolbar.js"
+import { nextEditorParams } from "./editorParams.js"
 import { ReviewDetail } from "./ReviewDetail.js"
 import { PackageWorkspace } from "./PackageWorkspace.js"
 import { GroupView } from "./GroupView.js"
@@ -104,9 +105,8 @@ export function DesignEditorPage({ startDate, endDate }) {
 
   // --- URL state ---------------------------------------------------------------
   function patchParams(patch) {
-    const p = new URLSearchParams(params)
-    for (const [k, v] of Object.entries(patch)) { if (v) p.set(k, v); else p.delete(k) }
-    setParams(p, { replace: true })
+    const next = nextEditorParams(params, patch)
+    setParams(next.params, { replace: !next.push })
   }
   const selectView = (v) => patchParams({ view: v })
   const selectGroup = (name) => patchParams({ view: 'g:' + name })
@@ -158,17 +158,16 @@ export function DesignEditorPage({ startDate, endDate }) {
   // One-click hole-poking from the group roster: add or remove a card on the
   // group's exclude list and save immediately.
   function setCardExcluded(groupName, cardName, excluded) {
-    const g = groups.find(x => x.name === groupName)
-    if (!g) return
-    const exclude = excluded
-      ? [...(g.exclude || []).filter(n => n !== cardName), cardName]
-      : (g.exclude || []).filter(n => n !== cardName)
-    const newGroups = groups.map(x => x.name === groupName ? withExclude(x, exclude) : x)
+    const newGroups = withCardExcluded(groups, groupName, cardName, excluded)
+
+    // Show the change before the save returns, so a second click right after
+    // builds on this one instead of on the rules from before it.
+    setData(prev => ({ ...prev, groups: newGroups }))
     saveDesignMap(cube, newGroups, packages, refetch, setStatus)
   }
 
   // Deleting a group also removes it from every wire end; a wire left with an
-  // empty side shows up on the audit board rather than silently vanishing.
+  // empty side shows as a broken package on the board rather than vanishing.
   function deleteGroup(name) {
     const newGroups = groups.filter(g => g.name !== name)
     const newPackages = packages.map(l => ({

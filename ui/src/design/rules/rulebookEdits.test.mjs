@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { cleanGroup, renameInPackage, withExclude, withGroup, withPackage } from "./rulebookEdits.js"
+import { cleanGroup, renameInPackage, withCardExcluded, withExclude, withGroup, withPackage } from "./rulebookEdits.js"
 
 test("withExclude drops an empty exclude list", () => {
   const group = withExclude({ name: "A", conditions: ["t:a"], exclude: ["x"] }, [])
@@ -56,4 +56,13 @@ test("withPackage replaces a package by its original name", () => {
   const next = withPackage(rules(), "Burn", pkg)
   assert.deepEqual(next.packages.map(p => p.name), ["Sacrifice", "Burn 2"])
   assert.deepEqual(next.packages[1], pkg)
+})
+
+test("withCardExcluded adds and removes one card from a group's exclude list", () => {
+  const groups = [{ name: "A", conditions: ["t:a"], exclude: ["x"] }, { name: "B", conditions: ["t:b"] }]
+  const added = withCardExcluded(groups, "A", "y", true)
+  assert.deepEqual(added[0].exclude, ["x", "y"])
+  assert.deepEqual(withCardExcluded(added, "A", "x", false)[0].exclude, ["y"])
+  assert.equal("exclude" in withCardExcluded(groups, "A", "x", false)[0], false)
+  assert.deepEqual(groups[0].exclude, ["x"])
 })
