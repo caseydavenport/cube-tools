@@ -2,7 +2,6 @@ package stats
 
 import (
 	"cmp"
-	"math"
 	"slices"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
@@ -206,5 +205,5 @@ func medianInt(values []int) int {
 	if len(sorted)%2 == 1 {
 		return sorted[mid]
 	}
-	return int(math.Floor(float64(sorted[mid-1]+sorted[mid])/2 + 0.5))
+	return (sorted[mid-1] + sorted[mid] + 1) / 2
 }
