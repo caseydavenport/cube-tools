@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { builtInText, cameTogetherText, defaultView, mapNodes, sharedGroupsOf, viewFrom } from "./packagesModel.js"
+import { builtInText, cameTogetherText, defaultView, mapNodes, sharedGroupsOf, sortValue, viewFrom } from "./packagesModel.js"
 
 test("the index opens on the table when there are decks, else the map", () => {
   assert.equal(defaultView(true), "table")
@@ -53,4 +53,17 @@ test("a package's neighbors list the groups they share", () => {
     { name: "Q", groups: ["Graveyard"] },
     { name: "R", groups: ["Tokens", "Sacrifice"] },
   ])
+})
+
+test("each column sorts by its number, and a package with no games sorts last", () => {
+  const stat = {
+    name: "Graveyard", package: 111, has3: 166, cameTogether: 0.669,
+    record: { wins: 60, losses: 50, draws: 0, bayesian_win_percent: 51.2 },
+  }
+  assert.equal(sortValue("name", stat), "graveyard")
+  assert.equal(sortValue("built", stat), 111)
+  assert.equal(sortValue("had", stat), 166)
+  assert.equal(sortValue("together", stat), 0.669)
+  assert.equal(sortValue("games", stat), 51.2)
+  assert.equal(sortValue("games", { ...stat, record: { wins: 0, losses: 0, draws: 0 } }), -1)
 })

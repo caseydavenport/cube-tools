@@ -7,7 +7,7 @@ import { CardPage } from './cards/CardPage.js'
 import { DraftsPage } from './pages/DraftsPage.js'
 import { ExplorePage } from './pages/ExplorePage.js'
 import { RemovalPage } from './pages/RemovalPage.js'
-import { Packages } from './pages/Packages.js'
+import { PackagesPage } from './packages/PackagesPage.js'
 import { PackagePage } from './packages/PackagePage.js'
 import { DesignEditorPage } from './design/rules/RulesEditorPage.js'
 import { initialDates, todayString } from './toolbar/dateRanges.js'
@@ -143,7 +143,7 @@ function AppRoutes({ dateProps, initialMatch }) {
           <Route path='colors' element={<StatsViewer view='colors' {...statsProps} />} />
           <Route path='charts' element={<ExplorePage {...statsProps} />} />
           <Route path='removal' element={<RemovalPage {...statsProps} />} />
-          <Route path='packages' element={<Packages {...statsProps} />} />
+          <Route path='packages' element={<PackagesPage {...statsProps} />} />
           <Route path='packages/:name' element={<PackagePage {...statsProps} />} />
           <Route path='archetypes' element={<StatsViewer view='types' {...statsProps} />} />
           <Route path='deck-stats' element={<StatsViewer view='deckstats' {...statsProps} />} />

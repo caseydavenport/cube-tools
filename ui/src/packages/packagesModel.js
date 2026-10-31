@@ -1,5 +1,7 @@
 // Pure helpers for the Packages index, kept free of React so node tests can
-// load them: which view to show, cell text, and the map's nodes.
+// load them: which view to show, cell text, sorting, and the map's nodes.
+
+import { winRateValue } from "../components/kit/winRate.js"
 
 // VIEWS are the index's two views, as the URL's ?view= names them.
 const VIEWS = ["table", "map"]
@@ -101,4 +103,26 @@ export function sharedGroupsOf(name, edges) {
     }
   }
   return out
+}
+
+// sortValue is the number, or lowercase name, a table column sorts a package
+// by. A package whose builders played no games sorts below every rate.
+export function sortValue(key, stat) {
+  if (key === "name") {
+    return stat.name.toLowerCase()
+  }
+  if (key === "built") {
+    return stat.package
+  }
+  if (key === "had") {
+    return stat.has3
+  }
+  if (key === "together") {
+    return stat.cameTogether
+  }
+  const rate = winRateValue(stat.record)
+  if (rate === null) {
+    return -1
+  }
+  return rate
 }
