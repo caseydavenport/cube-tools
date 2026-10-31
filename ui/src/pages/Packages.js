@@ -149,7 +149,7 @@ export function Packages(props) {
     package: s => s.package,
     buildRate: s => s.buildRate,
     has3: s => s.has3,
-    commitmentRatio: s => s.commitmentRatio,
+    cameTogether: s => s.cameTogether,
   }
 
   const rows = [...(data.packages || [])].sort(compareBy(sortVal[sort.key], sort.dir))
@@ -179,7 +179,7 @@ export function Packages(props) {
               {header("buildRate", COPY.columns.buildRate, COPY.columnTips.buildRate)}
               {header("package", COPY.columns.packages, COPY.columnTips.packages)}
               {header("has3", COPY.columns.has3, COPY.columnTips.has3)}
-              {header("commitmentRatio", COPY.columns.commitment, COPY.columnTips.commitment)}
+              {header("cameTogether", COPY.columns.commitment, COPY.columnTips.commitment)}
             </tr>
           </thead>
           <tbody>
@@ -195,8 +195,8 @@ export function Packages(props) {
                 </HoverInfo>
                 <HoverInfo info={COPY.tooltips.commitment}>
                   <td className="page-right-cell">
-                    {s.commitmentRatio.toFixed(2)}
-                    <ShareBar share={s.commitmentRatio} />
+                    {s.cameTogether.toFixed(2)}
+                    <ShareBar share={s.cameTogether} />
                   </td>
                 </HoverInfo>
               </tr>

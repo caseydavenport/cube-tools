@@ -31,7 +31,6 @@ export const NAV_GROUPS = [
     dividerAfter: null,
     pages: [
       { label: "Removal", path: "removal", icon: "removal", needs: [] },
-      { label: "Synergy map", path: "synergy-map", icon: "map", needs: [] },
     ],
   },
   {
@@ -47,7 +46,7 @@ export const NAV_GROUPS = [
       { label: "Archetypes", path: "archetypes", icon: "archetypes", needs: ["decks", "archetypes"] },
       { label: "Deck stats", path: "deck-stats", icon: "deckStats", needs: ["decks"] },
       { label: "Synergy", path: "synergy", icon: "synergy", needs: ["decks"] },
-      { label: "Packages", path: "packages", icon: "packages", needs: ["decks"] },
+      { label: "Packages", path: "packages", icon: "packages", needs: [] },
       { label: "Charts", path: "charts", icon: "charts", needs: ["decks", "results"] },
       { label: "Health", path: "health", icon: "health", needs: ["decks"] },
     ],

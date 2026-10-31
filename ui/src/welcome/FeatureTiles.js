@@ -12,7 +12,7 @@ const HOME_CUBE = "polyverse"
 const FEATURES = [
   { path: "decks", Icon: IconCards, title: "decksTitle", text: "decksText" },
   { path: "cards", Icon: IconChartBar, title: "winsTitle", text: "winsText" },
-  { path: "synergy-map", Icon: IconAffiliate, title: "mapTitle", text: "mapText" },
+  { path: "packages?view=map", Icon: IconAffiliate, title: "mapTitle", text: "mapText" },
   { path: "import/photos", Icon: IconCamera, title: "importTitle", text: "importText" },
 ]
 

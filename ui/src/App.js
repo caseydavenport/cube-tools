@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { HashRouter as Router, Routes, Route, Outlet, useLocation, useSearchParams } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Navigate, Outlet, useLocation, useSearchParams } from "react-router-dom";
 import { DecksPage } from './pages/DecksPage.js'
 import {StatsViewer} from './pages/Stats.js'
 import { PlayersPage } from './pages/PlayersPage.js'
@@ -8,6 +8,7 @@ import { DraftsPage } from './pages/DraftsPage.js'
 import { ExplorePage } from './pages/ExplorePage.js'
 import { RemovalPage } from './pages/RemovalPage.js'
 import { Packages } from './pages/Packages.js'
+import { PackagePage } from './packages/PackagePage.js'
 import { DesignEditorPage } from './design/rules/RulesEditorPage.js'
 import { initialDates, todayString } from './toolbar/dateRanges.js'
 import { useState } from "react";
@@ -143,13 +144,14 @@ function AppRoutes({ dateProps, initialMatch }) {
           <Route path='charts' element={<ExplorePage {...statsProps} />} />
           <Route path='removal' element={<RemovalPage {...statsProps} />} />
           <Route path='packages' element={<Packages {...statsProps} />} />
+          <Route path='packages/:name' element={<PackagePage {...statsProps} />} />
           <Route path='archetypes' element={<StatsViewer view='types' {...statsProps} />} />
           <Route path='deck-stats' element={<StatsViewer view='deckstats' {...statsProps} />} />
           <Route path='drafts' element={<DraftsPage {...statsProps} />} />
           <Route path='players' element={<PlayersPage {...statsProps} />} />
           <Route path='synergy' element={<StatsViewer view='synergy' {...statsProps} />} />
           <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
-          <Route path='synergy-map' element={<StatsViewer view='designmap' {...statsProps} />} />
+          <Route path='synergy-map' element={<Navigate to="../packages?view=map" replace />} />
           <Route path='rules-editor' element={<DesignEditorPage />} />
           <Route path='decks' element={<DecksPage {...statsProps} />} />
           <Route path='import' element={<ImportHub />} />

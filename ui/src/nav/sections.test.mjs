@@ -11,7 +11,7 @@ const LOCAL_FULL = { writable: true, decks: true, results: true, pick_logs: true
 
 test("a card-list-only cube keeps cube-data pages and dims play data", () => {
   assert.equal(reason("removal", CARD_LIST_ONLY), null)
-  assert.equal(reason("synergy-map", CARD_LIST_ONLY), null)
+  assert.equal(reason("packages", CARD_LIST_ONLY), null)
   assert.equal(reason("decks", CARD_LIST_ONLY), "needs decks")
   assert.equal(reason("archetypes", CARD_LIST_ONLY), "needs decks")
   assert.equal(reason("charts", CARD_LIST_ONLY), "needs decks")
@@ -41,4 +41,8 @@ test("unknown info dims nothing except write-gated pages", () => {
 test("paths are unique", () => {
   const paths = NAV_GROUPS.flatMap(g => g.pages).map(p => p.path)
   assert.equal(new Set(paths).size, paths.length)
+})
+
+test("the Synergy map is no longer a sidebar page", () => {
+  assert.equal(page("synergy-map"), undefined)
 })

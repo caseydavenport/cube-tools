@@ -57,6 +57,17 @@ export function cardPageHref(cube, name) {
   return pageHref(cube, "cards") + "/" + encodeURIComponent(name)
 }
 
+// packagePageHref links to a package's own page. The name is encoded as one
+// URL segment, so "Auras/Equipment" stays one name.
+export function packagePageHref(cube, name) {
+  return pageHref(cube, "packages") + "/" + encodeURIComponent(name)
+}
+
+// packageMatch is the deck filter for decks that built the package.
+export function packageMatch(name) {
+  return `package:"${name}"`
+}
+
 // deckHrefWithMatch links to one deck on the Decks page, with the deck filter
 // set to match and the date range kept, like pageHrefWithMatch. ref is the
 // deck's "<draft>/<deck>" id.

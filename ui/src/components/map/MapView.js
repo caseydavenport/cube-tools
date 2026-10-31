@@ -12,8 +12,9 @@ import { buildMapGraph, layoutMap } from "./mapGraph.js"
 import { previewSide } from "./hoverPlacement.js"
 import "./mapView.css"
 
-// MapView renders nodes ({ id, label, radius, color }) and edges ({ source,
-// target, weight, color }). nodeColor(node) picks a node's color, null meaning
+// MapView renders nodes ({ id, label, radius, color, quiet }) and edges
+// ({ source, target, weight, color }); a quiet node's label shows only in
+// focus. nodeColor(node) picks a node's color, null meaning
 // the theme's muted gray; it defaults to node.color. The focus is selectedId,
 // else hoveredId; a highlightIds set lights a whole group instead.
 // renderHover(id) returns a preview, shown in the canvas corner away from the
@@ -131,7 +132,8 @@ const MAX_FORCED_LABELS = 24
 
 // styleNode decides how one node draws for the current focus. Nodes outside
 // the focus fade and lose their label; the focus always shows its label, and
-// so do its neighbors when there are few enough. The focus gets a ring.
+// so do its neighbors when there are few enough. A quiet node shows its label
+// only then. The focus gets a ring.
 // Fading blends toward the card color, since Sigma's WebGL drawing mishandles
 // see-through colors.
 function styleNode(id, attrs, state) {
@@ -155,6 +157,9 @@ function styleNode(id, attrs, state) {
 
   const focus = focusOf(state)
   if (!focus) {
+    if (attrs.quiet) {
+      return { ...styled, label: "" }
+    }
     return styled
   }
   if (id === focus) {

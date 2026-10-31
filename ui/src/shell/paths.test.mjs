@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { cardPageHref, deckHrefWithMatch, pageSegment, pageHref, pageHrefWithMatch, switchCubeInPath } from "./paths.js"
+import { cardPageHref, deckHrefWithMatch, packageMatch, packagePageHref, pageSegment, pageHref, pageHrefWithMatch, switchCubeInPath } from "./paths.js"
 
 test("the page segment is the part after the cube id", () => {
   assert.equal(pageSegment("/polyverse/cards"), "cards")
@@ -55,4 +55,12 @@ test("cardPageHref round-trips split card names", () => {
 test("deckHrefWithMatch sets deck and match", () => {
   const href = deckHrefWithMatch("polyverse", "31/5", 'card:"Goblin Bombardment"', "2025-01-01", "")
   assert.equal(href, "/polyverse/decks?match=card%3A%22Goblin%20Bombardment%22&start=2025-01-01&deck=31%2F5")
+})
+
+test("a package page link keeps a slash inside the name", () => {
+  assert.equal(packagePageHref("polyverse", "Auras/Equipment"), "/polyverse/packages/Auras%2FEquipment")
+})
+
+test("a package filter quotes the name", () => {
+  assert.equal(packageMatch("Second Draw"), 'package:"Second Draw"')
 })

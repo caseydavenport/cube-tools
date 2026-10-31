@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { colorStatsUrl, packagesUrl, pivotRequest } from "./pageRequests.js"
+import { colorStatsUrl, packageUrl, packagesUrl, pivotRequest } from "./pageRequests.js"
 
 test("packagesUrl leaves out empty dates and filter", () => {
   const url = packagesUrl("polyverse", { confidence: "0.8", start: "", end: "", match: "" })
@@ -50,4 +50,9 @@ test("colorStatsUrl sends the confidence with and without time buckets", () => {
   assert.doesNotMatch(plain, /bucket_size/)
   assert.match(bucketed, /confidence=0.8/)
   assert.match(bucketed, /bucket_size=3&sliding=true/)
+})
+
+test("packageUrl names the package and leaves out an empty range", () => {
+  const url = packageUrl("polyverse", { name: "Auras/Equipment", start: "", end: "2026-01-01", confidence: "0.8" })
+  assert.equal(url, "/api/polyverse/stats/package?name=Auras%2FEquipment&end=2026-01-01&confidence=0.8")
 })

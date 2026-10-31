@@ -23,6 +23,17 @@ export function packagesUrl(cube, { confidence, start, end, match }) {
   })
 }
 
+// packageUrl is the package page's request: one package by name, over the
+// date range, with intervals at the chosen confidence.
+export function packageUrl(cube, { name, start, end, confidence }) {
+  return statsUrl(cube, "package", {
+    name,
+    start: emptyToUndefined(start),
+    end: emptyToUndefined(end),
+    confidence,
+  })
+}
+
 // colorStatsUrl is the Colors page's request: color stats for the color mode
 // at the chosen confidence. A bucketSize above 0 asks for sliding time
 // buckets of that many drafts instead of one total.
