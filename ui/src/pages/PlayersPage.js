@@ -13,7 +13,6 @@ import { PlayersTable } from "../players/PlayersTable.js"
 import { sortPlayerRows } from "../players/playerTable.js"
 import { PlayerSettings } from "../players/PlayerSettings.js"
 import { PlayerProfile } from "../players/PlayerProfile.js"
-import { asEvent } from "../components/kit/controls.js"
 import "../decks/decks.css"
 import "../players/players.css"
 import { LoadFailedNotice } from "../stats/LoadFailedNotice.js"
@@ -179,7 +178,7 @@ export function PlayersPage(props) {
         start={props.startDate}
         end={props.endDate}
         decks={parsed.filteredDecks}
-        onMatch={value => props.onMatchUpdated(asEvent(value))}
+        onMatch={props.onLinkMatch}
         playerId={selection.id}
         editable={editable}
         onRenamed={() => setRefresh(r => r + 1)}

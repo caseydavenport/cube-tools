@@ -4,7 +4,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { useCube } from "../contexts/CubeContext.js"
-import { asEvent } from "../components/kit/controls.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
@@ -133,7 +132,7 @@ export function CardPage(props) {
   const cube = useCube()
   const { page, missing } = useCardPage(cube, name, props.startDate, props.endDate)
   const info = useCubeInfo(cube)
-  const onMatch = value => props.onMatchUpdated(asEvent(value))
+  const onMatch = props.onLinkMatch
   const navigate = useNavigate()
 
   // openCard goes to the page of a card picked in the toolbar's search.

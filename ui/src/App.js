@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { HashRouter as Router, Routes, Route, Outlet, useSearchParams } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Outlet, useLocation, useSearchParams } from "react-router-dom";
 import { DecksPage } from './pages/DecksPage.js'
 import {StatsViewer} from './pages/Stats.js'
 import { PlayersPage } from './pages/PlayersPage.js'
@@ -17,6 +17,8 @@ import CubeHome from './pages/CubeHome.js';
 import ImportHub from './pages/ImportHub.js';
 import NotFound from './pages/NotFound.js';
 import { AppLayout } from './shell/AppLayout.js';
+import { changePage, followLink, linkFilterStart, typeFilter } from './shell/linkFilter.js';
+import { pageSegment } from './shell/paths.js';
 import { MantineProvider } from "@mantine/core";
 import { theme, cssVariablesResolver } from "./theme/theme.js";
 
@@ -82,27 +84,55 @@ export default function Main() {
     setEndDate(end)
   }
 
-  // For matching decks and cards.
-  const [matchStr, setMatchStr] = useState(hashQuery.get("match") || "");
-  function onMatchUpdated(event) {
-    setMatchStr(event.target.value)
-  }
-
-  const statsProps = {
+  const dateProps = {
     startDate,
     endDate,
     onStartSelected,
     onEndSelected,
     onRangeChange,
-    matchStr,
-    onMatchUpdated,
   };
 
    return (
     <MantineProvider theme={theme} cssVariablesResolver={cssVariablesResolver} defaultColorScheme="auto">
     <div>
     <Router>
-      <UrlStateSync startDate={startDate} endDate={endDate} matchStr={matchStr} />
+      <AppRoutes dateProps={dateProps} initialMatch={hashQuery.get("match") || ""} />
+    </Router>
+    </div>
+    </MantineProvider>
+  );
+}
+
+// AppRoutes holds the deck filter and renders the routes. It sits inside the
+// Router so it sees page changes while rendering: a filter a link set is put
+// back before the next page reads it, since pages copy the filter on load.
+function AppRoutes({ dateProps, initialMatch }) {
+  const page = pageSegment(useLocation().pathname)
+  const [filter, setFilter] = useState(() => linkFilterStart(initialMatch))
+  const [lastPage, setLastPage] = useState(page)
+  if (page !== lastPage) {
+    setLastPage(page)
+    setFilter(changePage(filter, page))
+  }
+
+  // onMatchUpdated sets a filter the user typed, which stays across pages.
+  function onMatchUpdated(event) {
+    const typed = event.target.value
+    setFilter(current => typeFilter(current, typed))
+  }
+
+  // onLinkMatch sets a link's filter as it's followed. Leaving the page the
+  // link opened restores the filter from before.
+  function onLinkMatch(match) {
+    setFilter(current => followLink(current, match, page))
+  }
+
+  const matchStr = filter.match
+  const statsProps = { ...dateProps, matchStr, onMatchUpdated, onLinkMatch };
+
+  return (
+    <>
+      <UrlStateSync startDate={dateProps.startDate} endDate={dateProps.endDate} matchStr={matchStr} />
       <Routes>
         <Route path='/' element={<Welcome />} />
         <Route path='/:cube' element={<CubeProvider><AppLayout><Outlet /></AppLayout></CubeProvider>}>
@@ -128,8 +158,6 @@ export default function Main() {
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
-    </Router>
-    </div>
-    </MantineProvider>
+    </>
   );
 }
