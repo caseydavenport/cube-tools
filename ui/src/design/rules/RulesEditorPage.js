@@ -37,6 +37,7 @@ export function DesignEditorPage({ startDate, endDate }) {
   const view = params.get('view') || ''
   const q = params.get('q') || ''
   const sort = params.get('sort') || 'az'
+  const range = { start: startDate || '', end: endDate || '' }
 
   // The design graph and the board, both refetched after each save so edits
   // show immediately.
@@ -235,7 +236,7 @@ export function DesignEditorPage({ startDate, endDate }) {
     }
     main = <GroupView
       key={viewName} name={viewName} group={groupsByName[viewName]} color={color}
-      warning={groupWarning(audit, viewName)} canEdit={canEdit} refresh={refresh}
+      warning={groupWarning(audit, viewName)} canEdit={canEdit} refresh={refresh} range={range}
       initialCheck={params.get('check') || ''}
       onBack={backToBoard} onEdit={() => openGroup(viewName)} onDelete={() => deleteGroup(viewName)}
       onExclude={(group, card) => setCardExcluded(group, card, true)}
@@ -247,7 +248,7 @@ export function DesignEditorPage({ startDate, endDate }) {
       key={viewName} pkg={board.packages[openPkgIndex]} index={openPkgIndex}
       groupsByName={groupsByName} groupIndex={groupIndex}
       problem={packageWarning(audit, viewName)} warningOf={name => groupWarning(audit, name)}
-      canEdit={canEdit} refresh={refresh} initialCheck={params.get('check') || ''}
+      canEdit={canEdit} refresh={refresh} range={range} initialCheck={params.get('check') || ''}
       onBack={backToBoard} onEditPackage={() => openPackage(viewName)} onDeletePackage={() => deletePackage(viewName)}
       onEditGroup={openGroup}
       onExclude={(group, card) => setCardExcluded(group, card, true)}
@@ -295,6 +296,7 @@ export function DesignEditorPage({ startDate, endDate }) {
           group={groupEditor.original || { name: '', conditions: [''] }}
           color={ruleColor(groupEditor.original ? (groupIndex[groupEditor.original.name] ?? 0) : groups.length)}
           rules={{ groups, packages }}
+          range={range}
           onSave={saveGroup}
           onCancel={() => setGroupEditor(null)}
         />
@@ -306,6 +308,7 @@ export function DesignEditorPage({ startDate, endDate }) {
           groupNames={groupNames}
           groups={groups}
           rules={{ groups, packages }}
+          range={range}
           onSave={savePackage}
           onCancel={() => setPackageEditor(null)}
           onGroupSaved={saveGroupByIndex}

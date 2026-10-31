@@ -5,14 +5,31 @@
 import React, { useEffect, useState } from "react"
 import "./rulesPreview.css"
 
+// previewUrl is the preview request's URL, with the date range when set.
+function previewUrl(cube, range) {
+  const params = new URLSearchParams()
+  if (range.start) {
+    params.set("start", range.start)
+  }
+  if (range.end) {
+    params.set("end", range.end)
+  }
+  const query = params.toString()
+  if (!query) {
+    return `/api/${cube}/stats/rules-preview`
+  }
+  return `/api/${cube}/stats/rules-preview?${query}`
+}
+
 // usePreview asks the server how proposed, a whole rule set, moves package
-// build counts, waiting debounceMs after the last change so typing doesn't
-// send a request per keystroke. It returns { changes, failed }: changes is
+// build counts over range ({ start, end }), waiting debounceMs after the last
+// change so typing doesn't send a request per keystroke. It returns { changes, failed }: changes is
 // null while the answer is on its way, and failed is true when it couldn't
 // be had.
-export function usePreview(cube, proposed, debounceMs = 500) {
+export function usePreview(cube, proposed, range = {}, debounceMs = 500) {
   const [state, setState] = useState({ changes: null, failed: false })
   const body = proposed ? JSON.stringify(proposed) : ""
+  const url = previewUrl(cube, range)
   useEffect(() => {
     setState({ changes: null, failed: false })
     if (!body) {
@@ -20,7 +37,7 @@ export function usePreview(cube, proposed, debounceMs = 500) {
     }
     let cancelled = false
     const timer = setTimeout(() => {
-      fetch(`/api/${cube}/stats/rules-preview`, { method: "POST", headers: { "Content-Type": "application/json" }, body })
+      fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body })
         .then(r => {
           if (!r.ok) {
             throw new Error(r.statusText)
@@ -42,7 +59,7 @@ export function usePreview(cube, proposed, debounceMs = 500) {
       cancelled = true
       clearTimeout(timer)
     }
-  }, [cube, body, debounceMs])
+  }, [url, body, debounceMs])
   return state
 }
 

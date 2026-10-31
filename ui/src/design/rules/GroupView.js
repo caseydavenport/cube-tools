@@ -11,12 +11,12 @@ import "./workspace.css"
 // GroupView loads and shows the group called name. group is its rules entry,
 // or undefined when the rules have no such group.
 export function GroupView({
-  name, group, color, warning, canEdit, refresh, initialCheck,
+  name, group, color, warning, canEdit, refresh, range, initialCheck,
   onBack, onEdit, onDelete, onExclude, onRestore, onOpenPackage,
 }) {
   const cube = useCube()
   const [confirming, setConfirming] = useState(false)
-  const { groups, missing, failed } = useRuleGroups(cube, { group: name }, refresh)
+  const { groups, missing, failed } = useRuleGroups(cube, { group: name }, refresh, range)
 
   let body = <div className="de-muted">Loading…</div>
   if (missing) {

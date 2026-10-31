@@ -69,3 +69,7 @@ test("ruleGroupsUrl names a package or a group", () => {
   assert.equal(ruleGroupsUrl("polyverse", { package: "Auras/Equipment" }), "/api/polyverse/stats/rule-groups?package=Auras%2FEquipment")
   assert.equal(ruleGroupsUrl("polyverse", { group: "Fodder" }), "/api/polyverse/stats/rule-groups?group=Fodder")
 })
+
+test("ruleGroupsUrl adds the date range, leaving out an empty date", () => {
+  assert.equal(ruleGroupsUrl("polyverse", { group: "Fodder" }, { start: "", end: "2026-01-01" }), "/api/polyverse/stats/rule-groups?group=Fodder&end=2026-01-01")
+})

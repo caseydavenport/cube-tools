@@ -28,8 +28,9 @@ function existingCards(entries) {
 
 // PackageEditModal edits one package's name and wires. rules, the saved
 // { groups, packages }, turns on a preview of how the unsaved edit moves
-// package build counts; without it there's no preview.
-export function PackageEditModal({ pkg, color, groupNames, groups, rules, onSave, onCancel, onGroupSaved }) {
+// package build counts, over range ({ start, end }) when given; without
+// rules there's no preview.
+export function PackageEditModal({ pkg, color, groupNames, groups, rules, range, onSave, onCancel, onGroupSaved }) {
   const cube = useCube()
   const [editLabel, setEditLabel] = useState(pkg.name || "")
   const [editWires, setEditWires] = useState(() =>
@@ -69,7 +70,7 @@ export function PackageEditModal({ pkg, color, groupNames, groups, rules, onSave
     const name = editLabel.trim() || "Untitled package"
     proposed = withPackage(rules, pkg.name || "", { name, wires: cleaned })
   }
-  const preview = usePreview(cube, proposed)
+  const preview = usePreview(cube, proposed, range)
 
   const editingGroup = editingGroupName ? groups.find(g => g.name === editingGroupName) : null
   const editingGroupIndex = editingGroupName ? groups.findIndex(g => g.name === editingGroupName) : -1

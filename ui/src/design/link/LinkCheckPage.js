@@ -176,7 +176,7 @@ export function LinkCheckPage(props) {
       onSave = save
       onNewGroup = setNewGroupFor
     }
-    middle = <UnlinkedView check={check} cube={cube} rules={rules} onSave={onSave} onNewGroup={onNewGroup} />
+    middle = <UnlinkedView check={check} cube={cube} rules={rules} range={{ start: props.startDate || "", end: props.endDate || "" }} onSave={onSave} onNewGroup={onNewGroup} />
   }
 
   return (
@@ -198,6 +198,7 @@ export function LinkCheckPage(props) {
           color={ruleColor(rules.groups.length)}
           pinnedCard={newGroupFor}
           rules={rules}
+          range={{ start: props.startDate || "", end: props.endDate || "" }}
           onSave={saveNewGroup}
           onCancel={() => setNewGroupFor("")}
         />

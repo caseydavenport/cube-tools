@@ -53,12 +53,12 @@ function percent(rate) {
 // group, so a section can offer Edit and Check a card. problem and
 // warningOf name what's broken, or are null.
 export function PackageWorkspace({
-  pkg, index, groupsByName, groupIndex, problem, warningOf, canEdit, refresh, initialCheck,
+  pkg, index, groupsByName, groupIndex, problem, warningOf, canEdit, refresh, range, initialCheck,
   onBack, onEditPackage, onDeletePackage, onEditGroup, onExclude, onRestore, onOpenPackage,
 }) {
   const cube = useCube()
   const [confirming, setConfirming] = useState(false)
-  const { groups, failed } = useRuleGroups(cube, { package: pkg.name }, refresh)
+  const { groups, failed } = useRuleGroups(cube, { package: pkg.name }, refresh, range)
 
   const actions = <>
     <Anchor component={Link} to={packagePageHref(cube, pkg.name)} size="sm">Package page →</Anchor>

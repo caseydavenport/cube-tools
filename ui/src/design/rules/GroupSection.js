@@ -12,11 +12,12 @@ import { GroupCheck } from "./GroupCheck.js"
 import "./workspace.css"
 
 // useRuleGroups loads /stats/rule-groups for which, { package } or
-// { group }, again whenever refresh changes. It returns { groups, missing,
+// { group }, again whenever refresh changes. range ({ start, end }) bounds
+// the members' play counts. It returns { groups, missing,
 // failed }: groups is null while loading, missing is true for a 404.
-export function useRuleGroups(cube, which, refresh) {
+export function useRuleGroups(cube, which, refresh, range = {}) {
   const [state, setState] = useState({ groups: null, missing: false, failed: false })
-  const url = ruleGroupsUrl(cube, which)
+  const url = ruleGroupsUrl(cube, which, range)
   useEffect(() => {
     let alive = true
     fetch(url)

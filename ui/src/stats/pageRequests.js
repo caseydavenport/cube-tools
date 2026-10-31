@@ -45,9 +45,13 @@ export function rulesBoardUrl(cube, { start, end }) {
 
 // ruleGroupsUrl is the request for a package's groups, or one group, with
 // members listed by the condition they matched. which is { package } or
-// { group }.
-export function ruleGroupsUrl(cube, which) {
-  return statsUrl(cube, "rule-groups", which)
+// { group }; range is { start, end }, for the members' play counts.
+export function ruleGroupsUrl(cube, which, range = {}) {
+  return statsUrl(cube, "rule-groups", {
+    ...which,
+    start: emptyToUndefined(range.start || ""),
+    end: emptyToUndefined(range.end || ""),
+  })
 }
 
 // linkCheckUrl is the link check's request: how the rules relate cards a

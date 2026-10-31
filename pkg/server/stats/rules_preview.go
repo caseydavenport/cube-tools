@@ -11,6 +11,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -31,7 +32,8 @@ type PackageChange struct {
 }
 
 // RulesPreviewHandler serves POST /api/{cube}/stats/rules-preview. The body
-// is a whole proposed rule set; nothing is saved.
+// is a whole proposed rule set; nothing is saved. Counts follow the "start"
+// and "end" query params.
 func RulesPreviewHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &rulesPreviewHandler{store: store, src: src, q: newQuery(store, src)}
 }
@@ -56,14 +58,15 @@ func (h *rulesPreviewHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		http.Error(rw, "could not load rules", http.StatusInternalServerError)
 		return
 	}
-	decks, err := h.q.Decks(cubeID, &storage.DecksRequest{})
+	decks, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")})
 	if err != nil {
 		logrus.WithError(err).Error("could not load decks for a preview")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
-	// Count over every deck, under both the saved rules and the proposal.
+	// Count over the decks in the date range, under both the saved rules and
+	// the proposal.
 	now := buildCounts(resolvePackages(rules.cube, rules.config, rules.deckCardNames), decks)
 	after := buildCounts(resolvePackages(rules.cube, proposed, rules.deckCardNames), decks)
 	writeJSON(rw, RulesPreviewResponse{Packages: packageChanges(now, after)}, "rules preview")

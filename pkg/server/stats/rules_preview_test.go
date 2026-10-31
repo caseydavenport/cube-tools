@@ -64,3 +64,19 @@ func TestRulesPreview_BadBody(t *testing.T) {
 	code, _ := previewFor(t, "{not json")
 	assert.Equal(t, http.StatusBadRequest, code)
 }
+
+func TestRulesPreview_DateRange(t *testing.T) {
+	decks := []*storage.Deck{
+		playDeck("Freddie", 1, 1, "2024-01-01", "Goblin Bombardment", "Mayhem Devil", "Grim Lavamancer"),
+		playDeck("Ozzy", 2, 1, "2024-02-01", "Goblin Bombardment", "Mayhem Devil", "Grim Lavamancer"),
+	}
+	store := &rangedRulesStore{rulesDeckStorage{mockDeckStorage: mockDeckStorage{decks: decks}, config: sacrificeRules("Sacrifice")}}
+	config := sacrificeRules("Sacrifice")
+	config.Packages[0].Wires[0].Targets = []string{"Payoffs"}
+
+	rr := serveCubePost(RulesPreviewHandler(store, testCubeSource{}), "/api/polyverse/stats/rules-preview?end=2024-01-15", proposal(t, config))
+	require.Equal(t, http.StatusOK, rr.Code)
+	var resp RulesPreviewResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	assert.Equal(t, []PackageChange{{Name: "Sacrifice", Now: 1, After: 0}}, resp.Packages)
+}

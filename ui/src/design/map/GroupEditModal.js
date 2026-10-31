@@ -32,8 +32,9 @@ function PinnedCard({ card, result }) {
 // GroupEditModal edits one group, showing live which cards its conditions
 // match. pinnedCard, when set, is a card the group is being written for, and
 // the dialog says whether it matches yet. rules, the saved { groups,
-// packages }, turns on a preview of how the edit moves package build counts.
-export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard, rules }) {
+// packages }, turns on a preview of how the edit moves package build counts,
+// over range ({ start, end }) when given.
+export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard, rules, range }) {
   const cube = useCube()
   const [editName, setEditName] = useState(group.name)
   const [editConditions, setEditConditions] = useState([...(group.conditions || [""])])
@@ -123,7 +124,7 @@ export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard, rul
   if (rules && cleaned) {
     proposed = withGroup(rules, group.name || "", cleaned)
   }
-  const preview = usePreview(cube, proposed)
+  const preview = usePreview(cube, proposed, range)
 
   const excludedSet = React.useMemo(() => new Set(editExclude.filter(n => n)), [editExclude])
   function toggleExclude(name) {

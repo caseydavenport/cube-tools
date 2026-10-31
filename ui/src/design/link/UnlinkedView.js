@@ -61,7 +61,7 @@ function usesOf(card, group) {
 
 // LinkBar shows the link about to be made, the ways to make it, a preview,
 // and the button that saves it.
-function LinkBar({ cube, rules, groupA, groupB, check, onSave }) {
+function LinkBar({ cube, rules, range, groupA, groupB, check, onSave }) {
   const options = linkOptions(groupA, usesOf(check.a, groupA), groupB, usesOf(check.b, groupB))
   const [choice, setChoice] = useState("0")
   const [packageName, setPackageName] = useState("")
@@ -71,7 +71,7 @@ function LinkBar({ cube, rules, groupA, groupB, check, onSave }) {
   if (option && (option.kind === "add-to-wire" || packageName.trim())) {
     proposed = applyLink(rules, option, groupA, groupB, packageName.trim())
   }
-  const preview = usePreview(cube, proposed)
+  const preview = usePreview(cube, proposed, range)
 
   if (options.length === 0) {
     return <div className="link-bar link-muted">These groups already link through a wire.</div>
@@ -114,7 +114,7 @@ function LinkBar({ cube, rules, groupA, groupB, check, onSave }) {
 // side, the bar that links them. rules is the rule set as saved; onSave
 // saves a changed rule set and onNewGroup opens the group editor for a card.
 // Both are null on a cube that can't be edited.
-export function UnlinkedView({ check, cube, rules, onSave, onNewGroup }) {
+export function UnlinkedView({ check, cube, rules, range, onSave, onNewGroup }) {
   const [groupA, setGroupA] = useState("")
   const [groupB, setGroupB] = useState("")
   const editable = Boolean(onSave)
@@ -141,7 +141,7 @@ export function UnlinkedView({ check, cube, rules, onSave, onNewGroup }) {
         <GroupColumn card={check.b} picked={groupB} onPick={pickB} onNewGroup={newB} />
       </div>
       {editable && groupA && groupB && (
-        <LinkBar key={groupA + "|" + groupB} cube={cube} rules={rules} groupA={groupA} groupB={groupB} check={check} onSave={onSave} />
+        <LinkBar key={groupA + "|" + groupB} cube={cube} rules={rules} range={range} groupA={groupA} groupB={groupB} check={check} onSave={onSave} />
       )}
     </div>
   )

@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
 // redsRules is sacrificeRules plus a Reds group whose first condition also
@@ -26,6 +27,28 @@ func redsRules() design.DesignMapConfig {
 		Wires: []design.Wire{{Sources: []string{"Reds"}, Targets: []string{"Ghost"}}},
 	})
 	return config
+}
+
+// rangedRulesStore is a rulesDeckStorage that honors a request's date range,
+// for tests of handlers that follow it.
+type rangedRulesStore struct {
+	rulesDeckStorage
+}
+
+// List returns the decks dated within the request's range; an empty end of
+// the range is open.
+func (s *rangedRulesStore) List(_ string, req *storage.DecksRequest) ([]*storage.Deck, error) {
+	var out []*storage.Deck
+	for _, d := range s.decks {
+		if req != nil && req.Start != "" && d.Date < req.Start {
+			continue
+		}
+		if req != nil && req.End != "" && d.Date > req.End {
+			continue
+		}
+		out = append(out, d)
+	}
+	return out, nil
 }
 
 // ruleGroupsFor serves the rule groups for params over config and decodes
@@ -136,4 +159,17 @@ func TestRuleGroups_BadRequests(t *testing.T) {
 
 	code, _ = ruleGroupsFor(t, redsRules(), url.Values{"package": {"Nope"}})
 	assert.Equal(t, http.StatusNotFound, code)
+}
+
+func TestRuleGroups_MemberDecks(t *testing.T) {
+	store := &rangedRulesStore{rulesDeckStorage{mockDeckStorage: mockDeckStorage{decks: sacrificeDecks()}, config: redsRules()}}
+	decksOf := func(params url.Values) int {
+		rr := serveCube(RuleGroupsHandler(store, testCubeSource{}), "/api/polyverse/stats/rule-groups", params)
+		require.Equal(t, http.StatusOK, rr.Code)
+		var resp RuleGroupsResponse
+		require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+		return resp.Groups[0].Conditions[0].Cards[0].Decks
+	}
+	assert.Equal(t, 2, decksOf(url.Values{"group": {"Outlets"}}))
+	assert.Equal(t, 1, decksOf(url.Values{"group": {"Outlets"}, "end": {"2024-01-15"}}))
 }
