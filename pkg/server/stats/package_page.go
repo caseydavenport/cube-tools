@@ -123,11 +123,13 @@ func (h *packagePageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 
 	all, err := h.q.Decks(cubeID, &storage.DecksRequest{})
 	if err != nil {
+		logrus.WithError(err).Error("could not load decks for the package page")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 	ranged, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: start, End: end})
 	if err != nil {
+		logrus.WithError(err).Error("could not load decks in range for the package page")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
@@ -165,6 +167,8 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	cards := resolved[idx]
 
 	resp := PackagePageResponse{Name: page.pkg.Name, Related: []PackageEdge{}}
+
+	// The package's index row, over the date range.
 	stats := packageStats(resolved, page.ranged, page.conf)
 	for _, s := range stats.Packages {
 		if s.Name == page.pkg.Name {
@@ -174,11 +178,14 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	resp.Stat.Color = packageColor(cards, cube)
 	resp.Stat.CardCount = packageCardCount(cards, cube)
 
-	groups := resolveGroups(buildCardMap(cube), page.rules.config, page.rules.deckCardNames)
+	// The wires, the color table built from them, and builds per draft.
+	cardMap := buildCardMap(cube)
+	groups := resolveGroups(cardMap, page.rules.config, page.rules.deckCardNames)
 	resp.Wires = packageWires(page.pkg, groups.cube, page.rules.config)
-	resp.ColorTable = colorTable(resp.Wires, buildCardMap(cube))
+	resp.ColorTable = colorTable(resp.Wires, cardMap)
 	resp.OverTime = packageOverTime(cards, page.all, page.start, page.end)
 
+	// The decks in range that built the package.
 	var built []*storage.Deck
 	for _, d := range page.ranged {
 		if cards.BuiltBy(deckCardSet(d)) {
@@ -187,6 +194,7 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	}
 	resp.Decks = deckRows(built)
 
+	// Related packages, with the edge turned so this package is the source.
 	for _, e := range packageEdges(page.rules.config) {
 		if e.Source == page.pkg.Name {
 			resp.Related = append(resp.Related, e)
@@ -370,12 +378,15 @@ func packageOverTime(pkg design.PackageCards, all []*storage.Deck, start, end st
 		}
 	}
 
+	// Rows in draft order, marked in or out of the date range.
 	out := []DraftBuild{}
 	for _, draftID := range slices.Sorted(maps.Keys(byDraft)) {
 		row := *byDraft[draftID]
 		row.InRange = (start == "" || row.Date >= start) && (end == "" || row.Date <= end)
 		out = append(out, row)
 	}
+
+	// Smooth each row over the window of drafts ending at it.
 	for i := range out {
 		built, decks := 0, 0
 		for _, prev := range out[max(0, i-overTimeWindow+1) : i+1] {

@@ -65,6 +65,7 @@ func packageCardCount(p design.PackageCards, cube *types.Cube) int {
 // per color. It's "" when colorless cards lead, no color holds
 // packageColorShare of the cards, or the lead over the next color is small.
 func packageColor(p design.PackageCards, cube *types.Cube) string {
+	// Count each color's cards, and the colorless ones.
 	counts := map[string]int{}
 	colorless, nonLand := 0, 0
 	for _, c := range packageCubeCards(p, cube) {
@@ -80,6 +81,7 @@ func packageColor(p design.PackageCards, cube *types.Cube) string {
 		}
 	}
 
+	// Find the leading color and the runner-up's count.
 	best, bestCount, runnerUp := "", 0, 0
 	for _, color := range []string{"W", "U", "B", "R", "G"} {
 		if counts[color] > bestCount {
@@ -88,6 +90,8 @@ func packageColor(p design.PackageCards, cube *types.Cube) string {
 			runnerUp = counts[color]
 		}
 	}
+
+	// Gray unless the leader beats colorless, the runner-up and the share bar.
 	if bestCount == 0 || bestCount <= colorless {
 		return ""
 	}

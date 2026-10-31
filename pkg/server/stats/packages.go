@@ -148,13 +148,13 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 		}
 	}
 
-	z := zForConfidence(conf)
+	zScore := zForConfidence(conf)
 	stats := []PackageStat{}
 	for _, p := range pkgs {
 		stat := PackageStat{Name: p.Name, Package: pkg[p.Name], Has3: has3[p.Name]}
 		if populated > 0 {
 			n := float64(populated)
-			low, high := wilsonInterval(pkg[p.Name], populated-pkg[p.Name], 0, z)
+			low, high := wilsonInterval(pkg[p.Name], populated-pkg[p.Name], 0, zScore)
 			stat.BuildRate = round3(float64(pkg[p.Name]) / n)
 			stat.BuildRateLow = round3(low / 100)
 			stat.BuildRateHigh = round3(high / 100)
@@ -166,7 +166,7 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 		record := records[p.Name]
 		record.Finalize()
 		record.SetBayesian(archetypeBayesPriorGames)
-		record.SetInterval(z)
+		record.SetInterval(zScore)
 		stat.Record = *record
 		stats = append(stats, stat)
 	}

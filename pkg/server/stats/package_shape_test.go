@@ -51,12 +51,7 @@ func TestPackageColor_GrayWhenSpread(t *testing.T) {
 }
 
 func TestPackageColor_GrayWhenColorlessLeads(t *testing.T) {
-	cube := shapeCube(
-		tendencySpell("Sol Ring"),
-		tendencySpell("Mind Stone"),
-		tendencySpell("Wayfarer's Bauble"),
-		tendencySpell("Shock", "R"),
-	)
+	cube := shapeCube(tendencySpell("Sol Ring"), tendencySpell("Mind Stone"), tendencySpell("Wayfarer's Bauble"), tendencySpell("Shock", "R"))
 	p := oneSide("Artifacts", "Sol Ring", "Mind Stone", "Wayfarer's Bauble", "Shock")
 	assert.Equal(t, "", packageColor(p, cube))
 }
