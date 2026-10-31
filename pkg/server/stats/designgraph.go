@@ -1005,6 +1005,10 @@ func matchCards(cards map[string]types.Card, query string) map[string]bool {
 
 type exprNode interface {
 	matches(card types.Card) bool
+
+	// text rebuilds the node's query text, so a check can name the part of a
+	// condition that passed or failed.
+	text() string
 }
 
 type termNode struct {
@@ -1020,6 +1024,18 @@ func (n *termNode) matches(card types.Card) bool {
 	return result
 }
 
+func (n *termNode) text() string {
+	// The tokenizer drops quotes, so put them back around a value with spaces.
+	term := n.term
+	if prefix, value, ok := strings.Cut(term, ":"); ok && strings.Contains(value, " ") {
+		term = prefix + `:"` + value + `"`
+	}
+	if n.negated {
+		return "!" + term
+	}
+	return term
+}
+
 type andNode struct {
 	children []exprNode
 }
@@ -1033,6 +1049,14 @@ func (n *andNode) matches(card types.Card) bool {
 	return true
 }
 
+func (n *andNode) text() string {
+	parts := make([]string, 0, len(n.children))
+	for _, child := range n.children {
+		parts = append(parts, child.text())
+	}
+	return strings.Join(parts, " ")
+}
+
 type orNode struct {
 	children []exprNode
 }
@@ -1044,6 +1068,14 @@ func (n *orNode) matches(card types.Card) bool {
 		}
 	}
 	return false
+}
+
+func (n *orNode) text() string {
+	parts := make([]string, 0, len(n.children))
+	for _, child := range n.children {
+		parts = append(parts, child.text())
+	}
+	return "(" + strings.Join(parts, " OR ") + ")"
 }
 
 // --- Parser: recursive descent ---
@@ -1134,6 +1166,14 @@ type notNode struct {
 
 func (n *notNode) matches(card types.Card) bool {
 	return !n.child.matches(card)
+}
+
+func (n *notNode) text() string {
+	inner := n.child.text()
+	if strings.HasPrefix(inner, "(") {
+		return "!" + inner
+	}
+	return "!(" + inner + ")"
 }
 
 // --- Tokenizer ---
