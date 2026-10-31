@@ -1,10 +1,6 @@
-/* Styles for the Rules editor's group, package and review views. */
+/* Styles for the Rules editor's review view, group check and shared pieces. */
 
-@media (max-width: 800px) {
-  .de-registry { position: static; max-height: 320px; }
-}
-
-.de-loading, .de-empty { color: var(--se-muted); padding: 1.5rem 0.25rem; }
+.de-loading { color: var(--se-muted); padding: 1.5rem 0.25rem; }
 .de-muted { color: var(--se-muted); font-size: 0.85rem; padding: 0.25rem 0; }
 .de-pips { display: inline-flex; flex-shrink: 0; flex-wrap: nowrap; }
 .de-pips .mana-symbol { width: 16px; height: 16px; }
@@ -16,50 +12,6 @@
   color: var(--se-muted); margin: 1rem 0 0.4rem;
   padding-bottom: 0.25rem; border-bottom: 1px solid var(--se-border);
 }
-
-/* --- Registry (left rail) --- */
-.de-registry {
-  position: sticky; top: 12px; max-height: calc(100vh - 88px); overflow-y: auto;
-  background: var(--se-card); border: 1px solid var(--se-border); border-radius: 10px;
-  padding: 0.75rem; display: flex; flex-direction: column;
-}
-.de-reg-head {
-  display: flex; align-items: center; gap: 0.4rem;
-  font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  color: var(--se-muted); margin: 0.9rem 0 0.3rem;
-  padding-bottom: 0.25rem; border-bottom: 1px solid var(--se-border);
-  cursor: pointer; user-select: none;
-}
-.de-reg-caret { font-size: 0.65rem; }
-.de-reg-count { margin-left: auto; font-weight: 500; font-variant-numeric: tabular-nums; }
-.de-reg-list { display: flex; flex-direction: column; gap: 1px; }
-
-.de-row {
-  display: flex; align-items: center; gap: 0.45rem; width: 100%;
-  background: transparent; border: none; border-radius: 6px; cursor: pointer;
-  padding: 0.3rem 0.5rem; color: var(--se-text); font-family: inherit; font-size: 0.85rem;
-  text-align: left;
-}
-.de-row:not([data-active]):hover { background: color-mix(in srgb, var(--se-border) 60%, var(--se-card)); }
-
-/* The selected row matches the sidebar's selected page: primary-colored text
-   on a light tint of the primary color. */
-.de-row[data-active] {
-  color: var(--mantine-primary-color-filled);
-  background: var(--mantine-primary-color-light);
-}
-.de-row[data-active] .de-row-name { font-weight: 600; }
-.de-row-name {
-  flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-weight: 500;
-}
-.de-row-count {
-  color: var(--se-muted); font-size: 0.72rem; font-variant-numeric: tabular-nums;
-  flex-shrink: 0;
-}
-/* Two classes so this beats .dm-swatch in styles.css, which loads after this file. */
-.dm-swatch.de-swatch-link { border-radius: 999px; height: 5px; }
-.de-warn-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--se-warn); flex-shrink: 0; }
 
 .de-pane {
   background: var(--se-card); border: 1px solid var(--se-border);
@@ -75,38 +27,10 @@
   border-radius: 8px; padding: 0.45rem 0.7rem; font-size: 0.85rem; margin-top: 0.6rem;
 }
 
-/* Overview */
-.de-vitals { display: flex; gap: 2.25rem; margin: 0.9rem 0 0.4rem; flex-wrap: wrap; }
-.de-vital { display: flex; flex-direction: column; }
-.de-vital-num { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; }
-.de-vital-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--se-muted); }
-.de-coverage { display: flex; align-items: center; gap: 0.75rem; }
-.de-coverage-bar {
-  flex: 0 0 220px; height: 8px; border-radius: 999px; background: var(--se-page);
-  border: 1px solid var(--se-border); overflow: hidden;
-}
-.de-coverage-fill { height: 100%; background: var(--mantine-primary-color-filled); border-radius: 999px; }
-.de-coverage-num { color: var(--se-muted); font-size: 0.82rem; }
-.de-ok { color: var(--se-good); font-size: 0.88rem; padding: 0.25rem 0; }
-.de-audit-cta {
-  display: flex; align-items: center; gap: 0.5rem;
-  border: 1px solid color-mix(in srgb, var(--se-warn) 20%, transparent); background: color-mix(in srgb, var(--se-warn) 7%, transparent); color: var(--se-warn);
-  border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.85rem; font-weight: 600;
-  cursor: pointer; font-family: inherit;
-}
-.de-audit-cta:hover { background: color-mix(in srgb, var(--se-warn) 13%, transparent); }
-
 .de-cond {
   font-size: 0.8rem; background: var(--se-page);
   border: 1px solid var(--se-border); padding: 0.2rem 0.5rem; border-radius: 6px;
 }
-.de-wire {
-  display: flex; align-items: center; gap: 0.5rem; width: 100%;
-  background: transparent; border: none; border-radius: 6px; cursor: pointer;
-  padding: 0.35rem 0.5rem; text-align: left; color: var(--se-text); font-family: inherit;
-}
-.de-wire:hover { background: var(--se-page); }
-.de-wire-label { font-weight: 700; font-size: 0.88rem; flex-shrink: 0; }
 
 .de-end-me { color: var(--se-text); font-weight: 600; }
 
@@ -116,30 +40,6 @@
   padding: 0 0.35rem;
 }
 
-/* Compare view */
-.de-compare {
-  display: grid; grid-template-columns: 150px minmax(0, 1fr) 150px;
-  gap: 1.25rem; align-items: center; margin: 1rem 0 1.25rem;
-}
-.de-compare-card { margin: 0; }
-.de-compare-card img { width: 100%; border-radius: 8px; display: block; }
-.de-compare-card figcaption {
-  display: flex; align-items: center; justify-content: center; gap: 0.3rem;
-  font-size: 0.78rem; font-weight: 600; margin-top: 0.4rem; text-align: center;
-}
-.de-compare-mid { min-width: 0; }
-.de-compare-mid .de-loom { gap: 0.45rem 3.5rem; }
-@media (max-width: 900px) { .de-compare { grid-template-columns: 110px minmax(0, 1fr) 110px; gap: 0.75rem; } }
-
-.de-linkgroup { margin-bottom: 0.6rem; }
-.de-edit-hint { margin-left: auto; color: var(--se-muted); font-size: 0.78rem; }
-.de-why {
-  display: flex; align-items: baseline; gap: 0.4rem; flex-wrap: wrap;
-  font-size: 0.8rem; line-height: 1.5; padding: 0.1rem 0.5rem 0.1rem 1.1rem;
-}
-.de-why-group { color: var(--se-text); font-weight: 600; }
-.de-why-cond { color: var(--se-muted); font-size: 0.75rem; background: transparent; padding: 0; }
-.de-why-arrow { color: var(--mantine-primary-color-filled); }
 .de-conds {
   color: var(--se-muted); font-size: 0.75rem; background: transparent; padding: 0;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
@@ -152,48 +52,10 @@
 /* style-ok: overrides Mantine's markup */
 .de-chip .mantine-Button-label { gap: 0.4rem; }
 
-/* --- Card lens (right rail) --- */
-.de-lens {
-  display: flex; flex-wrap: wrap; gap: 1.1rem 1.4rem; align-items: flex-start;
-  background: var(--se-card); border: 1px solid var(--se-border); border-radius: 10px;
-  padding: 0.9rem 1.1rem;
-}
-.de-lens-media { flex: 0 0 220px; max-width: 220px; }
-.de-lens-body {
-  flex: 1 1 320px; min-width: 0;
-  display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem; align-items: flex-start;
-}
-.de-lens-col { flex: 1 1 240px; min-width: 0; }
-.de-lens-col-links { flex: 2 1 340px; }
-.de-lens-img { width: 100%; border-radius: 4.75% / 3.5%; margin-top: 0.75rem; display: block; }
 .de-lens-name {
   display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
   font-size: 0.98rem; font-weight: 700; margin: 0.6rem 0 0.2rem;
 }
-.de-lens-group {
-  display: flex; flex-direction: column; gap: 1px; width: 100%; min-width: 0;
-  background: transparent; border: none; border-radius: 0 6px 6px 0; cursor: pointer;
-  padding: 0.3rem 0.5rem 0.3rem 0.65rem; text-align: left; color: var(--se-text);
-  font-family: inherit; margin-bottom: 2px;
-}
-.de-lens-group:hover { background: color-mix(in srgb, var(--se-border) 60%, var(--se-card)); }
-.de-lens-group-name { font-weight: 600; font-size: 0.85rem; }
-.de-lens-links { columns: 200px; column-gap: 1.4rem; }
-.de-lens-rule { padding-left: 0.55rem; margin-bottom: 0.55rem; break-inside: avoid; }
-.de-lens-rule-label {
-  display: block; background: transparent; border: none; cursor: pointer; padding: 0.1rem 0.35rem;
-  color: var(--se-text); font-family: inherit; font-size: 0.78rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.04em; text-align: left;
-}
-.de-lens-rule-label:hover { color: var(--mantine-primary-color-filled); }
-.de-lens-linked {
-  display: block; width: 100%; background: transparent; border: none; border-radius: 4px;
-  cursor: pointer; padding: 0.14rem 0.35rem; text-align: left; color: var(--se-text);
-  font-family: inherit; font-size: 0.82rem;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.de-lens-linked:hover { background: color-mix(in srgb, var(--se-border) 60%, var(--se-card)); }
-.de-compare-btn { width: 100%; margin-top: 0.5rem; }
 
 .de-review-jump .de-card-search { width: 200px; }
 

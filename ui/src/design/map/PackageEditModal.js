@@ -12,12 +12,24 @@ import { ConditionTooltip, GroupMultiSelect, RuleInput } from "./RuleInputs.js"
 import { GroupEditModal } from "./GroupEditModal.js"
 import { ruleColor } from "./ruleColors.js"
 import { MAP_COPY } from "./copy.js"
+import { cardRefName } from "../../utils/DesignRules.js"
 import "./map.css"
+
+// existingCards lists the cards a wire side names directly. The side's
+// select offers only these, so an old card entry still shows but no new one
+// can be picked; it's null when there are none.
+function existingCards(entries) {
+  const names = entries.map(cardRefName).filter(Boolean)
+  if (names.length === 0) {
+    return null
+  }
+  return names
+}
 
 // PackageEditModal edits one package's name and wires. rules, the saved
 // { groups, packages }, turns on a preview of how the unsaved edit moves
 // package build counts; without it there's no preview.
-export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, rules, onSave, onCancel, onGroupSaved }) {
+export function PackageEditModal({ pkg, color, groupNames, groups, rules, onSave, onCancel, onGroupSaved }) {
   const cube = useCube()
   const [editLabel, setEditLabel] = useState(pkg.name || "")
   const [editWires, setEditWires] = useState(() =>
@@ -26,7 +38,7 @@ export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, ru
         sources: (w.sources && w.sources.length > 0) ? [...w.sources] : [""],
         targets: (w.targets && w.targets.length > 0) ? [...w.targets] : [""],
       })))
-  // Which wire the flanking source/target card lists reflect.
+  // Which wire the card lists on either side of the dialog show.
   const [activeWire, setActiveWire] = useState(0)
   const [editingGroupName, setEditingGroupName] = useState(null)
 
@@ -111,7 +123,7 @@ export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, ru
           overflow: "hidden",
         }}
       >
-        {/* Left: source cards (for the active wire) */}
+        {/* Left: one side's cards, for the active wire */}
         {renderCardList(editWires.length > 1 ? MAP_COPY.packageEdit.sourceCardsWire({ wire: activeWire + 1 }) : MAP_COPY.packageEdit.sourceCards, sourceCards)}
 
         {/* Center: edit form */}
@@ -143,8 +155,8 @@ export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, ru
                   ><IconX size={14} /></ActionIcon>
                 </div>
               )}
-              <GroupMultiSelect label={MAP_COPY.packageEdit.sourcesLabel} values={w.sources} onChange={(v) => updateWire(wi, { sources: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
-              <GroupMultiSelect label={MAP_COPY.packageEdit.targetsLabel} values={w.targets} onChange={(v) => updateWire(wi, { targets: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
+              <GroupMultiSelect label={MAP_COPY.packageEdit.sourcesLabel} values={w.sources} onChange={(v) => updateWire(wi, { sources: v })} groupNames={groupNames} cardNames={existingCards(w.sources)} onEditGroup={setEditingGroupName} />
+              <GroupMultiSelect label={MAP_COPY.packageEdit.targetsLabel} values={w.targets} onChange={(v) => updateWire(wi, { targets: v })} groupNames={groupNames} cardNames={existingCards(w.targets)} onEditGroup={setEditingGroupName} />
             </div>
           ))}
           <Button size="xs" variant="subtle" leftSection={<IconPlus size={14} />} onClick={addWire}>{MAP_COPY.packageEdit.addWire}</Button>
@@ -156,7 +168,7 @@ export function PackageEditModal({ pkg, color, groupNames, cardNames, groups, ru
           </div>
         </div>
 
-        {/* Right: target cards (for the active wire) */}
+        {/* Right: the other side's cards, for the active wire */}
         {renderCardList(editWires.length > 1 ? MAP_COPY.packageEdit.targetCardsWire({ wire: activeWire + 1 }) : MAP_COPY.packageEdit.targetCards, targetCards)}
       </div>
 

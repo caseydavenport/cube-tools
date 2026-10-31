@@ -305,7 +305,6 @@ export function DesignEditorPage({ startDate, endDate }) {
           pkg={packageEditor.original || { name: '', wires: [{ sources: [''], targets: [''] }] }}
           color={ruleColor(packageEditor.original ? (packageIndex[packageEditor.original.name] ?? 0) : packages.length)}
           groupNames={groupNames}
-          cardNames={names}
           groups={groups}
           rules={{ groups, packages }}
           onSave={savePackage}

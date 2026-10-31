@@ -1,11 +1,10 @@
 // The Rules editor's card-by-card review, stepped with the arrow keys.
 
-import React, { useEffect, useMemo } from 'react'
-import { Button, UnstyledButton } from '@mantine/core'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Autocomplete, Button, UnstyledButton } from '@mantine/core'
 import { CardImageURL } from '../../utils/Utils.js'
 import { ColorImages } from '../../utils/Colors.js'
 import { ruleColor } from '../map/ruleColors.js'
-import { CardSearch } from "./CardLens.js"
 import { ChipButton } from "./rulesParts.js"
 import { RULES_COPY } from "./copy.js"
 
@@ -102,5 +101,31 @@ export function ReviewDetail({
         <kbd>←</kbd>{RULES_COPY.review.hintPrevious}<kbd>→</kbd>{RULES_COPY.review.hintNext}
       </div>
     </div>
+  )
+}
+
+// CardSearch is a card-name autocomplete. It only commits a pick when the typed
+// text exactly matches a known card (so partial typing doesn't write junk to the
+// URL); clearing the box clears the selection.
+export function CardSearch({ value, onPick, names, placeholder }) {
+  const [text, setText] = useState(value || '')
+  const nameSet = useMemo(() => new Set(names), [names])
+  useEffect(() => { setText(value || '') }, [value])
+
+  function onChange(typed) {
+    setText(typed)
+    if (typed === '') {
+      onPick('')
+    } else if (nameSet.has(typed)) {
+      onPick(typed)
+    }
+  }
+
+  return (
+    <Autocomplete
+      className="de-card-search" size="xs" data={names} limit={20}
+      placeholder={placeholder} aria-label={placeholder}
+      value={text} onChange={onChange} spellCheck={false}
+    />
   )
 }

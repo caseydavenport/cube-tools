@@ -80,15 +80,11 @@ export function edgeColorFor(labels, packageIndex) {
   return null
 }
 
-// editorHref deep-links into the design editor for a single card, or a card pair
-// when vs is set (opens the compare pane). The editor reads card/vs/view off the
-// query string, so this just builds the hash URL to open in a new tab.
-export function editorHref(cube, card, vs) {
-  const p = new URLSearchParams({ card })
-  if (vs) {
-    p.set("vs", vs)
-    p.set("view", "compare")
-  }
+// editorHref links to the Rules editor's package board searched for card, so
+// it shows the packages that use the card. It's a full URL, for opening in a
+// new tab.
+export function editorHref(cube, card) {
+  const p = new URLSearchParams({ q: card })
   return `${window.location.pathname}#/${cube}/rules-editor?${p.toString()}`
 }
 

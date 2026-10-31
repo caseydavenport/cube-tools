@@ -77,9 +77,14 @@ export function deckHrefWithMatch(cube, ref, match, start, end) {
 }
 
 // editorViewHref links to the Rules editor showing one view, such as
-// "g:<group>" for a group or "p:<package>" for a package.
-export function editorViewHref(cube, view) {
-  return pageHref(cube, "rules-editor") + "?" + new URLSearchParams({ view }).toString()
+// "g:<group>" for a group or "p:<package>" for a package. check, when set,
+// fills in the group's "Check a card" box.
+export function editorViewHref(cube, view, check) {
+  const params = new URLSearchParams({ view })
+  if (check) {
+    params.set("check", check)
+  }
+  return pageHref(cube, "rules-editor") + "?" + params.toString()
 }
 
 // linkCheckHref links to the Rules editor's link check for cards a and b.

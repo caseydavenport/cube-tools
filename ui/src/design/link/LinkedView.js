@@ -33,7 +33,7 @@ function ThreadSide({ entry, matched, card, color, cube, onExclude }) {
       {matched && <span className="link-why">{matched}</span>}
       {isGroup && (
         <span className="link-side-actions">
-          <Link to={editorViewHref(cube, "g:" + entry)}>Edit group</Link>
+          <Link to={editorViewHref(cube, "g:" + entry, card)}>Edit group</Link>
           {onExclude && (
             <UnstyledButton className="link-text-button" onClick={() => onExclude(entry, card)}>
               Leave {card} out

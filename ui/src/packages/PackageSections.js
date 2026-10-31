@@ -46,7 +46,8 @@ function GroupChip({ group, cube }) {
   )
 }
 
-// Wires lists each wire as its source groups, an arrow, and its target groups.
+// Wires lists each wire as the groups on one side, then the groups on the
+// other.
 export function Wires({ page, cube }) {
   const title = (
     <HoverInfo title="Wires" info="The groups the rules join. A deck builds the package with 2 or more cards on each side of one wire. Click a group for its cards.">
