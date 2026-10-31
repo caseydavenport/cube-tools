@@ -194,3 +194,27 @@ func TestPackageOverTime_MarksRange(t *testing.T) {
 	assert.Equal(t, 20.0, got[7].Smoothed)
 	assert.Equal(t, 1, got[7].Decks)
 }
+
+func TestColorTable_LandsOnlySideIsNeverThin(t *testing.T) {
+	cards := map[string]types.Card{}
+	var spells, lands []string
+	for i := range 4 {
+		name := fmt.Sprintf("Green %d", i)
+		cards[name] = tendencySpell(name, "G")
+		spells = append(spells, name)
+	}
+	for i := range 3 {
+		name := fmt.Sprintf("Fetch %d", i)
+		cards[name] = types.Card{Name: name, Types: []string{"Land"}}
+		lands = append(lands, name)
+	}
+	wires := []PackageWire{{
+		Sources: []WireGroup{{Name: "Fetchers", Cards: spells}},
+		Targets: []WireGroup{{Name: "Fetchable lands", Cards: lands}},
+	}}
+
+	got := colorTable(wires, cards)
+	targets := got[len(got)-1]
+	assert.Equal(t, "All targets", targets.Group)
+	assert.Empty(t, targets.Thin)
+}

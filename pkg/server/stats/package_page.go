@@ -289,9 +289,20 @@ func colorTable(wires []PackageWire, cards map[string]types.Card) []GroupColorRo
 }
 
 // thinColors lists the colors, in WUBRG order, where side has colorThinMax
-// cards or fewer and other has colorSupportMin or more.
+// cards or fewer and other has colorSupportMin or more. A side with no
+// nonland cards is never thin.
 func thinColors(side, other map[string]int) []string {
 	out := []string{}
+
+	// Lands carry no color here, so a side of only lands says nothing about
+	// colors.
+	nonLand := side["C"]
+	for _, color := range colorColumns[:5] {
+		nonLand += side[color]
+	}
+	if nonLand == 0 {
+		return out
+	}
 	for _, color := range colorColumns[:5] {
 		if side[color] <= colorThinMax && other[color] >= colorSupportMin {
 			out = append(out, color)
