@@ -132,35 +132,6 @@ export const RULES_COPY = {
     direct: "direct",
   },
 
-  // GroupDetail.js: the pane for one group.
-  group: {
-    cardCount: (count) => `${count} card${count === 1 ? "" : "s"}`,
-    excludedCount: (count) => ` · ${count} excluded`,
-    matchesAnyOf: "Matches any of",
-    wiredInto: (count) => `Wired into ${count ? `(${count})` : ""}`,
-    noPackages: "No packages use this group, so its cards get no edges from it.",
-    membersHeading: "Members",
-    noMembers: "No cards match these conditions.",
-    openInLens: "Open in the card lens",
-    excludeFromGroup: "Exclude from this group",
-    excludedHeading: (count) => `Excluded (${count})`,
-    excludedTag: "excluded",
-    restoreToGroup: "Restore to this group",
-  },
-
-  // PackageDetail.js: the pane for one package.
-  packageDetail: {
-    subCard: "card",
-    subMissingCard: "missing card",
-    subMissingGroup: "missing group",
-    subCardCount: (count) => `${count} cards`,
-    edgeCount: (count) => `${count} card edge${count === 1 ? "" : "s"}`,
-    sources: "Sources",
-    targets: "Targets",
-    note: "Within each wire, every card in a source group connects to every card in a target group.",
-    wiresTitle: "Wires",
-  },
-
   // ReviewDetail.js: the card-by-card review pane.
   review: {
     heading: "Review",

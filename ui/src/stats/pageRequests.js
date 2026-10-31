@@ -43,6 +43,13 @@ export function rulesBoardUrl(cube, { start, end }) {
   })
 }
 
+// ruleGroupsUrl is the request for a package's groups, or one group, with
+// members listed by the condition they matched. which is { package } or
+// { group }.
+export function ruleGroupsUrl(cube, which) {
+  return statsUrl(cube, "rule-groups", which)
+}
+
 // linkCheckUrl is the link check's request: how the rules relate cards a
 // and b.
 export function linkCheckUrl(cube, a, b) {

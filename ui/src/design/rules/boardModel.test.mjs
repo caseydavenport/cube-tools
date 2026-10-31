@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { badges, colorShares, dotKeys, entryLabel, filterBoard, linkPair, sortPackages, wiringSummary } from "./boardModel.js"
+import { badges, cardsText, colorShares, dotKeys, entryLabel, filterBoard, linkPair, sortPackages, wiringSummary } from "./boardModel.js"
 
 // group builds a board group with count placeholder cards, or the named ones.
 function group(name, cards) {
@@ -135,4 +135,10 @@ test("a card's dots are its colors, or land, or colorless", () => {
 test("a card entry is labeled with its card", () => {
   assert.equal(entryLabel("card:Lightning Bolt"), "Lightning Bolt")
   assert.equal(entryLabel("Fodder"), "Fodder")
+})
+
+test("a card count reads in the singular for one card", () => {
+  assert.equal(cardsText(1), "1 card")
+  assert.equal(cardsText(0), "0 cards")
+  assert.equal(cardsText(20), "20 cards")
 })

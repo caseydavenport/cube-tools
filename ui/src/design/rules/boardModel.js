@@ -170,6 +170,14 @@ export function colorShares(colors) {
   return out
 }
 
+// cardsText reads a card count, like "1 card" or "20 cards".
+export function cardsText(count) {
+  if (count === 1) {
+    return "1 card"
+  }
+  return `${count} cards`
+}
+
 // dotKeys are a member card's color dots: a land gets "L", a colorless
 // spell "C", anything else one dot per color.
 export function dotKeys(card) {

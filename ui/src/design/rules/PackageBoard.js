@@ -8,7 +8,7 @@ import { useCube } from "../../contexts/CubeContext.js"
 import { linkCheckHref } from "../../shell/paths.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { ruleColor } from '../map/ruleColors.js'
-import { badges, colorShares, filterBoard, linkPair, sortPackages, wiringSummary } from "./boardModel.js"
+import { badges, cardsText, colorShares, filterBoard, linkPair, sortPackages, wiringSummary } from "./boardModel.js"
 import "./board.css"
 
 // HITS_SHOWN is how many matching cards a package card lists under a search.
@@ -125,7 +125,7 @@ export function PackageBoard({ board, q, sort, cardNames, totals, problemOf, onO
             return (
               <UnstyledButton key={g.name} className="rb-card rb-card-small" onClick={() => onOpenGroup(g.name)}>
                 <span className="rb-card-name">{g.name}</span>
-                <span className={countClass}>{g.cards.length} cards</span>
+                <span className={countClass}>{cardsText(g.cards.length)}</span>
               </UnstyledButton>
             )
           })}

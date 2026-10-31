@@ -26,12 +26,6 @@ button.de-loom-chip:hover { border-color: var(--mantine-primary-color-filled); }
   animation: de-thread-in 0.45s ease-out forwards;
 }
 @keyframes de-thread-in { to { stroke-dashoffset: 0; } }
-.de-loom-labels {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-top: 1rem;
-  font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  color: var(--se-muted);
-}
-.de-loom-labels span:first-child { text-align: right; }
 /* Paired with .de-muted, which loads later from rules.css, so it needs both classes to win. */
 
 /* Compact: smaller chips and still threads, for inside a popover. Long names wrap. */

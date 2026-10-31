@@ -16,8 +16,8 @@ import { renameInPackage, withExclude } from "./rulebookEdits.js"
 import { auditRulebook, groupWarning, packageWarning } from "./rulebookAudit.js"
 import { EditorToolbar } from "./EditorToolbar.js"
 import { ReviewDetail } from "./ReviewDetail.js"
-import { GroupDetail } from "./GroupDetail.js"
-import { PackageDetail } from "./PackageDetail.js"
+import { PackageWorkspace } from "./PackageWorkspace.js"
+import { GroupView } from "./GroupView.js"
 import { PackageBoard } from "./PackageBoard.js"
 import { RULES_COPY } from "./copy.js"
 import "../../components/kit/popover.css"
@@ -83,6 +83,7 @@ export function DesignEditorPage({ startDate, endDate }) {
   const packageIndex = useMemo(() => Object.fromEntries(packages.map((l, i) => [l.name, i])), [packages])
   const groupNames = useMemo(() => groups.map(g => g.name), [groups])
   const groupCards = useMemo(() => Object.fromEntries(groupNodes.map(g => [g.name, g])), [groupNodes])
+  const groupsByName = useMemo(() => Object.fromEntries(groups.map(g => [g.name, g])), [groups])
 
   // name -> [{ name, packages }] : every card a card connects to, and through which packages.
   const neighborsOf = useMemo(() => {
@@ -244,30 +245,34 @@ export function DesignEditorPage({ startDate, endDate }) {
 
   // Resolve the main view from the view param; anything unknown is the board.
   let main
-  if (view.startsWith('g:') && groupIndex[view.slice(2)] !== undefined) {
-    const g = groups[groupIndex[view.slice(2)]]
-    main = <GroupDetail
-      key={g.name}
-      group={g} color={ruleColor(groupIndex[g.name])}
-      members={(groupCards[g.name]?.cards || []).slice().sort()}
-      excluded={(groupCards[g.name]?.excluded_cards || []).slice().sort()}
-      cardGroups={cardGroups} nodeByName={nodeByName}
-      packagesTouching={packages.filter(l => (l.wires || []).some(w => (w.sources || []).includes(g.name) || (w.targets || []).includes(g.name)))}
-      packageIndex={packageIndex} warn={groupWarning(audit, g.name)}
-      canEdit={canEdit} onEdit={() => openGroup(g.name)} onDelete={() => deleteGroup(g.name)}
-      onExclude={(card) => setCardExcluded(g.name, card, true)}
-      onRestore={(card) => setCardExcluded(g.name, card, false)}
-      onSelectPackage={selectPackage} onFocusCard={() => {}} onHoverCard={() => {}}
+  const viewName = view.slice(2)
+  const openPkgIndex = board.packages.findIndex(p => p.name === viewName)
+  const backToBoard = () => selectView('')
+  if (view.startsWith('g:')) {
+    let color = 'var(--se-muted)'
+    if (groupIndex[viewName] !== undefined) {
+      color = ruleColor(groupIndex[viewName])
+    }
+    main = <GroupView
+      key={viewName} name={viewName} group={groupsByName[viewName]} color={color}
+      warning={groupWarning(audit, viewName)} canEdit={canEdit} refresh={refresh}
       initialCheck={params.get('check') || ''}
+      onBack={backToBoard} onEdit={() => openGroup(viewName)} onDelete={() => deleteGroup(viewName)}
+      onExclude={(group, card) => setCardExcluded(group, card, true)}
+      onRestore={(group, card) => setCardExcluded(group, card, false)}
+      onOpenPackage={selectPackage}
     />
-  } else if (view.startsWith('p:') && packageIndex[view.slice(2)] !== undefined) {
-    const l = packages[packageIndex[view.slice(2)]]
-    main = <PackageDetail
-      key={l.name}
-      pkg={l} color={ruleColor(packageIndex[l.name])} edgeCount={0}
-      groupIndex={groupIndex} groupCards={groupCards} warn={packageWarning(audit, l.name)}
-      canEdit={canEdit} onEdit={() => openPackage(l.name)} onDelete={() => deletePackage(l.name)}
-      onSelectGroup={selectGroup} onFocusCard={() => {}}
+  } else if (view.startsWith('p:') && openPkgIndex >= 0) {
+    main = <PackageWorkspace
+      key={viewName} pkg={board.packages[openPkgIndex]} index={openPkgIndex}
+      groupsByName={groupsByName} groupIndex={groupIndex}
+      problem={packageWarning(audit, viewName)} warningOf={name => groupWarning(audit, name)}
+      canEdit={canEdit} refresh={refresh} initialCheck={params.get('check') || ''}
+      onBack={backToBoard} onEditPackage={() => openPackage(viewName)} onDeletePackage={() => deletePackage(viewName)}
+      onEditGroup={openGroup}
+      onExclude={(group, card) => setCardExcluded(group, card, true)}
+      onRestore={(group, card) => setCardExcluded(group, card, false)}
+      onOpenPackage={selectPackage}
     />
   } else if (view === 'review' && names.length > 0) {
     const current = nodeByName[focal] ? focal : names[0]
