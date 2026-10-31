@@ -282,8 +282,8 @@ func colorTable(wires []PackageWire, cards map[string]types.Card) []GroupColorRo
 	sourceTotals := colorCounts(groupsCards(sources), cards)
 	targetTotals := colorCounts(groupsCards(targets), cards)
 	out = append(out,
-		GroupColorRow{Group: "All sources", Side: "source", Total: true, Counts: sourceTotals, Thin: thinColors(sourceTotals, targetTotals)},
-		GroupColorRow{Group: "All targets", Side: "target", Total: true, Counts: targetTotals, Thin: thinColors(targetTotals, sourceTotals)},
+		GroupColorRow{Group: "All of one side", Side: "source", Total: true, Counts: sourceTotals, Thin: thinColors(sourceTotals, targetTotals)},
+		GroupColorRow{Group: "All of the other side", Side: "target", Total: true, Counts: targetTotals, Thin: thinColors(targetTotals, sourceTotals)},
 	)
 	return out
 }

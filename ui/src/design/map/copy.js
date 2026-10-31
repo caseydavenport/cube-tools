@@ -18,7 +18,6 @@ export const MAP_COPY = {
     openInEditor: "Open in the design editor",
     noConnectionsInPool: "No connections in this pool.",
     connectedTo: "Connected to",
-    compareInEditor: ({ card }) => `Compare with ${card} in the editor`,
   },
 
   // designData.js: messages from saving the rules.

@@ -322,3 +322,8 @@
   padding: 2px 4px;
   border-radius: 3px;
 }
+
+/* The deck map's "Check a link with…" picker under a selected card. */
+.dm-link-check {
+  margin: 0.4rem 0.85rem 0.2rem;
+}

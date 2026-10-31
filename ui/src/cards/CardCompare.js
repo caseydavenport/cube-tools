@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { Loom } from "../design/Loom.js"
 import { AnyCardSearch } from "./AnyCardSearch.js"
-import { pageHrefWithMatch } from "../shell/paths.js"
+import { linkCheckHref, pageHrefWithMatch } from "../shell/paths.js"
 import { CardImageURL } from "../utils/Utils.js"
 import { CardLink } from "../components/CardLink.js"
 import { bothCardsMatch, compareLoom } from "./cardPageModel.js"
@@ -66,6 +66,9 @@ function CompareBody({ card, vs, links, packageIndex, nav }) {
         onClick={() => nav.onMatch(match)}
       >
         Decks with both →
+      </Link>
+      <Link className="card-compare-decks card-compare-check" to={linkCheckHref(nav.cube, card, vs)}>
+        Open in the link check →
       </Link>
     </>
   )

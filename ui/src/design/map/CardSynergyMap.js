@@ -1,7 +1,9 @@
 // The Map view of one deck: its cards as a graph, connected by the design rules.
 
 import React, { useEffect, useState, useMemo } from 'react'
-import { SegmentedControl, UnstyledButton } from "@mantine/core"
+import { Select, SegmentedControl, UnstyledButton } from "@mantine/core"
+import { Link, useNavigate } from "react-router-dom"
+import { linkCheckHref } from "../../shell/paths.js"
 import { useCube } from "../../contexts/CubeContext.js"
 import { buildDeckSubgraph, rankByDegree, dominantLabel } from "../../utils/DeckGraph"
 import { RULE_COLORS, ruleColor } from "./ruleColors.js"
@@ -19,6 +21,7 @@ import { HoverInfo } from "../../components/kit/HoverInfo.js"
 // click pins the focus on it.
 export function CardSynergyMap({ cards, edges, packages }) {
   const cube = useCube()
+  const navigate = useNavigate()
   const [hovered, setHovered] = useState(null)
   const [selected, setSelected] = useState(null)
   const [hoveredCommunity, setHoveredCommunity] = useState(null)
@@ -183,6 +186,16 @@ export function CardSynergyMap({ cards, edges, packages }) {
               <CardPageIcon cube={cube} name={selected} className="dm-editor-link" />
               <a className="dm-editor-link" href={editorHref(cube, selected)} target="_blank" rel="noopener noreferrer" title={MAP_COPY.cardSynergyMap.openInEditor}>⧉</a>
             </div>
+            <Select
+              size="xs"
+              placeholder="Check a link with…"
+              data={Object.keys(byName).filter(name => name !== selected).sort()}
+              value={null}
+              onChange={other => other && navigate(linkCheckHref(cube, selected, other))}
+              searchable
+              className="dm-link-check"
+              comboboxProps={{ withinPortal: false }}
+            />
             {linkedTo.length === 0 ? (
               <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noConnectionsInPool}</p>
             ) : (
@@ -193,7 +206,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
                     <span className="dm-legend-name">{n.card}</span>
                     <span className="dm-legend-count">{n.weight}</span>
                     <CardPageIcon cube={cube} name={n.card} className="dm-editor-link" />
-                    <a className="dm-editor-link" href={editorHref(cube, selected, n.card)} target="_blank" rel="noopener noreferrer" title={MAP_COPY.cardSynergyMap.compareInEditor({ card: selected })}>⧉</a>
+                    <Link className="dm-editor-link" to={linkCheckHref(cube, selected, n.card)} title={`Why ${selected} and ${n.card} are linked`}>Why?</Link>
                   </div>
                 ))}
               </>

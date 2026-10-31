@@ -47,7 +47,7 @@ export function GroupDetail({
             {(l.wires || []).filter(w => (w.sources || []).includes(group.name) || (w.targets || []).includes(group.name)).map((w, wi) => (
               <span key={wi} className="de-wire-pair">
                 {(w.sources || []).map(s => <Emph key={'s' + s} me={group.name} name={s} />)}
-                <span className="de-why-arrow">→</span>
+                <span className="de-why-arrow">↔</span>
                 {(w.targets || []).map(t => <Emph key={'t' + t} me={group.name} name={t} />)}
               </span>
             ))}

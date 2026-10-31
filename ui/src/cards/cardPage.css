@@ -200,6 +200,10 @@
   text-decoration: none;
 }
 
+.card-compare-check {
+  margin-left: 18px;
+}
+
 .card-page-stack {
   display: flex;
   flex-direction: column;

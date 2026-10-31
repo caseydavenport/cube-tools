@@ -165,8 +165,8 @@ func TestColorTable_CountsAndThin(t *testing.T) {
 
 	// The side totals carry the thin colors: one black source against five
 	// black targets, and no red target against five red sources.
-	assert.Equal(t, GroupColorRow{Group: "All sources", Side: "source", Total: true, Counts: got[0].Counts, Thin: []string{"B"}}, got[2])
-	assert.Equal(t, "All targets", got[3].Group)
+	assert.Equal(t, GroupColorRow{Group: "All of one side", Side: "source", Total: true, Counts: got[0].Counts, Thin: []string{"B"}}, got[2])
+	assert.Equal(t, "All of the other side", got[3].Group)
 	assert.True(t, got[3].Total)
 	assert.Equal(t, []string{"R"}, got[3].Thin)
 }
@@ -215,6 +215,6 @@ func TestColorTable_LandsOnlySideIsNeverThin(t *testing.T) {
 
 	got := colorTable(wires, cards)
 	targets := got[len(got)-1]
-	assert.Equal(t, "All targets", targets.Group)
+	assert.Equal(t, "All of the other side", targets.Group)
 	assert.Empty(t, targets.Thin)
 }

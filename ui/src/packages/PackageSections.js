@@ -60,7 +60,7 @@ export function Wires({ page, cube }) {
           <div className="package-wire-side">
             {wire.sources.map(g => <GroupChip key={g.name} group={g} cube={cube} />)}
           </div>
-          <span className="package-wire-arrow">→</span>
+          <span className="package-wire-arrow">↔</span>
           <div className="package-wire-side">
             {wire.targets.map(g => <GroupChip key={g.name} group={g} cube={cube} />)}
           </div>
@@ -83,6 +83,15 @@ function ColumnHead({ color }) {
     return <th className="header-cell stats-numeric">Lands</th>
   }
   return <th className="header-cell stats-numeric">{ColorImages([color])}</th>
+}
+
+// sideLabel names a wire side without direction: the rules file's "source"
+// side reads "one side", its "target" side "other side".
+function sideLabel(side) {
+  if (side === "source") {
+    return "one side"
+  }
+  return "other side"
 }
 
 // colorRowClass styles a side's total row apart from the group rows.
@@ -119,7 +128,7 @@ export function ColorSupport({ page }) {
             {page.color_table.map(row => (
               <tr key={row.side + row.group} className={colorRowClass(row)}>
                 <td className="header-cell">
-                  {row.group} {!row.total && <span className="stats-muted">{row.side}</span>}
+                  {row.group} {!row.total && <span className="stats-muted">{sideLabel(row.side)}</span>}
                 </td>
                 {COLOR_COLUMNS.map(color => {
                   const cell = colorCell(row, color)

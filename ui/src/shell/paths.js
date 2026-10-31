@@ -81,3 +81,8 @@ export function deckHrefWithMatch(cube, ref, match, start, end) {
 export function editorViewHref(cube, view) {
   return pageHref(cube, "rules-editor") + "?" + new URLSearchParams({ view }).toString()
 }
+
+// linkCheckHref links to the Rules editor's link check for cards a and b.
+export function linkCheckHref(cube, a, b) {
+  return pageHref(cube, "rules-editor/link") + "?" + new URLSearchParams({ a, b }).toString()
+}

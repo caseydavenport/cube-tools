@@ -1,7 +1,9 @@
 // The Rules editor's toolbar and its view switch.
 
 import React from 'react'
-import { SegmentedControl } from '@mantine/core'
+import { Button, SegmentedControl } from '@mantine/core'
+import { Link } from "react-router-dom"
+import { pageHref } from "../../shell/paths.js"
 import { PageToolbar } from '../../toolbar/PageToolbar.js'
 import { RULES_COPY } from "./copy.js"
 import { AnyCardSearch } from "../../cards/AnyCardSearch.js"
@@ -51,6 +53,7 @@ export function EditorToolbar({ view, auditCount, compareReady, onSelectView, cu
     <PageToolbar title={RULES_COPY.toolbar.title}>
       <SegmentedControl size="xs" aria-label={RULES_COPY.toolbar.viewsLabel} data={views} value={toolbarValue(view)} onChange={onChange} />
       <AnyCardSearch cube={cube} onPick={onTryCard} placeholder="Try a card" className="de-try-card" />
+      <Button component={Link} to={pageHref(cube, "rules-editor/link")} size="xs" variant="default">Link check</Button>
     </PageToolbar>
   )
 }
