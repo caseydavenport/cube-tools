@@ -126,6 +126,7 @@ func wireUses(entry string, config design.DesignMapConfig) []WireUse {
 // linkThreads lists every wire with one card's entry on one side and the
 // other card's on the other, card A's entry first, each once.
 func linkThreads(rel cardRelations, a, b types.Card, config design.DesignMapConfig) []LinkThread {
+	// Index groups by name to find the conditions each side matched.
 	groups := map[string]design.Group{}
 	for _, g := range config.Groups {
 		groups[g.Name] = g
@@ -148,6 +149,8 @@ func linkThreads(rel cardRelations, a, b types.Card, config design.DesignMapConf
 		}
 	}
 
+	// A wire links the cards when each card is in an entry on opposite sides,
+	// in either direction.
 	for _, pkg := range config.Packages {
 		for i, wire := range pkg.Wires {
 			for _, source := range wire.Sources {

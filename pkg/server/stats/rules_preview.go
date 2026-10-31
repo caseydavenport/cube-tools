@@ -63,6 +63,7 @@ func (h *rulesPreviewHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	// Count over every deck, under both the saved rules and the proposal.
 	now := buildCounts(resolvePackages(rules.cube, rules.config, rules.deckCardNames), decks)
 	after := buildCounts(resolvePackages(rules.cube, proposed, rules.deckCardNames), decks)
 	writeJSON(rw, RulesPreviewResponse{Packages: packageChanges(now, after)}, "rules preview")
