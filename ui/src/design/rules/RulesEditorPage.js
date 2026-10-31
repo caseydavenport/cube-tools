@@ -98,8 +98,8 @@ export function DesignEditorPage({ startDate, endDate }) {
 
   // Broken-rule checks, shown on the package or group they belong to.
   const audit = useMemo(
-    () => auditRulebook({ packages, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf }),
-    [packages, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf],
+    () => auditRulebook({ packages, groups, groupNames, groupCards, names }),
+    [packages, groups, groupNames, groupCards, names],
   )
 
   // --- URL state ---------------------------------------------------------------

@@ -36,58 +36,9 @@ export const RULES_COPY = {
     healthIssues: (count) => `${count} structural issue${count === 1 ? "" : "s"} — open the audit board`,
   },
 
-  // AuditBoard.js: the audit board's sections and the lines under them.
-  audit: {
-    heading: "Audit",
-    noIssues: "no structural issues",
-    issues: (count) => `${count} structural issue${count === 1 ? "" : "s"}`,
-    reviewCtaBold: "Card-by-card review",
-    reviewCtaBefore: " — step through every card with ",
-    reviewCtaAfter: " and check its groups",
-    coverageDivider: "Coverage — worth a look, not necessarily wrong",
-    measuring: "Measuring memberships…",
-
-    emptyGroupsTitle: "Empty groups",
-    emptyGroupsBlurb: "Conditions match no cards — a stale query or a card that left the cube.",
-    emptyGroupsOk: "Every group matches at least one card.",
-
-    unusedGroupsTitle: "Unused groups",
-    unusedGroupsBlurb: "No package uses these groups, so membership does nothing yet.",
-    unusedGroupsOk: "Every group is wired into at least one package.",
-
-    brokenPackagesTitle: "Broken packages",
-    brokenPackagesBlurb: "A wire names a group that doesn't exist, or one side of a wire is empty.",
-    brokenPackagesOk: "Every wire has valid sources and targets.",
-    missingSub: (names) => `missing: ${names}`,
-    emptyWireSide: "empty wire side",
-
-    staleExcludesTitle: "Stale excludes",
-    staleExcludesBlurb: "A group excludes a card name that isn't in the cube — a typo, or a card that was renamed or cut.",
-    staleExcludesOk: "Every excluded card name exists in the cube.",
-    excludesSub: (name) => `excludes: ${name}`,
-
-    doubledPackagesTitle: "Doubled-up packages",
-    doubledPackagesBlurb: "More than one package wires the same pair of groups. The edges are identical, so one package may be redundant.",
-    doubledPackagesOk: "No two packages wire the same pair of groups.",
-
-    similarGroupsTitle: "Near-identical groups",
-    similarGroupsBlurb: "Two groups whose members mostly coincide — likely the same idea captured twice.",
-    similarGroupsOk: "No two groups share most of their members.",
-    sameAsSub: ({ pct, other }) => `${pct}% same as ${other}`,
-
-    ungroupedCardsTitle: "Ungrouped cards",
-    ungroupedCardsBlurb: "In no group at all — invisible to the synergy map.",
-    ungroupedCardsOk: "Every card is in at least one group.",
-
-    isolatedCardsTitle: "Isolated cards",
-    isolatedCardsBlurb: "Grouped, but with zero edges. No package uses any of their groups.",
-    isolatedCardsOk: "Every grouped card has at least one edge.",
-  },
-
   // rulebookAudit.js: the warnings shown on a group or package in the registry and its pane.
   rulebookAudit: {
     groupEmpty: "Matches no cards",
-    groupUnused: "No package uses this group",
     staleExcludes: ({ count, names }) => `Excludes unknown card${count === 1 ? "" : "s"}: ${names}`,
     packageMissing: (names) => `References missing group/card: ${names}`,
     packageOneSided: "A wire is missing a source or target",

@@ -1,23 +1,20 @@
-// The Rules editor's health checks over the rulebook, kept free of React so
-// node tests can run them.
+// The Rules editor's checks for broken rules, kept free of React so node
+// tests can run them.
 
 import { cardRefName } from '../../utils/DesignRules.js'
 import { RULES_COPY } from "./copy.js"
 
-// auditRulebook runs the editor's health checks. Structural issues (wrong by
-// definition, like a package naming a missing group) are counted in structural for
-// the toolbar badge; the coverage lists (judgment calls) only show on the audit
-// board. ungroupedCards and isolatedCards are null while memberships are
-// still loading.
-export function auditRulebook({ packages, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf }) {
+// auditRulebook finds the rules that are broken by definition: packages
+// naming a missing group or card or with a wire missing a side, groups that
+// match no cards, and excludes naming cards not in the cube. The editor
+// shows each on the package or group it belongs to.
+export function auditRulebook({ packages, groups, groupNames, groupCards, names }) {
   const groupSet = new Set(groupNames)
   const cardSet = new Set(names)
-  const referenced = new Set()
   const brokenPackages = []
   for (const l of packages) {
     const wires = l.wires || []
     const ends = wires.flatMap(w => [...(w.sources || []), ...(w.targets || [])])
-    ends.forEach(n => referenced.add(n))
     // A card: entry is broken when the named card isn't in the cube (typo, or cut).
     const missing = ends.filter(n => {
       const refName = cardRefName(n)
@@ -28,63 +25,18 @@ export function auditRulebook({ packages, groups, groupNames, groupCards, names,
       brokenPackages.push({ name: l.name, missing })
     }
   }
-  // The same group pair wired by more than one package — the edges are identical,
-  // so it's usually two rules that drifted into overlap. Direction ignored:
-  // A->B and B->A produce the same card edges.
-  const pairPackages = {}
-  for (const l of packages) {
-    for (const w of (l.wires || [])) {
-      for (const s of (w.sources || [])) {
-        for (const t of (w.targets || [])) {
-          const key = [s, t].sort().join('|')
-          ;(pairPackages[key] = pairPackages[key] || new Set()).add(l.name)
-        }
-      }
-    }
-  }
-  const duplicatePairs = Object.entries(pairPackages)
-    .filter(([, names]) => names.size > 1)
-    .map(([key, names]) => ({ key, groups: key.split('|'), names: [...names].sort() }))
-    .sort((a, b) => a.key.localeCompare(b.key))
-  // Two groups whose memberships nearly coincide — usually the same idea
-  // captured twice by slightly different queries. Jaccard >= 0.75 keeps
-  // deliberate thematic overlap (~50%) out of the list.
-  const memberSets = groupNames.map(n => [n, new Set(groupCards[n]?.cards || [])])
-  const similarGroups = []
-  for (let i = 0; i < memberSets.length; i++) {
-    const [an, as] = memberSets[i]
-    if (as.size === 0) continue
-    for (let j = i + 1; j < memberSets.length; j++) {
-      const [bn, bs] = memberSets[j]
-      if (bs.size === 0) continue
-      let shared = 0
-      for (const c of as) if (bs.has(c)) shared++
-      const jaccard = shared / (as.size + bs.size - shared)
-      if (jaccard >= 0.75) similarGroups.push({ a: an, b: bn, shared, pct: Math.round(jaccard * 100) })
-    }
-  }
-  similarGroups.sort((x, y) => y.pct - x.pct)
-  const unlinkedGroups = groupNames.filter(n => !referenced.has(n))
   const emptyGroups = groupNames.filter(n => (groupCards[n]?.card_count ?? (groupCards[n]?.cards || []).length) === 0)
   // An excluded name not in the cube does nothing — a typo, or a card that
   // was renamed or cut. Same failure mode as a missing card: wire ref.
   const staleExcludes = groups.flatMap(g =>
     (g.exclude || []).filter(n => !cardSet.has(n)).map(n => ({ group: g.name, name: n })))
-  // A card named directly on a wire gets edges without any group, so it isn't
-  // invisible to the map - leave it off the ungrouped list.
-  const directlyWired = new Set([...referenced].map(cardRefName).filter(Boolean))
-  const ungroupedCards = membershipsLoading ? null : names.filter(n => !(cardGroups[n] || []).length && !directlyWired.has(n))
-  const isolatedCards = membershipsLoading ? null :
-    names.filter(n => (cardGroups[n] || []).length > 0 && !(neighborsOf[n] || []).length)
-  const structural = brokenPackages.length + unlinkedGroups.length + emptyGroups.length + staleExcludes.length
-  return { brokenPackages, duplicatePairs, similarGroups, unlinkedGroups, emptyGroups, staleExcludes, ungroupedCards, isolatedCards, structural }
+  return { brokenPackages, emptyGroups, staleExcludes }
 }
 
 // groupWarning describes what's wrong with one group, or returns null.
 export function groupWarning(audit, name) {
   const msgs = []
   if (audit.emptyGroups.includes(name)) msgs.push(RULES_COPY.rulebookAudit.groupEmpty)
-  if (audit.unlinkedGroups.includes(name)) msgs.push(RULES_COPY.rulebookAudit.groupUnused)
   const stale = audit.staleExcludes.filter(s => s.group === name).map(s => s.name)
   if (stale.length) msgs.push(RULES_COPY.rulebookAudit.staleExcludes({ count: stale.length, names: stale.join(', ') }))
   return msgs.length ? msgs.join('; ') : null
