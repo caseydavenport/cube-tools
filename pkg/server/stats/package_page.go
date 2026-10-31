@@ -46,6 +46,7 @@ type PackagePageResponse struct {
 	OverTime   []DraftBuild    `json:"over_time"`
 	Decks      []CardDeck      `json:"decks"`
 	Related    []PackageEdge   `json:"related"`
+	Map        PackageMap      `json:"map"`
 }
 
 // PackageWire is one wire of a package with its groups resolved to cube cards.
@@ -184,6 +185,7 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	resp.Wires = packageWires(page.pkg, groups.cube, page.rules.config)
 	resp.ColorTable = colorTable(resp.Wires, cardMap)
 	resp.OverTime = packageOverTime(cards, page.all, page.start, page.end)
+	resp.Map = buildPackageMap(page.pkg, cards, groups.cube, page.rules.config, page.ranged)
 
 	// The decks in range that built the package.
 	var built []*storage.Deck

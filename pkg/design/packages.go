@@ -35,7 +35,7 @@ func SideMinimum(cubeCards int) int {
 // deck's non-basic mainboard card names.
 func (p PackageCards) BuiltBy(deck map[string]bool) bool {
 	for _, w := range p.Wires {
-		if w.builtBy(deck) {
+		if w.BuiltBy(deck) {
 			return true
 		}
 	}
@@ -64,8 +64,9 @@ func (p PackageCards) HasCards(deck map[string]bool) bool {
 	return len(cards) >= MinPackageCards
 }
 
-// builtBy reports whether the deck plays enough of this wire to build it.
-func (w WireCards) builtBy(deck map[string]bool) bool {
+// BuiltBy reports whether the deck plays enough of this wire to build the
+// package through it.
+func (w WireCards) BuiltBy(deck map[string]bool) bool {
 	if w.NeedSources == 0 || w.NeedTargets == 0 {
 		return false
 	}
