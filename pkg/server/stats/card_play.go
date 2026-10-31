@@ -260,12 +260,19 @@ func cardDecks(card string, ranged []*storage.Deck) []CardDeck {
 			played = append(played, d)
 		}
 	}
-	slices.SortFunc(played, func(a, b *storage.Deck) int {
+	return deckRows(played)
+}
+
+// deckRows turns decks into detail-page rows, newest first, for the card and
+// package pages' deck lists.
+func deckRows(decks []*storage.Deck) []CardDeck {
+	sorted := slices.Clone(decks)
+	slices.SortFunc(sorted, func(a, b *storage.Deck) int {
 		return cmp.Or(cmp.Compare(b.Date, a.Date), cmp.Compare(b.Metadata.DraftID, a.Metadata.DraftID), cmp.Compare(b.ID, a.ID))
 	})
 
 	out := []CardDeck{}
-	for _, d := range played {
+	for _, d := range sorted {
 		out = append(out, CardDeck{
 			Ref:       fmt.Sprintf("%d/%d", d.Metadata.DraftID, d.ID),
 			Date:      d.Date,
