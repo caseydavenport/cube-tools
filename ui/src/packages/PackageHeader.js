@@ -15,7 +15,7 @@ export function PackageHeader({ page, info }) {
   const tiles = headerTiles(page.stat).map(t => (
     <StatTile key={t.key} label={t.label} value={t.value} detail={t.detail} tip={t.tip} />
   ))
-  const won = gamesWonTile(page.stat.record)
+  const won = gamesWonTile(page.stat.record, "the decks that built it")
   if (won && hasData(info, "results")) {
     tiles.push(<GamesWon key="won" tile={won} />)
   }

@@ -225,10 +225,11 @@ export function isNewToCube(history) {
   return known > 0 && isNewCard(inCube)
 }
 
-// gamesWonTile is the header's "Games won" tile for the card's record: the
-// Bayes win %, muted when it can't be told apart from a coin flip, with the
-// raw rate, interval and record in the tip. It's null with no games.
-export function gamesWonTile(record) {
+// gamesWonTile is the header's "Games won" tile for a record: the Bayes win %,
+// muted when it can't be told apart from a coin flip, with the raw rate,
+// interval and record in the tip. decks says whose games the tip counts. It's
+// null with no games.
+export function gamesWonTile(record, decks = "the decks that mainboarded it") {
   const rows = winRateRows(record, confidencePercent())
   if (rows.length === 0) {
     return null
@@ -237,6 +238,6 @@ export function gamesWonTile(record) {
   return {
     value: winRateText(record),
     muted: winRateMuted(record),
-    tip: `Bayes win % of the decks that mainboarded it. ${details}`,
+    tip: `Bayes win % of ${decks}. ${details}`,
   }
 }

@@ -127,3 +127,9 @@ test("a card with no games has no games won tile", () => {
   assert.equal(gamesWonTile({ wins: 0, losses: 0, draws: 0 }), null)
   assert.equal(gamesWonTile(undefined), null)
 })
+
+test("the games won tip names whose decks it counts", () => {
+  const record = { wins: 3, losses: 1, draws: 0, win_percent: 75, bayesian_win_percent: 52, win_percent_low: 30, win_percent_high: 95, significant: false }
+  assert.match(gamesWonTile(record).tip, /^Bayes win % of the decks that mainboarded it\./)
+  assert.match(gamesWonTile(record, "the decks that built it").tip, /^Bayes win % of the decks that built it\./)
+})
