@@ -98,14 +98,8 @@ func (h *ruleGroupsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	resp := RuleGroupsResponse{Groups: []GroupMembers{}}
-	seen := map[string]bool{}
-	for _, w := range rules.config.Packages[idx].Wires {
-		for _, entry := range slices.Concat(w.Sources, w.Targets) {
-			if !seen[entry] {
-				seen[entry] = true
-				resp.Groups = append(resp.Groups, groupMembers(entry, rules.config, cardMap))
-			}
-		}
+	for _, entry := range wireEntries(rules.config.Packages[idx]) {
+		resp.Groups = append(resp.Groups, groupMembers(entry, rules.config, cardMap))
 	}
 	writeJSON(rw, resp, "rule groups")
 }

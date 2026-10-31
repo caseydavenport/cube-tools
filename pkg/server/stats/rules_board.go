@@ -131,14 +131,23 @@ func buildRulesBoard(rules designInputs, decks []*storage.Deck, conf float64) Ru
 // order, with its cube cards.
 func boardGroups(pkg design.Package, cube map[string]map[string]bool) []BoardGroup {
 	out := []BoardGroup{}
+	for _, entry := range wireEntries(pkg) {
+		out = append(out, BoardGroup{Name: entry, Cards: sortedCards(cube[entry])})
+	}
+	return out
+}
+
+// wireEntries lists each rule entry the package's wires name, once, in the
+// order they first appear.
+func wireEntries(pkg design.Package) []string {
+	out := []string{}
 	seen := map[string]bool{}
 	for _, w := range pkg.Wires {
 		for _, entry := range slices.Concat(w.Sources, w.Targets) {
-			if seen[entry] {
-				continue
+			if !seen[entry] {
+				seen[entry] = true
+				out = append(out, entry)
 			}
-			seen[entry] = true
-			out = append(out, BoardGroup{Name: entry, Cards: sortedCards(cube[entry])})
 		}
 	}
 	return out
