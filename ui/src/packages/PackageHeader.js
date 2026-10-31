@@ -1,28 +1,33 @@
-// The package page's header band: the name, its groups and cards, and how
-// often decks built it, as tiles.
+// The package page's header band: the name, its groups and cards, and one
+// line of numbers in words, each with a tip.
 
 import React from "react"
 import { DetailHeader } from "../components/kit/DetailHeader.js"
-import { StatTile } from "../components/kit/StatTile.js"
-import { GamesWon } from "../cards/CardHeader.js"
-import { gamesWonTile } from "../cards/cardPageModel.js"
+import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { hasData } from "../utils/dataKinds.js"
-import { headerTiles, packageSubtitle } from "./packagePageModel.js"
+import { headerLine, packageSubtitle } from "./packagePageModel.js"
 
 // PackageHeader is the package page's header. info is the cube's info, which
-// says whether it records results for the Games won tile.
-export function PackageHeader({ page, info }) {
-  const tiles = headerTiles(page.stat).map(t => (
-    <StatTile key={t.key} label={t.label} value={t.value} detail={t.detail} tip={t.tip} />
-  ))
-  const won = gamesWonTile(page.stat.record, "the decks that built it")
-  if (won && hasData(info, "results")) {
-    tiles.push(<GamesWon key="won" tile={won} />)
-  }
-
+// says whether it records results for the win rate. actions are buttons for
+// the header's right side, such as Edit and Delete.
+export function PackageHeader({ page, info, actions }) {
+  const items = headerLine(page, hasData(info, "results"))
   const tags = []
   if (page.stat.rarelyTogether) {
     tags.push("Rarely comes together")
   }
-  return <DetailHeader title={page.name} subtitle={packageSubtitle(page)} tags={tags} tiles={tiles} />
+  return (
+    <DetailHeader title={page.name} subtitle={packageSubtitle(page)} tags={tags} actions={actions}>
+      <div className="package-line">
+        {items.map((item, i) => (
+          <span key={item.key}>
+            {i > 0 && <span className="package-line-dot">·</span>}
+            <HoverInfo info={item.tip}>
+              <span className="package-line-item">{item.text}</span>
+            </HoverInfo>
+          </span>
+        ))}
+      </div>
+    </DetailHeader>
+  )
 }

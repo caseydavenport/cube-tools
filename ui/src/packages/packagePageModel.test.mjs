@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { chartSeries, colorCell, headerTiles, packageSubtitle } from "./packagePageModel.js"
+import { chartSeries, colorCell, headerLine, packageSubtitle } from "./packagePageModel.js"
 
 const wires = [
   { sources: [{ name: "Graveyard" }], targets: [{ name: "Delirium payoffs" }, { name: "Reanimate targets" }] },
@@ -12,13 +12,19 @@ test("the subtitle counts distinct groups and the package's cards", () => {
   assert.equal(packageSubtitle({ wires: [{ sources: [{ name: "A" }], targets: [] }], stat: { cardCount: 1 } }), "1 group · 1 card")
 })
 
-test("the header tiles read in words", () => {
-  const tiles = headerTiles({ package: 111, buildRate: 0.449, has3: 166, cameTogether: 0.669 })
-  assert.deepEqual(tiles.map(t => [t.key, t.label, t.value, t.detail]), [
-    ["built", "Built in", "111 decks", "45% of decks"],
-    ["had", "Had the cards", "166 decks", "3 or more of its cards"],
-    ["together", "Came together", "67%", "of the decks with its cards"],
+test("the header line reads the package's numbers in words", () => {
+  const page = { stat: { package: 43, record: { bayesian_win_percent: 51.4 } }, map: { typical_pairs: 12 } }
+  assert.deepEqual(headerLine(page, true).map(item => [item.key, item.text]), [
+    ["built", "43 decks built it"],
+    ["pairs", "12 linked pairs in a typical build"],
+    ["win", "51% win rate"],
   ])
+  assert.deepEqual(headerLine(page, false).map(item => item.key), ["built", "pairs"])
+})
+
+test("one deck reads in the singular", () => {
+  const page = { stat: { package: 1, record: { bayesian_win_percent: 50 } }, map: { typical_pairs: 4 } }
+  assert.equal(headerLine(page, false)[0].text, "1 deck built it")
 })
 
 test("a color cell is thin only when the server says so", () => {

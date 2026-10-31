@@ -1,7 +1,5 @@
 // Pure helpers for the package page, kept free of React so node tests can
-// load them: the header's text and tiles, color cells, and the chart's data.
-
-import { cameTogetherText } from "./packagesModel.js"
+// load them: the header's text, color cells, and the chart's data.
 
 // plural is "1 group" or "4 groups".
 function plural(count, one, many) {
@@ -23,32 +21,30 @@ export function packageSubtitle(page) {
   return `${plural(groups.size, "group", "groups")} · ${plural(page.stat.cardCount, "card", "cards")}`
 }
 
-// headerTiles are the header's three play numbers, with their tips. The
-// Games won tile is added by the header, since it needs the cube's info.
-export function headerTiles(stat) {
-  return [
+// headerLine is the header's line of numbers in words, each with a tip that
+// gives the exact rule: decks that built it, linked pairs in a typical build,
+// and, when showWinRate, how those decks did.
+export function headerLine(page, showWinRate) {
+  const items = [
     {
       key: "built",
-      label: "Built in",
-      value: plural(stat.package, "deck", "decks"),
-      detail: `${Math.round(stat.buildRate * 100)}% of decks`,
-      tip: "Decks with 2 or more cards on each side of one of its wires, 3 or more in all, in the date range.",
+      text: `${plural(page.stat.package, "deck", "decks")} built it`,
+      tip: "Decks with 2+ cards from each side of one wire, and 3+ of its cards.",
     },
     {
-      key: "had",
-      label: "Had the cards",
-      value: plural(stat.has3, "deck", "decks"),
-      detail: "3 or more of its cards",
-      tip: "Decks carrying at least three of its cards, built or not.",
-    },
-    {
-      key: "together",
-      label: "Came together",
-      value: cameTogetherText(stat),
-      detail: "of the decks with its cards",
-      tip: "How often the cards, once in a deck, formed the package.",
+      key: "pairs",
+      text: `${page.map.typical_pairs} linked pairs in a typical build`,
+      tip: "In each deck, one side's cards times the other side's, added up over the wires. The middle value over decks that built it.",
     },
   ]
+  if (showWinRate) {
+    items.push({
+      key: "win",
+      text: `${Math.round(page.stat.record.bayesian_win_percent)}% win rate`,
+      tip: "How the decks that built it did, Bayes-adjusted.",
+    })
+  }
+  return items
 }
 
 // colorCell is one cell of the support-by-color table: the group's card count

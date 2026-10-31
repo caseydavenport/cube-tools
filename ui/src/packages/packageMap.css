@@ -108,3 +108,72 @@
     gap: 0 3rem;
   }
 }
+
+/* The wire panel: its two sides, its numbers and its depth grid. */
+
+.wp-sides {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.wp-side {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.wp-join {
+  color: var(--se-muted);
+}
+
+.wp-numbers {
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.wp-grid {
+  width: auto;
+  border-collapse: separate;
+  border-spacing: 3px;
+  font-size: 0.8rem;
+  margin: 0.4rem 0 1rem;
+}
+
+.wp-grid th {
+  font-weight: 600;
+  color: var(--se-muted);
+  padding: 0 0.4rem;
+  text-align: center;
+}
+
+.wp-grid .wp-axis {
+  font-weight: 400;
+  font-size: 0.72rem;
+  text-align: left;
+}
+
+.wp-cell {
+  width: 2.4rem;
+  height: 2rem;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid var(--se-border);
+  font-variant-numeric: tabular-nums;
+}
+
+.wp-cell-built {
+  border: 2px solid var(--se-text);
+}
+
+.wp-decks {
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.wp-actions {
+  display: flex;
+  gap: 0.5rem;
+}

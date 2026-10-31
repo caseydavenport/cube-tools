@@ -29,3 +29,24 @@
   font-weight: 700;
   border-top: 1px solid var(--se-border);
 }
+
+.package-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.package-line-dot {
+  color: var(--se-muted);
+  margin: 0 8px;
+}
+
+.package-line-item {
+  text-decoration: underline dotted var(--se-muted);
+  text-underline-offset: 4px;
+  cursor: help;
+}

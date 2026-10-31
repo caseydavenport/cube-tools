@@ -13,6 +13,8 @@ import { BuiltOverTime } from "./BuiltOverTime.js"
 import { PackageHeader } from "./PackageHeader.js"
 import { ColorSupport, DecksBuilt, RelatedPackages } from "./PackageSections.js"
 import { PackageMap } from "./PackageMap.js"
+import { GroupPanel } from "./GroupPanel.js"
+import { WirePanel } from "./WirePanel.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 import "../pages/pages.css"
@@ -112,6 +114,13 @@ export function PackagePage(props) {
   const nav = { cube, start, end, onMatch: props.onLinkMatch }
   const rules = useRulesGraph(cube, 0)
   const groupIndex = indexByName(rules.groups)
+  const groupsByName = {}
+  for (const group of rules.groups) {
+    groupsByName[group.name] = group
+  }
+  // Only one side panel is open at a time: a group's name or a wire's index.
+  const [openGroup, setOpenGroup] = useState(null)
+  const [openWire, setOpenWire] = useState(null)
   const packageIndex = indexByName(rules.packages)
   let packageColor = "var(--mantine-primary-color-filled)"
   if (page && packageIndex[page.name] !== undefined) {
@@ -136,7 +145,9 @@ export function PackagePage(props) {
             <SectionCard title="Map">
               <PackageMap
                 map={page.map} groupIndex={groupIndex} packageColor={packageColor} canDrag={false}
-                onOpenGroup={() => {}} onOpenWire={() => {}} onDropWire={() => {}}
+                onOpenGroup={groupName => { setOpenWire(null); setOpenGroup(groupName) }}
+                onOpenWire={index => { setOpenGroup(null); setOpenWire(index) }}
+                onDropWire={() => {}}
               />
             </SectionCard>
           </div>
@@ -149,6 +160,19 @@ export function PackagePage(props) {
             <DecksBuilt page={page} nav={nav} />
           </div>
         </div>
+        {openGroup !== null && (
+          <GroupPanel
+            name={openGroup} packageName={page.name} groupsByName={groupsByName} groupIndex={groupIndex}
+            canEdit={false} range={{ start, end }} refresh={0} onClose={() => setOpenGroup(null)}
+            onEdit={() => {}} onExclude={() => {}} onRestore={() => {}}
+          />
+        )}
+        {openWire !== null && page.map.wires[openWire] && (
+          <WirePanel
+            wire={page.map.wires[openWire]} index={openWire} color={packageColor} canEdit={false}
+            onClose={() => setOpenWire(null)} onEdit={() => {}} onRemove={() => {}}
+          />
+        )}
       </>
     )
   }

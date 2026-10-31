@@ -62,8 +62,8 @@ function Dots({ card }) {
 }
 
 // Member is one card in a group: its dots and name, which opens its card
-// page, with the conditions it matched on hover. onExclude, when set, adds a
-// button that takes the card out of the group.
+// page, with the conditions it matched on hover, then how many decks played
+// it. onExclude, when set, adds a button that takes the card out of the group.
 function Member({ card, onExclude }) {
   const cube = useCube()
   let info = "Named directly on a wire"
@@ -75,6 +75,9 @@ function Member({ card, onExclude }) {
       <Dots card={card} />
       <HoverInfo title={card.name} info={info}>
         <span className="ws-member-name"><CardLink cube={cube} name={card.name} /></span>
+      </HoverInfo>
+      <HoverInfo info="Decks in the date range that played it">
+        <span className="ws-member-decks">{card.decks}</span>
       </HoverInfo>
       {onExclude && (
         <UnstyledButton className="ws-member-x" title="Leave this card out of the group" onClick={() => onExclude(card.name)}>×</UnstyledButton>
@@ -108,8 +111,9 @@ function memberCount(members) {
 // is the rules group, or null for a card entry or a group the rules don't
 // define. warning names what's broken in the group, or is null. onEdit,
 // onExclude and onRestore are only used when canEdit is true; a null
-// onEdit hides the section's Edit button.
-export function GroupSection({ id, members, group, packageName, color, warning, canEdit, onEdit, onExclude, onRestore, onOpenPackage, initialCheck }) {
+// onEdit hides the section's Edit button. showUses false leaves out the
+// "Also used by" line.
+export function GroupSection({ id, members, group, packageName, color, warning, canEdit, onEdit, onExclude, onRestore, onOpenPackage, initialCheck, showUses = true }) {
   const others = alsoUsedBy(members.uses, packageName)
   const count = memberCount(members)
 
@@ -166,7 +170,7 @@ export function GroupSection({ id, members, group, packageName, color, warning, 
         </div>
       )}
 
-      {others.length > 0 && (
+      {showUses && others.length > 0 && (
         <div className="ws-also">
           Also used by:{' '}
           {others.map((name, i) => (

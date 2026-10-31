@@ -116,6 +116,12 @@
   text-decoration: underline;
 }
 
+.ws-member-decks {
+  font-size: 0.75rem;
+  color: var(--se-muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .ws-member-excluded .ws-member-name {
   color: var(--se-muted);
   text-decoration: line-through;
