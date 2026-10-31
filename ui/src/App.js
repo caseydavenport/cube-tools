@@ -153,7 +153,7 @@ function AppRoutes({ dateProps, initialMatch }) {
           <Route path='synergy' element={<StatsViewer view='synergy' {...statsProps} />} />
           <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
           <Route path='synergy-map' element={<Navigate to="../packages?view=map" replace />} />
-          <Route path='rules-editor' element={<DesignEditorPage />} />
+          <Route path='rules-editor' element={<DesignEditorPage {...statsProps} />} />
           <Route path='rules-editor/link' element={<LinkCheckPage {...statsProps} />} />
           <Route path='decks' element={<DecksPage {...statsProps} />} />
           <Route path='import' element={<ImportHub />} />

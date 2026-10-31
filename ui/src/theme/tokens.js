@@ -52,6 +52,11 @@ export const MANA = {
   G: "#93c775",
 }
 
+// COLORLESS and LAND sit beside the mana colors in color bars and card dots,
+// for colorless spells and lands. Like MANA, they don't change by scheme.
+export const COLORLESS = "#b9b4c7"
+export const LAND = "#c9b48f"
+
 // MULTICOLOR marks multicolor cards in charts, the way gold card frames do.
 export const MULTICOLOR = "#c9a227"
 

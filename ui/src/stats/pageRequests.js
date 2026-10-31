@@ -34,6 +34,15 @@ export function packageUrl(cube, { name, start, end, confidence }) {
   })
 }
 
+// rulesBoardUrl is the Rules editor's board request: every package's wiring
+// and build stats over the date range.
+export function rulesBoardUrl(cube, { start, end }) {
+  return statsUrl(cube, "rules-board", {
+    start: emptyToUndefined(start),
+    end: emptyToUndefined(end),
+  })
+}
+
 // linkCheckUrl is the link check's request: how the rules relate cards a
 // and b.
 export function linkCheckUrl(cube, a, b) {

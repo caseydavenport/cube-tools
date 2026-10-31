@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { colorStatsUrl, linkCheckUrl, packageUrl, packagesUrl, pivotRequest } from "./pageRequests.js"
+import { colorStatsUrl, linkCheckUrl, packageUrl, packagesUrl, pivotRequest, rulesBoardUrl } from "./pageRequests.js"
 
 test("packagesUrl leaves out empty dates and filter", () => {
   const url = packagesUrl("polyverse", { confidence: "0.8", start: "", end: "", match: "" })
@@ -59,4 +59,8 @@ test("packageUrl names the package and leaves out an empty range", () => {
 
 test("linkCheckUrl names both cards", () => {
   assert.equal(linkCheckUrl("polyverse", "Fire // Ice", "Shock"), "/api/polyverse/stats/link-check?a=Fire+%2F%2F+Ice&b=Shock")
+})
+
+test("rulesBoardUrl leaves out an empty range", () => {
+  assert.equal(rulesBoardUrl("polyverse", { start: "", end: "2026-01-01" }), "/api/polyverse/stats/rules-board?end=2026-01-01")
 })

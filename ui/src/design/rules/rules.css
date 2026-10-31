@@ -1,21 +1,6 @@
-/* Styles for the Rules editor page: the registry, detail pane, card lens and review mode. */
+/* Styles for the Rules editor's group, package and review views. */
 
-/* Design Editor tab (Design > Editor): a three-pane workbench over the design
-   rulebook. Registry of groups/links | detail (roster, wiring, compare, audit) |
-   card lens. Rule colors thread through every pane so a rule can be traced
-   from list to diagram to card. */
-.de-page {
-  display: grid;
-  grid-template-columns: 250px minmax(0, 1fr);
-  gap: 1.1rem;
-  padding: 1.25rem 1.5rem;
-  align-items: start;
-}
-/* Detail pane and card lens stack in one column so the registry's height can't
-   stretch the rows apart and open a gap between them. */
-.de-main-col { min-width: 0; display: flex; flex-direction: column; gap: 1.1rem; }
 @media (max-width: 800px) {
-  .de-page { grid-template-columns: 1fr; }
   .de-registry { position: static; max-height: 320px; }
 }
 
@@ -25,7 +10,6 @@
 .de-pips .mana-symbol { width: 16px; height: 16px; }
 
 .de-readonly { margin: 1.25rem 1.5rem 0; }
-.de-view-label { display: inline-flex; align-items: center; gap: 0.35rem; }
 
 .de-subhead {
   font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
@@ -76,13 +60,7 @@
 /* Two classes so this beats .dm-swatch in styles.css, which loads after this file. */
 .dm-swatch.de-swatch-link { border-radius: 999px; height: 5px; }
 .de-warn-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--se-warn); flex-shrink: 0; }
-.de-badge-warn {
-  background: color-mix(in srgb, var(--se-warn) 13%, transparent); color: var(--se-warn); border-radius: 999px;
-  padding: 0 0.45rem; font-size: 0.72rem; font-weight: 700;
-}
 
-/* --- Detail pane --- */
-.de-detail { min-width: 0; }
 .de-pane {
   background: var(--se-card); border: 1px solid var(--se-border);
   border-radius: 10px; padding: 1rem 1.2rem 1.25rem;
@@ -282,7 +260,7 @@
   cursor: pointer; font-family: inherit; text-align: left; margin: 0.6rem 0 1rem;
 }
 .de-review-cta:hover { background: color-mix(in srgb, var(--mantine-primary-color-filled) 13%, transparent); }
-.de-page-review { grid-template-columns: 250px minmax(0, 1fr); }
+
 .de-review-jump .de-card-search { width: 200px; }
 .de-review-cta-icon { color: var(--mantine-primary-color-filled); font-size: 1.1rem; font-weight: 700; }
 .de-review-progress {
@@ -310,11 +288,7 @@
   color: var(--se-muted); font-size: 0.72rem; font-variant-numeric: tabular-nums;
 }
 .de-review-hint { color: var(--se-muted); font-size: 0.78rem; margin-top: 1.25rem; }
-.de-page kbd {
-  font-family: 'Fira Code', monospace; font-size: 0.72rem; color: var(--se-text);
-  background: var(--se-page); border: 1px solid var(--se-border);
-  border-bottom-width: 2px; border-radius: 4px; padding: 0.05rem 0.35rem;
-}
+
 @media (max-width: 700px) { .de-review { grid-template-columns: 1fr; } .de-review-img { max-width: 230px; } }
 
 /* Status toast */
@@ -324,11 +298,6 @@
   padding: 0.5rem 0.9rem; font-size: 0.85rem; z-index: 60;
   box-shadow: 0 6px 20px color-mix(in srgb, var(--se-shadow) 40%, transparent);
 }
-
-.de-page button:focus-visible, .de-page input:focus-visible {
-  outline: 2px solid var(--mantine-primary-color-filled); outline-offset: 1px;
-}
-.de-try-card { width: 200px; }
 
 /* The group editor's line about the card a new group is written for. */
 .group-pinned {

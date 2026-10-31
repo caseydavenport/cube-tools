@@ -1,13 +1,13 @@
-// The Rules editor page: loads the rulebook, works out its audit, keeps the
-// selection in the URL, and saves edits. The panes live in the other files here.
+// The Rules editor page: loads the rules and the package board, keeps the
+// view and search in the URL, and saves edits. The views live in the other
+// files here.
 
 import React, { useState, useEffect, useMemo } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { Alert } from '@mantine/core'
 import { useCube } from '../../contexts/CubeContext.js'
-import { cardPageHref } from '../../shell/paths.js'
-import { CardImageURL } from '../../utils/Utils.js'
-import { useAllMemberships, whyLinked, saveDesignMap, cleanWires } from '../map/designData.js'
+import { rulesBoardUrl } from '../../stats/pageRequests.js'
+import { useAllMemberships, saveDesignMap, cleanWires } from '../map/designData.js'
 import { ruleColor } from '../map/ruleColors.js'
 import { GroupEditModal } from '../map/GroupEditModal.js'
 import { PackageEditModal } from '../map/PackageEditModal.js'
@@ -15,35 +15,32 @@ import { useCubeWritable } from '../../utils/useCubeWritable.js'
 import { renameInPackage, withExclude } from "./rulebookEdits.js"
 import { auditRulebook, groupWarning, packageWarning } from "./rulebookAudit.js"
 import { EditorToolbar } from "./EditorToolbar.js"
+import { ReviewDetail } from "./ReviewDetail.js"
 import { GroupDetail } from "./GroupDetail.js"
 import { PackageDetail } from "./PackageDetail.js"
-import { AuditBoard } from "./AuditBoard.js"
-import { ReviewDetail } from "./ReviewDetail.js"
-import { CompareDetail } from "./CompareDetail.js"
-import { Overview } from "./Overview.js"
-import { Registry } from "./Registry.js"
-import { CardLens } from "./CardLens.js"
+import { PackageBoard } from "./PackageBoard.js"
 import { RULES_COPY } from "./copy.js"
 import "../../components/kit/popover.css"
 import "./rules.css"
 import "../../decks/decks.css"
 
-// DesignEditorPage is the workbench for the design rulebook. Three panes:
-// a registry of every group and package (browse, create, spot problems), a detail
-// pane for whatever's selected (group roster, package wiring, card-vs-card compare,
-// or the audit board), and a card lens showing any card's memberships and packages.
-// Selection lives in the URL (card, vs, view) so any state is shareable.
-export function DesignEditorPage() {
+// DesignEditorPage is the Rules editor. Its home is the package board; a
+// package or group opens full width, and Review steps through every card.
+// The view, search, sort and review position live in the URL, so any state
+// can be shared. startDate and endDate bound the board's build stats.
+export function DesignEditorPage({ startDate, endDate }) {
   const cube = useCube()
-  const navigate = useNavigate()
   const writable = useCubeWritable(cube)
   const [params, setParams] = useSearchParams()
   const focal = params.get('card') || ''
-  const vs = params.get('vs') || ''
   const view = params.get('view') || ''
+  const q = params.get('q') || ''
+  const sort = params.get('sort') || 'az'
 
-  // The design graph, refetched after each save so edits show immediately.
+  // The design graph and the board, both refetched after each save so edits
+  // show immediately.
   const [data, setData] = useState(null)
+  const [board, setBoard] = useState(null)
   const [refresh, setRefresh] = useState(0)
   useEffect(() => {
     let alive = true
@@ -53,6 +50,14 @@ export function DesignEditorPage() {
       .catch(() => { if (alive) setData({}) })
     return () => { alive = false }
   }, [cube, refresh])
+  useEffect(() => {
+    let alive = true
+    fetch(rulesBoardUrl(cube, { start: startDate || '', end: endDate || '' }))
+      .then(r => r.json())
+      .then(b => { if (alive) setBoard(b) })
+      .catch(() => { if (alive) setBoard({ packages: [], unused_groups: [] }) })
+    return () => { alive = false }
+  }, [cube, refresh, startDate, endDate])
   const refetch = () => setRefresh(r => r + 1)
 
   const nodes = data?.nodes || []
@@ -62,8 +67,7 @@ export function DesignEditorPage() {
   const groupNodes = data?.group_nodes || []
 
   // Edges can reach cards cut from the cube - the graph widens its edge set so
-  // old decks still render cut cards. The editor is a cube-only design view, so
-  // drop any edge touching a card that isn't a cube node.
+  // old decks still render cut cards. The editor counts cube cards only.
   const edges = useMemo(() => {
     const inCube = new Set(nodes.map(n => n.name))
     return allEdges.filter(e => inCube.has(e.source) && inCube.has(e.target))
@@ -77,16 +81,8 @@ export function DesignEditorPage() {
   const names = useMemo(() => nodes.map(n => n.name).sort(), [nodes])
   const groupIndex = useMemo(() => Object.fromEntries(groups.map((g, i) => [g.name, i])), [groups])
   const packageIndex = useMemo(() => Object.fromEntries(packages.map((l, i) => [l.name, i])), [packages])
-  const packageByName = useMemo(() => Object.fromEntries(packages.map(l => [l.name, l])), [packages])
   const groupNames = useMemo(() => groups.map(g => g.name), [groups])
   const groupCards = useMemo(() => Object.fromEntries(groupNodes.map(g => [g.name, g])), [groupNodes])
-
-  // package name -> number of card-to-card edges that package creates.
-  const packageEdgeCounts = useMemo(() => {
-    const m = {}
-    for (const e of edges) for (const n of (e.packages || [])) m[n] = (m[n] || 0) + 1
-    return m
-  }, [edges])
 
   // name -> [{ name, packages }] : every card a card connects to, and through which packages.
   const neighborsOf = useMemo(() => {
@@ -99,16 +95,11 @@ export function DesignEditorPage() {
     return m
   }, [edges])
 
-  // Systematic health checks over the rulebook. Structural issues (definitionally
-  // wrong) feed the registry badge; coverage lists (judgment calls) only show on
-  // the audit board.
+  // Broken-rule checks, shown on the package or group they belong to.
   const audit = useMemo(
     () => auditRulebook({ packages, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf }),
     [packages, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf],
   )
-
-  const groupWarn = (name) => groupWarning(audit, name)
-  const packageWarn = (label) => packageWarning(audit, label)
 
   // --- URL state ---------------------------------------------------------------
   function patchParams(patch) {
@@ -119,18 +110,12 @@ export function DesignEditorPage() {
   const selectView = (v) => patchParams({ view: v })
   const selectGroup = (name) => patchParams({ view: 'g:' + name })
   const selectPackage = (label) => patchParams({ view: 'p:' + label })
-  const setFocal = (name) => patchParams({ card: name, ...(name ? {} : { vs: '', view: view === 'compare' ? '' : view }) })
-  const setVs = (name) => patchParams({ vs: name, view: name ? 'compare' : (view === 'compare' ? '' : view) })
-  const swapCards = () => patchParams({ card: vs, vs: focal })
 
   // Editor state. Each holds { original } - the group/package being edited, or null
   // `original` for a brand-new one.
   const [groupEditor, setGroupEditor] = useState(null)
   const [packageEditor, setPackageEditor] = useState(null)
   const [status, setStatus] = useState('')
-
-  // One hover preview for the whole page, pinned to the viewport corner.
-  const [hoverCard, setHoverCard] = useState('')
 
   // --- save/delete handlers ------------------------------------------------------
   function saveGroup(updated) {
@@ -220,36 +205,24 @@ export function DesignEditorPage() {
     if (view === 'p:' + label) selectView('')
   }
 
-  // Packages between the two selected cards, with the "why" bridges.
-  const between = useMemo(() => {
-    if (!focal || !vs) return []
-    return whyLinked(focal, vs, edges, packageByName, cardGroups)
-  }, [focal, vs, edges, packageByName, cardGroups])
-
   // Edit controls only show once the server says the cube is writable; the
   // read-only notice waits for it to say it isn't, so it doesn't flash on load.
   const canEdit = writable === true
 
-  // tryCard opens the card page of any card, in the cube or not, to see what
-  // the rules would make of it.
-  function tryCard(name) {
-    if (name) {
-      navigate(cardPageHref(cube, name))
-    }
-  }
-
   const toolbar = (
     <EditorToolbar
-      view={view} auditCount={data ? audit.structural : 0}
-      compareReady={Boolean(focal && vs)} onSelectView={selectView}
-      cube={cube} onTryCard={tryCard}
+      view={view} q={q} cube={cube} canEdit={canEdit}
+      onSearch={text => patchParams({ q: text, view: '' })}
+      onSelectView={selectView}
+      onNewPackage={() => setPackageEditor({ original: null })}
+      onNewGroup={() => setGroupEditor({ original: null })}
     />
   )
 
-  if (!data) {
+  if (!data || !board) {
     return <>
       {toolbar}
-      <div className="de-page"><div className="de-loading">{RULES_COPY.page.loading}</div></div>
+      <div className="rb-page"><div className="de-loading">{RULES_COPY.page.loading}</div></div>
     </>
   }
 
@@ -262,45 +235,43 @@ export function DesignEditorPage() {
     if (l) setPackageEditor({ original: l })
   }
 
-  // Resolve the detail pane from the view param.
-  let detail
+  // Share of cube cards in at least one group, once memberships have loaded.
+  let coverage = null
+  if (!membershipsLoading && nodes.length > 0) {
+    const grouped = nodes.filter(n => (cardGroups[n.name] || []).length > 0).length
+    coverage = Math.round(100 * grouped / nodes.length)
+  }
+
+  // Resolve the main view from the view param; anything unknown is the board.
+  let main
   if (view.startsWith('g:') && groupIndex[view.slice(2)] !== undefined) {
     const g = groups[groupIndex[view.slice(2)]]
-    detail = <GroupDetail
+    main = <GroupDetail
       key={g.name}
       group={g} color={ruleColor(groupIndex[g.name])}
       members={(groupCards[g.name]?.cards || []).slice().sort()}
       excluded={(groupCards[g.name]?.excluded_cards || []).slice().sort()}
       cardGroups={cardGroups} nodeByName={nodeByName}
       packagesTouching={packages.filter(l => (l.wires || []).some(w => (w.sources || []).includes(g.name) || (w.targets || []).includes(g.name)))}
-      packageIndex={packageIndex} warn={groupWarn(g.name)}
+      packageIndex={packageIndex} warn={groupWarning(audit, g.name)}
       canEdit={canEdit} onEdit={() => openGroup(g.name)} onDelete={() => deleteGroup(g.name)}
       onExclude={(card) => setCardExcluded(g.name, card, true)}
       onRestore={(card) => setCardExcluded(g.name, card, false)}
-      onSelectPackage={selectPackage} onFocusCard={setFocal} onHoverCard={setHoverCard}
+      onSelectPackage={selectPackage} onFocusCard={() => {}} onHoverCard={() => {}}
       initialCheck={params.get('check') || ''}
     />
-  } else if (view.startsWith('p:') && packageByName[view.slice(2)]) {
-    const l = packageByName[view.slice(2)]
-    detail = <PackageDetail
+  } else if (view.startsWith('p:') && packageIndex[view.slice(2)] !== undefined) {
+    const l = packages[packageIndex[view.slice(2)]]
+    main = <PackageDetail
       key={l.name}
-      pkg={l} color={ruleColor(packageIndex[l.name])}
-      edgeCount={packageEdgeCounts[l.name] || 0}
-      groupIndex={groupIndex} groupCards={groupCards} warn={packageWarn(l.name)}
+      pkg={l} color={ruleColor(packageIndex[l.name])} edgeCount={0}
+      groupIndex={groupIndex} groupCards={groupCards} warn={packageWarning(audit, l.name)}
       canEdit={canEdit} onEdit={() => openPackage(l.name)} onDelete={() => deletePackage(l.name)}
-      onSelectGroup={selectGroup} onFocusCard={setFocal}
-    />
-  } else if (view === 'audit') {
-    detail = <AuditBoard
-      audit={audit} membershipsLoading={membershipsLoading}
-      nodeByName={nodeByName} groupIndex={groupIndex} packageIndex={packageIndex}
-      onSelectGroup={selectGroup} onSelectPackage={selectPackage}
-      onFocusCard={setFocal} onHoverCard={setHoverCard}
-      onReview={() => selectView('review')}
+      onSelectGroup={selectGroup} onFocusCard={() => {}}
     />
   } else if (view === 'review' && names.length > 0) {
     const current = nodeByName[focal] ? focal : names[0]
-    detail = <ReviewDetail
+    main = <ReviewDetail
       names={names} card={current} node={nodeByName[current]}
       memberships={(cardGroups[current] || []).slice().sort((a, b) => a.group.localeCompare(b.group))}
       membershipsLoading={membershipsLoading}
@@ -310,18 +281,13 @@ export function DesignEditorPage() {
       onGo={(n) => patchParams({ card: n })}
       onSelectGroup={selectGroup} onSelectPackage={selectPackage}
     />
-  } else if (view === 'compare' && focal && vs) {
-    detail = <CompareDetail
-      focal={focal} vs={vs} between={between} nodeByName={nodeByName}
-      cardGroups={cardGroups} groupIndex={groupIndex} packageIndex={packageIndex}
-      canEdit={canEdit} onSelectGroup={selectGroup} onSelectPackage={selectPackage} onEditPackage={openPackage}
-      onSwap={swapCards} onClear={() => setVs('')}
-    />
   } else {
-    detail = <Overview
-      nodes={nodes} groups={groups} packages={packages} edges={edges}
-      audit={audit} membershipsLoading={membershipsLoading} cardGroups={cardGroups}
-      onAudit={() => selectView('audit')}
+    main = <PackageBoard
+      board={board} q={q} sort={sort} cardNames={names}
+      totals={{ groups: groups.length, pairs: edges.length, coverage }}
+      problemOf={name => packageWarning(audit, name)}
+      onOpenPackage={selectPackage} onOpenGroup={selectGroup}
+      onSort={value => patchParams({ sort: value === 'az' ? '' : value })}
     />
   }
 
@@ -334,35 +300,10 @@ export function DesignEditorPage() {
     <>
     {toolbar}
     {readOnlyNotice}
-    <div className={'de-page' + (view === 'review' ? ' de-page-review' : '')}>
-      <Registry
-        groups={groups} packages={packages} view={view}
-        groupCards={groupCards} packageEdgeCounts={packageEdgeCounts}
-        groupWarn={groupWarn} packageWarn={packageWarn} canEdit={canEdit}
-        onSelectGroup={selectGroup} onSelectPackage={selectPackage}
-        onNewGroup={() => setGroupEditor({ original: null })}
-        onNewPackage={() => setPackageEditor({ original: null })}
-      />
-
-      <div className="de-main-col">
-        <main className="de-detail">{detail}</main>
-
-        {view !== 'review' && <CardLens
-          names={names} focal={focal} vs={vs} node={nodeByName[focal]}
-          memberships={(cardGroups[focal] || []).slice().sort((a, b) => a.group.localeCompare(b.group))}
-          membershipsLoading={membershipsLoading}
-          neighbors={neighborsOf[focal] || []}
-          groupIndex={groupIndex} packageIndex={packageIndex}
-          onPickFocal={setFocal} onPickVs={setVs}
-          onSelectGroup={selectGroup} onSelectPackage={selectPackage}
-          onCompare={() => selectView('compare')} onHoverCard={setHoverCard}
-        />}
-      </div>
+    <div className="rb-page">
+      {main}
 
       {status && <div className="de-status" role="status">{status}</div>}
-      {hoverCard && !groupEditor && !packageEditor &&
-        <div className="deck-hover-preview"><img className="kit-card-image" src={CardImageURL({ name: hoverCard })} alt={hoverCard} /></div>
-      }
 
       {groupEditor &&
         <GroupEditModal

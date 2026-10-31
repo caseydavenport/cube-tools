@@ -1,5 +1,5 @@
 import { createTheme } from "@mantine/core"
-import { PRIMARY_SHADES, LIGHT, DARK, MANA } from "./tokens.js"
+import { PRIMARY_SHADES, LIGHT, DARK, MANA, COLORLESS, LAND } from "./tokens.js"
 
 // theme is the Mantine theme: the "sylvan" violet scale as the primary color
 // (a lighter shade in dark mode so it stays readable), the font, and corner radius.
@@ -43,6 +43,8 @@ export function cssVariablesResolver() {
       "--se-mana-b": MANA.B,
       "--se-mana-r": MANA.R,
       "--se-mana-g": MANA.G,
+      "--se-mana-c": COLORLESS,
+      "--se-mana-l": LAND,
     },
     light: schemeVars(LIGHT),
     dark: schemeVars(DARK),
