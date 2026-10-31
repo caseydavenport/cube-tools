@@ -278,6 +278,7 @@ export function DesignEditorPage() {
       onExclude={(card) => setCardExcluded(g.name, card, true)}
       onRestore={(card) => setCardExcluded(g.name, card, false)}
       onSelectPackage={selectPackage} onFocusCard={setFocal} onHoverCard={setHoverCard}
+      initialCheck={params.get('check') || ''}
     />
   } else if (view.startsWith('p:') && packageByName[view.slice(2)]) {
     const l = packageByName[view.slice(2)]

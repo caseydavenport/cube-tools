@@ -6,13 +6,14 @@ import { ColorImages } from '../../utils/Colors.js'
 import { ruleColor } from '../map/ruleColors.js'
 import { EditActions, Emph } from "./rulesParts.js"
 import { RULES_COPY } from "./copy.js"
+import { GroupCheck } from "./GroupCheck.js"
 
 // GroupDetail is the roster review surface: the group's conditions, the packages that
 // use it, and every member with the condition that pulled it in - hover for the
 // card image, so scanning a group for intruders is fast.
 export function GroupDetail({
   group, color, members, excluded, cardGroups, nodeByName, packagesTouching, packageIndex, warn,
-  canEdit, onEdit, onDelete, onExclude, onRestore, onSelectPackage, onFocusCard, onHoverCard,
+  canEdit, onEdit, onDelete, onExclude, onRestore, onSelectPackage, onFocusCard, onHoverCard, initialCheck,
 }) {
   const [confirming, setConfirming] = useState(false)
   const memberConds = (name) => (cardGroups[name] || []).find(m => m.group === group.name)?.conds || []
@@ -33,6 +34,8 @@ export function GroupDetail({
       <div className="de-cond-chips">
         {(group.conditions || []).map((c, i) => <code key={i} className="de-cond">{c}</code>)}
       </div>
+
+      <GroupCheck key={group.name} group={group} initialCard={initialCheck} />
 
       <div className="de-subhead">{RULES_COPY.group.wiredInto(packagesTouching.length)}</div>
       {packagesTouching.length === 0 && <div className="de-muted">{RULES_COPY.group.noPackages}</div>}
