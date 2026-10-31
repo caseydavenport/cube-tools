@@ -71,3 +71,27 @@ export function withCardExcluded(groups, groupName, card, excluded) {
     return withExclude(g, kept)
   })
 }
+
+// withWireAdded returns a copy of config with a new wire in the package
+// called pkgName, joining group a on one side to group b on the other.
+export function withWireAdded(config, pkgName, a, b) {
+  const packages = config.packages.map(p => {
+    if (p.name !== pkgName) {
+      return p
+    }
+    return { ...p, wires: [...(p.wires || []), { sources: [a], targets: [b] }] }
+  })
+  return { ...config, packages }
+}
+
+// withWireRemoved returns a copy of config without wire index of the package
+// called pkgName.
+export function withWireRemoved(config, pkgName, index) {
+  const packages = config.packages.map(p => {
+    if (p.name !== pkgName) {
+      return p
+    }
+    return { ...p, wires: (p.wires || []).filter((_, i) => i !== index) }
+  })
+  return { ...config, packages }
+}

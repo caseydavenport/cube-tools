@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { cleanGroup, renameInPackage, withCardExcluded, withExclude, withGroup, withPackage } from "./rulebookEdits.js"
+import { cleanGroup, renameInPackage, withCardExcluded, withExclude, withGroup, withPackage, withWireAdded, withWireRemoved } from "./rulebookEdits.js"
 
 test("withExclude drops an empty exclude list", () => {
   const group = withExclude({ name: "A", conditions: ["t:a"], exclude: ["x"] }, [])
@@ -65,4 +65,21 @@ test("withCardExcluded adds and removes one card from a group's exclude list", (
   assert.deepEqual(withCardExcluded(added, "A", "x", false)[0].exclude, ["y"])
   assert.equal("exclude" in withCardExcluded(groups, "A", "x", false)[0], false)
   assert.deepEqual(groups[0].exclude, ["x"])
+})
+
+test("withWireAdded appends a wire joining two groups, leaving its input alone", () => {
+  const config = rules()
+  const before = structuredClone(config)
+  const next = withWireAdded(config, "Sacrifice", "Outlets", "Payoffs")
+  assert.deepEqual(next.packages[0].wires[1], { sources: ["Outlets"], targets: ["Payoffs"] })
+  assert.equal(next.packages[0].wires.length, 2)
+  assert.deepEqual(config, before)
+})
+
+test("withWireRemoved drops one wire, leaving its input alone", () => {
+  const config = withWireAdded(rules(), "Sacrifice", "Outlets", "Payoffs")
+  const before = structuredClone(config)
+  const next = withWireRemoved(config, "Sacrifice", 0)
+  assert.deepEqual(next.packages[0].wires, [{ sources: ["Outlets"], targets: ["Payoffs"] }])
+  assert.deepEqual(config, before)
 })
