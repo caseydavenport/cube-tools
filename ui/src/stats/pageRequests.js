@@ -34,6 +34,12 @@ export function packageUrl(cube, { name, start, end, confidence }) {
   })
 }
 
+// linkCheckUrl is the link check's request: how the rules relate cards a
+// and b.
+export function linkCheckUrl(cube, a, b) {
+  return statsUrl(cube, "link-check", { a, b })
+}
+
 // colorStatsUrl is the Colors page's request: color stats for the color mode
 // at the chosen confidence. A bucketSize above 0 asks for sliding time
 // buckets of that many drafts instead of one total.
