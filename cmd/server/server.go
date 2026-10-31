@@ -99,6 +99,7 @@ func main() {
 	cubeRoute("POST /api/{cube}/stats/group-check", stats.GroupCheckHandler(provider))
 	cubeRoute("GET /api/{cube}/stats/link-check", stats.LinkCheckHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/rules-board", stats.RulesBoardHandler(deckStore, provider))
+	cubeRoute("GET /api/{cube}/stats/rule-groups", stats.RuleGroupsHandler(deckStore, provider))
 	cubeRoute("POST /api/{cube}/stats/rules-preview", stats.RulesPreviewHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/deck-charts", stats.DeckChartsHandler(deckStore, provider))
 	cubeRoute("POST /api/{cube}/save-design-rules", stats.SaveDesignRulesHandler(deckStore))
