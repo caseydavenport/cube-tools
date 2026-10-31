@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { builtInText, cameTogetherText, defaultView, mapNodes, sharedGroupsOf, sortValue, viewFrom } from "./packagesModel.js"
+import { builtInText, cameTogetherText, defaultView, edgeList, mapNodes, sharedGroupsOf, sortValue, viewFrom } from "./packagesModel.js"
 
 test("the index opens on the table when there are decks, else the map", () => {
   assert.equal(defaultView(true), "table")
@@ -66,4 +66,9 @@ test("each column sorts by its number, and a package with no games sorts last", 
   assert.equal(sortValue("together", stat), 0.669)
   assert.equal(sortValue("games", stat), 51.2)
   assert.equal(sortValue("games", { ...stat, record: { wins: 0, losses: 0, draws: 0 } }), -1)
+})
+
+test("map edges weigh by how many groups two packages share", () => {
+  const edges = [{ source: "P", target: "Q", groups: ["Graveyard", "Discard outlets"] }]
+  assert.deepEqual(edgeList(edges), [{ source: "P", target: "Q", weight: 2 }])
 })

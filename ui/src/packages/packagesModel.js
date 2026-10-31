@@ -126,3 +126,9 @@ export function sortValue(key, stat) {
   }
   return rate
 }
+
+// edgeList turns the index's package edges into map edges, weighted by how
+// many groups the two packages share.
+export function edgeList(edges) {
+  return edges.map(e => ({ source: e.source, target: e.target, weight: e.groups.length }))
+}
