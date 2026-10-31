@@ -80,20 +80,20 @@ func TestPackageStats_TalliesBuildRateAndCommitment(t *testing.T) {
 	assert.Equal(t, 3, gy.Package)
 	assert.Equal(t, 3, gy.Has3)
 	assert.Equal(t, 1.0, gy.BuildRate)
-	assert.Equal(t, 1.0, gy.CommitmentRatio)
+	assert.Equal(t, 1.0, gy.CameTogether)
 
 	ramp := statFor(t, resp, "Ramp")
 	assert.Equal(t, 1, ramp.Package)
 	assert.Equal(t, 1, ramp.Has3)
 	assert.Equal(t, 0.333, ramp.BuildRate)
-	assert.Equal(t, 1.0, ramp.CommitmentRatio)
+	assert.Equal(t, 1.0, ramp.CameTogether)
 
 	// Fetches: enough cards present, but never two from the fetch side.
 	fetches := statFor(t, resp, "Fetches")
 	assert.Equal(t, 0, fetches.Package)
 	assert.Equal(t, 1, fetches.Has3)
 	assert.Equal(t, 0.0, fetches.BuildRate)
-	assert.Equal(t, 0.0, fetches.CommitmentRatio)
+	assert.Equal(t, 0.0, fetches.CameTogether)
 	assert.Equal(t, 0.333, fetches.Has3Rate)
 }
 
@@ -148,12 +148,17 @@ func TestPackageStats_EmptyDecksExcludedFromDenominator(t *testing.T) {
 	assert.Equal(t, 1.0, gy.BuildRate)
 }
 
-// A deck filter that matches nothing leaves no decks, which should give no
-// package rows rather than rows at a 0% build rate.
-func TestPackageStats_NoDecksGivesNoPackages(t *testing.T) {
+// With no decks, every package still gets a row at zero, so the map can
+// draw a cube that has only a card list.
+func TestPackageStats_NoDecksKeepsPackagesAtZero(t *testing.T) {
 	resp := packageStats(packageTestPackages(), nil, 0.8)
 	assert.Equal(t, 0, resp.PopulatedDecks)
-	assert.Empty(t, resp.Packages)
+	require.Len(t, resp.Packages, 3)
+	for _, s := range resp.Packages {
+		assert.Equal(t, 0, s.Package)
+		assert.Equal(t, 0.0, s.BuildRate)
+		assert.False(t, s.RarelyTogether)
+	}
 }
 
 func TestPackageStats_BothSides(t *testing.T) {
@@ -227,4 +232,44 @@ func BenchmarkPackageStats(b *testing.B) {
 	for b.Loop() {
 		packageStats(pkgs, decks, 0.8)
 	}
+}
+
+func TestPackageStats_RecordOfBuilders(t *testing.T) {
+	won := deckOf("gy1", "gy2", "gy3", "gy4")
+	won.Matches = []types.Match{{Opponent: "Ozzy", Wins: 2, Losses: 1}}
+	lost := deckOf("gy1", "gy2", "gy3", "gy4")
+	lost.Matches = []types.Match{{Opponent: "Joan", Wins: 1, Losses: 2}}
+	other := deckOf("r1", "r2", "r3", "r4")
+	other.Matches = []types.Match{{Opponent: "Stevie", Wins: 2, Losses: 0}}
+
+	gy := statFor(t, packageStats(packageTestPackages(), []*storage.Deck{won, lost, other}, 0.8), "Graveyard")
+	assert.Equal(t, 3, gy.Record.Wins)
+	assert.Equal(t, 3, gy.Record.Losses)
+	assert.Equal(t, 50.0, gy.Record.BayesianWinPercent)
+}
+
+func TestMarkRarelyTogether(t *testing.T) {
+	stats := []PackageStat{
+		{Name: "Shuffle", Has3: 43, CameTogether: 0.09},
+		{Name: "Artifacts", Has3: 50, CameTogether: 0.14},
+		{Name: "Pump", Has3: 40, CameTogether: 0.46},
+		{Name: "Discard", Has3: 60, CameTogether: 0.50},
+		{Name: "Graveyard", Has3: 80, CameTogether: 0.67},
+		{Name: "Ninjas", Has3: 5, CameTogether: 0.0},
+	}
+	markRarelyTogether(stats)
+
+	var flagged []string
+	for _, s := range stats {
+		if s.RarelyTogether {
+			flagged = append(flagged, s.Name)
+		}
+	}
+	assert.Equal(t, []string{"Shuffle", "Artifacts"}, flagged)
+}
+
+func TestMarkRarelyTogether_NoneEligible(t *testing.T) {
+	stats := []PackageStat{{Name: "Ninjas", Has3: 5, CameTogether: 0.0}}
+	markRarelyTogether(stats)
+	assert.False(t, stats[0].RarelyTogether)
 }

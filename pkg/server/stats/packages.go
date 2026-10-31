@@ -14,6 +14,16 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+const (
+	// rarelyTogetherMinDecks is how many decks must have had a package's cards
+	// before it can be flagged as rarely coming together.
+	rarelyTogetherMinDecks = 10
+
+	// rarelyTogetherShare flags a package whose came-together rate is under
+	// this share of the median rate across packages.
+	rarelyTogetherShare = 0.5
+)
+
 // PackageStat is one package's build rate across decks: how often decks build
 // it versus how often they merely carry enough of its cards.
 type PackageStat struct {
@@ -27,19 +37,32 @@ type PackageStat struct {
 	BuildRateLow  float64 `json:"buildRateLow"`
 	BuildRateHigh float64 `json:"buildRateHigh"`
 
-	// Has3 is the number of decks carrying 3 or more of the package's cards,
-	// per design.PackageCards.HasCards, built or not. CommitmentRatio is
-	// Package/Has3: low means the cards show up but rarely come together.
-	Has3            int     `json:"has3"`
-	Has3Rate        float64 `json:"has3Rate"`
-	CommitmentRatio float64 `json:"commitmentRatio"`
+	// Has3 counts decks carrying 3 or more of the package's cards, built or
+	// not. CameTogether is Package/Has3, and RarelyTogether flags a package
+	// whose rate is low against the others.
+	Has3           int     `json:"has3"`
+	Has3Rate       float64 `json:"has3Rate"`
+	CameTogether   float64 `json:"cameTogether"`
+	RarelyTogether bool    `json:"rarelyTogether"`
+
+	// Record is how the decks that built the package did.
+	Record Record `json:"record"`
+
+	// Color is the package's main Magic color, "" for none, and CardCount how
+	// many cube cards its wires use.
+	Color     string `json:"color"`
+	CardCount int    `json:"cardCount"`
 }
 
 // PackageStatsResponse is the API response for /api/{cube}/stats/packages.
+// Edges join packages that share groups, and MostLinked ranks the cards in
+// the most packages; both come from the rules, not the decks.
 type PackageStatsResponse struct {
 	Confidence     float64       `json:"confidence"`
 	PopulatedDecks int           `json:"populatedDecks"`
 	Packages       []PackageStat `json:"packages"`
+	Edges          []PackageEdge `json:"edges"`
+	MostLinked     []NamedCount  `json:"mostLinked"`
 }
 
 func PackageStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
@@ -56,11 +79,12 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	logrus.Info("/api/stats/packages")
 
 	cubeID := server.CubeFromRequest(r)
-	pkgs, err := PackagesForCube(h.store, h.src, cubeID)
+	rules, err := loadDesignInputs(h.store, h.src, cubeID)
 	if err != nil {
 		http.Error(rw, "could not load packages", http.StatusInternalServerError)
 		return
 	}
+	pkgs := resolvePackages(rules.cube, rules.config, rules.deckCardNames)
 
 	// The packages are cube-wide; only the decks they're measured over follow
 	// the date range and the deck filter.
@@ -76,6 +100,7 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 
 	resp := packageStats(pkgs, allDecks, query.GetFloat(r, "confidence"))
+	addPackageShapes(&resp, pkgs, rules)
 	b, err := json.Marshal(resp)
 	if err != nil {
 		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
@@ -87,14 +112,19 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 }
 
-// packageStats counts, for each package, the decks that build it and the
-// decks that carry enough of its cards. A deck is populated when it has at
-// least one non-basic mainboard card; empty decks stay out of the denominator
-// so they can't drag every rate down. No populated decks means no rows.
+// packageStats counts, for each package, the decks that build it, the decks
+// that carry enough of its cards, and how the builders did. A deck is
+// populated when it has at least one non-basic mainboard card; empty decks
+// stay out of the denominator so they can't drag every rate down. With no
+// populated decks every package gets a row at zero.
 func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float64) PackageStatsResponse {
 	populated := 0
 	has3 := map[string]int{}
 	pkg := map[string]int{}
+	records := map[string]*Record{}
+	for _, p := range pkgs {
+		records[p.Name] = &Record{}
+	}
 
 	for _, d := range decks {
 		cards := nonBasicMainboard(d)
@@ -113,32 +143,34 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 			}
 			if p.BuiltBy(deck) {
 				pkg[p.Name]++
+				records[p.Name].Add(d)
 			}
 		}
 	}
 
+	z := zForConfidence(conf)
 	stats := []PackageStat{}
-	if populated > 0 {
-		z := zForConfidence(conf)
-		n := float64(populated)
-		for _, p := range pkgs {
+	for _, p := range pkgs {
+		stat := PackageStat{Name: p.Name, Package: pkg[p.Name], Has3: has3[p.Name]}
+		if populated > 0 {
+			n := float64(populated)
 			low, high := wilsonInterval(pkg[p.Name], populated-pkg[p.Name], 0, z)
-			ratio := 0.0
-			if has3[p.Name] > 0 {
-				ratio = round3(float64(pkg[p.Name]) / float64(has3[p.Name]))
-			}
-			stats = append(stats, PackageStat{
-				Name:            p.Name,
-				Package:         pkg[p.Name],
-				BuildRate:       round3(float64(pkg[p.Name]) / n),
-				BuildRateLow:    round3(low / 100),
-				BuildRateHigh:   round3(high / 100),
-				Has3:            has3[p.Name],
-				Has3Rate:        round3(float64(has3[p.Name]) / n),
-				CommitmentRatio: ratio,
-			})
+			stat.BuildRate = round3(float64(pkg[p.Name]) / n)
+			stat.BuildRateLow = round3(low / 100)
+			stat.BuildRateHigh = round3(high / 100)
+			stat.Has3Rate = round3(float64(has3[p.Name]) / n)
 		}
+		if has3[p.Name] > 0 {
+			stat.CameTogether = round3(float64(pkg[p.Name]) / float64(has3[p.Name]))
+		}
+		record := records[p.Name]
+		record.Finalize()
+		record.SetBayesian(archetypeBayesPriorGames)
+		record.SetInterval(z)
+		stat.Record = *record
+		stats = append(stats, stat)
 	}
+	markRarelyTogether(stats)
 
 	sort.Slice(stats, func(i, j int) bool {
 		if stats[i].Package != stats[j].Package {
@@ -151,7 +183,47 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 		Confidence:     resolveConfidence(conf),
 		PopulatedDecks: populated,
 		Packages:       stats,
+		Edges:          []PackageEdge{},
+		MostLinked:     []NamedCount{},
 	}
+}
+
+// markRarelyTogether flags the packages whose cards show up but rarely form
+// the package: at least rarelyTogetherMinDecks decks had the cards, and the
+// came-together rate is under rarelyTogetherShare of the median across such
+// packages. The cutoff is relative, so it works for any cube's rules.
+func markRarelyTogether(stats []PackageStat) {
+	var rates []float64
+	for _, s := range stats {
+		if s.Has3 >= rarelyTogetherMinDecks {
+			rates = append(rates, s.CameTogether)
+		}
+	}
+	if len(rates) == 0 {
+		return
+	}
+	cutoff := rarelyTogetherShare * median(rates)
+	for i := range stats {
+		if stats[i].Has3 >= rarelyTogetherMinDecks && stats[i].CameTogether < cutoff {
+			stats[i].RarelyTogether = true
+		}
+	}
+}
+
+// addPackageShapes fills in what the rules alone decide: each package's color
+// and card count, the edges between packages, and the most-linked cards.
+func addPackageShapes(resp *PackageStatsResponse, pkgs []design.PackageCards, in designInputs) {
+	byName := map[string]design.PackageCards{}
+	for _, p := range pkgs {
+		byName[p.Name] = p
+	}
+	for i := range resp.Packages {
+		p := byName[resp.Packages[i].Name]
+		resp.Packages[i].Color = packageColor(p, in.cube)
+		resp.Packages[i].CardCount = packageCardCount(p, in.cube)
+	}
+	resp.Edges = packageEdges(in.config)
+	resp.MostLinked = mostLinked(pkgs, in.cube, mostLinkedShown)
 }
 
 // nonBasicMainboard returns the deck's non-basic mainboard card names. Basics
