@@ -96,9 +96,9 @@ export function SameRole({ page, cube }) {
   )
 }
 
-// DeckRow is one deck that played the card, linking to it on the Decks page.
-function DeckRow({ deck, card, nav }) {
-  const match = `card:"${card}"`
+// DeckRow is one deck, linking to it on the Decks page with the deck filter
+// set to match, so the page highlights why the deck is listed.
+export function DeckRow({ deck, match, nav }) {
   return (
     <Link
       className="card-deck-row"
@@ -134,7 +134,7 @@ export function DecksPlayed({ page, nav }) {
       href={pageHrefWithMatch(nav.cube, "decks", match, nav.start, nav.end)}
       onLinkClick={() => nav.onMatch(match)}
     >
-      {shown.map(deck => <DeckRow key={deck.ref} deck={deck} card={page.card.name} nav={nav} />)}
+      {shown.map(deck => <DeckRow key={deck.ref} deck={deck} match={match} nav={nav} />)}
       {!expanded && page.decks.length > DECKS_SHOWN && (
         <UnstyledButton className="card-partner-more" onClick={() => setExpanded(true)}>
           Show all {page.decks.length}

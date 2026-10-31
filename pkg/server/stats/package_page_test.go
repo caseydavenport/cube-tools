@@ -149,19 +149,26 @@ func TestColorTable_CountsAndThin(t *testing.T) {
 		Targets: []WireGroup{{Name: "Removal", Cards: target}},
 	}}
 	got := colorTable(wires, cards)
-	require.Len(t, got, 2)
+	require.Len(t, got, 4)
 
 	assert.Equal(t, "Burn", got[0].Group)
 	assert.Equal(t, "source", got[0].Side)
 	assert.Equal(t, 5, got[0].Counts["R"])
 	assert.Equal(t, 1, got[0].Counts["B"])
-	assert.Equal(t, []string{"B"}, got[0].Thin)
+	assert.Empty(t, got[0].Thin)
 
 	assert.Equal(t, "target", got[1].Side)
 	assert.Equal(t, 5, got[1].Counts["B"])
 	assert.Equal(t, 1, got[1].Counts["C"])
 	assert.Equal(t, 1, got[1].Counts["L"])
-	assert.Equal(t, []string{"R"}, got[1].Thin)
+	assert.Empty(t, got[1].Thin)
+
+	// The side totals carry the thin colors: one black source against five
+	// black targets, and no red target against five red sources.
+	assert.Equal(t, GroupColorRow{Group: "All sources", Side: "source", Total: true, Counts: got[0].Counts, Thin: []string{"B"}}, got[2])
+	assert.Equal(t, "All targets", got[3].Group)
+	assert.True(t, got[3].Total)
+	assert.Equal(t, []string{"R"}, got[3].Thin)
 }
 
 func TestPackageOverTime_MarksRange(t *testing.T) {

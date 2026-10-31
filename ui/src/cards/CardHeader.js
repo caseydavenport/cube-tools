@@ -21,8 +21,8 @@ function headerTags(page) {
 }
 
 // GamesWon is the "Games won" tile, greyed when the rate can't be told apart
-// from a coin flip.
-function GamesWon({ tile }) {
+// from a coin flip. The package page uses it too.
+export function GamesWon({ tile }) {
   let value = tile.value
   if (tile.muted) {
     value = <span className="kit-win-muted">{tile.value}</span>

@@ -63,11 +63,13 @@ type WireGroup struct {
 }
 
 // GroupColorRow is one group's cards counted by color, for the support-by-
-// color table. Side is "source" or "target"; Thin lists the colors where this
-// group is thin but the package's other side is not.
+// color table. Side is "source" or "target". A Total row sums a whole side,
+// and only those rows list Thin colors: where the side is thin but the
+// package's other side is not.
 type GroupColorRow struct {
 	Group  string         `json:"group"`
 	Side   string         `json:"side"`
+	Total  bool           `json:"total"`
 	Counts map[string]int `json:"counts"`
 	Thin   []string       `json:"thin"`
 }
@@ -251,46 +253,55 @@ func packagesUsing(group, skip string, config design.DesignMapConfig) []string {
 }
 
 // colorTable counts each wire group's cards by color, one row per group and
-// side, in wire order. A gold card counts in each of its colors, a land only
-// under "L", and a colorless nonland card under "C". A color is thin on a row
-// when the row has colorThinMax cards or fewer in it while the package's other
-// side has colorSupportMin or more.
+// side in wire order, then a total row for each side. A gold card counts in
+// each of its colors, a land only under "L", and a colorless nonland card
+// under "C". A side's total marks a color thin when the side has colorThinMax
+// cards or fewer in it while the other side has colorSupportMin or more.
 func colorTable(wires []PackageWire, cards map[string]types.Card) []GroupColorRow {
 	var sources, targets []WireGroup
 	for _, w := range wires {
 		sources = append(sources, w.Sources...)
 		targets = append(targets, w.Targets...)
 	}
-	sourceTotals := colorCounts(groupsCards(sources), cards)
-	targetTotals := colorCounts(groupsCards(targets), cards)
 
 	out := []GroupColorRow{}
 	seen := map[string]bool{}
 	for _, w := range wires {
-		out = appendColorRows(out, w.Sources, "source", targetTotals, cards, seen)
-		out = appendColorRows(out, w.Targets, "target", sourceTotals, cards, seen)
+		out = appendColorRows(out, w.Sources, "source", cards, seen)
+		out = appendColorRows(out, w.Targets, "target", cards, seen)
+	}
+
+	sourceTotals := colorCounts(groupsCards(sources), cards)
+	targetTotals := colorCounts(groupsCards(targets), cards)
+	out = append(out,
+		GroupColorRow{Group: "All sources", Side: "source", Total: true, Counts: sourceTotals, Thin: thinColors(sourceTotals, targetTotals)},
+		GroupColorRow{Group: "All targets", Side: "target", Total: true, Counts: targetTotals, Thin: thinColors(targetTotals, sourceTotals)},
+	)
+	return out
+}
+
+// thinColors lists the colors, in WUBRG order, where side has colorThinMax
+// cards or fewer and other has colorSupportMin or more.
+func thinColors(side, other map[string]int) []string {
+	out := []string{}
+	for _, color := range colorColumns[:5] {
+		if side[color] <= colorThinMax && other[color] >= colorSupportMin {
+			out = append(out, color)
+		}
 	}
 	return out
 }
 
 // appendColorRows adds a row for each group on one wire side, skipping a group
-// already listed on that side. otherSide is the color counts across the
-// package's other side, which decides the thin colors.
-func appendColorRows(out []GroupColorRow, groups []WireGroup, side string, otherSide map[string]int, cards map[string]types.Card, seen map[string]bool) []GroupColorRow {
+// already listed on that side.
+func appendColorRows(out []GroupColorRow, groups []WireGroup, side string, cards map[string]types.Card, seen map[string]bool) []GroupColorRow {
 	for _, g := range groups {
 		key := side + "/" + g.Name
 		if seen[key] {
 			continue
 		}
 		seen[key] = true
-
-		row := GroupColorRow{Group: g.Name, Side: side, Counts: colorCounts(g.Cards, cards), Thin: []string{}}
-		for _, color := range colorColumns[:5] {
-			if row.Counts[color] <= colorThinMax && otherSide[color] >= colorSupportMin {
-				row.Thin = append(row.Thin, color)
-			}
-		}
-		out = append(out, row)
+		out = append(out, GroupColorRow{Group: g.Name, Side: side, Counts: colorCounts(g.Cards, cards), Thin: []string{}})
 	}
 	return out
 }
