@@ -11,7 +11,10 @@ import { packageUrl } from "../stats/pageRequests.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
 import { BuiltOverTime } from "./BuiltOverTime.js"
 import { PackageHeader } from "./PackageHeader.js"
-import { ColorSupport, DecksBuilt, RelatedPackages, Wires } from "./PackageSections.js"
+import { ColorSupport, DecksBuilt, RelatedPackages } from "./PackageSections.js"
+import { PackageMap } from "./PackageMap.js"
+import { SectionCard } from "../components/kit/SectionCard.js"
+import { ruleColor } from "../design/map/ruleColors.js"
 import "../pages/pages.css"
 import "../cards/cardPage.css"
 import "./packagePage.css"
@@ -65,6 +68,37 @@ function usePackagePage(cube, name, start, end) {
   return state
 }
 
+// useRulesGraph loads the cube's rules from /stats/design-graph, sorted the
+// way every page colors them. It returns { groups, packages }, both empty
+// until loaded, and loads again when refresh changes.
+function useRulesGraph(cube, refresh) {
+  const [rules, setRules] = useState({ groups: [], packages: [] })
+  useEffect(() => {
+    let cancelled = false
+    fetch(`/api/${cube}/stats/design-graph`)
+      .then(r => r.json())
+      .then(body => {
+        if (!cancelled) {
+          setRules({ groups: body.groups || [], packages: body.packages || [] })
+        }
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [cube, refresh])
+  return rules
+}
+
+// indexByName maps each item's name to its position, for rule colors.
+function indexByName(items) {
+  const out = {}
+  items.forEach((item, i) => {
+    out[item.name] = i
+  })
+  return out
+}
+
 // PackagePage is the page for the package named in the URL. It follows the
 // app's date range but not its deck filter; links out set the filter through
 // onLinkMatch as they're followed.
@@ -76,6 +110,13 @@ export function PackagePage(props) {
   const end = props.endDate || ""
   const { page, missing } = usePackagePage(cube, name, start, end)
   const nav = { cube, start, end, onMatch: props.onLinkMatch }
+  const rules = useRulesGraph(cube, 0)
+  const groupIndex = indexByName(rules.groups)
+  const packageIndex = indexByName(rules.packages)
+  let packageColor = "var(--mantine-primary-color-filled)"
+  if (page && packageIndex[page.name] !== undefined) {
+    packageColor = ruleColor(packageIndex[page.name])
+  }
 
   const toolbar = (
     <PageToolbar title={name}>
@@ -92,7 +133,12 @@ export function PackagePage(props) {
         <PackageHeader page={page} info={info} />
         <div className="package-page-grid">
           <div className="card-page-wide">
-            <Wires page={page} cube={cube} />
+            <SectionCard title="Map">
+              <PackageMap
+                map={page.map} groupIndex={groupIndex} packageColor={packageColor} canDrag={false}
+                onOpenGroup={() => {}} onOpenWire={() => {}} onDropWire={() => {}}
+              />
+            </SectionCard>
           </div>
           <div className="card-page-wide">
             <ColorSupport page={page} />

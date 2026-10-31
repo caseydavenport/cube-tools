@@ -1,0 +1,110 @@
+/* The package page's map: chip columns either side of the wire pills. */
+
+.pm-map {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 0 7rem;
+  align-items: center;
+  margin: 0.4rem 0;
+}
+
+.pm-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.pm-col-left {
+  align-items: flex-end;
+}
+
+.pm-col-right {
+  align-items: flex-start;
+}
+
+.pm-pills {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 1.4rem;
+  align-self: stretch;
+  position: relative;
+  z-index: 1;
+}
+
+.pm-pill-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.pm-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: var(--pm-color);
+  color: var(--mantine-color-white);
+  white-space: nowrap;
+}
+
+.pm-pill-quiet {
+  background: var(--se-card);
+  color: var(--se-warn);
+  border: 1px solid var(--se-border);
+}
+
+.pm-chip {
+  border-radius: 999px;
+  background: var(--se-card);
+  cursor: pointer;
+}
+
+.pm-chip:hover {
+  border-color: var(--mantine-primary-color-filled);
+}
+
+.pm-chip-card {
+  border-style: dashed;
+}
+
+.pm-chip-target {
+  border-color: var(--mantine-primary-color-filled);
+  border-style: dashed;
+}
+
+.pm-chip .dm-swatch {
+  border-radius: 50%;
+}
+
+.pm-flag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--se-muted);
+  white-space: nowrap;
+}
+
+.pm-flag-warn {
+  color: var(--se-warn);
+}
+
+.pm-flag-bad {
+  color: var(--se-bad);
+}
+
+.pm-thread {
+  fill: none;
+  stroke-linecap: round;
+  transition: opacity 0.15s ease;
+}
+
+@media (max-width: 900px) {
+  .pm-map {
+    gap: 0 3rem;
+  }
+}

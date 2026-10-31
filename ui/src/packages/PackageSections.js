@@ -1,10 +1,9 @@
-// The package page's sections under the header: its wires, how its groups
-// spread over the colors, the decks that built it, and related packages.
+// The package page's sections under the map: how its groups spread over the
+// colors, the decks that built it, and related packages.
 
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { UnstyledButton } from "@mantine/core"
-import { CardLink } from "../components/CardLink.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { DeckRow } from "../cards/CardPlaySections.js"
@@ -14,62 +13,6 @@ import { colorCell } from "./packagePageModel.js"
 
 // DECKS_SHOWN is how many decks the decks section lists before "Show all".
 const DECKS_SHOWN = 10
-
-// GroupChip is one group on a wire: its name and card count, opening to its
-// cards and the other packages that use it.
-function GroupChip({ group, cube }) {
-  const [open, setOpen] = useState(false)
-  return (
-    <div className="package-group">
-      <UnstyledButton className="kit-chip kit-chip-neutral" onClick={() => setOpen(!open)}>
-        {group.name} <span className="kit-chip-count">{group.cards.length}</span>
-      </UnstyledButton>
-      {open && (
-        <div className="package-group-cards">
-          <div className="kit-chips">
-            {group.cards.map(name => <CardLink key={name} cube={cube} name={name} className="kit-chip kit-chip-card" />)}
-          </div>
-          {group.other_packages.length > 0 && (
-            <div className="package-group-also">
-              Also in{" "}
-              {group.other_packages.map((name, i) => (
-                <span key={name}>
-                  {i > 0 && ", "}
-                  <Link to={packagePageHref(cube, name)}>{name}</Link>
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
-
-// Wires lists each wire as the groups on one side, then the groups on the
-// other.
-export function Wires({ page, cube }) {
-  const title = (
-    <HoverInfo title="Wires" info="The groups the rules join. A deck builds the package with 2 or more cards on each side of one wire. Click a group for its cards.">
-      <span>Wires</span>
-    </HoverInfo>
-  )
-  return (
-    <SectionCard title={title}>
-      {page.wires.map((wire, i) => (
-        <div key={i} className="package-wire">
-          <div className="package-wire-side">
-            {wire.sources.map(g => <GroupChip key={g.name} group={g} cube={cube} />)}
-          </div>
-          <span className="package-wire-arrow">↔</span>
-          <div className="package-wire-side">
-            {wire.targets.map(g => <GroupChip key={g.name} group={g} cube={cube} />)}
-          </div>
-        </div>
-      ))}
-    </SectionCard>
-  )
-}
 
 // COLOR_COLUMNS are the support table's columns after the group name.
 const COLOR_COLUMNS = ["W", "U", "B", "R", "G", "C", "L"]
