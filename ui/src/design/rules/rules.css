@@ -107,50 +107,6 @@
   font-weight: 600;
 }
 
-/* "Check a card" in a group. */
-.de-check {
-  margin-bottom: 0.6rem;
-}
-
-.de-check-search {
-  max-width: 320px;
-}
-
-.de-check-answer {
-  margin-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.de-check-summary {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.de-check-cond {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-
-.de-check-parts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 12px;
-}
-
-.de-check-pass {
-  color: var(--se-good);
-}
-
-.de-check-fail {
-  color: var(--se-bad);
-}
-
 /* A group view and its sections: members by condition, excludes, and
    the packages that also use the group. */
 

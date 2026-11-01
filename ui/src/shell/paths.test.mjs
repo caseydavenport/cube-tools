@@ -67,7 +67,6 @@ test("a package filter quotes the name", () => {
 
 test("an editor view link names the group or package to open", () => {
   assert.equal(editorViewHref("polyverse", "g:Pow<2"), "/polyverse/rules-editor?view=g%3APow%3C2")
-  assert.equal(editorViewHref("polyverse", "g:Fodder", "Mayhem Devil"), "/polyverse/rules-editor?view=g%3AFodder&check=Mayhem+Devil")
 })
 
 test("a link check link names both cards", () => {

@@ -10,7 +10,7 @@ import { GroupSection, useRuleGroups } from "./GroupSection.js"
 // GroupView loads and shows the group called name. group is its rules entry,
 // or undefined when the rules have no such group.
 export function GroupView({
-  name, group, color, warning, canEdit, refresh, range, initialCheck,
+  name, group, color, warning, canEdit, refresh, range,
   onBack, onEdit, onDelete, onExclude, onRestore,
 }) {
   const cube = useCube()
@@ -27,7 +27,7 @@ export function GroupView({
       <GroupSection
         id="rg-group" members={groups[0]} group={group || null} packageName="" color={color} warning={warning}
         canEdit={canEdit} onEdit={null} onExclude={card => onExclude(name, card)}
-        onRestore={card => onRestore(name, card)} initialCheck={initialCheck}
+        onRestore={card => onRestore(name, card)}
       />
     )
   }

@@ -10,7 +10,6 @@ import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { ruleGroupsUrl } from "../../stats/pageRequests.js"
 import { packagePageHref } from "../../shell/paths.js"
 import { cardsText, dotKeys, entryLabel } from "./boardModel.js"
-import { GroupCheck } from "./GroupCheck.js"
 import "./rules.css"
 
 // useRuleGroups loads /stats/rule-groups for which, { package } or
@@ -115,7 +114,7 @@ function memberCount(members) {
 // onExclude and onRestore are only used when canEdit is true; a null
 // onEdit hides the section's Edit button. showUses false leaves out the
 // "Also used by" line, whose names link to their package pages.
-export function GroupSection({ id, members, group, packageName, color, warning, canEdit, onEdit, onExclude, onRestore, initialCheck, showUses = true }) {
+export function GroupSection({ id, members, group, packageName, color, warning, canEdit, onEdit, onExclude, onRestore, showUses = true }) {
   const cube = useCube()
   const others = alsoUsedBy(members.uses, packageName)
   const count = memberCount(members)
@@ -185,7 +184,6 @@ export function GroupSection({ id, members, group, packageName, color, warning, 
         </div>
       )}
 
-      {group && <GroupCheck key={group.name} group={group} initialCard={initialCheck} />}
     </section>
   )
 }

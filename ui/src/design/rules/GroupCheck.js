@@ -1,10 +1,7 @@
-// "Check a card" for one group: pick any card and see whether it's in the
-// group, and if not, which parts of each condition it failed.
+// Asks the server whether one card is in a group, and which parts of each
+// condition it failed. The group dialog uses it for its pinned card.
 
-import React, { useEffect, useState } from "react"
-import { useCube } from "../../contexts/CubeContext.js"
-import { AnyCardSearch } from "../../cards/AnyCardSearch.js"
-import { checkRequest, checkSummary, failedConditions } from "./groupCheckModel.js"
+import { useEffect, useState } from "react"
 
 // useGroupCheck posts body, a group-check request, waiting debounceMs first so
 // typing doesn't fire a request per keystroke. It returns null with no body
@@ -42,61 +39,4 @@ export function useGroupCheck(cube, body, debounceMs = 0) {
     }
   }, [cube, body, debounceMs])
   return result
-}
-
-// FailedCondition is one condition the card didn't match, with each part
-// marked passed or failed.
-function FailedCondition({ condition }) {
-  return (
-    <div className="de-check-cond">
-      <code className="de-cond">{condition.condition}</code>
-      <span className="de-check-parts">
-        {condition.parts.map((part, i) => {
-          let className = "de-check-part de-check-fail"
-          let mark = "✗"
-          if (part.matched) {
-            className = "de-check-part de-check-pass"
-            mark = "✓"
-          }
-          return <span key={i} className={className}>{mark} {part.text}</span>
-        })}
-      </span>
-    </div>
-  )
-}
-
-// CheckAnswer shows the server's answer for one card.
-function CheckAnswer({ result }) {
-  if (result.missing) {
-    return <div className="de-muted">That isn't a card the app knows.</div>
-  }
-  let failed = []
-  if (!result.in_group && !result.excluded) {
-    failed = failedConditions(result)
-  }
-  return (
-    <div className="de-check-answer">
-      <div className="de-check-summary">{checkSummary(result)}</div>
-      {failed.map((c, i) => <FailedCondition key={i} condition={c} />)}
-    </div>
-  )
-}
-
-// GroupCheck is the "Check a card" box for group. initialCard, from the
-// URL's check param, fills it in when the page opens.
-export function GroupCheck({ group, initialCard }) {
-  const cube = useCube()
-  const [card, setCard] = useState(initialCard || "")
-  let body = ""
-  if (card) {
-    body = checkRequest(card, group.name, group.conditions, group.exclude)
-  }
-  const result = useGroupCheck(cube, body)
-  return (
-    <div className="de-check">
-      <div className="de-subhead">Check a card</div>
-      <AnyCardSearch cube={cube} value={card} onPick={setCard} placeholder="Is this card in the group?" className="de-check-search" />
-      {result && <CheckAnswer result={result} />}
-    </div>
-  )
 }

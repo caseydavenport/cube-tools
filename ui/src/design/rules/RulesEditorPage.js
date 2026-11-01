@@ -228,7 +228,6 @@ export function DesignEditorPage({ startDate, endDate }) {
     main = <GroupView
       key={viewName} name={viewName} group={groupsByName[viewName]} color={color}
       warning={groupWarning(audit, viewName)} canEdit={canEdit} refresh={refresh} range={range}
-      initialCheck={params.get('check') || ''}
       onBack={backToBoard} onEdit={() => openGroup(viewName)} onDelete={() => deleteGroup(viewName)}
       onExclude={(group, card) => setCardExcluded(group, card, true)}
       onRestore={(group, card) => setCardExcluded(group, card, false)}
