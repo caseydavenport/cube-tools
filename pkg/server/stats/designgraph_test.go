@@ -630,7 +630,7 @@ func TestResolvePackages_DanglingGroup(t *testing.T) {
 	pkgs := resolvePackages(resolveTestCube(), config, nil)
 	require.Len(t, pkgs, 1)
 	require.Len(t, pkgs[0].Wires, 1)
-	assert.Equal(t, 2, pkgs[0].Wires[0].NeedSources)
+	assert.Equal(t, 1, pkgs[0].Wires[0].NeedSources)
 	assert.Equal(t, 0, pkgs[0].Wires[0].NeedTargets)
 
 	deck := map[string]bool{
@@ -643,7 +643,8 @@ func TestResolvePackages_DanglingGroup(t *testing.T) {
 }
 
 // TestResolvePackages_SingleCardRef checks that a card: entry is a one-card
-// side needing only that card, while a group side of three needs two.
+// side needing only that card, and that a group side of three, a small side,
+// needs one.
 func TestResolvePackages_SingleCardRef(t *testing.T) {
 	config := design.DesignMapConfig{
 		Groups: []design.Group{{Name: "Blue Fetchables", Conditions: []string{"o:island t:land"}}},
@@ -656,7 +657,7 @@ func TestResolvePackages_SingleCardRef(t *testing.T) {
 	require.Len(t, pkgs, 1)
 	w := pkgs[0].Wires[0]
 	assert.Equal(t, 1, w.NeedSources)
-	assert.Equal(t, 2, w.NeedTargets)
+	assert.Equal(t, 1, w.NeedTargets)
 	assert.True(t, pkgs[0].BuiltBy(cardSet("Flooded Strand", "Hallowed Fountain", "Steam Vents")))
 	assert.False(t, pkgs[0].BuiltBy(cardSet("Hallowed Fountain", "Steam Vents", "Bear")))
 }
@@ -678,7 +679,7 @@ func TestResolvePackages_CutCardsJoinSides(t *testing.T) {
 
 	pkgs := resolvePackages(resolveTestCube(), config, []string{"Watery Grave"})
 	w := pkgs[0].Wires[0]
-	assert.Equal(t, 2, w.NeedTargets)
+	assert.Equal(t, 1, w.NeedTargets, "the cut dual doesn't grow the side past small")
 	assert.True(t, w.Targets["Watery Grave"], "cut dual should join the target side")
 }
 

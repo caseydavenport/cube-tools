@@ -27,6 +27,8 @@ func onePackage(sources, targets map[string]bool, needSources, needTargets int) 
 func TestSideMinimum(t *testing.T) {
 	assert.Equal(t, 0, SideMinimum(0))
 	assert.Equal(t, 1, SideMinimum(1))
+	assert.Equal(t, 1, SideMinimum(3))
+	assert.Equal(t, 2, SideMinimum(4))
 	assert.Equal(t, 2, SideMinimum(5))
 }
 

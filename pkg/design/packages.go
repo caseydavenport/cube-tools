@@ -6,7 +6,7 @@ const MinPackageCards = 3
 
 // WireCards is one wire of a package with its groups resolved to card names.
 // NeedSources and NeedTargets are how many cards from each side a deck must
-// play: 2, or 1 for a side with a single card in the cube, or 0 for a side
+// play: 2, or 1 for a side with 3 or fewer cards in the cube, or 0 for a side
 // that matches nothing. SourceBasics and TargetBasics are the basic lands a
 // side's groups match; playing any of them meets that side, since every deck
 // gets basics free.
@@ -26,11 +26,18 @@ type PackageCards struct {
 	Wires []WireCards
 }
 
+// smallSide is the most cube cards a wire side can hold and still need only
+// one of them in a deck.
+const smallSide = 3
+
 // SideMinimum is how many cards a deck must play from a wire side that has
-// cubeCards cards in the cube. A one-card side, such as a single payoff named
-// directly, only needs that card.
+// cubeCards cards in the cube: 2, or 1 for a small side, such as a payoff
+// the cube has only a few of.
 func SideMinimum(cubeCards int) int {
-	return min(cubeCards, 2)
+	if cubeCards <= smallSide {
+		return min(cubeCards, 1)
+	}
+	return 2
 }
 
 // BuiltBy reports whether a deck builds the package. The deck builds it when

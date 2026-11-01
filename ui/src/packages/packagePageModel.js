@@ -32,7 +32,7 @@ export function headerLine(page, showWinRate) {
     {
       key: "built",
       text: `${plural(page.stat.package, "deck", "decks")} built it`,
-      tip: "Decks with 2+ cards from each side of one wire, and 3+ of its cards.",
+      tip: "Decks playing 2+ of the cards in each column of one wire (1 where the cube has 3 or fewer), and 3+ of its cards.",
     },
     {
       key: "pairs",
