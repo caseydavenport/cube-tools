@@ -1,7 +1,7 @@
 import {
   IconHome, IconShield, IconMap, IconCards, IconCalendar, IconUsers, IconPlayCard,
   IconPalette, IconChartDonut, IconChartBar, IconAffiliate, IconPackage, IconChartLine,
-  IconHeartbeat, IconPencil,
+  IconHeartbeat, IconPencil, IconZoomScan,
 } from "@tabler/icons-react"
 
 // ICONS maps the page model's icon keys (nav/sections.js) to Tabler icons.
@@ -21,4 +21,5 @@ export const ICONS = {
   charts: IconChartLine,
   health: IconHeartbeat,
   rulesEditor: IconPencil,
+  explorer: IconZoomScan,
 }

@@ -1,0 +1,41 @@
+/* The Card explorer page. */
+
+.ex-page {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ex-search {
+  width: min(420px, 60vw);
+}
+
+.ex-thin {
+  width: 90px;
+}
+
+.ex-name {
+  font-weight: 600;
+}
+
+.ex-type {
+  font-size: 0.75rem;
+  color: var(--se-muted);
+}
+
+.ex-chips {
+  min-width: 220px;
+}
+
+.ex-joins {
+  min-width: 300px;
+}
+
+.ex-chips .kit-chip {
+  margin: 1px 2px;
+}
+
+.ex-note {
+  font-size: 0.8rem;
+  color: var(--se-muted);
+}

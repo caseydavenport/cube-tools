@@ -99,3 +99,14 @@ export function pivotRequest({ start, end, groupBy, splitBy, bucketSize, usesTim
     match,
   }
 }
+
+// explorerUrl is the Card explorer's request: the search, the maybeboard and
+// show-all switches, and the thin-role cutoff.
+export function explorerUrl(cube, { q, maybe, thin, all }) {
+  return statsUrl(cube, "explorer", {
+    q: emptyToUndefined(q),
+    maybe: maybe ? "1" : undefined,
+    thin,
+    all: all ? "1" : undefined,
+  })
+}

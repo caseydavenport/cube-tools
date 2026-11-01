@@ -9,6 +9,7 @@ import { ExplorePage } from './pages/ExplorePage.js'
 import { RemovalPage } from './pages/RemovalPage.js'
 import { PackagesPage } from './packages/PackagesPage.js'
 import { PackagePage } from './packages/PackagePage.js'
+import { ExplorerPage } from './explorer/ExplorerPage.js'
 import { DesignEditorPage } from './design/rules/RulesEditorPage.js'
 import { LinkCheckPage } from './design/link/LinkCheckPage.js'
 import { initialDates, todayString } from './toolbar/dateRanges.js'
@@ -153,6 +154,7 @@ function AppRoutes({ dateProps, initialMatch }) {
           <Route path='synergy' element={<StatsViewer view='synergy' {...statsProps} />} />
           <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
           <Route path='synergy-map' element={<Navigate to="../packages?view=map" replace />} />
+          <Route path='explorer' element={<ExplorerPage />} />
           <Route path='rules-editor' element={<DesignEditorPage {...statsProps} />} />
           <Route path='rules-editor/link' element={<LinkCheckPage {...statsProps} />} />
           <Route path='decks' element={<DecksPage {...statsProps} />} />

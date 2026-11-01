@@ -56,6 +56,7 @@ export const NAV_GROUPS = [
     label: "Design",
     dividerAfter: null,
     pages: [
+      { label: "Card explorer", path: "explorer", icon: "explorer", needs: [] },
       { label: "Rules editor", path: "rules-editor", icon: "rulesEditor", needs: ["writable"] },
     ],
   },
