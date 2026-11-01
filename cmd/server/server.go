@@ -101,6 +101,7 @@ func main() {
 	cubeRoute("GET /api/{cube}/stats/rules-board", stats.RulesBoardHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/rule-groups", stats.RuleGroupsHandler(deckStore, provider))
 	cubeRoute("POST /api/{cube}/stats/rules-preview", stats.RulesPreviewHandler(deckStore, provider))
+	cubeRoute("GET /api/{cube}/stats/explorer", stats.ExplorerHandler(deckStore, provider, provider.Maybeboard))
 	cubeRoute("GET /api/{cube}/stats/deck-charts", stats.DeckChartsHandler(deckStore, provider))
 	cubeRoute("POST /api/{cube}/save-design-rules", stats.SaveDesignRulesHandler(deckStore))
 	cubeRoute("POST /api/{cube}/refresh", server.RefreshHandler(provider))

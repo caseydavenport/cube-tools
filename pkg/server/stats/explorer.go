@@ -147,14 +147,20 @@ func hitGroups(hits map[string]types.Card, groups []design.Group) map[string][]E
 // exploreCard scores one card: its joins, linked cube cards, Fills gaps and
 // New connections.
 func exploreCard(card types.Card, inCube bool, groups []ExplorerGroup, rules explorerRules, thin int) ExplorerCard {
+	// Lists start empty, not nil, so they reach the page as [] rather than null.
 	out := ExplorerCard{
-		Name:     card.Name,
-		TypeLine: typeLine(card),
-		Image:    card.Image,
-		URL:      card.URL,
-		CMC:      card.CMC,
-		InCube:   inCube,
-		Groups:   groups,
+		Name:        card.Name,
+		TypeLine:    typeLine(card),
+		Image:       card.Image,
+		URL:         card.URL,
+		CMC:         card.CMC,
+		InCube:      inCube,
+		Groups:      groups,
+		Joins:       []ExplorerJoin{},
+		Connections: []PackageConnection{},
+	}
+	if out.Groups == nil {
+		out.Groups = []ExplorerGroup{}
 	}
 	if card.IsCreature() {
 		out.Power = card.Power
@@ -190,7 +196,7 @@ func exploreCard(card types.Card, inCube bool, groups []ExplorerGroup, rules exp
 	}
 
 	out.Linked = sortedNames(linked)
-	out.Connections = connections(card.Name, thinPackages, rules)
+	out.Connections = append(out.Connections, connections(card.Name, thinPackages, rules)...)
 	return out
 }
 
