@@ -33,9 +33,9 @@ type MapGroup struct {
 	OtherPackages []string `json:"other_packages"`
 }
 
-// MapWire is one wire: its kind and entries, the decks that built the package through
-// it, the median of its own linked pairs over those decks, the cube cards on
-// both of its sides, and its depth grid.
+// MapWire is one wire: its kind and entries, the decks that built the package
+// through it, the median of its own linked pairs over those decks, the cube
+// cards on both of its sides, and its depth grid.
 type MapWire struct {
 	Kind         string      `json:"kind"`
 	Sources      []string    `json:"sources"`
