@@ -12,6 +12,8 @@ test("writing params drops defaults and keeps the rest", () => {
   const next = writeParams(new URLSearchParams("q=x&view=keep"), { maybe: true, thin: 10, all: false })
   assert.equal(next.toString(), "q=x&view=keep&maybe=1")
   assert.equal(writeParams(next, { q: "", maybe: false }).toString(), "view=keep")
+  assert.equal(writeParams(next, { q: "   " }).toString(), "view=keep&maybe=1")
+  assert.equal(writeParams(next, { q: " c:G " }).toString(), "q=c%3AG&view=keep&maybe=1")
 })
 
 const join = { package: "Sacrifice", wire: 2, role: "payoff", via: ["Outlets"], others: 8, partner: ["Makers", "card:Lone Payoff"], partner_cards: 12, partner_basics: false }

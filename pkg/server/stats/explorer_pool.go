@@ -43,11 +43,12 @@ func explorerPool() map[string]types.Card {
 }
 
 // poolFromOracle turns oracle cards into the explorer's card pool, leaving out
-// joke and memorabilia sets, tokens and other layouts that aren't game cards.
+// joke and memorabilia sets, tokens and other layouts that aren't game cards,
+// and basic lands, which every deck has anyway.
 func poolFromOracle(cards []types.OracleCard) map[string]types.Card {
 	out := make(map[string]types.Card, len(cards))
 	for _, o := range cards {
-		if skipSetTypes[o.SetType] || skipLayouts[o.Layout] {
+		if skipSetTypes[o.SetType] || skipLayouts[o.Layout] || types.IsBasic(o.Name) {
 			continue
 		}
 		out[o.Name] = types.FromOracle(o)

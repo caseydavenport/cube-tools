@@ -43,11 +43,11 @@ type ExplorerResponse struct {
 // the group-condition syntax over every card; "maybe=1" limits it to the
 // cube's CubeCobra maybeboard, and with no search shows the whole maybeboard.
 // "thin" sets the New connections cutoff, and "all=1" keeps cards in no
-// group. maybe may be nil when there's no CubeCobra to ask.
+// group and on no wire. maybe may be nil when there's no CubeCobra to ask.
 func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe MaybeboardSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cubeID := server.CubeFromRequest(r)
-		search := query.GetString(r, "q")
+		search := strings.TrimSpace(query.GetString(r, "q"))
 		useMaybe := query.GetString(r, "maybe") == "1"
 		resp := ExplorerResponse{Candidates: []ExplorerCard{}, InCube: []ExplorerCard{}}
 
@@ -78,7 +78,7 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 		cards := exploreCards(hits, newExplorerRules(rules.cube, rules.config), thinParam(r))
 		keepAll := query.GetString(r, "all") == "1"
 		for _, c := range cards {
-			if len(c.Groups) == 0 && !keepAll {
+			if len(c.Groups) == 0 && len(c.Joins) == 0 && !keepAll {
 				continue
 			}
 			if c.InCube {

@@ -21,15 +21,15 @@ export function readParams(params) {
   }
 }
 
-// writeParams returns params with patch applied. Defaults (an empty search,
+// writeParams returns params with patch applied. Defaults (a blank search,
 // switches off, the default cutoff) are left out of the URL; other params are
-// kept.
+// kept. The search is trimmed.
 export function writeParams(params, patch) {
   const next = new URLSearchParams(params)
   for (const [key, value] of Object.entries(patch)) {
     let text = ""
     if (key === "q") {
-      text = value
+      text = value.trim()
     } else if (key === "thin") {
       if (value !== DEFAULT_THIN) {
         text = String(value)

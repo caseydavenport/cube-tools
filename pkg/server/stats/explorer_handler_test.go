@@ -11,6 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -74,10 +75,11 @@ func names(cards []ExplorerCard) []string {
 func TestExplorerHandler_EmptySearch(t *testing.T) {
 	usePool(t, explorerPoolCards()...)
 
-	resp := explorerFor(t, nil, url.Values{})
-
-	assert.Empty(t, resp.Candidates)
-	assert.Empty(t, resp.InCube)
+	for _, q := range []string{"", "   "} {
+		resp := explorerFor(t, nil, url.Values{"q": {q}})
+		assert.Empty(t, resp.Candidates, "search %q", q)
+		assert.Empty(t, resp.InCube, "search %q", q)
+	}
 }
 
 func TestExplorerHandler_SplitsCubeCards(t *testing.T) {
@@ -140,4 +142,19 @@ func TestCardPage_Connections(t *testing.T) {
 	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
 
 	assert.Equal(t, []PackageConnection{{A: "Ramp", B: "Sacrifice", Shared: 0}}, resp.Connections)
+}
+
+func TestExplorerHandler_KeepsCardEntryWithNoGroup(t *testing.T) {
+	payoff := explorerCube().Cards[6]
+	usePool(t, payoff)
+	config := explorerConfig()
+	config.Packages[0].Wires = append(config.Packages[0].Wires, design.Wire{Kind: design.WireEnables, Sources: []string{"Makers"}, Targets: []string{"card:Lone Payoff"}})
+	store := &rulesDeckStorage{config: config}
+
+	rr := serveCube(ExplorerHandler(store, fixedCubeSource{cube: explorerCube()}, nil), "/api/polyverse/stats/explorer", url.Values{"q": {`n:"Lone Payoff"`}})
+	require.Equal(t, http.StatusOK, rr.Code)
+	var resp ExplorerResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+
+	assert.Equal(t, []string{"Lone Payoff"}, names(resp.InCube))
 }

@@ -14,6 +14,7 @@ func TestPoolFromOracle_SkipsJokesAndTokens(t *testing.T) {
 		{Name: "Joke Bear", TypeLine: "Creature — Bear", Layout: "normal", SetType: "funny"},
 		{Name: "Bear Token", TypeLine: "Token Creature — Bear", Layout: "token"},
 		{Name: "Bear Art", TypeLine: "Card", Layout: "art_series"},
+		{Name: "Forest", TypeLine: "Basic Land — Forest", Layout: "normal"},
 	})
 
 	assert.Len(t, pool, 1)
