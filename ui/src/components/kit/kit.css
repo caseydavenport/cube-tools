@@ -305,14 +305,26 @@ a.kit-card:visited {
   gap: 6px;
 }
 
+/* Each variant sets --kit-chip-color rather than color, so a chip that's a
+   visited link keeps its color instead of the browser's visited purple. */
 .kit-chip {
+  --kit-chip-color: var(--se-text);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   font-size: 12px;
   font-weight: 600;
-  padding: 3px 4px 3px 10px;
+  line-height: 1.4;
+  padding: 3px 10px;
   border-radius: 999px;
+  white-space: nowrap;
+  color: var(--kit-chip-color);
+}
+
+/* A trailing count badge brings its own rounded end, so the chip hugs it. */
+.kit-chip:has(> .kit-chip-count:last-child) {
+  padding-right: 4px;
 }
 
 .kit-chip-count {
@@ -325,34 +337,37 @@ a.kit-card:visited {
 
 /* Packages share the orange of the deck page's "Leans into" chips. */
 .kit-chip-package {
+  --kit-chip-color: var(--mantine-color-orange-light-color);
   background: var(--mantine-color-orange-light);
-  color: var(--mantine-color-orange-light-color);
 }
 
 .kit-chip-archetype {
+  --kit-chip-color: var(--mantine-color-violet-light-color);
   background: var(--mantine-color-violet-light);
-  color: var(--mantine-color-violet-light-color);
 }
 
 .kit-chip-card {
+  --kit-chip-color: var(--mantine-color-teal-light-color);
   background: var(--mantine-color-teal-light);
-  color: var(--mantine-color-teal-light-color);
 }
 
 .kit-chip-more {
-  padding-right: 10px;
-  color: var(--se-muted);
+  --kit-chip-color: var(--se-muted);
   border: 1px dashed var(--se-border);
   text-decoration: none;
 }
 
 .kit-chip-neutral {
+  --kit-chip-color: var(--se-text);
   background: var(--se-page);
   border: 1px solid var(--se-border);
-  color: var(--se-text);
 }
 
-a.kit-chip {
+a.kit-chip,
+a.kit-chip:link,
+a.kit-chip:visited,
+a.kit-chip:hover {
+  color: var(--kit-chip-color);
   text-decoration: none;
 }
 
