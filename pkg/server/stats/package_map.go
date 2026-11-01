@@ -33,10 +33,11 @@ type MapGroup struct {
 	OtherPackages []string `json:"other_packages"`
 }
 
-// MapWire is one wire: its entries, the decks that built the package through
+// MapWire is one wire: its kind and entries, the decks that built the package through
 // it, the median of its own linked pairs over those decks, the cube cards on
 // both of its sides, and its depth grid.
 type MapWire struct {
+	Kind         string      `json:"kind"`
 	Sources      []string    `json:"sources"`
 	Targets      []string    `json:"targets"`
 	Decks        int         `json:"decks"`
@@ -70,6 +71,7 @@ func buildPackageMap(pkg design.Package, cards design.PackageCards, cube map[str
 	for i, w := range pkg.Wires {
 		resolved := cards.Wires[i]
 		wire := MapWire{
+			Kind:       w.KindOrPairs(),
 			Sources:    w.Sources,
 			Targets:    w.Targets,
 			SelfLinked: selfLinked(w, cube),

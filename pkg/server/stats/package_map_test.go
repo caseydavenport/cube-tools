@@ -97,3 +97,15 @@ func TestPackageMap_NoBuilders(t *testing.T) {
 	assert.Equal(t, 0, resp.Map.TypicalPairs)
 	assert.NotContains(t, body, "null")
 }
+
+func TestPackageMap_WireKind(t *testing.T) {
+	config := sacrificeRules("Sacrifice")
+	config.Packages[0].Wires[0].Kind = design.WireEnables
+	config.Packages[0].Wires = append(config.Packages[0].Wires, design.Wire{Sources: []string{"Fodder"}, Targets: []string{"Payoffs"}})
+
+	_, m := packageMapFor(t, config, "Sacrifice", nil)
+
+	require.Len(t, m.Wires, 2)
+	assert.Equal(t, design.WireEnables, m.Wires[0].Kind)
+	assert.Equal(t, design.WirePairs, m.Wires[1].Kind)
+}
