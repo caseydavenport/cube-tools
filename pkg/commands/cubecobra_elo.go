@@ -40,6 +40,22 @@ type ccCardInfo struct {
 	tags  []string
 }
 
+// FetchMaybeboard returns the card names on a CubeCobra cube's maybeboard, in
+// CubeCobra's order, skipping entries with no name.
+func FetchMaybeboard(baseURL, cubeID string) ([]string, error) {
+	cube, err := fetchCubeCobra(baseURL, cubeID)
+	if err != nil {
+		return nil, err
+	}
+	var names []string
+	for _, c := range cube.Cards.Maybeboard {
+		if c.Details.Name != "" {
+			names = append(names, c.Details.Name)
+		}
+	}
+	return names, nil
+}
+
 // fetchCubeCobra fetches and decodes the public cube export at
 // /cube/api/cubeJSON/<cubeID>. cubeID may be a shortId or UUID. The endpoint is
 // public, so no auth is needed.

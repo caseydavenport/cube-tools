@@ -85,6 +85,19 @@ func OracleCardCount() int {
 	return len(oracleCards)
 }
 
+// OracleCards returns every loaded card once, under its full name: a "//"
+// card's front-face alias isn't repeated.
+func OracleCards() []OracleCard {
+	out := make([]OracleCard, 0, len(oracleCards))
+	for name, card := range oracleCards {
+		if name != card.Name {
+			continue
+		}
+		out = append(out, card)
+	}
+	return out
+}
+
 // DistinctOracleCardCount returns how many distinct cards, by oracle id, the
 // loaded oracle dataset holds. Front-face aliases of "//" cards count once.
 func DistinctOracleCardCount() int {
@@ -246,6 +259,7 @@ type OracleCard struct {
 	Keywords      []string          `json:"keywords"`
 	RelatedURLs   map[string]string `json:"related_ur_ls"`
 	Layout        string            `json:"layout"`
+	SetType       string            `json:"set_type"`
 	Power         string            `json:"power,omitempty"`
 	Toughness     string            `json:"toughness,omitempty"`
 	CardFaces     []OracleCardFace  `json:"card_faces,omitempty"`

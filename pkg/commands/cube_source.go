@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -84,6 +85,20 @@ type CubeProvider struct {
 
 	mu    sync.RWMutex
 	cache map[string]*types.Cube
+
+	// maybe caches each cube's CubeCobra maybeboard for maybeboardTTL.
+	maybeMu sync.Mutex
+	maybe   map[string]cachedMaybeboard
+}
+
+// maybeboardTTL is how long a fetched maybeboard is reused before CubeCobra
+// is asked again.
+const maybeboardTTL = 10 * time.Minute
+
+// cachedMaybeboard is one cube's cached maybeboard and when it was fetched.
+type cachedMaybeboard struct {
+	names   []string
+	fetched time.Time
 }
 
 // NewCubeProvider builds a provider backed by the given cube registry.
@@ -91,7 +106,42 @@ func NewCubeProvider(reg *cubes.Registry) *CubeProvider {
 	return &CubeProvider{
 		reg:   reg,
 		cache: map[string]*types.Cube{},
+		maybe: map[string]cachedMaybeboard{},
 	}
+}
+
+// Maybeboard returns the card names on the cube's CubeCobra maybeboard,
+// cached for maybeboardTTL. A cube with no CubeCobra id gives
+// cubes.ErrNoCubeCobra.
+func (p *CubeProvider) Maybeboard(cube string) ([]string, error) {
+	ccID := p.cubeCobraID(cube)
+	if ccID == "" {
+		return nil, cubes.ErrNoCubeCobra
+	}
+
+	p.maybeMu.Lock()
+	defer p.maybeMu.Unlock()
+	if entry, ok := p.maybe[cube]; ok && time.Since(entry.fetched) < maybeboardTTL {
+		return entry.names, nil
+	}
+	names, err := FetchMaybeboard(ccBaseURL, ccID)
+	if err != nil {
+		return nil, err
+	}
+	p.maybe[cube] = cachedMaybeboard{names: names, fetched: time.Now()}
+	return names, nil
+}
+
+// cubeCobraID is the cube's CubeCobra id: carried by a cc: cube id, or set
+// in the registry. It's empty when the cube has none.
+func (p *CubeProvider) cubeCobraID(cube string) string {
+	if cubes.IsCubeCobra(cube) {
+		return cubes.CubeCobraID(cube)
+	}
+	if meta, ok := p.reg.Get(cube); ok {
+		return meta.CubeCobraID
+	}
+	return ""
 }
 
 // Current returns the cube's cached card list, fetching from CubeCobra on a
@@ -109,12 +159,7 @@ func (p *CubeProvider) Current(cube string) (*types.Cube, error) {
 // Refresh re-fetches the cube from CubeCobra and replaces the cached copy. A
 // cc: cube resolves straight to its CubeCobra id, bypassing the registry.
 func (p *CubeProvider) Refresh(cube string) (*types.Cube, error) {
-	ccID := ""
-	if cubes.IsCubeCobra(cube) {
-		ccID = cubes.CubeCobraID(cube)
-	} else if meta, ok := p.reg.Get(cube); ok {
-		ccID = meta.CubeCobraID
-	}
+	ccID := p.cubeCobraID(cube)
 	if ccID == "" {
 		return nil, fmt.Errorf("cube %q has no CubeCobra id", cube)
 	}

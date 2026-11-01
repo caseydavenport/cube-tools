@@ -62,3 +62,20 @@ func TestFetchCubeCobraCards_HTTPError(t *testing.T) {
 	_, err := fetchCubeCobraCards(srv.URL, "missing")
 	assert.Error(t, err)
 }
+
+func TestFetchMaybeboard(t *testing.T) {
+	const body = `{"cards": {
+		"mainboard": [{"details": {"name": "Brainstorm"}}],
+		"maybeboard": [{"details": {"name": "Counterspell"}}, {"details": {"name": "Fire // Ice"}}, {"details": {"name": ""}}]
+	}}`
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "/cube/api/cubeJSON/polyversal", r.URL.Path)
+		_, err := w.Write([]byte(body))
+		assert.NoError(t, err)
+	}))
+	defer srv.Close()
+
+	names, err := FetchMaybeboard(srv.URL, "polyversal")
+	require.NoError(t, err)
+	assert.Equal(t, []string{"Counterspell", "Fire // Ice"}, names)
+}

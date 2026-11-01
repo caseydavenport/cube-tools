@@ -1,6 +1,13 @@
 package cubes
 
-import "strings"
+import (
+	"errors"
+	"strings"
+)
+
+// ErrNoCubeCobra means a cube has no CubeCobra id, so nothing can be fetched
+// from CubeCobra for it.
+var ErrNoCubeCobra = errors.New("cube has no CubeCobra id")
 
 // CubeCobraPrefix marks a cube id as a dynamically-loaded CubeCobra cube
 // rather than a registry cube. The text after it is the CubeCobra cube id.
