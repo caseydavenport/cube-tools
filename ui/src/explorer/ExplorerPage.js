@@ -103,9 +103,11 @@ export function ExplorerPage() {
         <SectionCard title={`Candidates · ${data.candidates.length}`} action={loading ? <span className="ex-note">Updating…</span> : null}>
           <ExplorerTable cards={data.candidates} cube={cube} thin={settings.thin} />
         </SectionCard>
-        <SectionCard title={`In the cube · ${data.in_cube.length}`}>
-          <ExplorerTable cards={data.in_cube} cube={cube} thin={settings.thin} />
-        </SectionCard>
+        {data.in_cube.length > 0 && (
+          <SectionCard title={`In the cube · ${data.in_cube.length}`}>
+            <ExplorerTable cards={data.in_cube} cube={cube} thin={settings.thin} />
+          </SectionCard>
+        )}
       </>
     )
   }

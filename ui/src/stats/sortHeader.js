@@ -6,8 +6,8 @@ import { nextSort } from "./sortOrder.js"
 // column is highlighted with an arrow for its direction, and clicking a column
 // sorts by it (or flips it, if it's already the sorted one). numeric columns
 // are right-aligned and start high to low. A tip, when given, explains the
-// column in a hover popover.
-export function SortHeader({ sortKey, label, tip, sort, setSort, numeric = true }) {
+// column in a hover popover; className adds classes to the cell.
+export function SortHeader({ sortKey, label, tip, sort, setSort, numeric = true, className: extra = "" }) {
   const active = sort.key === sortKey
 
   let className = "header-cell stats-sort-header"
@@ -16,6 +16,9 @@ export function SortHeader({ sortKey, label, tip, sort, setSort, numeric = true 
   }
   if (numeric) {
     className += " stats-numeric"
+  }
+  if (extra) {
+    className += " " + extra
   }
 
   let arrow = ""

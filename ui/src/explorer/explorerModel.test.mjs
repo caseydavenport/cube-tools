@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { connectionLine, joinOpacity, joinText, partnerText, readParams, sortValue, splitJoins, writeParams } from "./explorerModel.js"
+import { connectionLine, joinOpacity, joinText, partnerText, readParams, sortValue, splitJoins, typeText, writeParams } from "./explorerModel.js"
 
 test("the URL's search, switches and thin cutoff read with defaults", () => {
   assert.deepEqual(readParams(new URLSearchParams("")), { q: "", maybe: false, thin: 10, all: false })
@@ -63,4 +63,9 @@ test("thin joins come first, thinnest first, and crowded ones are set aside", ()
   const { thin, crowded } = splitJoins(joins, 10)
   assert.deepEqual(thin.map(j => j.package), ["C", "B", "D"])
   assert.deepEqual(crowded.map(j => j.package), ["A"])
+})
+
+test("the type line carries power and toughness when the card has them", () => {
+  assert.equal(typeText({ type_line: "Creature — Elf Druid", power: "3", toughness: "3" }), "Creature — Elf Druid · 3/3")
+  assert.equal(typeText({ type_line: "Instant", power: "", toughness: "" }), "Instant")
 })

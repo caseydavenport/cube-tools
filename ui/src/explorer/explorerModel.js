@@ -102,6 +102,15 @@ export function connectionLine(connection) {
   return `${pair} share ${plural(connection.shared, "other card")}`
 }
 
+// typeText is the card's type line, with power and toughness after it for a
+// creature.
+export function typeText(card) {
+  if (card.power === "" && card.toughness === "") {
+    return card.type_line
+  }
+  return `${card.type_line} · ${card.power}/${card.toughness}`
+}
+
 // packageCount is how many distinct packages a card joins.
 function packageCount(card) {
   return new Set(card.joins.map(j => j.package)).size

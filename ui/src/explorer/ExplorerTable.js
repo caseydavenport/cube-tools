@@ -8,7 +8,7 @@ import { CardImagePreview } from "../components/kit/CardImagePreview.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SortHeader } from "../stats/sortHeader.js"
 import { compareBy } from "../stats/sortOrder.js"
-import { connectionLine, joinOpacity, joinText, partnerText, sortValue, splitJoins } from "./explorerModel.js"
+import { connectionLine, joinOpacity, joinText, partnerText, sortValue, splitJoins, typeText } from "./explorerModel.js"
 
 // PAGE_SIZE is how many rows show at first, and how many more each click adds.
 const PAGE_SIZE = 100
@@ -25,9 +25,9 @@ function CardCell({ card, cube }) {
     )
   }
   return (
-    <td className="header-cell">
+    <td className="ex-card">
       <div className="ex-name">{name}</div>
-      <div className="ex-type">{card.type_line}</div>
+      <div className="ex-type">{typeText(card)}</div>
     </td>
   )
 }
@@ -103,14 +103,6 @@ function ConnectionsCell({ card }) {
   )
 }
 
-// powerToughness is "2/3" for a creature and empty otherwise.
-function powerToughness(card) {
-  if (card.power === "" && card.toughness === "") {
-    return ""
-  }
-  return `${card.power}/${card.toughness}`
-}
-
 // ExplorerTable shows cards sorted by Fills gaps until a header is clicked,
 // PAGE_SIZE rows at a time. thin is the New connections cutoff, for its tip.
 export function ExplorerTable({ cards, cube, thin }) {
@@ -118,23 +110,27 @@ export function ExplorerTable({ cards, cube, thin }) {
   const [shown, setShown] = useState(PAGE_SIZE)
   const rows = [...cards].sort(compareBy(card => sortValue(sort.key, card), sort.dir))
 
-  // header is one sortable column head with its tip.
-  function header(key, label, tip, numeric = true) {
-    return <SortHeader sortKey={key} label={label} tip={tip} sort={sort} setSort={setSort} numeric={numeric} />
+  // header is one sortable column head with its tip. A chips column sorts by
+  // its count, high to low first, but keeps its head over the chips.
+  function header(key, label, tip, chips = false) {
+    let className = ""
+    if (chips) {
+      className = "ex-chips-head"
+    }
+    return <SortHeader sortKey={key} label={label} tip={tip} sort={sort} setSort={setSort} className={className} />
   }
 
   return (
     <>
       <div className="stats-table-wrap">
-        <table className="widget-table stats-full-width">
+        <table className="widget-table stats-full-width ex-table">
           <thead>
             <tr>
-              {header("name", "Card", null, false)}
+              <SortHeader sortKey="name" label="Card" sort={sort} setSort={setSort} numeric={false} />
               {header("mv", "MV", "Mana value.")}
-              <td className="header-cell">P/T</td>
-              {header("groups", "Groups", "Groups in the rules this card lands in. Hover one for the condition it matched.")}
-              {header("packages", "Packages", "The wires it would join: its role there, and how many cube cards already hold that role.")}
-              {header("linked", "Linked", "Cube cards on the other side of the wires it joins.")}
+              {header("groups", "Groups", "Groups in the rules this card lands in. Hover one for the condition it matched.", true)}
+              {header("packages", "Packages", "The wires it would join: its role there, and how many cube cards already hold that role.", true)}
+              {header("linked", "Linked", "Cube cards it would pair with on the wires it joins.")}
               {header("fills", "Fills gaps", "Each wire it joins adds 1 ÷ (cards already in its role + 1). Thin spots count most.")}
               {header("connections", "New connections", `Package pairs it joins through roles with at most ${thin} other cards, and how many cards they share today.`)}
             </tr>
@@ -144,7 +140,6 @@ export function ExplorerTable({ cards, cube, thin }) {
               <tr key={card.name} className="widget-table-row">
                 <CardCell card={card} cube={cube} />
                 <td className="page-right-cell">{card.cmc}</td>
-                <td className="page-right-cell">{powerToughness(card)}</td>
                 <GroupChips groups={card.groups} />
                 <JoinChips joins={card.joins} thin={thin} />
                 <LinkedCell card={card} />
