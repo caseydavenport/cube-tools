@@ -3,6 +3,7 @@ package types
 import (
 	"regexp"
 	"slices"
+	"strconv"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -44,6 +45,19 @@ type Card struct {
 	// Roles are the OracleTags the code acts on, such as removal and
 	// counterspell, sent so the browser can count them.
 	Roles []string `json:"roles,omitempty"`
+
+	// Faces are the halves a player casts on their own: split halves, an
+	// adventure card's two parts, a modal double-faced card's faces. Other
+	// cards have none.
+	Faces []Card `json:"-"`
+}
+
+// castableFaceLayouts are the Scryfall layouts whose faces are each cast on
+// their own.
+var castableFaceLayouts = map[string]bool{
+	"split":     true,
+	"adventure": true,
+	"modal_dfc": true,
 }
 
 func (c Card) IsBasicLand() bool {
@@ -142,9 +156,50 @@ func FromOracle(o OracleCard) Card {
 		if c.Toughness == "" {
 			c.Toughness = o.CardFaces[0].Toughness
 		}
+		if castableFaceLayouts[o.Layout] {
+			c.Faces = castableFaces(o, c.OracleTags)
+		}
 	}
 
 	return withLists(c)
+}
+
+// castableFaces builds a Card for each face of o, with the face's own types,
+// cost and text. Faces share the whole card's oracle tags, which Scryfall
+// gives per card, not per face.
+func castableFaces(o OracleCard, tags []string) []Card {
+	faces := make([]Card, 0, len(o.CardFaces))
+	for _, f := range o.CardFaces {
+		face := Card{
+			Name:       f.Name,
+			CMC:        manaValue(f.ManaCost),
+			Colors:     f.Colors,
+			ManaCost:   f.ManaCost,
+			OracleText: f.OracleText,
+			Power:      f.Power,
+			Toughness:  f.Toughness,
+			OracleTags: tags,
+		}
+		face.Types, face.SubTypes = parseTypeLine(f.TypeLine)
+		faces = append(faces, withLists(face))
+	}
+	return faces
+}
+
+// manaValue is a mana cost's mana value: each number counts as itself, X as
+// 0, a symbol like {2/W} as its number, and every other symbol, hybrid and
+// Phyrexian included, as 1.
+func manaValue(cost string) int {
+	total := 0
+	for _, sym := range manaSymbolPattern.FindAllString(cost, -1) {
+		first := strings.Split(sym[1:len(sym)-1], "/")[0]
+		if n, err := strconv.Atoi(first); err == nil {
+			total += n
+		} else if first != "X" && first != "Y" && first != "Z" {
+			total++
+		}
+	}
+	return total
 }
 
 // withLists replaces missing types, colors and color identity with empty

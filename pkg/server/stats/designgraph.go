@@ -1031,6 +1031,8 @@ func buildGroupGraph(
 //	m:text      - mana cost contains text (e.g., m:X, m:{W}{W})
 //	is:keyword  - built-in classification (creature, land, removal, counterspell, interaction)
 //	otag:name   - Scryfall oracle tag by slug, label or alias (e.g., otag:removal, otag:"self mill")
+//	face:(...)  - any castable face matches: each half of a split, adventure or modal
+//	              double-faced card on its own (e.g., face:(t:instant cmc<3) matches Fire // Ice)
 //
 // Negation: prefix any term with ! to negate it: !t:creature, !c:R, !is:land
 //
@@ -1201,12 +1203,53 @@ func parsePrimary(tokens *[]string) exprNode {
 		return &notNode{child: child}
 	}
 
+	// A face group: face:( ... ), or !face:( ... ).
+	if face := strings.ToLower(tok); (face == "face:" || face == "!face:") && len(*tokens) > 1 && (*tokens)[1] == "(" {
+		*tokens = (*tokens)[2:]
+		inner := parseExpr(tokens)
+		if len(*tokens) > 0 && (*tokens)[0] == ")" {
+			*tokens = (*tokens)[1:]
+		}
+		node := exprNode(&faceNode{child: inner})
+		if face == "!face:" {
+			node = &notNode{child: node}
+		}
+		return node
+	}
+
 	// Term token (possibly with ! prefix baked in from tokenizer).
 	*tokens = (*tokens)[1:]
 	if strings.HasPrefix(tok, "!") {
 		return &termNode{term: tok[1:], negated: true}
 	}
 	return &termNode{term: tok}
+}
+
+// faceNode matches a card when any face it can cast on its own matches
+// child, so a split or adventure card is judged by each half. A card with no
+// such faces is judged whole.
+type faceNode struct {
+	child exprNode
+}
+
+func (n *faceNode) matches(card types.Card) bool {
+	if len(card.Faces) == 0 {
+		return n.child.matches(card)
+	}
+	for _, f := range card.Faces {
+		if n.child.matches(f) {
+			return true
+		}
+	}
+	return false
+}
+
+func (n *faceNode) text() string {
+	inner := n.child.text()
+	if strings.HasPrefix(inner, "(") {
+		return "face:" + inner
+	}
+	return "face:(" + inner + ")"
 }
 
 type notNode struct {

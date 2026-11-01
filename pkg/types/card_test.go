@@ -260,3 +260,47 @@ func TestCardJSONEmbeddedKeepsOuterFields(t *testing.T) {
 	require.NoError(t, err)
 	assert.Contains(t, string(b), `"players":{"Ozzy":1}`)
 }
+
+func TestFromOracle_CastableFaces(t *testing.T) {
+	fireIce := FromOracle(OracleCard{
+		Name: "Fire // Ice", Layout: "split", CMC: 4, TypeLine: "Instant // Instant",
+		CardFaces: []OracleCardFace{
+			{Name: "Fire", TypeLine: "Instant", ManaCost: "{1}{R}"},
+			{Name: "Ice", TypeLine: "Instant", ManaCost: "{1}{U}"},
+		},
+	})
+	require.Len(t, fireIce.Faces, 2)
+	assert.Equal(t, "Fire", fireIce.Faces[0].Name)
+	assert.Equal(t, []string{"Instant"}, fireIce.Faces[0].Types)
+	assert.Equal(t, 2, fireIce.Faces[0].CMC)
+
+	mouse := FromOracle(OracleCard{
+		Name: "Cheeky House-Mouse // Squeak By", Layout: "adventure", CMC: 1,
+		TypeLine: "Creature — Mouse // Sorcery — Adventure",
+		CardFaces: []OracleCardFace{
+			{Name: "Cheeky House-Mouse", TypeLine: "Creature — Mouse", ManaCost: "{W}"},
+			{Name: "Squeak By", TypeLine: "Sorcery — Adventure", ManaCost: "{W}"},
+		},
+	})
+	require.Len(t, mouse.Faces, 2)
+	assert.Equal(t, []string{"Sorcery"}, mouse.Faces[1].Types)
+	assert.Equal(t, 1, mouse.Faces[1].CMC)
+
+	delver := FromOracle(OracleCard{
+		Name: "Delver of Secrets // Insectile Aberration", Layout: "transform",
+		TypeLine: "Creature — Human Wizard // Creature — Human Insect",
+		CardFaces: []OracleCardFace{
+			{Name: "Delver of Secrets", TypeLine: "Creature — Human Wizard", ManaCost: "{U}"},
+			{Name: "Insectile Aberration", TypeLine: "Creature — Human Insect"},
+		},
+	})
+	assert.Empty(t, delver.Faces)
+}
+
+func TestManaValue(t *testing.T) {
+	assert.Equal(t, 2, manaValue("{1}{R}"))
+	assert.Equal(t, 0, manaValue("{X}{X}"))
+	assert.Equal(t, 3, manaValue("{2/W}{G}"))
+	assert.Equal(t, 2, manaValue("{G/U}{B/P}"))
+	assert.Equal(t, 0, manaValue(""))
+}

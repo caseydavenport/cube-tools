@@ -883,3 +883,21 @@ func TestGroupCards_MatchesConditionsAndExclude(t *testing.T) {
 
 	assert.Equal(t, map[string]bool{"Bear": true}, got["Creatures"])
 }
+
+func TestMatchCards_Face(t *testing.T) {
+	fire := types.Card{Name: "Fire", Types: []string{"Instant"}, CMC: 2}
+	ice := types.Card{Name: "Ice", Types: []string{"Instant"}, CMC: 2}
+	mouse := types.Card{Name: "Cheeky House-Mouse", Types: []string{"Creature"}, CMC: 1}
+	squeak := types.Card{Name: "Squeak By", Types: []string{"Sorcery"}, CMC: 1}
+	cards := map[string]types.Card{
+		"Fire // Ice":                     {Name: "Fire // Ice", Types: []string{"Instant"}, CMC: 4, Faces: []types.Card{fire, ice}},
+		"Cheeky House-Mouse // Squeak By": {Name: "Cheeky House-Mouse // Squeak By", Types: []string{"Creature", "Sorcery"}, CMC: 1, Faces: []types.Card{mouse, squeak}},
+		"Lightning Bolt":                  {Name: "Lightning Bolt", Types: []string{"Instant"}, CMC: 1},
+		"Grizzly Bears":                   {Name: "Grizzly Bears", Types: []string{"Creature"}, CMC: 2},
+	}
+
+	assert.Equal(t, map[string]bool{"Lightning Bolt": true}, matchCards(cards, "t:instant cmc<3"))
+	assert.Equal(t, map[string]bool{"Fire // Ice": true, "Lightning Bolt": true}, matchCards(cards, "face:(t:instant cmc<3)"))
+	assert.Equal(t, map[string]bool{"Cheeky House-Mouse // Squeak By": true, "Fire // Ice": true, "Lightning Bolt": true}, matchCards(cards, "face:(!t:creature cmc<3)"))
+	assert.Equal(t, map[string]bool{"Grizzly Bears": true}, matchCards(cards, "!face:(!t:creature cmc<3)"))
+}
