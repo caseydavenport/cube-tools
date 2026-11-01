@@ -65,7 +65,7 @@ export function ColorSupport({ page }) {
   }
   const enables = columnHeadings(page.map) !== null
   const title = (
-    <HoverInfo title="Support by color" info="Each group's cube cards by color; a gold card counts once per color. On the side totals, a shaded cell has 2 or fewer cards in a color the other side has 3 or more of.">
+    <HoverInfo title="Support by color" info="Each group's cube cards by color; a gold card counts once per color. A shaded total has 2 or fewer cards in a color where the other total has 3 or more.">
       <span>Support by color</span>
     </HoverInfo>
   )

@@ -282,7 +282,7 @@ export function DesignEditorPage({ startDate, endDate }) {
       }
       {packageEditor &&
         <PackageEditModal
-          pkg={packageEditor.original || { name: '', wires: [{ sources: [''], targets: [''] }] }}
+          pkg={packageEditor.original || { name: '', wires: [] }}
           color={ruleColor(packageEditor.original ? (packageIndex[packageEditor.original.name] ?? 0) : packages.length)}
           groupNames={groupNames}
           groups={groups}

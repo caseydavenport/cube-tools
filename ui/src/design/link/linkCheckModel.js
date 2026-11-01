@@ -89,7 +89,7 @@ export function linkOptions(groupA, usesA, groupB, usesB) {
 // is never changed.
 export function applyLink(config, option, groupA, groupB, packageName) {
   const next = structuredClone(config)
-  const wire = { sources: [groupA], targets: [groupB] }
+  const wire = { kind: "enables", sources: [groupA], targets: [groupB] }
 
   if (option.kind === "new-package") {
     next.packages.push({ name: packageName, wires: [wire] })

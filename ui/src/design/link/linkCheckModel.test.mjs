@@ -56,14 +56,14 @@ test("adding to a wire puts the group on that wire's other side", () => {
   assert.deepEqual(before.packages[0].wires[0].targets, ["Sacrifice Matters"])
 })
 
-test("a new wire goes in the named package", () => {
+test("a new wire enables, and goes in the named package", () => {
   const after = applyLink(rules(), { kind: "new-wire" }, "Sacs creatures", "Self-sacs", "Sacrifice")
-  assert.deepEqual(after.packages[0].wires[1], { sources: ["Sacs creatures"], targets: ["Self-sacs"] })
+  assert.deepEqual(after.packages[0].wires[1], { kind: "enables", sources: ["Sacs creatures"], targets: ["Self-sacs"] })
 })
 
 test("a new package holds one wire between the two groups", () => {
   const after = applyLink(rules(), { kind: "new-package" }, "Sacs creatures", "Self-sacs", "Aristocrats")
-  assert.deepEqual(after.packages[1], { name: "Aristocrats", wires: [{ sources: ["Sacs creatures"], targets: ["Self-sacs"] }] })
+  assert.deepEqual(after.packages[1], { name: "Aristocrats", wires: [{ kind: "enables", sources: ["Sacs creatures"], targets: ["Self-sacs"] }] })
 })
 
 test("excluding a card adds it to the group's exclude list once", () => {
