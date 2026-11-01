@@ -10,7 +10,7 @@ import { SectionCard } from "../components/kit/SectionCard.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 import { packagePageHref, pageHrefWithMatch } from "../shell/paths.js"
 import { ColorImages } from "../utils/Colors.js"
-import { bothCardsMatch } from "./cardPageModel.js"
+import { bothCardsMatch, connectionText } from "./cardPageModel.js"
 
 // ROWS_SHOWN is how many partners a package shows before "Show all".
 const ROWS_SHOWN = 8
@@ -88,6 +88,11 @@ export function CardPartners({ page, packageIndex, links }) {
           />
         ))}
       </div>
+      {(page.connections || []).length > 0 && (
+        <div className="card-connections">
+          {page.connections.map(c => <div key={c.a + "|" + c.b}>{connectionText(c)}</div>)}
+        </div>
+      )}
     </SectionCard>
   )
 }

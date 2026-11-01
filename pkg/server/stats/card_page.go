@@ -40,6 +40,11 @@ type CardPageResponse struct {
 	Record      Record            `json:"record"`
 	Picks       []CardPick        `json:"picks"`
 
+	// Connections are the package pairs a cube card joins through thin roles,
+	// with how many cube cards each pair shares without it. Empty for a card
+	// outside the cube.
+	Connections []PackageConnection `json:"connections"`
+
 	// PackageNames lists every package, sorted the way the Rules editor
 	// sorts them, so the page colors each package the same way it does.
 	PackageNames []string `json:"package_names"`
@@ -158,6 +163,7 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 		Interaction: cardInteraction(page.card, page.design.cube),
 		Decks:       cardDecks(page.card.Name, page.ranged),
 		Picks:       []CardPick{},
+		Connections: cardConnections(page),
 
 		PackageNames: packageNames(page.design.config.Packages),
 	}
@@ -170,6 +176,17 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 	}
 	finishRecord(&resp.Record, page.z)
 	return resp
+}
+
+// cardConnections scores a cube card the way the explorer does, at the
+// default thin cutoff, for the package pairs it connects.
+func cardConnections(page cardPageInputs) []PackageConnection {
+	if !page.inCube {
+		return []PackageConnection{}
+	}
+	hits := map[string]types.Card{page.card.Name: page.card}
+	cards := exploreCards(hits, newExplorerRules(page.design.cube, page.design.config), defaultThin)
+	return cards[0].Connections
 }
 
 // lookupCard finds a card by exact name in the cube, or else in the oracle

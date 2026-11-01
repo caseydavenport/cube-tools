@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { bothCardsMatch, cardSubtitle, compareLoom, deckRecord, draftsTile, gamesWonTile, historyTitle, isNewToCube, notInCubeTag, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
+import { bothCardsMatch, cardSubtitle, connectionText, compareLoom, deckRecord, draftsTile, gamesWonTile, historyTitle, isNewToCube, notInCubeTag, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 
 const bombardment = { drafts_played: 18, drafts_available: 37, rate: 48.6, popularity: "niche", peers: "R", peer_median: 52.1 }
@@ -132,4 +132,9 @@ test("the games won tip names whose decks it counts", () => {
   const record = { wins: 3, losses: 1, draws: 0, win_percent: 75, bayesian_win_percent: 52, win_percent_low: 30, win_percent_high: 95, significant: false }
   assert.match(gamesWonTile(record).tip, /^Bayes win % of the decks that mainboarded it\./)
   assert.match(gamesWonTile(record, "the decks that built it").tip, /^Bayes win % of the decks that built it\./)
+})
+
+test("a connection says how many cards the two packages share with this one", () => {
+  assert.equal(connectionText({ a: "Delirium", b: "Sacrifice", shared: 0 }), "Only card shared by Delirium and Sacrifice")
+  assert.equal(connectionText({ a: "Lands", b: "Ramp", shared: 2 }), "One of 3 cards shared by Lands and Ramp")
 })

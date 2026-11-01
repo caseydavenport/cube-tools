@@ -241,3 +241,13 @@ export function gamesWonTile(record, decks = "the decks that mainboarded it") {
     tip: `Bayes win % of ${decks}. ${details}`,
   }
 }
+
+// connectionText says how much a cube card holds two packages together: the
+// only card they share, or one of the cards they share counting this one.
+export function connectionText(connection) {
+  const pair = `${connection.a} and ${connection.b}`
+  if (connection.shared === 0) {
+    return `Only card shared by ${pair}`
+  }
+  return `One of ${connection.shared + 1} cards shared by ${pair}`
+}

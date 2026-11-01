@@ -123,3 +123,21 @@ func TestExplorerHandler_MaybeboardFails(t *testing.T) {
 	resp = explorerFor(t, none, url.Values{"q": {`o:"sacrifice a creature"`}})
 	assert.False(t, resp.Maybeboard.Available)
 }
+
+func TestCardPage_Connections(t *testing.T) {
+	cube := explorerCube()
+	odd := types.Card{
+		Name:       "Odd Card",
+		Types:      []string{"Artifact"},
+		OracleText: "Sacrifice a creature: Search your library for a basic land card, then shuffle.",
+	}
+	cube.Cards = append(cube.Cards, odd)
+	store := &rulesDeckStorage{config: explorerConfig()}
+
+	rr := serveCube(CardPageHandler(store, noDraftLogs{}, fixedCubeSource{cube: cube}), "/api/polyverse/stats/card", url.Values{"name": {"Odd Card"}})
+	require.Equal(t, http.StatusOK, rr.Code)
+	var resp CardPageResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+
+	assert.Equal(t, []PackageConnection{{A: "Ramp", B: "Sacrifice", Shared: 0}}, resp.Connections)
+}

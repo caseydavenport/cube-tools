@@ -270,3 +270,12 @@
 .card-page-find {
   width: 240px;
 }
+
+.card-connections {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--se-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
