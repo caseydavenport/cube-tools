@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { decksText, depthMatrix, layoutMap, threadWeight } from "./packageMapModel.js"
+import { columnHeadings, decksText, depthMatrix, layoutMap, threadWeight } from "./packageMapModel.js"
 
 // mapOf builds a package map from wires written as [sources, targets],
 // with a group for every entry they name.
@@ -62,4 +62,12 @@ test("a deck count reads in the singular for one deck", () => {
   assert.equal(decksText(1), "1 deck")
   assert.equal(decksText(0), "0 decks")
   assert.equal(decksText(24), "24 decks")
+})
+
+test("the map is headed Enablers and Payoffs only when every wire enables", () => {
+  const enables = { kind: "enables", sources: ["A"], targets: ["B"] }
+  const pairs = { kind: "pairs", sources: ["C"], targets: ["D"] }
+  assert.deepEqual(columnHeadings({ wires: [enables, enables] }), ["Enablers", "Payoffs"])
+  assert.equal(columnHeadings({ wires: [enables, pairs] }), null)
+  assert.equal(columnHeadings({ wires: [] }), null)
 })

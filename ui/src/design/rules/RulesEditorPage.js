@@ -7,7 +7,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Alert } from '@mantine/core'
 import { useCube } from '../../contexts/CubeContext.js'
 import { rulesBoardUrl } from '../../stats/pageRequests.js'
-import { useAllMemberships, saveDesignMap, cleanWires } from '../map/designData.js'
+import { useAllMemberships, saveDesignMap } from '../map/designData.js'
+import { cleanWires } from '../../utils/DesignRules.js'
 import { ruleColor } from '../map/ruleColors.js'
 import { GroupEditModal } from '../map/GroupEditModal.js'
 import { PackageEditModal } from '../map/PackageEditModal.js'
@@ -175,6 +176,7 @@ export function DesignEditorPage({ startDate, endDate }) {
     const newPackages = packages.map(l => ({
       ...l,
       wires: (l.wires || []).map(w => ({
+        ...w,
         sources: (w.sources || []).filter(s => s !== name),
         targets: (w.targets || []).filter(t => t !== name),
       })),

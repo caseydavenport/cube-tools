@@ -177,3 +177,11 @@
   display: flex;
   gap: 0.5rem;
 }
+
+.pm-heading {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--se-muted);
+}

@@ -9,7 +9,8 @@ import { SectionCard } from "../components/kit/SectionCard.js"
 import { DeckRow } from "../cards/CardPlaySections.js"
 import { packageMatch, packagePageHref, pageHrefWithMatch } from "../shell/paths.js"
 import { ColorImages } from "../utils/Colors.js"
-import { colorCell } from "./packagePageModel.js"
+import { colorCell, colorRowLabel } from "./packagePageModel.js"
+import { columnHeadings } from "./packageMapModel.js"
 
 // DECKS_SHOWN is how many decks the decks section lists before "Show all".
 const DECKS_SHOWN = 10
@@ -29,15 +30,6 @@ function ColumnHead({ color }) {
   return <th className="header-cell stats-numeric">{ColorImages([color])}</th>
 }
 
-// sideLabel names a wire side without direction: the rules file's "source"
-// side reads "one side", its "target" side "other side".
-function sideLabel(side) {
-  if (side === "source") {
-    return "one side"
-  }
-  return "other side"
-}
-
 // colorRowClass styles a side's total row apart from the group rows.
 function colorRowClass(row) {
   if (row.total) {
@@ -53,6 +45,7 @@ export function ColorSupport({ page }) {
   if (page.color_table.length === 0) {
     return null
   }
+  const enables = columnHeadings(page.map) !== null
   const title = (
     <HoverInfo title="Support by color" info="Each group's cube cards by color; a gold card counts once per color. On the side totals, a shaded cell has 2 or fewer cards in a color the other side has 3 or more of.">
       <span>Support by color</span>
@@ -69,21 +62,24 @@ export function ColorSupport({ page }) {
             </tr>
           </thead>
           <tbody>
-            {page.color_table.map(row => (
-              <tr key={row.side + row.group} className={colorRowClass(row)}>
-                <td className="header-cell">
-                  {row.group} {!row.total && <span className="stats-muted">{sideLabel(row.side)}</span>}
-                </td>
-                {COLOR_COLUMNS.map(color => {
-                  const cell = colorCell(row, color)
-                  let className = "page-right-cell"
-                  if (cell.thin) {
-                    className += " package-color-thin"
-                  }
-                  return <td key={color} className={className}>{cell.value}</td>
-                })}
-              </tr>
-            ))}
+            {page.color_table.map(row => {
+              const label = colorRowLabel(row, enables)
+              return (
+                <tr key={row.side + row.group} className={colorRowClass(row)}>
+                  <td className="header-cell">
+                    {label.name} {label.role && <span className="stats-muted">{label.role}</span>}
+                  </td>
+                  {COLOR_COLUMNS.map(color => {
+                    const cell = colorCell(row, color)
+                    let className = "page-right-cell"
+                    if (cell.thin) {
+                      className += " package-color-thin"
+                    }
+                    return <td key={color} className={className}>{cell.value}</td>
+                  })}
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>

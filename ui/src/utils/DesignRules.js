@@ -78,3 +78,47 @@ export function matchKey(request, groups) {
     .map(g => g.name + "=" + (g.exclude || []).join(","))
   return JSON.stringify([request.conditions || [], request.groups || [], excludes])
 }
+
+// cleanWires normalizes a package's wires for saving: it drops empty entry
+// slots and fully blank wires, and keeps each wire's kind when it has one.
+// It returns null if no wires survive or any wire is one-sided.
+export function cleanWires(rawWires) {
+  const wires = []
+  for (const w of (rawWires || [])) {
+    const sources = (w.sources || []).filter(s => s)
+    const targets = (w.targets || []).filter(t => t)
+    if (sources.length === 0 && targets.length === 0) {
+      continue
+    }
+    if (sources.length === 0 || targets.length === 0) {
+      return null
+    }
+    const wire = { sources, targets }
+    if (w.kind) {
+      wire.kind = w.kind
+    }
+    wires.push(wire)
+  }
+  if (wires.length === 0) {
+    return null
+  }
+  return wires
+}
+
+// wireKind is "enables" for a wire whose sources enable its targets, and
+// "pairs" otherwise, including a wire saved before kinds existed.
+export function wireKind(wire) {
+  if (wire && wire.kind === "enables") {
+    return "enables"
+  }
+  return "pairs"
+}
+
+// sideLabels names a wire's two sides for its kind: enablers then payoffs,
+// or two classes of cards that go well together.
+export function sideLabels(kind) {
+  if (kind === "enables") {
+    return { first: "Enablers", second: "Payoffs" }
+  }
+  return { first: "Cards", second: "Pair with" }
+}

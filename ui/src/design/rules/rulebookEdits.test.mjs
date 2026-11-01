@@ -67,11 +67,11 @@ test("withCardExcluded adds and removes one card from a group's exclude list", (
   assert.deepEqual(groups[0].exclude, ["x"])
 })
 
-test("withWireAdded appends a wire joining two groups, leaving its input alone", () => {
+test("withWireAdded appends an Enables wire from the first group to the second, leaving its input alone", () => {
   const config = rules()
   const before = structuredClone(config)
   const next = withWireAdded(config, "Sacrifice", "Outlets", "Payoffs")
-  assert.deepEqual(next.packages[0].wires[1], { sources: ["Outlets"], targets: ["Payoffs"] })
+  assert.deepEqual(next.packages[0].wires[1], { kind: "enables", sources: ["Outlets"], targets: ["Payoffs"] })
   assert.equal(next.packages[0].wires.length, 2)
   assert.deepEqual(config, before)
 })
@@ -80,6 +80,12 @@ test("withWireRemoved drops one wire, leaving its input alone", () => {
   const config = withWireAdded(rules(), "Sacrifice", "Outlets", "Payoffs")
   const before = structuredClone(config)
   const next = withWireRemoved(config, "Sacrifice", 0)
-  assert.deepEqual(next.packages[0].wires, [{ sources: ["Outlets"], targets: ["Payoffs"] }])
+  assert.deepEqual(next.packages[0].wires, [{ kind: "enables", sources: ["Outlets"], targets: ["Payoffs"] }])
   assert.deepEqual(config, before)
+})
+
+test("renaming a group in a package keeps each wire's kind", () => {
+  const pkg = { name: "Sacrifice", wires: [{ kind: "enables", sources: ["Outlets"], targets: ["Payoffs"] }] }
+  const next = renameInPackage(pkg, "Outlets", "Sac outlets")
+  assert.deepEqual(next.wires, [{ kind: "enables", sources: ["Sac outlets"], targets: ["Payoffs"] }])
 })

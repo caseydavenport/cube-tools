@@ -37,7 +37,7 @@ export function headerLine(page, showWinRate) {
     {
       key: "pairs",
       text: `${page.map.typical_pairs} linked pairs in a typical build`,
-      tip: "In each deck, one side's cards times the other side's, added up over the wires. The middle value over decks that built it.",
+      tip: "In each deck, the cards on each side of a wire multiplied together, added up over the wires. The middle value over decks that built it.",
     },
   ]
   const winRate = winRateValue(page.stat.record)
@@ -89,6 +89,24 @@ export function groupPanelState(answer, name) {
     return { kind: "missing" }
   }
   return { kind: "members", members }
+}
+
+// colorRowLabel names a support-by-color row. When every wire in the package
+// enables (enables true), sides read as enablers and payoffs; otherwise a
+// group row has no role and the totals read "All cards" and "All they pair
+// with", the package dialog's names for a Pairs with wire's sides.
+export function colorRowLabel(row, enables) {
+  const first = row.side === "source"
+  if (row.total) {
+    if (enables) {
+      return { name: first ? "All enablers" : "All payoffs", role: "" }
+    }
+    return { name: first ? "All cards" : "All they pair with", role: "" }
+  }
+  if (enables) {
+    return { name: row.group, role: first ? "enabler" : "payoff" }
+  }
+  return { name: row.group, role: "" }
 }
 
 // colorCell is one cell of the support-by-color table: the group's card count

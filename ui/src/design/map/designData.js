@@ -107,20 +107,6 @@ export function saveDesignMap(cube, groups, packages, onRulesChanged, onStatus) 
   })
 }
 
-// Normalize a link's wires for saving: drop empty selector slots and fully
-// blank wires. Returns null if no wires survive or any wire is one-sided.
-export function cleanWires(rawWires) {
-  const wires = []
-  for (const w of (rawWires || [])) {
-    const sources = (w.sources || []).filter(s => s)
-    const targets = (w.targets || []).filter(t => t)
-    if (sources.length === 0 && targets.length === 0) continue
-    if (sources.length === 0 || targets.length === 0) return null
-    wires.push({ sources, targets })
-  }
-  return wires.length > 0 ? wires : null
-}
-
 // Resolve group names to their combined conditions, then fetch matching cards.
 // Cards a group excludes are dropped. Returns {cards: [{name, conditions}], loading}.
 export function useFetchGroupCards(selectedGroupNames, allGroups) {

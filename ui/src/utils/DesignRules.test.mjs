@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { effectiveCards, matchKey, membershipsByCard, requestForConditions, requestForGroups } from "./DesignRules.js"
+import { cleanWires, effectiveCards, matchKey, membershipsByCard, requestForConditions, requestForGroups, sideLabels, wireKind } from "./DesignRules.js"
 
 const firstStrike = 't:creature o:"first strike"'
 const trample = "t:creature o:trample"
@@ -64,4 +64,26 @@ test("matchKey changes with a named group's exclude list only", () => {
   assert.equal(matchKey(request, [buff(), ramp()]), matchKey(request, [buff(), ramp()]))
   assert.notEqual(matchKey(request, [buff()]), matchKey(request, [edited]))
   assert.equal(matchKey(request, [buff(), ramp()]), matchKey(request, [buff(), otherRamp]))
+})
+
+test("cleaning wires keeps each wire's kind and adds none", () => {
+  const wires = cleanWires([
+    { kind: "enables", sources: ["A", ""], targets: ["B"] },
+    { sources: ["C"], targets: ["D"] },
+  ])
+  assert.deepEqual(wires, [
+    { kind: "enables", sources: ["A"], targets: ["B"] },
+    { sources: ["C"], targets: ["D"] },
+  ])
+})
+
+test("a wire with no kind pairs", () => {
+  assert.equal(wireKind({}), "pairs")
+  assert.equal(wireKind({ kind: "pairs" }), "pairs")
+  assert.equal(wireKind({ kind: "enables" }), "enables")
+})
+
+test("side labels follow the wire's kind", () => {
+  assert.deepEqual(sideLabels("enables"), { first: "Enablers", second: "Payoffs" })
+  assert.deepEqual(sideLabels("pairs"), { first: "Cards", second: "Pair with" })
 })

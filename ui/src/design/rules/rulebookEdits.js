@@ -14,6 +14,7 @@ export function renameInPackage(pkg, oldName, newName) {
   return {
     ...pkg,
     wires: (pkg.wires || []).map(w => ({
+      ...w,
       sources: (w.sources || []).map(s => s === oldName ? newName : s),
       targets: (w.targets || []).map(t => t === oldName ? newName : t),
     })),
@@ -72,14 +73,14 @@ export function withCardExcluded(groups, groupName, card, excluded) {
   })
 }
 
-// withWireAdded returns a copy of config with a new wire in the package
-// called pkgName, joining group a on one side to group b on the other.
+// withWireAdded returns a copy of config with a new Enables wire in the
+// package called pkgName, with group a enabling group b.
 export function withWireAdded(config, pkgName, a, b) {
   const packages = config.packages.map(p => {
     if (p.name !== pkgName) {
       return p
     }
-    return { ...p, wires: [...(p.wires || []), { sources: [a], targets: [b] }] }
+    return { ...p, wires: [...(p.wires || []), { kind: "enables", sources: [a], targets: [b] }] }
   })
   return { ...config, packages }
 }

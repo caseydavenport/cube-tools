@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { chartSeries, colorCell, groupPanelState, headerLine, packageProblems, packageSubtitle } from "./packagePageModel.js"
+import { chartSeries, colorCell, colorRowLabel, groupPanelState, headerLine, packageProblems, packageSubtitle } from "./packagePageModel.js"
 
 const wires = [
   { sources: [{ name: "Graveyard" }], targets: [{ name: "Delirium payoffs" }, { name: "Reanimate targets" }] },
@@ -75,4 +75,13 @@ test("the group panel says when the package has no such entry instead of loading
   assert.deepEqual(groupPanelState({ groups: [], failed: true }, "Payoffs"), { kind: "failed" })
   assert.deepEqual(groupPanelState({ groups, failed: false }, "Payoffs"), { kind: "members", members: groups[0] })
   assert.deepEqual(groupPanelState({ groups, failed: false }, "Fodder"), { kind: "missing" })
+})
+
+test("color rows name their role when every wire enables, and no role otherwise", () => {
+  assert.deepEqual(colorRowLabel({ group: "Sacs creatures", side: "source" }, true), { name: "Sacs creatures", role: "enabler" })
+  assert.deepEqual(colorRowLabel({ group: "Dies triggers", side: "target" }, true), { name: "Dies triggers", role: "payoff" })
+  assert.deepEqual(colorRowLabel({ group: "All of one side", side: "source", total: true }, true), { name: "All enablers", role: "" })
+  assert.deepEqual(colorRowLabel({ group: "All of the other side", side: "target", total: true }, true), { name: "All payoffs", role: "" })
+  assert.deepEqual(colorRowLabel({ group: "Wraths", side: "source" }, false), { name: "Wraths", role: "" })
+  assert.deepEqual(colorRowLabel({ group: "x", side: "target", total: true }, false), { name: "All they pair with", role: "" })
 })

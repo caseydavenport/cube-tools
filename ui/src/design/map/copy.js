@@ -82,17 +82,11 @@ export const MAP_COPY = {
   // PackageEditModal.js: the package dialog and the card lists for each wire side.
   packageEdit: {
     noMatchingCards: "No matching cards.",
-    sourceCards: "One side's cards",
-    sourceCardsWire: ({ wire }) => `One side's cards · Wire ${wire}`,
-    targetCards: "Other side's cards",
-    targetCardsWire: ({ wire }) => `Other side's cards · Wire ${wire}`,
     editPackage: "Edit package",
     nameLabel: "Name",
     namePlaceholder: "e.g. Delve",
     wireTitle: ({ wire }) => `Wire ${wire}`,
     removeWire: "Remove wire",
-    sourcesLabel: "One side",
-    targetsLabel: "Other side",
     addWire: "Add wire",
     save: "Save",
     cancel: "Cancel",

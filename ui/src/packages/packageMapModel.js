@@ -34,6 +34,21 @@ function sideOf(count) {
   return count.first
 }
 
+// columnHeadings names the map's two columns, Enablers and Payoffs, when
+// every wire in the package is an Enables wire. It returns null otherwise,
+// since a Pairs with wire's sides have no names.
+export function columnHeadings(map) {
+  if (map.wires.length === 0) {
+    return null
+  }
+  for (const wire of map.wires) {
+    if (wire.kind !== "enables") {
+      return null
+    }
+  }
+  return ["Enablers", "Payoffs"]
+}
+
 // layoutMap splits the map's groups into the two columns. A group goes on
 // the side it holds in most wires; within a column, groups follow the order
 // of the first wire that names them, then their names.

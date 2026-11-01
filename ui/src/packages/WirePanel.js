@@ -6,6 +6,7 @@ import { Button, Drawer } from "@mantine/core"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { entryLabel } from "../design/rules/boardModel.js"
 import { decksText, depthMatrix } from "./packageMapModel.js"
+import { sideLabels, wireKind } from "../utils/DesignRules.js"
 
 // SIZES are the depth grid's row and column labels, 5 meaning 5 or more.
 const SIZES = ["0", "1", "2", "3", "4", "5+"]
@@ -61,6 +62,20 @@ function sideName(entries) {
   return `${entryLabel(entries[0])} +${entries.length - 1}`
 }
 
+// axisLabel names one axis of the depth grid: the side's role and name on
+// an Enables wire ("Enablers: Fetches basics"), or "Cards from" its name on a
+// Pairs with wire. side is "first" for sources or "second" for targets.
+function axisLabel(wire, side) {
+  let entries = wire.sources || []
+  if (side === "second") {
+    entries = wire.targets || []
+  }
+  if (wireKind(wire) === "enables") {
+    return `${sideLabels("enables")[side]}: ${sideName(entries)}`
+  }
+  return `Cards from ${sideName(entries)}`
+}
+
 // DepthGrid lays out the wire's depth cells: rows count cards from the
 // wire's first side, columns from its second.
 function DepthGrid({ wire, color }) {
@@ -78,8 +93,8 @@ function DepthGrid({ wire, color }) {
   return (
     <table className="wp-grid">
       <tbody>
-        <tr><th /><th colSpan={SIZES.length} className="wp-axis">Cards from {sideName(wire.targets || [])} →</th></tr>
-        <tr><th className="wp-axis">Cards from {sideName(wire.sources || [])} ↓</th>{SIZES.map(s => <th key={s}>{s}</th>)}</tr>
+        <tr><th /><th colSpan={SIZES.length} className="wp-axis">{axisLabel(wire, "second")} →</th></tr>
+        <tr><th className="wp-axis">{axisLabel(wire, "first")} ↓</th>{SIZES.map(s => <th key={s}>{s}</th>)}</tr>
         {matrix.map((row, a) => (
           <tr key={a}>
             <th>{SIZES[a]}</th>
@@ -93,11 +108,19 @@ function DepthGrid({ wire, color }) {
   )
 }
 
+// kindName is how the panel's title names the wire's kind.
+function kindName(wire) {
+  if (wireKind(wire) === "enables") {
+    return "Enables"
+  }
+  return "Pairs with"
+}
+
 // WirePanel shows wire number index + 1. color is the package's color.
 // onEdit and onRemove are only offered when canEdit is true.
 export function WirePanel({ wire, index, color, canEdit, onClose, onEdit, onRemove }) {
   return (
-    <Drawer opened onClose={onClose} position="right" size="lg" title={`Wire ${index + 1}`}>
+    <Drawer opened onClose={onClose} position="right" size="lg" title={`Wire ${index + 1} · ${kindName(wire)}`}>
       <div className="wp-sides">
         <Side entries={wire.sources || []} />
         <span className="wp-join">↔</span>

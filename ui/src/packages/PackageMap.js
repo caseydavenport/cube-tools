@@ -7,7 +7,7 @@ import { UnstyledButton } from "@mantine/core"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 import { entryLabel } from "../design/rules/boardModel.js"
-import { decksText, layoutMap, threadWeight } from "./packageMapModel.js"
+import { columnHeadings, decksText, layoutMap, threadWeight } from "./packageMapModel.js"
 import "../design/loom.css"
 import "./packageMap.css"
 
@@ -251,11 +251,19 @@ export function PackageMap({ map, groupIndex, packageColor, canDrag, onOpenGroup
     )
   }
 
+  const headings = columnHeadings(map)
+
   return (
     <div className="pm-map" ref={wrapRef}>
-      <div className="pm-col pm-col-left">{left.map(g => chip(g, "left"))}</div>
+      <div className="pm-col pm-col-left">
+        {headings && <div className="pm-heading">{headings[0]}</div>}
+        {left.map(g => chip(g, "left"))}
+      </div>
       <div className="pm-pills">{map.wires.map(pill)}</div>
-      <div className="pm-col pm-col-right">{right.map(g => chip(g, "right"))}</div>
+      <div className="pm-col pm-col-right">
+        {headings && <div className="pm-heading">{headings[1]}</div>}
+        {right.map(g => chip(g, "right"))}
+      </div>
       <svg className="de-loom-svg" aria-hidden="true">
         {threads.map(t => <path key={t.key} d={t.d} className="pm-thread" style={threadStyle(t)} />)}
       </svg>

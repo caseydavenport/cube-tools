@@ -21,7 +21,8 @@ import { WirePanel } from "./WirePanel.js"
 import { ConfirmEdit } from "./ConfirmEdit.js"
 import { GroupEditModal } from "../design/map/GroupEditModal.js"
 import { PackageEditModal } from "../design/map/PackageEditModal.js"
-import { cleanWires, saveDesignMap } from "../design/map/designData.js"
+import { saveDesignMap } from "../design/map/designData.js"
+import { cleanWires } from "../utils/DesignRules.js"
 import { cleanGroup, withCardExcluded, withGroup, withWireAdded, withWireRemoved } from "../design/rules/rulebookEdits.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { ruleColor } from "../design/map/ruleColors.js"
@@ -251,7 +252,7 @@ export function PackagePage(props) {
     if (wire < wires.length) {
       return pkg
     }
-    return { ...pkg, wires: [...wires, { sources: [""], targets: [""] }] }
+    return { ...pkg, wires: [...wires, { kind: "enables", sources: [""], targets: [""] }] }
   }
 
   const toolbar = (
