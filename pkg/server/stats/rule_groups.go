@@ -195,7 +195,7 @@ func memberCard(card types.Card, matched []string, played map[string]int) Member
 func playCounts(decks []*storage.Deck) map[string]int {
 	numDecks := map[string]int{}
 	for _, d := range decks {
-		for name := range deckCardSet(d) {
+		for _, name := range nonBasicMainboard(d) {
 			numDecks[name]++
 		}
 	}

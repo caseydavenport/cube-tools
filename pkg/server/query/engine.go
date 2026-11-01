@@ -394,11 +394,9 @@ func packageTerm(term string) (string, bool, bool) {
 // the mainboard, since packages are a mainboard notion. False when no packages
 // are supplied.
 func deckBuildsPackage(d Deck, pkgs []design.PackageCards, name string) bool {
+	// Basics stay in: they meet wire sides whose groups match them.
 	deck := make(map[string]bool)
 	for _, c := range d.GetMainboard() {
-		if types.IsBasic(c.Name) {
-			continue
-		}
 		deck[c.Name] = true
 	}
 	for _, p := range pkgs {

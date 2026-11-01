@@ -207,12 +207,13 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	return resp
 }
 
-// deckCardSet is the deck's non-basic mainboard as a set, the shape package
-// checks take.
+// deckCardSet is the deck's mainboard as a set, basic lands included, the
+// shape package checks take. Basics only meet wire sides whose groups match
+// them; they never count as package cards.
 func deckCardSet(d *storage.Deck) map[string]bool {
 	out := map[string]bool{}
-	for _, name := range nonBasicMainboard(d) {
-		out[name] = true
+	for _, c := range d.Mainboard {
+		out[c.Name] = true
 	}
 	return out
 }
@@ -381,10 +382,10 @@ func packageOverTime(pkg design.PackageCards, all []*storage.Deck, start, end st
 			row = &DraftBuild{DraftID: draftID, Date: d.Date}
 			byDraft[draftID] = row
 		}
-		deck := deckCardSet(d)
-		if len(deck) == 0 {
+		if len(nonBasicMainboard(d)) == 0 {
 			continue
 		}
+		deck := deckCardSet(d)
 		row.Decks++
 		if pkg.BuiltBy(deck) {
 			row.Built++

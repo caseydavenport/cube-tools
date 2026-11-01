@@ -697,9 +697,10 @@ func resolveGroups(cardMap map[string]types.Card, config design.DesignMapConfig,
 // resolvePackages turns each package's wires into card sets, sorted by
 // package name. A side holds the cards decks may play, cut cards included;
 // how many of them a deck needs comes from sideNeed. Basic lands are left out
-// of both.
+// of both and listed per side instead, from the groups that match them.
 func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) []design.PackageCards {
 	groups := resolveGroups(buildCardMap(cube), config, deckCardNames)
+	basicGroups, _ := resolveGroupCards(basicLandCards(), config.Groups)
 
 	out := make([]design.PackageCards, 0, len(config.Packages))
 	for _, pkg := range config.Packages {
@@ -708,10 +709,12 @@ func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNa
 			sources := withoutBasics(wireSide(groups.widened, wire.Sources))
 			targets := withoutBasics(wireSide(groups.widened, wire.Targets))
 			resolved.Wires = append(resolved.Wires, design.WireCards{
-				Sources:     sources,
-				Targets:     targets,
-				NeedSources: sideNeed(withoutBasics(wireSide(groups.cube, wire.Sources)), sources),
-				NeedTargets: sideNeed(withoutBasics(wireSide(groups.cube, wire.Targets)), targets),
+				Sources:      sources,
+				Targets:      targets,
+				NeedSources:  sideNeed(withoutBasics(wireSide(groups.cube, wire.Sources)), sources),
+				NeedTargets:  sideNeed(withoutBasics(wireSide(groups.cube, wire.Targets)), targets),
+				SourceBasics: sideBasics(basicGroups, wire.Sources),
+				TargetBasics: sideBasics(basicGroups, wire.Targets),
 			})
 		}
 		out = append(out, resolved)
@@ -719,6 +722,44 @@ func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNa
 	slices.SortFunc(out, func(a, b design.PackageCards) int {
 		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
 	})
+	return out
+}
+
+// basicTypeLines gives each basic land's type line, so group conditions such
+// as t:basic or t:forest can be run against the basics.
+var basicTypeLines = map[string]string{
+	"Plains":                "Basic Land — Plains",
+	"Island":                "Basic Land — Island",
+	"Swamp":                 "Basic Land — Swamp",
+	"Mountain":              "Basic Land — Mountain",
+	"Forest":                "Basic Land — Forest",
+	"Wastes":                "Basic Land",
+	"Snow-Covered Plains":   "Basic Snow Land — Plains",
+	"Snow-Covered Island":   "Basic Snow Land — Island",
+	"Snow-Covered Swamp":    "Basic Snow Land — Swamp",
+	"Snow-Covered Mountain": "Basic Snow Land — Mountain",
+	"Snow-Covered Forest":   "Basic Snow Land — Forest",
+	"Snow-Covered Wastes":   "Basic Snow Land",
+}
+
+// basicLandCards is one card per basic land, built from its type line alone,
+// for matching group conditions against the basics no cube list holds.
+func basicLandCards() map[string]types.Card {
+	out := make(map[string]types.Card, len(types.BasicLandNames))
+	for _, name := range types.BasicLandNames {
+		out[name] = types.FromOracle(types.OracleCard{Name: name, TypeLine: basicTypeLines[name]})
+	}
+	return out
+}
+
+// sideBasics returns the basic lands that one wire side's groups match.
+func sideBasics(basicGroups map[string]map[string]bool, entries []string) map[string]bool {
+	out := make(map[string]bool)
+	for _, entry := range entries {
+		for name := range basicGroups[entry] {
+			out[name] = true
+		}
+	}
 	return out
 }
 

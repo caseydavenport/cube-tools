@@ -820,3 +820,53 @@ func TestBuildCardEdges_PackagesSorted(t *testing.T) {
 		assert.Equal(t, []string{"Aggro", "Burn", "Delve", "Mill", "Ramp", "Tempo", "Zoo"}, edges[0].Packages)
 	}
 }
+
+// basicFetcherCube is three cube cards that each search for a basic land.
+func basicFetcherCube() *types.Cube {
+	text := "Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
+	return &types.Cube{
+		Cards: []types.Card{
+			{Name: "Fetcher A", Types: []string{"Sorcery"}, OracleText: text},
+			{Name: "Fetcher B", Types: []string{"Sorcery"}, OracleText: text},
+			{Name: "Fetcher C", Types: []string{"Sorcery"}, OracleText: text},
+		},
+	}
+}
+
+func TestResolvePackages_BasicLandsGroup(t *testing.T) {
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
+			{Name: "Fetches basics", Conditions: []string{`o:"a basic land"`}},
+			{Name: "Basic lands", Conditions: []string{"t:land t:basic"}},
+		},
+		Packages: []design.Package{
+			{Name: "Fixing", Wires: []design.Wire{{Kind: design.WireEnables, Sources: []string{"Basic lands"}, Targets: []string{"Fetches basics"}}}},
+		},
+	}
+
+	pkgs := resolvePackages(basicFetcherCube(), config, nil)
+	require.Len(t, pkgs, 1)
+	w := pkgs[0].Wires[0]
+	assert.True(t, w.SourceBasics["Forest"])
+	assert.True(t, w.SourceBasics["Snow-Covered Forest"])
+	assert.True(t, w.SourceBasics["Wastes"])
+	assert.Empty(t, w.TargetBasics)
+
+	assert.False(t, pkgs[0].BuiltBy(cardSet("Fetcher A", "Fetcher B", "Forest")))
+	assert.True(t, pkgs[0].BuiltBy(cardSet("Fetcher A", "Fetcher B", "Fetcher C", "Forest")))
+}
+
+func TestResolvePackages_ForestsGroupIncludesBasicForest(t *testing.T) {
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
+			{Name: "Forests", Conditions: []string{"t:forest"}},
+			{Name: "Fetches basics", Conditions: []string{`o:"a basic land"`}},
+		},
+		Packages: []design.Package{
+			{Name: "Fixing", Wires: []design.Wire{{Sources: []string{"Forests"}, Targets: []string{"Fetches basics"}}}},
+		},
+	}
+
+	pkgs := resolvePackages(basicFetcherCube(), config, nil)
+	assert.Equal(t, cardSet("Forest", "Snow-Covered Forest"), pkgs[0].Wires[0].SourceBasics)
+}

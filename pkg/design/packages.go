@@ -7,12 +7,16 @@ const MinPackageCards = 3
 // WireCards is one wire of a package with its groups resolved to card names.
 // NeedSources and NeedTargets are how many cards from each side a deck must
 // play: 2, or 1 for a side with a single card in the cube, or 0 for a side
-// that matches nothing, which makes the wire impossible to build.
+// that matches nothing. SourceBasics and TargetBasics are the basic lands a
+// side's groups match; playing any of them meets that side, since every deck
+// gets basics free.
 type WireCards struct {
-	Sources     map[string]bool
-	Targets     map[string]bool
-	NeedSources int
-	NeedTargets int
+	Sources      map[string]bool
+	Targets      map[string]bool
+	NeedSources  int
+	NeedTargets  int
+	SourceBasics map[string]bool
+	TargetBasics map[string]bool
 }
 
 // PackageCards is a package with every wire resolved to card names, ready to
@@ -31,8 +35,8 @@ func SideMinimum(cubeCards int) int {
 
 // BuiltBy reports whether a deck builds the package. The deck builds it when
 // one wire has enough cards on both sides, per NeedSources and NeedTargets,
-// and at least MinPackageCards distinct cards across the two. deck holds the
-// deck's non-basic mainboard card names.
+// and at least MinPackageCards distinct non-basic cards across the two. deck
+// holds the deck's mainboard card names, basic lands included.
 func (p PackageCards) BuiltBy(deck map[string]bool) bool {
 	for _, w := range p.Wires {
 		if w.BuiltBy(deck) {
@@ -50,7 +54,7 @@ func (p PackageCards) HasCards(deck map[string]bool) bool {
 	for _, w := range p.Wires {
 		sources := present(w.Sources, deck)
 		targets := present(w.Targets, deck)
-		if len(sources) == 0 || len(targets) == 0 {
+		if !sidePresent(sources, w.SourceBasics, deck) || !sidePresent(targets, w.TargetBasics, deck) {
 			continue
 		}
 		both := union(sources, targets)
@@ -67,15 +71,38 @@ func (p PackageCards) HasCards(deck map[string]bool) bool {
 // BuiltBy reports whether the deck plays enough of this wire to build the
 // package through it.
 func (w WireCards) BuiltBy(deck map[string]bool) bool {
-	if w.NeedSources == 0 || w.NeedTargets == 0 {
-		return false
-	}
 	sources := present(w.Sources, deck)
 	targets := present(w.Targets, deck)
-	if len(sources) < w.NeedSources || len(targets) < w.NeedTargets {
+	if !sideMet(sources, w.NeedSources, w.SourceBasics, deck) || !sideMet(targets, w.NeedTargets, w.TargetBasics, deck) {
 		return false
 	}
 	return len(union(sources, targets)) >= MinPackageCards
+}
+
+// sideMet reports whether a deck plays enough of one wire side: need of its
+// non-basic cards, or any of its basics. A side needing 0 with no basics
+// matches nothing and is never met.
+func sideMet(played map[string]bool, need int, basics, deck map[string]bool) bool {
+	if need > 0 && len(played) >= need {
+		return true
+	}
+	return playsAny(basics, deck)
+}
+
+// sidePresent reports whether a deck plays anything from one wire side,
+// counting its basics.
+func sidePresent(played, basics, deck map[string]bool) bool {
+	return len(played) > 0 || playsAny(basics, deck)
+}
+
+// playsAny reports whether the deck plays any of names.
+func playsAny(names, deck map[string]bool) bool {
+	for name := range names {
+		if deck[name] {
+			return true
+		}
+	}
+	return false
 }
 
 // present returns the cards in side that the deck plays.

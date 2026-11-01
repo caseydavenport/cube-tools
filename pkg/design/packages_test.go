@@ -81,3 +81,29 @@ func TestPackageCards_HasCards(t *testing.T) {
 	assert.False(t, p.HasCards(set("C", "D", "E")))
 	assert.False(t, p.HasCards(set("A", "C")))
 }
+
+// basicsWire is a package whose one wire needs two of A, B and C on one side,
+// and is met on the other side by any basic Forest.
+func basicsWire() PackageCards {
+	return PackageCards{
+		Name: "Fixing",
+		Wires: []WireCards{{
+			Sources:      set("A", "B", "C"),
+			Targets:      set(),
+			NeedSources:  2,
+			NeedTargets:  0,
+			TargetBasics: set("Forest"),
+		}},
+	}
+}
+
+func TestPackageCards_BasicsMeetASide(t *testing.T) {
+	p := basicsWire()
+	assert.False(t, p.BuiltBy(set("A", "B", "Forest")), "basics don't count toward the three cards")
+	assert.True(t, p.BuiltBy(set("A", "B", "C", "Forest")))
+	assert.False(t, p.BuiltBy(set("A", "B", "C")), "without a basic the other side is unmet")
+}
+
+func TestPackageCards_HasCardsWithBasics(t *testing.T) {
+	assert.True(t, basicsWire().HasCards(set("A", "B", "C", "Forest")))
+}

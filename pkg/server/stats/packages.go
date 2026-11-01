@@ -133,10 +133,7 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 		}
 		populated++
 
-		deck := make(map[string]bool, len(cards))
-		for _, name := range cards {
-			deck[name] = true
-		}
+		deck := deckCardSet(d)
 		for _, p := range pkgs {
 			if p.HasCards(deck) {
 				has3[p.Name]++

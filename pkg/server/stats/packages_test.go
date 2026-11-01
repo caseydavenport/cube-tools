@@ -180,16 +180,24 @@ func TestPackageStats_BothSides(t *testing.T) {
 	assert.Equal(t, 0.333, combo.BuildRate)
 }
 
-func TestPackageStats_IgnoresBasics(t *testing.T) {
-	pkgs := []design.PackageCards{twoSided("Mountains", cardSet("A", "B"), cardSet("Mountain", "C"))}
+func TestPackageStats_BasicsNeverCountAsPackageCards(t *testing.T) {
+	mountains := design.PackageCards{
+		Name: "Mountains",
+		Wires: []design.WireCards{{
+			Sources:      cardSet("A", "B"),
+			Targets:      cardSet("C"),
+			NeedSources:  2,
+			NeedTargets:  1,
+			TargetBasics: cardSet("Mountain"),
+		}},
+	}
 
-	// Mountain would be the second target, but basics never count.
-	resp := packageStats(pkgs, []*storage.Deck{deckOf("A", "B", "Mountain", "C")}, 0.95)
+	// The Mountain meets the target side, but only A and B are package cards.
+	resp := packageStats([]design.PackageCards{mountains}, []*storage.Deck{deckOf("A", "B", "Mountain")}, 0.95)
 	assert.Equal(t, 0, statFor(t, resp, "Mountains").Package)
 
-	// With a second non-basic target the same deck builds it.
-	pkgs = []design.PackageCards{twoSided("Mountains", cardSet("A", "B"), cardSet("Mountain", "C", "D"))}
-	resp = packageStats(pkgs, []*storage.Deck{deckOf("A", "B", "Mountain", "C", "D")}, 0.95)
+	// A third non-basic card builds it.
+	resp = packageStats([]design.PackageCards{mountains}, []*storage.Deck{deckOf("A", "B", "Mountain", "C")}, 0.95)
 	assert.Equal(t, 1, statFor(t, resp, "Mountains").Package)
 }
 
@@ -272,4 +280,24 @@ func TestMarkRarelyTogether_NoneEligible(t *testing.T) {
 	stats := []PackageStat{{Name: "Ninjas", Has3: 5, CameTogether: 0.0}}
 	markRarelyTogether(stats)
 	assert.False(t, stats[0].RarelyTogether)
+}
+
+func TestPackageStats_BasicsMeetABasicsSide(t *testing.T) {
+	fixing := design.PackageCards{
+		Name: "Fixing",
+		Wires: []design.WireCards{{
+			Sources:      cardSet("f1", "f2", "f3"),
+			Targets:      cardSet(),
+			NeedSources:  2,
+			TargetBasics: cardSet("Forest"),
+		}},
+	}
+	decks := []*storage.Deck{
+		deckOf("f1", "f2", "f3", "Forest"),
+		deckOf("f1", "f2", "Forest"),
+		deckOf("f1", "f2", "f3"),
+	}
+
+	resp := packageStats([]design.PackageCards{fixing}, decks, 0.95)
+	assert.Equal(t, 1, statFor(t, resp, "Fixing").Package)
 }
