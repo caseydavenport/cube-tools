@@ -870,3 +870,16 @@ func TestResolvePackages_ForestsGroupIncludesBasicForest(t *testing.T) {
 	pkgs := resolvePackages(basicFetcherCube(), config, nil)
 	assert.Equal(t, cardSet("Forest", "Snow-Covered Forest"), pkgs[0].Wires[0].SourceBasics)
 }
+
+func TestGroupCards_MatchesConditionsAndExclude(t *testing.T) {
+	cards := map[string]types.Card{
+		"Bear": {Name: "Bear", Types: []string{"Creature"}},
+		"Elk":  {Name: "Elk", Types: []string{"Creature"}},
+		"Bolt": {Name: "Bolt", Types: []string{"Instant"}},
+	}
+	groups := []design.Group{{Name: "Creatures", Conditions: []string{"t:creature"}, Exclude: []string{"Elk"}}}
+
+	got := GroupCards(cards, groups)
+
+	assert.Equal(t, map[string]bool{"Bear": true}, got["Creatures"])
+}

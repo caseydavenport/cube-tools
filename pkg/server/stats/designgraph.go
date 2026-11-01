@@ -538,6 +538,14 @@ func resolveGroupCards(cardMap map[string]types.Card, groups []design.Group) (ma
 	return groupCards, excluded
 }
 
+// GroupCards returns each group's matching card names from cards, after its
+// Exclude list. It's for tools that score rules outside the server, so they
+// match cards exactly as the app does.
+func GroupCards(cards map[string]types.Card, groups []design.Group) map[string]map[string]bool {
+	groupCards, _ := resolveGroupCards(cards, groups)
+	return groupCards
+}
+
 // widenWithDeckCards returns cardMap plus any deck-referenced cards not in the
 // cube, hydrated from oracle data. It returns cardMap unchanged when there's
 // nothing to add, so callers can detect widening by comparing lengths.
