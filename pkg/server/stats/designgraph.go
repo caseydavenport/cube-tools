@@ -1031,6 +1031,8 @@ func buildGroupGraph(
 //	m:text      - mana cost contains text (e.g., m:X, m:{W}{W})
 //	is:keyword  - built-in classification (creature, land, removal, counterspell, interaction)
 //	otag:name   - Scryfall oracle tag by slug, label or alias (e.g., otag:removal, otag:"self mill")
+//	o:"when ~ enters" - in text terms, ~ means the card itself: its name, a legend's
+//	              short name, or "this creature", "this artifact" and the like
 //	face:(...)  - any castable face matches: each half of a split, adventure or modal
 //	              double-faced card on its own (e.g., face:(t:instant cmc<3) matches Fire // Ice)
 //
@@ -1387,6 +1389,9 @@ func matchPrefixedTerm(card types.Card, prefix, value string) bool {
 	case "n":
 		return wildcardMatch(strings.ToLower(card.Name), lowerValue)
 	case "o":
+		if strings.Contains(lowerValue, "~") {
+			return wildcardMatch(selfText(card), lowerValue)
+		}
 		return wildcardMatch(strings.ToLower(card.OracleText), lowerValue)
 	case "t":
 		for _, t := range card.Types {
@@ -1443,6 +1448,55 @@ func wildcardMatch(haystack, pattern string) bool {
 		return strings.Contains(haystack, pattern)
 	}
 	return re.MatchString(haystack)
+}
+
+// selfWords are the words oracle text uses after "this" to mean the card
+// itself.
+var selfWords = []string{
+	"creature",
+	"artifact",
+	"enchantment",
+	"equipment",
+	"aura",
+	"vehicle",
+	"land",
+	"saga",
+	"permanent",
+	"planeswalker",
+	"battle",
+	"spell",
+	"card",
+	"class",
+	"case",
+	"room",
+}
+
+// selfText is the card's lowercased oracle text with every reference to the
+// card itself replaced by "~", as Scryfall's ~ search does: its full name,
+// each face's name, a legend's short name before the comma, and "this
+// creature" and the like.
+func selfText(card types.Card) string {
+	text := strings.ToLower(card.OracleText)
+	var names []string
+	for _, face := range strings.Split(card.Name, "//") {
+		name := strings.ToLower(strings.TrimSpace(face))
+		names = append(names, name)
+		if short, _, ok := strings.Cut(name, ","); ok {
+			names = append(names, short)
+		}
+	}
+
+	// Longer names go first so a short name doesn't split a full one.
+	slices.SortFunc(names, func(a, b string) int { return len(b) - len(a) })
+	for _, name := range names {
+		if name != "" {
+			text = strings.ReplaceAll(text, name, "~")
+		}
+	}
+	for _, word := range selfWords {
+		text = strings.ReplaceAll(text, "this "+word, "~")
+	}
+	return text
 }
 
 // matchColor returns true if the card has at least one of the specified colors.

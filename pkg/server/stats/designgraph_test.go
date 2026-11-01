@@ -901,3 +901,17 @@ func TestMatchCards_Face(t *testing.T) {
 	assert.Equal(t, map[string]bool{"Cheeky House-Mouse // Squeak By": true, "Fire // Ice": true, "Lightning Bolt": true}, matchCards(cards, "face:(!t:creature cmc<3)"))
 	assert.Equal(t, map[string]bool{"Grizzly Bears": true}, matchCards(cards, "!face:(!t:creature cmc<3)"))
 }
+
+func TestMatchCards_SelfReference(t *testing.T) {
+	cards := map[string]types.Card{
+		"Primeval Titan":         {Name: "Primeval Titan", OracleText: "When Primeval Titan enters or attacks, search your library for up to two land cards."},
+		"Kiora, the Rising Tide": {Name: "Kiora, the Rising Tide", OracleText: "When Kiora enters, draw two cards, then discard two cards."},
+		"Wall of Omens":          {Name: "Wall of Omens", OracleText: "Defender\nWhen this creature enters, draw a card."},
+		"Embercleave":            {Name: "Embercleave", OracleText: "When this Equipment enters, attach it to target creature you control."},
+		"Soul Warden":            {Name: "Soul Warden", OracleText: "Whenever another creature enters, you gain 1 life."},
+	}
+
+	got := matchCards(cards, `o:"when ~ enters"`)
+
+	assert.Equal(t, map[string]bool{"Primeval Titan": true, "Kiora, the Rising Tide": true, "Wall of Omens": true, "Embercleave": true}, got)
+}
