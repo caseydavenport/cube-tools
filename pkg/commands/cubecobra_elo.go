@@ -41,9 +41,10 @@ type ccCardInfo struct {
 }
 
 // FetchMaybeboard returns the card names on a CubeCobra cube's maybeboard, in
-// CubeCobra's order, skipping entries with no name.
+// CubeCobra's order, skipping entries with no name. It gives up after
+// maybeboardClient's timeout.
 func FetchMaybeboard(baseURL, cubeID string) ([]string, error) {
-	cube, err := fetchCubeCobra(baseURL, cubeID)
+	cube, err := fetchCubeCobra(maybeboardClient, baseURL, cubeID)
 	if err != nil {
 		return nil, err
 	}
@@ -57,10 +58,10 @@ func FetchMaybeboard(baseURL, cubeID string) ([]string, error) {
 }
 
 // fetchCubeCobra fetches and decodes the public cube export at
-// /cube/api/cubeJSON/<cubeID>. cubeID may be a shortId or UUID. The endpoint is
-// public, so no auth is needed.
-func fetchCubeCobra(baseURL, cubeID string) (*ccCubeJSON, error) {
-	resp, err := http.Get(fmt.Sprintf("%s/cube/api/cubeJSON/%s", baseURL, cubeID))
+// /cube/api/cubeJSON/<cubeID> with client. cubeID may be a shortId or UUID.
+// The endpoint is public, so no auth is needed.
+func fetchCubeCobra(client *http.Client, baseURL, cubeID string) (*ccCubeJSON, error) {
+	resp, err := client.Get(fmt.Sprintf("%s/cube/api/cubeJSON/%s", baseURL, cubeID))
 	if err != nil {
 		return nil, fmt.Errorf("fetch cube JSON: %w", err)
 	}
@@ -133,7 +134,7 @@ func (c *ccCubeJSON) mainboardNames() []string {
 
 // fetchCubeCobraCards returns per-card Cube Cobra data keyed by name.
 func fetchCubeCobraCards(baseURL, cubeID string) (map[string]ccCardInfo, error) {
-	cube, err := fetchCubeCobra(baseURL, cubeID)
+	cube, err := fetchCubeCobra(http.DefaultClient, baseURL, cubeID)
 	if err != nil {
 		return nil, err
 	}

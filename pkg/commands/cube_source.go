@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 	"sync"
 	"time"
@@ -15,7 +16,7 @@ import (
 // names hydrated from oracle data, then enriched with CubeCobra draft Elo, the
 // printings the cube owner picked, and their per-card tags.
 func FetchCube(baseURL, ccID string) (*types.Cube, error) {
-	ccCube, err := fetchCubeCobra(baseURL, ccID)
+	ccCube, err := fetchCubeCobra(http.DefaultClient, baseURL, ccID)
 	if err != nil {
 		return nil, err
 	}
@@ -91,14 +92,35 @@ type CubeProvider struct {
 	maybe   map[string]cachedMaybeboard
 }
 
-// maybeboardTTL is how long a fetched maybeboard is reused before CubeCobra
-// is asked again.
-const maybeboardTTL = 10 * time.Minute
+const (
+	// maybeboardTTL is how long a fetched maybeboard is reused before CubeCobra
+	// is asked again.
+	maybeboardTTL = 10 * time.Minute
 
-// cachedMaybeboard is one cube's cached maybeboard and when it was fetched.
+	// maybeboardRetry is how long a failed fetch is remembered, so a CubeCobra
+	// outage doesn't slow every explorer request.
+	maybeboardRetry = time.Minute
+)
+
+// maybeboardClient fetches maybeboards, with a timeout so a stalled
+// CubeCobra can't hang the explorer.
+var maybeboardClient = &http.Client{Timeout: 5 * time.Second}
+
+// cachedMaybeboard is one cube's last maybeboard fetch: its names, or the
+// error when it failed, and when it ran.
 type cachedMaybeboard struct {
 	names   []string
+	err     error
 	fetched time.Time
+}
+
+// fresh reports whether the entry can still be used: a maybeboard for
+// maybeboardTTL, a failure for maybeboardRetry.
+func (c cachedMaybeboard) fresh() bool {
+	if c.err != nil {
+		return time.Since(c.fetched) < maybeboardRetry
+	}
+	return time.Since(c.fetched) < maybeboardTTL
 }
 
 // NewCubeProvider builds a provider backed by the given cube registry.
@@ -111,8 +133,9 @@ func NewCubeProvider(reg *cubes.Registry) *CubeProvider {
 }
 
 // Maybeboard returns the card names on the cube's CubeCobra maybeboard,
-// cached for maybeboardTTL. A cube with no CubeCobra id gives
-// cubes.ErrNoCubeCobra.
+// cached for maybeboardTTL; a failed fetch is cached for maybeboardRetry. The
+// lock isn't held during the fetch, so one cube's slow fetch doesn't block
+// another's. A cube with no CubeCobra id gives cubes.ErrNoCubeCobra.
 func (p *CubeProvider) Maybeboard(cube string) ([]string, error) {
 	ccID := p.cubeCobraID(cube)
 	if ccID == "" {
@@ -120,16 +143,17 @@ func (p *CubeProvider) Maybeboard(cube string) ([]string, error) {
 	}
 
 	p.maybeMu.Lock()
-	defer p.maybeMu.Unlock()
-	if entry, ok := p.maybe[cube]; ok && time.Since(entry.fetched) < maybeboardTTL {
-		return entry.names, nil
+	entry, ok := p.maybe[cube]
+	p.maybeMu.Unlock()
+	if ok && entry.fresh() {
+		return entry.names, entry.err
 	}
+
 	names, err := FetchMaybeboard(ccBaseURL, ccID)
-	if err != nil {
-		return nil, err
-	}
-	p.maybe[cube] = cachedMaybeboard{names: names, fetched: time.Now()}
-	return names, nil
+	p.maybeMu.Lock()
+	p.maybe[cube] = cachedMaybeboard{names: names, err: err, fetched: time.Now()}
+	p.maybeMu.Unlock()
+	return names, err
 }
 
 // cubeCobraID is the cube's CubeCobra id: carried by a cc: cube id, or set
