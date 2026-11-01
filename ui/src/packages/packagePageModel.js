@@ -91,22 +91,37 @@ export function groupPanelState(answer, name) {
   return { kind: "members", members }
 }
 
-// colorRowLabel names a support-by-color row. When every wire in the package
-// enables (enables true), sides read as enablers and payoffs; otherwise a
-// group row has no role and the totals read "All cards" and "All they pair
-// with", the package dialog's names for a Pairs with wire's sides.
-export function colorRowLabel(row, enables) {
-  const first = row.side === "source"
-  if (row.total) {
-    if (enables) {
-      return { name: first ? "All enablers" : "All payoffs", role: "" }
-    }
-    return { name: first ? "All cards" : "All they pair with", role: "" }
-  }
+// colorBlockNames are the support-by-color blocks' titles and total-row
+// names: enablers and payoffs when every wire enables, otherwise the package
+// dialog's names for a Pairs with wire's sides.
+function colorBlockNames(enables) {
   if (enables) {
-    return { name: row.group, role: first ? "enabler" : "payoff" }
+    return [
+      { side: "source", title: "Enablers", total: "All enablers" },
+      { side: "target", title: "Payoffs", total: "All payoffs" },
+    ]
   }
-  return { name: row.group, role: "" }
+  return [
+    { side: "source", title: "Cards", total: "All cards" },
+    { side: "target", title: "Pair with", total: "All they pair with" },
+  ]
+}
+
+// colorBlocks splits the support-by-color rows by side into two blocks, each
+// a title and its rows as { name, row }, the group rows first and the side's
+// total last.
+export function colorBlocks(rows, enables) {
+  return colorBlockNames(enables).map(names => {
+    const groups = rows.filter(r => r.side === names.side && !r.total)
+    const totals = rows.filter(r => r.side === names.side && r.total)
+    return {
+      title: names.title,
+      rows: [
+        ...groups.map(row => ({ name: row.group, row })),
+        ...totals.map(row => ({ name: names.total, row })),
+      ],
+    }
+  })
 }
 
 // colorCell is one cell of the support-by-color table: the group's card count

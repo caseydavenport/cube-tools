@@ -9,7 +9,7 @@ import { SectionCard } from "../components/kit/SectionCard.js"
 import { DeckRow } from "../cards/CardPlaySections.js"
 import { packageMatch, packagePageHref, pageHrefWithMatch } from "../shell/paths.js"
 import { ColorImages } from "../utils/Colors.js"
-import { colorCell, colorRowLabel } from "./packagePageModel.js"
+import { colorBlocks, colorCell } from "./packagePageModel.js"
 import { columnHeadings } from "./packageMapModel.js"
 
 // DECKS_SHOWN is how many decks the decks section lists before "Show all".
@@ -38,9 +38,27 @@ function colorRowClass(row) {
   return "widget-table-row"
 }
 
-// ColorSupport is the support-by-color table: each group's cards by color,
-// then each side's totals, shaded where one side is thin in a color the other
-// side uses.
+// ColorRow is one support-by-color row: the group, or the side's total, and
+// its cards by color, shaded where the server marked a color thin.
+function ColorRow({ name, row }) {
+  return (
+    <tr className={colorRowClass(row)}>
+      <td className="header-cell">{name}</td>
+      {COLOR_COLUMNS.map(color => {
+        const cell = colorCell(row, color)
+        let className = "page-right-cell"
+        if (cell.thin) {
+          className += " package-color-thin"
+        }
+        return <td key={color} className={className}>{cell.value}</td>
+      })}
+    </tr>
+  )
+}
+
+// ColorSupport is the support-by-color table: each group's cards by color in
+// two blocks, enablers then payoffs, each ending with its side's total. A
+// total is shaded where its side is thin in a color the other side uses.
 export function ColorSupport({ page }) {
   if (page.color_table.length === 0) {
     return null
@@ -61,26 +79,14 @@ export function ColorSupport({ page }) {
               {COLOR_COLUMNS.map(color => <ColumnHead key={color} color={color} />)}
             </tr>
           </thead>
-          <tbody>
-            {page.color_table.map(row => {
-              const label = colorRowLabel(row, enables)
-              return (
-                <tr key={row.side + row.group} className={colorRowClass(row)}>
-                  <td className="header-cell">
-                    {label.name} {label.role && <span className="stats-muted">{label.role}</span>}
-                  </td>
-                  {COLOR_COLUMNS.map(color => {
-                    const cell = colorCell(row, color)
-                    let className = "page-right-cell"
-                    if (cell.thin) {
-                      className += " package-color-thin"
-                    }
-                    return <td key={color} className={className}>{cell.value}</td>
-                  })}
-                </tr>
-              )
-            })}
-          </tbody>
+          {colorBlocks(page.color_table, enables).map(block => (
+            <tbody key={block.title}>
+              <tr className="package-color-block">
+                <td className="header-cell" colSpan={COLOR_COLUMNS.length + 1}>{block.title}</td>
+              </tr>
+              {block.rows.map(r => <ColorRow key={r.row.group + (r.row.total ? "/total" : "")} name={r.name} row={r.row} />)}
+            </tbody>
+          ))}
         </table>
       </div>
     </SectionCard>

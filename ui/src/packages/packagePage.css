@@ -30,6 +30,16 @@
   border-top: 1px solid var(--se-border);
 }
 
+.package-color-block td {
+  padding-top: 0.9rem;
+  padding-bottom: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--se-muted);
+}
+
 .package-line {
   display: flex;
   flex-wrap: wrap;

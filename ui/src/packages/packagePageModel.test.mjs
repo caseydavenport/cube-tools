@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { chartSeries, colorCell, colorRowLabel, groupPanelState, headerLine, packageProblems, packageSubtitle } from "./packagePageModel.js"
+import { chartSeries, colorBlocks, colorCell, groupPanelState, headerLine, packageProblems, packageSubtitle } from "./packagePageModel.js"
 
 const wires = [
   { sources: [{ name: "Graveyard" }], targets: [{ name: "Delirium payoffs" }, { name: "Reanimate targets" }] },
@@ -77,11 +77,30 @@ test("the group panel says when the package has no such entry instead of loading
   assert.deepEqual(groupPanelState({ groups, failed: false }, "Fodder"), { kind: "missing" })
 })
 
-test("color rows name their role when every wire enables, and no role otherwise", () => {
-  assert.deepEqual(colorRowLabel({ group: "Sacs creatures", side: "source" }, true), { name: "Sacs creatures", role: "enabler" })
-  assert.deepEqual(colorRowLabel({ group: "Dies triggers", side: "target" }, true), { name: "Dies triggers", role: "payoff" })
-  assert.deepEqual(colorRowLabel({ group: "All of one side", side: "source", total: true }, true), { name: "All enablers", role: "" })
-  assert.deepEqual(colorRowLabel({ group: "All of the other side", side: "target", total: true }, true), { name: "All payoffs", role: "" })
-  assert.deepEqual(colorRowLabel({ group: "Wraths", side: "source" }, false), { name: "Wraths", role: "" })
-  assert.deepEqual(colorRowLabel({ group: "x", side: "target", total: true }, false), { name: "All they pair with", role: "" })
+test("color blocks split rows into enablers then payoffs, each ending with its total", () => {
+  const rows = [
+    { group: "Sacs creatures", side: "source" },
+    { group: "Dies triggers", side: "target" },
+    { group: "Sacs lands", side: "source" },
+    { group: "All of one side", side: "source", total: true },
+    { group: "All of the other side", side: "target", total: true },
+  ]
+  const blocks = colorBlocks(rows, true)
+  assert.deepEqual(blocks.map(b => b.title), ["Enablers", "Payoffs"])
+  assert.deepEqual(blocks[0].rows.map(r => r.name), ["Sacs creatures", "Sacs lands", "All enablers"])
+  assert.deepEqual(blocks[1].rows.map(r => r.name), ["Dies triggers", "All payoffs"])
+  assert.equal(blocks[0].rows[2].row, rows[3])
+})
+
+test("color blocks use the Pairs with names when a wire doesn't enable", () => {
+  const rows = [
+    { group: "Wraths", side: "source" },
+    { group: "Big creatures", side: "target" },
+    { group: "x", side: "source", total: true },
+    { group: "y", side: "target", total: true },
+  ]
+  const blocks = colorBlocks(rows, false)
+  assert.deepEqual(blocks.map(b => b.title), ["Cards", "Pair with"])
+  assert.deepEqual(blocks[0].rows.map(r => r.name), ["Wraths", "All cards"])
+  assert.deepEqual(blocks[1].rows.map(r => r.name), ["Big creatures", "All they pair with"])
 })
