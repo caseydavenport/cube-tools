@@ -62,7 +62,8 @@
       "name": "Buff targets",
       "conditions": [
         "t:creature otag:evasion",
-        "t:creature otag:power-matters-self"
+        "t:creature otag:power-matters-self",
+        "t:creature o:trample !otag:gives-trample"
       ]
     },
     {
@@ -102,6 +103,12 @@
       "name": "Cheap spells",
       "conditions": [
         "face:((t:instant OR t:sorcery) cmc<3)"
+      ]
+    },
+    {
+      "name": "Cheap instants and sorceries",
+      "conditions": [
+        "(t:instant OR t:sorcery) cmc<3"
       ]
     },
     {
@@ -163,6 +170,12 @@
       "name": "Delirium",
       "conditions": [
         "otag:card-types-in-graveyard-matter !otag:imprinted-card-types-matter"
+      ]
+    },
+    {
+      "name": "Dredge",
+      "conditions": [
+        "o:dredge"
       ]
     },
     {
@@ -533,7 +546,7 @@
     {
       "name": "Selective discard",
       "conditions": [
-        "otag:discard-outlet"
+        "otag:discard-outlet !otag:discard-outlet-land"
       ]
     },
     {
@@ -745,7 +758,8 @@
       "name": "Creature recursion",
       "conditions": [
         "otag:reanimate-creature o:\"or less\"",
-        "otag:reanimate-creature o:\"less than or equal\""
+        "otag:reanimate-creature o:\"less than or equal\"",
+        "otag:reanimate-permanent o:\"or less\""
       ]
     },
     {
@@ -794,7 +808,7 @@
       "name": "Graveyard spell casts",
       "conditions": [
         "otag:castable-from-graveyard !t:creature",
-        "otag:gives-castable-from-graveyard",
+        "otag:gives-castable-from-graveyard !o:\"permanent cards\"",
         "otag:free-cast-another"
       ]
     },
@@ -891,10 +905,19 @@
           "kind": "enables",
           "sources": [
             "Equipment",
+            "Aura Buffs"
+          ],
+          "targets": [
+            "Buff targets"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Equipment",
             "All Auras"
           ],
           "targets": [
-            "Buff targets",
             "Aura and Equipment payoffs"
           ]
         }
@@ -995,7 +1018,9 @@
           "kind": "enables",
           "sources": [
             "Types in graveyard",
-            "Sacs artifacts"
+            "Sacs artifacts",
+            "Fill graveyard",
+            "Selective discard"
           ],
           "targets": [
             "Delirium"
@@ -1425,7 +1450,7 @@
         {
           "kind": "enables",
           "sources": [
-            "Cheap spells"
+            "Cheap instants and sorceries"
           ],
           "targets": [
             "Recast spells",
@@ -1562,6 +1587,15 @@
           ],
           "targets": [
             "Castable from graveyard"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Draw effects"
+          ],
+          "targets": [
+            "Dredge"
           ]
         }
       ]
