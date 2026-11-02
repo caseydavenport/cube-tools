@@ -951,7 +951,7 @@
     {
       "name": "Cheat into play",
       "conditions": [
-        "otag:sneak-creature"
+        "otag:sneak-creature !otag:low-mana-value-matters"
       ]
     },
     {
@@ -1126,6 +1126,12 @@
       "name": "Legendary payoffs",
       "conditions": [
         "otag:synergy-legendary !t:land"
+      ]
+    },
+    {
+      "name": "Low mana value payoffs",
+      "conditions": [
+        "otag:low-mana-value-matters o:\"creature card\" !otag:reanimate-creature !otag:reanimate-permanent !otag:tutor-mv"
       ]
     }
   ],
@@ -2135,6 +2141,20 @@
           ],
           "targets": [
             "Legendary payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Low mana value",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Creatures 3 or less"
+          ],
+          "targets": [
+            "Low mana value payoffs"
           ]
         }
       ]
