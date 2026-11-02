@@ -1115,6 +1115,18 @@
         "otag:copy-token",
         "otag:token-doubler"
       ]
+    },
+    {
+      "name": "Legends",
+      "conditions": [
+        "t:legendary !t:land"
+      ]
+    },
+    {
+      "name": "Legendary payoffs",
+      "conditions": [
+        "otag:synergy-legendary !t:land"
+      ]
     }
   ],
   "packages": [
@@ -2109,6 +2121,20 @@
           ],
           "targets": [
             "Big token makers"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Legendary Matters",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Legends"
+          ],
+          "targets": [
+            "Legendary payoffs"
           ]
         }
       ]
