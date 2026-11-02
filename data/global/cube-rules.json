@@ -63,7 +63,9 @@
       "conditions": [
         "t:creature otag:evasion",
         "t:creature otag:power-matters-self",
-        "t:creature o:trample !otag:gives-trample"
+        "t:creature o:trample !otag:gives-trample",
+        "t:creature o:\"double strike\" !otag:gives-double-strike",
+        "t:creature o:\"first strike\" !otag:gives-first-strike"
       ]
     },
     {
@@ -1461,7 +1463,8 @@
           "kind": "enables",
           "sources": [
             "Cheap spells",
-            "Cantrips"
+            "Cantrips",
+            "Graveyard spell casts"
           ],
           "targets": [
             "Second Spell"
