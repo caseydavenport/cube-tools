@@ -109,7 +109,8 @@ export function MapView({ nodes, edges, nodeColor, hoveredId, selectedId, highli
   return (
     <div className="map-view">
       <div ref={containerRef} className="map-view-canvas" />
-      {hoverSide && <HoverPreview side={hoverSide}>{renderHover(hoveredId)}</HoverPreview>}
+      {/* hoverSide trails hoveredId by one render, so check both. */}
+      {hoverSide && hoveredId && <HoverPreview side={hoverSide}>{renderHover(hoveredId)}</HoverPreview>}
     </div>
   )
 }
