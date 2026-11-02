@@ -1,0 +1,1570 @@
+{
+  "groups": [
+    {
+      "name": "1mv artifacts",
+      "conditions": [
+        "t:artifact cmc<2"
+      ]
+    },
+    {
+      "name": "1mv creatures",
+      "conditions": [
+        "t:creature cmc:1"
+      ]
+    },
+    {
+      "name": "1mv enchantments",
+      "conditions": [
+        "t:enchantment !t:creature cmc<2"
+      ]
+    },
+    {
+      "name": "5-color",
+      "conditions": [
+        "o:\"number of colors\"",
+        "o:domain",
+        "o:vivid",
+        "o:converge"
+      ]
+    },
+    {
+      "name": "All Auras",
+      "conditions": [
+        "t:aura"
+      ]
+    },
+    {
+      "name": "Aura Buffs",
+      "conditions": [
+        "t:aura o:\"gets +\"",
+        "t:aura o:gains"
+      ]
+    },
+    {
+      "name": "Basic lands",
+      "conditions": [
+        "t:land t:basic"
+      ]
+    },
+    {
+      "name": "Battle cry",
+      "conditions": [
+        "o:\"battle cry\""
+      ]
+    },
+    {
+      "name": "Big Instants",
+      "conditions": [
+        "t:instant cmc>2"
+      ]
+    },
+    {
+      "name": "Buff targets",
+      "conditions": [
+        "t:creature otag:evasion",
+        "t:creature otag:power-matters-self"
+      ]
+    },
+    {
+      "name": "Burn",
+      "conditions": [
+        "otag:burn-player"
+      ]
+    },
+    {
+      "name": "Cantrips",
+      "conditions": [
+        "otag:cantrip !t:creature"
+      ]
+    },
+    {
+      "name": "Castable from graveyard",
+      "conditions": [
+        "otag:castable-from-graveyard",
+        "otag:activate-from-graveyard",
+        "otag:reanimate-self",
+        "o:dredge"
+      ]
+    },
+    {
+      "name": "Cheap creatures",
+      "conditions": [
+        "t:creature cmc<4"
+      ]
+    },
+    {
+      "name": "Cheap evasion",
+      "conditions": [
+        "t:creature cmc<2 otag:evasion"
+      ]
+    },
+    {
+      "name": "Cheap spells",
+      "conditions": [
+        "face:((t:instant OR t:sorcery) cmc<3)"
+      ]
+    },
+    {
+      "name": "Counters matter",
+      "conditions": [
+        "otag:pp-counters-matter",
+        "o:proliferate"
+      ]
+    },
+    {
+      "name": "Counters on others",
+      "conditions": [
+        "otag:gives-pp-counters"
+      ]
+    },
+    {
+      "name": "Counters on self",
+      "conditions": [
+        "otag:gains-pp-counters"
+      ]
+    },
+    {
+      "name": "Counterspells",
+      "conditions": [
+        "otag:counterspell"
+      ]
+    },
+    {
+      "name": "Creature activated abilities",
+      "conditions": [
+        "t:creature otag:activated-ability !otag:activate-from-hand !otag:activate-from-graveyard"
+      ]
+    },
+    {
+      "name": "Creature lands",
+      "conditions": [
+        "otag:creatureland"
+      ]
+    },
+    {
+      "name": "Creature token generator",
+      "conditions": [
+        "o:\"create\" o:\"creature token\""
+      ]
+    },
+    {
+      "name": "Cycling",
+      "conditions": [
+        "o:cycling OR o:channel"
+      ]
+    },
+    {
+      "name": "Cycling Lands",
+      "conditions": [
+        "t:land o:cycling"
+      ]
+    },
+    {
+      "name": "Delirium",
+      "conditions": [
+        "otag:card-types-in-graveyard-matter !otag:imprinted-card-types-matter"
+      ]
+    },
+    {
+      "name": "Delve",
+      "conditions": [
+        "otag:delve"
+      ]
+    },
+    {
+      "name": "Dies triggers",
+      "conditions": [
+        "otag:death-trigger"
+      ]
+    },
+    {
+      "name": "Discard entire hand",
+      "conditions": [
+        "o:\"discard your hand\""
+      ]
+    },
+    {
+      "name": "Discard matters",
+      "conditions": [
+        "otag:discard-matters"
+      ]
+    },
+    {
+      "name": "Draw effects",
+      "conditions": [
+        "otag:draw"
+      ]
+    },
+    {
+      "name": "Draw matters",
+      "conditions": [
+        "otag:draw-matters"
+      ]
+    },
+    {
+      "name": "Equipment",
+      "conditions": [
+        "t:equipment"
+      ]
+    },
+    {
+      "name": "ETB creatures",
+      "conditions": [
+        "t:creature o:\"when ~ enters\"",
+        "t:creature o:\"whenever ~ enters\""
+      ]
+    },
+    {
+      "name": "ETB noncreatures",
+      "conditions": [
+        "!t:creature !t:land o:\"when ~ enters\"",
+        "!t:creature !t:land o:\"whenever ~ enters\"",
+        "t:saga"
+      ]
+    },
+    {
+      "name": "Fetches",
+      "conditions": [
+        "otag:fetchland"
+      ]
+    },
+    {
+      "name": "Fetches basics",
+      "conditions": [
+        "otag:tutor-land-basic !otag:donate-rampant-growth"
+      ]
+    },
+    {
+      "name": "Fetches forest",
+      "conditions": [
+        "otag:tutor-land-forest"
+      ]
+    },
+    {
+      "name": "Fetches island",
+      "conditions": [
+        "otag:tutor-land-island"
+      ]
+    },
+    {
+      "name": "Fetches land",
+      "conditions": [
+        "otag:tutor-land-any",
+        "otag:impulse-land"
+      ]
+    },
+    {
+      "name": "Fetches mountain",
+      "conditions": [
+        "otag:tutor-land-mountain"
+      ]
+    },
+    {
+      "name": "Fetches plains",
+      "conditions": [
+        "otag:tutor-land-plains"
+      ]
+    },
+    {
+      "name": "Fetches swamp",
+      "conditions": [
+        "otag:tutor-land-swamp"
+      ]
+    },
+    {
+      "name": "Fill graveyard",
+      "conditions": [
+        "otag:mill-self",
+        "otag:surveil",
+        "o:\"the other into your graveyard\""
+      ]
+    },
+    {
+      "name": "Fixing creatures",
+      "conditions": [
+        "o:\"mana of any color\" !o:\"to activate abilities\""
+      ]
+    },
+    {
+      "name": "Fixing lands",
+      "conditions": [
+        "otag:dual-land"
+      ]
+    },
+    {
+      "name": "Flickers",
+      "conditions": [
+        "otag:flicker"
+      ]
+    },
+    {
+      "name": "Forests",
+      "conditions": [
+        "t:forest"
+      ]
+    },
+    {
+      "name": "Grave hate",
+      "conditions": [
+        "otag:hate-graveyard"
+      ]
+    },
+    {
+      "name": "Graveyard size payoffs",
+      "conditions": [
+        "otag:graveyard-fuel !otag:hate-graveyard",
+        "otag:cards-in-graveyard-matter !otag:card-types-in-graveyard-matter"
+      ]
+    },
+    {
+      "name": "Historic",
+      "conditions": [
+        "t:artifact",
+        "t:legendary",
+        "t:saga"
+      ]
+    },
+    {
+      "name": "Historic matters",
+      "conditions": [
+        "o:historic"
+      ]
+    },
+    {
+      "name": "Horizon Lands",
+      "conditions": [
+        "t:land o:sacrifice o:\": draw\""
+      ]
+    },
+    {
+      "name": "Instant speed",
+      "conditions": [
+        "!t:instant o:flash !o:flashback"
+      ]
+    },
+    {
+      "name": "Islands",
+      "conditions": [
+        "t:island"
+      ]
+    },
+    {
+      "name": "Land recursion",
+      "conditions": [
+        "otag:recursion-land"
+      ]
+    },
+    {
+      "name": "Landfall enablers",
+      "conditions": [
+        "otag:tutor-land-to-battlefield !otag:donate-rampant-growth",
+        "o:\"additional land\"",
+        "o:\"land\" o:\"from your hand\" o:\"onto the battlefield\"",
+        "o:\"lands from the top of your library\""
+      ]
+    },
+    {
+      "name": "Landfall payoff",
+      "conditions": [
+        "otag:landfall"
+      ]
+    },
+    {
+      "name": "Lands",
+      "conditions": [
+        "t:land"
+      ]
+    },
+    {
+      "name": "Leaves Graveyard Matters",
+      "conditions": [
+        "otag:leaves-graveyard-trigger"
+      ]
+    },
+    {
+      "name": "LTB creatures",
+      "conditions": [
+        "t:creature o:\"~ leaves the battlefield\"",
+        "t:creature o:\"~ enters or leaves\""
+      ]
+    },
+    {
+      "name": "LTB noncreature",
+      "conditions": [
+        "!t:creature !t:land o:\"~ leaves the battlefield\" !o:\"until ~ leaves\"",
+        "!t:creature !t:land o:\"~ enters or leaves\""
+      ]
+    },
+    {
+      "name": "Madness",
+      "conditions": [
+        "otag:madness"
+      ]
+    },
+    {
+      "name": "Mountains",
+      "conditions": [
+        "t:mountain"
+      ]
+    },
+    {
+      "name": "Ninjas",
+      "conditions": [
+        "otag:ninjutsu"
+      ]
+    },
+    {
+      "name": "Pay life",
+      "conditions": [
+        "otag:life-payment",
+        "o:\"you lose life\""
+      ]
+    },
+    {
+      "name": "Plains",
+      "conditions": [
+        "t:plains"
+      ]
+    },
+    {
+      "name": "Planeswalkers",
+      "conditions": [
+        "t:planeswalker"
+      ]
+    },
+    {
+      "name": "Pow<2",
+      "conditions": [
+        "t:creature pow<3 cmc<4 !o:\"enters with X\""
+      ]
+    },
+    {
+      "name": "Power >3",
+      "conditions": [
+        "pow>3",
+        "o:\"power is equal to\"",
+        "o:\"enters with\" o:\"+1/+1 counters\""
+      ]
+    },
+    {
+      "name": "Power matters",
+      "conditions": [
+        "otag:ferocious",
+        "otag:power-matters-individual"
+      ]
+    },
+    {
+      "name": "Prowess payoffs",
+      "conditions": [
+        "otag:synergy-noncreature"
+      ]
+    },
+    {
+      "name": "Ramp enablers",
+      "conditions": [
+        "otag:mana-producer !t:land"
+      ]
+    },
+    {
+      "name": "Ramp payoffs",
+      "conditions": [
+        "cmc>4 !o:delve !o:\"less to cast\" !o:\"rather than pay\"",
+        "m:X",
+        "o:\"mana value\" o:\"or greater\""
+      ]
+    },
+    {
+      "name": "Reanimates",
+      "conditions": [
+        "otag:reanimate-creature"
+      ]
+    },
+    {
+      "name": "Recast spells",
+      "conditions": [
+        "otag:gives-castable-from-graveyard (o:\"instant or sorcery\" OR o:\"instant and sorcery\" OR o:\"instant card\" OR o:\"sorcery card\")",
+        "otag:restock-instant",
+        "otag:restock-sorcery"
+      ]
+    },
+    {
+      "name": "Recursive creatures",
+      "conditions": [
+        "t:creature otag:recursion-self"
+      ]
+    },
+    {
+      "name": "Retrace",
+      "conditions": [
+        "o:retrace"
+      ]
+    },
+    {
+      "name": "Sacrifice Matters",
+      "conditions": [
+        "o:\"whenever a player sacrifices\"",
+        "o:\"are put into your graveyard\""
+      ]
+    },
+    {
+      "name": "Sacs artifacts",
+      "conditions": [
+        "otag:sacrifice-outlet-artifact"
+      ]
+    },
+    {
+      "name": "Sacs creatures",
+      "conditions": [
+        "otag:sacrifice-outlet-creature"
+      ]
+    },
+    {
+      "name": "Sacs lands",
+      "conditions": [
+        "otag:sacrifice-outlet-land"
+      ]
+    },
+    {
+      "name": "Second Spell",
+      "conditions": [
+        "o:\"second spell each turn\""
+      ]
+    },
+    {
+      "name": "Selective discard",
+      "conditions": [
+        "otag:discard-outlet"
+      ]
+    },
+    {
+      "name": "Self-sacs",
+      "conditions": [
+        "otag:sacrifice-self"
+      ]
+    },
+    {
+      "name": "Shuffle effects",
+      "conditions": [
+        "o:shuffle"
+      ]
+    },
+    {
+      "name": "Shuffle matters",
+      "conditions": [
+        "otag:brainstorm"
+      ]
+    },
+    {
+      "name": "Swamps",
+      "conditions": [
+        "t:swamp"
+      ]
+    },
+    {
+      "name": "Targets own board",
+      "conditions": [
+        "o:\"target creature you control\"",
+        "o:\"target creature gets +\"",
+        "o:\"target permanent you control\""
+      ]
+    },
+    {
+      "name": "Token payoffs",
+      "conditions": [
+        "otag:synergy-token",
+        "otag:token-doubler",
+        "otag:token-increaser",
+        "o:\"whenever a creature you control attacks,\""
+      ]
+    },
+    {
+      "name": "Trinket artifacts",
+      "conditions": [
+        "t:artifact cmc<3",
+        "o:\"clue\"",
+        "o:\"food\"",
+        "o:\"treasure\"",
+        "otag:repeatable-artifact-tokens"
+      ]
+    },
+    {
+      "name": "Types in graveyard",
+      "conditions": [
+        "t:land (o:\"sacrifice this\" OR o:cycling)",
+        "t:artifact (o:\"sacrifice this\" OR o:cycling)",
+        "t:enchantment (o:\"sacrifice this\" OR o:cycling)",
+        "t:saga",
+        "t:artifact t:creature",
+        "t:enchantment t:creature"
+      ]
+    },
+    {
+      "name": "Valiant",
+      "conditions": [
+        "o:valiant",
+        "o:\"target of a spell or ability you control\""
+      ]
+    },
+    {
+      "name": "Wide payoffs",
+      "conditions": [
+        "otag:anthem cmc<5",
+        "otag:power-boost-to-all cmc<5",
+        "otag:creature-count-matters cmc<5",
+        "o:\"battle cry\" !o:\"gains battle cry\" cmc<5",
+        "otag:affinity-for-attacking cmc<5",
+        "otag:tap-fuel-creature cmc<5",
+        "otag:convoke cmc<5"
+      ]
+    },
+    {
+      "name": "Wraths",
+      "conditions": [
+        "otag:sweeper"
+      ]
+    },
+    {
+      "name": "Revolt payoffs",
+      "conditions": [
+        "otag:revolt"
+      ]
+    },
+    {
+      "name": "Low-power payoffs",
+      "conditions": [
+        "otag:synergy-low-power cmc<5"
+      ]
+    },
+    {
+      "name": "Aura and Equipment payoffs",
+      "conditions": [
+        "otag:synergy-equipment",
+        "otag:synergy-aura"
+      ]
+    },
+    {
+      "name": "Activated ability payoffs",
+      "conditions": [
+        "otag:synergy-activated-ability"
+      ]
+    },
+    {
+      "name": "Lands-in-graveyard payoffs",
+      "conditions": [
+        "otag:lands-in-graveyard-matter"
+      ]
+    },
+    {
+      "name": "Land-variety payoffs",
+      "conditions": [
+        "otag:differently-named-lands-matter"
+      ]
+    },
+    {
+      "name": "Creature cheat payoffs",
+      "conditions": [
+        "otag:sneak-from-library"
+      ],
+      "buildaround": true
+    },
+    {
+      "name": "Mana-value tutors",
+      "conditions": [
+        "otag:tutor-mv"
+      ]
+    },
+    {
+      "name": "Big-spell payoffs",
+      "conditions": [
+        "otag:high-mana-value-matters"
+      ]
+    },
+    {
+      "name": "Artifact payoffs",
+      "conditions": [
+        "otag:synergy-artifact",
+        "otag:artifact-count-matters"
+      ]
+    },
+    {
+      "name": "Team counters",
+      "conditions": [
+        "otag:gives-pp-counters-to-all"
+      ]
+    },
+    {
+      "name": "Heroic",
+      "conditions": [
+        "otag:heroic !o:\"spell or ability\""
+      ]
+    },
+    {
+      "name": "Targeting spells",
+      "conditions": [
+        "t:aura",
+        "(t:instant OR t:sorcery) o:\"target creature you control\"",
+        "(t:instant OR t:sorcery) o:\"target creature gets +\""
+      ]
+    },
+    {
+      "name": "Cheap ETB creatures",
+      "conditions": [
+        "t:creature cmc<4 o:\"when ~ enters\" !o:\"enters with\"",
+        "t:creature cmc<4 o:\"whenever ~ enters\""
+      ]
+    },
+    {
+      "name": "Cheap death-value creatures",
+      "conditions": [
+        "t:creature cmc<4 o:\"when ~ dies\"",
+        "t:creature cmc<4 o:\"whenever ~ dies\""
+      ]
+    },
+    {
+      "name": "Big creatures",
+      "conditions": [
+        "t:creature cmc>=5",
+        "t:creature pow>=5"
+      ]
+    },
+    {
+      "name": "Creatures to graveyard",
+      "conditions": [
+        "otag:discard-outlet",
+        "otag:mill-self",
+        "otag:sacrifice-outlet-creature"
+      ]
+    },
+    {
+      "name": "Classic reanimation",
+      "conditions": [
+        "otag:reanimate-creature cmc<5 !o:\"or less\" !o:\"less than or equal\""
+      ]
+    },
+    {
+      "name": "Creature recursion",
+      "conditions": [
+        "otag:reanimate-creature o:\"or less\"",
+        "otag:reanimate-creature o:\"less than or equal\""
+      ]
+    },
+    {
+      "name": "Repeatable flickers",
+      "conditions": [
+        "otag:flicker !t:instant !t:sorcery !o:\"when ~ enters\"",
+        "otag:flicker o:rebound"
+      ]
+    },
+    {
+      "name": "Creatures 3 or less",
+      "conditions": [
+        "t:creature cmc<4"
+      ]
+    },
+    {
+      "name": "Lands to hand",
+      "conditions": [
+        "otag:impulse-land",
+        "otag:regrowth-land",
+        "otag:mulch o:\"land card\"",
+        "otag:tutor-land !otag:tutor-land-to-battlefield"
+      ]
+    },
+    {
+      "name": "Discards lands",
+      "conditions": [
+        "otag:discard-outlet-land"
+      ]
+    },
+    {
+      "name": "Spell cast payoffs",
+      "conditions": [
+        "otag:cast-trigger otag:synergy-noncreature",
+        "otag:cast-trigger otag:synergy-instant",
+        "otag:magecraft"
+      ]
+    },
+    {
+      "name": "Instants in graveyard payoffs",
+      "conditions": [
+        "otag:synergy-instant !otag:cast-trigger !otag:magecraft !otag:gives-castable-from-graveyard !otag:hate-graveyard"
+      ]
+    },
+    {
+      "name": "Graveyard spell casts",
+      "conditions": [
+        "otag:castable-from-graveyard !t:creature",
+        "otag:gives-castable-from-graveyard",
+        "otag:free-cast-another"
+      ]
+    },
+    {
+      "name": "Cheap noncreature permanents",
+      "conditions": [
+        "face:(!t:creature !t:land !t:instant !t:sorcery cmc<3)"
+      ]
+    },
+    {
+      "name": "Storm payoffs",
+      "conditions": [
+        "otag:storm-count-matters",
+        "o:\"copy it for each spell cast before it this turn\"",
+        "otag:gives-storm",
+        "otag:storm-like"
+      ]
+    },
+    {
+      "name": "Rituals",
+      "conditions": [
+        "otag:ritual"
+      ]
+    },
+    {
+      "name": "Spell cost reducers",
+      "conditions": [
+        "otag:cost-reducer-instant-sorcery"
+      ]
+    },
+    {
+      "name": "Own life payoffs",
+      "conditions": [
+        "otag:life-total-matters-self"
+      ]
+    },
+    {
+      "name": "Opponent life loss payoffs",
+      "conditions": [
+        "otag:life-loss-matters"
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "name": "5-color",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Fixing creatures",
+            "Mountains",
+            "Plains",
+            "Islands",
+            "Swamps",
+            "Forests",
+            "Fetches",
+            "Fixing lands"
+          ],
+          "targets": [
+            "5-color"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Artifacts",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Trinket artifacts"
+          ],
+          "targets": [
+            "Sacs artifacts"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "1mv artifacts",
+            "Trinket artifacts"
+          ],
+          "targets": [
+            "Artifact payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Auras/Equipment",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Equipment",
+            "All Auras"
+          ],
+          "targets": [
+            "Buff targets",
+            "Aura and Equipment payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cauldron",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Creature activated abilities"
+          ],
+          "targets": [
+            "Activated ability payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Control",
+      "wires": [
+        {
+          "kind": "pairs",
+          "sources": [
+            "Instant speed"
+          ],
+          "targets": [
+            "Counterspells"
+          ]
+        },
+        {
+          "kind": "pairs",
+          "sources": [
+            "Wraths"
+          ],
+          "targets": [
+            "Creature lands",
+            "Recursive creatures",
+            "Planeswalkers"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Counters",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Counters on others",
+            "Counters on self"
+          ],
+          "targets": [
+            "Counters matter"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Creature token generator"
+          ],
+          "targets": [
+            "Team counters"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Creature Value",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Creatures 3 or less"
+          ],
+          "targets": [
+            "Creature cheat payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "1mv artifacts",
+            "1mv enchantments",
+            "1mv creatures"
+          ],
+          "targets": [
+            "Mana-value tutors"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Delirium",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Types in graveyard",
+            "Sacs artifacts"
+          ],
+          "targets": [
+            "Delirium"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Discard",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Discard entire hand",
+            "Selective discard"
+          ],
+          "targets": [
+            "Discard matters",
+            "Recursive creatures",
+            "Madness",
+            "Recast spells"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Cycling"
+          ],
+          "targets": [
+            "Discard matters"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ETB",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Flickers",
+            "Repeatable flickers"
+          ],
+          "targets": [
+            "ETB noncreatures",
+            "LTB noncreature",
+            "ETB creatures",
+            "LTB creatures"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fixing",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Plains"
+          ],
+          "targets": [
+            "Fetches plains"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Islands"
+          ],
+          "targets": [
+            "Fetches island"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Swamps"
+          ],
+          "targets": [
+            "Fetches swamp"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Mountains"
+          ],
+          "targets": [
+            "Fetches mountain"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Forests"
+          ],
+          "targets": [
+            "Fetches forest"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Lands"
+          ],
+          "targets": [
+            "Fetches land"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Basic lands"
+          ],
+          "targets": [
+            "Fetches basics"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Graveyard",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Fill graveyard",
+            "Selective discard",
+            "Cycling"
+          ],
+          "targets": [
+            "Graveyard size payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lands",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Landfall enablers",
+            "Land recursion",
+            "Lands to hand"
+          ],
+          "targets": [
+            "Landfall payoff"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Retrace",
+            "Creature lands",
+            "Fetches",
+            "Cycling Lands",
+            "Horizon Lands"
+          ],
+          "targets": [
+            "Land recursion"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Fetches",
+            "Cycling Lands",
+            "Horizon Lands",
+            "Sacs lands"
+          ],
+          "targets": [
+            "Lands-in-graveyard payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Lands"
+          ],
+          "targets": [
+            "Land-variety payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Lands to hand"
+          ],
+          "targets": [
+            "Retrace",
+            "Discards lands"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Life Loss",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Pay life"
+          ],
+          "targets": [
+            "Own life payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Burn"
+          ],
+          "targets": [
+            "Opponent life loss payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ninjas",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Cheap evasion"
+          ],
+          "targets": [
+            "Ninjas"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Pump",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Aura Buffs",
+            "Counters on others",
+            "Battle cry"
+          ],
+          "targets": [
+            "Buff targets"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ramp",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Ramp enablers"
+          ],
+          "targets": [
+            "Ramp payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Delve",
+            "Ramp payoffs"
+          ],
+          "targets": [
+            "Big-spell payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Power >3"
+          ],
+          "targets": [
+            "Power matters"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reanimate",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Big creatures",
+            "Creatures to graveyard"
+          ],
+          "targets": [
+            "Classic reanimation"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sacrifice",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Creature token generator",
+            "Recursive creatures"
+          ],
+          "targets": [
+            "Sacs creatures"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Sacs creatures"
+          ],
+          "targets": [
+            "Sacrifice Matters",
+            "Dies triggers"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Trinket artifacts",
+            "Creature token generator",
+            "Sacs artifacts",
+            "Sacs lands",
+            "Self-sacs"
+          ],
+          "targets": [
+            "Sacrifice Matters"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Sacs lands",
+            "Sacs creatures",
+            "Cheap death-value creatures",
+            "Self-sacs"
+          ],
+          "targets": [
+            "Revolt payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Second Draw",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Draw effects"
+          ],
+          "targets": [
+            "Draw matters"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shuffle",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Shuffle effects"
+          ],
+          "targets": [
+            "Shuffle matters"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Skimmer",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Castable from graveyard",
+            "Reanimates",
+            "Recursive creatures",
+            "Delve",
+            "Grave hate",
+            "Land recursion"
+          ],
+          "targets": [
+            "Leaves Graveyard Matters"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Spells",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Cheap spells",
+            "Cantrips",
+            "Graveyard spell casts"
+          ],
+          "targets": [
+            "Spell cast payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Cheap noncreature permanents"
+          ],
+          "targets": [
+            "Prowess payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Counterspells"
+          ],
+          "targets": [
+            "Spell cast payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Cheap spells"
+          ],
+          "targets": [
+            "Recast spells",
+            "Instants in graveyard payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Cheap spells",
+            "Cantrips"
+          ],
+          "targets": [
+            "Second Spell"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Big Instants"
+          ],
+          "targets": [
+            "Recast spells"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tokens",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Creature token generator"
+          ],
+          "targets": [
+            "Token payoffs",
+            "Wide payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Valiant",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Targets own board",
+            "Equipment"
+          ],
+          "targets": [
+            "Valiant"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Targeting spells"
+          ],
+          "targets": [
+            "Heroic"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Small creatures",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Pow<2"
+          ],
+          "targets": [
+            "Low-power payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Historic Matters",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Historic"
+          ],
+          "targets": [
+            "Historic matters"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Creature recursion",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Cheap creatures"
+          ],
+          "targets": [
+            "Creature recursion"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Storm",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Rituals",
+            "Spell cost reducers",
+            "Cheap spells",
+            "Cantrips"
+          ],
+          "targets": [
+            "Storm payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Graveyard recursion",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Fill graveyard",
+            "Selective discard"
+          ],
+          "targets": [
+            "Castable from graveyard"
+          ]
+        }
+      ]
+    }
+  ]
+}
