@@ -23,10 +23,12 @@ type WireCards struct {
 }
 
 // PackageCards is a package with every wire resolved to card names, ready to
-// test against decks without rebuilding the design graph.
+// test against decks without rebuilding the design graph. Relevance says
+// where the cube's lists support it; nil means everywhere.
 type PackageCards struct {
-	Name  string
-	Wires []WireCards
+	Name      string
+	Wires     []WireCards
+	Relevance *Relevance
 }
 
 // BuildaroundLinks is how many links a build-around needs to carry its side
