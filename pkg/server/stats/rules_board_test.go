@@ -53,7 +53,7 @@ func TestRulesBoard_Packages(t *testing.T) {
 	assert.Equal(t, []string{"Outlets", "Payoffs", "Fodder"}, names)
 	assert.Equal(t, 2, sac.Stat.Package)
 	assert.Equal(t, []string{"Burn"}, sac.SharesWith)
-	assert.Equal(t, 3, sac.Colors["R"])
+	assert.Equal(t, 5, sac.Colors["R"])
 }
 
 func TestRulesBoard_NameOrder(t *testing.T) {
@@ -73,7 +73,7 @@ func TestRulesBoard_NameOrder(t *testing.T) {
 
 func TestRulesBoard_OneCardGroups(t *testing.T) {
 	_, resp := rulesBoardFor(t, sacrificeRules("Sacrifice"))
-	assert.Equal(t, []string{"Outlets", "Payoffs", "Fodder"}, boardPackage(t, resp, "Sacrifice").OneCardGroups)
+	assert.Equal(t, []string{"Payoffs", "Fodder"}, boardPackage(t, resp, "Sacrifice").OneCardGroups)
 	assert.Equal(t, []string{"Fodder"}, boardPackage(t, resp, "Burn").OneCardGroups)
 }
 

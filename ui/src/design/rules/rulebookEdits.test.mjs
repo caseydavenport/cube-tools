@@ -89,3 +89,8 @@ test("renaming a group in a package keeps each wire's kind", () => {
   const next = renameInPackage(pkg, "Outlets", "Sac outlets")
   assert.deepEqual(next.wires, [{ kind: "enables", sources: ["Sac outlets"], targets: ["Payoffs"] }])
 })
+
+test("cleanGroup keeps a group's build-around mark", () => {
+  assert.equal(cleanGroup({ name: "Cheat", conditions: ["otag:x"], buildaround: true }).buildaround, true)
+  assert.equal("buildaround" in cleanGroup({ name: "Plain", conditions: ["otag:x"] }), false)
+})

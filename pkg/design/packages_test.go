@@ -25,11 +25,30 @@ func onePackage(sources, targets map[string]bool, needSources, needTargets int) 
 }
 
 func TestSideMinimum(t *testing.T) {
-	assert.Equal(t, 0, SideMinimum(0))
-	assert.Equal(t, 1, SideMinimum(1))
-	assert.Equal(t, 1, SideMinimum(3))
-	assert.Equal(t, 2, SideMinimum(4))
-	assert.Equal(t, 2, SideMinimum(5))
+	assert.Equal(t, 0, SideMinimum(0, 5), "an empty column needs nothing")
+	assert.Equal(t, 2, SideMinimum(2, 40), "the scarcer column needs 2")
+	assert.Equal(t, 2, SideMinimum(1, 40), "even when the cube has only one")
+	assert.Equal(t, 2, SideMinimum(5, 5), "equal columns are both scarce")
+	assert.Equal(t, 1, SideMinimum(8, 2))
+	assert.Equal(t, 2, SideMinimum(12, 2))
+	assert.Equal(t, 3, SideMinimum(30, 2))
+	assert.Equal(t, 3, SideMinimum(100, 2), "capped at 3")
+}
+
+func TestWireCards_BuildaroundCarriesScarceColumn(t *testing.T) {
+	enablers := set("E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10")
+	w := WireCards{Sources: enablers, Targets: set("Delney"), NeedSources: 3, NeedTargets: 2, Buildarounds: set("Delney")}
+
+	assert.True(t, w.BuiltBy(set("Delney", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8")), "8 links")
+	assert.False(t, w.BuiltBy(set("Delney", "E1", "E2", "E3", "E4", "E5", "E6", "E7")), "7 links")
+}
+
+func TestWireCards_OneShotScarceColumnNeedsTwo(t *testing.T) {
+	creatures := set("C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9")
+	w := WireCards{Sources: creatures, Targets: set("Unearth", "Helping Hand"), NeedSources: 3, NeedTargets: 2}
+
+	assert.False(t, w.BuiltBy(set("Unearth", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9")))
+	assert.True(t, w.BuiltBy(set("Unearth", "Helping Hand", "C1", "C2", "C3")))
 }
 
 func TestPackageCards_BothSidesNeeded(t *testing.T) {

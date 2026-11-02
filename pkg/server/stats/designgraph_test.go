@@ -643,8 +643,8 @@ func TestResolvePackages_DanglingGroup(t *testing.T) {
 }
 
 // TestResolvePackages_SingleCardRef checks that a card: entry is a one-card
-// side needing only that card, and that a group side of three, a small side,
-// needs one.
+// side, the scarcer one, so it needs 2 and is a build-around that can carry
+// itself with enough links.
 func TestResolvePackages_SingleCardRef(t *testing.T) {
 	config := design.DesignMapConfig{
 		Groups: []design.Group{{Name: "Blue Fetchables", Conditions: []string{"o:island t:land"}}},
@@ -656,10 +656,57 @@ func TestResolvePackages_SingleCardRef(t *testing.T) {
 	pkgs := resolvePackages(resolveTestCube(), config, nil)
 	require.Len(t, pkgs, 1)
 	w := pkgs[0].Wires[0]
-	assert.Equal(t, 1, w.NeedSources)
+	assert.Equal(t, 2, w.NeedSources)
 	assert.Equal(t, 1, w.NeedTargets)
-	assert.True(t, pkgs[0].BuiltBy(cardSet("Flooded Strand", "Hallowed Fountain", "Steam Vents")))
-	assert.False(t, pkgs[0].BuiltBy(cardSet("Hallowed Fountain", "Steam Vents", "Bear")))
+	assert.True(t, w.Buildarounds["Flooded Strand"])
+}
+
+// TestResolvePackages_ScarceColumnNeedsTwo checks that the smaller side of a
+// wire needs 2 and the larger needs the square-root amount.
+func TestResolvePackages_ScarceColumnNeedsTwo(t *testing.T) {
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
+			{Name: "Lands", Conditions: []string{"t:land"}},
+			{Name: "Bears", Conditions: []string{"t:creature"}},
+		},
+		Packages: []design.Package{{Name: "P", Wires: []design.Wire{{Sources: []string{"Lands"}, Targets: []string{"Bears"}}}}},
+	}
+
+	w := resolvePackages(resolveTestCube(), config, nil)[0].Wires[0]
+
+	assert.Equal(t, 1, w.NeedSources, "3 lands against 1 bear")
+	assert.Equal(t, 2, w.NeedTargets, "the lone bear is the scarce side")
+}
+
+// TestResolvePackages_Buildarounds checks the three ways a card becomes a
+// build-around: its shape, a group marked buildaround, and a card: entry.
+func TestResolvePackages_Buildarounds(t *testing.T) {
+	cube := &types.Cube{Cards: []types.Card{
+		{Name: "Delney", Types: []string{"Creature"}, OracleText: "Creatures you control with power 2 or less can't be blocked by creatures with power 3 or greater."},
+		{Name: "Resto", Types: []string{"Creature"}, OracleText: "Flash\nWhen this creature enters, exile target creature you control, then return it."},
+		{Name: "CoCo", Types: []string{"Instant"}, OracleText: "Look at the top six cards of your library."},
+		{Name: "Bolt", Types: []string{"Instant"}, OracleText: "Bolt deals 3 damage to any target."},
+		{Name: "Field", Types: []string{"Land"}, OracleText: "Whenever this land or another land you control enters, create a 2/2 black Zombie creature token."},
+		{Name: "Dual", Types: []string{"Land"}, OracleText: "({T}: Add {U} or {B}.)"},
+		{Name: "Rally", Types: []string{"Sorcery"}, OracleText: "Return target creature card."},
+	}}
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
+			{Name: "Everything", Conditions: []string{"t:creature", "t:instant", "t:land"}},
+			{Name: "Cheat", Conditions: []string{"n:CoCo"}, Buildaround: true},
+		},
+		Packages: []design.Package{{Name: "P", Wires: []design.Wire{{Sources: []string{"Everything"}, Targets: []string{"Cheat", "card:Rally"}}}}},
+	}
+
+	w := resolvePackages(cube, config, nil)[0].Wires[0]
+
+	want := map[string]bool{
+		"Delney": true,
+		"CoCo":   true,
+		"Field":  true,
+		"Rally":  true,
+	}
+	assert.Equal(t, want, w.Buildarounds)
 }
 
 // TestResolvePackages_CutCardsJoinSides checks that a card cut from the cube
@@ -745,10 +792,11 @@ func TestSaveDesignRules_RejectsOldFormat(t *testing.T) {
 	require.Len(t, got.Packages, 1, "the saved package survives a rejected save")
 }
 
-// TestResolvePackages_CutCardRefStillBuilds checks that a card: entry for a
-// card cut from the cube still counts for the old decks that played it, while
-// an entry no deck ever played stays impossible to build.
-func TestResolvePackages_CutCardRefStillBuilds(t *testing.T) {
+// TestResolvePackages_CutCardRefStillResolves checks that a card: entry for a
+// card cut from the cube still resolves for the old decks that played it, as
+// a build-around on the scarce side, while an entry no deck ever played stays
+// impossible to build.
+func TestResolvePackages_CutCardRefStillResolves(t *testing.T) {
 	seedOracle(t, `[
 		{"name":"Polluted Delta","type_line":"Land","oracle_text":"search your library for an Island or Swamp card","colors":[],"cmc":0}
 	]`)
@@ -763,8 +811,10 @@ func TestResolvePackages_CutCardRefStillBuilds(t *testing.T) {
 	pkgs := resolvePackages(resolveTestCube(), config, []string{"Polluted Delta"})
 	require.Len(t, pkgs, 2)
 	delta, typo := pkgs[0], pkgs[1]
-	assert.Equal(t, 1, delta.Wires[0].NeedSources)
-	assert.True(t, delta.BuiltBy(cardSet("Polluted Delta", "Hallowed Fountain", "Steam Vents")))
+	assert.Equal(t, 2, delta.Wires[0].NeedSources)
+	assert.True(t, delta.Wires[0].Sources["Polluted Delta"])
+	assert.True(t, delta.Wires[0].Buildarounds["Polluted Delta"])
+	assert.False(t, delta.BuiltBy(cardSet("Polluted Delta", "Hallowed Fountain", "Steam Vents")), "2 links is short of 8")
 
 	assert.Equal(t, 0, typo.Wires[0].NeedSources)
 	assert.False(t, typo.BuiltBy(cardSet("Polluted Delta", "Hallowed Fountain", "Steam Vents")))
@@ -898,8 +948,17 @@ func TestMatchCards_Face(t *testing.T) {
 	}
 
 	assert.Equal(t, map[string]bool{"Lightning Bolt": true}, matchCards(cards, "t:instant cmc<3"))
-	assert.Equal(t, map[string]bool{"Fire // Ice": true, "Lightning Bolt": true}, matchCards(cards, "face:(t:instant cmc<3)"))
-	assert.Equal(t, map[string]bool{"Cheeky House-Mouse // Squeak By": true, "Fire // Ice": true, "Lightning Bolt": true}, matchCards(cards, "face:(!t:creature cmc<3)"))
+	want := map[string]bool{
+		"Fire // Ice":    true,
+		"Lightning Bolt": true,
+	}
+	assert.Equal(t, want, matchCards(cards, "face:(t:instant cmc<3)"))
+	want = map[string]bool{
+		"Cheeky House-Mouse // Squeak By": true,
+		"Fire // Ice":                     true,
+		"Lightning Bolt":                  true,
+	}
+	assert.Equal(t, want, matchCards(cards, "face:(!t:creature cmc<3)"))
 	assert.Equal(t, map[string]bool{"Grizzly Bears": true}, matchCards(cards, "!face:(!t:creature cmc<3)"))
 }
 
@@ -914,5 +973,11 @@ func TestMatchCards_SelfReference(t *testing.T) {
 
 	got := matchCards(cards, `o:"when ~ enters"`)
 
-	assert.Equal(t, map[string]bool{"Primeval Titan": true, "Kiora, the Rising Tide": true, "Wall of Omens": true, "Embercleave": true}, got)
+	want := map[string]bool{
+		"Primeval Titan":         true,
+		"Kiora, the Rising Tide": true,
+		"Wall of Omens":          true,
+		"Embercleave":            true,
+	}
+	assert.Equal(t, want, got)
 }

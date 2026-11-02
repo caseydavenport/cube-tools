@@ -704,11 +704,14 @@ func resolveGroups(cardMap map[string]types.Card, config design.DesignMapConfig,
 
 // resolvePackages turns each package's wires into card sets, sorted by
 // package name. A side holds the cards decks may play, cut cards included;
-// how many of them a deck needs comes from sideNeed. Basic lands are left out
+// how many of them a deck needs comes from sideNeed, and which can carry a
+// side alone from buildaroundCards. Basic lands are left out
 // of both and listed per side instead, from the groups that match them.
 func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) []design.PackageCards {
-	groups := resolveGroups(buildCardMap(cube), config, deckCardNames)
+	cardMap := buildCardMap(cube)
+	groups := resolveGroups(cardMap, config, deckCardNames)
 	basicGroups, _ := resolveGroupCards(basicLandCards(), config.Groups)
+	buildarounds := buildaroundCards(widenWithDeckCards(cardMap, deckCardNames), config, groups.widened)
 
 	out := make([]design.PackageCards, 0, len(config.Packages))
 	for _, pkg := range config.Packages {
@@ -716,13 +719,16 @@ func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNa
 		for _, wire := range pkg.Wires {
 			sources := withoutBasics(wireSide(groups.widened, wire.Sources))
 			targets := withoutBasics(wireSide(groups.widened, wire.Targets))
+			cubeSources := withoutBasics(wireSide(groups.cube, wire.Sources))
+			cubeTargets := withoutBasics(wireSide(groups.cube, wire.Targets))
 			resolved.Wires = append(resolved.Wires, design.WireCards{
 				Sources:      sources,
 				Targets:      targets,
-				NeedSources:  sideNeed(withoutBasics(wireSide(groups.cube, wire.Sources)), sources),
-				NeedTargets:  sideNeed(withoutBasics(wireSide(groups.cube, wire.Targets)), targets),
+				NeedSources:  sideNeed(cubeSources, sources, len(cubeTargets)),
+				NeedTargets:  sideNeed(cubeTargets, targets, len(cubeSources)),
 				SourceBasics: sideBasics(basicGroups, wire.Sources),
 				TargetBasics: sideBasics(basicGroups, wire.Targets),
+				Buildarounds: wireBuildarounds(buildarounds, sources, targets),
 			})
 		}
 		out = append(out, resolved)
@@ -772,13 +778,27 @@ func sideBasics(basicGroups map[string]map[string]bool, entries []string) map[st
 }
 
 // sideNeed is how many cards a deck must play from one wire side, from the
-// side's size in the cube. A side whose cards were all cut needs one, so the
-// old decks that played them still count.
-func sideNeed(cubeSide, side map[string]bool) int {
+// side's size in the cube against the other side's, otherCube. A side whose
+// cards were all cut is the scarcer side, so the old decks that played them
+// still count when they played two.
+func sideNeed(cubeSide, side map[string]bool, otherCube int) int {
 	if len(cubeSide) == 0 && len(side) > 0 {
-		return 1
+		return 2
 	}
-	return design.SideMinimum(len(cubeSide))
+	return design.SideMinimum(len(cubeSide), otherCube)
+}
+
+// wireBuildarounds is the build-arounds among a wire's cards.
+func wireBuildarounds(buildarounds, sources, targets map[string]bool) map[string]bool {
+	out := map[string]bool{}
+	for _, side := range []map[string]bool{sources, targets} {
+		for name := range side {
+			if buildarounds[name] {
+				out[name] = true
+			}
+		}
+	}
+	return out
 }
 
 func buildDesignGraph(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) DesignGraphResponse {

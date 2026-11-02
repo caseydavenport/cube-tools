@@ -8,6 +8,11 @@ type Group struct {
 	// Exclude carves specific cards out of the condition matches by exact name,
 	// so a query can stay broad without per-condition negations.
 	Exclude []string `json:"exclude,omitempty"`
+
+	// Buildaround marks every card in the group as a build-around, for cards
+	// like Collected Company that decks are built around but whose text
+	// doesn't show it.
+	Buildaround bool `json:"buildaround,omitempty"`
 }
 
 // The kinds of wire. On an Enables wire the sources are the enablers and the

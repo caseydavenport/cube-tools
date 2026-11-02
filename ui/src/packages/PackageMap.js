@@ -12,7 +12,7 @@ import "../design/loom.css"
 import "./packageMap.css"
 
 // PILL_TIP explains a wire's deck count.
-const PILL_TIP = "Decks playing 2+ of the cards in each column of this wire, or 1 where the cube has 3 or fewer."
+const PILL_TIP = "Decks playing 2+ cards from this wire's smaller column (or one build-around with 8+ cards from the other) and enough of the bigger column."
 
 // chipColor is a group's dot color: its rule color, muted for a card entry,
 // or the bad color for a group the rules don't define.

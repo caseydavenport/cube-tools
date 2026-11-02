@@ -1,13 +1,15 @@
 package design
 
+import "math"
+
 // MinPackageCards is the fewest distinct cards a deck needs from a package's
 // wire before the package counts as built.
 const MinPackageCards = 3
 
 // WireCards is one wire of a package with its groups resolved to card names.
 // NeedSources and NeedTargets are how many cards from each side a deck must
-// play: 2, or 1 for a side with 3 or fewer cards in the cube, or 0 for a side
-// that matches nothing. SourceBasics and TargetBasics are the basic lands a
+// play, from SideMinimum, or 0 for a side that matches nothing. Buildarounds
+// are the wire's build-around cards, which can carry their side alone. SourceBasics and TargetBasics are the basic lands a
 // side's groups match; playing any of them meets that side, since every deck
 // gets basics free.
 type WireCards struct {
@@ -17,6 +19,7 @@ type WireCards struct {
 	NeedTargets  int
 	SourceBasics map[string]bool
 	TargetBasics map[string]bool
+	Buildarounds map[string]bool
 }
 
 // PackageCards is a package with every wire resolved to card names, ready to
@@ -26,18 +29,22 @@ type PackageCards struct {
 	Wires []WireCards
 }
 
-// smallSide is the most cube cards a wire side can hold and still need only
-// one of them in a deck.
-const smallSide = 3
+// BuildaroundLinks is how many links a build-around needs to carry its side
+// alone: build-arounds played on the side times cards played on the other.
+const BuildaroundLinks = 8
 
-// SideMinimum is how many cards a deck must play from a wire side that has
-// cubeCards cards in the cube: 2, or 1 for a small side, such as a payoff
-// the cube has only a few of.
-func SideMinimum(cubeCards int) int {
-	if cubeCards <= smallSide {
-		return min(cubeCards, 1)
+// SideMinimum is how many cards a deck must play from a wire side with
+// cubeCards cards in the cube, when the other side has otherCards. The
+// scarcer side defines the package and needs 2, even if the cube has only
+// one; the other needs half the square root of its size, between 1 and 3.
+func SideMinimum(cubeCards, otherCards int) int {
+	if cubeCards == 0 {
+		return 0
 	}
-	return 2
+	if cubeCards <= otherCards {
+		return 2
+	}
+	return min(3, max(1, int(math.Round(math.Sqrt(float64(cubeCards))/2))))
 }
 
 // BuiltBy reports whether a deck builds the package. The deck builds it when
@@ -80,20 +87,25 @@ func (p PackageCards) HasCards(deck map[string]bool) bool {
 func (w WireCards) BuiltBy(deck map[string]bool) bool {
 	sources := present(w.Sources, deck)
 	targets := present(w.Targets, deck)
-	if !sideMet(sources, w.NeedSources, w.SourceBasics, deck) || !sideMet(targets, w.NeedTargets, w.TargetBasics, deck) {
+	if !w.sideMet(sources, w.NeedSources, w.SourceBasics, len(targets), deck) ||
+		!w.sideMet(targets, w.NeedTargets, w.TargetBasics, len(sources), deck) {
 		return false
 	}
 	return len(union(sources, targets)) >= MinPackageCards
 }
 
 // sideMet reports whether a deck plays enough of one wire side: need of its
-// non-basic cards, or any of its basics. A side needing 0 with no basics
-// matches nothing and is never met.
-func sideMet(played map[string]bool, need int, basics, deck map[string]bool) bool {
+// non-basic cards, any of its basics, or a build-around with BuildaroundLinks
+// links to the other side's other played cards. A side needing 0 with no
+// basics matches nothing and is never met.
+func (w WireCards) sideMet(played map[string]bool, need int, basics map[string]bool, other int, deck map[string]bool) bool {
 	if need > 0 && len(played) >= need {
 		return true
 	}
-	return playsAny(basics, deck)
+	if playsAny(basics, deck) {
+		return true
+	}
+	return playsAny(w.Buildarounds, played) && len(played)*other >= BuildaroundLinks
 }
 
 // sidePresent reports whether a deck plays anything from one wire side,

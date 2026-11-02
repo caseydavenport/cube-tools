@@ -15,12 +15,12 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// sacrificeRules is a one-package rule set over real polyverse cards:
-// Goblin Bombardment wired to Mayhem Devil and Grim Lavamancer.
+// sacrificeRules is a one-package rule set over real polyverse cards: three
+// red outlets wired to Mayhem Devil and Grim Lavamancer, the scarcer side.
 func sacrificeRules(name string) design.DesignMapConfig {
 	return design.DesignMapConfig{
 		Groups: []design.Group{
-			{Name: "Outlets", Conditions: []string{`n:"Goblin Bombardment"`}},
+			{Name: "Outlets", Conditions: []string{`n:"Goblin Bombardment"`, `n:"Pia and Kiran Nalaar"`, `n:"Legion Extruder"`}},
 			{Name: "Payoffs", Conditions: []string{`n:"Mayhem Devil"`}},
 			{Name: "Fodder", Conditions: []string{`n:"Grim Lavamancer"`}},
 		},
@@ -72,7 +72,7 @@ func TestPackagePage_Header(t *testing.T) {
 	assert.Equal(t, "Sacrifice", resp.Name)
 	assert.Equal(t, 2, resp.Stat.Package)
 	assert.Equal(t, 0.667, resp.Stat.BuildRate)
-	assert.Equal(t, 3, resp.Stat.CardCount)
+	assert.Equal(t, 5, resp.Stat.CardCount)
 	assert.Equal(t, "R", resp.Stat.Color)
 	require.Len(t, resp.Decks, 2)
 	assert.Equal(t, "2/1", resp.Decks[0].Ref)
