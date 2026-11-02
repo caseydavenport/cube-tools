@@ -22,8 +22,8 @@ export function renameInPackage(pkg, oldName, newName) {
 }
 
 // cleanGroup trims a group from the editor the way it's saved: blank
-// conditions and excludes dropped, an empty name filled in, a build-around
-// mark kept. It's null when no condition is left.
+// conditions and excludes dropped, an empty name filled in, build-around
+// marks kept. It's null when no condition is left.
 export function cleanGroup(group) {
   const conditions = group.conditions.map(c => c.trim()).filter(Boolean)
   if (conditions.length === 0) {
@@ -34,6 +34,9 @@ export function cleanGroup(group) {
   const cleaned = { name, conditions }
   if (group.buildaround) {
     cleaned.buildaround = true
+  }
+  if (group.notBuildaround) {
+    cleaned.notBuildaround = true
   }
   return withExclude(cleaned, (group.exclude || []).filter(Boolean))
 }

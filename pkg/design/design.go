@@ -13,6 +13,11 @@ type Group struct {
 	// like Collected Company that decks are built around but whose text
 	// doesn't show it.
 	Buildaround bool `json:"buildaround,omitempty"`
+
+	// NotBuildaround keeps the group's cards from being build-arounds by
+	// shape, for payoffs like a cheap delirium creature that one copy doesn't
+	// make a deck about. A buildaround group or card: entry still marks them.
+	NotBuildaround bool `json:"notBuildaround,omitempty"`
 }
 
 // The kinds of wire. On an Enables wire the sources are the enablers and the

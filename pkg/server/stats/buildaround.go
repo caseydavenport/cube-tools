@@ -20,13 +20,22 @@ var buildaroundShape = []string{
 }
 
 // buildaroundCards returns the build-arounds among cards: those matching
-// buildaroundShape, the cards of groups marked buildaround, and every card a
-// wire names with a card: entry. groupCards holds each group's cards.
+// buildaroundShape outside groups marked notBuildaround, the cards of groups
+// marked buildaround, and every card a wire names with a card: entry.
+// groupCards holds each group's cards.
 func buildaroundCards(cards map[string]types.Card, config design.DesignMapConfig, groupCards map[string]map[string]bool) map[string]bool {
 	out := map[string]bool{}
 	for _, cond := range buildaroundShape {
 		for name := range matchCards(cards, cond) {
 			out[name] = true
+		}
+	}
+	for _, g := range config.Groups {
+		if !g.NotBuildaround {
+			continue
+		}
+		for name := range groupCards[g.Name] {
+			delete(out, name)
 		}
 	}
 	for _, g := range config.Groups {

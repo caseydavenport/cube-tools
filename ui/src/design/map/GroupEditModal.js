@@ -120,7 +120,7 @@ export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard, rul
   // The rule set this edit would save, for the preview, once the group has a
   // condition.
   let proposed = null
-  const cleaned = cleanGroup({ name: editName, conditions: editConditions, exclude: editExclude, buildaround: group.buildaround })
+  const cleaned = cleanGroup({ name: editName, conditions: editConditions, exclude: editExclude, buildaround: group.buildaround, notBuildaround: group.notBuildaround })
   if (rules && cleaned) {
     proposed = withGroup(rules, group.name || "", cleaned)
   }
@@ -229,7 +229,7 @@ export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard, rul
           </div>
           {proposed && <PreviewLine preview={preview} />}
           <div className="edit-modal-actions">
-            <Button size="xs" variant="filled" onClick={() => onSave({ name: editName, conditions: editConditions, exclude: editExclude, buildaround: group.buildaround })}>{MAP_COPY.groupEdit.save}</Button>
+            <Button size="xs" variant="filled" onClick={() => onSave({ name: editName, conditions: editConditions, exclude: editExclude, buildaround: group.buildaround, notBuildaround: group.notBuildaround })}>{MAP_COPY.groupEdit.save}</Button>
             <Button size="xs" variant="default" onClick={onCancel}>{MAP_COPY.groupEdit.cancel}</Button>
           </div>
         </div>

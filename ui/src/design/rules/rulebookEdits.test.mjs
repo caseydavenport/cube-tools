@@ -94,3 +94,8 @@ test("cleanGroup keeps a group's build-around mark", () => {
   assert.equal(cleanGroup({ name: "Cheat", conditions: ["otag:x"], buildaround: true }).buildaround, true)
   assert.equal("buildaround" in cleanGroup({ name: "Plain", conditions: ["otag:x"] }), false)
 })
+
+test("cleanGroup keeps a group's not-build-around mark", () => {
+  assert.equal(cleanGroup({ name: "Delirium", conditions: ["otag:x"], notBuildaround: true }).notBuildaround, true)
+  assert.equal("notBuildaround" in cleanGroup({ name: "Plain", conditions: ["otag:x"] }), false)
+})

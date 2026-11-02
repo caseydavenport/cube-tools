@@ -709,6 +709,32 @@ func TestResolvePackages_Buildarounds(t *testing.T) {
 	assert.Equal(t, want, w.Buildarounds)
 }
 
+// TestResolvePackages_NotBuildaround checks that a group marked
+// notBuildaround keeps its cards from being build-arounds by shape, while an
+// explicit buildaround group or card: entry still marks them.
+func TestResolvePackages_NotBuildaround(t *testing.T) {
+	cube := &types.Cube{Cards: []types.Card{
+		{Name: "Goyf", Types: []string{"Creature"}, OracleText: "Goyf's power is equal to the number of card types among cards in all graveyards."},
+		{Name: "Flayer", Types: []string{"Creature"}, OracleText: "Trample. Whenever this creature deals combat damage to a player, look at the top three cards of your library."},
+		{Name: "Delney", Types: []string{"Creature"}, OracleText: "Creatures you control with power 2 or less can't be blocked by creatures with power 3 or greater."},
+		{Name: "Mill", Types: []string{"Sorcery"}, OracleText: "Mill three cards."},
+	}}
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
+			{Name: "Delirium", Conditions: []string{"n:Goyf", "n:Flayer"}, NotBuildaround: true},
+			{Name: "Fill", Conditions: []string{"n:Mill"}},
+			{Name: "Lookout", Conditions: []string{"n:Delney"}},
+		},
+		Packages: []design.Package{{Name: "P", Wires: []design.Wire{{Sources: []string{"Fill"}, Targets: []string{"Delirium", "Lookout", "card:Flayer"}}}}},
+	}
+
+	w := resolvePackages(cube, config, nil)[0].Wires[0]
+
+	assert.False(t, w.Buildarounds["Goyf"], "Goyf's shape alone no longer makes it a build-around")
+	assert.True(t, w.Buildarounds["Flayer"], "a card: entry still marks Flayer")
+	assert.True(t, w.Buildarounds["Delney"], "cards outside the group keep their shape")
+}
+
 // TestResolvePackages_CutCardsJoinSides checks that a card cut from the cube
 // but present in old decks still counts toward its side, without changing how
 // many cards the side needs.
