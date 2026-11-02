@@ -172,7 +172,8 @@
       "name": "Delirium",
       "conditions": [
         "otag:card-types-in-graveyard-matter !otag:imprinted-card-types-matter"
-      ]
+      ],
+      "notBuildaround": true
     },
     {
       "name": "Dredge",
