@@ -98,7 +98,7 @@
     {
       "name": "Cheap evasion",
       "conditions": [
-        "t:creature cmc<2 otag:evasion"
+        "t:creature cmc<3 otag:evasion"
       ]
     },
     {
@@ -202,7 +202,7 @@
     {
       "name": "Discard matters",
       "conditions": [
-        "otag:discard-matters"
+        "otag:self-discard-matters"
       ]
     },
     {
@@ -427,7 +427,8 @@
       "name": "Ninjas",
       "conditions": [
         "otag:ninjutsu"
-      ]
+      ],
+      "notBuildaround": true
     },
     {
       "name": "Pay life",
@@ -506,7 +507,8 @@
     {
       "name": "Recursive creatures",
       "conditions": [
-        "t:creature otag:recursion-self"
+        "t:creature otag:recursion-self !otag:restock-self",
+        "t:creature otag:trigger-from-graveyard !otag:restock-self !otag:titan-immortality"
       ]
     },
     {
@@ -626,11 +628,12 @@
       "conditions": [
         "otag:anthem cmc<5",
         "otag:power-boost-to-all cmc<5",
-        "otag:creature-count-matters cmc<5",
+        "otag:creature-count-matters",
         "o:\"battle cry\" !o:\"gains battle cry\" cmc<5",
         "otag:affinity-for-attacking cmc<5",
         "otag:tap-fuel-creature cmc<5",
-        "otag:convoke cmc<5"
+        "otag:convoke cmc<5",
+        "otag:keyword-anthem cmc<5"
       ]
     },
     {
@@ -699,7 +702,8 @@
       "name": "Artifact payoffs",
       "conditions": [
         "otag:synergy-artifact",
-        "otag:artifact-count-matters"
+        "otag:artifact-count-matters",
+        "otag:affinity-for-artifacts"
       ]
     },
     {
@@ -853,6 +857,264 @@
       "conditions": [
         "otag:life-loss-matters"
       ]
+    },
+    {
+      "name": "Goblins",
+      "conditions": [
+        "t:goblin",
+        "otag:changeling"
+      ]
+    },
+    {
+      "name": "Goblin payoffs",
+      "conditions": [
+        "otag:typal-goblin"
+      ]
+    },
+    {
+      "name": "Elves",
+      "conditions": [
+        "t:elf",
+        "otag:changeling"
+      ]
+    },
+    {
+      "name": "Elf payoffs",
+      "conditions": [
+        "otag:typal-elf"
+      ]
+    },
+    {
+      "name": "Humans",
+      "conditions": [
+        "t:human",
+        "otag:changeling"
+      ]
+    },
+    {
+      "name": "Human payoffs",
+      "conditions": [
+        "otag:typal-human"
+      ]
+    },
+    {
+      "name": "Zombies",
+      "conditions": [
+        "t:zombie",
+        "otag:changeling"
+      ]
+    },
+    {
+      "name": "Zombie payoffs",
+      "conditions": [
+        "otag:typal-zombie"
+      ]
+    },
+    {
+      "name": "Wizards",
+      "conditions": [
+        "t:wizard",
+        "otag:changeling"
+      ]
+    },
+    {
+      "name": "Wizard payoffs",
+      "conditions": [
+        "otag:typal-wizard"
+      ]
+    },
+    {
+      "name": "Lifegain",
+      "conditions": [
+        "otag:lifegain !t:land !otag:opponent-lifegain"
+      ]
+    },
+    {
+      "name": "Lifegain payoffs",
+      "conditions": [
+        "otag:lifegain-matters"
+      ]
+    },
+    {
+      "name": "Enchantments",
+      "conditions": [
+        "t:enchantment"
+      ]
+    },
+    {
+      "name": "Enchantress payoffs",
+      "conditions": [
+        "otag:enchantment-engine",
+        "otag:synergy-enchantment !otag:synergy-artifact"
+      ]
+    },
+    {
+      "name": "Cheat into play",
+      "conditions": [
+        "otag:sneak-creature"
+      ]
+    },
+    {
+      "name": "Food makers",
+      "conditions": [
+        "o:\"create\" o:\"food\""
+      ]
+    },
+    {
+      "name": "Food payoffs",
+      "conditions": [
+        "otag:synergy-food"
+      ]
+    },
+    {
+      "name": "Snow permanents",
+      "conditions": [
+        "t:snow"
+      ]
+    },
+    {
+      "name": "Snow payoffs",
+      "conditions": [
+        "otag:synergy-snow"
+      ]
+    },
+    {
+      "name": "Adventures",
+      "conditions": [
+        "face:(t:adventure)"
+      ]
+    },
+    {
+      "name": "Adventure payoffs",
+      "conditions": [
+        "otag:synergy-adventure"
+      ]
+    },
+    {
+      "name": "Mill spells",
+      "conditions": [
+        "o:\"target player mill\" !o:emblem",
+        "o:\"target opponent mill\" !o:emblem",
+        "o:\"each opponent mill\" !o:emblem"
+      ]
+    },
+    {
+      "name": "Mana rocks",
+      "conditions": [
+        "otag:mana-rock"
+      ]
+    },
+    {
+      "name": "Artifact tutors",
+      "conditions": [
+        "otag:tutor-artifact !otag:tutor-artifact-equipment"
+      ]
+    },
+    {
+      "name": "Equipment tutors",
+      "conditions": [
+        "otag:tutor-artifact-equipment"
+      ]
+    },
+    {
+      "name": "Eggs",
+      "conditions": [
+        "otag:egg"
+      ]
+    },
+    {
+      "name": "Artifact recursion",
+      "conditions": [
+        "otag:recursion-artifact"
+      ]
+    },
+    {
+      "name": "Artifact creatures",
+      "conditions": [
+        "t:artifact t:creature"
+      ]
+    },
+    {
+      "name": "Artifact creature payoffs",
+      "conditions": [
+        "otag:synergy-artifact-creature"
+      ]
+    },
+    {
+      "name": "Opponent discard",
+      "conditions": [
+        "o:\"target opponent\" o:\"discards\"",
+        "o:\"target player\" o:\"discards\"",
+        "o:\"each opponent discards\""
+      ]
+    },
+    {
+      "name": "Opponent discard payoffs",
+      "conditions": [
+        "otag:opponent-discard-matters"
+      ]
+    },
+    {
+      "name": "Extra turns",
+      "conditions": [
+        "otag:extra-turn !t:creature"
+      ]
+    },
+    {
+      "name": "Spell regrowth",
+      "conditions": [
+        "otag:regrowth-instant",
+        "otag:regrowth-sorcery"
+      ]
+    },
+    {
+      "name": "Amass",
+      "conditions": [
+        "o:amass"
+      ]
+    },
+    {
+      "name": "Army payoffs",
+      "conditions": [
+        "otag:typal-army !o:amass"
+      ]
+    },
+    {
+      "name": "Drain",
+      "conditions": [
+        "otag:drain-life"
+      ]
+    },
+    {
+      "name": "Creature copiers",
+      "conditions": [
+        "otag:copy-creature !o:\"becomes a copy\""
+      ]
+    },
+    {
+      "name": "Battlefield copiers",
+      "conditions": [
+        "otag:copy-creature !o:\"creature card in your graveyard\" !o:\"creature card from your graveyard\" !o:\"creature card in a graveyard\" !o:\"creature card from a graveyard\" !o:\"permanent card in your graveyard\" !o:\"creature cards from graveyards\" !o:\"exiled with\""
+      ]
+    },
+    {
+      "name": "Big token makers",
+      "conditions": [
+        "o:\"creature token\" o:\" 3/\"",
+        "o:\"creature token\" o:\" 4/\"",
+        "o:\"creature token\" o:\" 5/\"",
+        "o:\"creature token\" o:\" 6/\"",
+        "o:\"creature token\" o:\" 7/\"",
+        "o:\"creature token\" o:\" 8/\"",
+        "o:\"creature token\" o:\" 9/\""
+      ]
+    },
+    {
+      "name": "Token copiers",
+      "conditions": [
+        "otag:copy-token",
+        "otag:token-doubler"
+      ]
     }
   ],
   "packages": [
@@ -893,10 +1155,39 @@
           "kind": "enables",
           "sources": [
             "1mv artifacts",
-            "Trinket artifacts"
+            "Trinket artifacts",
+            "Mana rocks"
           ],
           "targets": [
             "Artifact payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Artifact tutors"
+          ],
+          "targets": [
+            "Artifact payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Eggs",
+            "Sacs artifacts"
+          ],
+          "targets": [
+            "Artifact recursion"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Artifact creatures"
+          ],
+          "targets": [
+            "Artifact creature payoffs"
           ]
         }
       ]
@@ -922,6 +1213,15 @@
           ],
           "targets": [
             "Aura and Equipment payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Equipment tutors"
+          ],
+          "targets": [
+            "Equipment"
           ]
         }
       ]
@@ -1055,6 +1355,15 @@
           "targets": [
             "Discard matters"
           ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Opponent discard"
+          ],
+          "targets": [
+            "Opponent discard payoffs"
+          ]
         }
       ]
     },
@@ -1072,6 +1381,15 @@
             "LTB noncreature",
             "ETB creatures",
             "LTB creatures"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Creature copiers"
+          ],
+          "targets": [
+            "ETB creatures"
           ]
         }
       ]
@@ -1235,7 +1553,8 @@
         {
           "kind": "enables",
           "sources": [
-            "Burn"
+            "Burn",
+            "Drain"
           ],
           "targets": [
             "Opponent life loss payoffs"
@@ -1249,7 +1568,8 @@
         {
           "kind": "enables",
           "sources": [
-            "Cheap evasion"
+            "Cheap evasion",
+            "Cheap ETB creatures"
           ],
           "targets": [
             "Ninjas"
@@ -1590,7 +1910,8 @@
             "Selective discard"
           ],
           "targets": [
-            "Castable from graveyard"
+            "Castable from graveyard",
+            "Recursive creatures"
           ]
         },
         {
@@ -1600,6 +1921,194 @@
           ],
           "targets": [
             "Dredge"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Typal",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Goblins"
+          ],
+          "targets": [
+            "Goblin payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Elves"
+          ],
+          "targets": [
+            "Elf payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Humans"
+          ],
+          "targets": [
+            "Human payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Zombies"
+          ],
+          "targets": [
+            "Zombie payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Wizards"
+          ],
+          "targets": [
+            "Wizard payoffs"
+          ]
+        },
+        {
+          "kind": "pairs",
+          "sources": [
+            "Amass"
+          ],
+          "targets": [
+            "Amass",
+            "Army payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lifegain",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Lifegain"
+          ],
+          "targets": [
+            "Lifegain payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Enchantress",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Enchantments"
+          ],
+          "targets": [
+            "Enchantress payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cheat into play",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Cheat into play"
+          ],
+          "targets": [
+            "Big creatures"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Food",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Food makers"
+          ],
+          "targets": [
+            "Food payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Opponent mill",
+      "wires": [
+        {
+          "kind": "pairs",
+          "sources": [
+            "Mill spells"
+          ],
+          "targets": [
+            "Mill spells"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Snow",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Snow permanents"
+          ],
+          "targets": [
+            "Snow payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Adventure",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Adventures"
+          ],
+          "targets": [
+            "Adventure payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Extra turns",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Spell regrowth",
+            "Recast spells"
+          ],
+          "targets": [
+            "Extra turns"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Big tokens",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Token copiers",
+            "Battlefield copiers"
+          ],
+          "targets": [
+            "Big token makers"
           ]
         }
       ]
