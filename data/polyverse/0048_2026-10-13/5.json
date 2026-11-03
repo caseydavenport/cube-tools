@@ -4,9 +4,9 @@
   "draft_id": 48
  },
  "id": 5,
+ "macro_archetype": "aggro",
  "labels": [
   "sacrifice",
-  "aggro",
   "recursion",
   "cauldron"
  ],
