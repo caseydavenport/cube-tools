@@ -2,6 +2,7 @@ package stats
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/url"
 	"testing"
@@ -260,4 +261,29 @@ func TestPackagePage_MarksRelevance(t *testing.T) {
 	enablers := page("Enablers only")
 	assert.True(t, enablers.Relevant, "the line's verdict, before overrides")
 	assert.Equal(t, "off", enablers.Forced)
+}
+
+// brokenRulesStore fails every rules read, like a malformed rules file.
+type brokenRulesStore struct {
+	mockDeckStorage
+}
+
+// GetRules fails with a read error.
+func (brokenRulesStore) GetRules(string) (*design.DesignMapConfig, error) {
+	return nil, errors.New("unexpected end of JSON input")
+}
+
+// TestDesignGraph_RulesReadFails checks that a rules file the server can't
+// read is an error, not an empty rule set the editor would save over every
+// cube's shared rules.
+func TestDesignGraph_RulesReadFails(t *testing.T) {
+	rr := serveCube(DesignGraphHandler(&brokenRulesStore{}, fixedCubeSource{cube: namedCards("E1")}), "/api/polyverse/stats/design-graph", url.Values{})
+	assert.Equal(t, http.StatusInternalServerError, rr.Code)
+}
+
+// TestDesignGraph_NoRulesSupport keeps a store without rules serving an
+// empty graph.
+func TestDesignGraph_NoRulesSupport(t *testing.T) {
+	rr := serveCube(DesignGraphHandler(&mockDeckStorage{}, fixedCubeSource{cube: namedCards("E1")}), "/api/polyverse/stats/design-graph", url.Values{})
+	assert.Equal(t, http.StatusOK, rr.Code)
 }

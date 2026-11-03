@@ -476,3 +476,12 @@ func TestOverrides_MissingFileIsEmpty(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, design.PackageOverrides{}, got)
 }
+
+func TestOverrides_NewCubeWithoutDirectory(t *testing.T) {
+	chdirTemp(t)
+	b := New(nil)
+	assert.NoError(t, b.PutOverrides("fresh", design.PackageOverrides{On: []string{"Cauldron"}}), "a cube with no data directory yet can still force a package")
+	got, err := b.GetOverrides("fresh")
+	assert.NoError(t, err)
+	assert.Equal(t, []string{"Cauldron"}, got.On)
+}

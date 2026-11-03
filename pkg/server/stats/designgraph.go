@@ -126,15 +126,14 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 		logrus.Info("/api/stats/design-graph")
 
 		cubeID := server.CubeFromRequest(r)
+
+		// A rules file that can't be read is an error, never an empty rule set:
+		// the editor saves what it loads, over every cube's shared rules.
 		in, err := loadDesignInputs(store, src, cubeID)
 		if err != nil {
-			logrus.WithError(err).Warn("could not load cube rules")
-			cube, err := src.Current(cubeID)
-			if err != nil {
-				http.Error(rw, "could not load cube", http.StatusInternalServerError)
-				return
-			}
-			in = designInputs{cube: cube}
+			logrus.WithError(err).Error("could not load the cube or its rules")
+			http.Error(rw, "could not load the cube or its rules", http.StatusInternalServerError)
+			return
 		}
 
 		// The decks page asks for one deck's draft, so its links show only

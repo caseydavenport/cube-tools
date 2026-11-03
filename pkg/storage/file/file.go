@@ -199,7 +199,11 @@ func (b *Backend) PutOverrides(cube string, ov design.PackageOverrides) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(overridesPath(cube), data, 0o644)
+	path := overridesPath(cube)
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		return err
+	}
+	return os.WriteFile(path, data, 0o644)
 }
 
 // Index returns the path-free index of a cube's drafts and decks. A cube with
