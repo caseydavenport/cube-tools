@@ -140,3 +140,16 @@ export function decklistColumns(cards) {
   }
   return columns
 }
+
+// focusClass is the highlight for a card while a group of cards is in focus,
+// such as a community or package pill being hovered: its cards light up and
+// the rest fade. With no focus it adds nothing.
+export function focusClass(name, focus) {
+  if (!focus) {
+    return ""
+  }
+  if (focus.has(name)) {
+    return " synergy-linked"
+  }
+  return " synergy-dim"
+}

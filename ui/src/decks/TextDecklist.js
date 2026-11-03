@@ -3,7 +3,7 @@ import { CardImageURL } from "../utils/Utils.js"
 import { CardMatches } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { InDeckColor } from "../utils/Deck.js"
-import { decklistColumns } from "./decklist.js"
+import { decklistColumns, focusClass } from "./decklist.js"
 import "../components/kit/popover.css"
 import { Link } from "react-router-dom"
 import { useCube } from "../contexts/CubeContext.js"
@@ -28,8 +28,9 @@ function linkedInDeck(name, synergy, present) {
 
 // rowClassName picks a decklist row's highlight: a card matching the deck
 // filter, a sideboard card the deck could play, and the synergy hover states
-// (the hovered card, the cards it links to, and everything else faded).
-function rowClassName(card, { deck, sideboard, matchStr, hovered, linked }) {
+// (the hovered card, the cards it links to, and everything else faded). With
+// no card hovered, a focused group from a hovered pill lights up instead.
+function rowClassName(card, { deck, sideboard, matchStr, hovered, linked, focus }) {
   let className = "decklist-row"
 
   if (matchStr && CardMatches(card, matchStr, true)) {
@@ -46,6 +47,8 @@ function rowClassName(card, { deck, sideboard, matchStr, hovered, linked }) {
     } else {
       className += " synergy-dim"
     }
+  } else {
+    className += focusClass(card.name, focus)
   }
   return className
 }
@@ -143,8 +146,9 @@ function useSynergyLines(containerRef, nodeRefs, hovered, linked) {
 
 // TextDecklist shows a list of cards in mana value columns plus a lands column.
 // Hovering a card shows its image and draws lines to the other cards here it
-// links to in the cube's design map. deck is null when comparing several decks.
-export function TextDecklist({ deck, cards, sideboard, matchStr, synergy }) {
+// links to in the cube's design map. focus, when set, is a group of cards to
+// light up. deck is null when comparing several decks.
+export function TextDecklist({ deck, cards, sideboard, matchStr, synergy, focus }) {
   const [hovered, setHovered] = useState(null)
   const containerRef = useRef(null)
 
@@ -180,7 +184,7 @@ export function TextDecklist({ deck, cards, sideboard, matchStr, synergy }) {
     }
   }
 
-  const highlight = { deck, sideboard, matchStr, hovered, linked }
+  const highlight = { deck, sideboard, matchStr, hovered, linked, focus }
   const spellColumns = columns.filter(c => c.key !== "lands")
   const landColumn = columns.find(c => c.key === "lands")
   const hoveredCard = hovered ? byName.get(hovered) : null

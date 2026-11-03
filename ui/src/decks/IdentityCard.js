@@ -66,8 +66,9 @@ function IdentityRow({ label, tip, children }) {
 }
 
 // RuleChip is one community or package: its color, its name and how many of
-// the deck's cards it holds. Hovering it names those cards.
-function RuleChip({ color, name, size, members, href }) {
+// the deck's cards it holds. Hovering it names those cards and, through
+// onFocus, lights them up in the decklist.
+function RuleChip({ color, name, size, members, href, onFocus }) {
   let text = <>{name}</>
   if (href) {
     text = <Link to={href} className="deck-chip-link">{name}</Link>
@@ -79,10 +80,11 @@ function RuleChip({ color, name, size, members, href }) {
       {size !== undefined && <span className="deck-chip-size">{size}</span>}
     </span>
   )
-  if (!members) {
-    return chip
-  }
-  return <HoverInfo title={`${name}: ${size} cards`} info={members.join(", ")}>{chip}</HoverInfo>
+  return (
+    <span className="deck-chip-hover" onMouseEnter={() => onFocus(new Set(members))} onMouseLeave={() => onFocus(null)}>
+      <HoverInfo title={`${name}: ${size} cards`} info={members.join(", ")}>{chip}</HoverInfo>
+    </span>
+  )
 }
 
 const TAGS_TIP = "Your own labels for this deck."
@@ -93,7 +95,7 @@ const PACKAGES_TIP = "Which of the rules' synergies this deck has enough cards t
 // and archetype, which draft it came from, its tags, communities and built
 // packages, and its record. On writable cubes each of those but the communities has a pencil to
 // edit it in place.
-export function IdentityCard({ cube, deck, edits, tagSuggestions, communities, packages, copy }) {
+export function IdentityCard({ cube, deck, edits, tagSuggestions, communities, packages, onFocus, copy }) {
   const showTags = edits.editable || (deck.labels || []).length > 0
   return (
     <section className="kit-card deck-identity">
@@ -113,7 +115,7 @@ export function IdentityCard({ cube, deck, edits, tagSuggestions, communities, p
           {communities.length > 0 && (
             <IdentityRow label="Communities" tip={COMMUNITIES_TIP}>
               {communities.map((c, i) => (
-                <RuleChip key={i} color={c.color} name={c.label} size={c.size} members={c.members} />
+                <RuleChip key={i} color={c.color} name={c.label} size={c.size} members={c.members} onFocus={onFocus} />
               ))}
             </IdentityRow>
           )}
@@ -127,6 +129,7 @@ export function IdentityCard({ cube, deck, edits, tagSuggestions, communities, p
                   size={p.members.length}
                   members={p.members}
                   href={packagePageHref(cube, p.name)}
+                  onFocus={onFocus}
                 />
               ))}
             </IdentityRow>

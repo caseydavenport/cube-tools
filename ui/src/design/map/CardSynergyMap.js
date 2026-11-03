@@ -18,8 +18,8 @@ import { HoverInfo } from "../../components/kit/HoverInfo.js"
 
 // CardSynergyMap renders an arbitrary pool of cards (e.g. a decklist) as a map
 // wired by the design rules, scoped to the given cards. Hover previews a card;
-// click pins the focus on it.
-export function CardSynergyMap({ cards, edges, packages }) {
+// click pins the focus on it. focus, when set, is a group of cards to light up.
+export function CardSynergyMap({ cards, edges, packages, focus }) {
   const cube = useCube()
   const navigate = useNavigate()
   const [hovered, setHovered] = useState(null)
@@ -108,7 +108,7 @@ export function CardSynergyMap({ cards, edges, packages }) {
           nodeColor={colorBy === "community" ? communityColor : identityColor}
           hoveredId={hovered}
           selectedId={selected}
-          highlightIds={hoveredCommunity}
+          highlightIds={hoveredCommunity || focus}
           onHover={setHovered}
           onSelect={(id) => setSelected(prev => prev === id ? null : id)}
           renderHover={id => <CardPreview card={byName.get(id)} inline />}

@@ -43,21 +43,22 @@ export function DecklistToggles({ board, onBoardChange, view, onViewChange, copy
 }
 
 // DecklistBody renders the chosen board in the chosen view.
-function DecklistBody({ deck, cards, board, view, matchStr, synergy, designGraph }) {
+// focus, when set, is the cards a hovered pill lights up.
+function DecklistBody({ deck, cards, board, view, matchStr, synergy, designGraph, focus }) {
   const sideboard = board === "Sideboard"
 
   if (view === "Images") {
-    return <ImageDecklist deck={deck} cards={cards} sideboard={sideboard} matchStr={matchStr} />
+    return <ImageDecklist deck={deck} cards={cards} sideboard={sideboard} matchStr={matchStr} focus={focus} />
   }
   if (view === "Map") {
-    return <MapDecklist cards={cards} designGraph={designGraph} />
+    return <MapDecklist cards={cards} designGraph={designGraph} focus={focus} />
   }
-  return <TextDecklist deck={deck} cards={cards} sideboard={sideboard} matchStr={matchStr} synergy={synergy} />
+  return <TextDecklist deck={deck} cards={cards} sideboard={sideboard} matchStr={matchStr} synergy={synergy} focus={focus} />
 }
 
 // DecklistCard shows the deck's cards, with toggles for which board to show
-// and how to show it.
-export function DecklistCard({ deck, page, copy }) {
+// and how to show it. focus is the cards a hovered pill lights up, or null.
+export function DecklistCard({ deck, page, focus, copy }) {
   const cards = boardCards(deck, page.board)
 
   return (
@@ -81,6 +82,7 @@ export function DecklistCard({ deck, page, copy }) {
         matchStr={page.filter.settled}
         synergy={page.synergy}
         designGraph={page.designGraph}
+        focus={focus}
       />
     </section>
   )

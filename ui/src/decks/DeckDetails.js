@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { CloseButton } from "@mantine/core"
 import { EmptyState } from "../components/kit/EmptyState.js"
 import { deckRef, resolveSelectedDeck } from "./deckModel.js"
@@ -76,9 +76,16 @@ function SelectedDeck({ deck, page, copy }) {
   const edits = useDeckEdits(page.cube, deck, page)
   const rules = useDeckRules(deck, page.designGraph)
 
+  // focus is the set of cards a hovered community or package pill lights up
+  // in the decklist, or null.
+  const [focus, setFocus] = useState(null)
+  useEffect(() => {
+    setFocus(null)
+  }, [deck])
+
   return (
     <div className="deck-details">
-      <IdentityCard cube={page.cube} deck={deck} edits={edits} tagSuggestions={page.archetypes} communities={rules.communities} packages={rules.packages} copy={copy} />
+      <IdentityCard cube={page.cube} deck={deck} edits={edits} tagSuggestions={page.archetypes} communities={rules.communities} packages={rules.packages} onFocus={setFocus} copy={copy} />
       <SaveError deck={deck} page={page} copy={copy} />
       <DeckStatTiles deck={deck} copy={copy} />
 
@@ -87,7 +94,7 @@ function SelectedDeck({ deck, page, copy }) {
         <MatchesCard deck={deck} decks={page.decks} hrefFor={page.selection.hrefFor} copy={copy} />
       </div>
 
-      <DecklistCard deck={deck} page={page} copy={copy} />
+      <DecklistCard deck={deck} page={page} focus={focus} copy={copy} />
       <SimilarDecks cube={page.cube} deck={deck} decks={page.decks} hrefFor={page.selection.hrefFor} />
       <NotesCard deck={deck} edits={edits} copy={copy} />
     </div>

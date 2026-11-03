@@ -153,6 +153,10 @@
   border: 1px solid var(--mantine-color-default-border);
 }
 
+.deck-chip-hover {
+  display: inline-flex;
+}
+
 .deck-chip-link {
   color: inherit;
   text-decoration: none;
@@ -574,6 +578,9 @@ img.cardimage {
 }
 .deck-cards .decklist-row.synergy-source { font-weight: 700; }
 .deck-cards .decklist-row.synergy-dim { opacity: 0.3; }
+
+/* A hovered community or package pill fades the card images outside it. */
+.decklist-image.synergy-dim { opacity: 0.25; }
 
 /* Card image preview, pinned to the viewport corner so it never covers the grid
    or the connector lines. Driven by the same hover as the highlight. */

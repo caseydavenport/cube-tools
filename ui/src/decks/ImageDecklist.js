@@ -3,7 +3,7 @@ import { CardImagePreview } from "../components/kit/CardImagePreview.js"
 import { CardImageURL } from "../utils/Utils.js"
 import { CardMatches } from "../utils/Query.js"
 import { InDeckColor } from "../utils/Deck.js"
-import { CMC_COLUMNS, LAND_ORDER, cmcColumn, getType, isLand, landCategory } from "./decklist.js"
+import { CMC_COLUMNS, LAND_ORDER, cmcColumn, focusClass, getType, isLand, landCategory } from "./decklist.js"
 import { Link } from "react-router-dom"
 import { useCube } from "../contexts/CubeContext.js"
 import { cardPageHref } from "../shell/paths.js"
@@ -31,15 +31,15 @@ function chunk(list, size) {
 }
 
 // imageClassName highlights a card matching the deck filter, or a sideboard card
-// the deck could play.
-function imageClassName(card, deck, sideboard, matchStr) {
+// the deck could play, and lights or fades it for a focused group of cards.
+function imageClassName(card, deck, sideboard, matchStr, focus) {
+  let className = "cardimage"
   if (matchStr && CardMatches(card, matchStr, true)) {
-    return "cardimage button-selected"
+    className += " button-selected"
+  } else if (sideboard && InDeckColor(card, deck)) {
+    className += " card-playable-highlight"
   }
-  if (sideboard && InDeckColor(card, deck)) {
-    return "cardimage card-playable-highlight"
-  }
-  return "cardimage"
+  return className + focusClass(card.name, focus)
 }
 
 // CardImage is one card's image, with a larger copy beside it on hover.
@@ -58,7 +58,7 @@ function CardImage({ card, className }) {
 
 // ImageGroup is one titled group of card images, such as all the 2 mana spells
 // or the basic lands, stacked in columns.
-function ImageGroup({ title, cards, deck, sideboard, matchStr }) {
+function ImageGroup({ title, cards, deck, sideboard, matchStr, focus }) {
   if (cards.length === 0) {
     return null
   }
@@ -72,7 +72,7 @@ function ImageGroup({ title, cards, deck, sideboard, matchStr }) {
         {chunk(sorted, CARDS_PER_STACK).map((stack, i) => (
           <div className="card-stack" key={i}>
             {stack.map((card, j) => (
-              <CardImage key={card.name + j} card={card} className={imageClassName(card, deck, sideboard, matchStr)} />
+              <CardImage key={card.name + j} card={card} className={imageClassName(card, deck, sideboard, matchStr, focus)} />
             ))}
           </div>
         ))}
@@ -83,10 +83,10 @@ function ImageGroup({ title, cards, deck, sideboard, matchStr }) {
 
 // ImageDecklist shows a board as card images: one group per mana value range,
 // then one per land role.
-export function ImageDecklist({ deck, cards, sideboard, matchStr }) {
+export function ImageDecklist({ deck, cards, sideboard, matchStr, focus }) {
   const spells = cards.filter(card => !isLand(card))
   const lands = cards.filter(isLand)
-  const shared = { deck, sideboard, matchStr }
+  const shared = { deck, sideboard, matchStr, focus }
 
   return (
     <>

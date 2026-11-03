@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { decklistColumns } from "./decklist.js"
+import { decklistColumns, focusClass } from "./decklist.js"
 
 // card builds the fields the decklist columns read.
 function card(name, cmc, types, oracleText = "") {
@@ -51,4 +51,11 @@ test("columns group cards by type and collapse duplicates", () => {
 test("empty columns are left out", () => {
   const columns = decklistColumns([card("Opt", 1, ["Instant"])])
   assert.deepEqual(columns.map(c => c.key), ["0-1"])
+})
+
+test("a focused group lights its cards and fades the rest", () => {
+  const focus = new Set(["Bone Shards", "Bloodghast"])
+  assert.equal(focusClass("Bone Shards", focus), " synergy-linked")
+  assert.equal(focusClass("Lightning Bolt", focus), " synergy-dim")
+  assert.equal(focusClass("Lightning Bolt", null), "")
 })
