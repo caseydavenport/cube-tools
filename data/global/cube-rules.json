@@ -123,7 +123,8 @@
     {
       "name": "Counters on others",
       "conditions": [
-        "otag:gives-pp-counters"
+        "otag:gives-pp-counters",
+        "o:reinforce"
       ]
     },
     {
@@ -951,7 +952,8 @@
     {
       "name": "Cheat into play",
       "conditions": [
-        "otag:sneak-creature !otag:low-mana-value-matters"
+        "otag:sneak-creature !otag:low-mana-value-matters",
+        "otag:sneak-from-library o:\"creature card\" !o:\"or less\""
       ]
     },
     {
@@ -1229,6 +1231,91 @@
       "conditions": [
         "otag:typal-soldier"
       ]
+    },
+    {
+      "name": "Changelings",
+      "conditions": [
+        "otag:changeling",
+        "otag:gives-changeling"
+      ]
+    },
+    {
+      "name": "Type matters",
+      "conditions": [
+        "otag:typal-share",
+        "otag:typal-choose"
+      ]
+    },
+    {
+      "name": "Kinship",
+      "conditions": [
+        "o:kinship"
+      ]
+    },
+    {
+      "name": "Top-deck setup",
+      "conditions": [
+        "otag:top-deck-manipulation"
+      ]
+    },
+    {
+      "name": "Prowl",
+      "conditions": [
+        "o:prowl"
+      ]
+    },
+    {
+      "name": "Conspire",
+      "conditions": [
+        "o:conspire"
+      ]
+    },
+    {
+      "name": "Places -1/-1 counters",
+      "conditions": [
+        "otag:gives-mm-counters",
+        "o:wither"
+      ]
+    },
+    {
+      "name": "-1/-1 counters matter",
+      "conditions": [
+        "otag:mm-counters-matter"
+      ]
+    },
+    {
+      "name": "-1/-1 counter costs",
+      "conditions": [
+        "otag:mm-counter-cost"
+      ]
+    },
+    {
+      "name": "-1/-1 counter fuel",
+      "conditions": [
+        "otag:counter-fuel-mm"
+      ]
+    },
+    {
+      "name": "Untappers",
+      "conditions": [
+        "otag:untapper",
+        "otag:gives-tap-ability"
+      ]
+    },
+    {
+      "name": "Tap for value",
+      "conditions": [
+        "otag:tap-fuel-creature !o:conspire",
+        "otag:uninspired",
+        "o:\"{q}\""
+      ]
+    },
+    {
+      "name": "Tappers",
+      "conditions": [
+        "otag:tapper-creature",
+        "o:\"doesn't untap\""
+      ]
     }
   ],
   "packages": [
@@ -1399,6 +1486,24 @@
           ],
           "targets": [
             "Team counters"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Places -1/-1 counters"
+          ],
+          "targets": [
+            "-1/-1 counters matter"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "-1/-1 counter costs"
+          ],
+          "targets": [
+            "-1/-1 counter fuel"
           ]
         }
       ]
@@ -2388,6 +2493,94 @@
           ],
           "targets": [
             "Low mana value payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Type matters",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Changelings"
+          ],
+          "targets": [
+            "Type matters"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kinship",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Changelings",
+            "Top-deck setup"
+          ],
+          "targets": [
+            "Kinship"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Prowl",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Rogues"
+          ],
+          "targets": [
+            "Prowl"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Conspire",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Creature token generator",
+            "Cheap creatures"
+          ],
+          "targets": [
+            "Conspire"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tap / untap",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Untappers"
+          ],
+          "targets": [
+            "Tap for value"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tap-down",
+      "wires": [
+        {
+          "kind": "pairs",
+          "sources": [
+            "Tappers"
+          ],
+          "targets": [
+            "Cheap evasion",
+            "Faeries",
+            "Merfolk"
           ]
         }
       ]
