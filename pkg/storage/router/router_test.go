@@ -43,6 +43,7 @@ func (f *fakeFile) GetRules(cube string) (*design.DesignMapConfig, error) {
 	f.rulesCube = cube
 	return &design.DesignMapConfig{}, nil
 }
+
 func (f *fakeFile) PutRules(cube string, r *design.DesignMapConfig) error {
 	f.wrote = true
 	f.putRulesCube = cube
@@ -58,6 +59,7 @@ func (f *fakeFile) PutOverrides(cube string, ov design.PackageOverrides) error {
 	f.wrote = true
 	return nil
 }
+
 func (f *fakeFile) GetDraftLog(cube string, d int) (json.RawMessage, error) {
 	return json.RawMessage(`{}`), nil
 }

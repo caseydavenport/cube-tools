@@ -84,6 +84,7 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		http.Error(rw, "could not load packages", http.StatusInternalServerError)
 		return
 	}
+
 	// Only the decks the packages are measured over follow the date range and
 	// the deck filter; the packages shown are those any of their drafts' lists
 	// support.
