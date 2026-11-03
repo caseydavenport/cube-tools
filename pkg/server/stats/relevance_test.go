@@ -287,3 +287,53 @@ func TestDesignGraph_NoRulesSupport(t *testing.T) {
 	rr := serveCube(DesignGraphHandler(&mockDeckStorage{}, fixedCubeSource{cube: namedCards("E1")}), "/api/polyverse/stats/design-graph", url.Values{})
 	assert.Equal(t, http.StatusOK, rr.Code)
 }
+
+// TestPackagePage_HidesIrrelevantOthers checks that the package page names
+// only packages shown over its range: Lifegain shares the Enablers group with
+// Enablers only, but draft 4's list can't support it.
+func TestPackagePage_HidesIrrelevantOthers(t *testing.T) {
+	store, src := relevanceStore(t)
+	page := func(start, end string) PackagePageResponse {
+		rr := serveCube(PackagePageHandler(store, src), "/api/polyverse/stats/package", url.Values{"name": {"Enablers only"}, "start": {start}, "end": {end}})
+		require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+		var resp PackagePageResponse
+		require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+		return resp
+	}
+	others := func(resp PackagePageResponse) []string {
+		var out []string
+		for _, e := range resp.Related {
+			out = append(out, e.Target)
+		}
+		for _, w := range resp.Wires {
+			for _, g := range append(w.Sources, w.Targets...) {
+				out = append(out, g.OtherPackages...)
+			}
+		}
+		for _, g := range resp.Map.Groups {
+			out = append(out, g.OtherPackages...)
+		}
+		return out
+	}
+	assert.Contains(t, others(page("2024-01-01", "2024-01-31")), "Lifegain", "draft 1's list supported it")
+	assert.NotContains(t, others(page("2024-04-01", "2024-04-30")), "Lifegain", "draft 4's didn't")
+}
+
+// TestDesignGraph_NoLinksToUnplayedCutCards checks that a card only an old
+// snapshot held, which no deck played, gets no links in the graph.
+func TestDesignGraph_NoLinksToUnplayedCutCards(t *testing.T) {
+	store, src := relevanceStore(t)
+	rr := serveCube(DesignGraphHandler(store, src), "/api/polyverse/stats/design-graph", url.Values{})
+	require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+	var resp DesignGraphResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	played := 0
+	for _, e := range resp.Edges {
+		assert.NotEqual(t, "P3", e.Source)
+		assert.NotEqual(t, "P3", e.Target)
+		if e.Source == "P1" || e.Target == "P1" {
+			played++
+		}
+	}
+	assert.NotZero(t, played, "a cut card a deck played keeps its links")
+}

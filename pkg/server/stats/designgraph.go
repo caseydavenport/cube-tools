@@ -148,7 +148,7 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			config = in.relevantConfig(relevantInDraft(draftID))
 		}
 
-		resp := buildDesignGraph(in.cube, config, in.deckCardNames)
+		resp := buildDesignGraph(in.cube, config, in.playedCardNames)
 
 		b, err := json.Marshal(resp)
 		if err != nil {
@@ -172,7 +172,7 @@ func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID 
 	if err != nil {
 		return DesignGraphResponse{}, err
 	}
-	return buildDesignGraph(in.cube, in.config, in.deckCardNames), nil
+	return buildDesignGraph(in.cube, in.config, in.playedCardNames), nil
 }
 
 // PackagesForCube resolves a cube's packages to card names, ready to test
@@ -189,13 +189,15 @@ func PackagesForCube(store storage.DeckStorage, src types.CubeSource, cubeID str
 // designInputs is what the design graph and package detection are built from:
 // the current cube list, its rules, the cards its decks have played and its
 // drafts' lists held, every list packages are judged against, and the
-// packages the cube forces on or off.
+// packages the cube forces on or off. playedCardNames is only the cards decks
+// played, for the graph, which links nothing no deck used.
 type designInputs struct {
-	cube          *types.Cube
-	config        design.DesignMapConfig
-	deckCardNames []string
-	lists         cardLists
-	overrides     design.PackageOverrides
+	cube            *types.Cube
+	config          design.DesignMapConfig
+	deckCardNames   []string
+	playedCardNames []string
+	lists           cardLists
+	overrides       design.PackageOverrides
 }
 
 // packages resolves the rules' packages with their relevance attached.
@@ -238,8 +240,9 @@ func loadDesignInputs(store storage.DeckStorage, src types.CubeSource, cubeID st
 	if err != nil {
 		logrus.WithError(err).Warn("could not read package overrides; none applied")
 	}
-	names := append(distinctCardNames(decks), lists.snapshotOnlyNames()...)
-	return designInputs{cube: cube, config: config, deckCardNames: names, lists: lists, overrides: overrides}, nil
+	played := distinctCardNames(decks)
+	names := append(slices.Clone(played), lists.snapshotOnlyNames()...)
+	return designInputs{cube: cube, config: config, deckCardNames: names, playedCardNames: played, lists: lists, overrides: overrides}, nil
 }
 
 // deckCardNames returns the distinct non-basic mainboard card names across all of

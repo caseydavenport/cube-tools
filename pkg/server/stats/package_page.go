@@ -190,13 +190,20 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	resp.Stat.Color = packageColor(cards, cube)
 	resp.Stat.CardCount = packageCardCount(cards, cube)
 
+	// The other packages the page names are those shown over the range; the
+	// page's own package stays, shown or not.
+	others := configFor(page.rules.config, keepPackages(resolved, relevantInAny(draftIDsOf(page.ranged))))
+	if !slices.ContainsFunc(others.Packages, func(p design.Package) bool { return p.Name == page.pkg.Name }) {
+		others.Packages = append(others.Packages, page.pkg)
+	}
+
 	// The wires, the color table built from them, and builds per draft.
 	cardMap := buildCardMap(cube)
 	groups := resolveGroups(cardMap, page.rules.config, page.rules.deckCardNames)
-	resp.Wires = packageWires(page.pkg, groups.cube, page.rules.config)
+	resp.Wires = packageWires(page.pkg, groups.cube, others)
 	resp.ColorTable = colorTable(resp.Wires, cardMap)
 	resp.OverTime = packageOverTime(cards, page.all, page.start, page.end)
-	resp.Map = buildPackageMap(page.pkg, cards, groups.cube, page.rules.config, page.ranged)
+	resp.Map = buildPackageMap(page.pkg, cards, groups.cube, others, page.ranged)
 
 	// The decks in range that built the package.
 	var built []*storage.Deck
@@ -208,7 +215,7 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	resp.Decks = deckRows(built)
 
 	// Related packages, with the edge turned so this package is the source.
-	for _, e := range packageEdges(page.rules.config) {
+	for _, e := range packageEdges(others) {
 		if e.Source == page.pkg.Name {
 			resp.Related = append(resp.Related, e)
 		} else if e.Target == page.pkg.Name {
