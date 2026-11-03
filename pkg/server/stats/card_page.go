@@ -110,7 +110,7 @@ func (h *cardPageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		design: rules,
 		all:    all,
 		ranged: ranged,
-		cubes:  loadCubeLists(h.store, cubeID, all),
+		cubes:  rules.lists.known(),
 		start:  start,
 		end:    end,
 		z:      zForConfidence(query.GetFloat(r, "confidence")),

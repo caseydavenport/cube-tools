@@ -17,14 +17,15 @@ import (
 
 // Backend reads and writes decks from the on-disk data/<cube>/ layout.
 type Backend struct {
-	src types.CubeSource
+	src       types.CubeSource
+	snapshots *snapshotCache
 }
 
 // New returns a filesystem-backed deck backend. src overlays each deck's cards
 // with the cube's live printings and tags; pass nil outside the server (CLI,
 // tests) where there is no live cube.
 func New(src types.CubeSource) *Backend {
-	return &Backend{src: src}
+	return &Backend{src: src, snapshots: newSnapshotCache()}
 }
 
 // NewStore wires a filesystem backend into a Store that resolves player names
@@ -235,7 +236,7 @@ func (b *Backend) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
 	if err != nil {
 		return nil, err
 	}
-	snapshot, err := draft.Snapshot()
+	snapshot, err := b.snapshots.load(draft.SnapshotPath())
 	if errors.Is(err, drafts.ErrNotFound) {
 		return nil, storage.ErrDeckNotFound
 	}

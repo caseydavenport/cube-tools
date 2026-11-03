@@ -485,3 +485,58 @@ func TestOverrides_NewCubeWithoutDirectory(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, []string{"Cauldron"}, got.On)
 }
+
+// TestGetSnapshot_RereadsRewrittenFile checks that a snapshot saved again,
+// such as a rebuilt one, is read fresh rather than served from memory.
+func TestGetSnapshot_RereadsRewrittenFile(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	draft, err := drafts.Find(filepath.Join("data", "conf"), 1)
+	if err != nil {
+		t.Fatalf("find draft: %v", err)
+	}
+	b := New(nil)
+
+	if err := draft.SaveSnapshot(&types.Cube{Cards: []types.Card{{Name: "Old"}}}); err != nil {
+		t.Fatalf("save snapshot: %v", err)
+	}
+	got, err := b.GetSnapshot("conf", 1)
+	assert.NoError(t, err)
+	assert.Equal(t, "Old", got.Cards[0].Name)
+
+	if err := draft.SaveSnapshot(&types.Cube{Cards: []types.Card{{Name: "New"}, {Name: "Newer"}}}); err != nil {
+		t.Fatalf("save snapshot: %v", err)
+	}
+	got, err = b.GetSnapshot("conf", 1)
+	assert.NoError(t, err)
+	assert.Len(t, got.Cards, 2)
+}
+
+// TestGetSnapshot_CallersGetTheirOwnCopy checks that changing a returned
+// snapshot doesn't change what the next caller reads.
+func TestGetSnapshot_CallersGetTheirOwnCopy(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	draft, err := drafts.Find(filepath.Join("data", "conf"), 1)
+	if err != nil {
+		t.Fatalf("find draft: %v", err)
+	}
+	if err := draft.SaveSnapshot(&types.Cube{Cards: []types.Card{{Name: "Kept"}}}); err != nil {
+		t.Fatalf("save snapshot: %v", err)
+	}
+	b := New(nil)
+	first, err := b.GetSnapshot("conf", 1)
+	assert.NoError(t, err)
+	first.Cards[0].Name = "Changed"
+	first.Cards = append(first.Cards, types.Card{Name: "Extra"})
+
+	again, err := b.GetSnapshot("conf", 1)
+	assert.NoError(t, err)
+	assert.Equal(t, []types.Card{{Name: "Kept"}}, again.Cards)
+}

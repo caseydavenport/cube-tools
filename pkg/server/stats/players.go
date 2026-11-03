@@ -168,11 +168,12 @@ func (s *playerStatsHandler) loadBaseline(cubeID string, dr *storage.DecksReques
 	if err != nil {
 		return nil, fmt.Errorf("load baseline decks: %w", err)
 	}
-	pkgs, err := PackagesForCube(s.store, s.src, cubeID)
+	in, err := loadDesignInputs(s.store, s.src, cubeID)
 	if err != nil {
 		logrus.WithError(err).Warn("could not load packages for player tendencies")
+		return &tendencyBaseline{decks: withSpells(all), cubes: cubeLists{}}, nil
 	}
-	return &tendencyBaseline{decks: withSpells(all), packages: pkgs, cubes: loadCubeLists(s.store, cubeID, all)}, nil
+	return &tendencyBaseline{decks: withSpells(all), packages: in.packages(), cubes: in.lists.known()}, nil
 }
 
 // addTendencies fills each row's Tendencies from the player's decks in mine.
@@ -186,25 +187,6 @@ func (b *tendencyBaseline) addTendencies(mine []*storage.Deck, rows map[string]*
 	for name, row := range rows {
 		row.Tendencies = playerTendencies(name, byPlayer[name], b.decks, b.packages, b.cubes)
 	}
-}
-
-// loadCubeLists reads the cube list each of the decks' drafts was played
-// with. A draft without one, or with an empty one, is left out, which counts
-// every card as available there.
-func loadCubeLists(store storage.DeckStorage, cubeID string, decks []*storage.Deck) cubeLists {
-	lists := cubeLists{}
-	tried := map[int]bool{}
-	for _, d := range decks {
-		draftID := d.Metadata.DraftID
-		if tried[draftID] {
-			continue
-		}
-		tried[draftID] = true
-		if names, _ := snapshotNames(store, cubeID, draftID); names != nil {
-			lists[draftID] = names
-		}
-	}
-	return lists
 }
 
 // playerRows aggregates decks into one row per named player, with per-archetype,

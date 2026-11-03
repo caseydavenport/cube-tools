@@ -62,6 +62,19 @@ func loadCardLists(store storage.DeckStorage, cubeID string, cube *types.Cube, d
 	return lists
 }
 
+// known returns the drafts whose snapshot lists cards, for checking which
+// cards each draft's cube held. Drafts with no snapshot or an empty one are
+// left out, which counts every card as available there.
+func (l cardLists) known() cubeLists {
+	out := cubeLists{}
+	for draftID, names := range l.drafts {
+		if names != nil {
+			out[draftID] = names
+		}
+	}
+	return out
+}
+
 // snapshotOnlyNames returns the cards in the drafts' lists that aren't in
 // today's, so cut cards no deck played still resolve into groups.
 func (l cardLists) snapshotOnlyNames() []string {
@@ -155,15 +168,30 @@ func relevantToday(r *design.Relevance) bool {
 // their relevance, so a view built from the config shows only those. Every
 // group stays.
 func (in designInputs) relevantConfig(keep func(*design.Relevance) bool) design.DesignMapConfig {
-	shown := map[string]bool{}
-	for _, p := range in.packages() {
+	return configFor(in.config, keepPackages(in.packages(), keep))
+}
+
+// keepPackages returns the resolved packages keep accepts, by relevance.
+func keepPackages(pkgs []design.PackageCards, keep func(*design.Relevance) bool) []design.PackageCards {
+	var out []design.PackageCards
+	for _, p := range pkgs {
 		if keep(p.Relevance) {
-			shown[p.Name] = true
+			out = append(out, p)
 		}
 	}
-	out := in.config
+	return out
+}
+
+// configFor returns config with only the packages already resolved in pkgs,
+// so a view can use both without resolving the rules a second time.
+func configFor(config design.DesignMapConfig, pkgs []design.PackageCards) design.DesignMapConfig {
+	shown := map[string]bool{}
+	for _, p := range pkgs {
+		shown[p.Name] = true
+	}
+	out := config
 	out.Packages = nil
-	for _, p := range in.config.Packages {
+	for _, p := range config.Packages {
 		if shown[p.Name] {
 			out.Packages = append(out.Packages, p)
 		}

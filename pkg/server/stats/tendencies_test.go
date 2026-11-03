@@ -275,7 +275,7 @@ func TestLoadCubeLists_EmptySnapshotIsMissing(t *testing.T) {
 	}}
 	decks := []*storage.Deck{tendencyDeck(tendencyPlayer, 1, "aggro"), tendencyDeck(tendencyPlayer, 2, "aggro")}
 
-	lists := loadCubeLists(store, "testcube", decks)
+	lists := loadCardLists(store, "testcube", &types.Cube{}, decks).known()
 	_, hasEmpty := lists[1]
 	assert.False(t, hasEmpty)
 	assert.True(t, lists[2]["Lightning Bolt"])

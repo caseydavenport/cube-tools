@@ -51,10 +51,16 @@ func (d Draft) HasSnapshot() bool {
 	return exists(filepath.Join(d.Dir, snapshotFile))
 }
 
+// SnapshotPath is where the draft's cube list is saved, whether or not the
+// file exists yet.
+func (d Draft) SnapshotPath() string {
+	return filepath.Join(d.Dir, snapshotFile)
+}
+
 // Snapshot returns the cube list saved when the draft was created, or
 // ErrNotFound when the draft has none.
 func (d Draft) Snapshot() (*types.Cube, error) {
-	path := filepath.Join(d.Dir, snapshotFile)
+	path := d.SnapshotPath()
 	if !exists(path) {
 		return nil, ErrNotFound
 	}

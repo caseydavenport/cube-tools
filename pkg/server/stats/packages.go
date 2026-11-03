@@ -99,8 +99,8 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	rules.config = rules.relevantConfig(relevantInAny(draftIDsOf(allDecks)))
-	pkgs := rules.packages()
+	pkgs := keepPackages(rules.packages(), relevantInAny(draftIDsOf(allDecks)))
+	rules.config = configFor(rules.config, pkgs)
 	resp := packageStats(pkgs, allDecks, query.GetFloat(r, "confidence"))
 	addPackageShapes(&resp, pkgs, rules)
 	b, err := json.Marshal(resp)
