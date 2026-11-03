@@ -301,3 +301,46 @@ func TestPackageStats_BasicsMeetABasicsSide(t *testing.T) {
 	resp := packageStats([]design.PackageCards{fixing}, decks, 0.95)
 	assert.Equal(t, 1, statFor(t, resp, "Fixing").Package)
 }
+
+// inDraft returns a deck of the named cards from the given draft.
+func inDraft(draftID int, names ...string) *storage.Deck {
+	d := deckOf(names...)
+	d.Metadata.DraftID = draftID
+	return d
+}
+
+// relevantOnlyIn is a two-sided package relevant in draft 1 and not in draft 2.
+func relevantOnlyIn() design.PackageCards {
+	p := twoSided("Lifegain", cardSet("A", "B"), cardSet("C", "D"))
+	p.Relevance = &design.Relevance{Drafts: map[int]bool{1: true, 2: false}}
+	return p
+}
+
+func TestPackageStats_CountsOnlyRelevantDrafts(t *testing.T) {
+	decks := []*storage.Deck{inDraft(1, "A", "B", "C", "D"), inDraft(2, "A", "B", "C", "D")}
+	resp := packageStats([]design.PackageCards{relevantOnlyIn()}, decks, 0.95)
+	assert.Equal(t, 1, statFor(t, resp, "Lifegain").Package, "only the draft whose list supports it counts")
+
+	resp = packageStats([]design.PackageCards{twoSided("Lifegain", cardSet("A", "B"), cardSet("C", "D"))}, decks, 0.95)
+	assert.Equal(t, 2, statFor(t, resp, "Lifegain").Package, "without relevance both count")
+}
+
+func TestPackageCounts_HonorsDraftRelevance(t *testing.T) {
+	decks := []*storage.Deck{inDraft(1, "A", "B", "C", "D"), inDraft(2, "A", "B", "C", "D")}
+	got := packageCounts(decks, []design.PackageCards{relevantOnlyIn()})
+	assert.Equal(t, []NamedCount{{Name: "Lifegain", Count: 1}}, got)
+}
+
+func TestPackageOverTime_HonorsDraftRelevance(t *testing.T) {
+	decks := []*storage.Deck{inDraft(1, "A", "B", "C", "D"), inDraft(2, "A", "B", "C", "D")}
+	rows := packageOverTime(relevantOnlyIn(), decks, "", "")
+	require.Len(t, rows, 2)
+	assert.Equal(t, 1, rows[0].Built)
+	assert.Equal(t, 0, rows[1].Built, "a draft whose list can't support it builds none")
+	assert.Equal(t, 1, rows[1].Decks, "its decks still count")
+}
+
+func TestBuildCounts_HonorsDraftRelevance(t *testing.T) {
+	decks := []*storage.Deck{inDraft(1, "A", "B", "C", "D"), inDraft(2, "A", "B", "C", "D")}
+	assert.Equal(t, 1, buildCounts([]design.PackageCards{relevantOnlyIn()}, decks)["Lifegain"])
+}

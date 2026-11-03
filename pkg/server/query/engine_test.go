@@ -3,6 +3,7 @@ package query
 import (
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,6 +19,7 @@ type mockDeck struct {
 	pool      []types.Card
 	colors    []string
 	events    []string
+	draftID   int
 }
 
 func (m *mockDeck) GetPlayer() string              { return m.player }
@@ -28,6 +30,7 @@ func (m *mockDeck) GetSideboard() []types.Card     { return m.sideboard }
 func (m *mockDeck) GetPool() []types.Card          { return m.pool }
 func (m *mockDeck) GetColors() types.ColorIdentity { return types.NewColorIdentity(m.colors...) }
 func (m *mockDeck) GetEventTerms() []string        { return m.events }
+func (m *mockDeck) GetDraftID() int                { return m.draftID }
 
 // =====================
 // parseTerms
@@ -453,4 +456,19 @@ func TestCardTermIsExactName(t *testing.T) {
 	assert.False(t, DeckMatches(both, `card:"Bolt"`))
 	assert.True(t, DeckMatches(both, `card:"Lightning Bolt" card:"Bolt Bend"`))
 	assert.False(t, DeckMatches(boltOnly, `card:"Lightning Bolt" card:"Bolt Bend"`))
+}
+
+func TestDeckBuildsPackage_HonorsDraftRelevance(t *testing.T) {
+	cards := []types.Card{{Name: "A"}, {Name: "B"}, {Name: "C"}, {Name: "D"}}
+	pkg := design.PackageCards{
+		Name: "Lifegain",
+		Wires: []design.WireCards{{
+			Sources: map[string]bool{"A": true, "B": true}, Targets: map[string]bool{"C": true, "D": true},
+			NeedSources: 2, NeedTargets: 2,
+		}},
+		Relevance: &design.Relevance{Drafts: map[int]bool{1: true, 2: false}},
+	}
+	pkgs := []design.PackageCards{pkg}
+	assert.True(t, deckBuildsPackage(&mockDeck{mainboard: cards, draftID: 1}, pkgs, "lifegain"))
+	assert.False(t, deckBuildsPackage(&mockDeck{mainboard: cards, draftID: 2}, pkgs, "lifegain"), "not in a draft whose list can't support it")
 }

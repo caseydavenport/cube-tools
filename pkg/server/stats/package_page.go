@@ -190,7 +190,7 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	// The decks in range that built the package.
 	var built []*storage.Deck
 	for _, d := range page.ranged {
-		if cards.BuiltBy(deckCardSet(d)) {
+		if cards.BuiltIn(d.Metadata.DraftID, deckCardSet(d)) {
 			built = append(built, d)
 		}
 	}
@@ -387,7 +387,7 @@ func packageOverTime(pkg design.PackageCards, all []*storage.Deck, start, end st
 		}
 		deck := deckCardSet(d)
 		row.Decks++
-		if pkg.BuiltBy(deck) {
+		if pkg.BuiltIn(draftID, deck) {
 			row.Built++
 		}
 	}

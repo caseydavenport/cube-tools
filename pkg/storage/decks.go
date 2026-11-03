@@ -95,6 +95,9 @@ type DecksRequest struct {
 
 func (d *Deck) GetPlayer() string { return d.Player }
 
+// GetDraftID returns the draft the deck was played in.
+func (d *Deck) GetDraftID() int { return d.Metadata.DraftID }
+
 // IsAnonymous reports whether the deck is an anonymous seat: no player ID,
 // shown by its seat label. Per-player rollups leave these out, since the same
 // seat label recurs in every draft.

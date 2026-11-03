@@ -138,7 +138,7 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 			if p.HasCards(deck) {
 				has3[p.Name]++
 			}
-			if p.BuiltBy(deck) {
+			if p.BuiltIn(d.Metadata.DraftID, deck) {
 				pkg[p.Name]++
 				records[p.Name].Add(d)
 			}

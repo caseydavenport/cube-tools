@@ -62,6 +62,11 @@ type DepthCell struct {
 func buildPackageMap(pkg design.Package, cards design.PackageCards, cube map[string]map[string]bool, config design.DesignMapConfig, decks []*storage.Deck) PackageMap {
 	out := PackageMap{Groups: mapGroups(pkg, cube, config), Wires: []MapWire{}}
 
+	// Only decks whose draft supports the package count toward it.
+	decks = slices.DeleteFunc(slices.Clone(decks), func(d *storage.Deck) bool {
+		return !cards.Relevance.InDraft(d.Metadata.DraftID)
+	})
+
 	// Each deck's card set, built once for every wire.
 	sets := make([]map[string]bool, len(decks))
 	for i, d := range decks {

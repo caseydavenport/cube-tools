@@ -22,6 +22,10 @@ type Deck interface {
 	// GetEventTerms returns the words an event: term or free-text search can
 	// match the deck's draft by: its event code, name, and flight.
 	GetEventTerms() []string
+
+	// GetDraftID returns the draft the deck was played in, which decides
+	// which packages its draft's cube list supported.
+	GetDraftID() int
 }
 
 // eventMatches reports whether any of the deck's event terms contains the
@@ -403,7 +407,7 @@ func deckBuildsPackage(d Deck, pkgs []design.PackageCards, name string) bool {
 		if name != "" && !strings.EqualFold(p.Name, name) {
 			continue
 		}
-		if p.BuiltBy(deck) {
+		if p.BuiltIn(d.GetDraftID(), deck) {
 			return true
 		}
 	}

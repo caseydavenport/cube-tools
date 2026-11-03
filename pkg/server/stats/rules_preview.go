@@ -81,7 +81,7 @@ func buildCounts(pkgs []design.PackageCards, decks []*storage.Deck) map[string]i
 	for _, d := range decks {
 		deck := deckCardSet(d)
 		for _, p := range pkgs {
-			if p.BuiltBy(deck) {
+			if p.BuiltIn(d.Metadata.DraftID, deck) {
 				counts[p.Name]++
 			}
 		}

@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
 // packageMapFor serves the package page for name over config and
@@ -108,4 +109,16 @@ func TestPackageMap_WireKind(t *testing.T) {
 	require.Len(t, m.Wires, 2)
 	assert.Equal(t, design.WireEnables, m.Wires[0].Kind)
 	assert.Equal(t, design.WirePairs, m.Wires[1].Kind)
+}
+
+func TestPackageMap_HonorsDraftRelevance(t *testing.T) {
+	pkg := design.Package{Name: "Lifegain", Wires: []design.Wire{{Sources: []string{"card:A", "card:B"}, Targets: []string{"card:C", "card:D"}}}}
+	decks := []*storage.Deck{inDraft(1, "A", "B", "C", "D"), inDraft(2, "A", "B", "C", "D")}
+
+	m := buildPackageMap(pkg, relevantOnlyIn(), nil, design.DesignMapConfig{}, decks)
+	assert.Equal(t, 1, m.Wires[0].Decks, "a deck from a draft whose list can't support it isn't counted")
+
+	all := twoSided("Lifegain", cardSet("A", "B"), cardSet("C", "D"))
+	m = buildPackageMap(pkg, all, nil, design.DesignMapConfig{}, decks)
+	assert.Equal(t, 2, m.Wires[0].Decks)
 }

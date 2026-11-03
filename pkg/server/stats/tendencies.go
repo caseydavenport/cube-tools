@@ -223,7 +223,7 @@ func packageCounts(decks []*storage.Deck, pkgs []design.PackageCards) []NamedCou
 	for _, d := range decks {
 		deck := distinctSpells(d)
 		for _, p := range pkgs {
-			if p.BuiltBy(deck) {
+			if p.BuiltIn(d.Metadata.DraftID, deck) {
 				counts[p.Name]++
 			}
 		}
