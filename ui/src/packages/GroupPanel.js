@@ -11,7 +11,7 @@ import { groupPanelState } from "./packagePageModel.js"
 // GroupPanel shows the entry called name from the package packageName. It
 // loads the whole package's entries, so card entries and undefined groups
 // open too. groupsByName holds the rules' groups, for editing and checks.
-export function GroupPanel({ name, packageName, groupsByName, groupIndex, canEdit, range, refresh, onClose, onEdit, onExclude, onRestore }) {
+export function GroupPanel({ name, packageName, groupsByName, groupIndex, range, refresh, onClose, onEdit, onExclude, onRestore }) {
   const cube = useCube()
   const state = groupPanelState(useRuleGroups(cube, { package: packageName }, refresh, range), name)
 
@@ -28,7 +28,7 @@ export function GroupPanel({ name, packageName, groupsByName, groupIndex, canEdi
     body = (
       <GroupSection
         id="group-panel" members={state.members} group={groupsByName[name] || null} packageName={packageName}
-        color={color} warning={null} canEdit={canEdit} showUses={false}
+        color={color} warning={null} showUses={false}
         onEdit={onEdit} onExclude={card => onExclude(name, card)} onRestore={card => onRestore(name, card)}
       />
     )

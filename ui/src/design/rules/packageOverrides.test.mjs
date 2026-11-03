@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { nextOverrides, shownState } from "./packageOverrides.js"
+import { nextOverrides, shownState, switchValue } from "./packageOverrides.js"
 
 test("forcing a package on moves it off the other list", () => {
   const got = nextOverrides({ on: [], off: ["Snow", "Storm"] }, "Snow", "on")
@@ -29,4 +29,10 @@ test("a package's shown state is its forced setting, or the line", () => {
   assert.equal(shownState(""), "line")
   assert.equal(shownState("on"), "on")
   assert.equal(shownState("off"), "off")
+})
+
+test("the switch shows a choice still saving over the server's value", () => {
+  assert.equal(switchValue("on", ""), "on")
+  assert.equal(switchValue(null, "off"), "off")
+  assert.equal(switchValue(null, ""), "line")
 })

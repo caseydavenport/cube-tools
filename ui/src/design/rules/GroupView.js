@@ -10,7 +10,7 @@ import { GroupSection, useRuleGroups } from "./GroupSection.js"
 // GroupView loads and shows the group called name. group is its rules entry,
 // or undefined when the rules have no such group.
 export function GroupView({
-  name, group, color, warning, canEdit, refresh, range,
+  name, group, color, warning, refresh, range,
   onBack, onEdit, onDelete, onExclude, onRestore,
 }) {
   const cube = useCube()
@@ -26,7 +26,7 @@ export function GroupView({
     body = (
       <GroupSection
         id="rg-group" members={groups[0]} group={group || null} packageName="" color={color} warning={warning}
-        canEdit={canEdit} onEdit={null} onExclude={card => onExclude(name, card)}
+        onEdit={null} onExclude={card => onExclude(name, card)}
         onRestore={card => onRestore(name, card)}
       />
     )
@@ -36,7 +36,7 @@ export function GroupView({
     <div className="ws-page">
       <div className="ws-group-bar">
         <UnstyledButton className="ws-back" onClick={onBack}>← All packages</UnstyledButton>
-        {canEdit && group && <EditActions confirming={confirming} setConfirming={setConfirming} onEdit={onEdit} onDelete={onDelete} />}
+        {group && <EditActions confirming={confirming} setConfirming={setConfirming} onEdit={onEdit} onDelete={onDelete} />}
       </div>
       {body}
     </div>

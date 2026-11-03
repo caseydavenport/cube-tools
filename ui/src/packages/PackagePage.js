@@ -128,7 +128,6 @@ export function PackagePage(props) {
   const info = useCubeInfo(cube)
   // Rules live in a shared file, so every cube can edit them. Whether the
   // cube forces the package on or off follows the cube's own writability.
-  const canEdit = true
   const writable = useCubeWritable(cube) === true
   const start = props.startDate || ""
   const end = props.endDate || ""
@@ -266,7 +265,7 @@ export function PackagePage(props) {
   )
 
   let actions = null
-  if (canEdit && pkg) {
+  if (pkg) {
     actions = (
       <Group gap="xs">
         <Button size="xs" variant="default" onClick={() => setDialog({ kind: "package", wire: (pkg.wires || []).length })}>+ Wire</Button>
@@ -289,7 +288,7 @@ export function PackagePage(props) {
           <div className="card-page-wide">
             <SectionCard title="Map">
               <PackageMap
-                map={page.map} groupIndex={groupIndex} packageColor={packageColor} canDrag={canEdit && pkg !== null}
+                map={page.map} groupIndex={groupIndex} packageColor={packageColor} canDrag={pkg !== null}
                 onOpenGroup={groupName => { setOpenWire(null); setOpenGroup(groupName) }}
                 onOpenWire={index => { setOpenGroup(null); setOpenWire(index) }}
                 onDropWire={confirmWireAdded}
@@ -308,7 +307,7 @@ export function PackagePage(props) {
         {openGroup !== null && (
           <GroupPanel
             name={openGroup} packageName={page.name} groupsByName={groupsByName} groupIndex={groupIndex}
-            canEdit={canEdit} range={range} refresh={refresh} onClose={() => setOpenGroup(null)}
+            range={range} refresh={refresh} onClose={() => setOpenGroup(null)}
             onEdit={() => setDialog({ kind: "group", group: groupsByName[openGroup] })}
             onExclude={(groupName, card) => setCardExcluded(groupName, card, true)}
             onRestore={(groupName, card) => setCardExcluded(groupName, card, false)}
@@ -316,7 +315,7 @@ export function PackagePage(props) {
         )}
         {openWire !== null && page.map.wires[openWire] && (
           <WirePanel
-            wire={page.map.wires[openWire]} index={openWire} color={packageColor} canEdit={canEdit && pkg !== null}
+            wire={page.map.wires[openWire]} index={openWire} color={packageColor} canEdit={pkg !== null}
             onClose={() => setOpenWire(null)}
             onEdit={() => { setOpenWire(null); setDialog({ kind: "package", wire: openWire }) }}
             onRemove={() => confirmWireRemoved(openWire)}

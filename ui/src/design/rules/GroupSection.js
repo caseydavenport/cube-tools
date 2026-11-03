@@ -111,10 +111,10 @@ function memberCount(members) {
 // GroupSection shows one entry of the rules, from /stats/rule-groups. group
 // is the rules group, or null for a card entry or a group the rules don't
 // define. warning names what's broken in the group, or is null. onEdit,
-// onExclude and onRestore are only used when canEdit is true; a null
-// onEdit hides the section's Edit button. showUses false leaves out the
+// onExclude and onRestore act on a rules group only; a null onEdit hides
+// the section's Edit button. showUses false leaves out the
 // "Also used by" line, whose names link to their package pages.
-export function GroupSection({ id, members, group, packageName, color, warning, canEdit, onEdit, onExclude, onRestore, showUses = true }) {
+export function GroupSection({ id, members, group, packageName, color, warning, onEdit, onExclude, onRestore, showUses = true }) {
   const cube = useCube()
   const others = alsoUsedBy(members.uses, packageName)
   const count = memberCount(members)
@@ -127,7 +127,7 @@ export function GroupSection({ id, members, group, packageName, color, warning, 
   }
 
   let excludeCard = null
-  if (canEdit && group) {
+  if (group) {
     excludeCard = onExclude
   }
 
@@ -137,7 +137,7 @@ export function GroupSection({ id, members, group, packageName, color, warning, 
         <span className="dm-swatch" style={{ background: color }} />
         <span className="ws-group-name">{entryLabel(members.name)}</span>
         <span className="ws-group-note">{note}</span>
-        {canEdit && group && onEdit && <Button size="xs" variant="default" className="ws-group-edit" onClick={onEdit}>Edit group</Button>}
+        {group && onEdit && <Button size="xs" variant="default" className="ws-group-edit" onClick={onEdit}>Edit group</Button>}
       </div>
       {warning && <div className="ws-warning">{warning}</div>}
 
@@ -163,9 +163,7 @@ export function GroupSection({ id, members, group, packageName, color, warning, 
               <div key={card.name} className="ws-member ws-member-excluded">
                 <Dots card={card} />
                 <span className="ws-member-name">{card.name}</span>
-                {canEdit && (
-                  <UnstyledButton className="ws-member-x" title="Put this card back in the group" onClick={() => onRestore(card.name)}>↺</UnstyledButton>
-                )}
+                <UnstyledButton className="ws-member-x" title="Put this card back in the group" onClick={() => onRestore(card.name)}>↺</UnstyledButton>
               </div>
             ))}
           </div>

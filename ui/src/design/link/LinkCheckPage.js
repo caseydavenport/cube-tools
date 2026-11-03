@@ -161,14 +161,10 @@ export function LinkCheckPage(props) {
   } else if (a && b && (!check || !rules)) {
     middle = <div className="browse-empty">Loading…</div>
   } else if (check && check.links.length > 0) {
-    // Rules live in a shared file, so every cube can edit them.
-    const onExclude = exclude
     const nav = { start: props.startDate, end: props.endDate, onLinkMatch: props.onLinkMatch }
-    middle = <LinkedView check={check} cube={cube} packageIndex={packageIndex} onExclude={onExclude} nav={nav} />
+    middle = <LinkedView check={check} cube={cube} packageIndex={packageIndex} onExclude={exclude} nav={nav} />
   } else if (check) {
-    const onSave = save
-    const onNewGroup = setNewGroupFor
-    middle = <UnlinkedView check={check} cube={cube} rules={rules} range={{ start: props.startDate || "", end: props.endDate || "" }} onSave={onSave} onNewGroup={onNewGroup} />
+    middle = <UnlinkedView check={check} cube={cube} rules={rules} range={{ start: props.startDate || "", end: props.endDate || "" }} onSave={save} onNewGroup={setNewGroupFor} />
   }
 
   return (

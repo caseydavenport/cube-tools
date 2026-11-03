@@ -34,3 +34,13 @@ export function shownState(forced) {
   }
   return "line"
 }
+
+// switchValue is what the switch shows: a choice still being saved
+// (pending), or else the server's forced value. Without it the switch would
+// jump back to the old choice until the page reloads.
+export function switchValue(pending, forced) {
+  if (pending) {
+    return pending
+  }
+  return shownState(forced)
+}

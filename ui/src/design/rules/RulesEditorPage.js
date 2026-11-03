@@ -182,12 +182,9 @@ export function DesignEditorPage({ startDate, endDate }) {
     if (view === 'g:' + name) selectView('')
   }
 
-  // Rules live in a shared file, so every cube can edit them.
-  const canEdit = true
-
   const toolbar = (
     <EditorToolbar
-      view={view} q={q} cube={cube} canEdit={canEdit}
+      view={view} q={q} cube={cube}
       onSearch={text => patchParams({ q: text, view: '' })}
       onSelectView={selectView}
       onNewPackage={() => setPackageEditor({ original: null })}
@@ -225,7 +222,7 @@ export function DesignEditorPage({ startDate, endDate }) {
     }
     main = <GroupView
       key={viewName} name={viewName} group={groupsByName[viewName]} color={color}
-      warning={groupWarning(audit, viewName)} canEdit={canEdit} refresh={refresh} range={range}
+      warning={groupWarning(audit, viewName)} refresh={refresh} range={range}
       onBack={backToBoard} onEdit={() => openGroup(viewName)} onDelete={() => deleteGroup(viewName)}
       onExclude={(group, card) => setCardExcluded(group, card, true)}
       onRestore={(group, card) => setCardExcluded(group, card, false)}

@@ -2,13 +2,13 @@
 // it stands against the relevance line, and on a writable cube a switch to
 // always show or always hide it instead.
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { SegmentedControl } from "@mantine/core"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
-import { nextOverrides, shownState } from "../design/rules/packageOverrides.js"
+import { nextOverrides, switchValue } from "../design/rules/packageOverrides.js"
 
 // LINE_TIP explains the relevance line in one place.
-const LINE_TIP = "A package shows on this cube's pages when one of its wires links at least 2 of the cube's cards with at least 3 more. Cards cut from the cube don't count."
+const LINE_TIP = "Judged on this cube's current list. A package clears the line when one of its wires has at least 2 of the cube's enablers and 3 of its payoffs, or 3 and 2; a wire that pairs a group with itself needs 3. A group that matches basic lands always counts. Older date ranges judge each draft by its own list."
 
 // SWITCH_OPTIONS are the switch's choices, in order.
 const SWITCH_OPTIONS = [
@@ -54,10 +54,20 @@ function saveShownState(cube, name, state, onSaved, onError) {
 export function PackageVisibility({ cube, page, writable, onSaved }) {
   const [error, setError] = useState("")
 
+  // pending is the choice being saved, shown until the reloaded page has it.
+  const [pending, setPending] = useState(null)
+  useEffect(() => {
+    setPending(null)
+  }, [page.forced])
+
   // onChange saves the new choice, clearing any earlier error.
   function onChange(state) {
     setError("")
-    saveShownState(cube, page.name, state, onSaved, reason => setError(`Couldn't save: ${reason}`))
+    setPending(state)
+    saveShownState(cube, page.name, state, onSaved, reason => {
+      setPending(null)
+      setError(`Couldn't save: ${reason}`)
+    })
   }
 
   return (
@@ -68,7 +78,7 @@ export function PackageVisibility({ cube, page, writable, onSaved }) {
       {writable && (
         <SegmentedControl
           size="xs" aria-label="Whether this cube shows the package"
-          value={shownState(page.forced)} onChange={onChange} data={SWITCH_OPTIONS}
+          value={switchValue(pending, page.forced)} onChange={onChange} data={SWITCH_OPTIONS}
         />
       )}
       {error && <span className="de-status" role="status">{error}</span>}

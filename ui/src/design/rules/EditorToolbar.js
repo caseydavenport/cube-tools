@@ -18,9 +18,8 @@ function toolbarValue(view) {
 }
 
 // EditorToolbar is the page toolbar. Typing in the search runs onSearch,
-// which filters the package board. New package and New group show only
-// when the cube can be edited.
-export function EditorToolbar({ view, q, onSearch, onSelectView, canEdit, onNewPackage, onNewGroup, cube }) {
+// which filters the package board.
+export function EditorToolbar({ view, q, onSearch, onSelectView, onNewPackage, onNewGroup, cube }) {
   const views = [
     { value: 'board', label: 'Packages' },
     { value: 'review', label: 'Review' },
@@ -34,14 +33,6 @@ export function EditorToolbar({ view, q, onSearch, onSelectView, canEdit, onNewP
     }
   }
 
-  let newButtons = null
-  if (canEdit) {
-    newButtons = <>
-      <Button size="xs" variant="default" onClick={onNewPackage}>New package</Button>
-      <Button size="xs" variant="default" onClick={onNewGroup}>New group</Button>
-    </>
-  }
-
   return (
     <PageToolbar title="Rules editor">
       <SegmentedControl size="xs" aria-label="Rules editor views" data={views} value={toolbarValue(view)} onChange={onChange} />
@@ -51,7 +42,8 @@ export function EditorToolbar({ view, q, onSearch, onSelectView, canEdit, onNewP
         value={q} onChange={e => onSearch(e.target.value)} spellCheck={false}
       />
       <Button component={Link} to={pageHref(cube, "rules-editor/link")} size="xs" variant="default">Link check</Button>
-      {newButtons}
+      <Button size="xs" variant="default" onClick={onNewPackage}>New package</Button>
+      <Button size="xs" variant="default" onClick={onNewGroup}>New group</Button>
     </PageToolbar>
   )
 }
