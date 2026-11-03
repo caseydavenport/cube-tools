@@ -6,7 +6,9 @@ import { ColorsEdit } from "./edits/ColorsEdit.js"
 import { ArchetypeEdit } from "./edits/ArchetypeEdit.js"
 import { TagsEdit } from "./edits/TagsEdit.js"
 import { RecordEdit } from "./edits/RecordEdit.js"
+import { Link } from "react-router-dom"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
+import { packagePageHref } from "../shell/paths.js"
 
 // matchRecordText is a deck's match record as "W-L-D".
 function matchRecordText(deck) {
@@ -50,39 +52,49 @@ function RecordSummary({ deck, copy }) {
   )
 }
 
-// Communities lists the deck's communities as chips, each with the color the
-// Map view gives it, its package and its size. Hovering a chip names its cards.
-function Communities({ communities }) {
-  if (communities.length === 0) {
-    return null
-  }
-
+// IdentityRow is one labeled row under the deck's name: a label, with a tip
+// explaining it, and the row's chips.
+function IdentityRow({ label, tip, children }) {
   return (
-    <div className="deck-communities">
-      <HoverInfo
-        title="Communities"
-        info="Groups of this deck's cards that the design rules link more to each other than to the rest, named by the package with the most links inside them. The Map view draws them."
-      >
-        <span className="deck-communities-title">Communities</span>
+    <>
+      <HoverInfo title={label} info={tip}>
+        <span className="deck-identity-label">{label}</span>
       </HoverInfo>
-      {communities.map((c, i) => (
-        <HoverInfo key={i} title={`${c.label}: ${c.size} cards`} info={c.members.join(", ")}>
-          <span className="deck-community">
-            <span className="dm-swatch" style={{ background: c.color }} />
-            {c.label}
-            <span className="deck-community-size">{c.size}</span>
-          </span>
-        </HoverInfo>
-      ))}
-    </div>
+      <div className="deck-chip-list">{children}</div>
+    </>
   )
 }
 
+// RuleChip is one community or package: its color, its name and, for a
+// community, how many cards it holds. Hovering a community names its cards.
+function RuleChip({ color, name, size, members, href }) {
+  let text = <>{name}</>
+  if (href) {
+    text = <Link to={href} className="deck-chip-link">{name}</Link>
+  }
+  const chip = (
+    <span className="deck-chip">
+      <span className="dm-swatch" style={{ background: color }} />
+      {text}
+      {size !== undefined && <span className="deck-chip-size">{size}</span>}
+    </span>
+  )
+  if (!members) {
+    return chip
+  }
+  return <HoverInfo title={`${name}: ${size} cards`} info={members.join(", ")}>{chip}</HoverInfo>
+}
+
+const TAGS_TIP = "Your own labels for this deck."
+const COMMUNITIES_TIP = "How this deck's cards cluster: groups of cards that link most to each other, named after the package they lean on most. The Map view draws them."
+const PACKAGES_TIP = "Which of the rules' synergies this deck has enough cards to count as built. A deck can build a package whose cards are spread across several communities."
+
 // IdentityCard is the top card of a deck's details: who played it, its colors
-// and archetype, which draft it came from, its tags, its communities, and its
-// record. On writable cubes each of those but the communities has a pencil to
+// and archetype, which draft it came from, its tags, communities and built
+// packages, and its record. On writable cubes each of those but the communities has a pencil to
 // edit it in place.
-export function IdentityCard({ cube, deck, edits, tagSuggestions, communities, copy }) {
+export function IdentityCard({ cube, deck, edits, tagSuggestions, communities, packages, copy }) {
+  const showTags = edits.editable || (deck.labels || []).length > 0
   return (
     <section className="kit-card deck-identity">
       <div className="deck-identity-main">
@@ -92,8 +104,27 @@ export function IdentityCard({ cube, deck, edits, tagSuggestions, communities, c
           <ArchetypeEdit deck={deck} edits={edits} copy={copy} />
         </div>
         <Text className="deck-muted">{draftLine(deck, copy)}</Text>
-        <TagsEdit deck={deck} edits={edits} suggestions={tagSuggestions} copy={copy} />
-        <Communities communities={communities} />
+        <div className="deck-identity-rows">
+          {showTags && (
+            <IdentityRow label="Tags" tip={TAGS_TIP}>
+              <TagsEdit deck={deck} edits={edits} suggestions={tagSuggestions} copy={copy} />
+            </IdentityRow>
+          )}
+          {communities.length > 0 && (
+            <IdentityRow label="Communities" tip={COMMUNITIES_TIP}>
+              {communities.map((c, i) => (
+                <RuleChip key={i} color={c.color} name={c.label} size={c.size} members={c.members} />
+              ))}
+            </IdentityRow>
+          )}
+          {packages.length > 0 && (
+            <IdentityRow label="Packages" tip={PACKAGES_TIP}>
+              {packages.map(p => (
+                <RuleChip key={p.name} color={p.color} name={p.name} href={packagePageHref(cube, p.name)} />
+              ))}
+            </IdentityRow>
+          )}
+        </div>
       </div>
 
       <RecordEdit cube={cube} deck={deck} edits={edits} copy={copy}>

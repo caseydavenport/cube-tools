@@ -51,6 +51,10 @@ type DesignGraphResponse struct {
 	// PackageEdges connect groups based on the package definitions directly,
 	// mirroring how the packages wire groups together regardless of card membership.
 	PackageEdges []DesignGraphGroupEdge `json:"package_edges"`
+
+	// DeckPackages, for a graph of one deck, names the packages it builds,
+	// judged on its draft's cube list, sorted by name.
+	DeckPackages []string `json:"deck_packages,omitempty"`
 }
 
 // DesignGraphNode represents a card in the design graph, with metadata and connection count.
@@ -163,12 +167,14 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 				return
 			}
 			deck = in.decks[i]
-			config = in.relevantConfig(relevantInDraft(draftID))
 		}
 
 		var resp DesignGraphResponse
 		if deck != nil {
-			resp = buildDeckGraph(in.cube, config, deck, in.playedCardNames)
+			draftID := deck.Metadata.DraftID
+			pkgs := keepPackages(in.packages(), relevantInDraft(draftID))
+			resp = buildDeckGraph(in.cube, configFor(in.config, pkgs), deck, in.playedCardNames)
+			resp.DeckPackages = builtPackages(pkgs, deck)
 		} else {
 			resp = buildDesignGraph(in.cube, config, in.playedCardNames)
 		}
@@ -181,6 +187,21 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 		rw.Header().Set("Content-Type", "application/json")
 		rw.Write(b)
 	})
+}
+
+// builtPackages names the packages the deck builds, sorted by name. Each
+// package carries its relevance, so one its draft's list can't support isn't
+// named.
+func builtPackages(pkgs []design.PackageCards, deck *storage.Deck) []string {
+	cards := deckCardSet(deck)
+	out := []string{}
+	for _, p := range pkgs {
+		if p.BuiltIn(deck.Metadata.DraftID, cards) {
+			out = append(out, p.Name)
+		}
+	}
+	slices.Sort(out)
+	return out
 }
 
 // buildDeckGraph builds the design graph of one deck: the nodes and edges

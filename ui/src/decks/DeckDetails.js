@@ -12,6 +12,7 @@ import { NotesCard } from "./NotesCard.js"
 import { SimilarDecks } from "./SimilarDecks.js"
 import { CompareView } from "./CompareView.js"
 import { deckCommunities } from "../design/map/deckCommunities.js"
+import { ruleColor } from "../design/map/ruleColors.js"
 import { IsBasicLand } from "../utils/Utils.js"
 
 // SaveError is the one line under the identity card that reports the last
@@ -36,10 +37,11 @@ function SaveError({ deck, page, copy }) {
   )
 }
 
-// useDeckCommunities is the deck's mainboard communities from the design
-// graph, the same ones the Map view draws for the mainboard. It's empty while
-// the graph loads.
-function useDeckCommunities(deck, designGraph) {
+// useDeckRules is what the design rules say about the deck: its mainboard
+// communities, the same ones the Map view draws for the mainboard, and the
+// packages it builds, each with its rule color. Both are empty while the
+// deck's graph loads.
+function useDeckRules(deck, designGraph) {
   return useMemo(() => {
     const names = new Set()
     for (const card of deck.mainboard || []) {
@@ -52,7 +54,9 @@ function useDeckCommunities(deck, designGraph) {
     for (let i = 0; i < packages.length; i++) {
       packageIndex[packages[i].name] = i
     }
-    return deckCommunities([...names], designGraph.edges || [], packageIndex).list
+    const communities = deckCommunities([...names], designGraph.edges || [], packageIndex).list
+    const built = (designGraph.deck_packages || []).map(name => ({ name, color: ruleColor(packageIndex[name] ?? 0) }))
+    return { communities, packages: built }
   }, [deck, designGraph])
 }
 
@@ -61,11 +65,11 @@ function useDeckCommunities(deck, designGraph) {
 // it, then the notes.
 function SelectedDeck({ deck, page, copy }) {
   const edits = useDeckEdits(page.cube, deck, page)
-  const communities = useDeckCommunities(deck, page.designGraph)
+  const rules = useDeckRules(deck, page.designGraph)
 
   return (
     <div className="deck-details">
-      <IdentityCard cube={page.cube} deck={deck} edits={edits} tagSuggestions={page.archetypes} communities={communities} copy={copy} />
+      <IdentityCard cube={page.cube} deck={deck} edits={edits} tagSuggestions={page.archetypes} communities={rules.communities} packages={rules.packages} copy={copy} />
       <SaveError deck={deck} page={page} copy={copy} />
       <DeckStatTiles deck={deck} copy={copy} />
 

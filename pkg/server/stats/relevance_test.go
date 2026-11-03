@@ -252,6 +252,21 @@ func TestDesignGraph_DeckParam(t *testing.T) {
 	assert.False(t, graphPackages(t, url.Values{"deck": {"4/1"}})["Lifegain"], "draft 4's didn't")
 }
 
+// TestDesignGraph_DeckPackages checks that a deck's graph names the packages
+// the deck builds, judged on its draft's list.
+func TestDesignGraph_DeckPackages(t *testing.T) {
+	store, src := relevanceStore(t)
+	built := func(ref string) []string {
+		rr := serveCube(DesignGraphHandler(store, src), "/api/polyverse/stats/design-graph", url.Values{"deck": {ref}})
+		require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+		var resp DesignGraphResponse
+		require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+		return resp.DeckPackages
+	}
+	assert.Equal(t, []string{"Lifegain"}, built("1/1"), "two enablers alone are too few for Enablers only")
+	assert.Empty(t, built("2/1"), "one enabler builds nothing")
+}
+
 func TestDesignGraph_BadDeckParam(t *testing.T) {
 	store, src := relevanceStore(t)
 	wantStatus := map[string]int{
