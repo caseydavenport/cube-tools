@@ -6,13 +6,12 @@ import { Link, useNavigate } from "react-router-dom"
 import { linkCheckHref } from "../../shell/paths.js"
 import { otherCardNames } from "../link/linkCheckModel.js"
 import { useCube } from "../../contexts/CubeContext.js"
-import { buildDeckSubgraph, rankByDegree, dominantLabel } from "../../utils/DeckGraph"
-import { RULE_COLORS, ruleColor } from "./ruleColors.js"
+import { rankByDegree } from "../../utils/DeckGraph"
 import { edgeColorFor, editorHref } from "./designData.js"
 import { CardPageIcon } from "../../components/CardLink.js"
 import { cardColor } from "../../components/map/nodeColors.js"
 import { MapView } from "../../components/map/MapView.js"
-import { buildMapGraph, findCommunities, groupCommunities } from "../../components/map/mapGraph.js"
+import { deckCommunities } from "./deckCommunities.js"
 import { CardPreview } from "./DrillMap.js"
 import { MAP_COPY } from "./copy.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
@@ -37,37 +36,11 @@ export function CardSynergyMap({ cards, edges, packages }) {
 
   const [colorBy, setColorBy] = useState("identity")
 
-  // Deck-subgraph analytics: most-connected ranking, and communities with a color
-  // and dominant rule label each. Multi-card communities get a palette color;
-  // singletons and isolated cards get null, drawn in the theme gray, and aren't listed.
+  // Deck-subgraph analytics: the most-connected ranking, and the communities
+  // with a color and package name each.
   const analytics = useMemo(() => {
-    const names = [...byName.keys()]
-    const g = buildDeckSubgraph(names, edges || [])
-    const ranking = rankByDegree(g)
-    const poolGraph = buildMapGraph(names.map(name => ({ id: name })), edges || [])
-    const communities = groupCommunities(findCommunities(poolGraph))
-    const communityColorOf = {}
-    const list = []
-    // Color each community by its label so a package looks the same across decks.
-    // Communities come back largest-first; if a smaller one wants a color already
-    // taken in this deck, bump it to the next free slot so the two stay distinct.
-    const used = new Set()
-    for (const comm of communities) {
-      const label = comm.length >= 2 ? dominantLabel(g, comm) : ""
-      if (!label) {
-        for (const n of comm) communityColorOf[n] = null
-        continue
-      }
-      let color = ruleColor(packageIndex[label] ?? 0)
-      if (used.has(color)) {
-        const free = RULE_COLORS.find(c => !used.has(c))
-        if (free) color = free
-      }
-      used.add(color)
-      for (const n of comm) communityColorOf[n] = color
-      list.push({ color, label, size: comm.length, members: comm })
-    }
-    return { ranking, communities: list, communityColorOf }
+    const { graph, list, colorOf } = deckCommunities([...byName.keys()], edges, packageIndex)
+    return { ranking: rankByDegree(graph), communities: list, communityColorOf: colorOf }
   }, [byName, edges, packageIndex])
 
   const { simNodes, simEdges } = useMemo(() => {

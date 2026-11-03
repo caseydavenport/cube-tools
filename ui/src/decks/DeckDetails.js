@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { CloseButton } from "@mantine/core"
 import { EmptyState } from "../components/kit/EmptyState.js"
 import { deckRef, resolveSelectedDeck } from "./deckModel.js"
@@ -11,6 +11,8 @@ import { DecklistCard } from "./DecklistCard.js"
 import { NotesCard } from "./NotesCard.js"
 import { SimilarDecks } from "./SimilarDecks.js"
 import { CompareView } from "./CompareView.js"
+import { deckCommunities } from "../design/map/deckCommunities.js"
+import { IsBasicLand } from "../utils/Utils.js"
 
 // SaveError is the one line under the identity card that reports the last
 // failed save, whichever field it was. A failure on another deck (the viewer
@@ -34,15 +36,36 @@ function SaveError({ deck, page, copy }) {
   )
 }
 
+// useDeckCommunities is the deck's mainboard communities from the design
+// graph, the same ones the Map view draws for the mainboard. It's empty while
+// the graph loads.
+function useDeckCommunities(deck, designGraph) {
+  return useMemo(() => {
+    const names = new Set()
+    for (const card of deck.mainboard || []) {
+      if (!IsBasicLand(card)) {
+        names.add(card.name)
+      }
+    }
+    const packageIndex = {}
+    const packages = designGraph.packages || []
+    for (let i = 0; i < packages.length; i++) {
+      packageIndex[packages[i].name] = i
+    }
+    return deckCommunities([...names], designGraph.edges || [], packageIndex).list
+  }, [deck, designGraph])
+}
+
 // SelectedDeck lays out one deck's details, top to bottom: who and what, the
 // numbers, mana and themes beside the matches, the cards, the decks most like
 // it, then the notes.
 function SelectedDeck({ deck, page, copy }) {
   const edits = useDeckEdits(page.cube, deck, page)
+  const communities = useDeckCommunities(deck, page.designGraph)
 
   return (
     <div className="deck-details">
-      <IdentityCard cube={page.cube} deck={deck} edits={edits} tagSuggestions={page.archetypes} copy={copy} />
+      <IdentityCard cube={page.cube} deck={deck} edits={edits} tagSuggestions={page.archetypes} communities={communities} copy={copy} />
       <SaveError deck={deck} page={page} copy={copy} />
       <DeckStatTiles deck={deck} copy={copy} />
 
