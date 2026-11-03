@@ -172,27 +172,45 @@ func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID 
 }
 
 // PackagesForCube resolves a cube's packages to card names, ready to test
-// which decks build each one. It loads the same rules and cards as
-// DesignGraphForCube and fails the same way.
+// which decks build each one, with each package's relevance attached. It
+// loads the same rules and cards as DesignGraphForCube and fails the same way.
 func PackagesForCube(store storage.DeckStorage, src types.CubeSource, cubeID string) ([]design.PackageCards, error) {
 	in, err := loadDesignInputs(store, src, cubeID)
 	if err != nil {
 		return nil, err
 	}
-	return resolvePackages(in.cube, in.config, in.deckCardNames), nil
+	return in.packages(), nil
 }
 
 // designInputs is what the design graph and package detection are built from:
-// the current cube list, its rules, and the cards its decks have played.
+// the current cube list, its rules, the cards its decks have played and its
+// drafts' lists held, every list packages are judged against, and the
+// packages the cube forces on or off.
 type designInputs struct {
 	cube          *types.Cube
 	config        design.DesignMapConfig
 	deckCardNames []string
+	lists         cardLists
+	overrides     design.PackageOverrides
 }
 
-// loadDesignInputs loads a cube's list, rules and deck card names. A store
-// without rules support gives an empty config; a failure to list deck cards
-// is logged, since it only loses cut cards.
+// packages resolves the rules' packages with their relevance attached.
+func (in designInputs) packages() []design.PackageCards {
+	return in.packagesWith(in.config)
+}
+
+// packagesWith resolves another config's packages against the same cube,
+// decks and lists, such as a proposed edit to the rules.
+func (in designInputs) packagesWith(config design.DesignMapConfig) []design.PackageCards {
+	pkgs := resolvePackages(in.cube, config, in.deckCardNames)
+	attachRelevance(pkgs, in.lists, in.overrides)
+	return pkgs
+}
+
+// loadDesignInputs loads a cube's list, rules, deck card names, card lists
+// and overrides. A store without rules support gives an empty config; a
+// failure to list decks or read overrides is logged, since it only loses cut
+// cards or forced packages.
 func loadDesignInputs(store storage.DeckStorage, src types.CubeSource, cubeID string) (designInputs, error) {
 	cube, err := src.Current(cubeID)
 	if err != nil {
@@ -207,11 +225,17 @@ func loadDesignInputs(store storage.DeckStorage, src types.CubeSource, cubeID st
 	} else {
 		config = *cfg
 	}
-	names, err := deckCardNames(store, cubeID)
+	decks, err := store.List(cubeID, &storage.DecksRequest{})
 	if err != nil {
-		logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
+		logrus.WithError(err).Warn("could not load decks; cut cards may show disconnected")
 	}
-	return designInputs{cube: cube, config: config, deckCardNames: names}, nil
+	lists := loadCardLists(store, cubeID, cube, decks)
+	overrides, err := store.GetOverrides(cubeID)
+	if err != nil {
+		logrus.WithError(err).Warn("could not read package overrides; none applied")
+	}
+	names := append(distinctCardNames(decks), lists.snapshotOnlyNames()...)
+	return designInputs{cube: cube, config: config, deckCardNames: names, lists: lists, overrides: overrides}, nil
 }
 
 // deckCardNames returns the distinct non-basic mainboard card names across all of
@@ -222,6 +246,12 @@ func deckCardNames(store storage.DeckStorage, cubeID string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	return distinctCardNames(decks), nil
+}
+
+// distinctCardNames returns the distinct non-basic mainboard card names
+// across the decks.
+func distinctCardNames(decks []*storage.Deck) []string {
 	seen := make(map[string]bool)
 	var names []string
 	for _, d := range decks {
@@ -233,7 +263,7 @@ func deckCardNames(store storage.DeckStorage, cubeID string) ([]string, error) {
 			names = append(names, name)
 		}
 	}
-	return names, nil
+	return names
 }
 
 // MatchedCard describes a card and which conditions it matched.

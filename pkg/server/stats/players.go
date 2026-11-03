@@ -2,7 +2,6 @@ package stats
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"math"
 	"net/http"
@@ -201,24 +200,9 @@ func loadCubeLists(store storage.DeckStorage, cubeID string, decks []*storage.De
 			continue
 		}
 		tried[draftID] = true
-
-		snapshot, err := store.GetSnapshot(cubeID, draftID)
-		if err != nil {
-			if !errors.Is(err, storage.ErrDeckNotFound) && !errors.Is(err, storage.ErrUnsupported) {
-				logrus.WithError(err).WithField("draft", draftID).Warn("could not read cube snapshot")
-			}
-			continue
+		if names, _ := snapshotNames(store, cubeID, draftID); names != nil {
+			lists[draftID] = names
 		}
-
-		// Early drafts saved an empty snapshot; that says nothing about the cube.
-		if len(snapshot.Cards) == 0 {
-			continue
-		}
-		names := map[string]bool{}
-		for _, c := range snapshot.Cards {
-			names[c.Name] = true
-		}
-		lists[draftID] = names
 	}
 	return lists
 }

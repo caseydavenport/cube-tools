@@ -84,7 +84,7 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		http.Error(rw, "could not load packages", http.StatusInternalServerError)
 		return
 	}
-	pkgs := resolvePackages(rules.cube, rules.config, rules.deckCardNames)
+	pkgs := rules.packages()
 
 	// The packages are cube-wide; only the decks they're measured over follow
 	// the date range and the deck filter.

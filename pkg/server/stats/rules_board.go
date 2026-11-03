@@ -84,7 +84,7 @@ func buildRulesBoard(rules designInputs, decks []*storage.Deck, conf float64) Ru
 
 	// Index the resolved packages and their build rows by name.
 	resolved := map[string]design.PackageCards{}
-	pkgs := resolvePackages(rules.cube, rules.config, rules.deckCardNames)
+	pkgs := rules.packages()
 	for _, p := range pkgs {
 		resolved[p.Name] = p
 	}

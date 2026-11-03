@@ -163,7 +163,7 @@ type packagePageInputs struct {
 // buildPackagePage computes every section of the package page.
 func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	cube := page.rules.cube
-	resolved := resolvePackages(cube, page.rules.config, page.rules.deckCardNames)
+	resolved := page.rules.packages()
 	idx := slices.IndexFunc(resolved, func(p design.PackageCards) bool { return p.Name == page.pkg.Name })
 	cards := resolved[idx]
 

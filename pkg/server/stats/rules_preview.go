@@ -67,8 +67,8 @@ func (h *rulesPreviewHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 
 	// Count over the decks in the date range, under both the saved rules and
 	// the proposal.
-	now := buildCounts(resolvePackages(rules.cube, rules.config, rules.deckCardNames), decks)
-	after := buildCounts(resolvePackages(rules.cube, proposed, rules.deckCardNames), decks)
+	now := buildCounts(rules.packages(), decks)
+	after := buildCounts(rules.packagesWith(proposed), decks)
 	writeJSON(rw, RulesPreviewResponse{Packages: packageChanges(now, after)}, "rules preview")
 }
 
