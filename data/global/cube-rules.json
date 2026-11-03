@@ -1133,6 +1133,102 @@
       "conditions": [
         "otag:low-mana-value-matters o:\"creature card\" !otag:reanimate-creature !otag:reanimate-permanent !otag:tutor-mv"
       ]
+    },
+    {
+      "name": "Kithkin",
+      "conditions": [
+        "t:kithkin OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Kithkin payoffs",
+      "conditions": [
+        "otag:typal-kithkin"
+      ]
+    },
+    {
+      "name": "Merfolk",
+      "conditions": [
+        "t:merfolk OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Merfolk payoffs",
+      "conditions": [
+        "otag:typal-merfolk"
+      ]
+    },
+    {
+      "name": "Treefolk",
+      "conditions": [
+        "t:treefolk OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Treefolk payoffs",
+      "conditions": [
+        "otag:typal-treefolk"
+      ]
+    },
+    {
+      "name": "Faeries",
+      "conditions": [
+        "t:faerie OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Faerie payoffs",
+      "conditions": [
+        "otag:typal-faerie"
+      ]
+    },
+    {
+      "name": "Elementals",
+      "conditions": [
+        "t:elemental OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Elemental payoffs",
+      "conditions": [
+        "otag:typal-elemental"
+      ]
+    },
+    {
+      "name": "Warriors",
+      "conditions": [
+        "t:warrior OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Warrior payoffs",
+      "conditions": [
+        "otag:typal-warrior"
+      ]
+    },
+    {
+      "name": "Rogues",
+      "conditions": [
+        "t:rogue OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Rogue payoffs",
+      "conditions": [
+        "otag:typal-rogue"
+      ]
+    },
+    {
+      "name": "Soldiers",
+      "conditions": [
+        "t:soldier OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Soldier payoffs",
+      "conditions": [
+        "otag:typal-soldier"
+      ]
     }
   ],
   "packages": [
@@ -2024,6 +2120,118 @@
           "targets": [
             "Amass",
             "Army payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kithkin",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Kithkin"
+          ],
+          "targets": [
+            "Kithkin payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Merfolk",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Merfolk"
+          ],
+          "targets": [
+            "Merfolk payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Treefolk",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Treefolk"
+          ],
+          "targets": [
+            "Treefolk payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Faeries",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Faeries"
+          ],
+          "targets": [
+            "Faerie payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Elementals",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Elementals"
+          ],
+          "targets": [
+            "Elemental payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Warriors",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Warriors"
+          ],
+          "targets": [
+            "Warrior payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Rogues",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Rogues"
+          ],
+          "targets": [
+            "Rogue payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Soldiers",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Soldiers"
+          ],
+          "targets": [
+            "Soldier payoffs"
           ]
         }
       ]
