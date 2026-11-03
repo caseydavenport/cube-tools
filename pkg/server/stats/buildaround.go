@@ -19,14 +19,19 @@ var buildaroundShape = []string{
 	`t:land !otag:fetchland o:"at the beginning of your"`,
 }
 
+// buildaroundShapeGroup is buildaroundShape as one group, so its matches are
+// remembered alongside the rules'.
+var buildaroundShapeGroup = []design.Group{{Name: "Build-around shape", Conditions: buildaroundShape}}
+
 // buildaroundCards returns the build-arounds among cards: those matching
 // buildaroundShape outside groups marked notBuildaround, the cards of groups
 // marked buildaround, and every card a wire names with a card: entry.
 // groupCards holds each group's cards.
 func buildaroundCards(cards map[string]types.Card, config design.DesignMapConfig, groupCards map[string]map[string]bool) map[string]bool {
 	out := map[string]bool{}
-	for _, cond := range buildaroundShape {
-		for name := range matchCards(cards, cond) {
+	shape := groupMatches.forGroups(buildaroundShapeGroup)
+	for name, card := range cards {
+		if len(shape.matched(card)) > 0 {
 			out[name] = true
 		}
 	}
