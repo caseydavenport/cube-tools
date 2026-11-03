@@ -7,13 +7,19 @@ import { UnstyledButton } from "@mantine/core"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { DeckRow } from "../cards/CardPlaySections.js"
+import { CardLink } from "../components/CardLink.js"
+import { SortHeader } from "../stats/sortHeader.js"
+import { compareBy } from "../stats/sortOrder.js"
 import { packageMatch, packagePageHref, pageHrefWithMatch } from "../shell/paths.js"
 import { ColorImages } from "../utils/Colors.js"
-import { colorBlocks, colorCell } from "./packagePageModel.js"
+import { cardSortValue, colorBlocks, colorCell, rolesText } from "./packagePageModel.js"
 import { columnHeadings } from "./packageMapModel.js"
 
 // DECKS_SHOWN is how many decks the decks section lists before "Show all".
 const DECKS_SHOWN = 10
+
+// CARDS_SHOWN is how many rows the cards table lists before "Show all".
+const CARDS_SHOWN = 20
 
 // COLOR_COLUMNS are the support table's columns after the group name.
 const COLOR_COLUMNS = ["W", "U", "B", "R", "G", "C", "L"]
@@ -143,6 +149,66 @@ export function RelatedPackages({ page, cube }) {
           </HoverInfo>
         ))}
       </div>
+    </SectionCard>
+  )
+}
+
+// PackageCards lists every cube card on the package's wires in one sortable
+// table: its role, the groups that put it there, and how many decks in the
+// date range played it and built the package with it.
+export function PackageCards({ page, cube }) {
+  const [sort, setSort] = useState({ key: "builds", dir: "desc" })
+  const [expanded, setExpanded] = useState(false)
+  if (page.cards.length === 0) {
+    return null
+  }
+
+  const rows = [...page.cards].sort(compareBy(row => cardSortValue(sort.key, row), sort.dir))
+  let shown = rows
+  if (!expanded) {
+    shown = rows.slice(0, CARDS_SHOWN)
+  }
+
+  // header is one column's sortable header cell.
+  function header(key, label, tip, numeric = true) {
+    return <SortHeader sortKey={key} label={label} tip={tip} sort={sort} setSort={setSort} numeric={numeric} />
+  }
+
+  return (
+    <SectionCard title={`Cards · ${page.cards.length}`}>
+      <div className="stats-table-wrap">
+        <table className="widget-table stats-full-width">
+          <thead>
+            <tr>
+              {header("name", "Card", undefined, false)}
+              <td className="header-cell">Colors</td>
+              {header("cmc", "MV", "Mana value.")}
+              {header("role", "Role", "Enabler: on the first side of an Enables wire. Payoff: on its second side. Pairs with: on a wire whose two sides go well together.", false)}
+              <td className="header-cell">Groups</td>
+              {header("played", "Played", "Decks in the date range that mainboarded it.")}
+              {header("builds", "In builds", "Decks in the date range that built the package with it in the mainboard.")}
+            </tr>
+          </thead>
+          <tbody>
+            {shown.map(row => (
+              <tr key={row.name} className="widget-table-row">
+                <td className="header-cell"><CardLink cube={cube} name={row.name} /></td>
+                <td>{ColorImages(row.colors || [])}</td>
+                <td className="page-right-cell">{row.cmc}</td>
+                <td>{rolesText(row.roles)}</td>
+                <td>{row.groups.join(", ")}</td>
+                <td className="page-right-cell">{row.played}</td>
+                <td className="page-right-cell">{row.builds}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {!expanded && rows.length > CARDS_SHOWN && (
+        <UnstyledButton className="card-partner-more" onClick={() => setExpanded(true)}>
+          Show all {rows.length}
+        </UnstyledButton>
+      )}
     </SectionCard>
   )
 }

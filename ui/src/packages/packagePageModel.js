@@ -146,3 +146,22 @@ export function chartSeries(overTime) {
     inRange: overTime.map(d => d.in_range),
   }
 }
+
+// ROLE_WORDS names each wire role for the cards table, in display order.
+const ROLE_WORDS = [["enabler", "Enabler"], ["payoff", "Payoff"], ["pairs", "Pairs with"]]
+
+// rolesText is a card's roles on the package's wires, as words.
+export function rolesText(roles) {
+  return ROLE_WORDS.filter(([role]) => roles.includes(role)).map(([, word]) => word).join(", ")
+}
+
+// cardSortValue is the value a cards table column sorts a row by.
+export function cardSortValue(key, row) {
+  if (key === "name") {
+    return row.name.toLowerCase()
+  }
+  if (key === "role") {
+    return row.roles.join(",")
+  }
+  return row[key]
+}

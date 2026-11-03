@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { chartSeries, colorBlocks, colorCell, groupPanelState, headerLine, packageProblems, packageSubtitle } from "./packagePageModel.js"
+import { cardSortValue, chartSeries, colorBlocks, colorCell, groupPanelState, headerLine, packageProblems, packageSubtitle, rolesText } from "./packagePageModel.js"
 
 const wires = [
   { sources: [{ name: "Graveyard" }], targets: [{ name: "Delirium payoffs" }, { name: "Reanimate targets" }] },
@@ -103,4 +103,18 @@ test("color blocks use the Pairs with names when a wire doesn't enable", () => {
   assert.deepEqual(blocks.map(b => b.title), ["Cards", "Pair with"])
   assert.deepEqual(blocks[0].rows.map(r => r.name), ["Wraths", "All cards"])
   assert.deepEqual(blocks[1].rows.map(r => r.name), ["Big creatures", "All they pair with"])
+})
+
+test("a card's roles read as words in a fixed order", () => {
+  assert.equal(rolesText(["payoff", "enabler"]), "Enabler, Payoff")
+  assert.equal(rolesText(["pairs"]), "Pairs with")
+})
+
+test("card rows sort by name, mana value or deck counts", () => {
+  const row = { name: "Mayhem Devil", cmc: 3, roles: ["payoff"], played: 9, builds: 4 }
+  assert.equal(cardSortValue("name", row), "mayhem devil")
+  assert.equal(cardSortValue("cmc", row), 3)
+  assert.equal(cardSortValue("role", row), "payoff")
+  assert.equal(cardSortValue("played", row), 9)
+  assert.equal(cardSortValue("builds", row), 4)
 })

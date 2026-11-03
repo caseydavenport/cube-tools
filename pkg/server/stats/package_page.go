@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"cmp"
 	"maps"
 	"net/http"
 	"slices"
@@ -39,20 +40,34 @@ var colorColumns = []string{"W", "U", "B", "R", "G", "C", "L"}
 // wires, how each group spreads over the colors, its builds per draft, the
 // decks that built it, and the packages it shares groups with.
 type PackagePageResponse struct {
-	Name       string          `json:"name"`
-	Stat       PackageStat     `json:"stat"`
-	Wires      []PackageWire   `json:"wires"`
-	ColorTable []GroupColorRow `json:"color_table"`
-	OverTime   []DraftBuild    `json:"over_time"`
-	Decks      []CardDeck      `json:"decks"`
-	Related    []PackageEdge   `json:"related"`
-	Map        PackageMap      `json:"map"`
+	Name       string           `json:"name"`
+	Stat       PackageStat      `json:"stat"`
+	Wires      []PackageWire    `json:"wires"`
+	ColorTable []GroupColorRow  `json:"color_table"`
+	OverTime   []DraftBuild     `json:"over_time"`
+	Decks      []CardDeck       `json:"decks"`
+	Related    []PackageEdge    `json:"related"`
+	Map        PackageMap       `json:"map"`
+	Cards      []PackageCardRow `json:"cards"`
 
 	// Relevant says whether today's cube list clears the relevance line for
 	// the package, before overrides. Forced is "on" or "off" when the cube
 	// forces it, else "".
 	Relevant bool   `json:"relevant"`
 	Forced   string `json:"forced"`
+}
+
+// PackageCardRow is one cube card on the package's wires: its role on them,
+// the groups that put it there, and how many decks in range played it and
+// built the package with it. Roles are "enabler", "payoff" and "pairs".
+type PackageCardRow struct {
+	Name   string   `json:"name"`
+	Colors []string `json:"colors"`
+	CMC    int      `json:"cmc"`
+	Roles  []string `json:"roles"`
+	Groups []string `json:"groups"`
+	Played int      `json:"played"`
+	Builds int      `json:"builds"`
 }
 
 // PackageWire is one wire of a package with its groups resolved to cube cards.
@@ -213,6 +228,7 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 		}
 	}
 	resp.Decks = deckRows(built)
+	resp.Cards = packageCards(page.pkg, resp.Wires, cardMap, page.ranged, built)
 
 	// Related packages, with the edge turned so this package is the source.
 	for _, e := range packageEdges(others) {
@@ -223,6 +239,66 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 		}
 	}
 	return resp
+}
+
+// packageCards lists the cube cards on the package's wires, one row each.
+// wires holds the package's wires resolved to cube cards, in the package's
+// order. Cards most built with come first, then the most played, then by name.
+func packageCards(pkg design.Package, wires []PackageWire, cards map[string]types.Card, ranged, built []*storage.Deck) []PackageCardRow {
+	roles := map[string]map[string]bool{}
+	groups := map[string]map[string]bool{}
+	add := func(side []WireGroup, role string) {
+		for _, g := range side {
+			for _, name := range g.Cards {
+				if roles[name] == nil {
+					roles[name] = map[string]bool{}
+					groups[name] = map[string]bool{}
+				}
+				roles[name][role] = true
+				groups[name][g.Name] = true
+			}
+		}
+	}
+	for i, w := range wires {
+		sourceRole, targetRole := "enabler", "payoff"
+		if pkg.Wires[i].Kind == design.WirePairs {
+			sourceRole, targetRole = "pairs", "pairs"
+		}
+		add(w.Sources, sourceRole)
+		add(w.Targets, targetRole)
+	}
+
+	played := mainboardCounts(ranged)
+	inBuilds := mainboardCounts(built)
+	out := []PackageCardRow{}
+	for name := range roles {
+		c := cards[name]
+		out = append(out, PackageCardRow{
+			Name:   name,
+			Colors: c.Colors,
+			CMC:    c.CMC,
+			Roles:  slices.Sorted(maps.Keys(roles[name])),
+			Groups: slices.Sorted(maps.Keys(groups[name])),
+			Played: played[name],
+			Builds: inBuilds[name],
+		})
+	}
+	slices.SortFunc(out, func(a, b PackageCardRow) int {
+		return cmp.Or(b.Builds-a.Builds, b.Played-a.Played, strings.Compare(a.Name, b.Name))
+	})
+	return out
+}
+
+// mainboardCounts counts, per non-basic card, the decks that mainboarded it.
+// A deck running two copies counts once.
+func mainboardCounts(decks []*storage.Deck) map[string]int {
+	numDecks := map[string]int{}
+	for _, d := range decks {
+		for name := range deckCardSet(d) {
+			numDecks[name]++
+		}
+	}
+	return numDecks
 }
 
 // deckCardSet is the deck's mainboard as a set, basic lands included, the

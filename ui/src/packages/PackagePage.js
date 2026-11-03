@@ -15,7 +15,7 @@ import { pageHref, packagePageHref } from "../shell/paths.js"
 import { BuiltOverTime } from "./BuiltOverTime.js"
 import { PackageHeader } from "./PackageHeader.js"
 import { PackageVisibility } from "./PackageVisibility.js"
-import { ColorSupport, DecksBuilt, RelatedPackages } from "./PackageSections.js"
+import { ColorSupport, DecksBuilt, PackageCards, RelatedPackages } from "./PackageSections.js"
 import { PackageMap } from "./PackageMap.js"
 import { GroupPanel } from "./GroupPanel.js"
 import { WirePanel } from "./WirePanel.js"
@@ -297,6 +297,9 @@ export function PackagePage(props) {
           </div>
           <div className="card-page-wide">
             <ColorSupport page={page} />
+          </div>
+          <div className="card-page-wide">
+            <PackageCards page={page} cube={cube} />
           </div>
           <BuiltOverTime overTime={page.over_time} />
           <div className="card-page-stack">

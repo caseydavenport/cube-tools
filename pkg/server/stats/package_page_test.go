@@ -79,6 +79,57 @@ func TestPackagePage_Header(t *testing.T) {
 	assert.Equal(t, []PackageEdge{{Source: "Sacrifice", Target: "Burn", Groups: []string{"Fodder"}}}, resp.Related)
 }
 
+func TestPackagePage_Cards(t *testing.T) {
+	store := &rulesDeckStorage{mockDeckStorage: mockDeckStorage{decks: sacrificeDecks()}, config: sacrificeRules("Sacrifice")}
+	_, code, resp := packagePageFor(t, store, url.Values{"name": {"Sacrifice"}})
+	require.Equal(t, http.StatusOK, code)
+
+	var names []string
+	for _, c := range resp.Cards {
+		names = append(names, c.Name)
+	}
+
+	// Most builds first, then most played, then by name.
+	want := []string{"Goblin Bombardment", "Grim Lavamancer", "Mayhem Devil", "Legion Extruder", "Pia and Kiran Nalaar"}
+	assert.Equal(t, want, names)
+
+	bombardment := resp.Cards[0]
+	assert.Equal(t, []string{"enabler"}, bombardment.Roles)
+	assert.Equal(t, []string{"Outlets"}, bombardment.Groups)
+	assert.Equal(t, 2, bombardment.Played)
+	assert.Equal(t, 2, bombardment.Builds)
+	assert.Equal(t, []string{"R"}, bombardment.Colors)
+
+	lavamancer := resp.Cards[1]
+	assert.Equal(t, []string{"payoff"}, lavamancer.Roles)
+	assert.Equal(t, []string{"Fodder"}, lavamancer.Groups)
+
+	pia := resp.Cards[4]
+	assert.Equal(t, 0, pia.Played)
+	assert.Equal(t, 0, pia.Builds)
+}
+
+func TestPackageCards_PairsAndBothSides(t *testing.T) {
+	pkg := design.Package{Name: "P", Wires: []design.Wire{
+		{Kind: design.WirePairs, Sources: []string{"A"}, Targets: []string{"B"}},
+		{Sources: []string{"B"}, Targets: []string{"C"}},
+	}}
+	wires := []PackageWire{
+		{Sources: []WireGroup{{Name: "A", Cards: []string{"X"}}}, Targets: []WireGroup{{Name: "B", Cards: []string{"Y"}}}},
+		{Sources: []WireGroup{{Name: "B", Cards: []string{"Y"}}}, Targets: []WireGroup{{Name: "C", Cards: []string{"Y", "Z"}}}},
+	}
+	rows := packageCards(pkg, wires, map[string]types.Card{}, nil, nil)
+
+	byName := map[string]PackageCardRow{}
+	for _, r := range rows {
+		byName[r.Name] = r
+	}
+	assert.Equal(t, []string{"pairs"}, byName["X"].Roles)
+	assert.Equal(t, []string{"enabler", "pairs", "payoff"}, byName["Y"].Roles)
+	assert.Equal(t, []string{"B", "C"}, byName["Y"].Groups)
+	assert.Equal(t, []string{"payoff"}, byName["Z"].Roles)
+}
+
 func TestPackagePage_IgnoresDeckFilter(t *testing.T) {
 	store := &rulesFilterStore{playerFilterStore: playerFilterStore{mockDeckStorage{decks: sacrificeDecks()}}, config: sacrificeRules("Sacrifice")}
 	plain, _, _ := packagePageFor(t, store, url.Values{"name": {"Sacrifice"}})
@@ -105,7 +156,7 @@ func TestPackagePage_EmptyListsNotNull(t *testing.T) {
 	body, code, _ := packagePageFor(t, store, url.Values{"name": {"Sacrifice"}})
 	require.Equal(t, http.StatusOK, code)
 	assert.NotContains(t, body, "null")
-	for _, field := range []string{"wires", "color_table", "over_time", "decks", "related"} {
+	for _, field := range []string{"wires", "color_table", "over_time", "decks", "related", "cards"} {
 		assert.Contains(t, body, `"`+field+`":[`, field)
 	}
 }
