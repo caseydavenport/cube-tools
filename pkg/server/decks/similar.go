@@ -60,7 +60,7 @@ type similarDecksHandler struct {
 // ServeHTTP answers with the requested deck's most similar decks: 400 for a
 // malformed deck reference, 404 for a deck the cube doesn't have.
 func (h *similarDecksHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	draftID, id, ok := parseDeckRef(r.URL.Query().Get("deck"))
+	draftID, id, ok := ParseDeckRef(r.URL.Query().Get("deck"))
 	if !ok {
 		http.Error(rw, "deck must be <draft_id>/<id>", http.StatusBadRequest)
 		return
@@ -91,9 +91,9 @@ func (h *similarDecksHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 }
 
-// parseDeckRef splits "<draft_id>/<id>" into its two numbers, reporting false
+// ParseDeckRef splits "<draft_id>/<id>" into its two numbers, reporting false
 // when it isn't in that form.
-func parseDeckRef(ref string) (int, int, bool) {
+func ParseDeckRef(ref string) (int, int, bool) {
 	draft, deck, found := strings.Cut(ref, "/")
 	if !found {
 		return 0, 0, false

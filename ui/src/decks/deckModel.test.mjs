@@ -2,6 +2,7 @@ import { test } from "node:test"
 import assert from "node:assert/strict"
 import {
   designGraphUrl,
+  loadedFor,
   archetypeLabel,
   boardCards,
   deckCounts,
@@ -212,11 +213,17 @@ test("isDeckInList finds a deck by its ref", () => {
   assert.equal(isDeckInList(decks, "12/3"), false)
 })
 
-test("the design graph is asked for the selected deck's draft", () => {
-  assert.equal(designGraphUrl("polyverse", "12/3"), "/api/polyverse/stats/design-graph?draft=12")
+test("the design graph is asked for the selected deck alone", () => {
+  assert.equal(designGraphUrl("polyverse", "12/3"), "/api/polyverse/stats/design-graph?deck=12%2F3")
 })
 
 test("with no deck selected the design graph covers every package", () => {
   assert.equal(designGraphUrl("polyverse", ""), "/api/polyverse/stats/design-graph")
   assert.equal(designGraphUrl("polyverse", "junk"), "/api/polyverse/stats/design-graph")
+})
+
+test("a response loaded for another url isn't shown", () => {
+  const loaded = { url: "/api/polyverse/stats/design-graph?deck=12%2F3", body: { edges: [1] } }
+  assert.deepEqual(loadedFor(loaded, "/api/polyverse/stats/design-graph?deck=12%2F3", {}), { edges: [1] })
+  assert.deepEqual(loadedFor(loaded, "/api/polyverse/stats/design-graph?deck=48%2F1", {}), {})
 })

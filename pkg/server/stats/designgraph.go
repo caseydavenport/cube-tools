@@ -13,6 +13,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -136,8 +137,8 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			return
 		}
 
-		// The decks page asks for one deck's draft, so its links show only
-		// packages that draft's list supported. Rules editors ask for all.
+		// The decks page asks for one deck, so its links show only packages
+		// that deck's draft list supported. Rules editors ask for all.
 		config := in.config
 		if draft := query.GetString(r, "draft"); draft != "" {
 			draftID, err := strconv.Atoi(draft)
@@ -147,8 +148,30 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			}
 			config = in.relevantConfig(relevantInDraft(draftID))
 		}
+		var deck *storage.Deck
+		if ref := query.GetString(r, "deck"); ref != "" {
+			draftID, id, ok := decks.ParseDeckRef(ref)
+			if !ok {
+				http.Error(rw, "deck must be <draft_id>/<id>", http.StatusBadRequest)
+				return
+			}
+			i := slices.IndexFunc(in.decks, func(d *storage.Deck) bool {
+				return d.Metadata.DraftID == draftID && d.ID == id
+			})
+			if i < 0 {
+				http.Error(rw, "deck not found", http.StatusNotFound)
+				return
+			}
+			deck = in.decks[i]
+			config = in.relevantConfig(relevantInDraft(draftID))
+		}
 
-		resp := buildDesignGraph(in.cube, config, in.playedCardNames)
+		var resp DesignGraphResponse
+		if deck != nil {
+			resp = buildDeckGraph(in.cube, config, deck, in.playedCardNames)
+		} else {
+			resp = buildDesignGraph(in.cube, config, in.playedCardNames)
+		}
 
 		b, err := json.Marshal(resp)
 		if err != nil {
@@ -158,6 +181,37 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 		rw.Header().Set("Content-Type", "application/json")
 		rw.Write(b)
 	})
+}
+
+// buildDeckGraph builds the design graph of one deck: the nodes and edges
+// among the cards in its mainboard, sideboard and pool. The decks page draws
+// only those, and building the whole cube's graph takes over a second for
+// tens of thousands of edges. As in the whole graph, a card cut from the cube
+// links only if some deck mainboarded it. The group graph is the rules
+// editor's, so it's left out.
+func buildDeckGraph(cube *types.Cube, config design.DesignMapConfig, deck *storage.Deck, playedCardNames []string) DesignGraphResponse {
+	names := map[string]bool{}
+	for _, board := range [][]types.Card{deck.Mainboard, deck.Sideboard, deck.Pool} {
+		for _, c := range board {
+			names[c.Name] = true
+		}
+	}
+	deckCube := &types.Cube{}
+	for _, c := range cube.Cards {
+		if names[c.Name] {
+			deckCube.Cards = append(deckCube.Cards, c)
+		}
+	}
+	var played []string
+	for _, name := range playedCardNames {
+		if names[name] {
+			played = append(played, name)
+		}
+	}
+	g := buildDesignGraph(deckCube, config, played)
+	g.GroupNodes = []DesignGraphGroupNode{}
+	g.GroupEdges = []DesignGraphGroupEdge{}
+	return g
 }
 
 // DesignGraphForCube builds the design graph from a cube's catalog and rules,
@@ -198,6 +252,7 @@ type designInputs struct {
 	playedCardNames []string
 	lists           cardLists
 	overrides       design.PackageOverrides
+	decks           []*storage.Deck
 }
 
 // packages resolves the rules' packages with their relevance attached.
@@ -242,7 +297,7 @@ func loadDesignInputs(store storage.DeckStorage, src types.CubeSource, cubeID st
 	}
 	played := distinctCardNames(decks)
 	names := append(slices.Clone(played), lists.snapshotOnlyNames()...)
-	return designInputs{cube: cube, config: config, deckCardNames: names, playedCardNames: played, lists: lists, overrides: overrides}, nil
+	return designInputs{cube: cube, config: config, deckCardNames: names, playedCardNames: played, lists: lists, overrides: overrides, decks: decks}, nil
 }
 
 // deckCardNames returns the distinct non-basic mainboard card names across all of

@@ -14,15 +14,25 @@ export function deckRef(deck) {
 }
 
 // designGraphUrl is the design graph request for the decks page. With a deck
-// selected (ref "draft/deck") it asks for that deck's draft, so its card links
-// show only the packages that draft's cube list supported.
+// selected (ref "draft/deck") it asks for that deck alone: the links among its
+// cards, from the packages its draft's cube list supported. The whole cube's
+// graph is tens of thousands of links, too many to hand around the page.
 export function designGraphUrl(cube, ref) {
   const base = `/api/${cube}/stats/design-graph`
-  const draft = ref.split("/")[0]
-  if (ref.includes("/") && /^\d+$/.test(draft)) {
-    return `${base}?draft=${draft}`
+  if (/^\d+\/\d+$/.test(ref)) {
+    return `${base}?deck=${encodeURIComponent(ref)}`
   }
   return base
+}
+
+// loadedFor gives a loaded response if it was fetched for url, else fallback.
+// A page that switched urls shows the fallback while the new one loads, not
+// the old url's data.
+export function loadedFor(loaded, url, fallback) {
+  if (loaded.url === url) {
+    return loaded.body
+  }
+  return fallback
 }
 
 const ARCHETYPE_LABELS = { aggro: "Aggro", midrange: "Midrange", control: "Control" }

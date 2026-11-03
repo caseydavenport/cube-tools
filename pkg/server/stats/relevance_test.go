@@ -225,6 +225,46 @@ func TestDesignGraph_DraftParam(t *testing.T) {
 	assert.True(t, graphPackages(t, url.Values{})["Lifegain"], "without a draft, every package, for the rules editor")
 }
 
+// TestDesignGraph_DeckParam checks that asking for one deck returns only the
+// links among that deck's cards, with packages judged on its draft's list.
+func TestDesignGraph_DeckParam(t *testing.T) {
+	store, src := relevanceStore(t)
+	rr := serveCube(DesignGraphHandler(store, src), "/api/polyverse/stats/design-graph", url.Values{"deck": {"1/1"}})
+	require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+	var resp DesignGraphResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+
+	deck := map[string]bool{
+		"E1": true,
+		"E2": true,
+		"P1": true,
+		"P2": true,
+	}
+	require.NotEmpty(t, resp.Edges)
+	for _, e := range resp.Edges {
+		assert.True(t, deck[e.Source] && deck[e.Target], "edge %s-%s leaves the deck", e.Source, e.Target)
+	}
+	for _, n := range resp.Nodes {
+		assert.True(t, deck[n.Name], "node %s isn't in the deck", n.Name)
+	}
+	assert.Empty(t, resp.GroupEdges, "the group graph is for the rules editor")
+	assert.True(t, graphPackages(t, url.Values{"deck": {"1/1"}})["Lifegain"], "draft 1's list supported it")
+	assert.False(t, graphPackages(t, url.Values{"deck": {"4/1"}})["Lifegain"], "draft 4's didn't")
+}
+
+func TestDesignGraph_BadDeckParam(t *testing.T) {
+	store, src := relevanceStore(t)
+	wantStatus := map[string]int{
+		"x":   http.StatusBadRequest,
+		"1/x": http.StatusBadRequest,
+		"9/9": http.StatusNotFound,
+	}
+	for ref, code := range wantStatus {
+		rr := serveCube(DesignGraphHandler(store, src), "/api/polyverse/stats/design-graph", url.Values{"deck": {ref}})
+		assert.Equal(t, code, rr.Code, ref)
+	}
+}
+
 func TestRulesBoard_MarksRelevance(t *testing.T) {
 	store, src := relevanceStore(t)
 	require.NoError(t, store.PutOverrides(relevanceCube, design.PackageOverrides{On: []string{"Lifegain"}}))

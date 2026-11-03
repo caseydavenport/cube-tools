@@ -5,13 +5,17 @@ import { mergeChangedDecks } from "../utils/RecordEditor.js"
 import { filterSuggestions } from "./filterSuggestions.js"
 import { addToComparison, comparisonMap, formatCompare, parseCompare } from "../utils/Compare.js"
 import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
-import { deckRef, designGraphUrl, sortDecks, quickFilterDecks } from "./deckModel.js"
+import { deckRef, designGraphUrl, loadedFor, sortDecks, quickFilterDecks } from "./deckModel.js"
+
+// NO_GRAPH stands in for the design graph while it loads. It's one object, so
+// memos that depend on the graph don't rerun on every render meanwhile.
+const NO_GRAPH = {}
 
 // useJson fetches a JSON endpoint once per url, giving fallback until it
 // loads or if it fails. The alive flag drops a response that arrives after the
-// url changed.
+// url changed, and the previous url's data isn't shown while the next loads.
 function useJson(url, fallback) {
-  const [data, setData] = useState(fallback)
+  const [loaded, setLoaded] = useState({ url: null, body: fallback })
 
   useEffect(() => {
     let alive = true
@@ -19,12 +23,12 @@ function useJson(url, fallback) {
       .then(resp => resp.json())
       .then(body => {
         if (alive) {
-          setData(body)
+          setLoaded({ url, body })
         }
       })
       .catch(() => {
         if (alive) {
-          setData(fallback)
+          setLoaded({ url, body: fallback })
         }
       })
     return () => {
@@ -32,7 +36,7 @@ function useJson(url, fallback) {
     }
   }, [url])
 
-  return data
+  return loadedFor(loaded, url, fallback)
 }
 
 // buildSynergy turns the design graph's edges into a lookup from each card name
@@ -146,7 +150,7 @@ export function useDecksPage(cube, props) {
 
   // The graph follows the selected deck's draft, so its links show only the
   // packages that draft's cube list supported.
-  const designGraph = useJson(designGraphUrl(cube, selection.selectedRef), {})
+  const designGraph = useJson(designGraphUrl(cube, selection.selectedRef), NO_GRAPH)
   const groupDistributions = useJson(`/api/${cube}/stats/group-distributions`, null)
 
   const synergy = useMemo(() => buildSynergy(designGraph.edges || []), [designGraph])
