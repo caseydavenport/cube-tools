@@ -47,6 +47,12 @@ type PackagePageResponse struct {
 	Decks      []CardDeck      `json:"decks"`
 	Related    []PackageEdge   `json:"related"`
 	Map        PackageMap      `json:"map"`
+
+	// Relevant says whether today's cube list clears the relevance line for
+	// the package, before overrides. Forced is "on" or "off" when the cube
+	// forces it, else "".
+	Relevant bool   `json:"relevant"`
+	Forced   string `json:"forced"`
 }
 
 // PackageWire is one wire of a package with its groups resolved to cube cards.
@@ -167,7 +173,12 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	idx := slices.IndexFunc(resolved, func(p design.PackageCards) bool { return p.Name == page.pkg.Name })
 	cards := resolved[idx]
 
-	resp := PackagePageResponse{Name: page.pkg.Name, Related: []PackageEdge{}}
+	resp := PackagePageResponse{
+		Name:     page.pkg.Name,
+		Related:  []PackageEdge{},
+		Relevant: cards.PresentIn(page.rules.lists.today),
+		Forced:   forcedState(page.rules.overrides, page.pkg.Name),
+	}
 
 	// The package's index row, over the date range.
 	stats := packageStats(resolved, page.ranged, page.conf)

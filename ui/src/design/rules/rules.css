@@ -5,7 +5,6 @@
 .de-pips { display: inline-flex; flex-shrink: 0; flex-wrap: nowrap; }
 .de-pips .mana-symbol { width: 16px; height: 16px; }
 
-.de-readonly { margin: 1.25rem 1.5rem 0; }
 
 .de-subhead {
   font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;

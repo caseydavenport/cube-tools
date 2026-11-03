@@ -45,13 +45,32 @@ export function wiringSummary(pkg) {
   return `${pkg.wires.length} wires · ${pkg.groups.length} groups`
 }
 
+// lineBadge notes a package the cube forces, or one below the relevance line
+// for this cube's list, or returns null.
+function lineBadge(pkg) {
+  if (pkg.forced === "on") {
+    return { kind: "info", text: "Always shown" }
+  }
+  if (pkg.forced === "off") {
+    return { kind: "warn", text: "Always hidden" }
+  }
+  if (!pkg.relevant) {
+    return { kind: "warn", text: "Below the line in this cube" }
+  }
+  return null
+}
+
 // badges are the small notes on a package's board card: problem (a broken
-// wire, or null), one-card groups, rarely coming together, then the packages
-// it shares groups with.
+// wire, or null), where it stands against the relevance line, one-card
+// groups, rarely coming together, then the packages it shares groups with.
 export function badges(pkg, problem) {
   const out = []
   if (problem) {
     out.push({ kind: "bad", text: problem })
+  }
+  const line = lineBadge(pkg)
+  if (line) {
+    out.push(line)
   }
   const oneCard = pkg.one_card_groups.length
   if (oneCard === 1) {

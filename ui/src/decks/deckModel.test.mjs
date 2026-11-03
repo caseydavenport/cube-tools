@@ -1,6 +1,7 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 import {
+  designGraphUrl,
   archetypeLabel,
   boardCards,
   deckCounts,
@@ -209,4 +210,13 @@ test("isDeckInList finds a deck by its ref", () => {
   const decks = [{ id: 5, metadata: { draft_id: 47 } }]
   assert.equal(isDeckInList(decks, "47/5"), true)
   assert.equal(isDeckInList(decks, "12/3"), false)
+})
+
+test("the design graph is asked for the selected deck's draft", () => {
+  assert.equal(designGraphUrl("polyverse", "12/3"), "/api/polyverse/stats/design-graph?draft=12")
+})
+
+test("with no deck selected the design graph covers every package", () => {
+  assert.equal(designGraphUrl("polyverse", ""), "/api/polyverse/stats/design-graph")
+  assert.equal(designGraphUrl("polyverse", "junk"), "/api/polyverse/stats/design-graph")
 })

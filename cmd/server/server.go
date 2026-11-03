@@ -104,6 +104,8 @@ func main() {
 	cubeRoute("GET /api/{cube}/stats/explorer", stats.ExplorerHandler(deckStore, provider, provider.Maybeboard))
 	cubeRoute("GET /api/{cube}/stats/deck-charts", stats.DeckChartsHandler(deckStore, provider))
 	cubeRoute("POST /api/{cube}/save-design-rules", stats.SaveDesignRulesHandler(deckStore))
+	cubeRoute("GET /api/{cube}/package-overrides", stats.GetOverridesHandler(deckStore))
+	cubeRoute("POST /api/{cube}/package-overrides", stats.SaveOverridesHandler(deckStore))
 	cubeRoute("POST /api/{cube}/refresh", server.RefreshHandler(provider))
 
 	// OCR draft-import endpoints. The detector is shared across requests; built

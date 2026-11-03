@@ -20,6 +20,8 @@ function pkg(name, wires, groups, extra = {}) {
     shares_with: [],
     one_card_groups: [],
     colors: {},
+    relevant: true,
+    forced: "",
     ...extra,
   }
 }
@@ -141,4 +143,13 @@ test("a card count reads in the singular for one card", () => {
   assert.equal(cardsText(1), "1 card")
   assert.equal(cardsText(0), "0 cards")
   assert.equal(cardsText(20), "20 cards")
+})
+
+test("a package below the line in this cube says so", () => {
+  assert.deepEqual(badges(pkg("X", [], [], { relevant: false }), null), [{ kind: "warn", text: "Below the line in this cube" }])
+})
+
+test("a forced package names its setting instead of the line", () => {
+  assert.deepEqual(badges(pkg("X", [], [], { relevant: false, forced: "on" }), null), [{ kind: "info", text: "Always shown" }])
+  assert.deepEqual(badges(pkg("X", [], [], { relevant: true, forced: "off" }), null), [{ kind: "warn", text: "Always hidden" }])
 })

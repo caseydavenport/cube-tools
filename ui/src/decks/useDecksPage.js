@@ -5,7 +5,7 @@ import { mergeChangedDecks } from "../utils/RecordEditor.js"
 import { filterSuggestions } from "./filterSuggestions.js"
 import { addToComparison, comparisonMap, formatCompare, parseCompare } from "../utils/Compare.js"
 import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
-import { deckRef, sortDecks, quickFilterDecks } from "./deckModel.js"
+import { deckRef, designGraphUrl, sortDecks, quickFilterDecks } from "./deckModel.js"
 
 // useJson fetches a JSON endpoint once per url, giving fallback until it
 // loads or if it fails. The alive flag drops a response that arrives after the
@@ -144,7 +144,9 @@ export function useDecksPage(cube, props) {
     LoadCube(cube, setCubeData)
   }, [cube])
 
-  const designGraph = useJson(`/api/${cube}/stats/design-graph`, {})
+  // The graph follows the selected deck's draft, so its links show only the
+  // packages that draft's cube list supported.
+  const designGraph = useJson(designGraphUrl(cube, selection.selectedRef), {})
   const groupDistributions = useJson(`/api/${cube}/stats/group-distributions`, null)
 
   const synergy = useMemo(() => buildSynergy(designGraph.edges || []), [designGraph])

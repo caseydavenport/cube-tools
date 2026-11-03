@@ -3,11 +3,6 @@
 // in it is a function that takes named values and returns the whole sentence.
 
 export const RULES_COPY = {
-  // RulesEditorPage.js: the read-only notice.
-  toolbar: {
-    readOnly: "This cube is read-only",
-  },
-
   // RulesEditorPage.js: the loading text and the messages shown after a bad save.
   page: {
     loading: "Loading the rules…",

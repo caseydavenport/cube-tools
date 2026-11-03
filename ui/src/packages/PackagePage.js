@@ -1,7 +1,7 @@
 // A package's own page: its map of groups and wires, how its groups spread
 // over the colors, how often it's built over time, and the decks that built
-// it. The server computes everything (/stats/package). On a writable cube the
-// groups and wires can be edited here.
+// it. The server computes everything (/stats/package). The groups and wires
+// can be edited here on any cube, since the rules are shared.
 
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -14,6 +14,7 @@ import { useCubeInfo, useCubeWritable } from "../utils/useCubeWritable.js"
 import { pageHref, packagePageHref } from "../shell/paths.js"
 import { BuiltOverTime } from "./BuiltOverTime.js"
 import { PackageHeader } from "./PackageHeader.js"
+import { PackageVisibility } from "./PackageVisibility.js"
 import { ColorSupport, DecksBuilt, RelatedPackages } from "./PackageSections.js"
 import { PackageMap } from "./PackageMap.js"
 import { GroupPanel } from "./GroupPanel.js"
@@ -125,7 +126,10 @@ export function PackagePage(props) {
   const cube = useCube()
   const navigate = useNavigate()
   const info = useCubeInfo(cube)
-  const canEdit = useCubeWritable(cube) === true
+  // Rules live in a shared file, so every cube can edit them. Whether the
+  // cube forces the package on or off follows the cube's own writability.
+  const canEdit = true
+  const writable = useCubeWritable(cube) === true
   const start = props.startDate || ""
   const end = props.endDate || ""
   const range = { start, end }
@@ -279,6 +283,7 @@ export function PackagePage(props) {
     body = (
       <>
         <PackageHeader page={page} info={info} actions={actions} />
+        <PackageVisibility cube={cube} page={page} writable={writable} onSaved={refetch} />
         {status && <div className="de-status" role="status">{status}</div>}
         <div className="package-page-grid">
           <div className="card-page-wide">

@@ -13,6 +13,18 @@ export function deckRef(deck) {
   return `${deck.metadata.draft_id}/${deck.id}`
 }
 
+// designGraphUrl is the design graph request for the decks page. With a deck
+// selected (ref "draft/deck") it asks for that deck's draft, so its card links
+// show only the packages that draft's cube list supported.
+export function designGraphUrl(cube, ref) {
+  const base = `/api/${cube}/stats/design-graph`
+  const draft = ref.split("/")[0]
+  if (ref.includes("/") && /^\d+$/.test(draft)) {
+    return `${base}?draft=${draft}`
+  }
+  return base
+}
+
 const ARCHETYPE_LABELS = { aggro: "Aggro", midrange: "Midrange", control: "Control" }
 
 // archetypeLabel is the display name of a deck's archetype (aggro, midrange, or

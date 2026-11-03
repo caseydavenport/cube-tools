@@ -88,8 +88,8 @@ export function editorHref(cube, card) {
   return `${window.location.pathname}#/${cube}/rules-editor?${p.toString()}`
 }
 
-// saveDesignMap posts the rules. Callers only offer saving on writable cubes;
-// the server refuses a read-only cube with a 403.
+// saveDesignMap posts the rules. Every cube can save them, since they live in
+// a shared file rather than with the cube's decks.
 export function saveDesignMap(cube, groups, packages, onRulesChanged, onStatus) {
   fetch(`/api/${cube}/save-design-rules`, {
     method: "POST",

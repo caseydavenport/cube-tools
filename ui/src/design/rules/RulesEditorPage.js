@@ -4,7 +4,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Alert } from '@mantine/core'
 import { useCube } from '../../contexts/CubeContext.js'
 import { rulesBoardUrl } from '../../stats/pageRequests.js'
 import { useAllMemberships, saveDesignMap } from '../map/designData.js'
@@ -12,7 +11,6 @@ import { cleanWires } from '../../utils/DesignRules.js'
 import { ruleColor } from '../map/ruleColors.js'
 import { GroupEditModal } from '../map/GroupEditModal.js'
 import { PackageEditModal } from '../map/PackageEditModal.js'
-import { useCubeWritable } from '../../utils/useCubeWritable.js'
 import { packagePageHref } from '../../shell/paths.js'
 import { cleanGroup, withCardExcluded, withGroup } from "./rulebookEdits.js"
 import { auditRulebook, groupWarning, packageWarning } from "./rulebookAudit.js"
@@ -34,7 +32,6 @@ import "../../decks/decks.css"
 export function DesignEditorPage({ startDate, endDate }) {
   const cube = useCube()
   const navigate = useNavigate()
-  const writable = useCubeWritable(cube)
   const [params, setParams] = useSearchParams()
   const focal = params.get('card') || ''
   const view = params.get('view') || ''
@@ -185,9 +182,8 @@ export function DesignEditorPage({ startDate, endDate }) {
     if (view === 'g:' + name) selectView('')
   }
 
-  // Edit controls only show once the server says the cube is writable; the
-  // read-only notice waits for it to say it isn't, so it doesn't flash on load.
-  const canEdit = writable === true
+  // Rules live in a shared file, so every cube can edit them.
+  const canEdit = true
 
   const toolbar = (
     <EditorToolbar
@@ -256,15 +252,9 @@ export function DesignEditorPage({ startDate, endDate }) {
     />
   }
 
-  let readOnlyNotice = null
-  if (writable === false) {
-    readOnlyNotice = <Alert className="de-readonly" color="gray" variant="light">{RULES_COPY.toolbar.readOnly}</Alert>
-  }
-
   return (
     <>
     {toolbar}
-    {readOnlyNotice}
     <div className="rb-page">
       {main}
 

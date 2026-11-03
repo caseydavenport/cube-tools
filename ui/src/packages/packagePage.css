@@ -61,6 +61,16 @@
   cursor: help;
 }
 
+.package-visibility {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: var(--se-muted);
+}
+
 .package-problem {
   font-size: 0.75rem;
   font-weight: 700;

@@ -10,7 +10,6 @@ import { PageToolbar } from "../../toolbar/PageToolbar.js"
 import { AnyCardSearch } from "../../cards/AnyCardSearch.js"
 import { CardLink } from "../../components/CardLink.js"
 import { CardImageURL } from "../../utils/Utils.js"
-import { useCubeWritable } from "../../utils/useCubeWritable.js"
 import { linkCheckUrl } from "../../stats/pageRequests.js"
 import { GroupEditModal } from "../map/GroupEditModal.js"
 import { saveDesignMap } from "../map/designData.js"
@@ -98,7 +97,6 @@ function CardSide({ name, cube }) {
 // LinkCheckPage is the link check for the cards in the URL's "a" and "b".
 export function LinkCheckPage(props) {
   const cube = useCube()
-  const writable = useCubeWritable(cube)
   const [params, setParams] = useSearchParams()
   const a = params.get("a") || ""
   const b = params.get("b") || ""
@@ -163,19 +161,13 @@ export function LinkCheckPage(props) {
   } else if (a && b && (!check || !rules)) {
     middle = <div className="browse-empty">Loading…</div>
   } else if (check && check.links.length > 0) {
-    let onExclude = null
-    if (writable) {
-      onExclude = exclude
-    }
+    // Rules live in a shared file, so every cube can edit them.
+    const onExclude = exclude
     const nav = { start: props.startDate, end: props.endDate, onLinkMatch: props.onLinkMatch }
     middle = <LinkedView check={check} cube={cube} packageIndex={packageIndex} onExclude={onExclude} nav={nav} />
   } else if (check) {
-    let onSave = null
-    let onNewGroup = null
-    if (writable) {
-      onSave = save
-      onNewGroup = setNewGroupFor
-    }
+    const onSave = save
+    const onNewGroup = setNewGroupFor
     middle = <UnlinkedView check={check} cube={cube} rules={rules} range={{ start: props.startDate || "", end: props.endDate || "" }} onSave={onSave} onNewGroup={onNewGroup} />
   }
 

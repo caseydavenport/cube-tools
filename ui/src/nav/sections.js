@@ -9,7 +9,6 @@ export const REASONS = {
   results: "needs results",
   pick_logs: "needs pick logs",
   archetypes: "needs archetypes",
-  writable: "read-only",
 }
 
 // NAV_GROUPS lists the sidebar groups in display order. A page's path is the URL
@@ -57,7 +56,7 @@ export const NAV_GROUPS = [
     dividerAfter: null,
     pages: [
       { label: "Card explorer", path: "explorer", icon: "explorer", needs: [] },
-      { label: "Rules editor", path: "rules-editor", icon: "rulesEditor", needs: ["writable"] },
+      { label: "Rules editor", path: "rules-editor", icon: "rulesEditor", needs: [] },
     ],
   },
 ]

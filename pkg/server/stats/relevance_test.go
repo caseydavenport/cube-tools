@@ -242,3 +242,22 @@ func TestRulesBoard_MarksRelevance(t *testing.T) {
 	assert.True(t, byName["Enablers only"].Relevant)
 	assert.Equal(t, "", byName["Enablers only"].Forced)
 }
+
+func TestPackagePage_MarksRelevance(t *testing.T) {
+	store, src := relevanceStore(t)
+	page := func(name string) PackagePageResponse {
+		rr := serveCube(PackagePageHandler(store, src), "/api/polyverse/stats/package", url.Values{"name": {name}})
+		require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+		var resp PackagePageResponse
+		require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+		return resp
+	}
+	lifegain := page("Lifegain")
+	assert.False(t, lifegain.Relevant, "a package page opens even below the line, and says so")
+	assert.Equal(t, "", lifegain.Forced)
+
+	require.NoError(t, store.PutOverrides(relevanceCube, design.PackageOverrides{Off: []string{"Enablers only"}}))
+	enablers := page("Enablers only")
+	assert.True(t, enablers.Relevant, "the line's verdict, before overrides")
+	assert.Equal(t, "off", enablers.Forced)
+}
