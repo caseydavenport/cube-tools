@@ -124,7 +124,7 @@
     {
       "name": "Counters on others",
       "conditions": [
-        "otag:gives-pp-counters",
+        "otag:gives-pp-counters !o:\"counter on each creature token\" !o:\"creature token you control enters\"",
         "o:reinforce"
       ]
     },
