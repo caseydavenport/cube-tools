@@ -331,7 +331,8 @@
       "name": "Graveyard size payoffs",
       "conditions": [
         "otag:graveyard-fuel !otag:hate-graveyard",
-        "otag:cards-in-graveyard-matter !otag:card-types-in-graveyard-matter"
+        "otag:cards-in-graveyard-matter !otag:card-types-in-graveyard-matter",
+        "o:\"permanent card\" o:\"into your graveyard from anywhere\""
       ]
     },
     {
@@ -523,8 +524,7 @@
     {
       "name": "Sacrifice Matters",
       "conditions": [
-        "o:\"whenever a player sacrifices\"",
-        "o:\"are put into your graveyard\""
+        "o:\"whenever a player sacrifices\""
       ]
     },
     {
