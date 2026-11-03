@@ -75,7 +75,7 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 			hits = pickCards(pool, matchCards(pool, search))
 		}
 
-		cards := exploreCards(hits, newExplorerRules(rules.cube, rules.config), thinParam(r))
+		cards := exploreCards(hits, newExplorerRules(rules.cube, rules.relevantConfig(relevantToday)), thinParam(r))
 		keepAll := query.GetString(r, "all") == "1"
 		for _, c := range cards {
 			if len(c.Groups) == 0 && len(c.Joins) == 0 && !keepAll {

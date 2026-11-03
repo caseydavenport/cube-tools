@@ -118,3 +118,68 @@ func lowerSet(names []string) map[string]bool {
 	}
 	return out
 }
+
+// draftIDsOf returns the distinct drafts the decks came from.
+func draftIDsOf(decks []*storage.Deck) []int {
+	seen := map[int]bool{}
+	var out []int
+	for _, d := range decks {
+		id := d.Metadata.DraftID
+		if !seen[id] {
+			seen[id] = true
+			out = append(out, id)
+		}
+	}
+	return out
+}
+
+// relevantInAny keeps packages relevant in any of the drafts, or on today's
+// list when there are none, for views over a range of decks.
+func relevantInAny(draftIDs []int) func(*design.Relevance) bool {
+	return func(r *design.Relevance) bool { return r.InAny(draftIDs) }
+}
+
+// relevantInDraft keeps packages relevant in one draft, for a view of one
+// deck.
+func relevantInDraft(draftID int) func(*design.Relevance) bool {
+	return func(r *design.Relevance) bool { return r.InDraft(draftID) }
+}
+
+// relevantToday keeps packages relevant on today's list, for views about
+// the cube as it is now.
+func relevantToday(r *design.Relevance) bool {
+	return r.InAny(nil)
+}
+
+// relevantConfig returns the rules with only the packages keep accepts, by
+// their relevance, so a view built from the config shows only those. Every
+// group stays.
+func (in designInputs) relevantConfig(keep func(*design.Relevance) bool) design.DesignMapConfig {
+	shown := map[string]bool{}
+	for _, p := range in.packages() {
+		if keep(p.Relevance) {
+			shown[p.Name] = true
+		}
+	}
+	out := in.config
+	out.Packages = nil
+	for _, p := range in.config.Packages {
+		if shown[p.Name] {
+			out.Packages = append(out.Packages, p)
+		}
+	}
+	return out
+}
+
+// forcedState returns "on" or "off" when the overrides force the named
+// package, else "".
+func forcedState(ov design.PackageOverrides, name string) string {
+	lower := strings.ToLower(name)
+	if lowerSet(ov.On)[lower] {
+		return "on"
+	}
+	if lowerSet(ov.Off)[lower] {
+		return "off"
+	}
+	return ""
+}

@@ -1,6 +1,9 @@
 package stats
 
 import (
+	"encoding/json"
+	"net/http"
+	"net/url"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,16 +15,9 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// listSource serves one fixed card list as every cube's current list.
-type listSource struct {
-	cube *types.Cube
-}
-
-func (s listSource) Current(string) (*types.Cube, error) { return s.cube, nil }
-func (s listSource) Refresh(string) (*types.Cube, error) { return s.cube, nil }
-
-// relevanceCube is the cube id the relevance fixture seeds.
-const relevanceCube = "rel"
+// relevanceCube is the cube id the relevance fixture seeds, the one
+// serveCube requests.
+const relevanceCube = "polyverse"
 
 // namedCards builds a cube list of plain cards with the given names.
 func namedCards(names ...string) *types.Cube {
@@ -35,7 +31,7 @@ func namedCards(names ...string) *types.Cube {
 // relevanceStore seeds a cube whose Lifegain payoffs P1 and P2 were in draft
 // 1's list but have since been cut. Draft 2 saved an empty snapshot, draft 3
 // none, and draft 4's list held only P3, a payoff no deck played.
-func relevanceStore(t *testing.T) (*storage.Store, listSource) {
+func relevanceStore(t *testing.T) (*storage.Store, fixedCubeSource) {
 	t.Helper()
 	seedOracle(t, `[
 		{"name":"P1","type_line":"Creature","oracle_text":"","colors":[],"cmc":2},
@@ -64,7 +60,7 @@ func relevanceStore(t *testing.T) (*storage.Store, listSource) {
 		b.SeedSnapshot(relevanceCube, 2, &types.Cube{})
 		b.SeedSnapshot(relevanceCube, 4, namedCards("E1", "E2", "E3", "P3"))
 	})
-	return store, listSource{cube: namedCards("E1", "E2", "E3")}
+	return store, fixedCubeSource{cube: namedCards("E1", "E2", "E3")}
 }
 
 // packageNamed returns the resolved package with the given name.
@@ -141,4 +137,108 @@ func TestPackages_OverridesForce(t *testing.T) {
 	assert.False(t, enablers.Relevance.Today, "forced off")
 	assert.False(t, enablers.Relevance.InDraft(2), "forced off even where a draft is unfiltered")
 	assert.Len(t, pkgs, 2, "an override naming no package adds nothing")
+}
+
+// packageNamesIn returns the names of the package stats rows.
+func packageNamesIn(resp PackageStatsResponse) []string {
+	var out []string
+	for _, p := range resp.Packages {
+		out = append(out, p.Name)
+	}
+	return out
+}
+
+// packagesOver serves the Packages page over a date range.
+func packagesOver(t *testing.T, start, end string) PackageStatsResponse {
+	t.Helper()
+	store, src := relevanceStore(t)
+	rr := serveCube(PackageStatsHandler(store, src), "/api/polyverse/stats/packages", url.Values{"start": {start}, "end": {end}})
+	require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+	var resp PackageStatsResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	return resp
+}
+
+func TestPackageStats_HidesIrrelevant(t *testing.T) {
+	assert.Contains(t, packageNamesIn(packagesOver(t, "2024-01-01", "2024-01-31")), "Lifegain", "draft 1's list supported it")
+	assert.NotContains(t, packageNamesIn(packagesOver(t, "2024-04-01", "2024-04-30")), "Lifegain", "draft 4's list didn't")
+}
+
+func TestPackageStats_EmptyRangeUsesToday(t *testing.T) {
+	names := packageNamesIn(packagesOver(t, "2030-01-01", "2030-12-31"))
+	assert.Equal(t, []string{"Enablers only"}, names, "a range without decks lists today's relevant packages")
+}
+
+func TestExplorer_TodayOnly(t *testing.T) {
+	store, src := relevanceStore(t)
+	usePool(t, types.Card{Name: "P1", Types: []string{"Creature"}})
+	rr := serveCube(ExplorerHandler(store, src, nil), "/api/polyverse/stats/explorer", url.Values{"q": {"n:P1"}, "all": {"1"}})
+	require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+	var resp ExplorerResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	require.Len(t, resp.Candidates, 1)
+	for _, j := range resp.Candidates[0].Joins {
+		assert.NotEqual(t, "Lifegain", j.Package, "today's list can't support Lifegain")
+	}
+
+	require.NoError(t, store.PutOverrides(relevanceCube, design.PackageOverrides{On: []string{"Lifegain"}}))
+	rr = serveCube(ExplorerHandler(store, src, nil), "/api/polyverse/stats/explorer", url.Values{"q": {"n:P1"}, "all": {"1"}})
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	require.Len(t, resp.Candidates, 1)
+	require.NotEmpty(t, resp.Candidates[0].Joins, "forced on, it shows")
+	assert.Equal(t, "Lifegain", resp.Candidates[0].Joins[0].Package)
+}
+
+func TestCardPage_RangeRelevance(t *testing.T) {
+	store, src := relevanceStore(t)
+	page := func(start, end string) CardPageResponse {
+		rr := serveCube(CardPageHandler(store, store, src), "/api/polyverse/stats/card", url.Values{"name": {"E1"}, "start": {start}, "end": {end}})
+		require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+		var resp CardPageResponse
+		require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+		return resp
+	}
+	assert.Contains(t, page("2024-01-01", "2024-01-31").PackageNames, "Lifegain")
+	assert.NotContains(t, page("2024-04-01", "2024-04-30").PackageNames, "Lifegain")
+}
+
+// graphPackages serves the design graph with the given params and returns
+// the package names its edges carry.
+func graphPackages(t *testing.T, params url.Values) map[string]bool {
+	t.Helper()
+	store, src := relevanceStore(t)
+	rr := serveCube(DesignGraphHandler(store, src), "/api/polyverse/stats/design-graph", params)
+	require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+	var resp DesignGraphResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	out := map[string]bool{}
+	for _, p := range resp.Packages {
+		out[p.Name] = true
+	}
+	return out
+}
+
+func TestDesignGraph_DraftParam(t *testing.T) {
+	assert.True(t, graphPackages(t, url.Values{"draft": {"1"}})["Lifegain"], "draft 1's list supported it")
+	assert.False(t, graphPackages(t, url.Values{"draft": {"4"}})["Lifegain"], "draft 4's didn't")
+	assert.True(t, graphPackages(t, url.Values{})["Lifegain"], "without a draft, every package, for the rules editor")
+}
+
+func TestRulesBoard_MarksRelevance(t *testing.T) {
+	store, src := relevanceStore(t)
+	require.NoError(t, store.PutOverrides(relevanceCube, design.PackageOverrides{On: []string{"Lifegain"}}))
+	rr := serveCube(RulesBoardHandler(store, src), "/api/polyverse/stats/rules-board", url.Values{})
+	require.Equal(t, http.StatusOK, rr.Code, rr.Body.String())
+	var resp RulesBoardResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	require.Len(t, resp.Packages, 2, "the board lists every package")
+
+	byName := map[string]BoardPackage{}
+	for _, p := range resp.Packages {
+		byName[p.Name] = p
+	}
+	assert.False(t, byName["Lifegain"].Relevant, "below the line on today's list")
+	assert.Equal(t, "on", byName["Lifegain"].Forced)
+	assert.True(t, byName["Enablers only"].Relevant)
+	assert.Equal(t, "", byName["Enablers only"].Forced)
 }

@@ -14,6 +14,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
+	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -125,26 +126,30 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 		logrus.Info("/api/stats/design-graph")
 
 		cubeID := server.CubeFromRequest(r)
-		cube, err := src.Current(cubeID)
+		in, err := loadDesignInputs(store, src, cubeID)
 		if err != nil {
-			http.Error(rw, "could not load cube", http.StatusInternalServerError)
-			return
-		}
-
-		var config design.DesignMapConfig
-		if cfg, err := store.GetRules(cubeID); err != nil {
 			logrus.WithError(err).Warn("could not load cube rules")
-			config = design.DesignMapConfig{}
-		} else {
-			config = *cfg
+			cube, err := src.Current(cubeID)
+			if err != nil {
+				http.Error(rw, "could not load cube", http.StatusInternalServerError)
+				return
+			}
+			in = designInputs{cube: cube}
 		}
 
-		names, err := deckCardNames(store, cubeID)
-		if err != nil {
-			logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
+		// The decks page asks for one deck's draft, so its links show only
+		// packages that draft's list supported. Rules editors ask for all.
+		config := in.config
+		if draft := query.GetString(r, "draft"); draft != "" {
+			draftID, err := strconv.Atoi(draft)
+			if err != nil {
+				http.Error(rw, "draft must be a number", http.StatusBadRequest)
+				return
+			}
+			config = in.relevantConfig(relevantInDraft(draftID))
 		}
 
-		resp := buildDesignGraph(cube, config, names)
+		resp := buildDesignGraph(in.cube, config, in.deckCardNames)
 
 		b, err := json.Marshal(resp)
 		if err != nil {

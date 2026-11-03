@@ -84,10 +84,9 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		http.Error(rw, "could not load packages", http.StatusInternalServerError)
 		return
 	}
-	pkgs := rules.packages()
-
-	// The packages are cube-wide; only the decks they're measured over follow
-	// the date range and the deck filter.
+	// Only the decks the packages are measured over follow the date range and
+	// the deck filter; the packages shown are those any of their drafts' lists
+	// support.
 	dr := &storage.DecksRequest{
 		Start: query.GetString(r, "start"),
 		End:   query.GetString(r, "end"),
@@ -99,6 +98,8 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	rules.config = rules.relevantConfig(relevantInAny(draftIDsOf(allDecks)))
+	pkgs := rules.packages()
 	resp := packageStats(pkgs, allDecks, query.GetFloat(r, "confidence"))
 	addPackageShapes(&resp, pkgs, rules)
 	b, err := json.Marshal(resp)

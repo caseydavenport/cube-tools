@@ -38,6 +38,12 @@ type BoardPackage struct {
 	Colors        map[string]int `json:"colors"`
 	SharesWith    []string       `json:"shares_with"`
 	OneCardGroups []string       `json:"one_card_groups"`
+
+	// Relevant says whether today's cube list clears the relevance line for
+	// the package, before overrides. Forced is "on" or "off" when the cube
+	// forces it, else "".
+	Relevant bool   `json:"relevant"`
+	Forced   string `json:"forced"`
 }
 
 // BoardGroup is a rule entry and its cube cards, sorted. A card entry keeps
@@ -130,6 +136,8 @@ func buildRulesBoard(rules designInputs, decks []*storage.Deck, conf float64) Ru
 			Colors:        colorCounts(names, cardMap),
 			SharesWith:    sharesWith,
 			OneCardGroups: oneCardEntries(entries),
+			Relevant:      cards.PresentIn(rules.lists.today),
+			Forced:        forcedState(rules.overrides, pkg.Name),
 		})
 	}
 	return resp

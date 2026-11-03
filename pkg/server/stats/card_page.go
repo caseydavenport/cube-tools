@@ -103,6 +103,7 @@ func (h *cardPageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	rules.config = rules.relevantConfig(relevantInAny(draftIDsOf(ranged)))
 	page := cardPageInputs{
 		card:   card,
 		inCube: inCube,
@@ -261,7 +262,7 @@ func CardCompareHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			}
 		}
 
-		relations := newCardRelations(rules.cube, rules.config, rules.deckCardNames, extras)
+		relations := newCardRelations(rules.cube, rules.relevantConfig(relevantToday), rules.deckCardNames, extras)
 		writeJSON(rw, CardCompareResponse{Links: relations.linksBetween(names[0], names[1])}, "card compare")
 	})
 }

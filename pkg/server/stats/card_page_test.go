@@ -35,6 +35,16 @@ func (s *rulesDeckStorage) GetRules(_ string) (*design.DesignMapConfig, error) {
 	return &s.config, nil
 }
 
+// GetOverrides forces every package in the store's rules on, so tests built
+// on fixtures too small to clear the relevance line still see their packages.
+func (s *rulesDeckStorage) GetOverrides(_ string) (design.PackageOverrides, error) {
+	ov := design.PackageOverrides{}
+	for _, p := range s.config.Packages {
+		ov.On = append(ov.On, p.Name)
+	}
+	return ov, nil
+}
+
 // serveCube serves a request for the polyverse test cube and returns the
 // recorded response.
 func serveCube(h http.Handler, path string, params url.Values) *httptest.ResponseRecorder {
