@@ -1944,7 +1944,7 @@
       ]
     },
     {
-      "name": "Typal",
+      "name": "Goblins",
       "wires": [
         {
           "kind": "enables",
@@ -1954,7 +1954,12 @@
           "targets": [
             "Goblin payoffs"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Elves",
+      "wires": [
         {
           "kind": "enables",
           "sources": [
@@ -1963,7 +1968,12 @@
           "targets": [
             "Elf payoffs"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Humans",
+      "wires": [
         {
           "kind": "enables",
           "sources": [
@@ -1972,7 +1982,12 @@
           "targets": [
             "Human payoffs"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Zombies",
+      "wires": [
         {
           "kind": "enables",
           "sources": [
@@ -1981,7 +1996,12 @@
           "targets": [
             "Zombie payoffs"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Wizards",
+      "wires": [
         {
           "kind": "enables",
           "sources": [
@@ -1990,7 +2010,12 @@
           "targets": [
             "Wizard payoffs"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Amass",
+      "wires": [
         {
           "kind": "pairs",
           "sources": [
