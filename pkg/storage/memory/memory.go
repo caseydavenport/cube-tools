@@ -18,6 +18,7 @@ type Backend struct {
 	mu        sync.Mutex
 	decks     map[string][]*storage.Deck
 	rules     map[string]*design.DesignMapConfig
+	overrides map[string]design.PackageOverrides
 	index     map[string]*storage.CubeIndex
 	draftLogs map[string]json.RawMessage
 	snapshots map[string]*types.Cube
@@ -32,6 +33,7 @@ func New() *Backend {
 	return &Backend{
 		decks:     map[string][]*storage.Deck{},
 		rules:     map[string]*design.DesignMapConfig{},
+		overrides: map[string]design.PackageOverrides{},
 		index:     map[string]*storage.CubeIndex{},
 		draftLogs: map[string]json.RawMessage{},
 		snapshots: map[string]*types.Cube{},
@@ -189,6 +191,21 @@ func (b *Backend) PutRules(cube string, rules *design.DesignMapConfig) error {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	b.rules[cube] = rules
+	return nil
+}
+
+// GetOverrides returns the packages a cube forces on or off, or none.
+func (b *Backend) GetOverrides(cube string) (design.PackageOverrides, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	return b.overrides[cube], nil
+}
+
+// PutOverrides saves the packages a cube forces on or off.
+func (b *Backend) PutOverrides(cube string, ov design.PackageOverrides) error {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.overrides[cube] = ov
 	return nil
 }
 

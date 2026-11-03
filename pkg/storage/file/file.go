@@ -132,9 +132,22 @@ func findDraft(cube string, draftID int) (drafts.Draft, error) {
 	return draft, err
 }
 
+// globalRulesDir is the data directory holding the rules every cube shares.
+const globalRulesDir = "global"
+
+// rulesPath is the rules file a cube reads and writes: its own
+// data/<cube>/cube-rules.json while it has one, else the global file.
+func rulesPath(cube string) string {
+	own := filepath.Join("data", cube, "cube-rules.json")
+	if _, err := os.Stat(own); err == nil {
+		return own
+	}
+	return filepath.Join("data", globalRulesDir, "cube-rules.json")
+}
+
 // GetRules returns a cube's design-map rules.
 func (b *Backend) GetRules(cube string) (*design.DesignMapConfig, error) {
-	data, err := os.ReadFile(fmt.Sprintf("data/%s/cube-rules.json", cube))
+	data, err := os.ReadFile(rulesPath(cube))
 	if err != nil {
 		return nil, err
 	}
@@ -145,13 +158,48 @@ func (b *Backend) GetRules(cube string) (*design.DesignMapConfig, error) {
 	return &config, nil
 }
 
-// PutRules saves a cube's design-map rules.
+// PutRules saves a cube's design-map rules to the file GetRules reads.
 func (b *Backend) PutRules(cube string, rules *design.DesignMapConfig) error {
 	data, err := json.MarshalIndent(rules, "", "  ")
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(fmt.Sprintf("data/%s/cube-rules.json", cube), data, 0o644)
+	path := rulesPath(cube)
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		return err
+	}
+	return os.WriteFile(path, data, 0o644)
+}
+
+// overridesPath is a cube's package overrides file.
+func overridesPath(cube string) string {
+	return filepath.Join("data", cube, "package-overrides.json")
+}
+
+// GetOverrides returns the packages a cube forces on or off. A cube without
+// an overrides file has none.
+func (b *Backend) GetOverrides(cube string) (design.PackageOverrides, error) {
+	data, err := os.ReadFile(overridesPath(cube))
+	if errors.Is(err, os.ErrNotExist) {
+		return design.PackageOverrides{}, nil
+	}
+	if err != nil {
+		return design.PackageOverrides{}, err
+	}
+	var ov design.PackageOverrides
+	if err := json.Unmarshal(data, &ov); err != nil {
+		return design.PackageOverrides{}, fmt.Errorf("parse %s: %w", overridesPath(cube), err)
+	}
+	return ov, nil
+}
+
+// PutOverrides saves the packages a cube forces on or off.
+func (b *Backend) PutOverrides(cube string, ov design.PackageOverrides) error {
+	data, err := json.MarshalIndent(ov, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(overridesPath(cube), data, 0o644)
 }
 
 // Index returns the path-free index of a cube's drafts and decks. A cube with

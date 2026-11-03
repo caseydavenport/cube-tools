@@ -18,6 +18,8 @@ type FileBackend interface {
 	SaveDecks(cube string, draftID int, decks []*storage.Deck) error
 	GetRules(cube string) (*design.DesignMapConfig, error)
 	PutRules(cube string, rules *design.DesignMapConfig) error
+	GetOverrides(cube string) (design.PackageOverrides, error)
+	PutOverrides(cube string, ov design.PackageOverrides) error
 	GetDraftLog(cube string, draftID int) (json.RawMessage, error)
 	GetSnapshot(cube string, draftID int) (*types.Cube, error)
 }
@@ -37,10 +39,9 @@ type Router struct {
 	cc   CCBackend
 }
 
-// baselineRulesCube is the registry cube whose design-map ruleset cc: cubes
-// borrow. CubeCobra exposes no rules API, so serving this baseline gives cc:
-// cubes a design map instead of nothing.
-const baselineRulesCube = "polyverse"
+// baselineRulesCube is the rules directory cc: cubes read and write: the
+// global rules every cube shares. CubeCobra exposes no rules API.
+const baselineRulesCube = "global"
 
 // New builds a router over a writable file backend and a read-only CubeCobra
 // backend.
@@ -87,11 +88,31 @@ func (r *Router) GetRules(cube string) (*design.DesignMapConfig, error) {
 	return r.file.GetRules(cube)
 }
 
+// PutRules saves a cube's rules. A cc: cube's edits go to the global rules,
+// which it reads.
 func (r *Router) PutRules(cube string, rules *design.DesignMapConfig) error {
+	if cubes.IsCubeCobra(cube) {
+		return r.file.PutRules(baselineRulesCube, rules)
+	}
+	return r.file.PutRules(cube, rules)
+}
+
+// GetOverrides returns a registry cube's package overrides. CubeCobra cubes
+// have none.
+func (r *Router) GetOverrides(cube string) (design.PackageOverrides, error) {
+	if cubes.IsCubeCobra(cube) {
+		return design.PackageOverrides{}, nil
+	}
+	return r.file.GetOverrides(cube)
+}
+
+// PutOverrides saves a registry cube's package overrides, returning
+// ErrReadOnly for CubeCobra cubes.
+func (r *Router) PutOverrides(cube string, ov design.PackageOverrides) error {
 	if cubes.IsCubeCobra(cube) {
 		return storage.ErrReadOnly
 	}
-	return r.file.PutRules(cube, rules)
+	return r.file.PutOverrides(cube, ov)
 }
 
 // GetSnapshot returns a draft's cube list from the file backend. Cube Cobra

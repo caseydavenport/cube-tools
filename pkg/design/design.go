@@ -58,6 +58,14 @@ type Package struct {
 	Wires []Wire `json:"wires"`
 }
 
+// PackageOverrides is a cube's choices about which packages it shows
+// regardless of the relevance line: On always shows, Off always hides. Names
+// match package names, ignoring case.
+type PackageOverrides struct {
+	On  []string `json:"on"`
+	Off []string `json:"off"`
+}
+
 // DesignMapConfig is the persistent format stored in cube-rules.json.
 type DesignMapConfig struct {
 	Groups   []Group   `json:"groups"`

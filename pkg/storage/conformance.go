@@ -58,7 +58,7 @@ func runReadOnlyConformance(t *testing.T, s *Store, cube string) {
 	playerID := 1
 	_, err = s.SaveDeckRecord(cube, RecordEdit{DraftID: 1, DeckID: 1, PlayerID: &playerID})
 	assert.ErrorIs(t, err, ErrReadOnly)
-	assert.ErrorIs(t, s.PutRules(cube, &design.DesignMapConfig{}), ErrReadOnly)
+	assert.ErrorIs(t, s.PutOverrides(cube, design.PackageOverrides{On: []string{"combo"}}), ErrReadOnly)
 }
 
 // deckByPlayer lists the cube and returns the named player's deck, failing the
@@ -166,6 +166,17 @@ func runRulesConformance(t *testing.T, s *Store) {
 	assert.NoError(t, err)
 	assert.Equal(t, rules.Groups, got.Groups)
 	assert.Equal(t, rules.Packages, got.Packages)
+
+	empty, err := s.GetOverrides("conf")
+	assert.NoError(t, err)
+	assert.Empty(t, empty.On, "a cube with no overrides reads as none")
+	assert.Empty(t, empty.Off)
+
+	ov := design.PackageOverrides{On: []string{"combo"}, Off: []string{"Aggro"}}
+	assert.NoError(t, s.PutOverrides("conf", ov))
+	got2, err := s.GetOverrides("conf")
+	assert.NoError(t, err)
+	assert.Equal(t, ov, got2)
 }
 
 // runIndexConformance checks the cube index against the canonical dataset's

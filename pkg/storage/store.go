@@ -262,13 +262,25 @@ func (s *Store) GetRules(cube string) (*design.DesignMapConfig, error) {
 	return s.backend.GetRules(cube)
 }
 
-// PutRules writes the cube's design-map rules, or returns ErrReadOnly if the
-// cube can't be written.
+// PutRules writes the cube's design-map rules. Rules live in a shared file
+// rather than with a cube's decks, so a cube whose decks are read-only can
+// still save them.
 func (s *Store) PutRules(cube string, rules *design.DesignMapConfig) error {
+	return s.backend.PutRules(cube, rules)
+}
+
+// GetOverrides returns the packages the cube forces on or off.
+func (s *Store) GetOverrides(cube string) (design.PackageOverrides, error) {
+	return s.backend.GetOverrides(cube)
+}
+
+// PutOverrides saves the packages the cube forces on or off, or returns
+// ErrReadOnly if the cube can't be written.
+func (s *Store) PutOverrides(cube string, ov design.PackageOverrides) error {
 	if !s.backend.Writable(cube) {
 		return ErrReadOnly
 	}
-	return s.backend.PutRules(cube, rules)
+	return s.backend.PutOverrides(cube, ov)
 }
 
 // Index returns the cube's path-free draft/deck index.

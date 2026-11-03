@@ -3,6 +3,7 @@ package storage
 import (
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
@@ -14,10 +15,16 @@ type fakeBackend struct {
 	Backend
 	decks    []*Deck
 	readOnly bool
+	putRules bool
 }
 
 func (f *fakeBackend) Writable(string) bool {
 	return !f.readOnly
+}
+
+func (f *fakeBackend) PutRules(string, *design.DesignMapConfig) error {
+	f.putRules = true
+	return nil
 }
 
 func (f *fakeBackend) RawDecks(cube string) ([]*Deck, error) {
@@ -53,7 +60,16 @@ func TestStoreWritesRefuseReadOnlyCube(t *testing.T) {
 	id := 1
 	_, err = s.SaveDeckRecord("c", RecordEdit{DraftID: 1, DeckID: 1, PlayerID: &id})
 	assert.ErrorIs(t, err, ErrReadOnly)
-	assert.ErrorIs(t, s.PutRules("c", nil), ErrReadOnly)
+	assert.ErrorIs(t, s.PutOverrides("c", design.PackageOverrides{}), ErrReadOnly)
+}
+
+// TestPutRules_ReadOnlyCubeAllowed checks that rules save on a cube whose
+// decks are read-only, since rules live in a shared file, not with the decks.
+func TestPutRules_ReadOnlyCubeAllowed(t *testing.T) {
+	b := &fakeBackend{readOnly: true}
+	s := NewStore(b)
+	assert.NoError(t, s.PutRules("c", &design.DesignMapConfig{}))
+	assert.True(t, b.putRules)
 }
 
 // rosterSource is a fixed player list for Store tests.

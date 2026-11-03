@@ -44,6 +44,10 @@ type Backend interface {
 	GetRules(cube string) (*design.DesignMapConfig, error)
 	PutRules(cube string, rules *design.DesignMapConfig) error
 
+	// GetOverrides returns the packages a cube forces on or off, or none.
+	GetOverrides(cube string) (design.PackageOverrides, error)
+	PutOverrides(cube string, ov design.PackageOverrides) error
+
 	// Index returns a path-free index of the cube's drafts and decks.
 	Index(cube string) (*CubeIndex, error)
 

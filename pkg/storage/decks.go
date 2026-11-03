@@ -168,9 +168,12 @@ type DeckStorage interface {
 	List(cube string, req *DecksRequest) ([]*Deck, error)
 	UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error)
 
-	// GetRules returns the cube's design-map rules. CubeCobra cubes get
-	// polyverse's rules, since CubeCobra has none.
+	// GetRules returns the cube's design-map rules. CubeCobra cubes get the
+	// global rules, since CubeCobra has none.
 	GetRules(cube string) (*design.DesignMapConfig, error)
+
+	// GetOverrides returns the packages the cube forces on or off.
+	GetOverrides(cube string) (design.PackageOverrides, error)
 
 	// GetSnapshot returns the cube list a draft was played with, or an error
 	// when there's none to read.

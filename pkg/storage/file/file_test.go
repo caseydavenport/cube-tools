@@ -382,3 +382,97 @@ func TestFileGetSnapshotMissing(t *testing.T) {
 	_, err := New(nil).GetSnapshot("conf", 1)
 	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
 }
+
+// writeRules writes a rules file with one package of the given name to
+// data/<dir>/cube-rules.json under the working directory.
+func writeRules(t *testing.T, dir, pkg string) {
+	t.Helper()
+	if err := os.MkdirAll(filepath.Join("data", dir), 0o755); err != nil {
+		t.Fatalf("mkdir %s: %v", dir, err)
+	}
+	rules := design.DesignMapConfig{Packages: []design.Package{{Name: pkg}}}
+	data, err := json.Marshal(rules)
+	if err != nil {
+		t.Fatalf("marshal rules: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join("data", dir, "cube-rules.json"), data, 0o644); err != nil {
+		t.Fatalf("write rules: %v", err)
+	}
+}
+
+// chdirTemp moves the test into a fresh temp directory, the working
+// directory the file backend resolves data/ from.
+func chdirTemp(t *testing.T) {
+	t.Helper()
+	if err := os.Chdir(t.TempDir()); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+}
+
+func TestGetRules_FallsBackToGlobal(t *testing.T) {
+	chdirTemp(t)
+	writeRules(t, "global", "Shared")
+	got, err := New(nil).GetRules("x")
+	assert.NoError(t, err)
+	assert.Equal(t, "Shared", got.Packages[0].Name)
+}
+
+func TestGetRules_PrefersOwnFile(t *testing.T) {
+	chdirTemp(t)
+	writeRules(t, "global", "Shared")
+	writeRules(t, "x", "Own")
+	got, err := New(nil).GetRules("x")
+	assert.NoError(t, err)
+	assert.Equal(t, "Own", got.Packages[0].Name)
+}
+
+func TestPutRules_WritesGlobalWithoutOwnFile(t *testing.T) {
+	chdirTemp(t)
+	writeRules(t, "global", "Shared")
+	b := New(nil)
+	assert.NoError(t, b.PutRules("x", &design.DesignMapConfig{Packages: []design.Package{{Name: "Edited"}}}))
+
+	got, err := b.GetRules("global")
+	assert.NoError(t, err)
+	assert.Equal(t, "Edited", got.Packages[0].Name)
+	_, err = os.Stat("data/x/cube-rules.json")
+	assert.True(t, os.IsNotExist(err), "no per-cube file is created")
+}
+
+func TestPutRules_KeepsOwnFile(t *testing.T) {
+	chdirTemp(t)
+	writeRules(t, "global", "Shared")
+	writeRules(t, "x", "Own")
+	b := New(nil)
+	assert.NoError(t, b.PutRules("x", &design.DesignMapConfig{Packages: []design.Package{{Name: "Edited"}}}))
+
+	own, err := b.GetRules("x")
+	assert.NoError(t, err)
+	assert.Equal(t, "Edited", own.Packages[0].Name)
+	global, err := b.GetRules("global")
+	assert.NoError(t, err)
+	assert.Equal(t, "Shared", global.Packages[0].Name, "the global file is untouched")
+}
+
+func TestOverrides_RoundTrip(t *testing.T) {
+	chdirTemp(t)
+	if err := os.MkdirAll("data/x", 0o755); err != nil {
+		t.Fatalf("mkdir: %v", err)
+	}
+	b := New(nil)
+	ov := design.PackageOverrides{On: []string{"Cauldron"}, Off: []string{"Snow"}}
+	assert.NoError(t, b.PutOverrides("x", ov))
+	got, err := b.GetOverrides("x")
+	assert.NoError(t, err)
+	assert.Equal(t, ov, got)
+
+	_, err = os.Stat("data/x/package-overrides.json")
+	assert.NoError(t, err)
+}
+
+func TestOverrides_MissingFileIsEmpty(t *testing.T) {
+	chdirTemp(t)
+	got, err := New(nil).GetOverrides("x")
+	assert.NoError(t, err)
+	assert.Equal(t, design.PackageOverrides{}, got)
+}

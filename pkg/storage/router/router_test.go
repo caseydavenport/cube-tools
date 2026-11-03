@@ -12,8 +12,10 @@ import (
 )
 
 type fakeFile struct {
-	wrote     bool
-	rulesCube string
+	wrote         bool
+	rulesCube     string
+	putRulesCube  string
+	overridesCube string
 }
 
 // deckFor builds a deck whose player names the backend and cube it came from,
@@ -41,7 +43,21 @@ func (f *fakeFile) GetRules(cube string) (*design.DesignMapConfig, error) {
 	f.rulesCube = cube
 	return &design.DesignMapConfig{}, nil
 }
-func (f *fakeFile) PutRules(cube string, r *design.DesignMapConfig) error { f.wrote = true; return nil }
+func (f *fakeFile) PutRules(cube string, r *design.DesignMapConfig) error {
+	f.wrote = true
+	f.putRulesCube = cube
+	return nil
+}
+
+func (f *fakeFile) GetOverrides(cube string) (design.PackageOverrides, error) {
+	f.overridesCube = cube
+	return design.PackageOverrides{On: []string{"from file"}}, nil
+}
+
+func (f *fakeFile) PutOverrides(cube string, ov design.PackageOverrides) error {
+	f.wrote = true
+	return nil
+}
 func (f *fakeFile) GetDraftLog(cube string, d int) (json.RawMessage, error) {
 	return json.RawMessage(`{}`), nil
 }
@@ -89,9 +105,6 @@ func TestRouterWritesGatedForCC(t *testing.T) {
 	if _, err := r.LoadDraft("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc LoadDraft err = %v, want ErrUnsupported", err)
 	}
-	if err := r.PutRules("cc:polyversal", &design.DesignMapConfig{}); !errors.Is(err, storage.ErrReadOnly) {
-		t.Errorf("cc PutRules err = %v, want ErrReadOnly", err)
-	}
 	if _, err := r.GetDraftLog("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc GetDraftLog err = %v, want ErrUnsupported", err)
 	}
@@ -105,6 +118,46 @@ func TestRouterCCRulesBaseline(t *testing.T) {
 	}
 	if ff.rulesCube != baselineRulesCube {
 		t.Errorf("cc GetRules read rules for %q, want baseline %q", ff.rulesCube, baselineRulesCube)
+	}
+}
+
+func TestRouter_CCRulesUseGlobal(t *testing.T) {
+	ff := &fakeFile{}
+	r := New(ff, fakeCC{})
+	if _, err := r.GetRules("cc:polyversal"); err != nil {
+		t.Fatalf("cc GetRules errored: %v", err)
+	}
+	if ff.rulesCube != "global" {
+		t.Errorf("cc GetRules read %q, want global", ff.rulesCube)
+	}
+	if err := r.PutRules("cc:polyversal", &design.DesignMapConfig{}); err != nil {
+		t.Fatalf("cc PutRules errored: %v", err)
+	}
+	if ff.putRulesCube != "global" {
+		t.Errorf("cc PutRules wrote %q, want global", ff.putRulesCube)
+	}
+}
+
+func TestRouter_CCOverridesUnsupported(t *testing.T) {
+	ff := &fakeFile{}
+	r := New(ff, fakeCC{})
+	got, err := r.GetOverrides("cc:polyversal")
+	if err != nil {
+		t.Fatalf("cc GetOverrides errored: %v", err)
+	}
+	if len(got.On) != 0 || ff.overridesCube != "" {
+		t.Errorf("cc GetOverrides = %v from %q, want empty without the file backend", got, ff.overridesCube)
+	}
+	if err := r.PutOverrides("cc:polyversal", design.PackageOverrides{}); !errors.Is(err, storage.ErrReadOnly) {
+		t.Errorf("cc PutOverrides err = %v, want ErrReadOnly", err)
+	}
+	if ff.wrote {
+		t.Error("cc PutOverrides reached the file backend")
+	}
+
+	reg, err := r.GetOverrides("polyverse")
+	if err != nil || ff.overridesCube != "polyverse" || len(reg.On) != 1 {
+		t.Errorf("registry GetOverrides = %v, %v from %q, want the file backend's", reg, err, ff.overridesCube)
 	}
 }
 

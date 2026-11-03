@@ -33,6 +33,11 @@ func (m *mockDeckStorage) GetRules(_ string) (*design.DesignMapConfig, error) {
 	return nil, storage.ErrUnsupported
 }
 
+// GetOverrides reports no forced packages.
+func (m *mockDeckStorage) GetOverrides(_ string) (design.PackageOverrides, error) {
+	return design.PackageOverrides{}, nil
+}
+
 // GetSnapshot reports no snapshot for any draft.
 func (m *mockDeckStorage) GetSnapshot(_ string, _ int) (*types.Cube, error) {
 	return nil, storage.ErrDeckNotFound
