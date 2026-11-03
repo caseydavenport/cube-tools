@@ -24,7 +24,8 @@
         "o:\"number of colors\"",
         "o:domain",
         "o:vivid",
-        "o:converge"
+        "o:converge",
+        "c:W c:U c:B c:R c:G"
       ]
     },
     {
@@ -368,7 +369,8 @@
     {
       "name": "Land recursion",
       "conditions": [
-        "otag:recursion-land"
+        "otag:recursion-land",
+        "otag:regrowth-land"
       ]
     },
     {
@@ -997,7 +999,8 @@
       "conditions": [
         "o:\"target player mill\" !o:emblem",
         "o:\"target opponent mill\" !o:emblem",
-        "o:\"each opponent mill\" !o:emblem"
+        "o:\"each opponent mill\" !o:emblem",
+        "otag:mill-opponent"
       ]
     },
     {
@@ -1316,6 +1319,154 @@
         "otag:tapper-creature",
         "o:\"doesn't untap\""
       ]
+    },
+    {
+      "name": "Giants",
+      "conditions": [
+        "t:giant OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Giant payoffs",
+      "conditions": [
+        "otag:typal-giant"
+      ]
+    },
+    {
+      "name": "Shamans",
+      "conditions": [
+        "t:shaman OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Shaman payoffs",
+      "conditions": [
+        "otag:typal-shaman"
+      ]
+    },
+    {
+      "name": "Scarecrows",
+      "conditions": [
+        "t:scarecrow OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Scarecrow payoffs",
+      "conditions": [
+        "otag:typal-scarecrow"
+      ]
+    },
+    {
+      "name": "Druids",
+      "conditions": [
+        "t:druid OR otag:changeling"
+      ]
+    },
+    {
+      "name": "Druid payoffs",
+      "conditions": [
+        "otag:typal-druid"
+      ]
+    },
+    {
+      "name": "Champions",
+      "conditions": [
+        "o:champion"
+      ]
+    },
+    {
+      "name": "Clash",
+      "conditions": [
+        "otag:clash-like"
+      ]
+    },
+    {
+      "name": "Clash payoffs",
+      "conditions": [
+        "o:\"whenever you clash\""
+      ]
+    },
+    {
+      "name": "Evoke",
+      "conditions": [
+        "o:evoke"
+      ]
+    },
+    {
+      "name": "Persist",
+      "conditions": [
+        "otag:persist",
+        "otag:gives-persist"
+      ]
+    },
+    {
+      "name": "Persist resets",
+      "conditions": [
+        "otag:removes-mm-counters",
+        "otag:gives-pp-counters",
+        "o:\"remove a counter\""
+      ]
+    },
+    {
+      "name": "Color payoffs",
+      "conditions": [
+        "otag:synergy-white !o:conspire",
+        "otag:synergy-blue !o:conspire",
+        "otag:synergy-black !o:conspire",
+        "otag:synergy-red !o:conspire",
+        "otag:synergy-green !o:conspire",
+        "o:chroma",
+        "o:\"white spell\"",
+        "o:\"blue spell\"",
+        "o:\"black spell\"",
+        "o:\"red spell\"",
+        "o:\"green spell\""
+      ]
+    },
+    {
+      "name": "High toughness",
+      "conditions": [
+        "t:creature tou>=4 pow<=2",
+        "t:creature o:defender"
+      ]
+    },
+    {
+      "name": "Toughness payoffs",
+      "conditions": [
+        "otag:toughness-matters"
+      ]
+    },
+    {
+      "name": "Mana doublers",
+      "conditions": [
+        "otag:mana-increaser"
+      ]
+    },
+    {
+      "name": "Mana sinks",
+      "conditions": [
+        "otag:bottomless-mana-sink"
+      ]
+    },
+    {
+      "name": "Land type payoffs",
+      "conditions": [
+        "otag:lands-matter",
+        "o:\"if you control two or more\""
+      ]
+    },
+    {
+      "name": "Hideaway",
+      "conditions": [
+        "otag:cycle-lrw-hideaway-land",
+        "o:hideaway"
+      ]
+    },
+    {
+      "name": "Creature regrowth",
+      "conditions": [
+        "otag:regrowth-creature"
+      ]
     }
   ],
   "packages": [
@@ -1587,7 +1738,7 @@
       ]
     },
     {
-      "name": "ETB",
+      "name": "Flicker",
       "wires": [
         {
           "kind": "enables",
@@ -1609,6 +1760,25 @@
           ],
           "targets": [
             "ETB creatures"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Champions"
+          ],
+          "targets": [
+            "ETB creatures"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Evoke"
+          ],
+          "targets": [
+            "Flickers",
+            "Reanimates"
           ]
         }
       ]
@@ -1753,6 +1923,15 @@
           "targets": [
             "Retrace",
             "Discards lands"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Basic lands"
+          ],
+          "targets": [
+            "Land type payoffs"
           ]
         }
       ]
@@ -2099,6 +2278,15 @@
           "targets": [
             "Creature recursion"
           ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Creatures to graveyard"
+          ],
+          "targets": [
+            "Creature regrowth"
+          ]
         }
       ]
     },
@@ -2337,6 +2525,62 @@
           ],
           "targets": [
             "Soldier payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Giants",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Giants"
+          ],
+          "targets": [
+            "Giant payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shamans",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Shamans"
+          ],
+          "targets": [
+            "Shaman payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Scarecrows",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Scarecrows"
+          ],
+          "targets": [
+            "Scarecrow payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Druids",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Druids"
+          ],
+          "targets": [
+            "Druid payoffs"
           ]
         }
       ]
@@ -2581,6 +2825,93 @@
             "Cheap evasion",
             "Faeries",
             "Merfolk"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Clash",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Clash"
+          ],
+          "targets": [
+            "Clash payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Persist",
+      "wires": [
+        {
+          "kind": "pairs",
+          "sources": [
+            "Persist"
+          ],
+          "targets": [
+            "Persist resets",
+            "Sacs creatures"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Color matters",
+      "wires": [
+        {
+          "kind": "pairs",
+          "sources": [
+            "Color payoffs"
+          ],
+          "targets": [
+            "Color payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Toughness matters",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "High toughness"
+          ],
+          "targets": [
+            "Toughness payoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mana sinks",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Ramp enablers",
+            "Mana doublers"
+          ],
+          "targets": [
+            "Mana sinks"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Hideaway",
+      "wires": [
+        {
+          "kind": "enables",
+          "sources": [
+            "Hideaway"
+          ],
+          "targets": [
+            "Big creatures",
+            "Big Instants"
           ]
         }
       ]
