@@ -331,7 +331,12 @@
       "name": "Graveyard size payoffs",
       "conditions": [
         "otag:graveyard-fuel !otag:hate-graveyard",
-        "otag:cards-in-graveyard-matter !otag:card-types-in-graveyard-matter",
+        "otag:cards-in-graveyard-matter !otag:card-types-in-graveyard-matter"
+      ]
+    },
+    {
+      "name": "Permanent cards to graveyard payoffs",
+      "conditions": [
         "o:\"permanent card\" o:\"into your graveyard from anywhere\""
       ]
     },
@@ -1862,7 +1867,18 @@
             "Cycling"
           ],
           "targets": [
-            "Graveyard size payoffs"
+            "Graveyard size payoffs",
+            "Permanent cards to graveyard payoffs"
+          ]
+        },
+        {
+          "kind": "enables",
+          "sources": [
+            "Self-sacs",
+            "Sacs lands"
+          ],
+          "targets": [
+            "Permanent cards to graveyard payoffs"
           ]
         }
       ]
