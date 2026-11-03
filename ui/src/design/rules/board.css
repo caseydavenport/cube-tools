@@ -59,6 +59,16 @@
   border-color: var(--mantine-primary-color-filled);
 }
 
+/* A package this cube doesn't show: dimmed, and full strength on hover. */
+.rb-card-hidden {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+.rb-card-hidden:hover {
+  opacity: 1;
+}
+
 .rb-card-small {
   flex-direction: row;
   justify-content: space-between;

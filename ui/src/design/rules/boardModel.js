@@ -45,6 +45,18 @@ export function wiringSummary(pkg) {
   return `${pkg.wires.length} wires · ${pkg.groups.length} groups`
 }
 
+// isShown reports whether the cube shows the package outside the editor:
+// forced on or off decides, and otherwise the relevance line does.
+export function isShown(pkg) {
+  if (pkg.forced === "on") {
+    return true
+  }
+  if (pkg.forced === "off") {
+    return false
+  }
+  return pkg.relevant
+}
+
 // lineBadge notes a package the cube forces, or one below the relevance line
 // for this cube's list, or returns null.
 function lineBadge(pkg) {

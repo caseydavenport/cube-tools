@@ -8,7 +8,7 @@ import { useCube } from "../../contexts/CubeContext.js"
 import { linkCheckHref } from "../../shell/paths.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { ruleColor } from '../map/ruleColors.js'
-import { badges, cardsText, colorShares, filterBoard, linkPair, sortPackages, wiringSummary } from "./boardModel.js"
+import { badges, cardsText, isShown, colorShares, filterBoard, linkPair, sortPackages, wiringSummary } from "./boardModel.js"
 import "./board.css"
 
 // HITS_SHOWN is how many matching cards a package card lists under a search.
@@ -31,11 +31,16 @@ function Badge({ badge }) {
 }
 
 // PackageCard is one package on the board. hits are the cards a search
-// matched in it, shown under its badges.
+// matched in it, shown under its badges. A package the cube doesn't show is
+// dimmed.
 function PackageCard({ pkg, color, problem, hits, onOpen }) {
   const built = Math.round(pkg.stat.buildRate * 100)
+  let className = "rb-card"
+  if (!isShown(pkg)) {
+    className += " rb-card-hidden"
+  }
   return (
-    <UnstyledButton className="rb-card" onClick={onOpen}>
+    <UnstyledButton className={className} onClick={onOpen}>
       <div className="rb-card-name">
         <span className="dm-swatch" style={{ background: color }} />
         {pkg.name}

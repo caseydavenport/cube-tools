@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { badges, cardsText, colorShares, dotKeys, entryLabel, filterBoard, linkPair, sortPackages, wiringSummary } from "./boardModel.js"
+import { badges, isShown, cardsText, colorShares, dotKeys, entryLabel, filterBoard, linkPair, sortPackages, wiringSummary } from "./boardModel.js"
 
 // group builds a board group with count placeholder cards, or the named ones.
 function group(name, cards) {
@@ -152,4 +152,11 @@ test("a package below the line in this cube says so", () => {
 test("a forced package names its setting instead of the line", () => {
   assert.deepEqual(badges(pkg("X", [], [], { relevant: false, forced: "on" }), null), [{ kind: "info", text: "Always shown" }])
   assert.deepEqual(badges(pkg("X", [], [], { relevant: true, forced: "off" }), null), [{ kind: "warn", text: "Always hidden" }])
+})
+
+test("a package shows when it clears the line or is forced on, and not when forced off", () => {
+  assert.equal(isShown(pkg("X", [], [], { relevant: true })), true)
+  assert.equal(isShown(pkg("X", [], [], { relevant: false })), false)
+  assert.equal(isShown(pkg("X", [], [], { relevant: false, forced: "on" })), true)
+  assert.equal(isShown(pkg("X", [], [], { relevant: true, forced: "off" })), false)
 })
