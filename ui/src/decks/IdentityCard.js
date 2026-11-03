@@ -65,8 +65,8 @@ function IdentityRow({ label, tip, children }) {
   )
 }
 
-// RuleChip is one community or package: its color, its name and, for a
-// community, how many cards it holds. Hovering a community names its cards.
+// RuleChip is one community or package: its color, its name and how many of
+// the deck's cards it holds. Hovering it names those cards.
 function RuleChip({ color, name, size, members, href }) {
   let text = <>{name}</>
   if (href) {
@@ -87,7 +87,7 @@ function RuleChip({ color, name, size, members, href }) {
 
 const TAGS_TIP = "Your own labels for this deck."
 const COMMUNITIES_TIP = "How this deck's cards cluster: groups of cards that link most to each other, named after the package they lean on most. The Map view draws them."
-const PACKAGES_TIP = "Which of the rules' synergies this deck has enough cards to count as built. A deck can build a package whose cards are spread across several communities."
+const PACKAGES_TIP = "Which of the rules' synergies this deck has enough cards to count as built, with how many of its cards each one links, most first. A deck can build a package whose cards are spread across several communities."
 
 // IdentityCard is the top card of a deck's details: who played it, its colors
 // and archetype, which draft it came from, its tags, communities and built
@@ -120,7 +120,14 @@ export function IdentityCard({ cube, deck, edits, tagSuggestions, communities, p
           {packages.length > 0 && (
             <IdentityRow label="Packages" tip={PACKAGES_TIP}>
               {packages.map(p => (
-                <RuleChip key={p.name} color={p.color} name={p.name} href={packagePageHref(cube, p.name)} />
+                <RuleChip
+                  key={p.name}
+                  color={p.color}
+                  name={p.name}
+                  size={p.members.length}
+                  members={p.members}
+                  href={packagePageHref(cube, p.name)}
+                />
               ))}
             </IdentityRow>
           )}

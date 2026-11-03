@@ -11,7 +11,7 @@ import { DecklistCard } from "./DecklistCard.js"
 import { NotesCard } from "./NotesCard.js"
 import { SimilarDecks } from "./SimilarDecks.js"
 import { CompareView } from "./CompareView.js"
-import { deckCommunities } from "../design/map/deckCommunities.js"
+import { deckCommunities, deckPackageCards } from "../design/map/deckCommunities.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 import { IsBasicLand } from "../utils/Utils.js"
 
@@ -39,7 +39,8 @@ function SaveError({ deck, page, copy }) {
 
 // useDeckRules is what the design rules say about the deck: its mainboard
 // communities, the same ones the Map view draws for the mainboard, and the
-// packages it builds, each with its rule color. Both are empty while the
+// packages it builds with the mainboard cards they link, each with its rule
+// color. Both are empty while the
 // deck's graph loads.
 function useDeckRules(deck, designGraph) {
   return useMemo(() => {
@@ -55,7 +56,15 @@ function useDeckRules(deck, designGraph) {
       packageIndex[packages[i].name] = i
     }
     const communities = deckCommunities([...names], designGraph.edges || [], packageIndex).list
-    const built = (designGraph.deck_packages || []).map(name => ({ name, color: ruleColor(packageIndex[name] ?? 0) }))
+
+    // Built packages, most of the deck's cards first.
+    const cardsOf = deckPackageCards([...names], designGraph.edges || [])
+    const built = (designGraph.deck_packages || []).map(name => ({
+      name,
+      color: ruleColor(packageIndex[name] ?? 0),
+      members: cardsOf[name] || [],
+    }))
+    built.sort((a, b) => b.members.length - a.members.length || a.name.localeCompare(b.name))
     return { communities, packages: built }
   }, [deck, designGraph])
 }

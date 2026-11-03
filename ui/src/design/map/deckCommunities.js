@@ -48,3 +48,28 @@ export function deckCommunities(names, edges, packageIndex) {
   }
   return { graph, list, colorOf }
 }
+
+// deckPackageCards maps each package to the pool's cards its links touch, in
+// name order. Links to cards outside the pool don't count.
+export function deckPackageCards(names, edges) {
+  const inPool = new Set(names)
+  const cards = {}
+  for (const e of edges || []) {
+    if (!inPool.has(e.source) || !inPool.has(e.target)) {
+      continue
+    }
+    for (const pkg of e.packages || []) {
+      if (!cards[pkg]) {
+        cards[pkg] = new Set()
+      }
+      cards[pkg].add(e.source)
+      cards[pkg].add(e.target)
+    }
+  }
+
+  const out = {}
+  for (const [pkg, set] of Object.entries(cards)) {
+    out[pkg] = [...set].sort()
+  }
+  return out
+}

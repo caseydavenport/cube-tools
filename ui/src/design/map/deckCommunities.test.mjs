@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { deckCommunities } from "./deckCommunities.js"
+import { deckCommunities, deckPackageCards } from "./deckCommunities.js"
 import { ruleColor } from "./ruleColors.js"
 
 // edge is a design graph edge carrying the given packages.
@@ -38,4 +38,16 @@ test("a card in no community gets no color and isn't listed", () => {
 test("two communities wanting one color get different colors", () => {
   const { list } = deckCommunities(names, edges, { Graveyard: 0, Sacrifice: 1, Tokens: 20 })
   assert.notEqual(list[0].color, list[1].color)
+})
+
+test("each package's deck cards are those its links touch", () => {
+  const members = deckPackageCards(names, edges)
+  assert.deepEqual(members.Tokens, ["A", "B", "C"])
+  assert.deepEqual(members.Sacrifice, ["C", "D"])
+  assert.equal(members.Loner, undefined)
+})
+
+test("links to cards outside the pool don't count", () => {
+  const members = deckPackageCards(["A", "B"], [edge("A", "B", "Tokens"), edge("A", "Z", "Ramp")])
+  assert.deepEqual(members, { Tokens: ["A", "B"] })
 })
