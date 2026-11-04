@@ -16,7 +16,9 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px 16px;
-  min-height: var(--toolbar-height);
+  /* A literal, not --toolbar-height: PageToolbar sets that variable from this
+     element's height, so reading it back would stop the toolbar shrinking. */
+  min-height: 56px;
   padding: 8px 20px;
   background: var(--se-page);
   border-bottom: 1px solid var(--se-border);
