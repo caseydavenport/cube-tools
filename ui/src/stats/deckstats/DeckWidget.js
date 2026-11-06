@@ -5,9 +5,9 @@ import React from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement, BarElement } from 'chart.js'
 import { availableValue, visibleItems } from "../../utils/dataKinds.js"
-import { CloseMatchChart, HeadToHeadChart } from "./HeadToHeadCharts.js"
+import { HeadToHeadChart } from "./HeadToHeadCharts.js"
 import { ForestPlot } from "./ForestPlot.js"
-import { ManaCurveChart, SplashSizeChart, TypeMixChart } from "./BuildShapeCharts.js"
+import { SplashSizeChart } from "./BuildShapeCharts.js"
 import { DeckBasicLandCountChart, DeckManaValueChart, NumColorsOverTimeChart, NumColorsPieChart, SideboardSizeOverTimeChart } from "./DeckShapeCharts.js"
 import { ManaCostByOracleTextOverTime, OracleTextByColor, OracleTextOverTimeChart } from "./OracleTextCharts.js"
 import { DeckGraph } from "./DeckScatter.js"
@@ -33,9 +33,6 @@ ChartJS.register(
 const DECK_CHART_OPTIONS = [
   { label: "Forest plot: what moves win rate", value: "forest_plot" },
   { label: "Head to head", value: "head_to_head", needs: ["results"] },
-  { label: "Close matches by archetype", value: "close_matches", needs: ["results"] },
-  { label: "Mana curve by archetype", value: "mana_curve" },
-  { label: "Card types by archetype", value: "type_mix" },
   { label: "Splash size", value: "splash_size" },
   { label: DECKSTATS_COPY.widget.optionPieNumColors, value: "pie_num_colors" },
   { label: DECKSTATS_COPY.widget.optionDeckAvgMana, value: "deck_avg_mana" },
@@ -74,9 +71,6 @@ export function DeckWidget(input) {
     switch (chartId) {
       case "forest_plot": return <ForestPlot deckCharts={input.deckCharts} />;
       case "head_to_head": return <HeadToHeadChart deckCharts={input.deckCharts} />;
-      case "close_matches": return <CloseMatchChart deckCharts={input.deckCharts} />;
-      case "mana_curve": return <ManaCurveChart deckCharts={input.deckCharts} />;
-      case "type_mix": return <TypeMixChart deckCharts={input.deckCharts} />;
       case "splash_size": return <SplashSizeChart deckCharts={input.deckCharts} />;
       case "pie_num_colors": return <NumColorsPieChart decks={input.decks} parsed={input.parsed} />;
       case "deck_avg_mana": return <DeckManaValueChart decks={input.decks} parsed={input.parsed} />;

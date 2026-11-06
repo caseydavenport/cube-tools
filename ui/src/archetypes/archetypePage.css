@@ -1,0 +1,5 @@
+/* The archetype page's top cards controls: hide lands and min decks. */
+.archetype-top-controls {
+  margin-bottom: 8px;
+  gap: 16px;
+}

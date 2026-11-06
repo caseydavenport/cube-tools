@@ -58,7 +58,6 @@ export function useStatsFilters() {
   const [playerSortBy, setPlayerSortBy] = useState("matches");
   const [playerSortInvert, setPlayerSortInvert] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState("");
-  const [selectedArchetype, setSelectedArchetype] = useState("aggro");
   const [sortBy, setSortBy] = useState("");
   const [minSynergyDecks, setMinSynergyDecks] = useState(5);
   const [focalThreshold, setFocalThreshold] = useState(1.5);
@@ -109,7 +108,6 @@ export function useStatsFilters() {
     playerSortBy, setPlayerSortBy,
     playerSortInvert, setPlayerSortInvert,
     selectedPlayer, setSelectedPlayer,
-    selectedArchetype, setSelectedArchetype,
     sortBy, setSortBy,
     minSynergyDecks, setMinSynergyDecks,
     focalThreshold, setFocalThreshold,
@@ -377,23 +375,6 @@ export function useStatsData(filters, props, refresh, view) {
 
   const graphData = useMemo(() => BuildGraphData({ filteredDecks, deckBuckets, bucketSize }), [filteredDecks, deckBuckets, bucketSize]);
 
-  const archetypeDropdownOptions = useMemo(() => {
-    let archetypes = new Map();
-    for (let deck of decks) {
-      if (deck.macro_archetype) archetypes.set(deck.macro_archetype, 0);
-      for (let arch of deck.labels || []) {
-        archetypes.set(arch, 0);
-      }
-    }
-    let opts = [];
-    for (let arch of archetypes.keys()) {
-      opts.push({ label: arch, value: arch });
-    }
-    // Sort archetypes alphabetically
-    opts.sort((a, b) => a.label.localeCompare(b.label));
-    return opts;
-  }, [decks]);
-
   const draftLogs = useMemo(() => {
     let opts = [{ label: "", value: "" }];
     for (let draft of Object.values(drafts || {})) {
@@ -406,6 +387,6 @@ export function useStatsData(filters, props, refresh, view) {
   return {
     decks, decksLoaded, cube, drafts, archetypeMatchups, cardData,
     colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
-    parsed, graphData, archetypeDropdownOptions, draftLogs, failed, deckCharts,
+    parsed, graphData, draftLogs, failed, deckCharts,
   };
 }

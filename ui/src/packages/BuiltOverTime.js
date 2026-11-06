@@ -30,9 +30,13 @@ function yearMonth(value) {
   return this.getLabelForValue(value).slice(0, 7)
 }
 
+// BUILT_TIP explains the chart on the package page, its default use.
+const BUILT_TIP = "Share of decks that built it in each draft, as dots, and over the last five drafts, as a line. Drafts outside the date range are faded."
+
 // BuiltOverTime draws the build rate per draft: a line smoothed over the last
-// five drafts, and each draft's own rate as faint dots.
-export function BuiltOverTime({ overTime }) {
+// five drafts, and each draft's own rate as faint dots. title and tip name the
+// section; they default to the package page's wording.
+export function BuiltOverTime({ overTime, title = "Built over time", tip = BUILT_TIP }) {
   // Reading the scheme re-renders the chart in the new colors on a switch.
   useComputedColorScheme("light")
   const theme = currentChartTheme()
@@ -79,13 +83,13 @@ export function BuiltOverTime({ overTime }) {
     },
   }
 
-  const title = (
-    <HoverInfo title="Built over time" info="Share of decks that built it in each draft, as dots, and over the last five drafts, as a line. Drafts outside the date range are faded.">
-      <span>Built over time</span>
+  const heading = (
+    <HoverInfo title={title} info={tip}>
+      <span>{title}</span>
     </HoverInfo>
   )
   return (
-    <SectionCard title={title}>
+    <SectionCard title={heading}>
       <div className="package-chart">
         <Line data={data} options={options} />
       </div>

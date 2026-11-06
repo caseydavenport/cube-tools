@@ -468,6 +468,16 @@ func colorCounts(names []string, cards map[string]types.Card) map[string]int {
 // rate over the overTimeWindow drafts ending at each. start and end, either
 // empty for open, mark the drafts in the date range.
 func packageOverTime(pkg design.PackageCards, all []*storage.Deck, start, end string) []DraftBuild {
+	return draftShares(all, start, end, func(d *storage.Deck) bool {
+		return pkg.BuiltIn(d.Metadata.DraftID, deckCardSet(d))
+	})
+}
+
+// draftShares counts, for every draft in draft order, the decks with a
+// non-basic card and how many of them counts accepts, and smooths that share
+// over the overTimeWindow drafts ending at each. start and end, either empty
+// for open, mark the drafts in the date range.
+func draftShares(all []*storage.Deck, start, end string, counts func(*storage.Deck) bool) []DraftBuild {
 	byDraft := map[int]*DraftBuild{}
 	for _, d := range all {
 		draftID := d.Metadata.DraftID
@@ -479,9 +489,8 @@ func packageOverTime(pkg design.PackageCards, all []*storage.Deck, start, end st
 		if len(nonBasicMainboard(d)) == 0 {
 			continue
 		}
-		deck := deckCardSet(d)
 		row.Decks++
-		if pkg.BuiltIn(draftID, deck) {
+		if counts(d) {
 			row.Built++
 		}
 	}

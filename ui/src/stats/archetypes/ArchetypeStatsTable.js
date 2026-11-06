@@ -2,6 +2,8 @@
 
 import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
+import { Link } from "react-router-dom"
+import { archetypePageHref } from "../../shell/paths.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { WinRateCell } from "../../components/kit/WinRateCell.js"
@@ -17,7 +19,11 @@ const ARCHETYPE_COLUMNS = [
     id: "type",
     text: ARCHETYPES_COPY.statsTable.tag.text,
     tip: ARCHETYPES_COPY.statsTable.tag.tip,
-    cell: (t, input) => <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>,
+    cell: (t, input) => (
+      <td key="type">
+        <Link to={archetypePageHref(input.cube, t.type)}>{t.type}</Link>
+      </td>
+    ),
   },
   {
     id: "build_percent",
@@ -200,7 +206,7 @@ export function ArchetypeStatsTable(input) {
         <div className="table-scroll">
           <table className="widget-table">
             <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
-            <ArchetypeTableRows columns={columns} data={microData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} confidence={input.confidence} />
+            <ArchetypeTableRows columns={columns} data={microData} sortBy={input.sortBy} cube={input.cube} confidence={input.confidence} />
           </table>
         </div>
       </>
@@ -213,19 +219,10 @@ export function ArchetypeStatsTable(input) {
       <div className="table-scroll">
         <table className="widget-table">
           <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
-          <ArchetypeTableRows columns={columns} data={macroData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} confidence={input.confidence} />
+          <ArchetypeTableRows columns={columns} data={macroData} sortBy={input.sortBy} cube={input.cube} confidence={input.confidence} />
         </table>
       </div>
       {tagsTable}
     </div>
   );
-}
-
-// archetypeShare is the percent of an archetype's decks that played a card,
-// or 0 when the archetype has no decks in the current range.
-export function archetypeShare(count, archetype) {
-  if (!archetype || !archetype.count) {
-    return 0
-  }
-  return Math.round(count / archetype.count * 100)
 }

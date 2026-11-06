@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ColorWidget } from "../stats/colors/ColorWidget.js";
 import { ArchetypeWidget } from "../stats/archetypes/ArchetypeWidget.js";
-import { ColorPickerHeader } from "../stats/archetypes/TopCardsInArchetype.js";
+import { ColorPickerHeader } from "../stats/archetypes/ColorPickerHeader.js";
 import { DeckWidget } from "../stats/deckstats/DeckWidget.js";
 import { CardWidget } from "../stats/cards/CardWidget.js";
 import { SynergyWidget } from "../stats/synergy/SynergyWidget.js";
@@ -19,7 +19,6 @@ import { requestFilters } from "../stats/hiddenFilters.js"
 import { EmptyState } from "../components/kit/EmptyState.js"
 import { LoadFailedNotice } from "../stats/LoadFailedNotice.js"
 import { COLORS_COPY } from "../stats/colors/copy.js"
-import { ARCHETYPES_COPY } from "../stats/archetypes/copy.js"
 
 // COPY holds the text the stats pages add around their widgets: page titles,
 // the toolbar, and its settings.
@@ -94,7 +93,7 @@ export function StatsViewer(props) {
   const {
     decks, decksLoaded, cube, archetypeMatchups, cardData,
     synergyData, synergyCompare, colorMatchupData, healthData,
-    parsed, graphData, archetypeDropdownOptions, failed, deckCharts,
+    parsed, graphData, failed, deckCharts,
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
@@ -108,7 +107,6 @@ export function StatsViewer(props) {
     cardFilter, setCardFilter, tagFilter, setTagFilter, popularityFilter, setPopularityFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy, cardWidgetSortInvert, setCardWidgetSortInvert, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
-    selectedArchetype, setSelectedArchetype,
     sortBy, setSortBy, minSynergyDecks, setMinSynergyDecks,
     focalThreshold, setFocalThreshold, smoothingK, setSmoothingK,
     colorAdjust, setColorAdjust, synergyRecord, setSynergyRecord, synergySortBy, setSynergySortBy,
@@ -197,24 +195,10 @@ export function StatsViewer(props) {
       <ArchetypeWidget
         info={info}
         winConfidence={winConfidence}
-        parsed={parsed} cardData={cardData} decks={decks} cube={cube}
+        parsed={parsed} decks={decks} cubeID={cubeID} deckCharts={deckCharts}
         show={true} bucketSize={bucketSize} matchups={archetypeMatchups}
-        dropdownSelection={colorTypeSelection} onSelected={(e) => setCardWidgetSelection(e.target.value)}
-        colorWidgetOpts={[
-          { label: "", value: "" },
-          { label: ARCHETYPES_COPY.topCards.colorRed, value: "R" },
-          { label: ARCHETYPES_COPY.topCards.colorBlue, value: "U" },
-          { label: ARCHETYPES_COPY.topCards.colorGreen, value: "G" },
-          { label: ARCHETYPES_COPY.topCards.colorBlack, value: "B" },
-          { label: ARCHETYPES_COPY.topCards.colorWhite, value: "W" },
-        ]}
-        colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
-        archetypeDropdownOptions={archetypeDropdownOptions}
-        selectedArchetype={selectedArchetype} onArchetypeSelected={(e) => setSelectedArchetype(e.target.value)}
-        onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
-        minDrafts={minDrafts} onMinGamesSelected={(e) => setMinGames(e.target.value)}
-        minDecksInArch={minGames} sortBy={sortBy} onHeaderClick={(e) => setSortBy(e.currentTarget.id)}
-        handleRowClick={(e) => setSelectedArchetype(e.currentTarget.id)}
+        dropdownSelection={colorTypeSelection}
+        sortBy={sortBy} onHeaderClick={(e) => setSortBy(e.currentTarget.id)}
       />
     )
   } else if (props.view === "cards") {

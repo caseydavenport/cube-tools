@@ -57,6 +57,11 @@ export function cardPageHref(cube, name) {
   return pageHref(cube, "cards") + "/" + encodeURIComponent(name)
 }
 
+// archetypePageHref links to an archetype's or tag's own page.
+export function archetypePageHref(cube, name) {
+  return pageHref(cube, "archetypes") + "/" + encodeURIComponent(name)
+}
+
 // packagePageHref links to a package's own page. The name is encoded as one
 // URL segment, so "Auras/Equipment" stays one name.
 export function packagePageHref(cube, name) {

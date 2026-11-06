@@ -765,10 +765,9 @@ type cardStats struct {
 	// Total number of games this card has been in.
 	TotalGames int `json:"total_games"`
 
-	// DraftsAvailable is how many drafts in the request had the card in their
-	// cube, and PlayRate the percent of those where a deck mainboarded it.
-	// Popularity compares PlayRate with the card's color peers: "popular",
-	// "typical", "niche", or empty with too little data.
+	// DraftsAvailable counts the drafts whose cube had the card, and PlayRate
+	// is the percent where a deck mainboarded it. Popularity compares PlayRate
+	// with same-color cards, empty with too little data.
 	DraftsAvailable int     `json:"drafts_available"`
 	PlayRate        float64 `json:"play_rate"`
 	Popularity      string  `json:"popularity,omitempty"`

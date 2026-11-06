@@ -4,6 +4,7 @@ import { DecksPage } from './pages/DecksPage.js'
 import {StatsViewer} from './pages/Stats.js'
 import { PlayersPage } from './pages/PlayersPage.js'
 import { CardPage } from './cards/CardPage.js'
+import { ArchetypePage } from './archetypes/ArchetypePage.js'
 import { DraftsPage } from './pages/DraftsPage.js'
 import { ExplorePage } from './pages/ExplorePage.js'
 import { RemovalPage } from './pages/RemovalPage.js'
@@ -148,6 +149,7 @@ function AppRoutes({ dateProps, initialMatch }) {
           <Route path='packages' element={<PackagesPage {...statsProps} />} />
           <Route path='packages/:name' element={<PackagePage {...statsProps} />} />
           <Route path='archetypes' element={<StatsViewer view='types' {...statsProps} />} />
+          <Route path='archetypes/:name' element={<ArchetypePage {...statsProps} />} />
           <Route path='deck-stats' element={<StatsViewer view='deckstats' {...statsProps} />} />
           <Route path='drafts' element={<DraftsPage {...statsProps} />} />
           <Route path='players' element={<PlayersPage {...statsProps} />} />

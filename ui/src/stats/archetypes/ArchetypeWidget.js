@@ -4,14 +4,16 @@
 import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
-import { availableValue, visibleItems } from "../../utils/dataKinds.js"
+import { availableValue, hasData, visibleItems } from "../../utils/dataKinds.js"
 import { Section, SectionNav } from "../../components/PageSections.js"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import { MacroArchetypeDeltaChart, MacroArchetypesChart } from "./ArchetypeCharts.js"
 import { WinsByMatchup } from "./WinsByMatchup.js"
 import { MicroArchetypesChart } from "./TagCharts.js"
-import { ArchetypeDetailsPanel, TopCardsInArchetypeWidget } from "./TopCardsInArchetype.js"
 import { ArchetypeStatsTable } from "./ArchetypeStatsTable.js"
+import { ArchetypeFinishes } from "./ArchetypeFinishes.js"
+import { ManaCurveChart, TypeMixChart } from "../deckstats/BuildShapeCharts.js"
+import { CloseMatchChart } from "../deckstats/HeadToHeadCharts.js"
 import "../stats.css"
 
 // Register chart JS objects that we need to use.
@@ -50,9 +52,40 @@ const CHART_OPTIONS = [
 
 const ARCH_SECTIONS = [
   { id: "archetypes", label: ARCHETYPES_COPY.widget.sectionArchetypes },
-  { id: "selected-archetype", label: ARCHETYPES_COPY.widget.sectionSelected },
+  { id: "build-shape", label: ARCHETYPES_COPY.widget.sectionBuildShape },
   { id: "trends", label: ARCHETYPES_COPY.widget.sectionTrends },
 ]
+
+// FinishesPart is the finishes chart under the tables, shown only for cubes
+// with match results.
+function FinishesPart({ parsed, info }) {
+  if (!hasData(info, "results")) {
+    return null
+  }
+  return (
+    <>
+      <h3 className="section-heading kit-section-title stats-section-gap-lg">{ARCHETYPES_COPY.widget.finishesHeading}</h3>
+      <ArchetypeFinishes archetypeData={parsed.archetypeData} />
+    </>
+  )
+}
+
+// BuildShape compares how each macro archetype's decks are built: the mana
+// curve, the card types and, with match results, how often their matches go
+// to a third game.
+function BuildShape({ deckCharts, info }) {
+  let closeMatches = null
+  if (hasData(info, "results")) {
+    closeMatches = <CloseMatchChart deckCharts={deckCharts} />
+  }
+  return (
+    <div className="chart-grid">
+      <ManaCurveChart deckCharts={deckCharts} />
+      <TypeMixChart deckCharts={deckCharts} />
+      {closeMatches}
+    </div>
+  )
+}
 
 export function ArchetypeWidget(input) {
   const [leftChart, setLeftChart] = React.useState("macro_builds")
@@ -101,35 +134,15 @@ export function ArchetypeWidget(input) {
           dropdownSelection={input.colorTypeSelection}
           sortBy={input.sortBy}
           onHeaderClick={input.onHeaderClick}
-          handleRowClick={input.handleRowClick}
-          selectedArchetype={input.selectedArchetype}
+          cube={input.cubeID}
           info={input.info}
           confidence={input.winConfidence}
         />
+        <FinishesPart parsed={input.parsed} info={input.info} />
       </Section>
 
-      <Section id="selected-archetype" heading={ARCHETYPES_COPY.widget.selectedHeading({ archetype: input.selectedArchetype })}>
-        <TopCardsInArchetypeWidget
-          parsed={input.parsed}
-          cardData={input.cardData}
-          decks={input.decks}
-          minDrafts={input.minDrafts}
-          cube={input.cube}
-          minDecksInArch={input.minDecksInArch}
-          archetypeDropdownOptions={input.archetypeDropdownOptions}
-          selectedArchetype={input.selectedArchetype}
-          onArchetypeSelected={input.onArchetypeSelected}
-          colorWidgetOpts={input.colorWidgetOpts}
-          onColorSelected={input.onColorSelected}
-          colorSelection={input.colorSelection}
-          onMinDraftsSelected={input.onMinDraftsSelected}
-          onMinGamesSelected={input.onMinGamesSelected}
-        />
-        <ArchetypeDetailsPanel
-          parsed={input.parsed}
-          decks={input.decks}
-          selectedArchetype={input.selectedArchetype}
-        />
+      <Section id="build-shape" heading={ARCHETYPES_COPY.widget.buildShapeHeading}>
+        <BuildShape deckCharts={input.deckCharts} info={input.info} />
       </Section>
 
       <Section id="trends" heading={ARCHETYPES_COPY.widget.trendsHeading}>

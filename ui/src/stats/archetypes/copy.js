@@ -23,9 +23,10 @@ export const ARCHETYPES_COPY = {
     tagLastPlacePct: "Tag Last Place %",
     tagPercentOfWins: "Tag % of wins",
     sectionArchetypes: "Archetypes",
-    sectionSelected: "Selected Archetype",
+    sectionBuildShape: "Build shape",
     sectionTrends: "Trends",
-    selectedHeading: ({ archetype }) => `Selected — ${archetype}`,
+    finishesHeading: "How their decks finished",
+    buildShapeHeading: "Build shape",
     trendsHeading: "Trends",
     leftChart: "Left Chart",
     rightChart: "Right Chart",
@@ -111,51 +112,6 @@ export const ARCHETYPES_COPY = {
     winningPctTitle: ({ bucketSize }) => `Winning % (bucket size = ${bucketSize} drafts)`,
     trophyPctTitle: ({ bucketSize }) => `Trophy % (bucket size = ${bucketSize} drafts)`,
     lastPlacePctTitle: ({ bucketSize }) => `Last place % (bucket size = ${bucketSize} drafts)`,
-  },
-
-  // TopCardsInArchetype.js: the controls, the top cards table headers with
-  // hover text, and the two small tables under it.
-  topCards: {
-    archetype: "Archetype",
-    color: "Color",
-
-    // The color dropdown's choices, which Stats.js builds.
-    colorRed: "Red",
-    colorBlue: "Blue",
-    colorGreen: "Green",
-    colorBlack: "Black",
-    colorWhite: "White",
-
-    minPicks: "Min picks",
-    decksInArch: "Decks in arch",
-    card: {
-      text: "Card",
-      tip: "The card's name.",
-    },
-    focalScore: {
-      text: "Focal Score",
-      tip: "Combines include rate and correlation to identify cards that define the archetype. High scores indicate cards that are both common in this archetype and rarely seen outside of it.",
-    },
-    numDecks: {
-      text: "# Decks",
-      tip: "Number of times this card has been mainboarded in decks with the selected archetype / tag.",
-    },
-    includeRate: {
-      text: "Include rate",
-      tip: "Percentage of decks in the selected archetype / tag that include this card.",
-    },
-    correlation: {
-      text: "Correlation",
-      tip: "How correlated this card is with the selected archetype / tag. Percentage of decks that this card has been mainboarded in that have the selected archetype / tag.",
-    },
-    heading: "Top Cards in Archetype",
-    pairedWith: "Paired With",
-    pairedArchetype: "Archetype",
-    playedBy: "Played By",
-    playedByPlayer: "Player",
-    countHeader: "#",
-    pairedCountTip: "Number of decks of the selected archetype or tag that also carry the paired archetype.",
-    playedByCountTip: "Number of decks of the selected archetype or tag that this player built.",
   },
 
   // WinsByMatchup.js: the chart title and series labels.

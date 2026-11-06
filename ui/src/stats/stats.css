@@ -553,6 +553,13 @@
   font-weight: 600;
 }
 
+/* The Archetypes page's finishes chart: three short bars and a legend. */
+.archetype-finishes-chart {
+  position: relative;
+  height: 220px;
+  max-width: 900px;
+}
+
 /* "Significant only" with its expected-by-chance count beside it. */
 .cards-significant {
   display: inline-flex;
