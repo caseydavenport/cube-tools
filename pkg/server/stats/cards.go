@@ -79,11 +79,12 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 }
 
 func CardStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &cardStatsHandler{q: newQuery(store, src)}
+	return &cardStatsHandler{q: newQuery(store, src), store: store}
 }
 
 type cardStatsHandler struct {
-	q *deckquery.Query
+	q     *deckquery.Query
+	store storage.DeckStorage
 }
 
 func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -128,6 +129,8 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		resp.All = d.statsForDecks(allDecks, cubeCards, sr)
+		cubes := loadCardLists(d.store, cubeID, cube, allDecks).known()
+		addPopularity(resp.All, cube, cubeDraftRates(cube, withSpells(allDecks), cubes))
 	}
 
 	// Marshal the response and write it back.
@@ -359,6 +362,18 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 	}
 
 	return resp
+}
+
+// addPopularity sets each card's per-draft play rate and its popularity
+// against its color peers, the same rule the card page uses.
+func addPopularity(cards *Cards, cube *types.Cube, rates map[string]draftRate) {
+	labels := cubePopularity(cube, rates)
+	for name, card := range cards.Data {
+		rate := rates[name]
+		card.DraftsAvailable = rate.Available
+		card.PlayRate = round1(rate.percent())
+		card.Popularity = labels[name]
+	}
 }
 
 func ExpectedWinPercent(cardName string, players map[string]int, decks []*storage.Deck) float64 {
@@ -749,6 +764,14 @@ type cardStats struct {
 
 	// Total number of games this card has been in.
 	TotalGames int `json:"total_games"`
+
+	// DraftsAvailable is how many drafts in the request had the card in their
+	// cube, and PlayRate the percent of those where a deck mainboarded it.
+	// Popularity compares PlayRate with the card's color peers: "popular",
+	// "typical", "niche", or empty with too little data.
+	DraftsAvailable int     `json:"drafts_available"`
+	PlayRate        float64 `json:"play_rate"`
+	Popularity      string  `json:"popularity,omitempty"`
 
 	// Number of times this card was in deck color(s), and sideboarded
 	PlayableSideboard int `json:"playable_sideboard"`

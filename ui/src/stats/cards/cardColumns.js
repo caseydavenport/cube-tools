@@ -9,6 +9,7 @@ import { CardMainboardTooltipContent } from "./CardTooltip.js"
 import { CardLink } from "../../components/CardLink.js"
 import { NEW_CARD_DRAFTS, isNewCard as isNewDraftCount } from "../../cards/newCard.js"
 import { CARDS_COPY } from "./copy.js"
+import { POPULARITY_TIP, popularityLabel } from "./cardFilters.js"
 import "../stats.css"
 
 function colorSort(card) {
@@ -37,6 +38,13 @@ export function sortValue(sortBy, card) {
       break
     case "sb":
       sort = card.sideboard
+      break
+    case "sb_pct":
+      sort = card.sideboard_percent
+      break
+    case "popularity":
+      // Ranked by the play rate the label comes from; unlabeled cards sink.
+      sort = card.popularity ? card.play_rate : NaN
       break
     case "elo":
       sort = card.elo
@@ -242,6 +250,27 @@ function deltaExpCell(card, input, key) {
   return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color }}>{d > 0 ? "+" : ""}{d}</td>
 }
 
+// sideboardPctCell shows the share of the card's decks that sideboarded it.
+function sideboardPctCell(card, input, key) {
+  return valueCell(card, input, key, `${card.sideboard_percent.toFixed(0)}%`)
+}
+
+// popularityCell shows the card's popularity word, with the draft counts it
+// comes from on hover. A dash when there's too little data for a label.
+function popularityCell(card, input, key) {
+  if (!card.popularity) {
+    return <td key={key} id={card.name} onClick={input.onCardSelected} className="stats-muted">—</td>
+  }
+
+  const played = Math.round(card.play_rate * card.drafts_available / 100)
+  const rows = [
+    { label: "Drafts it was in", value: card.drafts_available },
+    { label: "Drafts a deck played it", value: played },
+    { label: "Play rate", value: `${card.play_rate.toFixed(0)}%`, share: card.play_rate / 100 },
+  ]
+  return statsValueCell(card, input, key, popularityLabel(card.popularity), "Popularity", rows)
+}
+
 const colorsColumn = {
   id: "colors", text: CARDS_COPY.columns.colorIdentity.text, tip: CARDS_COPY.columns.colorIdentity.tip,
   cell: (card, input, key) => <td key={key} className="stats-narrow-cell">{ColorImages(card.color_identity)}</td>,
@@ -264,14 +293,18 @@ const gamesColumn = {
   cell: (c, i, k) => valueCell(c, i, k, c.total_games),
 }
 
+// OVERVIEW_COLUMNS read left to right from the most reliable numbers (how
+// often the card is played) to the noisiest (how its decks did).
 export const OVERVIEW_COLUMNS = [
   cardColumn,
   colorsColumn,
   draftsColumn,
   { needs: ["sideboards"], id: "mainboarded", text: CARDS_COPY.columns.deckPct.text, tip: CARDS_COPY.columns.deckPct.tip, cell: deckPctCell },
+  { needs: ["sideboards"], id: "sb_pct", text: "SB%", tip: "Share of the decks that had this card where it sat in the sideboard.", cell: sideboardPctCell },
+  { id: "popularity", text: "Popularity", tip: POPULARITY_TIP, cell: popularityCell },
+  { needs: ["sideboards"], id: "elo", text: CARDS_COPY.columns.pickElo.text, tip: CARDS_COPY.columns.pickElo.tip, cell: (c, i, k) => valueCell(c, i, k, c.elo) },
   { needs: ["results"], id: "wins", text: CARDS_COPY.columns.winPct.text, tip: CARDS_COPY.columns.winPct.tip, cell: winPctCell },
   { needs: ["results"], id: "delta_exp", text: CARDS_COPY.columns.deltaExp.text, tip: CARDS_COPY.columns.deltaExp.tip, cell: deltaExpCell },
-  { needs: ["sideboards"], id: "elo", text: CARDS_COPY.columns.pickElo.text, tip: CARDS_COPY.columns.pickElo.tip, cell: (c, i, k) => valueCell(c, i, k, c.elo) },
   { needs: ["results"], id: "match_elo", text: CARDS_COPY.columns.matchElo.text, tip: CARDS_COPY.columns.matchElo.tip, cell: (c, i, k) => valueCell(c, i, k, c.match_elo) },
   { id: "lastPlayed", text: CARDS_COPY.columns.lastPlayed.text, tip: CARDS_COPY.columns.lastPlayed.tip, cell: (c, i, k) => valueCell(c, i, k, c.last_mainboarded) },
 ]

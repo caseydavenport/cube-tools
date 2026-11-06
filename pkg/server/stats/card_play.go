@@ -149,23 +149,79 @@ func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cub
 	play.Rate = round1(rate)
 
 	// Compare against the median rate of same-color cube cards.
-	var peerRates []float64
+	peers := peerRates(card, cube, cubeDraftRates(cube, ranged, cubes))
+	if len(peers) > 0 {
+		play.PeerMedian = median(peers)
+	}
+	if play.DraftsAvailable >= minPopularityDrafts {
+		play.Popularity = popularity(rate, peers)
+	}
+	return play
+}
+
+// draftRate is one card's play counted in drafts: Played of the Available
+// drafts whose cube had it saw a deck mainboard it.
+type draftRate struct {
+	Played    int
+	Available int
+}
+
+// percent is the rate as a percent, 0 when the card was in no draft.
+func (r draftRate) percent() float64 {
+	if r.Available == 0 {
+		return 0
+	}
+	return 100 * float64(r.Played) / float64(r.Available)
+}
+
+// cubeDraftRates counts every non-basic cube card's play over ranged, in
+// drafts, the way the card page does. Computing them together lets a page
+// label every card's popularity without recounting its peers per card.
+func cubeDraftRates(cube *types.Cube, ranged []deckSpells, cubes cubeLists) map[string]draftRate {
+	byDraft := listedDrafts(decksByDraft(ranged), cubes)
+	rates := map[string]draftRate{}
 	for _, c := range cube.Cards {
-		if c.Name == card.Name || c.IsBasicLand() || colorBucket(c) != play.Peers {
+		if c.IsBasicLand() {
 			continue
 		}
 		played, available := draftsWithCard(byDraft, c.Name, cubes)
-		if available >= minPopularityDrafts {
-			peerRates = append(peerRates, 100*float64(played)/float64(available))
+		rates[c.Name] = draftRate{Played: played, Available: available}
+	}
+	return rates
+}
+
+// peerRates lists the rates of the cube cards in card's color bucket, other
+// than card, that were in at least minPopularityDrafts drafts.
+func peerRates(card types.Card, cube *types.Cube, rates map[string]draftRate) []float64 {
+	bucket := colorBucket(card)
+	var out []float64
+	for _, c := range cube.Cards {
+		if c.Name == card.Name || colorBucket(c) != bucket {
+			continue
+		}
+		rate, ok := rates[c.Name]
+		if ok && rate.Available >= minPopularityDrafts {
+			out = append(out, rate.percent())
 		}
 	}
-	if len(peerRates) > 0 {
-		play.PeerMedian = median(peerRates)
+	return out
+}
+
+// cubePopularity labels every cube card that was in at least
+// minPopularityDrafts drafts as popular, typical or niche against its color
+// peers, keyed by name. Cards without a label are left out.
+func cubePopularity(cube *types.Cube, rates map[string]draftRate) map[string]string {
+	labels := map[string]string{}
+	for _, c := range cube.Cards {
+		rate, ok := rates[c.Name]
+		if !ok || rate.Available < minPopularityDrafts {
+			continue
+		}
+		if label := popularity(rate.percent(), peerRates(c, cube, rates)); label != "" {
+			labels[c.Name] = label
+		}
 	}
-	if play.DraftsAvailable >= minPopularityDrafts {
-		play.Popularity = popularity(rate, peerRates)
-	}
-	return play
+	return labels
 }
 
 // listedDrafts drops the drafts with no cube list when any draft has one,

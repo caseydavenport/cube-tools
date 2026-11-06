@@ -553,6 +553,18 @@
   font-weight: 600;
 }
 
+/* "Significant only" with its expected-by-chance count beside it. */
+.cards-significant {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cards-chance-note {
+  font-size: 12px;
+  cursor: help;
+}
+
 /* A Colors table row's pips with its guild or shard name beside them. */
 .colors-group-cell {
   display: inline-flex;

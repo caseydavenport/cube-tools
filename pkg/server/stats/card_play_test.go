@@ -273,3 +273,52 @@ func TestWhoPlays_SkipsAnonymousPlayers(t *testing.T) {
 	assert.Equal(t, []NamedCount{{Name: "aggro", Count: 1}}, archetypes)
 	assert.Equal(t, []NamedCount{{Name: "Freddie", Count: 1}}, players)
 }
+
+func TestCubePopularity_LabelsEveryCardLikeCardPlay(t *testing.T) {
+	cube := &types.Cube{Cards: []types.Card{tendencySpell("Goblin Bombardment", "R"), tendencySpell("Counterspell", "U")}}
+	for i := 0; i < 10; i++ {
+		cube.Cards = append(cube.Cards, tendencySpell(peerName(i), "R"))
+	}
+
+	// Twenty one-deck drafts: Bombardment and Counterspell in every one, red
+	// peer p in the first p+1.
+	var decks []*storage.Deck
+	cubes := cubeLists{}
+	for i := 0; i < 20; i++ {
+		names := []string{"Goblin Bombardment", "Counterspell"}
+		for p := i; p < 10; p++ {
+			names = append(names, peerName(p))
+		}
+		decks = append(decks, playDeck("Freddie", i+1, 1, "2024-01-01", names...))
+		cubes[i+1] = map[string]bool{}
+		for _, c := range cube.Cards {
+			cubes[i+1][c.Name] = true
+		}
+	}
+
+	rates := cubeDraftRates(cube, withSpells(decks), cubes)
+	got := cubePopularity(cube, rates)
+
+	assert.Equal(t, draftRate{Played: 20, Available: 20}, rates["Goblin Bombardment"])
+	assert.Equal(t, "popular", got["Goblin Bombardment"])
+	assert.Equal(t, "niche", got[peerName(0)])
+	assert.Equal(t, cardPlay(cube.Cards[0], withSpells(decks), nil, cube, cubes).Popularity, got["Goblin Bombardment"])
+
+	// Counterspell has no blue peers to compare with, so it gets no label.
+	_, labeled := got["Counterspell"]
+	assert.False(t, labeled)
+}
+
+func TestCubePopularity_SkipsCardsInTooFewDrafts(t *testing.T) {
+	cube := &types.Cube{Cards: []types.Card{tendencySpell("Goblin Bombardment", "R")}}
+	rates := map[string]draftRate{"Goblin Bombardment": {Played: 4, Available: minPopularityDrafts - 1}}
+	for i := 0; i < 12; i++ {
+		cube.Cards = append(cube.Cards, tendencySpell(peerName(i), "R"))
+		rates[peerName(i)] = draftRate{Played: i, Available: 12}
+	}
+
+	got := cubePopularity(cube, rates)
+	_, labeled := got["Goblin Bombardment"]
+	assert.False(t, labeled)
+	assert.Equal(t, "popular", got[peerName(11)])
+}

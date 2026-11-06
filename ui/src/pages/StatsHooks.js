@@ -36,6 +36,7 @@ export function useStatsFilters() {
   const [selectedCard, setSelectedCard] = useState("");
   const [cardFilter, setCardFilter] = useState("");
   const [tagFilter, setTagFilter] = useState("");
+  const [popularityFilter, setPopularityFilter] = useState("");
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const [cardWidgetSortBy, setCardWidgetSortBy] = useState("");
   const [cardWidgetSortInvert, setCardWidgetSortInvert] = useState(false);
@@ -86,6 +87,7 @@ export function useStatsFilters() {
     selectedCard, setSelectedCard,
     cardFilter, setCardFilter,
     tagFilter, setTagFilter,
+    popularityFilter, setPopularityFilter,
     cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy,
     cardWidgetSortInvert, setCardWidgetSortInvert,
@@ -210,7 +212,7 @@ export function useStatsData(filters, props, refresh, view) {
   } = filters;
 
   // A control the cube hides doesn't filter, even if it was set on another cube.
-  const { significantOnly, synergyRecord } = requestFilters(filters, info);
+  const { synergyRecord } = requestFilters(filters, info);
 
   // needs reports whether this page shows a source, so its request is skipped otherwise.
   const needs = source => viewNeeds(view, source);
@@ -238,9 +240,9 @@ export function useStatsData(filters, props, refresh, view) {
   const cardStatsSource = useLoaded(cubeID, needs("cardStats"),
     () => fetchJson(statsUrl(cubeID, "cards", {
       color: cardWidgetColorSelection, min_drafts: minDrafts, min_games: minGames, confidence: winConfidence,
-      significant_only: significantOnly, start: startDate, end: endDate, size: minDraftSize, match,
+      start: startDate, end: endDate, size: minDraftSize, match,
     })).then(toAllData),
-    [cardWidgetColorSelection, minDrafts, minGames, winConfidence, significantOnly, startDate, endDate, minDraftSize, match, refresh], NO_MAP);
+    [cardWidgetColorSelection, minDrafts, minGames, winConfidence, startDate, endDate, minDraftSize, match, refresh], NO_MAP);
 
   const colorFilters = {
     start: startDate, end: endDate, size: minDraftSize, colorMode, confidence: winConfidence, match,

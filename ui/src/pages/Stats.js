@@ -15,6 +15,7 @@ import { useCubeInfo } from "../utils/useCubeWritable.js"
 import { StatsToolbar } from "../stats/StatsToolbar.js"
 import { StatsSettings } from "../stats/StatsSettings.js"
 import { noDecksMatch } from "../stats/statsSummary.js"
+import { requestFilters } from "../stats/hiddenFilters.js"
 import { EmptyState } from "../components/kit/EmptyState.js"
 import { LoadFailedNotice } from "../stats/LoadFailedNotice.js"
 import { COLORS_COPY } from "../stats/colors/copy.js"
@@ -104,7 +105,7 @@ export function StatsViewer(props) {
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
     winConfidence, setWinConfidence, significantOnly, setSignificantOnly,
     minPlayers, setMinPlayers, maxPlayers, setMaxPlayers, selectedCard, setSelectedCard,
-    cardFilter, setCardFilter, tagFilter, setTagFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
+    cardFilter, setCardFilter, tagFilter, setTagFilter, popularityFilter, setPopularityFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy, cardWidgetSortInvert, setCardWidgetSortInvert, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
     selectedArchetype, setSelectedArchetype,
@@ -225,6 +226,7 @@ export function StatsViewer(props) {
         decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
         cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
         tagFilter={tagFilter} onTagFilterSelected={setTagFilter}
+        popularityFilter={popularityFilter} onPopularityFilterSelected={(e) => setPopularityFilter(e.target.value)}
         onSelected={(e) => setCardWidgetSelection(e.target.value)}
         onCardSelected={(e) => navigate(cardPageHref(cubeID, e.currentTarget.id))}
         selectedCard={selectedCard}
@@ -232,7 +234,7 @@ export function StatsViewer(props) {
         minDrafts={minDrafts} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
         minGames={minGames} onMinGamesSelected={(e) => setMinGames(e.target.value)}
         winConfidence={winConfidence} onWinConfidenceSelected={(e) => setWinConfidence(e.target.value)}
-        significantOnly={significantOnly} onSignificantOnlyToggled={(e) => setSignificantOnly(e.target.checked)}
+        significantOnly={requestFilters(filters, info).significantOnly} onSignificantOnlyToggled={(e) => setSignificantOnly(e.target.checked)}
         minPlayers={minPlayers} maxPlayers={maxPlayers} onMinPlayersSelected={(e) => setMinPlayers(e.target.value)}
         onMaxPlayersSelected={(e) => setMaxPlayers(e.target.value)}
         onHeaderClick={(e) => {
