@@ -37,7 +37,7 @@ function PlayTiles({ play, history, record, info }) {
   const played = playedTile(play)
   const tiles = [
     <StatTile key="played" label="Drafts played in" value={played.value} detail={played.detail}
-      tip={`Drafts where a deck mainboarded it, out of the drafts whose cube had it, in the date range. ${play.mainboard} decks in all.`} />,
+      tip={`Drafts where a deck mainboarded it, out of the drafts where a deck with its sideboard recorded took it, in the date range. Drafts where nobody took it, or where the deck's sideboard wasn't recorded, don't count either way. ${play.mainboard} decks in all.`} />,
     <StatTile key="sideboarded" label="Sideboarded" value={play.sideboard}
       tip="Decks that had it in the sideboard." />,
   ]

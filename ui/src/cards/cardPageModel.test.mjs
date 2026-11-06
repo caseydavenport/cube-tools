@@ -3,16 +3,16 @@ import assert from "node:assert/strict"
 import { bothCardsMatch, cardSubtitle, connectionText, compareLoom, deckRecord, draftsTile, gamesWonTile, historyTitle, isNewToCube, notInCubeTag, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 
-const bombardment = { drafts_played: 18, drafts_available: 37, rate: 48.6, popularity: "niche", peers: "R", peer_median: 52.1 }
+const bombardment = { drafts_played: 18, drafts_taken: 37, rate: 48.6, popularity: "niche", peers: "R", peer_median: 52.1 }
 
-test("the played tile counts drafts out of those the card was in", () => {
-  assert.deepEqual(playedTile(bombardment), { value: "18 of 37", detail: "49% of the drafts it was in" })
-  assert.deepEqual(playedTile({ drafts_played: 0, drafts_available: 0, rate: 0 }), { value: "0 of 0", detail: "" })
+test("the played tile counts drafts out of those the card was taken", () => {
+  assert.deepEqual(playedTile(bombardment), { value: "18 of 37", detail: "49% of the drafts it was taken" })
+  assert.deepEqual(playedTile({ drafts_played: 0, drafts_taken: 0, rate: 0 }), { value: "0 of 0", detail: "" })
 })
 
 test("the popularity tip compares with the card's color", () => {
-  assert.equal(popularityTip(bombardment), "Played in 48.6% of the drafts it was in. The median red card: 52.1%.")
-  assert.equal(popularityTip({ ...bombardment, peers: "M" }), "Played in 48.6% of the drafts it was in. The median multicolor card: 52.1%.")
+  assert.equal(popularityTip(bombardment), "Played in 48.6% of the drafts it was taken. The median red card: 52.1%.")
+  assert.equal(popularityTip({ ...bombardment, peers: "M" }), "Played in 48.6% of the drafts it was taken. The median multicolor card: 52.1%.")
   assert.equal(popularityTip({ ...bombardment, popularity: "" }), "")
 })
 

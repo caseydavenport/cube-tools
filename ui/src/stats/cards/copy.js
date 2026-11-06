@@ -50,7 +50,6 @@ export const CARDS_COPY = {
     colorIdentity: { text: "Colors", tip: "Color identity of the card." },
     card: { text: "Card", tip: "Card name. Click a row cell to focus the card in the graphs below." },
     games: { text: "# Games", tip: "Number of games played by decks that included this card." },
-    deckPct: { text: "Deck%", tip: "Percentage of drafts this card is mainboarded. Hover for exact board counts." },
     winPct: { text: "Win%", tip: "Win rate of decks that mainboard this card. Greyed when it can't be told apart from a coin flip at the chosen confidence. Hover for the confidence interval and record." },
     deltaExp: { text: "Δ Exp", tip: "Win% minus expected win% - how the card over/underperforms relative to the players who ran it." },
     pickElo: { text: "Pick ELO", tip: ELO_TIP },
@@ -69,7 +68,6 @@ export const CARDS_COPY = {
     playedByTitle: "Played by",
     deckLinkTip: "Open decks that mainboarded this card (same filters & time range)",
 
-    boardCountsTitle: "Board counts",
     mainboarded: "Mainboarded",
     sideboarded: "Sideboarded",
     playableSideboard: "Playable sideboard",

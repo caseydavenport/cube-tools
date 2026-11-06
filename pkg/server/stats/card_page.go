@@ -157,7 +157,7 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 		Card:        page.card,
 		InCube:      page.inCube,
 		Groups:      relations.groupsOf(page.card.Name),
-		Play:        cardPlay(page.card, withSpells(page.ranged), history, page.design.cube, page.cubes),
+		Play:        cardPlay(page.card, page.ranged, history, page.design.cube),
 		History:     history,
 		Partners:    relations.partners(page.card.Name, numMainboardsByCard),
 		SameRole:    relations.sameRole(page.card, sameRoleLimit),

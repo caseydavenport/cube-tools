@@ -79,12 +79,11 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 }
 
 func CardStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &cardStatsHandler{q: newQuery(store, src), store: store}
+	return &cardStatsHandler{q: newQuery(store, src)}
 }
 
 type cardStatsHandler struct {
-	q     *deckquery.Query
-	store storage.DeckStorage
+	q *deckquery.Query
 }
 
 func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -129,8 +128,7 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		resp.All = d.statsForDecks(allDecks, cubeCards, sr)
-		cubes := loadCardLists(d.store, cubeID, cube, allDecks).known()
-		addPopularity(resp.All, cube, cubeDraftRates(cube, withSpells(allDecks), cubes))
+		addPopularity(resp.All, cube, draftRates(allDecks))
 	}
 
 	// Marshal the response and write it back.
@@ -370,7 +368,8 @@ func addPopularity(cards *Cards, cube *types.Cube, rates map[string]draftRate) {
 	labels := cubePopularity(cube, rates)
 	for name, card := range cards.Data {
 		rate := rates[name]
-		card.DraftsAvailable = rate.Available
+		card.DraftsTaken = rate.Taken
+		card.DraftsPlayed = rate.Played
 		card.PlayRate = round1(rate.percent())
 		card.Popularity = labels[name]
 	}
@@ -765,12 +764,13 @@ type cardStats struct {
 	// Total number of games this card has been in.
 	TotalGames int `json:"total_games"`
 
-	// DraftsAvailable counts the drafts whose cube had the card, and PlayRate
-	// is the percent where a deck mainboarded it. Popularity compares PlayRate
-	// with same-color cards, empty with too little data.
-	DraftsAvailable int     `json:"drafts_available"`
-	PlayRate        float64 `json:"play_rate"`
-	Popularity      string  `json:"popularity,omitempty"`
+	// DraftsTaken counts drafts where the card sat in a fully recorded deck,
+	// DraftsPlayed those where it was mainboarded, and PlayRate the share.
+	// Popularity compares PlayRate with same-color cards.
+	DraftsTaken  int     `json:"drafts_taken"`
+	DraftsPlayed int     `json:"drafts_played"`
+	PlayRate     float64 `json:"play_rate"`
+	Popularity   string  `json:"popularity,omitempty"`
 
 	// Number of times this card was in deck color(s), and sideboarded
 	PlayableSideboard int `json:"playable_sideboard"`

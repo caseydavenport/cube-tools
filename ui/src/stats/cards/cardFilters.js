@@ -10,8 +10,9 @@ export const POPULARITY_OPTIONS = [
   { label: "Niche", value: "niche" },
 ]
 
-// POPULARITY_TIP explains what the popularity words mean.
-export const POPULARITY_TIP = "How often decks play the card, compared with the other cube cards of its color. Counted per draft the card was in: popular cards are played more than two thirds of them, niche cards less than a third. Cards in fewer than 5 drafts, or with fewer than 10 same-color cards to compare against, have none."
+// POPULARITY_TIP explains the Popularity column: the rate it shows and what
+// the popularity words mean.
+export const POPULARITY_TIP = "Share of the drafts where a deck took the card that it made the main deck. Only decks with their sideboard recorded count, so a card nobody opened, or one whose deck's sideboard is missing, counts neither for nor against it. Popular means a higher rate than two thirds of the same-color cube cards, niche lower than two thirds. Hover a value for its counts."
 
 // matchesPopularity reports whether a card passes the popularity filter.
 // An empty choice passes every card.

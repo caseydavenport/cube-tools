@@ -16,8 +16,8 @@ const (
 	minPopularityPeers = 10
 
 	// minPopularityDrafts is how many drafts a card, or a peer, must have been
-	// available in to count toward a popularity label. It matches the UI's
-	// "New to the cube" cutoff.
+	// taken in to count toward a popularity label. It matches the UI's "New to
+	// the cube" cutoff.
 	minPopularityDrafts = 5
 
 	// Draft states on a card's cube history.
@@ -28,23 +28,23 @@ const (
 )
 
 // CardPlay is how much a card gets played in the page's date range, counted
-// in drafts: a singleton card can be in only one deck per draft. DraftsPlayed
-// counts drafts where a deck mainboarded it, out of DraftsAvailable, the
-// drafts whose cube had it; Rate is that as a percent. Popularity compares Rate
-// with the other cube cards of the same color group, Peers, whose median is
-// PeerMedian. Mainboard and Sideboard count decks. Drafts and DraftsInCube
-// cover all time.
+// in drafts: a singleton card can be in only one deck per draft. DraftsTaken
+// counts drafts where the card sits in a fully recorded deck (see
+// draftRates), and DraftsPlayed those where that deck mainboarded it; Rate is
+// the share as a percent. Popularity compares Rate with the same-color cube
+// cards, Peers, whose median is PeerMedian. Mainboard and Sideboard count
+// decks. Drafts and DraftsInCube cover all time.
 type CardPlay struct {
-	Mainboard       int     `json:"mainboard"`
-	Sideboard       int     `json:"sideboard"`
-	DraftsPlayed    int     `json:"drafts_played"`
-	DraftsAvailable int     `json:"drafts_available"`
-	DraftsInCube    int     `json:"drafts_in_cube"`
-	Drafts          int     `json:"drafts"`
-	Popularity      string  `json:"popularity"`
-	Rate            float64 `json:"rate"`
-	PeerMedian      float64 `json:"peer_median"`
-	Peers           string  `json:"peers"`
+	Mainboard    int     `json:"mainboard"`
+	Sideboard    int     `json:"sideboard"`
+	DraftsPlayed int     `json:"drafts_played"`
+	DraftsTaken  int     `json:"drafts_taken"`
+	DraftsInCube int     `json:"drafts_in_cube"`
+	Drafts       int     `json:"drafts"`
+	Popularity   string  `json:"popularity"`
+	Rate         float64 `json:"rate"`
+	PeerMedian   float64 `json:"peer_median"`
+	Peers        string  `json:"peers"`
 }
 
 // DraftPresence is one draft on a card's cube history: "played" when a deck
@@ -123,7 +123,7 @@ func deckPlays(d *storage.Deck, card string) bool {
 // cardPlay counts a card's play over ranged, the decks in the page's date
 // range, and compares its per-draft rate with the same-color cards in cube.
 // history supplies the all-time draft counts.
-func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cube *types.Cube, cubes cubeLists) CardPlay {
+func cardPlay(card types.Card, ranged []*storage.Deck, history []DraftPresence, cube *types.Cube) CardPlay {
 	// All-time counts come from the history.
 	play := CardPlay{Drafts: len(history), Peers: colorBucket(card)}
 	for _, h := range history {
@@ -132,66 +132,98 @@ func cardPlay(card types.Card, ranged []deckSpells, history []DraftPresence, cub
 		}
 	}
 
-	// Range counts: decks with the card, then drafts played out of available.
-	play.Mainboard, _ = countWithCard(ranged, card.Name, cubes)
+	// Range counts: decks with the card in each board.
 	for _, d := range ranged {
-		if slices.ContainsFunc(d.deck.Sideboard, func(c types.Card) bool { return c.Name == card.Name }) {
+		if deckPlays(d, card.Name) {
+			play.Mainboard++
+		}
+		if slices.ContainsFunc(d.Sideboard, func(c types.Card) bool { return c.Name == card.Name }) {
 			play.Sideboard++
 		}
 	}
 
-	byDraft := listedDrafts(decksByDraft(ranged), cubes)
-	play.DraftsPlayed, play.DraftsAvailable = draftsWithCard(byDraft, card.Name, cubes)
-	if play.DraftsAvailable == 0 {
+	// Drafts played out of drafts taken, against the same-color cards.
+	rates := draftRates(ranged)
+	rate := rates[card.Name]
+	play.DraftsPlayed, play.DraftsTaken = rate.Played, rate.Taken
+	if rate.Taken == 0 {
 		return play
 	}
-	rate := 100 * float64(play.DraftsPlayed) / float64(play.DraftsAvailable)
-	play.Rate = round1(rate)
-
-	// Compare against the median rate of same-color cube cards.
-	peers := peerRates(card, cube, cubeDraftRates(cube, ranged, cubes))
+	play.Rate = round1(rate.percent())
+	peers := peerRates(card, cube, rates)
 	if len(peers) > 0 {
 		play.PeerMedian = median(peers)
 	}
-	if play.DraftsAvailable >= minPopularityDrafts {
-		play.Popularity = popularity(rate, peers)
+	if rate.Taken >= minPopularityDrafts {
+		play.Popularity = popularity(rate.percent(), peers)
 	}
 	return play
 }
 
-// draftRate is one card's play counted in drafts: Played of the Available
-// drafts whose cube had it saw a deck mainboard it.
+// draftRate is one card's play counted in drafts: Played of the Taken drafts
+// where it sat in a fully recorded deck saw that deck mainboard it.
 type draftRate struct {
-	Played    int
-	Available int
+	Played int
+	Taken  int
 }
 
-// percent is the rate as a percent, 0 when the card was in no draft.
+// percent is the rate as a percent, 0 when the card was taken in no draft.
 func (r draftRate) percent() float64 {
-	if r.Available == 0 {
+	if r.Taken == 0 {
 		return 0
 	}
-	return 100 * float64(r.Played) / float64(r.Available)
+	return 100 * float64(r.Played) / float64(r.Taken)
 }
 
-// cubeDraftRates counts every non-basic cube card's play over ranged, in
-// drafts, the way the card page does. Computing them together lets a page
-// label every card's popularity without recounting its peers per card.
-func cubeDraftRates(cube *types.Cube, ranged []deckSpells, cubes cubeLists) map[string]draftRate {
-	byDraft := listedDrafts(decksByDraft(ranged), cubes)
-	rates := map[string]draftRate{}
-	for _, c := range cube.Cards {
-		if c.IsBasicLand() {
+// draftRates counts every non-basic card's play over decks, in drafts. A
+// draft counts for a card only when the card sits in a deck that records its
+// whole pool, as a sideboard or pool list. A card absent from every such deck
+// may never have been opened, and a mainboard-only deck can't show the cards
+// it benched, so neither counts for or against the card.
+func draftRates(decks []*storage.Deck) map[string]draftRate {
+	taken := map[string]map[int]bool{}
+	played := map[string]map[int]bool{}
+	note := func(seen map[string]map[int]bool, name string, draftID int) {
+		if seen[name] == nil {
+			seen[name] = map[int]bool{}
+		}
+		seen[name][draftID] = true
+	}
+
+	for _, d := range decks {
+		if !recordsWholePool(d) {
 			continue
 		}
-		played, available := draftsWithCard(byDraft, c.Name, cubes)
-		rates[c.Name] = draftRate{Played: played, Available: available}
+		draftID := d.Metadata.DraftID
+		for _, board := range [][]types.Card{d.Mainboard, d.Sideboard, d.Pool} {
+			for _, c := range board {
+				if !types.IsBasic(c.Name) {
+					note(taken, c.Name, draftID)
+				}
+			}
+		}
+		for _, c := range d.Mainboard {
+			if !types.IsBasic(c.Name) {
+				note(played, c.Name, draftID)
+			}
+		}
+	}
+
+	rates := map[string]draftRate{}
+	for name, drafts := range taken {
+		rates[name] = draftRate{Played: len(played[name]), Taken: len(drafts)}
 	}
 	return rates
 }
 
+// recordsWholePool reports whether a deck lists the cards it didn't
+// mainboard, so a card missing from its mainboard is known to be benched.
+func recordsWholePool(d *storage.Deck) bool {
+	return len(d.Sideboard) > 0 || len(d.Pool) > 0
+}
+
 // peerRates lists the rates of the cube cards in card's color bucket, other
-// than card, that were in at least minPopularityDrafts drafts.
+// than card, that were taken in at least minPopularityDrafts drafts.
 func peerRates(card types.Card, cube *types.Cube, rates map[string]draftRate) []float64 {
 	bucket := colorBucket(card)
 	var out []float64
@@ -200,21 +232,21 @@ func peerRates(card types.Card, cube *types.Cube, rates map[string]draftRate) []
 			continue
 		}
 		rate, ok := rates[c.Name]
-		if ok && rate.Available >= minPopularityDrafts {
+		if ok && rate.Taken >= minPopularityDrafts {
 			out = append(out, rate.percent())
 		}
 	}
 	return out
 }
 
-// cubePopularity labels every cube card that was in at least
+// cubePopularity labels every cube card taken in at least
 // minPopularityDrafts drafts as popular, typical or niche against its color
 // peers, keyed by name. Cards without a label are left out.
 func cubePopularity(cube *types.Cube, rates map[string]draftRate) map[string]string {
 	labels := map[string]string{}
 	for _, c := range cube.Cards {
 		rate, ok := rates[c.Name]
-		if !ok || rate.Available < minPopularityDrafts {
+		if !ok || rate.Taken < minPopularityDrafts {
 			continue
 		}
 		if label := popularity(rate.percent(), peerRates(c, cube, rates)); label != "" {
@@ -222,50 +254,6 @@ func cubePopularity(cube *types.Cube, rates map[string]draftRate) map[string]str
 		}
 	}
 	return labels
-}
-
-// listedDrafts drops the drafts with no cube list when any draft has one,
-// since a missing list can't say whether a card went unplayed or was absent.
-// With no lists at all it keeps every draft, and each card counts as
-// available in all of them.
-func listedDrafts(byDraft map[int][]deckSpells, cubes cubeLists) map[int][]deckSpells {
-	out := map[int][]deckSpells{}
-	for draftID, decks := range byDraft {
-		if _, ok := cubes[draftID]; ok {
-			out[draftID] = decks
-		}
-	}
-	if len(out) == 0 {
-		return byDraft
-	}
-	return out
-}
-
-// decksByDraft groups decks by their draft.
-func decksByDraft(decks []deckSpells) map[int][]deckSpells {
-	out := map[int][]deckSpells{}
-	for _, d := range decks {
-		draftID := d.deck.Metadata.DraftID
-		out[draftID] = append(out[draftID], d)
-	}
-	return out
-}
-
-// draftsWithCard counts the drafts whose cube had the card, and how many of
-// those had a deck mainboard it. A deck that played it proves its draft had it.
-func draftsWithCard(byDraft map[int][]deckSpells, card string, cubes cubeLists) (int, int) {
-	played, available := 0, 0
-	for _, decks := range byDraft {
-		with, could := countWithCard(decks, card, cubes)
-		if could == 0 {
-			continue
-		}
-		available++
-		if with > 0 {
-			played++
-		}
-	}
-	return played, available
 }
 
 // colorBucket groups a card with others of its color: "W" through "G" for one

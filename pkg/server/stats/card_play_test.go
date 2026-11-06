@@ -48,56 +48,65 @@ func TestDraftHistory_States(t *testing.T) {
 	assert.Equal(t, want, got)
 }
 
+// takenDeck builds a fully recorded deck: it mainboards played and sideboards
+// benched, as red spells, with a basic in the sideboard so it's never empty.
+func takenDeck(draftID, deckID int, played, benched []string) *storage.Deck {
+	d := playDeck("Freddie", draftID, deckID, "2024-01-01", played...)
+	d.Sideboard = []types.Card{{Name: "Mountain"}}
+	for _, n := range benched {
+		d.Sideboard = append(d.Sideboard, tendencySpell(n, "R"))
+	}
+	return d
+}
+
 func TestCardPlay_CountsDraftsNotDecks(t *testing.T) {
 	card := tendencySpell("Goblin Bombardment", "R")
+	bombardment := []string{card.Name}
 	decks := []*storage.Deck{
-		// Draft 1's cube didn't have it.
-		playDeck("Freddie", 1, 1, "2024-01-01", "Shock"),
-		playDeck("Ozzy", 1, 2, "2024-01-01", "Shock"),
+		// Draft 1's decks never had it, so the draft says nothing about it.
+		takenDeck(1, 1, []string{"Shock"}, nil),
 
-		// Draft 2 had it and two decks played it, from two copies.
-		playDeck("Freddie", 2, 1, "2024-02-01", "Goblin Bombardment"),
-		playDeck("Ozzy", 2, 2, "2024-02-01", "Goblin Bombardment"),
-		playDeck("Joan", 2, 3, "2024-02-01", "Shock"),
+		// Draft 2: two decks played it, from two copies.
+		takenDeck(2, 1, bombardment, nil),
+		takenDeck(2, 2, bombardment, nil),
+		takenDeck(2, 3, []string{"Shock"}, nil),
 
-		// Draft 3 had it and nobody played it.
-		playDeck("Freddie", 3, 1, "2024-03-01", "Shock"),
+		// Draft 3: a deck took it and benched it.
+		takenDeck(3, 1, []string{"Shock"}, bombardment),
 	}
-	cubes := cubeLists{1: {"Shock": true}, 2: {"Shock": true, "Goblin Bombardment": true}, 3: {"Shock": true, "Goblin Bombardment": true}}
 
-	got := cardPlay(card, withSpells(decks), nil, &types.Cube{Cards: []types.Card{card}}, cubes)
+	got := cardPlay(card, decks, nil, &types.Cube{Cards: []types.Card{card}})
 	assert.Equal(t, 2, got.Mainboard)
 	assert.Equal(t, 1, got.DraftsPlayed)
-	assert.Equal(t, 2, got.DraftsAvailable)
+	assert.Equal(t, 2, got.DraftsTaken)
 	assert.Equal(t, 50.0, got.Rate)
-
-	// With no cube lists at all, every draft counts as having the card.
-	unknown := cardPlay(card, withSpells(decks), nil, &types.Cube{Cards: []types.Card{card}}, cubeLists{})
-	assert.Equal(t, 3, unknown.DraftsAvailable)
-	assert.Equal(t, 1, unknown.DraftsPlayed)
 }
 
-func TestCardPlay_SkipsDraftsWithoutList(t *testing.T) {
+func TestCardPlay_SkipsMainboardOnlyDecks(t *testing.T) {
 	card := tendencySpell("Goblin Bombardment", "R")
-	decks := []*storage.Deck{
-		// Draft 1 has no cube list, so it says nothing about the card even
-		// though a deck played it there.
-		playDeck("Freddie", 1, 1, "2024-01-01", "Goblin Bombardment"),
-		playDeck("Freddie", 2, 1, "2024-02-01", "Shock"),
-	}
-	cubes := cubeLists{2: {"Shock": true, "Goblin Bombardment": true}}
+	benched := takenDeck(2, 1, []string{"Shock"}, []string{card.Name})
 
-	got := cardPlay(card, withSpells(decks), nil, &types.Cube{Cards: []types.Card{card}}, cubes)
+	// A deck with no sideboard can't show what it benched, so it's ignored.
+	mainboardOnly := playDeck("Freddie", 1, 1, "2024-01-01", card.Name)
+	got := cardPlay(card, []*storage.Deck{mainboardOnly, benched}, nil, &types.Cube{})
 	assert.Equal(t, 0, got.DraftsPlayed)
-	assert.Equal(t, 1, got.DraftsAvailable)
+	assert.Equal(t, 1, got.DraftsTaken)
+
+	// The same deck with its sideboard recorded counts.
+	recorded := takenDeck(1, 1, []string{card.Name}, nil)
+	got = cardPlay(card, []*storage.Deck{recorded, benched}, nil, &types.Cube{})
+	assert.Equal(t, 1, got.DraftsPlayed)
+	assert.Equal(t, 2, got.DraftsTaken)
 }
 
-func TestCardPlay_PlayedProvesAvailable(t *testing.T) {
+func TestCardPlay_PoolListCountsAsTaken(t *testing.T) {
 	card := tendencySpell("Goblin Bombardment", "R")
-	decks := []*storage.Deck{playDeck("Freddie", 1, 1, "2024-01-01", "Goblin Bombardment")}
-	got := cardPlay(card, withSpells(decks), nil, &types.Cube{}, cubeLists{1: {"Shock": true}})
-	assert.Equal(t, 1, got.DraftsAvailable)
-	assert.Equal(t, 1, got.DraftsPlayed)
+	d := playDeck("Freddie", 1, 1, "2024-01-01", "Shock")
+	d.Pool = []types.Card{card}
+
+	got := cardPlay(card, []*storage.Deck{d}, nil, &types.Cube{})
+	assert.Equal(t, 0, got.DraftsPlayed)
+	assert.Equal(t, 1, got.DraftsTaken)
 }
 
 func TestCardPlay_SideboardAndDrafts(t *testing.T) {
@@ -106,7 +115,7 @@ func TestCardPlay_SideboardAndDrafts(t *testing.T) {
 	d.Sideboard = []types.Card{card}
 	history := []DraftPresence{{State: "played"}, {State: "in"}, {State: "out"}, {State: "unknown"}}
 
-	got := cardPlay(card, withSpells([]*storage.Deck{d}), history, &types.Cube{}, cubeLists{})
+	got := cardPlay(card, []*storage.Deck{d}, history, &types.Cube{})
 	assert.Equal(t, 1, got.Sideboard)
 	assert.Equal(t, 4, got.Drafts)
 	assert.Equal(t, 2, got.DraftsInCube)
@@ -128,13 +137,13 @@ func TestPopularity_NoLabelWhenPeersAllEqual(t *testing.T) {
 
 func TestCardPlay_NoPopularityUnderFiveDrafts(t *testing.T) {
 	got := popularityFixture(t, 4, 4, func(i int) int { return i % 4 })
-	assert.Equal(t, 4, got.DraftsAvailable)
+	assert.Equal(t, 4, got.DraftsTaken)
 	assert.Equal(t, "", got.Popularity)
 }
 
 func TestCardPlay_PeersUnderFiveDraftsLeftOut(t *testing.T) {
 	// Twelve peers played more than the card make it niche, but when eight of
-	// them sit in only four drafts' lists, four peers are left: too few to label.
+	// them are taken in only four drafts, four peers are left: too few to label.
 	peerPlayed := func(i int) int { return 4 + i%3 }
 	got := popularityFixture(t, 6, 3, peerPlayed)
 	assert.Equal(t, "niche", got.Popularity)
@@ -157,10 +166,10 @@ func TestCardPlay_TiesCompareUnrounded(t *testing.T) {
 }
 
 // popularityFixture runs cardPlay for Goblin Bombardment over drafts one-deck
-// drafts, every one listing every card. The card is played in the first
-// played drafts and each red peer i in the first peerPlayed(i) drafts. There
-// are twelve peers, or limited of them when given, the rest listed in only
-// four drafts.
+// drafts, each deck taking every card. The card is played in the first played
+// drafts and each red peer i in the first peerPlayed(i) drafts, benched
+// otherwise. There are twelve peers, or limited of them when given, the rest
+// taken in only four drafts.
 func popularityFixture(t *testing.T, drafts, played int, peerPlayed func(int) int, limited ...int) CardPlay {
 	t.Helper()
 	card := tendencySpell("Goblin Bombardment", "R")
@@ -170,69 +179,68 @@ func popularityFixture(t *testing.T, drafts, played int, peerPlayed func(int) in
 	}
 
 	var decks []*storage.Deck
-	cubes := cubeLists{}
 	for draft := 1; draft <= drafts; draft++ {
-		var names []string
-		cubes[draft] = map[string]bool{}
+		var mainboard, benched []string
 		if draft <= played {
-			names = append(names, card.Name)
+			mainboard = append(mainboard, card.Name)
+		} else {
+			benched = append(benched, card.Name)
 		}
-		cubes[draft][card.Name] = true
 		for i := 0; i < 12; i++ {
 			if len(limited) > 0 && i >= limited[0] && draft > 4 {
 				continue
 			}
-			cubes[draft][peerName(i)] = true
 			if draft <= peerPlayed(i) {
-				names = append(names, peerName(i))
+				mainboard = append(mainboard, peerName(i))
+			} else {
+				benched = append(benched, peerName(i))
 			}
 		}
-		decks = append(decks, playDeck("Freddie", draft, 1, "2024-01-01", names...))
+		decks = append(decks, takenDeck(draft, 1, mainboard, benched))
 	}
-	return cardPlay(card, withSpells(decks), nil, cube, cubes)
+	return cardPlay(card, decks, nil, cube)
 }
 
 func TestCardPlay_RangeWithoutDecks(t *testing.T) {
 	card := tendencySpell("Goblin Bombardment", "R")
 	history := []DraftPresence{{State: "played"}, {State: "in"}}
 
-	got := cardPlay(card, nil, history, &types.Cube{Cards: []types.Card{card}}, cubeLists{})
+	got := cardPlay(card, nil, history, &types.Cube{Cards: []types.Card{card}})
 	assert.Equal(t, 0, got.Mainboard)
-	assert.Equal(t, 0, got.DraftsAvailable)
+	assert.Equal(t, 0, got.DraftsTaken)
 	assert.Equal(t, "", got.Popularity)
 	assert.Equal(t, 2, got.Drafts)
+}
+
+// sameColorDrafts builds twenty one-deck drafts that take Goblin Bombardment,
+// Counterspell and ten red peers in every one. Bombardment and Counterspell
+// are always played, and red peer p only in the first p+1 drafts.
+func sameColorDrafts() []*storage.Deck {
+	var decks []*storage.Deck
+	for i := 0; i < 20; i++ {
+		mainboard := []string{"Goblin Bombardment", "Counterspell"}
+		var benched []string
+		for p := 0; p < 10; p++ {
+			if p >= i {
+				mainboard = append(mainboard, peerName(p))
+			} else {
+				benched = append(benched, peerName(p))
+			}
+		}
+		decks = append(decks, takenDeck(i+1, 1, mainboard, benched))
+	}
+	return decks
 }
 
 func TestCardPlay_PopularityAgainstSameColor(t *testing.T) {
 	card := tendencySpell("Goblin Bombardment", "R")
 	cube := &types.Cube{Cards: []types.Card{card}}
-	var decks []*storage.Deck
-
-	// Twenty one-deck drafts: red peer p played in the first p+1 of them,
-	// Bombardment in all of them, and a blue card in every one that doesn't
-	// count against it.
-	for i := 0; i < 20; i++ {
-		names := []string{"Goblin Bombardment", "Counterspell"}
-		for p := i; p < 10; p++ {
-			names = append(names, peerName(p))
-		}
-		decks = append(decks, playDeck("Freddie", i+1, 1, "2024-01-01", names...))
-	}
 	for i := 0; i < 10; i++ {
 		cube.Cards = append(cube.Cards, tendencySpell(peerName(i), "R"))
 	}
 	cube.Cards = append(cube.Cards, tendencySpell("Counterspell", "U"))
 
-	// Every draft's cube list held every card.
-	cubes := cubeLists{}
-	for i := 1; i <= 20; i++ {
-		cubes[i] = map[string]bool{}
-		for _, c := range cube.Cards {
-			cubes[i][c.Name] = true
-		}
-	}
-
-	got := cardPlay(card, withSpells(decks), nil, cube, cubes)
+	got := cardPlay(card, sameColorDrafts(), nil, cube)
 	assert.Equal(t, "popular", got.Popularity)
 	assert.Equal(t, 27.5, got.PeerMedian)
 }
@@ -280,29 +288,14 @@ func TestCubePopularity_LabelsEveryCardLikeCardPlay(t *testing.T) {
 		cube.Cards = append(cube.Cards, tendencySpell(peerName(i), "R"))
 	}
 
-	// Twenty one-deck drafts: Bombardment and Counterspell in every one, red
-	// peer p in the first p+1.
-	var decks []*storage.Deck
-	cubes := cubeLists{}
-	for i := 0; i < 20; i++ {
-		names := []string{"Goblin Bombardment", "Counterspell"}
-		for p := i; p < 10; p++ {
-			names = append(names, peerName(p))
-		}
-		decks = append(decks, playDeck("Freddie", i+1, 1, "2024-01-01", names...))
-		cubes[i+1] = map[string]bool{}
-		for _, c := range cube.Cards {
-			cubes[i+1][c.Name] = true
-		}
-	}
-
-	rates := cubeDraftRates(cube, withSpells(decks), cubes)
+	decks := sameColorDrafts()
+	rates := draftRates(decks)
 	got := cubePopularity(cube, rates)
 
-	assert.Equal(t, draftRate{Played: 20, Available: 20}, rates["Goblin Bombardment"])
+	assert.Equal(t, draftRate{Played: 20, Taken: 20}, rates["Goblin Bombardment"])
 	assert.Equal(t, "popular", got["Goblin Bombardment"])
 	assert.Equal(t, "niche", got[peerName(0)])
-	assert.Equal(t, cardPlay(cube.Cards[0], withSpells(decks), nil, cube, cubes).Popularity, got["Goblin Bombardment"])
+	assert.Equal(t, cardPlay(cube.Cards[0], decks, nil, cube).Popularity, got["Goblin Bombardment"])
 
 	// Counterspell has no blue peers to compare with, so it gets no label.
 	_, labeled := got["Counterspell"]
@@ -311,10 +304,10 @@ func TestCubePopularity_LabelsEveryCardLikeCardPlay(t *testing.T) {
 
 func TestCubePopularity_SkipsCardsInTooFewDrafts(t *testing.T) {
 	cube := &types.Cube{Cards: []types.Card{tendencySpell("Goblin Bombardment", "R")}}
-	rates := map[string]draftRate{"Goblin Bombardment": {Played: 4, Available: minPopularityDrafts - 1}}
+	rates := map[string]draftRate{"Goblin Bombardment": {Played: 4, Taken: minPopularityDrafts - 1}}
 	for i := 0; i < 12; i++ {
 		cube.Cards = append(cube.Cards, tendencySpell(peerName(i), "R"))
-		rates[peerName(i)] = draftRate{Played: i, Available: 12}
+		rates[peerName(i)] = draftRate{Played: i, Taken: 12}
 	}
 
 	got := cubePopularity(cube, rates)

@@ -24,16 +24,16 @@ const STATE_WORDS = {
   unknown: "no cube list",
 }
 
-// playedTile is the "Drafts played in" tile's value and detail: "18 of 37"
-// and "49% of the drafts it was in". It counts drafts, not decks, since a
+// playedTile is the "Drafts played in" tile's value and detail: "18 of 27"
+// and "67% of the drafts it was taken". It counts drafts, not decks, since a
 // singleton card can be in only one deck per draft. The detail is blank when
-// no draft had the card.
+// no fully recorded deck took the card.
 export function playedTile(play) {
-  const value = `${play.drafts_played} of ${play.drafts_available}`
-  if (play.drafts_available === 0) {
+  const value = `${play.drafts_played} of ${play.drafts_taken}`
+  if (play.drafts_taken === 0) {
     return { value, detail: "" }
   }
-  return { value, detail: `${Math.round(play.rate)}% of the drafts it was in` }
+  return { value, detail: `${Math.round(play.rate)}% of the drafts it was taken` }
 }
 
 // popularityLabel turns the server's popularity word into the tile's label.
@@ -51,7 +51,7 @@ export function popularityTip(play) {
     return ""
   }
   const peers = PEER_NAMES[play.peers] || play.peers
-  return `Played in ${play.rate}% of the drafts it was in. The median ${peers} card: ${play.peer_median}%.`
+  return `Played in ${play.rate}% of the drafts it was taken. The median ${peers} card: ${play.peer_median}%.`
 }
 
 // historyTitle is one history square's tip: its draft, date and state.

@@ -21,12 +21,20 @@ function colorSort(card) {
   return card.colors.toString()
 }
 
+// playRateSort is the value the Popularity column sorts by: the play rate, or
+// blank (NaN, so it sinks) for a card no fully recorded deck took.
+function playRateSort(card) {
+  if (!card.drafts_taken) {
+    return NaN
+  }
+  return card.play_rate
+}
+
+// sortValue is the value a card sorts by for the chosen column. With no column
+// chosen the table sorts by Popularity, the most reliable play number.
 export function sortValue(sortBy, card) {
-  let sort = card.mainboard_percent
+  let sort = playRateSort(card)
   switch (sortBy) {
-    case "mainboarded":
-      sort = card.mainboard_percent
-      break
     case "games":
       sort = card.total_games
       break
@@ -39,12 +47,8 @@ export function sortValue(sortBy, card) {
     case "sb":
       sort = card.sideboard
       break
-    case "sb_pct":
-      sort = card.sideboard_percent
-      break
     case "popularity":
-      // Ranked by the play rate the label comes from; unlabeled cards sink.
-      sort = card.popularity ? card.play_rate : NaN
+      sort = playRateSort(card)
       break
     case "elo":
       sort = card.elo
@@ -196,16 +200,6 @@ function statsValueCell(card, input, key, value, title, rows) {
   )
 }
 
-// deckPctCell shows mainboard rate, with exact mainboard/sideboard counts on hover.
-function deckPctCell(card, input, key) {
-  const rows = [
-    { label: CARDS_COPY.columns.mainboarded, value: card.mainboard },
-    { label: CARDS_COPY.columns.sideboarded, value: card.sideboard },
-    { label: CARDS_COPY.columns.playableSideboard, value: card.playable_sideboard },
-  ]
-  return statsValueCell(card, input, key, `${card.mainboard_percent.toFixed(0)}%`, CARDS_COPY.columns.boardCountsTitle, rows)
-}
-
 // winPctCell shows win rate next to its Wilson confidence interval, muted when
 // the card can't be told apart from a coin flip at the chosen confidence. Full
 // record and interval on hover.
@@ -250,25 +244,32 @@ function deltaExpCell(card, input, key) {
   return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color }}>{d > 0 ? "+" : ""}{d}</td>
 }
 
-// sideboardPctCell shows the share of the card's decks that sideboarded it.
-function sideboardPctCell(card, input, key) {
-  return valueCell(card, input, key, `${card.sideboard_percent.toFixed(0)}%`)
+// popularityRows are the Popularity hover's rows: the popularity word, the
+// draft counts behind the rate, and the card's deck counts by board.
+function popularityRows(card) {
+  const rows = []
+  if (card.popularity) {
+    rows.push({ label: "Popularity", value: popularityLabel(card.popularity) })
+  }
+  rows.push(
+    { label: "Drafts a deck took it", value: card.drafts_taken },
+    { label: "Drafts it was played", value: card.drafts_played },
+    { label: CARDS_COPY.columns.mainboarded, value: card.mainboard },
+    { label: CARDS_COPY.columns.sideboarded, value: card.sideboard },
+    { label: CARDS_COPY.columns.playableSideboard, value: card.playable_sideboard },
+  )
+  return rows
 }
 
-// popularityCell shows the card's popularity word, with the draft counts it
-// comes from on hover. A dash when there's too little data for a label.
+// popularityCell shows the card's play rate: the share of drafts where a deck
+// took it that it was mainboarded. The popularity word and the counts behind
+// it are on hover. A dash when no fully recorded deck took it.
 function popularityCell(card, input, key) {
-  if (!card.popularity) {
+  if (!card.drafts_taken) {
     return <td key={key} id={card.name} onClick={input.onCardSelected} className="stats-muted">—</td>
   }
-
-  const played = Math.round(card.play_rate * card.drafts_available / 100)
-  const rows = [
-    { label: "Drafts it was in", value: card.drafts_available },
-    { label: "Drafts a deck played it", value: played },
-    { label: "Play rate", value: `${card.play_rate.toFixed(0)}%`, share: card.play_rate / 100 },
-  ]
-  return statsValueCell(card, input, key, popularityLabel(card.popularity), "Popularity", rows)
+  const value = `${Math.round(card.play_rate)}%`
+  return statsValueCell(card, input, key, value, "Popularity", popularityRows(card))
 }
 
 const colorsColumn = {
@@ -299,8 +300,6 @@ export const OVERVIEW_COLUMNS = [
   cardColumn,
   colorsColumn,
   draftsColumn,
-  { needs: ["sideboards"], id: "mainboarded", text: CARDS_COPY.columns.deckPct.text, tip: CARDS_COPY.columns.deckPct.tip, cell: deckPctCell },
-  { needs: ["sideboards"], id: "sb_pct", text: "SB%", tip: "Share of the decks that had this card where it sat in the sideboard.", cell: sideboardPctCell },
   { id: "popularity", text: "Popularity", tip: POPULARITY_TIP, cell: popularityCell },
   { needs: ["sideboards"], id: "elo", text: CARDS_COPY.columns.pickElo.text, tip: CARDS_COPY.columns.pickElo.tip, cell: (c, i, k) => valueCell(c, i, k, c.elo) },
   { needs: ["results"], id: "wins", text: CARDS_COPY.columns.winPct.text, tip: CARDS_COPY.columns.winPct.tip, cell: winPctCell },
