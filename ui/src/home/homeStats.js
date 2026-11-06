@@ -91,28 +91,6 @@ export function colorWinRates(response) {
   return rates
 }
 
-// hottestCard returns the card whose win rate beats its expected win rate by the
-// most. Expected is the same players' win rate without the card; cards with no
-// expectation yet are skipped. delta is in whole percentage points.
-export function hottestCard(response) {
-  if (!response || !response.all || !response.all.data) {
-    return null
-  }
-
-  const cards = Object.values(response.all.data).filter(c => c.expected_win_percent > 0)
-  const best = highestBy(cards, c => c.win_percent - c.expected_win_percent)
-  if (best === null) {
-    return null
-  }
-
-  // A card only counts as "hot" when it actually beats its expected win rate.
-  const delta = Math.round(best.win_percent - best.expected_win_percent)
-  if (delta <= 0) {
-    return null
-  }
-  return { name: best.name, delta, winPercent: best.win_percent }
-}
-
 // topPlayers returns the best players by win rate among those with at least
 // minDecks decks, at most limit of them. Ties go to the player with more decks.
 export function topPlayers(response, minDecks = 5, limit = 3) {

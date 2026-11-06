@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { personLabel } from "../utils/Players.js"
 import {
-  countSummary, bestArchetype, bestColorPair, colorWinRates, hottestCard, topPlayers,
+  countSummary, bestArchetype, bestColorPair, colorWinRates, topPlayers,
 } from "./homeStats.js"
 import { recentDrafts } from "./recentDrafts.js"
 import { cubeMeta } from "./cubeMeta.js"
@@ -17,7 +17,6 @@ function sourcesFor(cube) {
     decks: `/api/${cube}/decks/summary`,
     archetypes: `/api/${cube}/stats/archetypes`,
     colors: `/api/${cube}/stats/colors?color_mode=inclusive`,
-    cards: `/api/${cube}/stats/cards?min_games=20`,
     players: `/api/${cube}/stats/players`,
   }
 }
@@ -85,7 +84,6 @@ export function useCubeHome(cube) {
     summary: undefined,
     archetype: undefined,
     colorPair: undefined,
-    card: undefined,
     recent: undefined,
     colorRates: undefined,
     players: undefined,
@@ -107,9 +105,6 @@ export function useCubeHome(cube) {
   if (raw.colors) {
     home.colorPair = bestColorPair(raw.colors)
     home.colorRates = colorWinRates(raw.colors)
-  }
-  if (raw.cards) {
-    home.card = hottestCard(raw.cards)
   }
   if (raw.players) {
     home.players = topPlayers(raw.players)

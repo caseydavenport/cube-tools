@@ -53,9 +53,6 @@ export function sortValue(sortBy, card) {
     case "elo":
       sort = card.elo
       break
-    case "match_elo":
-      sort = card.match_elo
-      break
     case "in-color-sb":
       sort = card.playable_sideboard
       break
@@ -69,24 +66,12 @@ export function sortValue(sortBy, card) {
     case "wordcount":
       sort = card.word_count
       break
-    case "wins":
-      sort = card.win_percent
-      break
     case "colors":
       sort = colorSort(card)
       break
     case "labels":
       sort = Object.entries(card.archetypes).length
       break
-    case "expected_win_percent":
-      sort = card.expected_win_percent
-      break;
-    case "delta_exp":
-      // Cards with no expected win % (too few games) are blank (NaN) so they sink
-      // to the bottom in both sort directions rather than sorting as if their
-      // whole win rate were the delta.
-      sort = card.expected_win_percent ? (card.win_percent - card.expected_win_percent) : NaN
-      break;
     case "trophies":
       sort = card.trophies
       break
@@ -129,8 +114,8 @@ export function sortValue(sortBy, card) {
 //
 // One renderer drives every mode; a mode is just a list of column descriptors
 // {id, text, tip, cell}, where cell(card, input, key) returns the <td>. The
-// default "Overview" mode puts play rate and win rate side by side, with the
-// exact board counts and win detail tucked into per-cell hover popovers.
+// default "Overview" mode leads with how often the card is played; its board
+// counts and win rate sit in the Popularity cell's hover.
 // ---------------------------------------------------------------------------
 
 // currentCubeId pulls the cube segment out of the HashRouter URL (#/{cube}/...).
@@ -200,52 +185,10 @@ function statsValueCell(card, input, key, value, title, rows) {
   )
 }
 
-// winPctCell shows win rate next to its Wilson confidence interval, muted when
-// the card can't be told apart from a coin flip at the chosen confidence. Full
-// record and interval on hover.
-function winPctCell(card, input, key) {
-  const hasCI = card.win_percent_low != null && card.win_percent_high != null
-  const confPct = Math.round(parseFloat(input.winConfidence || "0.8") * 100)
-
-  const rows = [
-    { label: CARDS_COPY.columns.record, value: `${card.wins}-${card.losses}-${card.draws}` },
-    { label: CARDS_COPY.columns.winPercent, value: `${card.win_percent.toFixed(0)}%`, share: card.win_percent / 100 },
-  ]
-  if (hasCI) {
-    rows.push({ label: CARDS_COPY.columns.interval(confPct), value: `${card.win_percent_low.toFixed(0)}% – ${card.win_percent_high.toFixed(0)}%` })
-    rows.push({ label: CARDS_COPY.columns.beatsCoinFlip, value: card.significant ? CARDS_COPY.columns.yes : CARDS_COPY.columns.no })
-  }
-  rows.push({ label: CARDS_COPY.columns.trophies, value: card.trophies })
-  rows.push({ label: CARDS_COPY.columns.lastPlace, value: card.last_place })
-  rows.push({ label: CARDS_COPY.columns.percentOfWins, value: `${card.percent_of_wins.toFixed(0)}%`, share: card.percent_of_wins / 100 })
-
-  // A non-significant win rate is greyed so the eye skips the coin-flips. The
-  // interval itself lives in the hover popover to keep the column uncluttered.
-  const muted = hasCI && !card.significant
-  const value = (
-    <span style={{ color: muted ? "var(--se-muted)" : undefined }}>
-      {card.win_percent.toFixed(0)}%
-    </span>
-  )
-  return statsValueCell(card, input, key, value, CARDS_COPY.columns.winDetailTitle, rows)
-}
-
-// deltaExpCell shows Win% minus expected Win%, coloured. Blank when there's no
-// expected win % (too few games to establish a baseline).
-function deltaExpCell(card, input, key) {
-  if (!card.expected_win_percent) {
-    return <td key={key} id={card.name} onClick={input.onCardSelected} className="stats-muted">—</td>
-  }
-  const d = Math.round(card.win_percent - card.expected_win_percent)
-  let color = "var(--se-bad)"
-  if (d >= 0) {
-    color = "var(--se-good)"
-  }
-  return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color }}>{d > 0 ? "+" : ""}{d}</td>
-}
-
 // popularityRows are the Popularity hover's rows: the popularity word, the
-// draft counts behind the rate, and the card's deck counts by board.
+// draft counts behind the rate, the card's deck counts by board, and, when
+// its decks played games, their record and win %. Per-card win rates are
+// mostly luck at this sample size, so they stay out of the table itself.
 function popularityRows(card) {
   const rows = []
   if (card.popularity) {
@@ -258,6 +201,12 @@ function popularityRows(card) {
     { label: CARDS_COPY.columns.sideboarded, value: card.sideboard },
     { label: CARDS_COPY.columns.playableSideboard, value: card.playable_sideboard },
   )
+  if (card.total_games > 0) {
+    rows.push(
+      { label: CARDS_COPY.columns.record, value: `${card.wins}-${card.losses}-${card.draws}` },
+      { label: CARDS_COPY.columns.winPercent, value: `${card.win_percent.toFixed(0)}%` },
+    )
+  }
   return rows
 }
 
@@ -294,17 +243,15 @@ const gamesColumn = {
   cell: (c, i, k) => valueCell(c, i, k, c.total_games),
 }
 
-// OVERVIEW_COLUMNS read left to right from the most reliable numbers (how
-// often the card is played) to the noisiest (how its decks did).
+// OVERVIEW_COLUMNS show only numbers that hold up when the drafts are split in
+// half: how often the card is played and how it's picked. Win rate is in the
+// Popularity hover.
 export const OVERVIEW_COLUMNS = [
   cardColumn,
   colorsColumn,
   draftsColumn,
   { id: "popularity", text: "Popularity", tip: POPULARITY_TIP, cell: popularityCell },
   { needs: ["sideboards"], id: "elo", text: CARDS_COPY.columns.pickElo.text, tip: CARDS_COPY.columns.pickElo.tip, cell: (c, i, k) => valueCell(c, i, k, c.elo) },
-  { needs: ["results"], id: "wins", text: CARDS_COPY.columns.winPct.text, tip: CARDS_COPY.columns.winPct.tip, cell: winPctCell },
-  { needs: ["results"], id: "delta_exp", text: CARDS_COPY.columns.deltaExp.text, tip: CARDS_COPY.columns.deltaExp.tip, cell: deltaExpCell },
-  { needs: ["results"], id: "match_elo", text: CARDS_COPY.columns.matchElo.text, tip: CARDS_COPY.columns.matchElo.tip, cell: (c, i, k) => valueCell(c, i, k, c.match_elo) },
   { id: "lastPlayed", text: CARDS_COPY.columns.lastPlayed.text, tip: CARDS_COPY.columns.lastPlayed.tip, cell: (c, i, k) => valueCell(c, i, k, c.last_mainboarded) },
 ]
 

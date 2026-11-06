@@ -31,13 +31,10 @@ type CardStatsRequest struct {
 	// Minimum number of games a card must have been in to be included.
 	MinGames int `json:"min_games"`
 
-	// Confidence level for the win-rate interval (0,1). Defaults to
-	// defaultConfidence. Higher demands a stronger signal - see confidence.go.
+	// Confidence level for the per-archetype win-rate intervals (0,1).
+	// Defaults to defaultConfidence. Higher demands a stronger signal - see
+	// confidence.go.
 	Confidence float64 `json:"confidence"`
-
-	// SignificantOnly drops cards whose interval doesn't exclude 50% at the
-	// chosen confidence, i.e. cards we can't tell apart from a coin flip.
-	SignificantOnly bool `json:"significant_only"`
 }
 
 type CardStatsResponse struct {
@@ -71,7 +68,6 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 	p.MinDrafts = query.GetInt(r, "min_drafts")
 	p.MinGames = query.GetInt(r, "min_games")
 	p.Confidence = query.GetFloat(r, "confidence")
-	p.SignificantOnly = query.GetBool(r, "significant_only")
 
 	// Parse the embedded deck request.
 	p.DecksRequest = decks.ParseDecksRequest(r)
@@ -298,10 +294,9 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 
 	// Get ELO data to include in the response.
 	eloData := PickELOData(decks)
-	matchEloData := MatchELOData(decks)
 
-	// Now that we've gone through all the decks, calculate win percentages and mainboard/sideboard percentages,
-	// and perform any filtering based on the request parameters.
+	// With every deck counted, finish each card's numbers and apply the
+	// request's filters.
 	z := zForConfidence(sr.Confidence)
 	for _, card := range resp.Data {
 		// Add ELO data.
@@ -310,27 +305,11 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		} else {
 			card.ELO = int(eloBase)
 		}
-		if melo, ok := matchEloData[card.Name]; ok {
-			card.MatchELO = melo
-		} else {
-			card.MatchELO = int(eloBase)
-		}
 
-		card.ExpectedWinPercent = ExpectedWinPercent(card.Name, card.Players, decks)
-
-		// Calculate win percentage and mainboard/sideboard percentages.
+		// Calculate win percentage.
 		card.TotalGames = card.Wins + card.Losses + card.Draws
 		card.WinPercent = winPctOf(card.Wins, card.Losses, card.Draws)
-		card.WinPercentLow, card.WinPercentHigh = wilsonInterval(card.Wins, card.Losses, card.Draws, z)
-		if card.TotalGames > 0 {
-			card.Significant = card.WinPercentLow > 50 || card.WinPercentHigh < 50
-		}
 		card.PercentOfWins = pct(float64(card.Wins), float64(totalWins))
-
-		decksWithCard := card.Mainboard + card.Sideboard
-		card.MainboardPercent = pct(float64(card.Mainboard), float64(decksWithCard))
-		card.SideboardPercent = pct(float64(card.Sideboard), float64(decksWithCard))
-		card.PlayableSideboardPercent = pct(float64(card.PlayableSideboard), float64(decksWithCard))
 
 		// Calculate per-archetype win percentages. Only show archetype-specific
 		// win percentages with at least 15 games played; smaller samples are
@@ -373,34 +352,6 @@ func addPopularity(cards *Cards, cube *types.Cube, rates map[string]draftRate) {
 		card.PlayRate = round1(rate.percent())
 		card.Popularity = labels[name]
 	}
-}
-
-func ExpectedWinPercent(cardName string, players map[string]int, decks []*storage.Deck) float64 {
-	r := Record{}
-	for _, d := range decks {
-		// Skip decks that were not played by one of the specified players.
-		if _, ok := players[d.PersonLabel()]; !ok {
-			continue
-		}
-
-		// This deck was played by one of the specified players. Skip this deck if it
-		// includes the specified card.
-		found := false
-		for _, c := range d.Mainboard {
-			if c.Name == cardName {
-				found = true
-				break
-			}
-		}
-		if found {
-			continue
-		}
-
-		// This deck does not include the card, so include its results.
-		r.Add(d)
-	}
-	r.Finalize()
-	return r.WinPercent
 }
 
 // K-factor for the pick ELO updates.
@@ -624,15 +575,7 @@ func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
 	if sr.MinDrafts > 0 && cbn.Drafts < sr.MinDrafts {
 		return true
 	}
-	if sr.MinGames > 0 && cbn.Wins+cbn.Losses < sr.MinGames {
-		return true
-	}
-
-	// Drop cards we can't distinguish from a coin flip at the chosen confidence.
-	if sr.SignificantOnly && !cbn.Significant {
-		return true
-	}
-	return false
+	return sr.MinGames > 0 && cbn.Wins+cbn.Losses < sr.MinGames
 }
 
 // Most cards are singleton in my cube. Except for fetches / shocks, for which it is
@@ -797,32 +740,9 @@ type cardStats struct {
 	// Win percentage
 	WinPercent float64 `json:"win_percent"`
 
-	// Wilson score interval around WinPercent at the request's confidence level,
-	// on the same 0-100 scale. See confidence.go.
-	WinPercentLow  float64 `json:"win_percent_low"`
-	WinPercentHigh float64 `json:"win_percent_high"`
-
-	// Significant reports whether the interval excludes 50%, i.e. the card's win
-	// rate is distinguishable from a coin flip at the chosen confidence.
-	Significant bool `json:"significant"`
-
-	// Expected win percentage is the win percentage of players who have mainboarded this card,
-	// excluding decks that included this card.
-	ExpectedWinPercent float64 `json:"expected_win_percent"`
-
 	// Percent of all games won by decks with this card. This is different from WinPercent, which is
 	// the percentage of games won given that this card was in the mainboard.
 	PercentOfWins float64 `json:"percent_of_wins"`
-
-	// Mainboard percentage
-	MainboardPercent float64 `json:"mainboard_percent"`
-
-	// Sideboard percentage
-	SideboardPercent float64 `json:"sideboard_percent"`
-
-	// Playable sideboard percentage: share of appearances (mainboard+sideboard)
-	// where the card sat in the sideboard but was on-color for the deck.
-	PlayableSideboardPercent float64 `json:"playable_sideboard_percent"`
 
 	// Map of archetype to times played in that archetype
 	Archetypes map[string]int `json:"archetypes"`
@@ -853,12 +773,6 @@ type cardStats struct {
 
 	// ELO.
 	ELO int `json:"elo"`
-
-	// MatchELO is the card's Elo from actual match results (see MatchELOData),
-	// where ELO above scores draft picks. Cards that never played a match sit at
-	// the baseline, so gate on game/match counts to tell "performed at baseline"
-	// apart from "no match data".
-	MatchELO int `json:"match_elo"`
 
 	// Track how this card as fared within various archetypes. i.e., win percentages given
 	// that the card was played in a specific archetype.

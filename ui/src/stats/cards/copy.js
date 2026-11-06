@@ -2,9 +2,6 @@
 // touching component code. One key per component file; text with values in it
 // is a function that takes named values and returns the whole sentence.
 
-// ELO_TIP explains both Elo columns at once, since they read best side by side.
-const ELO_TIP = "Two chess-style ratings, both starting at 1200. Pick ELO rises each time a deck plays this card over a card of the same colors it left in the sideboard, so it measures what drafters choose. Match ELO rises when decks with this card beat stronger decks, so it measures what wins. A gap between the two means drafters value the card more or less than its results do."
-
 export const CARDS_COPY = {
   // CardWidget.js: the page's section names and headings.
   widget: {
@@ -41,19 +38,15 @@ export const CARDS_COPY = {
     statsTypeLabel: "Stats type",
     matchLabel: "Match",
     tagLabel: "Tag",
-    significantOnly: "Significant only",
   },
 
   // cardColumns.js: table headers (text), their hover text (tip), and the
-  // popovers on the name, Deck%, and Win% cells.
+  // popovers on the name and Popularity cells.
   columns: {
     colorIdentity: { text: "Colors", tip: "Color identity of the card." },
     card: { text: "Card", tip: "Card name. Click a row cell to focus the card in the graphs below." },
     games: { text: "# Games", tip: "Number of games played by decks that included this card." },
-    winPct: { text: "Win%", tip: "Win rate of decks that mainboard this card. Greyed when it can't be told apart from a coin flip at the chosen confidence. Hover for the confidence interval and record." },
-    deltaExp: { text: "Δ Exp", tip: "Win% minus expected win% - how the card over/underperforms relative to the players who ran it." },
-    pickElo: { text: "Pick ELO", tip: ELO_TIP },
-    matchElo: { text: "Match ELO", tip: ELO_TIP },
+    pickElo: { text: "Pick ELO", tip: "A chess-style rating starting at 1200. It rises each time a deck plays this card over a card of the same colors it left in the sideboard, so it measures what drafters choose." },
     lastPlayed: { text: "Last played", tip: "Date of the draft this card was last mainboarded." },
     words: { text: "Words", tip: "Words in the card's oracle text, excluding reminder text." },
     tags: { text: "# Tags", tip: "Number of unique tags on decks that have mainboarded this card." },
@@ -72,16 +65,8 @@ export const CARDS_COPY = {
     sideboarded: "Sideboarded",
     playableSideboard: "Playable sideboard",
 
-    winDetailTitle: "Win detail",
     record: "Record",
     winPercent: "Win %",
-    interval: (confPct) => `${confPct}% interval`,
-    beatsCoinFlip: "Beats a coin flip",
-    yes: "yes",
-    no: "no",
-    trophies: "Trophies (3-0)",
-    lastPlace: "Last place (0-3)",
-    percentOfWins: "% of all wins",
   },
 
   // CardTooltip.js: the tables in the card name popover.
@@ -97,15 +82,12 @@ export const CARDS_COPY = {
   scatter: {
     axisNumDecks: "# Decks",
     axisNumSideboard: "# Sideboard",
-    axisMainboardPercent: "Mainboard %",
-    axisSideboardPercent: "Sideboard %",
+    axisPopularity: "Popularity",
     axisWinPercent: "Win %",
     axisWinPercentVsAvg: "Win % vs avg",
     axisPercentOfWins: "% of Wins",
     axisNumWins: "# Wins",
-    axisExpectedWinPercent: "Expected Win %",
     axisPickElo: "Pick ELO",
-    axisMatchElo: "Match ELO",
     axisNumGames: "# Games",
     axisManaValue: "Mana Value",
     axisNumPlayers: "# Players",

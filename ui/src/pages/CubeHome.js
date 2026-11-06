@@ -20,8 +20,6 @@ const COPY = {
   draftsTile: "Drafts",
   archetypeTile: "Winningest archetype",
   colorPairTile: "Winningest color pair",
-  cardTile: "Hottest card",
-  cardDetail: "win rate over expected",
   recentDrafts: "Recent drafts",
   allDrafts: "All drafts ›",
   colorWinRates: "Win rate by color",

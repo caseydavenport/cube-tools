@@ -53,16 +53,6 @@ function colorPairTileText(pair, copy) {
   }
 }
 
-// cardTileText fills the hottest-card tile: the card's name and how many points
-// its win rate beats its expected win rate by.
-function cardTileText(card, copy) {
-  return {
-    shown: card.name,
-    accent: `+${card.delta}`,
-    detail: copy.cardDetail,
-  }
-}
-
 // HomeTile wraps a StatTile with the rules every tile shares, checked in order:
 // the missing-data reason, a failed request, loading, and "nothing qualifies
 // yet". Only then does tileText turn the value into what the tile shows.
@@ -85,13 +75,13 @@ function HomeTile({ label, href, state, value, error, copy, tileText }) {
   return <StatTile label={label} value={text.shown} accent={text.accent} detail={text.detail} href={href} />
 }
 
-// StatTiles is the row of four headline tiles: drafts, best archetype, best
-// color pair, and the card most over its expected win rate.
+// StatTiles is the row of headline tiles: drafts, best archetype and best
+// color pair.
 export function StatTiles({ cube, home, info, copy }) {
   const errors = home.errors
 
   return (
-    <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }} spacing="md">
+    <SimpleGrid cols={{ base: 1, xs: 2, md: 3 }} spacing="md">
       <HomeTile
         label={copy.draftsTile}
         href={pageHref(cube, "drafts")}
@@ -120,16 +110,6 @@ export function StatTiles({ cube, home, info, copy }) {
         error={errors.colors}
         copy={copy}
         tileText={colorPairTileText}
-      />
-
-      <HomeTile
-        label={copy.cardTile}
-        href={pageHref(cube, "cards")}
-        state={blockState(HOME_BLOCKS.cardTile, info)}
-        value={home.card}
-        error={errors.cards}
-        copy={copy}
-        tileText={cardTileText}
       />
     </SimpleGrid>
   )

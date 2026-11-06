@@ -20,7 +20,6 @@ test("a card-list-only cube can show only the drafts tile", () => {
     draftsTile: null,
     archetypeTile: "needs decks",
     colorPairTile: "needs decks",
-    cardTile: "needs decks",
     recentDrafts: "needs decks",
     colorWinRates: "needs decks",
     topPlayers: "needs decks",

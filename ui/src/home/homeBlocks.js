@@ -8,7 +8,6 @@ export const HOME_BLOCKS = {
   draftsTile: { needs: [] },
   archetypeTile: { needs: ["decks", "results", "archetypes"] },
   colorPairTile: { needs: ["decks", "results"] },
-  cardTile: { needs: ["decks", "results"] },
   recentDrafts: { needs: ["decks"] },
   colorWinRates: { needs: ["decks", "results"] },
   topPlayers: { needs: ["decks", "results"] },

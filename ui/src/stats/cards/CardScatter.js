@@ -232,10 +232,8 @@ export function CardGraph(input) {
 function getScales(axis, force) {
   if (force) {
     switch (axis) {
-      case CardAxis.mainboardPercent:
-      case CardAxis.sideboardPercent:
+      case CardAxis.popularity:
       case CardAxis.winPercent:
-      case CardAxis.expectedWinPercent:
         return [0, 100]
     }
   }
@@ -246,14 +244,14 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
   switch (axis) {
     case CardAxis.numGames:
       return card.total_games
-    case CardAxis.mainboardPercent:
-      return card.mainboard_percent
-    case CardAxis.sideboardPercent:
-      return card.sideboard_percent
+    case CardAxis.popularity:
+      // Cards no fully recorded deck took have no rate, so they drop off.
+      if (!card.drafts_taken) {
+        return null
+      }
+      return card.play_rate
     case CardAxis.pickElo:
       return card.elo
-    case CardAxis.matchElo:
-      return card.match_elo
     case CardAxis.winPercent:
       return card.win_percent
     case CardAxis.winPercentVsAvg:
@@ -275,8 +273,6 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
       return card.cmc
     case CardAxis.numPlayers:
       return Object.entries(card.players).length
-    case CardAxis.expectedWinPercent:
-      return card.expected_win_percent
     case CardAxis.numTrophies:
       return card.trophies
     case CardAxis.numLastPlace:

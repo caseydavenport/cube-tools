@@ -1,5 +1,5 @@
-// The Cards page's popularity filter and the "expected by chance" count
-// beside "Significant only". Kept free of React so node tests can load it.
+// The Cards page's popularity filter and the Popularity column's tip. Kept
+// free of React so node tests can load it.
 
 // POPULARITY_OPTIONS are the popularity filter's choices. The values are the
 // server's popularity words, the same ones the card page shows.
@@ -29,15 +29,4 @@ export function popularityLabel(popularity) {
     return ""
   }
   return popularity[0].toUpperCase() + popularity.slice(1)
-}
-
-// expectedByChance is about how many of tested cards would pass "Significant
-// only" by luck alone: a card with no real effect still gets an interval
-// that misses 50% with probability 1 - confidence.
-export function expectedByChance(tested, confidence) {
-  const level = parseFloat(confidence)
-  if (!(level > 0 && level < 1)) {
-    return 0
-  }
-  return Math.round(tested * (1 - level))
 }

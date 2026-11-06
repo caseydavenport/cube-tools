@@ -1,18 +1,18 @@
 // The Cards stats table and the controls above it: the stats-type switch,
-// card search, match and tag pickers, and the significant-only checkbox.
+// card search, and the match, tag and popularity pickers.
 
 import React from 'react'
-import { DropdownHeader, Checkbox, SearchableDropdownHeader } from "../../components/Dropdown.js"
+import { DropdownHeader, SearchableDropdownHeader } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { asEvent } from "../../components/kit/controls.js"
 import { SegmentedControl } from "@mantine/core"
-import { availableValue, hasData, visibleItems } from "../../utils/dataKinds.js"
+import { availableValue, visibleItems } from "../../utils/dataKinds.js"
 import { PillSearchInput } from "../../components/PillSearchInput.js"
 import { CardMatches } from "../../utils/Query.js"
 import { cardMatchesTagChoice } from "../../utils/cardRoles.js"
 import { tagFilterOptions } from "../../utils/tagOptions.js"
 import { CARDS_COPY } from "./copy.js"
-import { POPULARITY_OPTIONS, POPULARITY_TIP, expectedByChance, matchesPopularity } from "./cardFilters.js"
+import { POPULARITY_OPTIONS, POPULARITY_TIP, matchesPopularity } from "./cardFilters.js"
 import { BY_ARCH_COLUMNS, METADATA_COLUMNS, OVERVIEW_COLUMNS, VS_ARCH_COLUMNS, isNewCard, sortValue } from "./cardColumns.js"
 import "../stats.css"
 
@@ -71,9 +71,6 @@ export function shouldSkip(card, input) {
       return true
     }
 
-    if (input.significantOnly && !card.significant) {
-      return true
-    }
 
     switch (input.cardFilter) {
       case Interaction:
@@ -195,7 +192,7 @@ export function CardWidgetOptions(input) {
   // cube's tags change, not on every filter change.
   const tagData = React.useMemo(() => tagFilterOptions(input.tagOpts, input.cubeTags), [input.tagOpts, input.cubeTags])
 
-  const counts = countCards(input)
+  const shown = countShown(input)
 
   return (
     <div className="controls-panel">
@@ -209,7 +206,7 @@ export function CardWidgetOptions(input) {
 
       <div className="selector-group stats-detail-row">
         <div className="selection-cell stats-detail-label">
-          {CARDS_COPY.statsTable.showing(counts.shown)}
+          {CARDS_COPY.statsTable.showing(shown)}
         </div>
 
         <SegmentedControl
@@ -245,53 +242,18 @@ export function CardWidgetOptions(input) {
             />
           </div>
         </HoverInfo>
-
-        <SignificantOnly {...input} tested={counts.tested} />
       </div>
     </div>
   );
 }
 
-// countCards counts the cards the filters show, and how many of them, with
-// "Significant only" left off, have games: the cards the significance test
-// runs on.
-function countCards(input) {
-  const withoutSignificance = { ...input, significantOnly: false }
+// countShown counts the cards the filters leave in the table.
+function countShown(input) {
   let shown = 0
-  let tested = 0
   for (const card of input.cardData.values()) {
     if (!shouldSkip(card, input)) {
       shown += 1
     }
-    if (!shouldSkip(card, withoutSignificance) && card.total_games > 0) {
-      tested += 1
-    }
   }
-  return { shown, tested }
-}
-
-// SignificantOnly is the checkbox that keeps only cards whose win rate beats a
-// coin flip, with how many of the tested cards would pass by luck alone. It
-// needs match results to mean anything.
-function SignificantOnly(input) {
-  if (!hasData(input.info, "results")) {
-    return null
-  }
-
-  const confidence = Math.round(parseFloat(input.winConfidence) * 100)
-  const chance = expectedByChance(input.tested, input.winConfidence)
-  const tip = `At ${confidence}% confidence, about ${chance} of these ${input.tested} cards would pass by luck alone, even if no card changed win rate. Treat a passing count near ${chance} as noise.`
-
-  return (
-    <div className="cards-significant">
-      <Checkbox
-        text={CARDS_COPY.statsTable.significantOnly}
-        checked={input.significantOnly}
-        onChange={input.onSignificantOnlyToggled}
-      />
-      <HoverInfo title="Expected by chance" info={tip}>
-        <span className="stats-muted cards-chance-note">~{chance} by chance</span>
-      </HoverInfo>
-    </div>
-  )
+  return shown
 }

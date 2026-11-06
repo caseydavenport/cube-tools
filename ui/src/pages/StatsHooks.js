@@ -30,7 +30,6 @@ export function useStatsFilters() {
   const [minDrafts, setMinDrafts] = useState(0);
   const [minGames, setMinGames] = useState(0);
   const [winConfidence, setWinConfidence] = useState("0.95");
-  const [significantOnly, setSignificantOnly] = useState(false);
   const [minPlayers, setMinPlayers] = useState(0);
   const [maxPlayers, setMaxPlayers] = useState(0);
   const [selectedCard, setSelectedCard] = useState("");
@@ -80,7 +79,6 @@ export function useStatsFilters() {
     minDrafts, setMinDrafts,
     minGames, setMinGames,
     winConfidence, setWinConfidence,
-    significantOnly, setSignificantOnly,
     minPlayers, setMinPlayers,
     maxPlayers, setMaxPlayers,
     selectedCard, setSelectedCard,

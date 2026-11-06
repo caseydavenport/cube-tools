@@ -1,7 +1,7 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 import {
-  countSummary, bestArchetype, bestColorPair, colorWinRates, hottestCard, topPlayers,
+  countSummary, bestArchetype, bestColorPair, colorWinRates, topPlayers,
 } from "./homeStats.js"
 
 // deck builds the few deck fields countSummary reads.
@@ -74,24 +74,6 @@ test("colorWinRates lists single colors in WUBRG order and skips unplayed ones",
   assert.deepEqual(colorWinRates(undefined), [])
 })
 
-test("hottestCard picks the largest gain over expected, skipping cards with no expectation", () => {
-  const response = {
-    all: {
-      data: {
-        "Toxic Deluge": { name: "Toxic Deluge", win_percent: 67.9, expected_win_percent: 47 },
-        "Audacity": { name: "Audacity", win_percent: 65.1, expected_win_percent: 45.5 },
-        "Brand New": { name: "Brand New", win_percent: 100, expected_win_percent: 0 },
-      },
-    },
-  }
-  assert.deepEqual(hottestCard(response), { name: "Toxic Deluge", delta: 21, winPercent: 67.9 })
-})
-
-test("hottestCard is null with no cards", () => {
-  assert.equal(hottestCard({ all: { data: {} } }), null)
-  assert.equal(hottestCard(undefined), null)
-})
-
 test("topPlayers keeps players with enough decks, best first, capped", () => {
   const response = {
     players: {
@@ -108,11 +90,4 @@ test("topPlayers keeps players with enough decks, best first, capped", () => {
     { id: 6, name: "Joan", decks: 9, winPercent: 60.8 },
   ])
   assert.deepEqual(topPlayers(undefined), [])
-})
-
-test("hottestCard is null when no card beats its expected win rate", () => {
-  const response = {
-    all: { data: { "Bad Card": { name: "Bad Card", win_percent: 44, expected_win_percent: 47 } } },
-  }
-  assert.equal(hottestCard(response), null)
 })
