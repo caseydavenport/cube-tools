@@ -4,6 +4,7 @@ import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { Link } from "react-router-dom"
 import { archetypePageHref } from "../../shell/paths.js"
+import { OpenInCharts } from "../OpenInCharts.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { WinRateCell } from "../../components/kit/WinRateCell.js"
@@ -181,6 +182,21 @@ function ArchetypeTableRows(input) {
   );
 }
 
+// TableTitle is one table's heading with a link opening the Charts page
+// grouped by the same dimension. spaced adds room above, for the second table.
+function TableTitle({ text, dim, spaced = false }) {
+  let className = "archetype-table-title"
+  if (spaced) {
+    className += " stats-section-gap-lg"
+  }
+  return (
+    <div className={className}>
+      <h3 className="section-heading kit-section-title">{text}</h3>
+      <OpenInCharts slice={{ groupBy: { dim, granularity: 1, color_mode: "inclusive" } }} />
+    </div>
+  )
+}
+
 export function ArchetypeStatsTable(input) {
   let archetypes = input.parsed.archetypeData
   let macroData = []
@@ -202,7 +218,7 @@ export function ArchetypeStatsTable(input) {
   if (microData.length > 0) {
     tagsTable = (
       <>
-        <h3 className="section-heading kit-section-title stats-section-gap-lg">{ARCHETYPES_COPY.statsTable.tagsHeading}</h3>
+        <TableTitle text={ARCHETYPES_COPY.statsTable.tagsHeading} dim="label" spaced />
         <div className="table-scroll">
           <table className="widget-table">
             <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
@@ -215,7 +231,7 @@ export function ArchetypeStatsTable(input) {
 
   return (
     <div>
-      <h3 className="section-heading kit-section-title">{ARCHETYPES_COPY.statsTable.archetypesHeading}</h3>
+      <TableTitle text={ARCHETYPES_COPY.statsTable.archetypesHeading} dim="archetype" />
       <div className="table-scroll">
         <table className="widget-table">
           <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />

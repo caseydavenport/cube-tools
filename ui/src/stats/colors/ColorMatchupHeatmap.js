@@ -7,6 +7,7 @@ import { ColorImages } from "../../utils/Colors.js"
 import { colorName } from "../../utils/colorNames.js"
 import { goodBadTint } from "../tints.js"
 import { cellShade, heatmapColorType, heatmapGroups, isShownCell, showsPairsInstead } from "./heatmapModel.js"
+import { OpenInCharts, colorSide } from "../OpenInCharts.js"
 import { COLORS_COPY } from "./copy.js"
 import "../stats.css"
 
@@ -66,7 +67,7 @@ function MatchupCell({ myColor, oppColor, record }) {
 // ColorMatchupHeatmap shows how each color (or pair) does against each other,
 // each pairing once. For Any and Trio it shows pairs, since three-color
 // groups leave almost every cell with a handful of games.
-export function ColorMatchupHeatmap({ matchupData, colorType }) {
+export function ColorMatchupHeatmap({ matchupData, colorType, colorMode }) {
   if (!matchupData || Object.keys(matchupData).length === 0) {
     return null
   }
@@ -82,8 +83,14 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
     note = <p className="stats-muted-small colors-heatmap-note">{COLORS_COPY.heatmap.pairsInsteadNote}</p>
   }
 
+  const shownType = heatmapColorType(colorType)
+  const chartsSlice = {
+    groupBy: colorSide("color", shownType, colorMode),
+    splitBy: colorSide("opponent_color", shownType, colorMode),
+  }
+
   return (
-    <SectionCard title={title}>
+    <SectionCard title={title} action={<OpenInCharts slice={chartsSlice} />}>
       {note}
       <p className="stats-muted-small colors-heatmap-note">{COLORS_COPY.heatmap.shadingNote}</p>
       <div className="stats-table-scroll">

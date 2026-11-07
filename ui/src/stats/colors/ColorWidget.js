@@ -144,7 +144,7 @@ function ResultsCharts(input) {
       </div>
 
       <div className="colors-wide">
-        <ColorMatchupHeatmap matchupData={input.colorMatchupData} colorType={input.colorTypeSelection} />
+        <ColorMatchupHeatmap matchupData={input.colorMatchupData} colorType={input.colorTypeSelection} colorMode={input.colorMode} />
       </div>
     </>
   )

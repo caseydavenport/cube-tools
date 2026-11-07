@@ -10,6 +10,7 @@ import { ColorImages } from "../../utils/Colors.js"
 import { colorName } from "../../utils/colorNames.js"
 import { SortFunc } from "../../utils/Utils.js"
 import { colorColumnShown, shownColorSort } from "./colorSort.js"
+import { OpenInCharts, colorSide } from "../OpenInCharts.js"
 import { COLORS_COPY } from "./copy.js"
 
 // colorIsDisplayed returns true if the given color identity should be displayed - e.g.,
@@ -191,6 +192,8 @@ export function TableHeader(input) {
 
   return (
     <Group gap="sm" wrap="wrap" justify="flex-end">
+      <OpenInCharts slice={{ groupBy: colorSide("color", input.colorTypeSelection, input.colorMode) }} />
+
       <SegmentedControl
         size="xs"
         aria-label={COLORS_COPY.statsTable.colorTypeLabel}

@@ -299,6 +299,41 @@
   margin: 1.5rem 0;
 }
 
+/* A link from a curated view to the Charts page on the same slice. */
+.open-in-charts {
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+/* An Archetypes table's heading with its Open in Charts link on the right. */
+.archetype-table-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* The Charts page's starting presets, one button each. */
+.explore-presets {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.explore-presets-label {
+  color: var(--se-muted);
+  font-size: 0.85em;
+}
+
+/* The generated sentence saying what the chart shows. */
+.explore-caption {
+  margin: 0;
+  color: var(--se-muted);
+  font-size: 0.9em;
+  line-height: 1.45;
+}
+
 /* Explore player filter: checkbox chips to opt players in/out of the aggregate. */
 .player-filter {
   border-top: 1px solid var(--se-border);

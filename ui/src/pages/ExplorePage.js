@@ -14,6 +14,8 @@ import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { startLoad } from "../stats/loading.js"
 import { pivotRequest } from "../stats/pageRequests.js"
 import { pivotMeta } from "../stats/pivotMeta.js"
+import { PRESETS, chartsCaption, sliceFromParams, writeSlice } from "../stats/chartsSlice.js"
+import { useSearchParams } from "react-router-dom"
 import { goodBadTint } from "../stats/tints.js"
 import { useFilterSuggestions } from "../stats/useFilterSuggestions.js"
 import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
@@ -58,7 +60,7 @@ const COPY = {
   dims: {
     color: "Color",
     archetype: "Archetype",
-    label: "Label",
+    label: "Tag",
     player: "Player",
     time: "Time",
     removal: "Removal count",
@@ -67,7 +69,7 @@ const COPY = {
     creatures: "Creature count",
     lands: "Land count",
     avgCmc: "Avg mana value",
-    dna: "DNA count",
+    dna: "DNA-tagged cards",
     none: "(none)",
     opponentColor: "Opponent color",
     opponentArchetype: "Opponent archetype",
@@ -77,12 +79,13 @@ const COPY = {
   },
   granularity: { any: "Any", mono: "Mono", dual: "Dual", trio: "Trio" },
   colorMode: { inclusive: "Inclusive", exact: "Exact", primary: "Primary" },
-  metrics: { winPct: "Bayes Win %", record: "Record", games: "Games" },
+  metrics: { winPct: "Win %", record: "Record", games: "Games" },
 
   controls: {
     groupBy: "Group by",
     splitBy: "Split by",
     metric: "Metric",
+    presets: "Start from",
     bucket: "Bucket",
     players: "Players",
     selectAll: "Select all",
@@ -97,7 +100,7 @@ const COPY = {
   },
 
   pivotTable: {
-    winPct: "Bayes Win %",
+    winPct: "Win %",
     record: "Record",
     decks: "Decks",
     winPctTip: "Share of games won by decks in this group, pulled toward 50% in proportion to how few games it has. Tinted only when it can be told apart from a coin flip at the chosen confidence. Hover for the raw win % and its interval.",
@@ -115,7 +118,7 @@ const COPY = {
     dims: {
       color: "Color",
       archetype: "Archetype",
-      label: "Label",
+      label: "Tag",
       player: "Player",
       removal: "Removal count",
       interaction: "Interaction count",
@@ -123,7 +126,7 @@ const COPY = {
       creatures: "Creature count",
       lands: "Land count",
       avgCmc: "Avg mana value",
-      dna: "DNA count",
+      dna: "DNA-tagged cards",
       cardQuery: "Card query",
     },
     ops: {
@@ -265,12 +268,15 @@ export function ExplorePage(props) {
   useComputedColorScheme("light")
   const [refresh, setRefresh] = useState(1)
 
-  const [groupBy, setGroupBy] = useState({ dim: "color", granularity: 1, color_mode: "inclusive" })
-  const [splitBy, setSplitBy] = useState({ dim: "", granularity: 1, color_mode: "inclusive" })
-  const [metric, setMetric] = useState("win_pct")
+  // The slice starts from the URL, so a shared or bookmarked link reopens it.
+  const [params, setParams] = useSearchParams()
+  const [initial] = useState(() => sliceFromParams(params))
+  const [groupBy, setGroupBy] = useState(initial.groupBy)
+  const [splitBy, setSplitBy] = useState(initial.splitBy)
+  const [metric, setMetric] = useState(initial.metric)
   const [confidence, setConfidence] = useState("0.95")
-  const [bucketSize, setBucketSize] = useState(3)
-  const [predicates, setPredicates] = useState([])
+  const [bucketSize, setBucketSize] = useState(initial.bucketSize)
+  const [predicates, setPredicates] = useState(initial.predicates)
 
   const [result, setResult] = useState(null)
   // Players unchecked in the player filter - dropped from the aggregate entirely.
@@ -317,6 +323,23 @@ export function ExplorePage(props) {
     return startLoad(() => fetchJson(`/api/${cubeID}/stats/pivot`, options), setResult, () => setResult(null))
   }, [cubeID, start, end, shownGroupBy, shownSplitBy, bucketSize, predicates, refresh, usesTime, excluded, confidence, filter.settled])
 
+  // Keep the URL in step with the slice, replacing the history entry so each
+  // change doesn't add a back-button step.
+  const slice = { groupBy: shownGroupBy, splitBy: shownSplitBy, metric, bucketSize, predicates }
+  const sliceParams = writeSlice(params, slice).toString()
+  useEffect(() => {
+    if (sliceParams !== params.toString()) {
+      setParams(new URLSearchParams(sliceParams), { replace: true })
+    }
+  }, [sliceParams])
+
+  // applyPreset switches to one of the starting slices, keeping the filters.
+  function applyPreset(preset) {
+    setGroupBy(preset.slice.groupBy)
+    setSplitBy(preset.slice.splitBy)
+    setMetric(preset.slice.metric)
+  }
+
   function togglePlayer(name) {
     setExcluded(prev => {
       const next = new Set(prev)
@@ -348,6 +371,13 @@ export function ExplorePage(props) {
   const controls = (
     <SectionCard title={COPY.slice}>
       <div className="explore-controls">
+        <div className="explore-presets">
+          <span className="explore-presets-label">{COPY.controls.presets}</span>
+          {PRESETS.map(preset => (
+            <Button key={preset.id} text={preset.label} onClick={() => applyPreset(preset)} />
+          ))}
+        </div>
+
         <div className="selector-group">
           <DropdownHeader label={COPY.controls.groupBy} value={groupDim} options={visibleItems(GROUP_DIMS, info)}
             onChange={(e) => setGroupBy({ ...groupBy, dim: e.target.value })} />
@@ -410,6 +440,8 @@ export function ExplorePage(props) {
         )}
 
         <PredicateBuilder predicates={predicates} onChange={setPredicates} meta={meta} copy={COPY.predicates} />
+
+        <p className="explore-caption">{chartsCaption(slice)}</p>
       </div>
     </SectionCard>
   )
