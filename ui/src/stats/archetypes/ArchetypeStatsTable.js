@@ -66,8 +66,8 @@ function winningPercentText(t) {
 }
 
 // WinningRecordsCell shows the share of a row's decks with a winning match
-// record, with how its decks finished on hover: trophies, winning, losing and
-// last places.
+// record, greyed because it doesn't beat chance at this sample size, with how
+// its decks finished on hover: trophies, winning, losing and last places.
 function WinningRecordsCell({ row }) {
   const rows = [
     { label: ARCHETYPES_COPY.statsTable.trophies, value: row.trophies },
@@ -77,7 +77,7 @@ function WinningRecordsCell({ row }) {
   ]
   return (
     <HoverStats title={ARCHETYPES_COPY.statsTable.finishesTitle({ decks: row.count })} rows={rows}>
-      <td>{winningPercentText(row)}</td>
+      <td className="kit-win-muted">{winningPercentText(row)}</td>
     </HoverStats>
   )
 }

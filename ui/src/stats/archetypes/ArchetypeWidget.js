@@ -72,6 +72,7 @@ function FinishesPart({ parsed, info, tab }) {
     <>
       <h3 className="section-heading kit-section-title stats-section-gap-lg">{ARCHETYPES_COPY.widget.finishesHeading}</h3>
       <ArchetypeFinishes archetypeData={parsed.archetypeData} />
+      <p className="stats-muted-small">{ARCHETYPES_COPY.widget.finishesNote}</p>
     </>
   )
 }

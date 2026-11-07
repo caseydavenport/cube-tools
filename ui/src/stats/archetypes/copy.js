@@ -28,6 +28,7 @@ export const ARCHETYPES_COPY = {
     sectionArchetypes: "Archetypes",
     sectionCharts: "Charts",
     finishesHeading: "How their decks finished",
+    finishesNote: "With this many decks, most differences between archetypes here are within chance; read them as a rough picture, not a ranking.",
     chartsHeading: "Charts",
     chartLabel: "Chart",
   },
@@ -53,7 +54,7 @@ export const ARCHETYPES_COPY = {
     },
     winningPct: {
       text: "Winning records",
-      tip: "Share of its decks that finished 2-1 or better. Hover for trophies, winning and losing records, and last places.",
+      tip: "Share of its decks that finished 2-1 or better. Always unreliable: shuffling finishes across decks spreads archetypes and tags this far apart by chance alone. Hover for trophies, winning and losing records, and last places.",
     },
     finishesTitle: ({ decks }) => `How its ${decks} decks finished`,
     trophies: "Trophies (3-0)",
