@@ -42,9 +42,18 @@
   height: 380px;
 }
 
+/* Hard to remove is alone on its tab, so it fills the window below the
+   toolbar and tabs, with its header pinned while the rows scroll. */
 .removal-hard-scroll {
-  max-height: 420px;
+  max-height: calc(100vh - 240px);
   overflow-y: auto;
+}
+
+.removal-hard-scroll thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--se-card);
 }
 
 .removal-color-cell {
