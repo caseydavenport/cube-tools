@@ -30,3 +30,37 @@ export function TabNav({ tabs, active, onChange }) {
     </nav>
   )
 }
+
+// TabbedPanel is a card showing one of several views of the same data, such
+// as a table's column sets. Its tabs sit on the card's top edge, set apart
+// from the page's TabNav, with the view's actions (a count, a link) on the
+// right. tabs is an array of { value, label }.
+export function TabbedPanel({ label, tabs, active, onChange, actions, children }) {
+  let right = null
+  if (actions) {
+    right = <div className="tabbed-panel-actions">{actions}</div>
+  }
+
+  return (
+    <div className="tabbed-panel">
+      <div className="tabbed-panel-head">
+        <div className="tabbed-panel-tabs" role="tablist" aria-label={label}>
+          {tabs.map((tab) => (
+            <button
+              key={tab.value}
+              type="button"
+              role="tab"
+              aria-selected={tab.value === active}
+              className={tab.value === active ? "active" : ""}
+              onClick={() => onChange(tab.value)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        {right}
+      </div>
+      {children}
+    </div>
+  )
+}

@@ -3,7 +3,7 @@
 
 import React from 'react'
 import { Bar } from 'react-chartjs-2'
-import { DropdownHeader } from "../../components/Dropdown.js"
+import { ChoiceHeader } from "../../components/Dropdown.js"
 import { chartTooltip, currentChartTheme } from "../../theme/chartTheme.js"
 import { intervalDataset, lineAtGrid, pointDataset, titleOptions } from "./deckChartHelpers.js"
 import "../stats.css"
@@ -101,7 +101,7 @@ export function HeadToHeadChart(input) {
 
   return (
     <div className="stats-widget-chart">
-      <DropdownHeader
+      <ChoiceHeader
         label="Compare"
         options={HEAD_TO_HEAD_FEATURES}
         value={feature.value}

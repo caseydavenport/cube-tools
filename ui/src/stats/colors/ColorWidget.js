@@ -4,7 +4,7 @@
 
 import React from 'react'
 import { MultiSelect } from "@mantine/core"
-import { DropdownHeader } from "../../components/Dropdown.js"
+import { ChoiceHeader } from "../../components/Dropdown.js"
 import { SectionCard } from "../../components/kit/SectionCard.js"
 import { TabNav } from "../../components/PageSections.js"
 import { visibleItems } from "../../utils/dataKinds.js"
@@ -162,7 +162,7 @@ function TrendCard(input) {
   const controls = (
     <div className="colors-trend-controls">
       <TrendPicker colorType={input.colorTypeSelection} picked={groups} onChange={setPicked} />
-      <DropdownHeader
+      <ChoiceHeader
         label=""
         options={TREND_MEASURES}
         value={measure}

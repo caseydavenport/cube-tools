@@ -1,11 +1,11 @@
-// The Cards stats table and the controls above it: the stats-type switch,
-// card search, and the match, tag and popularity pickers.
+// The Cards stats table with its view tabs, and the controls above it: card
+// search and the match, tag and popularity pickers.
 
 import React from 'react'
-import { DropdownHeader, SearchableDropdownHeader } from "../../components/Dropdown.js"
+import { ChoiceHeader, DropdownHeader, SearchableDropdownHeader } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { asEvent } from "../../components/kit/controls.js"
-import { SegmentedControl } from "@mantine/core"
+import { TabbedPanel } from "../../components/PageSections.js"
 import { availableValue, visibleItems } from "../../utils/dataKinds.js"
 import { PillSearchInput } from "../../components/PillSearchInput.js"
 import { CardMatches } from "../../utils/Query.js"
@@ -163,7 +163,17 @@ function CardStatsTable(cards, allColumns, input) {
 // without freezing the page.
 export function CardWidgetTable(input) {
   const deferred = React.useDeferredValue(input)
-  return <CardTableForInputs input={deferred} />
+  return (
+    <TabbedPanel
+      label={CARDS_COPY.statsTable.statsTypeLabel}
+      tabs={visibleItems(CARD_STATS_TYPES, input.info)}
+      active={availableValue(input.dropdownSelection, CARD_STATS_TYPES, input.info)}
+      onChange={value => input.onSelected(asEvent(value))}
+      actions={CARDS_COPY.statsTable.showing(countShown(input))}
+    >
+      <CardTableForInputs input={deferred} />
+    </TabbedPanel>
+  )
 }
 
 // CardTableForInputs draws the table for one set of inputs. It's memoized so
@@ -188,8 +198,6 @@ export function CardWidgetOptions(input) {
   // cube's tags change, not on every filter change.
   const tagData = React.useMemo(() => tagFilterOptions(input.tagOpts, input.cubeTags), [input.tagOpts, input.cubeTags])
 
-  const shown = countShown(input)
-
   return (
     <div className="controls-panel">
       <PillSearchInput
@@ -201,18 +209,6 @@ export function CardWidgetOptions(input) {
       />
 
       <div className="selector-group stats-detail-row">
-        <div className="selection-cell stats-detail-label">
-          {CARDS_COPY.statsTable.showing(shown)}
-        </div>
-
-        <SegmentedControl
-          size="xs"
-          aria-label={CARDS_COPY.statsTable.statsTypeLabel}
-          data={visibleItems(CARD_STATS_TYPES, input.info)}
-          value={availableValue(input.dropdownSelection, CARD_STATS_TYPES, input.info)}
-          onChange={value => input.onSelected(asEvent(value))}
-        />
-
         <DropdownHeader
           label={CARDS_COPY.statsTable.matchLabel}
           options={input.matchOpts}
@@ -230,7 +226,7 @@ export function CardWidgetOptions(input) {
 
         <HoverInfo title="Popularity" info={POPULARITY_TIP}>
           <div>
-            <DropdownHeader
+            <ChoiceHeader
               label="Popularity"
               options={POPULARITY_OPTIONS}
               value={input.popularityFilter}

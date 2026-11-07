@@ -36,6 +36,75 @@ html .section-nav a {
   background: color-mix(in srgb, var(--mantine-primary-color-filled) 27%, transparent);
 }
 
+/* A control's label: small and muted so the control itself stands out. */
+.control-label {
+  color: var(--se-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* A card showing one view of a table at a time: underlined tabs on its top
+   edge, the view's actions on the right, the table flush below. */
+.tabbed-panel {
+  background: var(--se-card);
+  border: 1px solid var(--se-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tabbed-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--se-border);
+}
+
+.tabbed-panel-tabs {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.tabbed-panel-tabs button {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 0.7rem 0.1rem;
+  color: var(--se-muted);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.tabbed-panel-tabs button:hover {
+  color: var(--se-text);
+}
+
+.tabbed-panel-tabs button.active {
+  color: var(--mantine-primary-color-filled);
+  border-bottom-color: var(--mantine-primary-color-filled);
+}
+
+.tabbed-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--se-muted);
+  font-size: 0.85rem;
+}
+
+/* The table inside fills the card, so it drops its own border. */
+.tabbed-panel .table-scroll,
+.tabbed-panel .widget-table {
+  border: none;
+  border-radius: 0;
+}
+
 .search-bar-container {
   width: 100%;
   position: relative;

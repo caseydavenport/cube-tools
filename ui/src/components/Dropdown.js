@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button as MantineButton, Checkbox as MantineCheckbox, Group, NativeSelect, NumberInput, Select, Text } from "@mantine/core"
+import { Button as MantineButton, Checkbox as MantineCheckbox, Group, NativeSelect, NumberInput, SegmentedControl, Select } from "@mantine/core"
 import { asEvent, optionKey } from "./kit/controls.js"
 import "./components.css"
 
@@ -7,12 +7,37 @@ import "./components.css"
 // shape its callers have always used, and renders the matching Mantine input,
 // so every page picks up the kit's look without changing its own code.
 
-// ControlLabel is the short label shown to the left of a control.
-export function ControlLabel({ children }) {
+// ControlLabel is the short, muted label shown to the left of a control.
+function ControlLabel({ children }) {
   if (children == null || children === "") {
     return null
   }
-  return <Text size="sm" component="span">{children}</Text>
+  return <span className="control-label">{children}</span>
+}
+
+// ChoiceHeader is DropdownHeader for a short fixed list: every option shows
+// at once as a segmented switch. Option values may be numbers; onChange gets
+// an event whose target.value is the chosen value as a string, as a native
+// select gives.
+export function ChoiceHeader({ label, value, options, onChange }) {
+  let ariaLabel = undefined
+  if (typeof label === "string") {
+    ariaLabel = label
+  }
+
+  const data = options.map(option => ({ label: option.label, value: String(option.value) }))
+  return (
+    <Group gap={8} wrap="nowrap" className="dropdown">
+      <ControlLabel>{label}</ControlLabel>
+      <SegmentedControl
+        size="xs"
+        aria-label={ariaLabel}
+        data={data}
+        value={String(value)}
+        onChange={chosen => onChange(asEvent(chosen))}
+      />
+    </Group>
+  )
 }
 
 // SearchableDropdownHeader is DropdownHeader for long lists: you can type to

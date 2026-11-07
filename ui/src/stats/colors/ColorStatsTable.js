@@ -1,11 +1,10 @@
 // The Colors stats table: its columns, how each cell draws, and how rows sort.
 
 import React from 'react'
-import { ControlLabel, DropdownHeader } from "../../components/Dropdown.js"
+import { ChoiceHeader, DropdownHeader } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { WinRateCell } from "../../components/kit/WinRateCell.js"
-import { asEvent } from "../../components/kit/controls.js"
-import { Group, SegmentedControl } from "@mantine/core"
+import { Group } from "@mantine/core"
 import { ColorImages } from "../../utils/Colors.js"
 import { colorName } from "../../utils/colorNames.js"
 import { SortFunc } from "../../utils/Utils.js"
@@ -193,16 +192,12 @@ export function TableHeader(input) {
   return (
     <div className="colors-controls-row">
       <Group gap="xl" wrap="wrap">
-        <Group gap={8} wrap="nowrap">
-          <ControlLabel>{COLORS_COPY.statsTable.colorTypeLabel}</ControlLabel>
-          <SegmentedControl
-            size="xs"
-            aria-label={COLORS_COPY.statsTable.colorTypeLabel}
-            data={input.ddOpts}
-            value={input.colorTypeSelection}
-            onChange={value => input.onSelected(asEvent(value))}
-          />
-        </Group>
+        <ChoiceHeader
+          label={COLORS_COPY.statsTable.colorTypeLabel}
+          options={input.ddOpts}
+          value={input.colorTypeSelection}
+          onChange={input.onSelected}
+        />
 
         <DropdownHeader
           label={COLORS_COPY.statsTable.bucketLabel}
@@ -211,7 +206,7 @@ export function TableHeader(input) {
           onChange={input.onBucketSelected}
         />
 
-        <DropdownHeader
+        <ChoiceHeader
           label={COLORS_COPY.statsTable.colorModeLabel}
           options={[
             { label: COLORS_COPY.statsTable.modeInclusive, value: "inclusive" },

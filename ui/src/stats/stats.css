@@ -314,14 +314,6 @@
   white-space: nowrap;
 }
 
-/* An Archetypes table's heading with its Open in Charts link on the right. */
-.archetype-table-title {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-
 /* The Charts page's starting presets, one button each. */
 .explore-presets {
   display: flex;

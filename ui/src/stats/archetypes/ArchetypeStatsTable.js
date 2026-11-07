@@ -3,7 +3,7 @@
 import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { Link } from "react-router-dom"
-import { SegmentedControl } from "@mantine/core"
+import { TabbedPanel } from "../../components/PageSections.js"
 import { archetypePageHref } from "../../shell/paths.js"
 import { OpenInCharts } from "../OpenInCharts.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
@@ -152,27 +152,13 @@ const TABLE_TABS = [
   { value: "tags", label: ARCHETYPES_COPY.statsTable.tagsHeading, dim: "label" },
 ]
 
-// TableTabs is the switch between the archetypes and tags tables, with a link
-// opening the Charts page grouped the same way. The tags tab only shows when
-// some tag is common enough to list.
-function TableTabs({ tab, onTab, hasTags }) {
-  let tabs = TABLE_TABS
-  if (!hasTags) {
-    tabs = TABLE_TABS.filter(t => t.value === "archetypes")
+// tableTabs are the tabs on offer: the tags tab only shows when some tag is
+// common enough to list.
+function tableTabs(hasTags) {
+  if (hasTags) {
+    return TABLE_TABS
   }
-  const shown = tabs.find(t => t.value === tab) || tabs[0]
-  return (
-    <div className="archetype-table-title">
-      <SegmentedControl
-        size="xs"
-        aria-label={ARCHETYPES_COPY.statsTable.tableTabsLabel}
-        data={tabs.map(t => ({ value: t.value, label: t.label }))}
-        value={shown.value}
-        onChange={onTab}
-      />
-      <OpenInCharts slice={{ groupBy: { dim: shown.dim, granularity: 1, color_mode: "inclusive" } }} />
-    </div>
-  )
+  return TABLE_TABS.filter(t => t.value === "archetypes")
 }
 
 // tabColumns names the first column for the tab: "Archetype" on the
@@ -202,15 +188,24 @@ export function ArchetypeStatsTable(input) {
     rows = microData
   }
 
+  const tabs = tableTabs(hasTags)
+  const dim = tabs.find(t => t.value === tab).dim
+  const charts = <OpenInCharts slice={{ groupBy: { dim, granularity: 1, color_mode: "inclusive" } }} />
+
   return (
-    <div>
-      <TableTabs tab={tab} onTab={input.onTab} hasTags={hasTags} />
+    <TabbedPanel
+      label={ARCHETYPES_COPY.statsTable.tableTabsLabel}
+      tabs={tabs}
+      active={tab}
+      onChange={input.onTab}
+      actions={charts}
+    >
       <div className="table-scroll">
         <table className="widget-table">
           <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
           <ArchetypeTableRows columns={columns} data={rows} sortBy={input.sortBy} cube={input.cube} confidence={input.confidence} />
         </table>
       </div>
-    </div>
+    </TabbedPanel>
   );
 }

@@ -3,8 +3,9 @@
 
 import React, { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { SegmentedControl, Select } from "@mantine/core"
+import { Select } from "@mantine/core"
 import { useCube } from "../contexts/CubeContext.js"
+import { TabNav } from "../components/PageSections.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { SettingsPopover } from "../components/kit/SettingsPopover.js"
@@ -34,6 +35,12 @@ const RANGE_COPY = {
   to: "To",
   apply: "Apply",
 }
+
+// PAGE_TABS are the Packages page's two views.
+const PAGE_TABS = [
+  { id: "table", label: "Table" },
+  { id: "map", label: "Map" },
+]
 
 // useView keeps the Table/Map choice in the URL's ?view=, so a link or a
 // refresh opens the same view.
@@ -88,12 +95,6 @@ export function PackagesPage(props) {
 
   const toolbar = (
     <PageToolbar title="Packages" actions={settings}>
-      <SegmentedControl
-        size="xs"
-        value={view}
-        onChange={setView}
-        data={[{ label: "Table", value: "table" }, { label: "Map", value: "map" }]}
-      />
       <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={RANGE_COPY} />
       <PillSearchInput
         placeholder="Filter decks"
@@ -127,7 +128,10 @@ export function PackagesPage(props) {
   return (
     <>
       {toolbar}
-      <div className="analyze-page">{body}</div>
+      <div className="analyze-page">
+        <TabNav tabs={PAGE_TABS} active={view} onChange={setView} />
+        {body}
+      </div>
     </>
   )
 }

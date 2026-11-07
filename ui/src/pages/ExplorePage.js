@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { ActionIcon, Chip, Select, useComputedColorScheme } from "@mantine/core"
 import { IconRefresh } from "@tabler/icons-react"
 import { useCube } from "../contexts/CubeContext.js"
-import { DropdownHeader, NumericInput, Button } from "../components/Dropdown.js"
+import { ChoiceHeader, DropdownHeader, NumericInput, Button } from "../components/Dropdown.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { HoverStats } from "../components/kit/HoverStats.js"
@@ -383,9 +383,9 @@ export function ExplorePage(props) {
             onChange={(e) => setGroupBy({ ...groupBy, dim: e.target.value })} />
           {isColorDim(groupDim) && (
             <>
-              <DropdownHeader label="" value={groupBy.granularity} options={GRANULARITY_OPTS}
+              <ChoiceHeader label="" value={groupBy.granularity} options={GRANULARITY_OPTS}
                 onChange={(e) => setGroupBy({ ...groupBy, granularity: Number(e.target.value) })} />
-              <DropdownHeader label="" value={groupBy.color_mode} options={COLOR_MODE_OPTS}
+              <ChoiceHeader label="" value={groupBy.color_mode} options={COLOR_MODE_OPTS}
                 onChange={(e) => setGroupBy({ ...groupBy, color_mode: e.target.value })} />
             </>
           )}
@@ -394,14 +394,14 @@ export function ExplorePage(props) {
             onChange={(e) => setSplitBy({ ...splitBy, dim: e.target.value })} />
           {isColorDim(splitDim) && (
             <>
-              <DropdownHeader label="" value={splitBy.granularity} options={GRANULARITY_OPTS}
+              <ChoiceHeader label="" value={splitBy.granularity} options={GRANULARITY_OPTS}
                 onChange={(e) => setSplitBy({ ...splitBy, granularity: Number(e.target.value) })} />
-              <DropdownHeader label="" value={splitBy.color_mode} options={COLOR_MODE_OPTS}
+              <ChoiceHeader label="" value={splitBy.color_mode} options={COLOR_MODE_OPTS}
                 onChange={(e) => setSplitBy({ ...splitBy, color_mode: e.target.value })} />
             </>
           )}
 
-          <DropdownHeader label={COPY.controls.metric} value={metric} options={METRIC_OPTS}
+          <ChoiceHeader label={COPY.controls.metric} value={metric} options={METRIC_OPTS}
             onChange={(e) => setMetric(e.target.value)} />
 
           {usesTime && (
