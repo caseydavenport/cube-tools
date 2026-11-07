@@ -5,6 +5,7 @@ package search
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -58,6 +59,71 @@ type Card struct {
 
 	// Stats are the card's play stats, nil outside the Cards page.
 	Stats *CardStats
+
+	// lowered caches the card's lowercased text, set by Prepare.
+	lowered *cardText
+}
+
+// cardText is a card's text lowercased once, for a card judged by many
+// queries. Each field fills on first use.
+type cardText struct {
+	name, oracle, mana, self *string
+}
+
+// Prepare readies a card to be judged by many queries: its text is
+// lowercased once and reused, rather than on every term of every query.
+func Prepare(c types.Card, stats *CardStats) Card {
+	return Card{Card: c, Stats: stats, lowered: &cardText{}}
+}
+
+// cached returns *slot, filling it from compute first when it's empty.
+func cached(slot **string, compute func() string) string {
+	if *slot == nil {
+		v := compute()
+		*slot = &v
+	}
+	return **slot
+}
+
+// lowerName is the card's name in lower case.
+func (c Card) lowerName() string {
+	compute := func() string { return strings.ToLower(c.Name) }
+	if c.lowered == nil {
+		return compute()
+	}
+	return cached(&c.lowered.name, compute)
+}
+
+// lowerOracle is the card's oracle text in lower case.
+func (c Card) lowerOracle() string {
+	compute := func() string { return strings.ToLower(c.OracleText) }
+	if c.lowered == nil {
+		return compute()
+	}
+	return cached(&c.lowered.oracle, compute)
+}
+
+// lowerMana is the card's mana cost in lower case.
+func (c Card) lowerMana() string {
+	compute := func() string { return strings.ToLower(c.ManaCost) }
+	if c.lowered == nil {
+		return compute()
+	}
+	return cached(&c.lowered.mana, compute)
+}
+
+// lowerSelf is the card's oracle text with references to itself read as ~.
+func (c Card) lowerSelf() string {
+	compute := func() string { return selfText(c.Card) }
+	if c.lowered == nil {
+		return compute()
+	}
+	return cached(&c.lowered.self, compute)
+}
+
+// MatchPrepared reports whether a card readied by Prepare matches.
+func (q *Query) MatchPrepared(c Card) bool {
+	return q.MatchCardStats(c)
 }
 
 // CardStats are the play stats the Cards page's search keywords read.

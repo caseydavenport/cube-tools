@@ -3,7 +3,6 @@ package stats
 import (
 	"errors"
 	"net/http"
-	"slices"
 	"strconv"
 	"strings"
 
@@ -33,18 +32,21 @@ type MaybeboardStatus struct {
 }
 
 // ExplorerResponse is the explorer's answer: candidates and cube cards, each
-// sorted by Fills gaps, and the maybeboard's status.
+// sorted as asked and cut to the asked-for rows, with how many there are in
+// all, and the maybeboard's status.
 type ExplorerResponse struct {
-	Candidates []ExplorerCard   `json:"candidates"`
-	InCube     []ExplorerCard   `json:"in_cube"`
-	Maybeboard MaybeboardStatus `json:"maybeboard"`
+	Candidates      []ExplorerCard   `json:"candidates"`
+	CandidatesTotal int              `json:"candidates_total"`
+	InCube          []ExplorerCard   `json:"in_cube"`
+	InCubeTotal     int              `json:"in_cube_total"`
+	Maybeboard      MaybeboardStatus `json:"maybeboard"`
 }
 
-// ExplorerHandler serves GET /api/{cube}/stats/explorer. "q" is a search in
-// the group-condition syntax over every card; "maybe=1" limits it to the
-// cube's CubeCobra maybeboard, and with no search shows the whole maybeboard.
-// "thin" sets the New connections cutoff, and "all=1" keeps cards in no
-// group and on no wire. maybe may be nil when there's no CubeCobra to ask.
+// ExplorerHandler serves GET /api/{cube}/stats/explorer. "q" is a search over
+// every card, and with none every card is scored; "maybe=1" limits either to
+// the cube's CubeCobra maybeboard. "thin" sets the New connections cutoff,
+// "all=1" keeps cards in no group and on no wire, and "sort", "dir" and
+// "limit" order each table and cut it. maybe may be nil without CubeCobra.
 func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe MaybeboardSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cubeID := server.CubeFromRequest(r)
@@ -60,10 +62,6 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 		names, status := maybeboardFor(maybe, cubeID)
 		resp.Maybeboard = status
 		filterMaybe := useMaybe && names != nil
-		if q.Empty() && !filterMaybe {
-			writeJSON(rw, resp, "explorer")
-			return
-		}
 
 		rules, err := loadDesignInputs(store, src, cubeID)
 		if err != nil {
@@ -93,8 +91,12 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 				resp.Candidates = append(resp.Candidates, c)
 			}
 		}
-		sortByFillsGaps(resp.Candidates)
-		sortByFillsGaps(resp.InCube)
+		order, limit := sortParams(r), limitParam(r)
+		resp.CandidatesTotal, resp.InCubeTotal = len(resp.Candidates), len(resp.InCube)
+		sortExplorerCards(resp.Candidates, order)
+		sortExplorerCards(resp.InCube, order)
+		resp.Candidates = resp.Candidates[:min(limit, len(resp.Candidates))]
+		resp.InCube = resp.InCube[:min(limit, len(resp.InCube))]
 		writeJSON(rw, resp, "explorer")
 	})
 }
@@ -143,17 +145,4 @@ func pickCards(pool map[string]types.Card, names map[string]bool) map[string]typ
 		}
 	}
 	return out
-}
-
-// sortByFillsGaps orders cards by Fills gaps, highest first, then by name.
-func sortByFillsGaps(cards []ExplorerCard) {
-	slices.SortFunc(cards, func(a, b ExplorerCard) int {
-		if a.FillsGaps != b.FillsGaps {
-			if a.FillsGaps > b.FillsGaps {
-				return -1
-			}
-			return 1
-		}
-		return strings.Compare(a.Name, b.Name)
-	})
 }

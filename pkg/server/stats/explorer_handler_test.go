@@ -75,10 +75,12 @@ func names(cards []ExplorerCard) []string {
 func TestExplorerHandler_EmptySearch(t *testing.T) {
 	usePool(t, explorerPoolCards()...)
 
+	// With no search, every card is scored, so the page can open on the best
+	// fits; cards in no group still stay out.
 	for _, q := range []string{"", "   "} {
 		resp := explorerFor(t, nil, url.Values{"q": {q}})
-		assert.Empty(t, resp.Candidates, "search %q", q)
-		assert.Empty(t, resp.InCube, "search %q", q)
+		assert.Equal(t, []string{"Candidate A"}, names(resp.Candidates), "search %q", q)
+		assert.Equal(t, []string{"Outlet A"}, names(resp.InCube), "search %q", q)
 	}
 }
 
@@ -157,4 +159,42 @@ func TestExplorerHandler_KeepsCardEntryWithNoGroup(t *testing.T) {
 	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
 
 	assert.Equal(t, []string{"Lone Payoff"}, names(resp.InCube))
+}
+
+// sortPoolCards are three candidate outlets, named so A to Z order differs
+// from the pool order.
+func sortPoolCards() []types.Card {
+	return []types.Card{
+		{Name: "Outlet Zed", Types: []string{"Artifact"}, OracleText: outletText},
+		{Name: "Outlet Amy", Types: []string{"Artifact"}, OracleText: outletText},
+		{Name: "Outlet Mo", Types: []string{"Artifact"}, OracleText: outletText},
+	}
+}
+
+func TestExplorerHandler_LimitKeepsTotals(t *testing.T) {
+	usePool(t, sortPoolCards()...)
+
+	resp := explorerFor(t, nil, url.Values{"q": {"o:sacrifice"}, "limit": {"1"}, "sort": {"name"}})
+	assert.Equal(t, []string{"Outlet Amy"}, names(resp.Candidates))
+	assert.Equal(t, 3, resp.CandidatesTotal)
+
+	all := explorerFor(t, nil, url.Values{"q": {"o:sacrifice"}, "sort": {"name"}})
+	assert.Equal(t, []string{"Outlet Amy", "Outlet Mo", "Outlet Zed"}, names(all.Candidates))
+}
+
+func TestExplorerHandler_SortDirection(t *testing.T) {
+	usePool(t, sortPoolCards()...)
+
+	resp := explorerFor(t, nil, url.Values{"q": {"o:sacrifice"}, "sort": {"name"}, "dir": {"desc"}})
+	assert.Equal(t, []string{"Outlet Zed", "Outlet Mo", "Outlet Amy"}, names(resp.Candidates))
+
+	// An unknown column sorts by Fills gaps; the three tie, so names break it.
+	fallback := explorerFor(t, nil, url.Values{"q": {"o:sacrifice"}, "sort": {"bogus"}})
+	assert.Equal(t, []string{"Outlet Amy", "Outlet Mo", "Outlet Zed"}, names(fallback.Candidates))
+}
+
+func TestLinkedCountCountsBasics(t *testing.T) {
+	assert.Equal(t, 2, linkedCount(ExplorerCard{Linked: []string{"A", "B"}}))
+	assert.Equal(t, 3, linkedCount(ExplorerCard{Linked: []string{"A", "B"}, LinkedBasics: true}))
+	assert.Equal(t, 1, linkedCount(ExplorerCard{LinkedBasics: true}))
 }

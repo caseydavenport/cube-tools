@@ -6,6 +6,8 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // term is one keyword test, or a bare word, with its value already checked
@@ -15,9 +17,14 @@ type term struct {
 	op    string
 	value string
 
-	// pattern is a lowercased text value with * read as a wildcard; nil
-	// means a plain contains check.
+	// lower is a text value in lower case, and pattern the same value with *
+	// read as a wildcard; a nil pattern means a plain contains check.
+	lower   string
 	pattern *regexp.Regexp
+
+	// tagSlug is an otag: value resolved to its tag's slug when the query
+	// compiles; empty when no tag has that name, so the term matches nothing.
+	tagSlug string
 
 	num    float64
 	colors colorSet
@@ -89,31 +96,36 @@ func (t *term) read(tok token) error {
 			return fmt.Errorf("%s%s needs a value", tok.key, tok.op)
 		}
 		t.setPattern()
+		if t.kw.Name == "otag" {
+			if tag, ok := types.LookupOracleTag(t.value); ok {
+				t.tagSlug = tag.Slug
+			}
+		}
 	}
 	return nil
 }
 
-// setPattern compiles a text value containing * into a wildcard pattern.
+// setPattern lowercases a text value once, and compiles one containing * into
+// a wildcard pattern.
 func (t *term) setPattern() {
-	lower := strings.ToLower(t.value)
-	if !strings.Contains(lower, "*") {
+	t.lower = strings.ToLower(t.value)
+	if !strings.Contains(t.lower, "*") {
 		return
 	}
-	expr := strings.ReplaceAll(regexp.QuoteMeta(lower), `\*`, ".*")
+	expr := strings.ReplaceAll(regexp.QuoteMeta(t.lower), `\*`, ".*")
 	t.pattern = regexp.MustCompile(expr)
 }
 
 // text reports whether lowered text holds the term's value: contains for :,
 // whole for =.
 func (t *term) text(lowered string) bool {
-	value := strings.ToLower(t.value)
 	if t.op == "=" {
-		return lowered == value
+		return lowered == t.lower
 	}
 	if t.pattern != nil {
 		return t.pattern.MatchString(lowered)
 	}
-	return strings.Contains(lowered, value)
+	return strings.Contains(lowered, t.lower)
 }
 
 // anyText reports whether any of values holds the term's value.
@@ -150,7 +162,7 @@ func (n *termNode) matchCard(c Card) bool {
 	case t.exact:
 		return strings.EqualFold(c.Name, t.value)
 	case t.bare:
-		return t.text(strings.ToLower(c.Name))
+		return t.text(c.lowerName())
 	case t.kw.matchCard == nil:
 		return false
 	}

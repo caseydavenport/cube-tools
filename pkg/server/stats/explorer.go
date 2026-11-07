@@ -1,10 +1,14 @@
 package stats
 
 import (
+	"runtime"
 	"slices"
 	"strings"
+	"sync"
+	"sync/atomic"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -65,14 +69,28 @@ type ExplorerCard struct {
 
 // explorerRules is the cube's rules resolved once for scoring any card.
 // entryCards maps each group and card: entry to its cube cards, basicEntries
-// marks entries that match basic lands, and packageCards holds every cube
-// card on any side of each package's wires.
+// marks entries that match basic lands, packageCards holds every cube card on
+// any side of each package's wires, and sides holds each wire side's cube
+// cards, keyed by sideKey.
 type explorerRules struct {
 	config       design.DesignMapConfig
 	inCube       map[string]bool
 	entryCards   map[string]map[string]bool
 	basicEntries map[string]bool
 	packageCards map[string]map[string]bool
+	sides        map[string]wireSideCards
+}
+
+// wireSideCards is one wire side resolved over the cube: its cube cards, and
+// whether any of its entries matches basic lands.
+type wireSideCards struct {
+	cards  map[string]bool
+	basics bool
+}
+
+// sideKey is a wire side's key in explorerRules.sides: its entries joined.
+func sideKey(entries []string) string {
+	return strings.Join(entries, "\x1f")
 }
 
 // newExplorerRules resolves config over the cube for exploreCards.
@@ -84,6 +102,7 @@ func newExplorerRules(cube *types.Cube, config design.DesignMapConfig) explorerR
 		entryCards:   resolveGroups(cardMap, config, nil).cube,
 		basicEntries: map[string]bool{},
 		packageCards: map[string]map[string]bool{},
+		sides:        map[string]wireSideCards{},
 	}
 	for name := range cardMap {
 		rules.inCube[name] = true
@@ -102,52 +121,160 @@ func newExplorerRules(cube *types.Cube, config design.DesignMapConfig) explorerR
 			for name := range wireSide(rules.entryCards, slices.Concat(w.Sources, w.Targets)) {
 				cards[name] = true
 			}
+			rules.addSide(w.Sources)
+			rules.addSide(w.Targets)
 		}
 		rules.packageCards[pkg.Name] = cards
 	}
 	return rules
 }
 
-// exploreCards scores each hit against rules. thin is the most cube cards a
-// role can already hold for a package to count toward New connections.
-func exploreCards(hits map[string]types.Card, rules explorerRules, thin int) []ExplorerCard {
-	groups := hitGroups(hits, rules.config.Groups)
+// addSide resolves a wire side once, so scoring a card looks it up.
+func (r explorerRules) addSide(entries []string) {
+	key := sideKey(entries)
+	if _, ok := r.sides[key]; ok {
+		return
+	}
+	side := wireSideCards{cards: wireSide(r.entryCards, entries)}
+	for _, entry := range entries {
+		side.basics = side.basics || r.basicEntries[entry]
+	}
+	r.sides[key] = side
+}
 
-	out := make([]ExplorerCard, 0, len(hits))
-	for name, card := range hits {
-		out = append(out, exploreCard(card, rules.inCube[name], groups[name], rules, thin))
+// side returns a wire side's resolved cube cards.
+func (r explorerRules) side(entries []string) wireSideCards {
+	return r.sides[sideKey(entries)]
+}
+
+// countWithout is how many of the cards there are, leaving out name.
+func countWithout(cards map[string]bool, name string) int {
+	if cards[name] {
+		return len(cards) - 1
+	}
+	return len(cards)
+}
+
+// exploreCards scores each hit against rules. thin is the most cube cards a
+// role can already hold for a package to count toward New connections. Cards
+// are scored independently, so the work is spread across the CPUs.
+func exploreCards(hits map[string]types.Card, rules explorerRules, thin int) []ExplorerCard {
+	groups := compileGroups(rules.config.Groups)
+	names := make([]string, 0, len(hits))
+	for name := range hits {
+		names = append(names, name)
+	}
+
+	out := make([]ExplorerCard, len(names))
+	var next atomic.Int64
+	var wg sync.WaitGroup
+	for range explorerWorkers(len(names)) {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for {
+				i := int(next.Add(1) - 1)
+				if i >= len(names) {
+					return
+				}
+				card := hits[names[i]]
+				out[i] = exploreCard(card, rules.inCube[card.Name], groups.match(card), rules, thin)
+			}
+		}()
+	}
+	wg.Wait()
+	return out
+}
+
+// cardsPerWorker is the fewest cards worth a worker of their own, so a small
+// search doesn't start goroutines it can't use.
+const cardsPerWorker = 64
+
+// explorerWorkers is how many workers score n cards: one per CPU, fewer for a
+// small search.
+func explorerWorkers(n int) int {
+	return max(1, min(runtime.GOMAXPROCS(0), n/cardsPerWorker))
+}
+
+// compiledGroups is the rules' groups with their conditions compiled once,
+// for matching many cards.
+type compiledGroups struct {
+	groups  []design.Group
+	queries [][]*search.Query
+}
+
+func compileGroups(groups []design.Group) compiledGroups {
+	out := compiledGroups{groups: groups, queries: make([][]*search.Query, len(groups))}
+	for i, g := range groups {
+		for _, cond := range g.Conditions {
+			out.queries[i] = append(out.queries[i], ruleCondition(cond))
+		}
 	}
 	return out
 }
 
-// hitGroups finds, for every hit, the groups it lands in with the first
-// condition each matched, honoring exclude lists. Groups are sorted by name.
-func hitGroups(hits map[string]types.Card, groups []design.Group) map[string][]ExplorerGroup {
-	out := map[string][]ExplorerGroup{}
-	for _, g := range groups {
-		seen := map[string]bool{}
-		for _, cond := range g.Conditions {
-			for name := range matchCards(hits, cond) {
-				if seen[name] || slices.Contains(g.Exclude, name) {
-					continue
-				}
-				seen[name] = true
-				out[name] = append(out[name], ExplorerGroup{Name: g.Name, Condition: cond})
+// match finds the groups a card lands in with the first condition each
+// matched, honoring exclude lists, sorted by group name. The card is prepared
+// once and judged by every condition.
+func (c compiledGroups) match(card types.Card) []ExplorerGroup {
+	prepared := search.Prepare(card, nil)
+	var out []ExplorerGroup
+	for i, g := range c.groups {
+		if slices.Contains(g.Exclude, card.Name) {
+			continue
+		}
+		for j, q := range c.queries[i] {
+			if conditionMatches(q, prepared) {
+				out = append(out, ExplorerGroup{Name: g.Name, Condition: g.Conditions[j]})
+				break
 			}
 		}
 	}
-	for name := range out {
-		slices.SortFunc(out[name], func(a, b ExplorerGroup) int {
-			return strings.Compare(a.Name, b.Name)
-		})
-	}
+	slices.SortFunc(out, func(a, b ExplorerGroup) int {
+		return strings.Compare(a.Name, b.Name)
+	})
 	return out
 }
 
 // exploreCard scores one card: its joins, linked cube cards, Fills gaps and
 // New connections.
 func exploreCard(card types.Card, inCube bool, groups []ExplorerGroup, rules explorerRules, thin int) ExplorerCard {
-	// Lists start empty, not nil, so they reach the page as [] rather than null.
+	out := newExplorerCard(card, inCube, groups)
+	mine := cardEntries(card.Name, groups)
+
+	linked := map[string]bool{}
+	thinPackages := map[string]bool{}
+	for _, pkg := range rules.config.Packages {
+		for i, w := range pkg.Wires {
+			for _, side := range wireRoles(w) {
+				join, ok := joinSide(card.Name, pkg.Name, i+1, side, mine, rules)
+				if !ok {
+					continue
+				}
+				out.Joins = append(out.Joins, join)
+				out.FillsGaps += 1 / float64(join.Others+1)
+				out.LinkedBasics = out.LinkedBasics || join.PartnerBasics
+				for name := range rules.side(side.partner).cards {
+					if name != card.Name {
+						linked[name] = true
+					}
+				}
+				if join.Others <= thin {
+					thinPackages[pkg.Name] = true
+				}
+			}
+		}
+	}
+
+	out.Linked = sortedNames(linked)
+	out.Connections = append(out.Connections, packagePairs(card.Name, thinPackages, rules)...)
+	return out
+}
+
+// newExplorerCard is a card's row before scoring: its details and groups,
+// with lists started empty, not nil, so they reach the page as [] rather
+// than null.
+func newExplorerCard(card types.Card, inCube bool, groups []ExplorerGroup) ExplorerCard {
 	out := ExplorerCard{
 		Name:        card.Name,
 		TypeLine:    typeLine(card),
@@ -166,38 +293,17 @@ func exploreCard(card types.Card, inCube bool, groups []ExplorerGroup, rules exp
 		out.Power = card.Power
 		out.Toughness = card.Toughness
 	}
+	return out
+}
 
-	// The entries the card is in: its groups, and a card: entry naming it.
-	mine := map[string]bool{"card:" + card.Name: true}
+// cardEntries are the rule entries a card is in: its groups, and a card:
+// entry naming it.
+func cardEntries(name string, groups []ExplorerGroup) map[string]bool {
+	mine := map[string]bool{cardRefPrefix + name: true}
 	for _, g := range groups {
 		mine[g.Name] = true
 	}
-
-	linked := map[string]bool{}
-	thinPackages := map[string]bool{}
-	for _, pkg := range rules.config.Packages {
-		for i, w := range pkg.Wires {
-			for _, side := range wireRoles(w) {
-				join, ok := joinSide(card.Name, pkg.Name, i+1, side, mine, rules)
-				if !ok {
-					continue
-				}
-				out.Joins = append(out.Joins, join)
-				out.FillsGaps += 1 / float64(join.Others+1)
-				out.LinkedBasics = out.LinkedBasics || join.PartnerBasics
-				for name := range without(wireSide(rules.entryCards, side.partner), card.Name) {
-					linked[name] = true
-				}
-				if join.Others <= thin {
-					thinPackages[pkg.Name] = true
-				}
-			}
-		}
-	}
-
-	out.Linked = sortedNames(linked)
-	out.Connections = append(out.Connections, connections(card.Name, thinPackages, rules)...)
-	return out
+	return mine
 }
 
 // wireRole is one side of a wire seen from a card on it: the side's entries,
@@ -234,14 +340,9 @@ func joinSide(name, pkg string, wire int, side wireRole, mine map[string]bool, r
 		return ExplorerJoin{}, false
 	}
 
-	partnerCards := without(wireSide(rules.entryCards, side.partner), name)
-	partnerBasics := false
-	for _, entry := range side.partner {
-		if rules.basicEntries[entry] {
-			partnerBasics = true
-		}
-	}
-	if len(partnerCards) == 0 && !partnerBasics {
+	partner := rules.side(side.partner)
+	partnerCards := countWithout(partner.cards, name)
+	if partnerCards == 0 && !partner.basics {
 		return ExplorerJoin{}, false
 	}
 
@@ -250,16 +351,16 @@ func joinSide(name, pkg string, wire int, side wireRole, mine map[string]bool, r
 		Wire:          wire,
 		Role:          side.role,
 		Via:           via,
-		Others:        len(without(wireSide(rules.entryCards, side.own), name)),
+		Others:        countWithout(rules.side(side.own).cards, name),
 		Partner:       side.partner,
-		PartnerCards:  len(partnerCards),
-		PartnerBasics: partnerBasics,
+		PartnerCards:  partnerCards,
+		PartnerBasics: partner.basics,
 	}, true
 }
 
-// connections lists each pair of the given packages with how many cube cards
+// packagePairs lists each pair of the given packages with how many cube cards
 // they share without the card, fewest shared first.
-func connections(name string, packages map[string]bool, rules explorerRules) []PackageConnection {
+func packagePairs(name string, packages map[string]bool, rules explorerRules) []PackageConnection {
 	names := sortedNames(packages)
 	var out []PackageConnection
 	for i, a := range names {
@@ -276,17 +377,6 @@ func connections(name string, packages map[string]bool, rules explorerRules) []P
 	slices.SortStableFunc(out, func(x, y PackageConnection) int {
 		return x.Shared - y.Shared
 	})
-	return out
-}
-
-// without returns set minus name.
-func without(set map[string]bool, name string) map[string]bool {
-	out := make(map[string]bool, len(set))
-	for n := range set {
-		if n != name {
-			out[n] = true
-		}
-	}
 	return out
 }
 

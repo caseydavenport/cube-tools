@@ -19,10 +19,11 @@ func ruleCondition(cond string) *search.Query {
 	return q
 }
 
-// conditionMatches reports whether a card meets a compiled rule condition;
-// nil, a condition that didn't parse, matches nothing.
-func conditionMatches(q *search.Query, card types.Card) bool {
-	return q != nil && q.MatchCard(card)
+// conditionMatches reports whether a card, readied by search.Prepare, meets a
+// compiled rule condition; nil, a condition that didn't parse, matches
+// nothing.
+func conditionMatches(q *search.Query, card search.Card) bool {
+	return q != nil && q.MatchPrepared(card)
 }
 
 // matchCards returns the names of the cards meeting a rule condition.
@@ -34,7 +35,7 @@ func matchCards(cards map[string]types.Card, cond string) map[string]bool {
 func matchQuery(cards map[string]types.Card, q *search.Query) map[string]bool {
 	result := make(map[string]bool)
 	for name, card := range cards {
-		if conditionMatches(q, card) {
+		if conditionMatches(q, search.Prepare(card, nil)) {
 			result[name] = true
 		}
 	}

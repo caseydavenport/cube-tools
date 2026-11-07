@@ -81,7 +81,7 @@ var keywords = []*Keyword{
 		Name: "name", Aliases: []string{"n"}, Scope: ScopeCard, Kind: ValueText,
 		Description: "Card name contains. A bare word does the same; !\"name\" is an exact name.",
 		Example:     "name:bolt",
-		matchCard:   func(c Card, t *term) bool { return t.text(strings.ToLower(c.Name)) },
+		matchCard:   func(c Card, t *term) bool { return t.text(c.lowerName()) },
 	},
 	{
 		Name: "card", Scope: ScopeCard, Kind: ValueText,
@@ -119,7 +119,7 @@ var keywords = []*Keyword{
 		Name: "m", Aliases: []string{"mana"}, Scope: ScopeCard, Kind: ValueText,
 		Description: "Mana cost contains.",
 		Example:     "m:{X}",
-		matchCard:   func(c Card, t *term) bool { return t.text(strings.ToLower(c.ManaCost)) },
+		matchCard:   func(c Card, t *term) bool { return t.text(c.lowerMana()) },
 	},
 	{
 		Name: "mv", Aliases: []string{"cmc", "manavalue"}, Scope: ScopeCard, Kind: ValueNumber,
@@ -150,7 +150,7 @@ var keywords = []*Keyword{
 		Name: "otag", Aliases: []string{"function", "oracletag"}, Scope: ScopeCard, Kind: ValueText,
 		Description: "Scryfall oracle tag, by slug or name.",
 		Example:     "otag:removal",
-		matchCard:   func(c Card, t *term) bool { return c.HasTag(t.value) },
+		matchCard:   func(c Card, t *term) bool { return t.tagSlug != "" && c.HasRole(t.tagSlug) },
 	},
 	{
 		Name: "cctag", Scope: ScopeCard, Kind: ValueText,
@@ -283,9 +283,9 @@ func statNumber(field func(*CardStats) float64) func(Card, *term) bool {
 // matchOracle matches oracle text, reading ~ as the card's own name.
 func matchOracle(c Card, t *term) bool {
 	if strings.Contains(t.value, "~") {
-		return t.text(selfText(c.Card))
+		return t.text(c.lowerSelf())
 	}
-	return t.text(strings.ToLower(c.OracleText))
+	return t.text(c.lowerOracle())
 }
 
 // numberText compares a number stored as text, such as a power of "*",

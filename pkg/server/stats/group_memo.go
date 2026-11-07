@@ -99,8 +99,9 @@ func (rm *ruleMatches) matched(card types.Card) []int {
 	}
 
 	out = []int{}
+	prepared := search.Prepare(card, nil)
 	for i, exprs := range rm.exprs {
-		if slices.ContainsFunc(exprs, func(e *search.Query) bool { return conditionMatches(e, card) }) {
+		if slices.ContainsFunc(exprs, func(e *search.Query) bool { return conditionMatches(e, prepared) }) {
 			out = append(out, i)
 		}
 	}

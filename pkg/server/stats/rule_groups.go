@@ -157,10 +157,11 @@ func groupMembers(entry string, config design.DesignMapConfig, cardMap map[strin
 	// File each matching card under its first condition, or as excluded.
 	for _, name := range slices.Sorted(maps.Keys(cardMap)) {
 		card := cardMap[name]
+		prepared := search.Prepare(card, nil)
 		first := -1
 		matched := []string{}
 		for i, expr := range exprs {
-			if conditionMatches(expr, card) {
+			if conditionMatches(expr, prepared) {
 				if first < 0 {
 					first = i
 				}
