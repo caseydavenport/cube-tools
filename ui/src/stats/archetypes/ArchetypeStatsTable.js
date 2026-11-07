@@ -213,13 +213,27 @@ function TableTabs({ tab, onTab, hasTags }) {
   )
 }
 
+// tabColumns names the first column for the tab: "Archetype" on the
+// archetypes tab, "Tag" on the tags tab.
+function tabColumns(columns, tab) {
+  if (tab !== "archetypes") {
+    return columns
+  }
+  return columns.map(column => {
+    if (column.id !== "type") {
+      return column
+    }
+    return { ...column, text: ARCHETYPES_COPY.statsTable.archetype.text, tip: ARCHETYPES_COPY.statsTable.archetype.tip }
+  })
+}
+
 // ArchetypeStatsTable shows one table at a time, the macro archetypes or the
 // tags, picked by input.tab and switched with input.onTab.
 export function ArchetypeStatsTable(input) {
   const { macroData, microData } = splitArchetypes(input.parsed.archetypeData)
   const hasTags = microData.length > 0
   const tab = shownTab(input.tab, hasTags)
-  const columns = visibleItems(ARCHETYPE_COLUMNS, input.info)
+  const columns = tabColumns(visibleItems(ARCHETYPE_COLUMNS, input.info), tab)
 
   let rows = macroData
   if (tab === "tags") {

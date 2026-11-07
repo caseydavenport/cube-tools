@@ -37,7 +37,11 @@ export const ARCHETYPES_COPY = {
   statsTable: {
     tag: {
       text: "Tag",
-      tip: "Archetype (aggro / midrange / control) or tag applied to a deck. A deck may have multiple tags",
+      tip: "A tag applied to decks. A deck may have several tags.",
+    },
+    archetype: {
+      text: "Archetype",
+      tip: "The deck's macro archetype: aggro, midrange or control. Each deck has one.",
     },
     buildPct: {
       text: "Build %",
