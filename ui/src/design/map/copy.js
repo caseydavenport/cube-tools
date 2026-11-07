@@ -1,4 +1,4 @@
-// All the text the Synergy map page shows, in one place so it can be edited
+// The text the deck map and the rules dialogs show, in one place so it can be edited
 // without touching component code. One key per component file; text with values
 // in it is a function that takes named values and returns the whole sentence.
 
@@ -23,19 +23,6 @@ export const MAP_COPY = {
   // designData.js: messages from saving the rules.
   designData: {
     saveFailed: ({ reason }) => `Save failed: ${reason}`,
-  },
-
-  // DrillMap.js: the captions under the graph and the why-connected tooltip.
-  drillMap: {
-    captionThemesAndCards: ({ themes, cards }) => `${themes} themes + ${cards} cards · click to drill in`,
-    captionThemes: ({ themes }) => `${themes} themes · click to drill in`,
-    captionGroup: ({ cards, group }) => `${cards} cards in ${group} · click a card`,
-    captionCard: ({ cards, card }) => `${cards} cards connected to ${card}`,
-    nodeLabelWithCount: ({ label, count }) => `${label} (${count})`,
-    sharedRule: "shared rule",
-    between: "⇄",
-    packageCount: ({ count }) => (count === 1 ? "1 package" : `${count} packages`),
-    cardGroups: ({ card }) => `${card}'s groups`,
   },
 
   // GroupEditModal.js: the group dialog and its query reference.

@@ -133,7 +133,6 @@ func TestFilteredHandlersMatchDecksPage(t *testing.T) {
 	for name, build := range map[string]func(storage.DeckStorage, types.CubeSource) http.Handler{
 		"cards":          CardStatsHandler,
 		"colors":         ColorStatsHandler,
-		"synergy":        SynergyStatsHandler,
 		"archetypes":     ArchetypeStatsHandler,
 		"players":        PlayerStatsHandler,
 		"color-matchups": ColorMatchupHandler,

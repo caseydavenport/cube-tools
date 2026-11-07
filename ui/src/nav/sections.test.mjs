@@ -42,7 +42,3 @@ test("paths are unique", () => {
   const paths = NAV_GROUPS.flatMap(g => g.pages).map(p => p.path)
   assert.equal(new Set(paths).size, paths.length)
 })
-
-test("the Synergy map is no longer a sidebar page", () => {
-  assert.equal(page("synergy-map"), undefined)
-})

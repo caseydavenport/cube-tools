@@ -1,5 +1,5 @@
 /* Loom: two chip columns with measured SVG threads between them. Shared by the
-   Rules editor and the Synergy map's "why linked" tip. */
+   card page's two-card compare. */
 .de-loom {
   position: relative; display: grid; grid-template-columns: 1fr 1fr;
   gap: 0.45rem 6rem; margin: 0.4rem 0;

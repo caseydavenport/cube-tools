@@ -12,7 +12,7 @@ import { CardPageIcon } from "../../components/CardLink.js"
 import { cardColor } from "../../components/map/nodeColors.js"
 import { MapView } from "../../components/map/MapView.js"
 import { deckCommunities } from "./deckCommunities.js"
-import { CardPreview } from "./DrillMap.js"
+import { CardPreview } from "./CardPreview.js"
 import { MAP_COPY } from "./copy.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 

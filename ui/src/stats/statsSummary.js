@@ -15,9 +15,9 @@ export function statsSummary(decks) {
   return { drafts: drafts.size, decks: decks.length, players: players.size }
 }
 
-// DECK_FILTERED_VIEWS are the stats pages built from the filtered decks. Health
-// and the Synergy map come from the server and ignore the deck filter.
-const DECK_FILTERED_VIEWS = ["cards", "colors", "types", "deckstats", "synergy"]
+// DECK_FILTERED_VIEWS are the stats pages built from the filtered decks.
+// Health comes from the server and ignores the deck filter.
+const DECK_FILTERED_VIEWS = ["cards", "colors", "types", "deckstats"]
 
 // noDecksMatch reports whether a stats page should say no decks match: it's a
 // page built from the decks, they've loaded, and the date range and filters

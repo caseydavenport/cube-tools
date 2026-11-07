@@ -7,11 +7,6 @@ test("cards needs card stats but not health", () => {
   assert.equal(viewNeeds("cards", "health"), false)
 })
 
-test("the retired Synergy map view and its rules fetch are gone", () => {
-  assert.equal(VIEW_SOURCES.designmap, undefined)
-  assert.ok(!ALL_SOURCES.includes("designGraph"))
-})
-
 test("every view's sources are known sources", () => {
   for (const sources of Object.values(VIEW_SOURCES)) {
     for (const source of sources) {

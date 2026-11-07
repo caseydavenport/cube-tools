@@ -1,6 +1,6 @@
 import {
   IconHome, IconShield, IconMap, IconCards, IconCalendar, IconUsers, IconPlayCard,
-  IconPalette, IconChartDonut, IconChartBar, IconAffiliate, IconPackage, IconChartLine,
+  IconPalette, IconChartDonut, IconChartBar, IconPackage, IconChartLine,
   IconHeartbeat, IconPencil, IconZoomScan,
 } from "@tabler/icons-react"
 
@@ -16,7 +16,6 @@ export const ICONS = {
   colors: IconPalette,
   archetypes: IconChartDonut,
   deckStats: IconChartBar,
-  synergy: IconAffiliate,
   packages: IconPackage,
   charts: IconChartLine,
   health: IconHeartbeat,

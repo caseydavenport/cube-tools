@@ -28,8 +28,6 @@ const COPY = {
   decksText: "Every deck from every draft.",
   winsTitle: "See what wins",
   winsText: "Win rates for cards, colors, and archetypes.",
-  mapTitle: "Synergy map",
-  mapText: "The cube's themes, drawn as a graph.",
   importTitle: "Import from photos",
   importText: "Turn deck photos into decklists.",
 }

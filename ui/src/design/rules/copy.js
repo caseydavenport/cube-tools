@@ -25,7 +25,7 @@ export const RULES_COPY = {
     jumpPlaceholder: "Jump to card…",
     prev: "← Prev",
     next: "Next →",
-    ungrouped: "⚠ In no groups — invisible to the synergy map.",
+    ungrouped: "⚠ In no groups, so no package can use it.",
     isolated: "⚠ Grouped, but no edges. No package uses any of its groups.",
     inGroups: (count) => `In groups ${count ? `(${count})` : ""}`,
     measuring: "Measuring…",

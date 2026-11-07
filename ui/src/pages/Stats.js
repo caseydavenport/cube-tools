@@ -4,7 +4,6 @@ import { ArchetypeWidget } from "../stats/archetypes/ArchetypeWidget.js";
 import { ColorPickerHeader } from "../stats/archetypes/ColorPickerHeader.js";
 import { DeckWidget } from "../stats/deckstats/DeckWidget.js";
 import { CardWidget } from "../stats/cards/CardWidget.js";
-import { SynergyWidget } from "../stats/synergy/SynergyWidget.js";
 import { HealthWidget } from "./Health.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
 import { isAnonymous } from "../utils/Players.js"
@@ -27,7 +26,6 @@ const COPY = {
     colors: "Colors",
     types: "Archetypes",
     deckstats: "Deck stats",
-    synergy: "Synergy",
     health: "Health",
   },
   filterPlaceholder: "Filter decks",
@@ -91,7 +89,7 @@ export function StatsViewer(props) {
 
   const {
     decks, decksLoaded, cube, archetypeMatchups, cardData,
-    synergyData, synergyCompare, colorMatchupData, healthData,
+    colorMatchupData, healthData,
     parsed, graphData, failed, deckCharts,
   } = data;
 
@@ -106,9 +104,7 @@ export function StatsViewer(props) {
     cardFilter, setCardFilter, tagFilter, setTagFilter, popularityFilter, setPopularityFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy, cardWidgetSortInvert, setCardWidgetSortInvert, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
-    sortBy, setSortBy, minSynergyDecks, setMinSynergyDecks,
-    focalThreshold, setFocalThreshold, smoothingK, setSmoothingK,
-    colorAdjust, setColorAdjust, synergyRecord, setSynergyRecord, synergySortBy, setSynergySortBy,
+    sortBy, setSortBy,
   } = filters;
 
   // toggleColorCheckbox flips one color of the deck color filter. The
@@ -145,25 +141,7 @@ export function StatsViewer(props) {
   // Only the widget for this page is rendered, and useStatsData loads only
   // the data this page reads.
   let widget = null
-  if (props.view === "synergy") {
-    widget = (
-      <SynergyWidget
-        info={info}
-        show={true} synergyData={synergyData} synergyCompare={synergyCompare} cube={cube} matchStr={debouncedMatchStr} minSynergyDecks={minSynergyDecks}
-        onMinSynergyDecksChanged={(e) => setMinSynergyDecks(e.target.value)}
-        focalThreshold={focalThreshold}
-        onFocalThresholdChanged={(e) => setFocalThreshold(e.target.value)}
-        smoothingK={smoothingK}
-        onSmoothingKChanged={(e) => setSmoothingK(e.target.value)}
-        colorAdjust={colorAdjust}
-        onColorAdjustChanged={() => setColorAdjust(!colorAdjust)}
-        record={synergyRecord}
-        onRecordChanged={(e) => setSynergyRecord(e.target.value)}
-        onHeaderClick={(e) => setSynergySortBy(e.currentTarget.id)}
-        sortBy={synergySortBy} onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
-      />
-    )
-  } else if (props.view === "colors") {
+  if (props.view === "colors") {
     widget = (
       <ColorWidget
         info={info}

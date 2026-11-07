@@ -49,33 +49,6 @@
   }
 }
 
-/* The Synergy page: two blocks side by side, stacked on narrow screens. */
-.synergy-container > * + * {
-  margin-top: 16px;
-}
-
-.synergy-pair-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 24px;
-  align-items: start;
-}
-
-/* Two hub charts with the selected card's details between them. */
-.synergy-hub-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 24px;
-  align-items: start;
-}
-
-@media (max-width: 62em) {
-  .synergy-pair-grid,
-  .synergy-hub-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
 /* The Health page: two charts to a row, one on narrow screens. */
 .health-grid {
   display: grid;
@@ -441,99 +414,17 @@
   min-height: 700px;
 }
 
-.synergy-scatter-box {
-  width: min(600px, 100%);
-  aspect-ratio: 1 / 1;
-  margin: 0 auto;
-}
-
-.synergy-focal-head {
-  text-align: center;
-  font-weight: bold;
-  background: var(--mantine-primary-color-filled);
-  color: var(--se-page);
-}
-
 .stats-clickable {
   cursor: pointer;
-}
-
-.stats-centered {
-  text-align: center;
-}
-
-.synergy-hub-label {
-  color: var(--se-muted);
-  padding-right: 0.75rem;
-  white-space: nowrap;
-}
-
-.synergy-hub-value {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.synergy-hub-table-spaced {
-  width: 100%;
-  margin-bottom: 0.6rem;
-}
-
-.synergy-hub-subhead {
-  color: var(--se-muted);
-  border-top: 1px solid var(--se-border);
-  padding-top: 0.4rem;
-  margin-bottom: 0.3rem;
-}
-
-.stats-faded {
-  opacity: 0.7;
 }
 
 .stats-full-width {
   width: 100%;
 }
 
-.synergy-hub-value-nowrap {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.synergy-hub-scatter {
-  width: min(500px, 100%);
-  aspect-ratio: 1 / 1;
-  margin: 0 auto;
-}
-
-.synergy-hub-empty {
-  color: var(--se-muted);
-  padding-top: 2rem;
-}
-
-.synergy-graph-canvas {
-  border: 1px solid var(--se-card);
-  border-radius: 8px;
-  background: var(--se-page);
-  max-width: 100%;
-}
-
 .stats-muted-small {
   font-size: 0.85em;
   color: var(--se-muted);
-}
-
-.synergy-widget-full {
-  width: 100%;
-  margin: 0;
-}
-
-.synergy-help {
-  cursor: help;
-}
-
-.synergy-help-mark {
-  font-size: 0.7em;
-  opacity: 0.6;
 }
 
 /* A table cell that takes only the width its content needs, on one line. */

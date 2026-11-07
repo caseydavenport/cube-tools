@@ -1,9 +1,9 @@
 // Loading and saving the design rules, and working out which cards each
-// group holds and why two cards link.
+// group holds.
 
 import { useMemo } from 'react'
 import { useCube } from "../../contexts/CubeContext.js"
-import { CARD_REF_PREFIX, effectiveCards, matchKey, membershipsByCard, requestForGroups } from "../../utils/DesignRules.js"
+import { effectiveCards, matchKey, membershipsByCard, requestForGroups } from "../../utils/DesignRules.js"
 import { useDesignMatch } from "../../utils/useDesignMatch.js"
 import { RULE_COLORS } from "./ruleColors.js"
 import { MAP_COPY } from "./copy.js"
@@ -17,50 +17,6 @@ export function useAllMemberships(cube, groups) {
   const request = requestForGroups((groups || []).map(g => g.name), groups)
   const { cards } = useDesignMatch(cube, request, { key: matchKey(request, groups) })
   return useMemo(() => membershipsByCard(cards), [cards])
-}
-
-// Explain why two cards are linked: for each rule connecting them, the specific
-// group each card belongs to (and the condition that put it there).
-export function whyLinked(focusCard, neighbor, edges, packageByName, cardGroups) {
-  const names = new Set()
-  for (const e of edges) {
-    const hit = (e.source === focusCard && e.target === neighbor) || (e.target === focusCard && e.source === neighbor)
-    if (hit) for (const n of (e.packages || [])) names.add(n)
-  }
-  const fg = cardGroups[focusCard] || []
-  const ng = cardGroups[neighbor] || []
-  const groupConds = (mem, name) => { const g = mem.find(x => x.group === name); return g ? g.conds : [] }
-  const out = []
-  for (const name of names) {
-    const pkg = packageByName[name]
-    const bridges = []
-    if (pkg) {
-      const seen = new Set()
-      const add = (fGroup, nGroup) => {
-        const k = fGroup + ">" + nGroup
-        if (seen.has(k)) return
-        seen.add(k)
-        bridges.push({
-          focusGroup: fGroup, neighGroup: nGroup,
-          focusConds: groupConds(fg, fGroup), neighConds: groupConds(ng, nGroup),
-        })
-      }
-      // A card can also sit on a wire directly via a card: ref, alongside any
-      // group memberships.
-      const fgNames = [...fg.map(x => x.group), CARD_REF_PREFIX + focusCard]
-      const ngNames = [...ng.map(x => x.group), CARD_REF_PREFIX + neighbor]
-      for (const wire of (pkg.wires || [])) {
-        for (const s of (wire.sources || [])) {
-          for (const t of (wire.targets || [])) {
-            if (fgNames.includes(s) && ngNames.includes(t)) add(s, t)
-            if (ngNames.includes(s) && fgNames.includes(t)) add(t, s)
-          }
-        }
-      }
-    }
-    out.push({ name, bridges })
-  }
-  return out
 }
 
 // Fetch which groups a given card belongs to, with the condition(s) that matched.

@@ -1,53 +1,10 @@
 // Loom draws two columns of group chips joined by threads, for a link's wiring.
-// A thread with a label shows it as a small pill at the thread's middle.
-// The Rules editor and the Synergy map's "why connected" tip both use it.
+// A thread with a label shows it as a small pill at the thread's middle. The
+// card page's two-card compare uses it.
 
 import React, { useState, useRef, useLayoutEffect } from 'react'
 import { UnstyledButton } from '@mantine/core'
-import { cardRefName } from '../utils/DesignRules.js'
-import { ruleColor } from './map/ruleColors.js'
 import "./loom.css"
-
-// chipFor is the Loom chip for one end of a bridge: a group, colored by its
-// rule color and selectable when onSelectGroup is given, or a direct card
-// reference, shown as a muted chip with the card's name.
-function chipFor(name, groupIndex, onSelectGroup) {
-  const refName = cardRefName(name)
-  if (refName) {
-    return { key: name, color: 'var(--se-muted)', label: refName }
-  }
-  const chip = { key: name, color: ruleColor(groupIndex[name] ?? 0), label: name }
-  if (onSelectGroup) {
-    chip.onClick = () => onSelectGroup(name)
-  }
-  return chip
-}
-
-// bridgeLoom turns the packages between two cards (whyLinked's output) into Loom
-// input: the first card's groups on the left, the second's on the right, and
-// one thread per bridge, colored by its package.
-export function bridgeLoom(between, groupIndex, packageIndex, onSelectGroup) {
-  const leftSeen = new Set()
-  const rightSeen = new Set()
-  const left = []
-  const right = []
-  const threads = []
-  for (const r of between) {
-    const color = ruleColor(packageIndex[r.name] ?? 0)
-    for (const b of r.bridges) {
-      if (!leftSeen.has(b.focusGroup)) {
-        leftSeen.add(b.focusGroup)
-        left.push(chipFor(b.focusGroup, groupIndex, onSelectGroup))
-      }
-      if (!rightSeen.has(b.neighGroup)) {
-        rightSeen.add(b.neighGroup)
-        right.push(chipFor(b.neighGroup, groupIndex, onSelectGroup))
-      }
-      threads.push({ from: b.focusGroup, to: b.neighGroup, color, key: r.name + ':' + b.focusGroup + '>' + b.neighGroup })
-    }
-  }
-  return { left, right, threads }
-}
 
 // Loom draws group chips in two columns with SVG threads connecting them - the
 // wiring-diagram view of a package. Thread endpoints are measured from the rendered

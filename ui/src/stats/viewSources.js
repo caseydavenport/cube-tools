@@ -7,7 +7,6 @@ export const ALL_SOURCES = [
   "cardStats",
   "colorStats", "colorStatsOverTime", "colorMatchups",
   "archetypeStats", "archetypeStatsOverTime", "playerStats", "deckCharts",
-  "synergy", "synergyCompare",
   "health",
 ]
 
@@ -18,7 +17,6 @@ export const VIEW_SOURCES = {
   colors: ["decks", "cube", "colorStats", "colorStatsOverTime", "colorMatchups"],
   types: ["decks", "cube", "archetypeMatchups", "archetypeStats", "archetypeStatsOverTime", "deckCharts"],
   deckstats: ["decks", "cube", "drafts", "archetypeStats", "deckCharts"],
-  synergy: ["decks", "cube", "synergy", "synergyCompare"],
   health: ["decks", "cube", "health"],
   players: ["decks", "cube", "playerStats"],
 }

@@ -6,8 +6,6 @@ import { AggregatedPickInfo } from "../utils/DraftLog.js";
 import { draftLabel } from "../utils/DraftInfo.js";
 import { BuildGraphData } from "../stats/deckstats/graphData.js";
 import { CheckboxesToColors } from "../utils/Utils.js";
-import { useCubeInfo } from "../utils/useCubeWritable.js";
-import { requestFilters } from "../stats/hiddenFilters.js";
 import { fetchJson } from "../utils/fetchJson.js";
 import { fromCallback } from "../stats/loading.js";
 import { statsUrl, matchWithDeckColors } from "../stats/statsUrls.js";
@@ -58,12 +56,6 @@ export function useStatsFilters() {
   const [playerSortInvert, setPlayerSortInvert] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [minSynergyDecks, setMinSynergyDecks] = useState(5);
-  const [focalThreshold, setFocalThreshold] = useState(1.5);
-  const [smoothingK, setSmoothingK] = useState(5);
-  const [colorAdjust, setColorAdjust] = useState(false);
-  const [synergyRecord, setSynergyRecord] = useState("all");
-  const [synergySortBy, setSynergySortBy] = useState("synergy");
   const [display, setDisplay] = useState([true, false, false, false, false, false, false, false, false]);
 
   return {
@@ -107,12 +99,6 @@ export function useStatsFilters() {
     playerSortInvert, setPlayerSortInvert,
     selectedPlayer, setSelectedPlayer,
     sortBy, setSortBy,
-    minSynergyDecks, setMinSynergyDecks,
-    focalThreshold, setFocalThreshold,
-    smoothingK, setSmoothingK,
-    colorAdjust, setColorAdjust,
-    synergyRecord, setSynergyRecord,
-    synergySortBy, setSynergySortBy,
     display, setDisplay,
   };
 }
@@ -126,7 +112,6 @@ const NO_MATCHUPS = { items: [] };
 const NO_MAP = new Map();
 const NO_LIST = [];
 const NO_OBJECT = {};
-const NO_COMPARE = { winning: null, losing: null };
 
 // The functions below reshape a stats endpoint's answer into what the pages read.
 
@@ -191,24 +176,18 @@ function toPlayerStats(response) {
 }
 
 // useStatsData loads the data a stats page shows and works out the values the
-// widgets share. view is the page (cards, colors, types, deckstats, synergy,
-// health, or players); only that page's data is fetched, and all of
-// it is fetched again when the cube changes. failed lists the page's data that
-// didn't load.
+// widgets share. view is the page (cards, colors, types, deckstats, health,
+// or players); only that page's data is fetched, and all of it is fetched
+// again when the cube changes. failed lists the page's data that didn't load.
 export function useStatsData(filters, props, refresh, view) {
   const cubeID = useCube();
-  const info = useCubeInfo(cubeID);
 
   const { startDate, endDate } = props;
   const match = props.matchStr || "";
   const {
     minDraftSize, cardWidgetColorSelection, minDrafts,
-    minGames, winConfidence, bucketSize, colorMode, minSynergyDecks,
-    focalThreshold, smoothingK, colorAdjust, colorTypeSelection,
+    minGames, winConfidence, bucketSize, colorMode, colorTypeSelection,
   } = filters;
-
-  // A control the cube hides doesn't filter, even if it was set on another cube.
-  const { synergyRecord } = requestFilters(filters, info);
 
   // needs reports whether this page shows a source, so its request is skipped otherwise.
   const needs = source => viewNeeds(view, source);
@@ -277,29 +256,6 @@ export function useStatsData(filters, props, refresh, view) {
     })).then(toPlayerStats),
     [startDate, endDate, minDraftSize, winConfidence, archetypeMatch, refresh], NO_MAP);
 
-  // The synergy settings both synergy requests share.
-  const synergyParams = {
-    min_decks: minSynergyDecks, focal_threshold: focalThreshold, smoothing_k: smoothingK, color_adjust: colorAdjust,
-  };
-
-  const synergySource = useLoaded(cubeID, needs("synergy"),
-    () => fetchJson(statsUrl(cubeID, "synergy", {
-      ...synergyParams, record: synergyRecord, start: startDate, end: endDate, size: minDraftSize, match,
-    })),
-    [minSynergyDecks, focalThreshold, smoothingK, colorAdjust, synergyRecord, minDraftSize, startDate, endDate, match, refresh], NO_LIST);
-
-  // The comparison view loads both pools regardless of the record toggle, so
-  // it can show how a card's focal score shifts between winning and losing.
-  const synergyCompareSource = useLoaded(cubeID, needs("synergyCompare"),
-    () => {
-      const base = { ...synergyParams, start: startDate, end: endDate, size: minDraftSize, match };
-      return Promise.all([
-        fetchJson(statsUrl(cubeID, "synergy", { ...base, record: "winning" })),
-        fetchJson(statsUrl(cubeID, "synergy", { ...base, record: "losing" })),
-      ]).then(([winning, losing]) => ({ winning, losing }));
-    },
-    [minSynergyDecks, focalThreshold, smoothingK, colorAdjust, minDraftSize, startDate, endDate, match, refresh], NO_COMPARE);
-
   const colorMatchupsSource = useLoaded(cubeID, needs("colorMatchups"),
     () => fetchJson(statsUrl(cubeID, "color-matchups", {
       start: startDate, end: endDate, size: minDraftSize, color_mode: colorMode, color_type: colorTypeSelection, match,
@@ -319,7 +275,6 @@ export function useStatsData(filters, props, refresh, view) {
     colorStats: colorStatsSource, colorStatsOverTime: colorStatsOverTimeSource, colorMatchups: colorMatchupsSource,
     archetypeStats: archetypeStatsSource, archetypeStatsOverTime: archetypeStatsOverTimeSource,
     playerStats: playerStatsSource, deckCharts: deckChartsSource,
-    synergy: synergySource, synergyCompare: synergyCompareSource,
     health: healthSource,
   };
   const failed = ALL_SOURCES.filter(name => needs(name) && sources[name].failed);
@@ -337,8 +292,6 @@ export function useStatsData(filters, props, refresh, view) {
   const archetypeBuckets = archetypeStatsOverTimeSource.value;
   const deckCharts = deckChartsSource.value;
   const playerData = playerStatsSource.value;
-  const synergyData = synergySource.value;
-  const synergyCompare = synergyCompareSource.value;
   const colorMatchupData = colorMatchupsSource.value;
   const healthData = healthSource.value;
 
@@ -384,7 +337,7 @@ export function useStatsData(filters, props, refresh, view) {
 
   return {
     decks, decksLoaded, cube, drafts, archetypeMatchups, cardData,
-    colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
+    colorData, colorDataBucketed, colorMatchupData, healthData,
     parsed, graphData, draftLogs, failed, deckCharts,
   };
 }

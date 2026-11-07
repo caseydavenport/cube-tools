@@ -8,7 +8,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
-/* Section titles such as Synergy's are h4s. Below 1200px they shrink with the window. */
+/* Section titles are h4s. Below 1200px they shrink with the window. */
 h4 {
   font-size: calc(1.275rem + 0.3vw);
 }
