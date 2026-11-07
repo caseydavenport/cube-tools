@@ -260,6 +260,11 @@
   gap: 2rem;
 }
 
+/* One chart at a time, picked from a dropdown, at the page's full width. */
+.single-chart {
+  width: 100%;
+}
+
 .widget-scroll {
   max-height: 800px;
   overflow-y: auto;

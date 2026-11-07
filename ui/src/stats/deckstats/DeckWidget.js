@@ -47,8 +47,7 @@ const DECK_CHART_OPTIONS = [
 ]
 
 export function DeckWidget(input) {
-  const [leftChart, setLeftChart] = React.useState("forest_plot")
-  const [rightChart, setRightChart] = React.useState("head_to_head")
+  const [chart, setChart] = React.useState("forest_plot")
 
   if (!input.show) {
     return null
@@ -64,8 +63,7 @@ export function DeckWidget(input) {
 
   // A chosen chart the cube can't fill falls back to one it can.
   const chartOptions = visibleItems(DECK_CHART_OPTIONS, input.info)
-  const left = availableValue(leftChart, DECK_CHART_OPTIONS, input.info)
-  const right = availableValue(rightChart, DECK_CHART_OPTIONS, input.info, left)
+  const shown = availableValue(chart, DECK_CHART_OPTIONS, input.info)
 
   const renderChart = (chartId) => {
     switch (chartId) {
@@ -91,22 +89,15 @@ export function DeckWidget(input) {
       <div className="controls-panel">
         <div className="selector-group stats-row-centered">
           <DropdownHeader
-            label={DECKSTATS_COPY.widget.leftChartLabel}
+            label={DECKSTATS_COPY.widget.chartLabel}
             options={chartOptions}
-            value={left}
-            onChange={(e) => setLeftChart(e.target.value)}
-          />
-          <DropdownHeader
-            label={DECKSTATS_COPY.widget.rightChartLabel}
-            options={chartOptions}
-            value={right}
-            onChange={(e) => setRightChart(e.target.value)}
+            value={shown}
+            onChange={(e) => setChart(e.target.value)}
           />
         </div>
       </div>
-      <div className="chart-grid">
-        {renderChart(left)}
-        {renderChart(right)}
+      <div className="single-chart">
+        {renderChart(shown)}
       </div>
     </div>
   )

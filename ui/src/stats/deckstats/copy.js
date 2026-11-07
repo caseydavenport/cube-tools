@@ -7,8 +7,7 @@ export const DECKSTATS_COPY = {
   // DeckWidget.js: the two chart pickers. The option labels are display text;
   // the option values the code switches on stay in the component.
   widget: {
-    leftChartLabel: "Left Chart",
-    rightChartLabel: "Right Chart",
+    chartLabel: "Chart",
 
     optionPieNumColors: "Pie: # Colors",
     optionDeckAvgMana: "Deck Avg. Mana Value",

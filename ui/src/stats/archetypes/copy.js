@@ -3,8 +3,11 @@
 // values in it is a function that takes named values and returns the sentence.
 
 export const ARCHETYPES_COPY = {
-  // ArchetypeWidget.js: the Trends chart choices, section names, and controls.
+  // ArchetypeWidget.js: the chart choices, section names, and controls.
   widget: {
+    chartManaCurve: "Mana curve by archetype",
+    chartTypeMix: "Card types by archetype",
+    chartCloseMatches: "Close matches by archetype",
     chartDelta: "Archetype Δ vs avg",
     chartBuilds: "Archetype Build %",
     chartWins: "Archetype Win %",
@@ -23,13 +26,10 @@ export const ARCHETYPES_COPY = {
     tagLastPlacePct: "Tag Last Place %",
     tagPercentOfWins: "Tag % of wins",
     sectionArchetypes: "Archetypes",
-    sectionBuildShape: "Build shape",
-    sectionTrends: "Trends",
+    sectionCharts: "Charts",
     finishesHeading: "How their decks finished",
-    buildShapeHeading: "Build shape",
-    trendsHeading: "Trends",
-    leftChart: "Left Chart",
-    rightChart: "Right Chart",
+    chartsHeading: "Charts",
+    chartLabel: "Chart",
   },
 
   // ArchetypeStatsTable.js: the column headers with their hover text, the win

@@ -28,9 +28,14 @@ ChartJS.register(
   Legend
 );
 
-// CHART_OPTIONS are the Trends charts. needs lists the data each is built
-// from, so a cube without match results doesn't offer the win charts.
+// CHART_OPTIONS are the charts the Charts section's dropdown offers: how each
+// macro archetype's decks are built, then how archetypes and tags change over
+// time. needs lists the data each is built from, so a cube without match
+// results doesn't offer the win charts.
 const CHART_OPTIONS = [
+  { label: ARCHETYPES_COPY.widget.chartManaCurve, value: "mana_curve" },
+  { label: ARCHETYPES_COPY.widget.chartTypeMix, value: "type_mix" },
+  { label: ARCHETYPES_COPY.widget.chartCloseMatches, value: "close_matches", needs: ["results"] },
   { label: ARCHETYPES_COPY.widget.chartDelta, value: "macro_delta", needs: ["results"] },
   { label: ARCHETYPES_COPY.widget.chartBuilds, value: "macro_builds" },
   { label: ARCHETYPES_COPY.widget.chartWins, value: "macro_wins", needs: ["results"] },
@@ -52,8 +57,7 @@ const CHART_OPTIONS = [
 
 const ARCH_SECTIONS = [
   { id: "archetypes", label: ARCHETYPES_COPY.widget.sectionArchetypes },
-  { id: "build-shape", label: ARCHETYPES_COPY.widget.sectionBuildShape },
-  { id: "trends", label: ARCHETYPES_COPY.widget.sectionTrends },
+  { id: "charts", label: ARCHETYPES_COPY.widget.sectionCharts },
 ]
 
 // FinishesPart is the finishes chart under the tables, shown only for cubes
@@ -70,26 +74,45 @@ function FinishesPart({ parsed, info }) {
   )
 }
 
-// BuildShape compares how each macro archetype's decks are built: the mana
-// curve, the card types and, with match results, how often their matches go
-// to a third game.
-function BuildShape({ deckCharts, info }) {
-  let closeMatches = null
-  if (hasData(info, "results")) {
-    closeMatches = <CloseMatchChart deckCharts={deckCharts} />
+// trendChart draws one of the over-time charts for chartId: the macro
+// archetypes' or the tags' dataset per time bucket.
+function trendChart(chartId, input) {
+  const common = { parsed: input.parsed, decks: input.decks, bucketSize: input.bucketSize }
+  switch (chartId) {
+    case "macro_builds": return <MacroArchetypesChart {...common} dataset="builds" />
+    case "macro_wins": return <MacroArchetypesChart {...common} dataset="wins" />
+    case "macro_pwin": return <MacroArchetypesChart {...common} dataset="percent_of_wins" />
+    case "macro_winning_pct": return <MacroArchetypesChart {...common} dataset="winning_pct" />
+    case "macro_trophy_pct": return <MacroArchetypesChart {...common} dataset="trophy_pct" />
+    case "macro_lastplace_pct": return <MacroArchetypesChart {...common} dataset="lastplace_pct" />
+    case "macro_cmc": return <MacroArchetypesChart {...common} dataset="cmc" />
+    case "micro_builds": return <MicroArchetypesChart {...common} dataset="builds" />
+    case "micro_wins": return <MicroArchetypesChart {...common} dataset="wins" />
+    case "micro_winning_pct": return <MicroArchetypesChart {...common} dataset="winning_pct" />
+    case "micro_trophy_pct": return <MicroArchetypesChart {...common} dataset="trophy_pct" />
+    case "micro_lastplace_pct": return <MicroArchetypesChart {...common} dataset="lastplace_pct" />
+    case "micro_pwin": return <MicroArchetypesChart {...common} dataset="percent_of_wins" />
+    default: return null
   }
-  return (
-    <div className="chart-grid">
-      <ManaCurveChart deckCharts={deckCharts} />
-      <TypeMixChart deckCharts={deckCharts} />
-      {closeMatches}
-    </div>
-  )
+}
+
+// renderChart draws the chart chosen in the dropdown: a build-shape chart, the
+// win rate against average, a matchup chart, or an over-time chart.
+function renderChart(chartId, input) {
+  switch (chartId) {
+    case "mana_curve": return <ManaCurveChart deckCharts={input.deckCharts} />
+    case "type_mix": return <TypeMixChart deckCharts={input.deckCharts} />
+    case "close_matches": return <CloseMatchChart deckCharts={input.deckCharts} />
+    case "macro_delta": return <MacroArchetypeDeltaChart parsed={input.parsed} />
+    case "matchup_aggro": return <WinsByMatchup focus="aggro" matchups={input.matchups} />
+    case "matchup_midrange": return <WinsByMatchup focus="midrange" matchups={input.matchups} />
+    case "matchup_control": return <WinsByMatchup focus="control" matchups={input.matchups} />
+    default: return trendChart(chartId, input)
+  }
 }
 
 export function ArchetypeWidget(input) {
-  const [leftChart, setLeftChart] = React.useState("macro_builds")
-  const [rightChart, setRightChart] = React.useState("macro_wins")
+  const [chart, setChart] = React.useState("mana_curve")
 
   if (!input.show) {
     return null
@@ -97,31 +120,7 @@ export function ArchetypeWidget(input) {
 
   // A chosen chart the cube can't fill falls back to one it can.
   const chartOptions = visibleItems(CHART_OPTIONS, input.info)
-  const left = availableValue(leftChart, CHART_OPTIONS, input.info)
-  const right = availableValue(rightChart, CHART_OPTIONS, input.info, left)
-
-  const renderChart = (chartId) => {
-    switch (chartId) {
-      case "macro_delta": return <MacroArchetypeDeltaChart parsed={input.parsed} />;
-      case "macro_builds": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="builds" />;
-      case "macro_wins": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="wins" />;
-      case "macro_pwin": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="percent_of_wins" />;
-      case "macro_winning_pct": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="winning_pct" />;
-      case "macro_trophy_pct": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="trophy_pct" />;
-      case "macro_lastplace_pct": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="lastplace_pct" />;
-      case "macro_cmc": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="cmc" />;
-      case "matchup_aggro": return <WinsByMatchup focus="aggro" matchups={input.matchups} />;
-      case "matchup_midrange": return <WinsByMatchup focus="midrange" matchups={input.matchups} />;
-      case "matchup_control": return <WinsByMatchup focus="control" matchups={input.matchups} />;
-      case "micro_builds": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="builds" />;
-      case "micro_wins": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="wins" />;
-      case "micro_winning_pct": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="winning_pct" />;
-      case "micro_trophy_pct": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="trophy_pct" />;
-      case "micro_lastplace_pct": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="lastplace_pct" />;
-      case "micro_pwin": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="percent_of_wins" />;
-      default: return null;
-    }
-  }
+  const shown = availableValue(chart, CHART_OPTIONS, input.info)
 
   return (
     <div className="analyze-page">
@@ -141,30 +140,19 @@ export function ArchetypeWidget(input) {
         <FinishesPart parsed={input.parsed} info={input.info} />
       </Section>
 
-      <Section id="build-shape" heading={ARCHETYPES_COPY.widget.buildShapeHeading}>
-        <BuildShape deckCharts={input.deckCharts} info={input.info} />
-      </Section>
-
-      <Section id="trends" heading={ARCHETYPES_COPY.widget.trendsHeading}>
+      <Section id="charts" heading={ARCHETYPES_COPY.widget.chartsHeading}>
         <div className="controls-panel">
           <div className="selector-group stats-row-centered">
             <DropdownHeader
-              label={ARCHETYPES_COPY.widget.leftChart}
+              label={ARCHETYPES_COPY.widget.chartLabel}
               options={chartOptions}
-              value={left}
-              onChange={(e) => setLeftChart(e.target.value)}
-            />
-            <DropdownHeader
-              label={ARCHETYPES_COPY.widget.rightChart}
-              options={chartOptions}
-              value={right}
-              onChange={(e) => setRightChart(e.target.value)}
+              value={shown}
+              onChange={(e) => setChart(e.target.value)}
             />
           </div>
         </div>
-        <div className="chart-grid">
-          {renderChart(left)}
-          {renderChart(right)}
+        <div className="single-chart">
+          {renderChart(shown, input)}
         </div>
       </Section>
     </div>
