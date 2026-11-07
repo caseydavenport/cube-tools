@@ -25,35 +25,6 @@
   overflow-x: auto;
 }
 
-/* The Archetypes toolbar's color toggles: faded mana symbols that light up
-   with a ring when selected. */
-.color-toggles {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.color-toggle {
-  display: inline-flex;
-  padding: 3px;
-  border-radius: 999px;
-  border: 2px solid transparent;
-  opacity: 0.35;
-  filter: grayscale(0.6);
-  transition: opacity 0.12s, filter 0.12s;
-}
-
-.color-toggle:hover {
-  opacity: 0.75;
-}
-
-.color-toggle-on,
-.color-toggle-on:hover {
-  opacity: 1;
-  filter: none;
-  border-color: var(--mantine-primary-color-filled);
-}
-
 /* The Colors page's color type, bucket and mode controls, above every tab:
    the controls on the left, the Open in Charts link on the right. */
 .colors-controls-row {

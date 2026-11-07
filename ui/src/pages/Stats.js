@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ColorWidget } from "../stats/colors/ColorWidget.js";
 import { ArchetypeWidget } from "../stats/archetypes/ArchetypeWidget.js";
-import { ColorPickerHeader } from "../stats/archetypes/ColorPickerHeader.js";
+import { COLOR_WORDS, ManaToggles } from "../components/ManaToggles.js";
 import { DeckWidget } from "../stats/deckstats/DeckWidget.js";
 import { CardWidget } from "../stats/cards/CardWidget.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
@@ -104,12 +104,11 @@ export function StatsViewer(props) {
     sortBy, setSortBy,
   } = filters;
 
-  // toggleColorCheckbox flips one color of the deck color filter. The
-  // checkbox's id is the color letter.
-  function toggleColorCheckbox(e) {
-    const colorMap = { W: 0, U: 1, B: 2, R: 3, G: 4 }
+  // toggleDeckColor flips one color of the deck color filter, whose flags
+  // are in WUBRG order.
+  function toggleDeckColor(color) {
+    const index = "WUBRG".indexOf(color)
     const updated = [...colorCheckboxes]
-    const index = colorMap[e.currentTarget.id]
     updated[index] = !updated[index]
     setColorCheckboxes(updated)
   }
@@ -229,7 +228,14 @@ export function StatsViewer(props) {
   // the deck filter.
   let toolbarFilters = null
   if (props.view === "types") {
-    toolbarFilters = <ColorPickerHeader display={colorCheckboxes} onChecked={toggleColorCheckbox} />
+    toolbarFilters = (
+      <ManaToggles
+        label="Deck colors"
+        selected={[..."WUBRG"].filter((color, i) => colorCheckboxes[i])}
+        onToggle={toggleDeckColor}
+        tip={color => `Only decks that play ${COLOR_WORDS[color]}`}
+      />
+    )
   }
 
   let noMatches = null

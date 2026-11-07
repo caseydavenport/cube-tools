@@ -36,6 +36,35 @@ html .section-nav a {
   background: color-mix(in srgb, var(--mantine-primary-color-filled) 27%, transparent);
 }
 
+/* Mana-symbol color toggles: faded symbols that light up with a ring when
+   selected. */
+.color-toggles {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-toggle {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  opacity: 0.35;
+  filter: grayscale(0.6);
+  transition: opacity 0.12s, filter 0.12s;
+}
+
+.color-toggle:hover {
+  opacity: 0.75;
+}
+
+.color-toggle-on,
+.color-toggle-on:hover {
+  opacity: 1;
+  filter: none;
+  border-color: var(--mantine-primary-color-filled);
+}
+
 /* A control's label: small and muted so the control itself stands out. */
 .control-label {
   color: var(--se-muted);

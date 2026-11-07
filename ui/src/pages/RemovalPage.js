@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { SegmentedControl } from "@mantine/core"
 import { useCube } from "../contexts/CubeContext.js"
-import { DropdownHeader } from "../components/Dropdown.js"
+import { ChoiceHeader } from "../components/Dropdown.js"
+import { COLOR_WORDS, ManaToggles } from "../components/ManaToggles.js"
+import { TabNav } from "../components/PageSections.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
@@ -33,9 +34,10 @@ const COPY = {
   to: "To",
   apply: "Apply",
 
+  tabs: { table: "Table", scatter: "Coverage vs cost", byColor: "By color", hard: "Hard to remove" },
   coverageOpts: { raw: "Raw (cube)", played: "Play-weighted" },
-  colors: { all: "All colors", W: "White", U: "Blue", B: "Black", R: "Red", G: "Green" },
-  colorLabel: "Color",
+  colorLabel: "Removal color",
+  colorTip: color => `Only ${COLOR_WORDS[color]} and colorless removal`,
   summary: ({ rows, creatures, excluded }) =>
     `${rows} spot-removal rows · ${creatures} creatures · ${excluded} non-spot excluded`,
 
@@ -65,9 +67,18 @@ const COPY = {
 
 // The Removal page scores each piece of spot removal by how much of the cube's
 // creature base it can kill (given its restrictions) against what it costs.
-// Compute is server-side (/stats/removal); this page draws the scatter and a
-// sortable table with a raw / play-weighted toggle. Scalable removal (variable
-// X, fights) has no comparable coverage and sits at the bottom.
+// Compute is server-side (/stats/removal); this page draws the table, the
+// scatter, the per-color summary and the hardest creatures to answer, one tab
+// at a time. Scalable removal (variable X, fights) has no comparable coverage
+// and sits at the bottom.
+
+// PAGE_TABS are the Removal page's tabs, the table first.
+const PAGE_TABS = [
+  { id: "table", label: COPY.tabs.table },
+  { id: "scatter", label: COPY.tabs.scatter },
+  { id: "bycolor", label: COPY.tabs.byColor },
+  { id: "hard", label: COPY.tabs.hard },
+]
 
 // COVERAGE_OPTS are the two ways to count what a spell can kill: against the
 // cube's creatures, or weighted by how often each creature was played, which
@@ -75,12 +86,6 @@ const COPY = {
 const COVERAGE_OPTS = [
   { value: "raw", label: COPY.coverageOpts.raw },
   { value: "played", label: COPY.coverageOpts.played, needs: ["decks"] },
-]
-
-const COLOR_OPTS = [
-  { value: "", label: COPY.colors.all },
-  { value: "W", label: COPY.colors.W }, { value: "U", label: COPY.colors.U }, { value: "B", label: COPY.colors.B },
-  { value: "R", label: COPY.colors.R }, { value: "G", label: COPY.colors.G },
 ]
 
 // matchesColorFilter keeps a removal row under the chosen color. Colorless
@@ -102,14 +107,15 @@ function removalCardName(rowName) {
   return rowName.replace(/ \([^)]*\)$/, "")
 }
 
-// RemovalPage is the Removal page: the toolbar with its date range, then the
-// table of spot removal with its coverage and color controls.
+// RemovalPage is the Removal page: the toolbar with its date range, coverage
+// switch and color toggles, then one tab at a time.
 export function RemovalPage(props) {
   const cubeID = useCube()
   const info = useCubeInfo(cubeID)
   const start = props.startDate || ""
   const end = props.endDate || ""
   const [data, setData] = useState(null)
+  const [tab, setTab] = useState("table")
   const [mode, setMode] = useState("raw")
   const [colorFilter, setColorFilter] = useState("")
   const [sort, setSort] = useState({ key: "coverage", dir: "desc" })
@@ -124,9 +130,33 @@ export function RemovalPage(props) {
       .catch(() => setData(null))
   }, [cubeID, start, end])
 
+  // A cube without decks can only count against the raw cube.
+  const shownMode = availableValue(mode, COVERAGE_OPTS, info)
+
+  // toggleColor picks one color at a time; clicking the picked one clears it.
+  function toggleColor(color) {
+    if (color === colorFilter) {
+      setColorFilter("")
+    } else {
+      setColorFilter(color)
+    }
+  }
+
+  let selectedColors = []
+  if (colorFilter) {
+    selectedColors = [colorFilter]
+  }
+
   const toolbar = (
     <PageToolbar title={COPY.title}>
       <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+      <ChoiceHeader
+        label={COPY.coverage}
+        options={visibleItems(COVERAGE_OPTS, info)}
+        value={shownMode}
+        onChange={e => setMode(e.target.value)}
+      />
+      <ManaToggles label={COPY.colorLabel} selected={selectedColors} onToggle={toggleColor} tip={COPY.colorTip} />
     </PageToolbar>
   )
 
@@ -139,8 +169,6 @@ export function RemovalPage(props) {
     )
   }
 
-  // A cube without decks can only count against the raw cube.
-  const shownMode = availableValue(mode, COVERAGE_OPTS, info)
   const coverage = c => shownMode === "raw" ? c.pct_cube : c.pct_played
 
   const sortVal = {
@@ -162,76 +190,81 @@ export function RemovalPage(props) {
     return <SortHeader sortKey={key} label={label} tip={tip} sort={sort} setSort={setSort} numeric={numeric} />
   }
 
-  const controls = (
-    <div className="stats-controls">
-      <SegmentedControl
-        size="xs"
-        aria-label={COPY.coverage}
-        data={visibleItems(COVERAGE_OPTS, info)}
-        value={shownMode}
-        onChange={setMode}
-      />
-      <DropdownHeader label={COPY.colorLabel} value={colorFilter} options={COLOR_OPTS} onChange={e => setColorFilter(e.target.value)} />
-      <span className="player-filter-hint">
-        {COPY.summary({ rows: rows.length, creatures: data.creature_count, excluded: data.excluded })}
-      </span>
-    </div>
+  const summary = (
+    <span className="player-filter-hint">
+      {COPY.summary({ rows: rows.length, creatures: data.creature_count, excluded: data.excluded })}
+    </span>
   )
+
+  let body = null
+  if (tab === "scatter") {
+    body = (
+      <SectionCard title={COPY.scatterTitle}>
+        <RemovalScatter cards={rows} mode={shownMode} />
+      </SectionCard>
+    )
+  } else if (tab === "bycolor") {
+    body = <RemovalByColor rows={data.by_color || []} mode={shownMode} />
+  } else if (tab === "hard") {
+    body = (
+      <HardToRemove
+        creatures={data.creatures || []}
+        byColor={data.by_color || []}
+        removalCards={data.removal_cards || 0}
+        color={colorFilter}
+      />
+    )
+  } else {
+    body = (
+      <SectionCard title={COPY.tableTitle} action={summary}>
+        <div className="stats-table-wrap">
+          <table className="widget-table stats-full-width">
+            <thead>
+              <tr>
+                {header("name", COPY.columns.card, undefined, false)}
+                {header("cost", COPY.columns.cost, COPY.columnTips.cost)}
+                <HoverInfo title={COPY.columns.kind} info={COPY.columnTips.kind}><td className="header-cell">{COPY.columns.kind}</td></HoverInfo>
+                <HoverInfo title={COPY.columns.restriction} info={COPY.columnTips.restriction}><td className="header-cell">{COPY.columns.restriction}</td></HoverInfo>
+                {shownMode === "raw"
+                  ? header("coverage", COPY.columns.targets, COPY.columnTips.targets)
+                  : header("coverage", COPY.columns.percentPlayed, COPY.columnTips.percentPlayed)}
+                <HoverInfo title={COPY.columns.maxMv} info={COPY.columnTips.maxMv}><td className="header-cell page-right-cell">{COPY.columns.maxMv}</td></HoverInfo>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map(c => (
+                <tr key={c.name} className="widget-table-row">
+                  <td className="header-cell stats-bold"><CardLink cube={cubeID} name={removalCardName(c.name)}>{c.name}</CardLink></td>
+                  <td className="page-right-cell" title={c.mana_cost && c.eff_cost !== c.mv ? COPY.costTitle({ manaCost: c.mana_cost, mv: c.mv }) : c.mana_cost}>
+                    {c.eff_cost}{c.eff_cost !== c.mv ? "*" : ""}
+                  </td>
+                  <td>{c.kind}</td>
+                  <td className="stats-muted">{c.restriction}</td>
+                  {c.scalable ? (
+                    <td className="page-muted-center-cell" colSpan={2}>{COPY.scalable}</td>
+                  ) : (
+                    <>
+                      <td className="page-right-cell">
+                        {shownMode === "raw" ? `${c.targets} (${c.pct_cube}%)` : `${c.pct_played}%`}
+                      </td>
+                      <td className="page-right-cell">{c.max_mv_killed}</td>
+                    </>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </SectionCard>
+    )
+  }
 
   return (
     <>
       {toolbar}
       <div className="analyze-page">
-        <SectionCard title={COPY.scatterTitle}>
-          <RemovalScatter cards={rows} mode={shownMode} />
-        </SectionCard>
-        <SectionCard title={COPY.tableTitle} action={controls}>
-          <div className="stats-table-wrap">
-            <table className="widget-table stats-full-width">
-              <thead>
-                <tr>
-                  {header("name", COPY.columns.card, undefined, false)}
-                  {header("cost", COPY.columns.cost, COPY.columnTips.cost)}
-                  <HoverInfo title={COPY.columns.kind} info={COPY.columnTips.kind}><td className="header-cell">{COPY.columns.kind}</td></HoverInfo>
-                  <HoverInfo title={COPY.columns.restriction} info={COPY.columnTips.restriction}><td className="header-cell">{COPY.columns.restriction}</td></HoverInfo>
-                  {shownMode === "raw"
-                    ? header("coverage", COPY.columns.targets, COPY.columnTips.targets)
-                    : header("coverage", COPY.columns.percentPlayed, COPY.columnTips.percentPlayed)}
-                  <HoverInfo title={COPY.columns.maxMv} info={COPY.columnTips.maxMv}><td className="header-cell page-right-cell">{COPY.columns.maxMv}</td></HoverInfo>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map(c => (
-                  <tr key={c.name} className="widget-table-row">
-                    <td className="header-cell stats-bold"><CardLink cube={cubeID} name={removalCardName(c.name)}>{c.name}</CardLink></td>
-                    <td className="page-right-cell" title={c.mana_cost && c.eff_cost !== c.mv ? COPY.costTitle({ manaCost: c.mana_cost, mv: c.mv }) : c.mana_cost}>
-                      {c.eff_cost}{c.eff_cost !== c.mv ? "*" : ""}
-                    </td>
-                    <td>{c.kind}</td>
-                    <td className="stats-muted">{c.restriction}</td>
-                    {c.scalable ? (
-                      <td className="page-muted-center-cell" colSpan={2}>{COPY.scalable}</td>
-                    ) : (
-                      <>
-                        <td className="page-right-cell">
-                          {shownMode === "raw" ? `${c.targets} (${c.pct_cube}%)` : `${c.pct_played}%`}
-                        </td>
-                        <td className="page-right-cell">{c.max_mv_killed}</td>
-                      </>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </SectionCard>
-        <RemovalByColor rows={data.by_color || []} mode={shownMode} />
-        <HardToRemove
-          creatures={data.creatures || []}
-          byColor={data.by_color || []}
-          removalCards={data.removal_cards || 0}
-          color={colorFilter}
-        />
+        <TabNav tabs={PAGE_TABS} active={tab} onChange={setTab} />
+        {body}
       </div>
     </>
   )
