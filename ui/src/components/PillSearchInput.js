@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Input, UnstyledButton } from "@mantine/core";
 import { helpText, parseTerm, pillKind, splitPills, suggestions } from "../search/searchTerms.js";
 import { useSearchError, useSearchKeywords } from "../search/useSearch.js";
+import { SearchHelpButton } from "../search/SearchHelp.js";
 import { COMPONENTS_COPY } from "./copy.js";
 import "./components.css";
 
@@ -174,6 +175,7 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
           onBlur={onBlur}
           placeholder={pillTerms.length === 0 ? placeholder : ""}
         />
+        <SearchHelpButton target={target} />
       </div>
 
       {error && <div className="search-error" role="status">{error}</div>}

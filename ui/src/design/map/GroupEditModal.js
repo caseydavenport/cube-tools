@@ -8,6 +8,7 @@ import { requestForConditions } from "../../utils/DesignRules.js"
 import { useDesignMatch } from "../../utils/useDesignMatch.js"
 import { ClauseInputs, ConditionTooltip, ExcludeInputs, RuleInput } from "./RuleInputs.js"
 import { TagPicker } from "./TagPicker.js"
+import { SearchSyntax } from "../../search/SearchHelp.js"
 import { addTagCondition } from "../../utils/tagOptions.js"
 import { MAP_COPY } from "./copy.js"
 import { useGroupCheck } from "../rules/GroupCheck.js"
@@ -157,58 +158,10 @@ export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard, rul
       >
         {/* Left: query syntax reference */}
         <div className="group-help-panel">
-          <h4 className="group-help-title">
-            {MAP_COPY.groupEdit.queryReference}
-          </h4>
-          <table className="group-help-table">
-            <tbody>
-              {[
-                ["n:", MAP_COPY.groupEdit.queryName],
-                ["o:", MAP_COPY.groupEdit.queryOracle],
-                ["t:", MAP_COPY.groupEdit.queryType],
-                ["st:", MAP_COPY.groupEdit.querySubtype],
-                ["c:", MAP_COPY.groupEdit.queryColor],
-                ["m:", MAP_COPY.groupEdit.queryManaCost],
-                ["cmc:", MAP_COPY.groupEdit.queryManaValue],
-                ["is:", MAP_COPY.groupEdit.queryKeyword],
-                ["otag:", MAP_COPY.groupEdit.queryTag],
-              ].map(([prefix, desc]) => (
-                <tr key={prefix}>
-                  <td className="group-help-key">{prefix}</td>
-                  <td className="group-help-desc">{desc}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
           <div className="group-help-section">
             <TagPicker cube={cube} onPick={slug => setEditConditions(prev => addTagCondition(prev, slug))} />
           </div>
-          <div className="group-help-section">
-            <div className="group-help-section-title">{MAP_COPY.groupEdit.comparisons}</div>
-            <div className="group-help-mono">
-              {MAP_COPY.groupEdit.comparisonsCmc}<br/>
-              {MAP_COPY.groupEdit.comparisonsPowTou}
-            </div>
-          </div>
-          <div className="group-help-section">
-            <div className="group-help-section-title">{MAP_COPY.groupEdit.isKeywords}</div>
-            <div className="group-help-mono-small">
-              {MAP_COPY.groupEdit.keywordsLine1}<br/>
-              {MAP_COPY.groupEdit.keywordsLine2}<br/>
-              {MAP_COPY.groupEdit.keywordsLine3}
-            </div>
-          </div>
-          <div className="group-help-section">
-            <div className="group-help-section-title">{MAP_COPY.groupEdit.operators}</div>
-            <div className="group-help-note">
-              <code className="group-help-code">-</code> {MAP_COPY.groupEdit.operatorNegate}<br/>
-              {/* copy-ok: query operator */}
-              <code className="group-help-code">or</code> {MAP_COPY.groupEdit.operatorOr}<br/>
-              <code className="group-help-code">()</code> {MAP_COPY.groupEdit.operatorGrouping}<br/>
-              <code className="group-help-code">""</code> {MAP_COPY.groupEdit.operatorQuote}<br/>
-              <code className="group-help-code">*</code> {MAP_COPY.groupEdit.operatorWildcard}
-            </div>
-          </div>
+          <SearchSyntax target="rules" compact />
         </div>
 
         {/* Center: edit form */}

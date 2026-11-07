@@ -1,0 +1,52 @@
+/* The search language's help: one grid shared by every row, so the code
+   column fits its widest entry. Titles span the full width. */
+.search-help {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 12px;
+  align-items: baseline;
+  font-size: 0.8rem;
+}
+
+.search-help-title {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  color: var(--se-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.search-help-title:first-child {
+  margin-top: 0;
+}
+
+/* A row's cells sit straight in the shared grid. */
+.search-help-row {
+  display: contents;
+}
+
+.search-help-row code {
+  color: var(--mantine-primary-color-filled);
+  white-space: nowrap;
+}
+
+/* A keyword's example sits on its own line under the description. */
+.search-help-row span .search-help-example {
+  display: block;
+  opacity: 0.7;
+}
+
+.search-help-compact .search-help-example {
+  opacity: 0.7;
+}
+
+/* The narrow version: code and example only, the description in a tip. */
+.search-help-compact {
+  grid-template-columns: 1fr auto;
+}
+
+.search-help-compact .search-help-row code {
+  white-space: normal;
+}
