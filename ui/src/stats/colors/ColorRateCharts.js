@@ -1,95 +1,109 @@
-// The Colors charts over time: each color's rate, and its win rate against
-// the cube average.
+// The Colors charts: how often each color group is built over time, and each
+// group's win rate against the cube average.
 
 import React from 'react'
 import { Colors, CUBE_AVG_WIN_PERCENT, guildColor } from "../../utils/Colors.js"
 import { bucketXScale } from "../../utils/Buckets.js"
-import { MinWinningPctDecks, Pct } from "../../utils/Utils.js"
 import { Line, Bar } from 'react-chartjs-2'
-import { chartTooltip, currentChartTheme, deltaFill, zeroLineGrid } from "../../theme/chartTheme.js"
+import { chartTooltip, currentChartTheme, deltaFill, withAlpha, zeroLineGrid } from "../../theme/chartTheme.js"
+import { winRateMuted } from "../../components/kit/winRate.js"
 import { colorName } from "../../utils/colorNames.js"
+import { intervalDataset } from "../deckstats/deckChartHelpers.js"
 import { colorIsDisplayed } from "./ColorStatsTable.js"
+import { seriesFor } from "./colorTrendModel.js"
 import { COLORS_COPY } from "./copy.js"
 import "../stats.css"
 
-// ColorPerformanceDeltaChart shows, at a glance, which colors are net positive or
-// net negative relative to the cube-wide average win rate. Each bar is a color's
-// win rate minus 50%; green bars point up (overperforming), red bars point down.
+// selectedColorRows returns the color rows for the chosen time bucket, or all
+// time for "ALL", so the charts and the table always agree.
+function selectedColorRows(colorData, buckets, selectedBucket) {
+  if (buckets.length > 0 && selectedBucket !== "ALL") {
+    for (const bucket of buckets) {
+      if (bucket.name === selectedBucket) {
+        return Object.values(bucket.data)
+      }
+    }
+  }
+  return Array.from(colorData.values())
+}
+
+// deltaRows are the net performance chart's bars, one per shown color group,
+// best first: the Bayes win rate's distance from 50% and the raw rate's
+// interval, both as distances from 50%.
+function deltaRows(colorRows, colorType) {
+  const rows = []
+  for (const d of colorRows) {
+    if (!colorIsDisplayed(d.color, colorType)) {
+      continue
+    }
+    if (d.wins + d.losses + (d.draws || 0) === 0) {
+      continue
+    }
+    rows.push({
+      color: d.color,
+      delta: d.bayesian_win_percent - CUBE_AVG_WIN_PERCENT,
+      low: d.win_percent_low - CUBE_AVG_WIN_PERCENT,
+      high: d.win_percent_high - CUBE_AVG_WIN_PERCENT,
+      muted: winRateMuted(d),
+      winPercent: d.win_percent,
+      numDecks: d.num_decks,
+    })
+  }
+  rows.sort((a, b) => b.delta - a.delta)
+  return rows
+}
+
+// deltaBarColor colors a net performance bar: good or bad when its interval
+// leaves out 50%, grey when the result can't be told apart from a coin flip.
+function deltaBarColor(row) {
+  if (row.muted) {
+    return withAlpha(currentChartTheme().muted, 0.45)
+  }
+  return deltaFill(row.delta)
+}
+
+// ColorPerformanceDeltaChart shows each color group's Bayes win rate minus
+// 50%, with the raw rate's interval as a whisker. Bars whose interval crosses
+// 50% are grey: most colors can't be told apart from a coin flip.
 export function ColorPerformanceDeltaChart(input) {
   if (input == null || input.colorData == null) {
     return null
   }
 
-  // Resolve the active color set, honoring the selected bucket the same way the
-  // stats table does so the chart and table always agree.
-  let colorData = Array.from(input.colorData.values())
-  let buckets = input.parsed.colorDataBucketed
-  if (buckets.length > 0 && input.selectedBucket !== "ALL") {
-    for (let bucket of buckets) {
-      if (bucket.name === input.selectedBucket) {
-        colorData = Array.from(new Map(Object.entries(bucket.data)).values())
-        break
-      }
-    }
-  }
-
-  // Filter to the selected identity length and compute each color's delta, then
-  // sort best-to-worst so the bars read left (overperforming) to right.
-  let rows = []
-  for (let d of colorData) {
-    if (!colorIsDisplayed(d.color, input.colorTypeSelection)) {
-      continue
-    }
-    rows.push({ color: d.color, delta: d.win_percent - CUBE_AVG_WIN_PERCENT, winPercent: d.win_percent, numDecks: d.num_decks })
-  }
-  rows.sort((a, b) => b.delta - a.delta)
-
+  const colorRows = selectedColorRows(input.colorData, input.parsed.colorDataBucketed, input.selectedBucket)
+  const rows = deltaRows(colorRows, input.colorTypeSelection)
   if (rows.length === 0) {
     return null
   }
 
-  const labels = rows.map(r => colorName(r.color))
-  const deltas = rows.map(r => r.delta)
-  // A function, so Chart.js picks the bar colors again when the scheme changes.
-  const barColors = ctx => deltaFill(rows[ctx.dataIndex].delta)
+  const bars = {
+    label: COLORS_COPY.rateCharts.deltaDatasetLabel,
+    data: rows.map(r => r.delta),
+    backgroundColor: ctx => deltaBarColor(rows[ctx.dataIndex]),
+    borderWidth: 0,
+    order: 3,
+  }
+  const whiskers = intervalDataset(COLORS_COPY.rateCharts.intervalLabel, rows.map(r => [r.low, r.high]))
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: COLORS_COPY.rateCharts.deltaDatasetLabel,
-        data: deltas,
-        backgroundColor: barColors,
-        borderColor: barColors,
-        borderWidth: 1,
-      },
-    ],
+  // tooltipLine reads "+2.1 pts Bayes (raw 54%, 31 decks)" for the bar and
+  // the interval's ends for the whisker.
+  function tooltipLine(ctx) {
+    const r = rows[ctx.dataIndex]
+    if (ctx.datasetIndex === 1) {
+      return COLORS_COPY.rateCharts.intervalTooltip({ low: Math.round(r.low + 50), high: Math.round(r.high + 50) })
+    }
+    const sign = r.delta >= 0 ? "+" : ""
+    return COLORS_COPY.rateCharts.deltaTooltip({ sign, delta: r.delta.toFixed(1), winPercent: r.winPercent.toFixed(0), numDecks: r.numDecks })
   }
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      title: {
-        display: true,
-        text: COLORS_COPY.rateCharts.deltaTitle,
-        font: { size: "16pt" },
-      },
+      title: { display: true, text: COLORS_COPY.rateCharts.deltaTitle, font: { size: "16pt" } },
+      subtitle: { display: true, text: COLORS_COPY.rateCharts.deltaSubtitle },
       legend: { display: false },
-      tooltip: chartTooltip(currentChartTheme(), {
-        callbacks: {
-          label: function(ctx) {
-            let r = rows[ctx.dataIndex]
-            let sign = r.delta >= 0 ? "+" : ""
-            return COLORS_COPY.rateCharts.deltaTooltip({
-              sign: sign,
-              delta: r.delta.toFixed(1),
-              winPercent: r.winPercent.toFixed(0),
-              numDecks: r.numDecks,
-            })
-          },
-        },
-      }),
+      tooltip: chartTooltip(currentChartTheme(), { callbacks: { label: tooltipLine } }),
     },
     scales: {
       x: { ticks: { font: { size: 14 } }, grid: { display: false } },
@@ -101,6 +115,7 @@ export function ColorPerformanceDeltaChart(input) {
     },
   }
 
+  const data = { labels: rows.map(r => colorName(r.color)), datasets: [bars, whiskers] }
   return (
     <div className="chart-container">
       <div className="colors-rate-chart">
@@ -110,238 +125,44 @@ export function ColorPerformanceDeltaChart(input) {
   )
 }
 
-export function ColorRateChart(input) {
-  // Split the given decks into fixed-size buckets.
-  // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.colorDataBucketed;
-
-  // Use the starting date of the bucket as the label. This is just an approximation,
-  // as the bucket really includes a variable set of dates, but it allows the viewer to
-  // at least place some sense of time to the chart.
-  const labels = []
-  for (let bucket of buckets) {
-    labels.push(bucket.start)
+// lineColor is a color group's line color: its own color for one color, its
+// guild or shard color for more.
+function lineColor(group) {
+  if (group.length === 1) {
+    return Colors.get(group)
   }
+  return guildColor(group)
+}
 
-  // Parse the buckets into color data.
-  let monoColors = ["W", "U", "B", "R", "G"]
-  let dualColors = ["WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"]
-  let triColors = ["WUG", "WUB", "UBR", "BRG", "WRG", "WBG", "WUR", "UBG", "WBR", "URG"]
-  let allColors = [...monoColors, ...dualColors, ...triColors]
-  let colorDatasets = new Map()
-  for (let color of allColors) {
-    colorDatasets.set(color, [])
-  }
-  for (let bucket of buckets) {
-    let stats = new Map(Object.entries(bucket.data))
-
-    for (let color of allColors) {
-      if (!stats.has(color)) {
-        colorDatasets.get(color).push(0)
-        continue
-      }
-
-      if (input.dataset === "wins") {
-        colorDatasets.get(color).push(stats.get(color).win_percent)
-      } else if (input.dataset === "bayes_wins") {
-        colorDatasets.get(color).push(stats.get(color).bayesian_win_percent)
-      } else if (input.dataset === "pick_percentage") {
-        colorDatasets.get(color).push(stats.get(color).total_pick_percentage)
-      } else if (input.dataset === "splash") {
-        colorDatasets.get(color).push(stats.get(color).average_deck_percentage)
-      } else if (input.dataset === "percent_of_wins") {
-        colorDatasets.get(color).push(stats.get(color).percent_of_wins)
-      } else if (input.dataset === "winning_pct") {
-        // % of decks of this color with a 2-1 or better record. Denominator
-        // is all decks, not just decisive ones - 1-1 / 2-2 decks should pull
-        // the rate down, not vanish. Drop buckets with too few decks to carry
-        // signal so we don't draw noise.
-        let c = stats.get(color)
-        let total = c.num_decks || 0
-        colorDatasets.get(color).push(total >= MinWinningPctDecks ? Pct(c.top_half || 0, total) : null)
-      } else if (input.dataset === "trophy_pct") {
-        // % of decks of this color that won a trophy. Use num_decks as the
-        // denominator (not top_half + bottom_half, which excludes 2-2 and 1-1
-        // results entirely).
-        let c = stats.get(color)
-        let total = c.num_decks || 0
-        colorDatasets.get(color).push(total > 0 ? Math.round(100 * (c.trophies || 0) / total) : 0)
-      } else if (input.dataset === "lastplace_pct") {
-        let c = stats.get(color)
-        let total = c.num_decks || 0
-        colorDatasets.get(color).push(total > 0 ? Math.round(100 * (c.last_place || 0) / total) : 0)
-      } else {
-        colorDatasets.get(color).push(stats.get(color).build_percent)
-      }
-    }
-  }
-
-  // Configuration for datasets.
-  let hoverBorderWidth = 4;
-
-  let monoColorDatasets = [
-      {
-        label: COLORS_COPY.rateCharts.white,
-        data: colorDatasets.get("W"),
-        borderColor: Colors.get("W"),
-        backgroundColor: Colors.get("W"),
-        hoverBorderWidth: hoverBorderWidth,
-      },
-      {
-        label: COLORS_COPY.rateCharts.blue,
-        data: colorDatasets.get("U"),
-        borderColor: Colors.get("U"),
-        backgroundColor: Colors.get("U"),
-        hoverBorderWidth: hoverBorderWidth,
-      },
-      {
-        label: COLORS_COPY.rateCharts.black,
-        data: colorDatasets.get("B"),
-        borderColor: Colors.get("B"),
-        backgroundColor: Colors.get("B"),
-        hoverBorderWidth: hoverBorderWidth,
-      },
-      {
-        label: COLORS_COPY.rateCharts.red,
-        data: colorDatasets.get("R"),
-        borderColor: Colors.get("R"),
-        backgroundColor: Colors.get("R"),
-        hoverBorderWidth: hoverBorderWidth,
-      },
-      {
-        label: COLORS_COPY.rateCharts.green,
-        data: colorDatasets.get("G"),
-        borderColor: Colors.get("G"),
-        backgroundColor: Colors.get("G"),
-        hoverBorderWidth: hoverBorderWidth,
-      },
-  ]
-
-  // Generate a dual-color dataset as well.
-  let dualColorDatasets = []
-  for (let color of dualColors) {
-    dualColorDatasets.push({
-      label: colorName(color),
-      data: colorDatasets.get(color),
-      borderColor: guildColor(color),
-      backgroundColor: guildColor(color),
-      hoverBorderWidth: hoverBorderWidth,
-    })
-  }
-
-  let triColorDatasets = []
-  for (let color of triColors) {
-    triColorDatasets.push({
-      label: colorName(color),
-      data: colorDatasets.get(color),
-      borderColor: guildColor(color),
-      backgroundColor: guildColor(color),
-      hoverBorderWidth: hoverBorderWidth,
-    })
-  }
-
-  let dataset = monoColorDatasets
-  switch (input.colorMode) {
-    case "Dual":
-      dataset = dualColorDatasets
-      break;
-    case "Trio":
-      dataset = triColorDatasets
-      break;
-    case "Any":
-      dataset = [...monoColorDatasets, ...dualColorDatasets, ...triColorDatasets]
-      break;
-  }
-
-  // Build % is the fallback, matching the data loop above.
-  let title = COLORS_COPY.rateCharts.buildsTitle(input.bucketSize)
-  switch (input.dataset) {
-    case "wins":
-      title = COLORS_COPY.rateCharts.winsTitle(input.bucketSize)
-      break;
-    case "pick_percentage":
-      title = COLORS_COPY.rateCharts.pickPercentageTitle(input.bucketSize)
-      break;
-    case "splash":
-      title = COLORS_COPY.rateCharts.splashTitle(input.bucketSize)
-      break;
-    case "percent_of_wins":
-      title = COLORS_COPY.rateCharts.percentOfWinsTitle(input.bucketSize)
-      break;
-    case "winning_pct":
-      title = COLORS_COPY.rateCharts.winningPctTitle(input.bucketSize)
-      break;
-    case "trophy_pct":
-      title = COLORS_COPY.rateCharts.trophyPctTitle(input.bucketSize)
-      break;
-    case "lastplace_pct":
-      title = COLORS_COPY.rateCharts.lastPlacePctTitle(input.bucketSize)
-      break;
-    case "bayes_wins":
-      title = COLORS_COPY.rateCharts.bayesWinTitle(input.bucketSize)
-      break;
-  }
-
-  // Calculate the max based on our data set, which structured as an array of dictionary objects
-  // each with a data field that is itself an array of values.
-  let max = 0
-  let min = 100
-  for (let set of dataset) {
-    let values = set.data
-    let colorMax = Math.max(...values)
-    let colorMin = Math.min(...values)
-    if (colorMax > max) {
-      max = colorMax
-    }
-    if (colorMin < min) {
-      min = colorMin
-    }
-  }
-  // Round things.
-  max = Math.ceil(max / 10) * 10
-  min = Math.floor(min / 20) * 20
-  if (max >= 90) {
-    max = 100
-  }
-  if (min <= 10) {
-    min = 0
-  }
+// ColorTrendChart draws one line per group in groups: the chosen measure in
+// each time bucket of bucketSize drafts.
+export function ColorTrendChart({ buckets, groups, measure, bucketSize }) {
+  const labels = buckets.map(bucket => bucket.start)
+  const datasets = groups.map(group => ({
+    label: colorName(group),
+    data: seriesFor(buckets, group, measure),
+    borderColor: lineColor(group),
+    backgroundColor: lineColor(group),
+    hoverBorderWidth: 4,
+    spanGaps: false,
+  }))
 
   const options = {
     responsive: true,
     borderWidth: 3,
     maintainAspectRatio: false,
-    scales: {x: bucketXScale, y: {min: min, max: max}},
-    hover: {
-      mode: 'dataset'
-    },
-    elements: {
-      point: {
-        hitRadius: 10
-      }
-    },
+    scales: { x: bucketXScale, y: { min: 0 } },
+    hover: { mode: 'dataset' },
+    elements: { point: { hitRadius: 10 } },
     plugins: {
-      title: {
-        display: true,
-        text: title,
-        font: {
-          size: "16pt",
-        },
-      },
-      legend: {
-        labels: {
-          font: {
-            size: "16pt",
-          },
-        },
-      },
+      subtitle: { display: true, text: COLORS_COPY.rateCharts.bucketCaption(bucketSize) },
+      legend: { labels: { font: { size: "16pt" } } },
     },
-  };
+  }
 
-  const data = {labels, datasets: dataset};
   return (
     <div className="stats-main-chart">
-      <Line height={"300px"} options={options} data={data} />
+      <Line height={"300px"} options={options} data={{ labels, datasets }} />
     </div>
-  );
+  )
 }

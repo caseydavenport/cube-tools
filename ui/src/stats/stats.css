@@ -406,6 +406,34 @@
   color: var(--se-muted);
 }
 
+/* A heatmap pairing: centered, never wrapped. */
+.colors-heatmap-cell {
+  text-align: center;
+  min-width: 65px;
+  cursor: default;
+}
+
+.colors-heatmap-head {
+  text-align: center;
+  min-width: 65px;
+}
+
+.colors-heatmap-note {
+  margin: 0 0 8px;
+}
+
+/* The chart over time's group picker and measure dropdown. */
+.colors-trend-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.colors-trend-picker {
+  min-width: 220px;
+}
+
 .colors-rate-chart {
   height: 420px;
 }

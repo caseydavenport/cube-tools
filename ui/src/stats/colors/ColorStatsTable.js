@@ -8,7 +8,7 @@ import { asEvent } from "../../components/kit/controls.js"
 import { Group, SegmentedControl } from "@mantine/core"
 import { ColorImages } from "../../utils/Colors.js"
 import { colorName } from "../../utils/colorNames.js"
-import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
+import { SortFunc } from "../../utils/Utils.js"
 import { colorColumnShown, shownColorSort } from "./colorSort.js"
 import { COLORS_COPY } from "./copy.js"
 
@@ -42,55 +42,6 @@ const COLOR_COLUMNS = [
     cell: (color) => <td key="build">{color.build_percent.toFixed(0)}%</td>,
   },
   {
-    id: "bayes_win",
-    text: COLORS_COPY.statsTable.bayesWinPct.text,
-    tip: COLORS_COPY.statsTable.bayesWinPct.tip,
-    needs: ["results"],
-    cell: (color, input) => <WinRateCell key="bayes_win" record={color} confidence={input.confidence} />,
-  },
-  {
-    id: "pwin",
-    text: COLORS_COPY.statsTable.percentOfWins.text,
-    tip: COLORS_COPY.statsTable.percentOfWins.tip,
-    needs: ["results"],
-    cell: (color) => <td key="pwin">{color.percent_of_wins.toFixed(0)}%</td>,
-  },
-  {
-    id: "trophies",
-    text: COLORS_COPY.statsTable.trophies.text,
-    tip: COLORS_COPY.statsTable.trophies.tip,
-    needs: ["results"],
-    cell: (color) => <td key="trophies">{color.trophies}</td>,
-  },
-  {
-    id: "lastplace",
-    text: COLORS_COPY.statsTable.lastPlace.text,
-    tip: COLORS_COPY.statsTable.lastPlace.tip,
-    needs: ["results"],
-    cell: (color) => <td key="lastplace">{color.last_place}</td>,
-  },
-  {
-    id: "winning",
-    text: COLORS_COPY.statsTable.winning.text,
-    tip: COLORS_COPY.statsTable.winning.tip,
-    needs: ["results"],
-    cell: (color) => <td key="winning">{color.top_half}</td>,
-  },
-  {
-    id: "losing",
-    text: COLORS_COPY.statsTable.losing.text,
-    tip: COLORS_COPY.statsTable.losing.tip,
-    needs: ["results"],
-    cell: (color) => <td key="losing">{color.bottom_half}</td>,
-  },
-  {
-    id: "winning_pct",
-    text: COLORS_COPY.statsTable.winningPct.text,
-    tip: COLORS_COPY.statsTable.winningPct.tip,
-    needs: ["results"],
-    cell: (color) => <td key="winning_pct">{winningPercentText(color)}</td>,
-  },
-  {
     id: "decks",
     text: COLORS_COPY.statsTable.decks.text,
     tip: COLORS_COPY.statsTable.decks.tip,
@@ -103,6 +54,13 @@ const COLOR_COLUMNS = [
     monoOnly: true,
     cell: (color) => <td key="picks">{color.total_pick_percentage}%</td>,
   },
+  {
+    id: "bayes_win",
+    text: COLORS_COPY.statsTable.bayesWinPct.text,
+    tip: COLORS_COPY.statsTable.bayesWinPct.tip,
+    needs: ["results"],
+    cell: (color, input) => <WinRateCell key="bayes_win" record={color} confidence={input.confidence} alwaysMuted />,
+  },
 ]
 
 // shownColumns returns the stats table's columns for this cube and color type:
@@ -110,15 +68,6 @@ const COLOR_COLUMNS = [
 // when pairs or trios are shown. Header and cells both come from this list.
 function shownColumns(info, colorType) {
   return COLOR_COLUMNS.filter(column => colorColumnShown(column, info, colorType))
-}
-
-// winningPercentText is the share of decks with a winning record, or a dash
-// for colors with too few decks to say.
-function winningPercentText(color) {
-  if (color.num_decks < MinWinningPctDecks) {
-    return "—"
-  }
-  return Pct(color.top_half, color.num_decks) + "%"
 }
 
 // ColorCell shows a row's color pips, with the guild or shard name in small
@@ -136,39 +85,23 @@ function ColorCell({ color }) {
   )
 }
 
-// colorSortValue is the value a row sorts by for the chosen column, Bayes win
-// rate unless another column was clicked.
+// colorSortValue is the value a row sorts by for the chosen column, Build %
+// unless another column was clicked.
 function colorSortValue(color, sortBy) {
-  if (sortBy === "build") {
-    return color.build_percent
-  } else if (sortBy === "decks") {
+  if (sortBy === "decks") {
     return color.num_decks
   } else if (sortBy === "color") {
     return color.color
   } else if (sortBy === "picks") {
     return color.total_pick_percentage
-  } else if (sortBy === "splash") {
-    return color.average_deck_percentage
-  } else if (sortBy === "pwin") {
-    return color.percent_of_wins
-  } else if (sortBy === "trophies") {
-    return color.trophies
-  } else if (sortBy === "lastplace") {
-    return color.last_place
-  } else if (sortBy === "winning") {
-    return color.top_half
-  } else if (sortBy === "losing") {
-    return color.bottom_half
-  } else if (sortBy === "winning_pct") {
-    if (color.num_decks >= MinWinningPctDecks) {
-      return color.top_half / color.num_decks
-    }
-    return -1
+  } else if (sortBy === "bayes_win") {
+    return color.bayesian_win_percent
   }
-  return color.bayesian_win_percent
+  return color.build_percent
 }
 
-// ColorStatsTable displays the win percentages and records by color.
+// ColorStatsTable displays how often each color is built and played, with
+// its win rate greyed as unreliable.
 export function ColorStatsTable(input) {
   if (input == null || input.colorData == null) {
     return null

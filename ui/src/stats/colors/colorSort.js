@@ -15,16 +15,13 @@ export function colorColumnShown(column, info, colorType) {
   return true
 }
 
-// shownColorSort returns sortBy when its column is on screen. Otherwise it
-// falls back to Bayes win % when that shows, and to Build % when the cube has
-// no results, so rows never sort by a column the viewer can't see. columns are
-// the table's column descriptors; colorType is Mono, Dual, or Trio.
+// shownColorSort returns sortBy when its column is on screen, and Build %
+// otherwise, so rows never sort by a column the viewer can't see. Build % is
+// the default because which colors get built is the table's reliable number.
+// columns are the table's column descriptors; colorType is Mono, Dual, or Trio.
 export function shownColorSort(sortBy, columns, info, colorType) {
   if (isShown(sortBy, columns, info, colorType)) {
     return sortBy
-  }
-  if (isShown("bayes_win", columns, info, colorType)) {
-    return "bayes_win"
   }
   return "build"
 }

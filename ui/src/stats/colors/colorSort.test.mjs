@@ -13,9 +13,9 @@ test("a visible sort column stays", () => {
   assert.equal(shownColorSort("build", COLUMNS, { results: true }), "build")
 })
 
-test("a removed sort column falls back to Bayes win % when it shows", () => {
-  assert.equal(shownColorSort("win", COLUMNS, { results: true }), "bayes_win")
-  assert.equal(shownColorSort("delta", COLUMNS, { results: true }), "bayes_win")
+test("a removed sort column falls back to Build %, even with results", () => {
+  assert.equal(shownColorSort("win", COLUMNS, { results: true }), "build")
+  assert.equal(shownColorSort("trophies", COLUMNS, { results: true }), "build")
 })
 
 test("a mono-only sort column falls back outside Mono", () => {

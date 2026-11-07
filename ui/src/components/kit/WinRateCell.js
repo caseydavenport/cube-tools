@@ -10,10 +10,12 @@ import "./kit.css"
 // WinRateCell renders a <td> for a server win-rate Record. confidence is the
 // page's confidence setting, used to label the interval. onClick and id pass
 // through to the cell, for tables whose rows select something on click.
-export function WinRateCell({ record, confidence, onClick, id }) {
+// alwaysMuted greys the value even when it differs from 50%, for rates the
+// page marks as unreliable however they come out.
+export function WinRateCell({ record, confidence, onClick, id, alwaysMuted = false }) {
   const rows = winRateRows(record, confidencePercent(confidence))
   let className = undefined
-  if (winRateMuted(record)) {
+  if (alwaysMuted || winRateMuted(record)) {
     className = "kit-win-muted"
   }
   const cell = <td id={id} onClick={onClick} className={className}>{winRateText(record)}</td>

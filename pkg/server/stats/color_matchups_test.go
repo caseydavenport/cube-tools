@@ -61,3 +61,19 @@ func TestColorGroups_UnknownColorsJoinNoGroup(t *testing.T) {
 		})
 	}
 }
+
+func TestMatchupRecord_SignificantOnlyWhenIntervalExcludesHalf(t *testing.T) {
+	lopsided := &MatchupRecord{Wins: 40, Losses: 10}
+	lopsided.finish(60, zForConfidence(0.95))
+	assert.True(t, lopsided.Significant)
+	assert.Greater(t, lopsided.WinPctLow, 50.0)
+
+	nearEven := &MatchupRecord{Wins: 6, Losses: 4}
+	nearEven.finish(60, zForConfidence(0.95))
+	assert.False(t, nearEven.Significant)
+	assert.Equal(t, 60.0, nearEven.WinPct)
+
+	empty := &MatchupRecord{}
+	empty.finish(60, zForConfidence(0.95))
+	assert.False(t, empty.Significant)
+}

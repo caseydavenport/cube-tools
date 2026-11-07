@@ -7,6 +7,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
+	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/caseydavenport/cube-tools/pkg/utils"
@@ -17,12 +18,29 @@ type ColorMatchupResponse struct {
 	Matchups map[string]map[string]*MatchupRecord `json:"matchups"`
 }
 
+// MatchupRecord is one color group's games against another. WinPctLow and
+// WinPctHigh bound WinPct at the request's confidence, and Significant reports
+// whether that interval leaves out 50%, so the heatmap can shade only those.
 type MatchupRecord struct {
 	Wins           int     `json:"wins"`
 	Losses         int     `json:"losses"`
 	Draws          int     `json:"draws"`
 	WinPct         float64 `json:"win_pct"`
 	BayesianWinPct float64 `json:"bayesian_win_pct"`
+	WinPctLow      float64 `json:"win_pct_low"`
+	WinPctHigh     float64 `json:"win_pct_high"`
+	Significant    bool    `json:"significant"`
+}
+
+// finish fills in the record's rates from its counts. prior is the Bayes
+// prior in games and z the interval's critical value.
+func (m *MatchupRecord) finish(prior, z float64) {
+	m.WinPct = winPctOf(m.Wins, m.Losses, m.Draws)
+	m.BayesianWinPct = utils.BayesianAverage(m.Wins, m.Losses, m.Draws, prior)
+	m.WinPctLow, m.WinPctHigh = wilsonInterval(m.Wins, m.Losses, m.Draws, z)
+	if m.Wins+m.Losses+m.Draws > 0 {
+		m.Significant = m.WinPctLow > 50 || m.WinPctHigh < 50
+	}
 }
 
 func ColorMatchupHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
@@ -119,10 +137,10 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		}
 	}
 
+	z := zForConfidence(query.GetFloat(r, "confidence"))
 	for _, opponents := range matchups {
 		for _, record := range opponents {
-			record.WinPct = winPctOf(record.Wins, record.Losses, record.Draws)
-			record.BayesianWinPct = utils.BayesianAverage(record.Wins, record.Losses, record.Draws, bayesPriorGames(colorMode))
+			record.finish(bayesPriorGames(colorMode), z)
 		}
 	}
 

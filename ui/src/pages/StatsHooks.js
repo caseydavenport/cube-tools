@@ -10,6 +10,7 @@ import { fetchJson } from "../utils/fetchJson.js";
 import { fromCallback } from "../stats/loading.js";
 import { statsUrl, matchWithDeckColors } from "../stats/statsUrls.js";
 import { colorStatsUrl } from "../stats/pageRequests.js";
+import { heatmapColorType } from "../stats/colors/heatmapModel.js";
 import { ALL_SOURCES, viewNeeds } from "../stats/viewSources.js";
 import { useLoaded } from "../stats/useLoaded.js";
 import { NO_DECK_CHARTS, toDeckCharts } from "../stats/deckstats/deckChartsData.js";
@@ -21,7 +22,7 @@ export function useStatsFilters() {
   const [manaValue, setManaValue] = useState(-1);
   const [selectedBucket, setSelectedBucket] = useState("ALL");
   const [colorTypeSelection, setColorTypeSelection] = useState("Any");
-  const [colorSortBy, setColorSortBy] = useState("bayes_win");
+  const [colorSortBy, setColorSortBy] = useState("build");
   const [colorMode, setColorMode] = useState("exact");
   const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
   const [cardWidgetSelection, setCardWidgetSelection] = useState("Overview");
@@ -256,11 +257,14 @@ export function useStatsData(filters, props, refresh, view) {
     })).then(toPlayerStats),
     [startDate, endDate, minDraftSize, winConfidence, archetypeMatch, refresh], NO_MAP);
 
+  // The heatmap shows single colors or pairs only, so Any and Trio ask for pairs.
+  const heatmapType = heatmapColorType(colorTypeSelection);
   const colorMatchupsSource = useLoaded(cubeID, needs("colorMatchups"),
     () => fetchJson(statsUrl(cubeID, "color-matchups", {
-      start: startDate, end: endDate, size: minDraftSize, color_mode: colorMode, color_type: colorTypeSelection, match,
+      start: startDate, end: endDate, size: minDraftSize, color_mode: colorMode, color_type: heatmapType,
+      confidence: winConfidence, match,
     })).then(response => response.matchups || {}),
-    [startDate, endDate, minDraftSize, colorMode, colorTypeSelection, match, refresh], NO_OBJECT);
+    [startDate, endDate, minDraftSize, colorMode, heatmapType, winConfidence, match, refresh], NO_OBJECT);
 
   const healthSource = useLoaded(cubeID, needs("health"),
     () => fetchJson(statsUrl(cubeID, "health", {
