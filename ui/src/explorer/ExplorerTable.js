@@ -1,17 +1,15 @@
 // One of the Card explorer's tables: cards with the groups they land in, the
-// wires they'd join, and how much they'd add where packages are short.
+// wires they'd join, and how much they'd add where packages are short. The
+// server sorts the rows and sends the first batch; Show more asks for more.
 
-import React, { useState } from "react"
+import React from "react"
 import { Button } from "@mantine/core"
 import { CardLink } from "../components/CardLink.js"
 import { CardImagePreview } from "../components/kit/CardImagePreview.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SortHeader } from "../stats/sortHeader.js"
-import { compareBy } from "../stats/sortOrder.js"
-import { connectionLine, joinOpacity, joinText, partnerText, sortValue, splitJoins, typeText } from "./explorerModel.js"
-
-// PAGE_SIZE is how many rows show at first, and how many more each click adds.
-const PAGE_SIZE = 100
+import { entryLabel } from "../design/rules/boardModel.js"
+import { connectionLine, joinOpacity, joinText, linkedCount, partnerText, splitJoins, typeText } from "./explorerModel.js"
 
 // CardCell is the card's name, linked to its page with its image on hover,
 // and its type line.
@@ -50,7 +48,7 @@ function GroupChips({ groups }) {
 // crowded, with what it pairs with on hover.
 function JoinChip({ join }) {
   return (
-    <HoverInfo title={`Wire ${join.wire}, via ${join.via.join(", ")}`} info={partnerText(join)}>
+    <HoverInfo title={`Wire ${join.wire}, via ${join.via.map(entryLabel).join(", ")}`} info={partnerText(join)}>
       <span className="kit-chip kit-chip-package" style={{ opacity: joinOpacity(join.others) }}>{joinText(join)}</span>
     </HoverInfo>
   )
@@ -72,19 +70,19 @@ function JoinChips({ joins, thin }) {
   )
 }
 
-// LinkedCell counts the cube cards opposite the card's wires, naming them on
-// hover.
+// LinkedCell counts what the card would pair with on its wires, basic lands
+// included, naming them on hover.
 function LinkedCell({ card }) {
-  let names = card.linked.join(", ")
+  let names = card.linked
   if (card.linked_basics) {
-    names = ["basic lands", ...card.linked].join(", ")
+    names = ["basic lands", ...card.linked]
   }
-  if (names === "") {
+  if (names.length === 0) {
     return <td className="page-right-cell">0</td>
   }
   return (
-    <HoverInfo info={names}>
-      <td className="page-right-cell">{card.linked.length}</td>
+    <HoverInfo info={names.join(", ")}>
+      <td className="page-right-cell">{linkedCount(card)}</td>
     </HoverInfo>
   )
 }
@@ -103,13 +101,10 @@ function ConnectionsCell({ card }) {
   )
 }
 
-// ExplorerTable shows cards sorted by Fills gaps until a header is clicked,
-// PAGE_SIZE rows at a time. thin is the New connections cutoff, for its tip.
-export function ExplorerTable({ cards, cube, thin }) {
-  const [sort, setSort] = useState({ key: "fills", dir: "desc" })
-  const [shown, setShown] = useState(PAGE_SIZE)
-  const rows = [...cards].sort(compareBy(card => sortValue(sort.key, card), sort.dir))
-
+// ExplorerTable shows the cards the server sent, in its order. total is how
+// many match in all, sort the order with setSort to change it, onMore asks
+// for more rows, and thin is the New connections cutoff, for its tip.
+export function ExplorerTable({ cards, total, cube, thin, sort, setSort, onMore }) {
   // header is one sortable column head with its tip. A chips column sorts by
   // its count, high to low first, but keeps its head over the chips.
   function header(key, label, tip, chips = false) {
@@ -120,6 +115,7 @@ export function ExplorerTable({ cards, cube, thin }) {
     return <SortHeader sortKey={key} label={label} tip={tip} sort={sort} setSort={setSort} className={className} />
   }
 
+  const hidden = total - cards.length
   return (
     <>
       <div className="stats-table-wrap">
@@ -130,13 +126,13 @@ export function ExplorerTable({ cards, cube, thin }) {
               {header("mv", "MV", "Mana value.")}
               {header("groups", "Groups", "Groups in the rules this card lands in. Hover one for the condition it matched.", true)}
               {header("packages", "Packages", "The wires it would join: its role there, and how many cube cards already hold that role.", true)}
-              {header("linked", "Linked", "Cube cards it would pair with on the wires it joins.")}
+              {header("linked", "Linked", "Cube cards it would pair with on the wires it joins, with basic lands counted as one.")}
               {header("fills", "Fills gaps", "Each wire it joins adds 1 ÷ (cards already in its role + 1). Thin spots count most.")}
               {header("connections", "New connections", `Package pairs it joins through roles with at most ${thin} other cards, and how many cards they share today.`)}
             </tr>
           </thead>
           <tbody>
-            {rows.slice(0, shown).map(card => (
+            {cards.map(card => (
               <tr key={card.name} className="widget-table-row">
                 <CardCell card={card} cube={cube} />
                 <td className="page-right-cell">{card.cmc}</td>
@@ -150,11 +146,15 @@ export function ExplorerTable({ cards, cube, thin }) {
           </tbody>
         </table>
       </div>
-      {rows.length > shown && (
-        <Button size="xs" variant="subtle" mt="xs" onClick={() => setShown(shown + PAGE_SIZE)}>
-          Show {Math.min(PAGE_SIZE, rows.length - shown)} more of {rows.length - shown}
+      {hidden > 0 && (
+        <Button size="xs" variant="subtle" mt="xs" onClick={onMore}>
+          Show {Math.min(PAGE_SIZE, hidden)} more of {hidden}
         </Button>
       )}
     </>
   )
 }
+
+// PAGE_SIZE is how many rows show at first, and how many more each Show more
+// adds.
+export const PAGE_SIZE = 100

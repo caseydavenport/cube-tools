@@ -61,3 +61,56 @@
   font-size: 0.8rem;
   color: var(--se-muted);
 }
+
+/* The opening grid of best-fit cards: images in columns that fill the row. */
+.ex-fits {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.ex-fit {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+
+.ex-fit:hover {
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+}
+
+.ex-fit-image {
+  width: 100%;
+  aspect-ratio: 488 / 680;
+  border-radius: 6%;
+  object-fit: cover;
+}
+
+.ex-fit-noimage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: var(--se-border);
+  text-align: center;
+}
+
+.ex-fit-name {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.ex-fit-score {
+  font-size: 0.75rem;
+  color: var(--se-muted);
+}
+
+.ex-fit-role {
+  font-size: 0.72rem;
+  color: var(--mantine-primary-color-filled);
+}

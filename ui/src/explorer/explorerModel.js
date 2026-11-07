@@ -6,8 +6,11 @@ import { entryLabel } from "../design/rules/boardModel.js"
 // DEFAULT_THIN is the New connections cutoff when the URL doesn't set one.
 export const DEFAULT_THIN = 10
 
+// DEFAULT_SORT is the tables' order when the URL doesn't set one.
+export const DEFAULT_SORT = { key: "fills", dir: "desc" }
+
 // readParams reads the explorer's settings from the URL: the search, the
-// maybeboard and show-all switches, and the thin-role cutoff.
+// maybeboard and show-all switches, the thin-role cutoff, and the sort.
 export function readParams(params) {
   let thin = parseInt(params.get("thin") || "", 10)
   if (Number.isNaN(thin)) {
@@ -18,15 +21,20 @@ export function readParams(params) {
     maybe: params.get("maybe") === "1",
     thin,
     all: params.get("all") === "1",
+    sort: { key: params.get("sort") || DEFAULT_SORT.key, dir: params.get("dir") || DEFAULT_SORT.dir },
   }
 }
 
 // writeParams returns params with patch applied. Defaults (a blank search,
-// switches off, the default cutoff) are left out of the URL; other params are
-// kept. The search is trimmed.
+// switches off, the default cutoff and sort) are left out of the URL; other
+// params are kept. The search is trimmed.
 export function writeParams(params, patch) {
   const next = new URLSearchParams(params)
   for (const [key, value] of Object.entries(patch)) {
+    if (key === "sort") {
+      writeSort(next, value)
+      continue
+    }
     let text = ""
     if (key === "q") {
       text = value.trim()
@@ -44,6 +52,17 @@ export function writeParams(params, patch) {
     }
   }
   return next
+}
+
+// writeSort puts a sort in the URL as sort and dir, leaving out the default.
+function writeSort(params, sort) {
+  if (sort.key === DEFAULT_SORT.key && sort.dir === DEFAULT_SORT.dir) {
+    params.delete("sort")
+    params.delete("dir")
+    return
+  }
+  params.set("sort", sort.key)
+  params.set("dir", sort.dir)
 }
 
 // plural is "1 payoff" or "12 payoffs".
@@ -111,32 +130,13 @@ export function typeText(card) {
   return `${card.type_line} · ${card.power}/${card.toughness}`
 }
 
-// packageCount is how many distinct packages a card joins.
-function packageCount(card) {
-  return new Set(card.joins.map(j => j.package)).size
-}
-
-// sortValue is the value a column sorts a card by.
-export function sortValue(key, card) {
-  if (key === "fills") {
-    return card.fills_gaps
+// linkedCount is how many things a card would pair with: its linked cube
+// cards, plus basic lands as one more when a wire wants them.
+export function linkedCount(card) {
+  if (card.linked_basics) {
+    return card.linked.length + 1
   }
-  if (key === "groups") {
-    return card.groups.length
-  }
-  if (key === "packages") {
-    return packageCount(card)
-  }
-  if (key === "linked") {
-    return card.linked.length
-  }
-  if (key === "connections") {
-    return card.connections.length
-  }
-  if (key === "mv") {
-    return card.cmc
-  }
-  return card.name.toLowerCase()
+  return card.linked.length
 }
 
 // splitJoins separates a card's joins into thin ones, with at most thin other

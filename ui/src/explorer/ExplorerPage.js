@@ -1,6 +1,6 @@
 // The Card explorer: search every card, or the cube's CubeCobra maybeboard,
-// and see where each would sit in the rules. The server computes everything
-// (/stats/explorer).
+// and see where each would sit in the rules. The server computes, sorts and
+// pages everything (/stats/explorer).
 
 import React, { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
@@ -11,8 +11,9 @@ import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { startLoad } from "../stats/loading.js"
 import { explorerUrl } from "../stats/pageRequests.js"
 import { fetchJson } from "../utils/fetchJson.js"
-import { ExplorerTable } from "./ExplorerTable.js"
-import { readParams, writeParams } from "./explorerModel.js"
+import { BestFits } from "./BestFits.js"
+import { ExplorerTable, PAGE_SIZE } from "./ExplorerTable.js"
+import { DEFAULT_THIN, readParams, writeParams } from "./explorerModel.js"
 import "../stats/stats.css"
 import "../pages/pages.css"
 import "./explorer.css"
@@ -27,10 +28,19 @@ function useExplorer(cube, settings) {
     return startLoad(
       () => fetchJson(url),
       data => setState({ data, loading: false, failed: false }),
-      () => setState({ data: null, loading: false, failed: true }),
+      () => setState(prev => ({ ...prev, loading: false, failed: true })),
     )
   }, [url])
   return state
+}
+
+// useRowLimit is how many rows of each table to ask for: PAGE_SIZE, growing
+// by PAGE_SIZE with each Show more, and back to PAGE_SIZE whenever the search
+// or sort changes. key identifies the search and sort.
+function useRowLimit(key) {
+  const [rows, setRows] = useState({ key, limit: PAGE_SIZE })
+  const limit = rows.key === key ? rows.limit : PAGE_SIZE
+  return [limit, () => setRows({ key, limit: limit + PAGE_SIZE })]
 }
 
 // SearchBox holds the typed search and puts it in the URL on Enter or when
@@ -44,7 +54,7 @@ function SearchBox({ value, onSearch }) {
     <TextInput
       size="xs"
       className="ex-search"
-      placeholder='Search all cards, e.g. c:G cmc:3 t:creature tou>=4'
+      placeholder='Search all cards, e.g. c:G mv=3 t:creature tou>=4'
       value={typed}
       onChange={event => setTyped(event.target.value)}
       onKeyDown={event => {
@@ -57,16 +67,64 @@ function SearchBox({ value, onSearch }) {
   )
 }
 
+// ThinInput holds the typed thin-role cutoff and puts it in the URL on Enter
+// or when the box loses focus, like the search. An empty box means the
+// default.
+function ThinInput({ value, onChange }) {
+  const [typed, setTyped] = useState(value)
+  useEffect(() => {
+    setTyped(value)
+  }, [value])
+
+  // commit sends the typed cutoff, or the default for an empty box.
+  function commit() {
+    let next = Number(typed)
+    if (typed === "" || Number.isNaN(next)) {
+      next = DEFAULT_THIN
+    }
+    setTyped(next)
+    onChange(next)
+  }
+
+  return (
+    <NumberInput
+      size="xs"
+      className="ex-thin"
+      label="Thin role"
+      min={0}
+      max={99}
+      value={typed}
+      onChange={setTyped}
+      onKeyDown={event => {
+        if (event.key === "Enter") {
+          commit()
+        }
+      }}
+      onBlur={commit}
+    />
+  )
+}
+
 // ExplorerPage is the Card explorer page.
 export function ExplorerPage() {
   const cube = useCube()
   const [params, setParams] = useSearchParams()
   const settings = readParams(params)
-  const { data, loading, failed } = useExplorer(cube, settings)
+  const [limit, showMore] = useRowLimit(explorerUrl(cube, settings))
+  const { data, loading, failed } = useExplorer(cube, { ...settings, limit })
 
   // update writes a change to the settings into the URL.
   function update(patch) {
     setParams(writeParams(params, patch), { replace: true })
+  }
+
+  // setSort takes a sort, or a function of the current one, as the table's
+  // headers pass.
+  function setSort(next) {
+    if (typeof next === "function") {
+      next = next(settings.sort)
+    }
+    update({ sort: next })
   }
 
   const maybeboard = data ? data.maybeboard : { available: false }
@@ -76,36 +134,29 @@ export function ExplorerPage() {
       {maybeboard.available && (
         <Switch size="xs" label="Maybeboard only" checked={settings.maybe} onChange={event => update({ maybe: event.currentTarget.checked })} />
       )}
-      <NumberInput
-        size="xs"
-        className="ex-thin"
-        label="Thin role"
-        min={0}
-        max={99}
-        value={settings.thin}
-        onChange={value => update({ thin: Number(value) || 0 })}
-      />
+      <ThinInput value={settings.thin} onChange={thin => update({ thin })} />
       <Switch size="xs" label="Show cards in no group" checked={settings.all} onChange={event => update({ all: event.currentTarget.checked })} />
     </PageToolbar>
   )
 
+  const tableProps = { cube, thin: settings.thin, sort: settings.sort, setSort, onMore: showMore }
   let body = null
   if (failed) {
     body = <div className="browse-empty">Couldn't run that search.</div>
   } else if (!data) {
     body = <div className="browse-empty">Loading…</div>
   } else if (!settings.q && !settings.maybe) {
-    body = <div className="browse-empty">Search for cards to see where they'd fit.</div>
+    body = <BestFits cards={data.candidates} onPick={name => update({ q: `!"${name}"` })} />
   } else {
     body = (
       <>
         {maybeboard.error && <div className="ex-note">{maybeboard.error}</div>}
-        <SectionCard title={`Candidates · ${data.candidates.length}`} action={loading ? <span className="ex-note">Updating…</span> : null}>
-          <ExplorerTable cards={data.candidates} cube={cube} thin={settings.thin} />
+        <SectionCard title={`Candidates · ${data.candidates_total}`} action={loading ? <span className="ex-note">Updating…</span> : null}>
+          <ExplorerTable cards={data.candidates} total={data.candidates_total} {...tableProps} />
         </SectionCard>
-        {data.in_cube.length > 0 && (
-          <SectionCard title={`In the cube · ${data.in_cube.length}`}>
-            <ExplorerTable cards={data.in_cube} cube={cube} thin={settings.thin} />
+        {data.in_cube_total > 0 && (
+          <SectionCard title={`In the cube · ${data.in_cube_total}`}>
+            <ExplorerTable cards={data.in_cube} total={data.in_cube_total} {...tableProps} />
           </SectionCard>
         )}
       </>

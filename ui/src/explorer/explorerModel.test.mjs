@@ -1,10 +1,11 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { connectionLine, joinOpacity, joinText, partnerText, readParams, sortValue, splitJoins, typeText, writeParams } from "./explorerModel.js"
+import { connectionLine, joinOpacity, joinText, linkedCount, partnerText, readParams, splitJoins, typeText, writeParams } from "./explorerModel.js"
 
 test("the URL's search, switches and thin cutoff read with defaults", () => {
-  assert.deepEqual(readParams(new URLSearchParams("")), { q: "", maybe: false, thin: 10, all: false })
-  assert.deepEqual(readParams(new URLSearchParams("q=c%3AG&maybe=1&thin=4&all=1")), { q: "c:G", maybe: true, thin: 4, all: true })
+  const fills = { key: "fills", dir: "desc" }
+  assert.deepEqual(readParams(new URLSearchParams("")), { q: "", maybe: false, thin: 10, all: false, sort: fills })
+  assert.deepEqual(readParams(new URLSearchParams("q=c%3AG&maybe=1&thin=4&all=1")), { q: "c:G", maybe: true, thin: 4, all: true, sort: fills })
   assert.equal(readParams(new URLSearchParams("thin=abc")).thin, 10)
 })
 
@@ -44,14 +45,17 @@ const card = {
   connections: [{ a: "Lands", b: "Sacrifice", shared: 9 }],
 }
 
-test("cards sort by each column's value", () => {
-  assert.equal(sortValue("fills", card), 0.83)
-  assert.equal(sortValue("groups", card), 2)
-  assert.equal(sortValue("packages", card), 2)
-  assert.equal(sortValue("linked", card), 2)
-  assert.equal(sortValue("connections", card), 1)
-  assert.equal(sortValue("mv", card), 3)
-  assert.equal(sortValue("name", card), "turntimber sower")
+test("the sort goes in the URL unless it's the default", () => {
+  const named = writeParams(new URLSearchParams("q=x"), { sort: { key: "name", dir: "asc" } })
+  assert.equal(named.toString(), "q=x&sort=name&dir=asc")
+  assert.deepEqual(readParams(named).sort, { key: "name", dir: "asc" })
+  assert.equal(writeParams(named, { sort: { key: "fills", dir: "desc" } }).toString(), "q=x")
+})
+
+test("linked counts basic lands as one more", () => {
+  assert.equal(linkedCount(card), 3)
+  assert.equal(linkedCount({ ...card, linked_basics: false }), 2)
+  assert.equal(linkedCount({ linked: [], linked_basics: true }), 1)
 })
 
 test("a connection reads as the two packages and what they share", () => {

@@ -92,7 +92,7 @@ export function PackagesTable({ data, nav, confidence, sort, setSort, showGames 
         <thead>
           <tr>
             {header("name", "Package", undefined, false)}
-            {header("built", "Built in", "Decks with 2 or more cards on each side of one of its wires, 3 or more in all.")}
+            {header("built", "Built in", "Decks that built one of its wires: 2+ cards from the scarcer side (or a build-around with 8+ links to the other side), 1 to 3 from the bigger side, and 3+ of its cards in all.")}
             {header("had", "Had the cards", "Decks carrying at least three of its cards, built or not.")}
             {header("together", "Came together", "How often the cards, once in a deck, formed the package.")}
             {showGames && header("games", "Games won", "Bayes win % of the decks that built it. Hover a cell for the raw rate, interval and record.")}
