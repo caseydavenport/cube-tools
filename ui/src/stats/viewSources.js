@@ -7,7 +7,6 @@ export const ALL_SOURCES = [
   "cardStats",
   "colorStats", "colorStatsOverTime", "colorMatchups",
   "archetypeStats", "archetypeStatsOverTime", "playerStats", "deckCharts",
-  "health",
 ]
 
 // VIEW_SOURCES lists the data each page reads. decks feed the toolbar's
@@ -17,7 +16,6 @@ export const VIEW_SOURCES = {
   colors: ["decks", "cube", "colorStats", "colorStatsOverTime", "colorMatchups"],
   types: ["decks", "cube", "archetypeMatchups", "archetypeStats", "archetypeStatsOverTime", "deckCharts"],
   deckstats: ["decks", "cube", "drafts", "archetypeStats", "deckCharts"],
-  health: ["decks", "cube", "health"],
   players: ["decks", "cube", "playerStats"],
 }
 

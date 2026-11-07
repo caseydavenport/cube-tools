@@ -49,23 +49,6 @@
   }
 }
 
-/* The Health page: two charts to a row, one on narrow screens. */
-.health-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 32px;
-}
-
-.health-chart {
-  height: 500px;
-}
-
-@media (max-width: 62em) {
-  .health-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
 /* A row of page controls in a card's header. */
 .stats-controls {
   display: flex;

@@ -46,7 +46,6 @@ export const NAV_GROUPS = [
       { label: "Deck stats", path: "deck-stats", icon: "deckStats", needs: ["decks"] },
       { label: "Packages", path: "packages", icon: "packages", needs: [] },
       { label: "Charts", path: "charts", icon: "charts", needs: ["decks", "results"] },
-      { label: "Health", path: "health", icon: "health", needs: ["decks"] },
     ],
   },
   {

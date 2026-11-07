@@ -3,7 +3,7 @@ import assert from "node:assert/strict"
 import { statsUrl, matchWithDeckColors } from "./statsUrls.js"
 
 test("builds the stats URL with params in order", () => {
-  assert.equal(statsUrl("polyverse", "health", { bucket_size: 3, sliding: true }), "/api/polyverse/stats/health?bucket_size=3&sliding=true")
+  assert.equal(statsUrl("polyverse", "colors", { bucket_size: 3, sliding: true }), "/api/polyverse/stats/colors?bucket_size=3&sliding=true")
 })
 
 test("encodes the deck filter", () => {

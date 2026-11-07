@@ -177,9 +177,9 @@ function toPlayerStats(response) {
 }
 
 // useStatsData loads the data a stats page shows and works out the values the
-// widgets share. view is the page (cards, colors, types, deckstats, health,
-// or players); only that page's data is fetched, and all of it is fetched
-// again when the cube changes. failed lists the page's data that didn't load.
+// widgets share. view is the page (cards, colors, types, deckstats or
+// players); only that page's data is fetched, and all of it is fetched again
+// when the cube changes. failed lists the page's data that didn't load.
 export function useStatsData(filters, props, refresh, view) {
   const cubeID = useCube();
 
@@ -266,12 +266,6 @@ export function useStatsData(filters, props, refresh, view) {
     })).then(response => response.matchups || {}),
     [startDate, endDate, minDraftSize, colorMode, heatmapType, winConfidence, match, refresh], NO_OBJECT);
 
-  const healthSource = useLoaded(cubeID, needs("health"),
-    () => fetchJson(statsUrl(cubeID, "health", {
-      bucket_size: bucketSize, sliding: true, start: startDate, end: endDate, size: minDraftSize, match,
-    })).then(response => response.buckets || []),
-    [bucketSize, startDate, endDate, minDraftSize, match, refresh], NO_LIST);
-
   // Each source by its name in viewSources.js, to list the ones that failed.
   const sources = {
     decks: decksSource, cube: cubeSource, drafts: draftsSource, archetypeMatchups: matchupsSource,
@@ -279,7 +273,6 @@ export function useStatsData(filters, props, refresh, view) {
     colorStats: colorStatsSource, colorStatsOverTime: colorStatsOverTimeSource, colorMatchups: colorMatchupsSource,
     archetypeStats: archetypeStatsSource, archetypeStatsOverTime: archetypeStatsOverTimeSource,
     playerStats: playerStatsSource, deckCharts: deckChartsSource,
-    health: healthSource,
   };
   const failed = ALL_SOURCES.filter(name => needs(name) && sources[name].failed);
 
@@ -297,7 +290,6 @@ export function useStatsData(filters, props, refresh, view) {
   const deckCharts = deckChartsSource.value;
   const playerData = playerStatsSource.value;
   const colorMatchupData = colorMatchupsSource.value;
-  const healthData = healthSource.value;
 
   // Derived Data
   const filteredDecks = useMemo(() => {
@@ -341,7 +333,7 @@ export function useStatsData(filters, props, refresh, view) {
 
   return {
     decks, decksLoaded, cube, drafts, archetypeMatchups, cardData,
-    colorData, colorDataBucketed, colorMatchupData, healthData,
+    colorData, colorDataBucketed, colorMatchupData,
     parsed, graphData, draftLogs, failed, deckCharts,
   };
 }

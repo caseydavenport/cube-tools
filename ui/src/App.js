@@ -153,7 +153,6 @@ function AppRoutes({ dateProps, initialMatch }) {
           <Route path='deck-stats' element={<StatsViewer view='deckstats' {...statsProps} />} />
           <Route path='drafts' element={<DraftsPage {...statsProps} />} />
           <Route path='players' element={<PlayersPage {...statsProps} />} />
-          <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
           <Route path='explorer' element={<ExplorerPage />} />
           <Route path='rules-editor' element={<DesignEditorPage {...statsProps} />} />
           <Route path='rules-editor/link' element={<LinkCheckPage {...statsProps} />} />

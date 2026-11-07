@@ -90,7 +90,6 @@ func main() {
 	cubeRoute("POST /api/{cube}/stats/pivot", stats.PivotHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/removal", stats.RemovalHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/tags", stats.TagsHandler(provider))
-	cubeRoute("GET /api/{cube}/stats/health", stats.HealthStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/design-graph", stats.DesignGraphHandler(deckStore, provider))
 	cubeRoute("POST /api/{cube}/stats/design-graph/match", stats.DesignGraphMatchHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/group-distributions", stats.GroupDistributionsHandler(deckStore, provider))

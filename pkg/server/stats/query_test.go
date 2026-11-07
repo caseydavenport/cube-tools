@@ -136,7 +136,6 @@ func TestFilteredHandlersMatchDecksPage(t *testing.T) {
 		"archetypes":     ArchetypeStatsHandler,
 		"players":        PlayerStatsHandler,
 		"color-matchups": ColorMatchupHandler,
-		"health":         HealthStatsHandler,
 		"packages":       PackageStatsHandler,
 	} {
 		t.Run(name, func(t *testing.T) {

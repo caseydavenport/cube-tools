@@ -16,7 +16,6 @@ export function statsSummary(decks) {
 }
 
 // DECK_FILTERED_VIEWS are the stats pages built from the filtered decks.
-// Health comes from the server and ignores the deck filter.
 const DECK_FILTERED_VIEWS = ["cards", "colors", "types", "deckstats"]
 
 // noDecksMatch reports whether a stats page should say no decks match: it's a

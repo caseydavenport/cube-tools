@@ -2,9 +2,9 @@ import { test } from "node:test"
 import assert from "node:assert/strict"
 import { ALL_SOURCES, VIEW_SOURCES, viewNeeds } from "./viewSources.js"
 
-test("cards needs card stats but not health", () => {
+test("cards needs card stats but not color matchups", () => {
   assert.equal(viewNeeds("cards", "cardStats"), true)
-  assert.equal(viewNeeds("cards", "health"), false)
+  assert.equal(viewNeeds("cards", "colorMatchups"), false)
 })
 
 test("every view's sources are known sources", () => {
@@ -16,7 +16,7 @@ test("every view's sources are known sources", () => {
 })
 
 test("an unknown view needs every source", () => {
-  assert.equal(viewNeeds("whatever", "health"), true)
+  assert.equal(viewNeeds("whatever", "colorMatchups"), true)
 })
 
 test("the archetypes page loads its over-time stats from the server", () => {

@@ -34,5 +34,5 @@ test("no-match line stays hidden when some decks match", () => {
 })
 
 test("no-match line skips pages the deck filter doesn't drive", () => {
-  assert.equal(noDecksMatch("health", true, []), false)
+  assert.equal(noDecksMatch("players", true, []), false)
 })

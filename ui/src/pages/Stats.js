@@ -4,7 +4,6 @@ import { ArchetypeWidget } from "../stats/archetypes/ArchetypeWidget.js";
 import { ColorPickerHeader } from "../stats/archetypes/ColorPickerHeader.js";
 import { DeckWidget } from "../stats/deckstats/DeckWidget.js";
 import { CardWidget } from "../stats/cards/CardWidget.js";
-import { HealthWidget } from "./Health.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
 import { isAnonymous } from "../utils/Players.js"
 import { useNavigate } from "react-router-dom"
@@ -26,7 +25,6 @@ const COPY = {
     colors: "Colors",
     types: "Archetypes",
     deckstats: "Deck stats",
-    health: "Health",
   },
   filterPlaceholder: "Filter decks",
   refresh: "Refresh",
@@ -38,7 +36,6 @@ const COPY = {
   decks: "decks",
   players: "players",
   colorStats: "Color stats",
-  noHealthData: "No health data",
   noMatchingDecks: "No decks match this filter",
   loadFailed: "Some of this page's data didn't load.",
   retry: "Try again",
@@ -89,7 +86,7 @@ export function StatsViewer(props) {
 
   const {
     decks, decksLoaded, cube, archetypeMatchups, cardData,
-    colorMatchupData, healthData,
+    colorMatchupData,
     parsed, graphData, failed, deckCharts,
   } = data;
 
@@ -224,14 +221,6 @@ export function StatsViewer(props) {
         deckCharts={deckCharts}
         xAxis={deckXAxis} yAxis={deckYAxis} onXAxisSelected={(e) => setDeckXAxis(e.target.value)}
         onYAxisSelected={(e) => setDeckYAxis(e.target.value)}
-      />
-    )
-  } else if (props.view === "health") {
-    widget = (
-      <HealthWidget
-        info={info}
-        copy={COPY}
-        show={true} healthData={healthData} bucketSize={bucketSize}
       />
     )
   }
