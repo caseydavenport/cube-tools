@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
-	"github.com/caseydavenport/cube-tools/pkg/server/query"
+	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -50,7 +50,7 @@ func (q *Query) Decks(cubeID string, dr *storage.DecksRequest) ([]*storage.Deck,
 // Packages returns the cube's resolved packages when match has a package:
 // term, and nil otherwise.
 func (q *Query) Packages(cubeID, match string) ([]design.PackageCards, error) {
-	if q.packages == nil || !query.HasPackageTerm(match) {
+	if q.packages == nil || !usesPackages(match) {
 		return nil, nil
 	}
 	pkgs, err := q.packages(cubeID)
@@ -66,4 +66,12 @@ func (q *Query) Packages(cubeID, match string) ([]design.PackageCards, error) {
 // Cube returns the cube's current card list.
 func (q *Query) Cube(cubeID string) (*types.Cube, error) {
 	return q.cubes.Current(cubeID)
+}
+
+// usesPackages reports whether a deck search has a package: term, so the
+// cube's packages are loaded only when needed. A search that doesn't parse
+// needs none, since it matches no deck.
+func usesPackages(match string) bool {
+	q, err := search.Compile(match, search.TargetDecks)
+	return err == nil && q.UsesPackages()
 }

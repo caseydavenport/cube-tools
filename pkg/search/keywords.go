@@ -44,6 +44,9 @@ type Keyword struct {
 	// suggest for another kind.
 	Values []string `json:"values,omitempty"`
 
+	// Operators are the operators the keyword takes, filled in by Keywords.
+	Operators []string `json:"operators"`
+
 	matchCard func(c Card, t *term) bool
 	matchDeck func(d deckSubject, t *term) bool
 }
@@ -261,7 +264,9 @@ func Keywords(target Target) []Keyword {
 	var out []Keyword
 	for _, kw := range keywords {
 		if target.allows(kw.Scope) {
-			out = append(out, *kw)
+			entry := *kw
+			entry.Operators = operatorsFor(kw.Kind)
+			out = append(out, entry)
 		}
 	}
 	return out

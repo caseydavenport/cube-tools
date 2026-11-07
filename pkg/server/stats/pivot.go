@@ -10,10 +10,10 @@ import (
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
-	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -164,7 +164,7 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // predicate has a package: term, and returns nil otherwise.
 func pivotPackages(q *deckquery.Query, cubeID string, preds []PivotPredicate) ([]design.PackageCards, error) {
 	for _, p := range preds {
-		if p.Dim == "card_query" && query.HasPackageTerm(p.Value) {
+		if p.Dim == "card_query" && searchUsesPackages(p.Value) {
 			return q.Packages(cubeID, p.Value)
 		}
 	}
@@ -603,7 +603,11 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 		}
 		return has
 	case "card_query":
-		m := query.DeckMatchesBoardPackages(d, p.Value, "mainboard", pkgs)
+		q, err := search.Compile(p.Value, search.TargetDecks)
+		if err != nil {
+			return false
+		}
+		m := q.MatchDeck(d, search.DeckOptions{Packages: pkgs})
 		if p.Op == "excludes" {
 			return !m
 		}
@@ -749,4 +753,10 @@ func leadingNumber(key string) float64 {
 		return math.MaxFloat64
 	}
 	return n
+}
+
+// searchUsesPackages reports whether a deck search has a package: term.
+func searchUsesPackages(match string) bool {
+	q, err := search.Compile(match, search.TargetDecks)
+	return err == nil && q.UsesPackages()
 }

@@ -12,6 +12,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/importer"
 	ocrhttp "github.com/caseydavenport/cube-tools/pkg/server/ocr"
+	"github.com/caseydavenport/cube-tools/pkg/server/searchapi"
 	"github.com/caseydavenport/cube-tools/pkg/server/stats"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/cubecobra"
@@ -49,6 +50,8 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.Handle("GET /api/cubes", server.CubesHandler(reg))
+	mux.Handle("GET /api/search/check", searchapi.CheckHandler())
+	mux.Handle("GET /api/search/keywords", searchapi.KeywordsHandler())
 
 	cubeRoute := func(pattern string, h http.Handler) {
 		mux.Handle(pattern, server.WithCube(reg, h))

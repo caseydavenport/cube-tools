@@ -8,7 +8,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
-	"github.com/caseydavenport/cube-tools/pkg/server/query"
+	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -213,6 +213,14 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 		return decks
 	}
 
+	// A search that doesn't parse matches no deck; the search bar shows why.
+	match, err := search.Compile(r.Match, search.TargetDecks)
+	if err != nil {
+		logrus.WithError(err).WithField("match", r.Match).Info("deck search doesn't parse")
+		return []*Deck{}
+	}
+	opts := search.DeckOptions{Board: r.Board, Packages: r.Packages}
+
 	filtered := []*Deck{}
 	for _, d := range decks {
 		// Check player.
@@ -256,7 +264,7 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 		}
 
 		// Check the query string.
-		if r.Match != "" && !query.DeckMatchesBoardPackages(d, r.Match, r.Board, r.Packages) {
+		if !match.MatchDeck(d, opts) {
 			continue
 		}
 

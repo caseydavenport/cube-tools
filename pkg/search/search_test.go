@@ -169,13 +169,14 @@ func TestPartsAndString(t *testing.T) {
 
 // fakeDeck is a deck for deck query tests.
 type fakeDeck struct {
-	player string
-	labels []string
-	size   int
-	main   []types.Card
-	side   []types.Card
-	colors string
-	events []string
+	player  string
+	labels  []string
+	size    int
+	main    []types.Card
+	side    []types.Card
+	colors  string
+	events  []string
+	draftID int
 }
 
 func (d fakeDeck) GetPlayer() string {
@@ -211,7 +212,7 @@ func (d fakeDeck) GetEventTerms() []string {
 }
 
 func (d fakeDeck) GetDraftID() int {
-	return 1
+	return d.draftID
 }
 
 // cardNamed finds a test card by name.
