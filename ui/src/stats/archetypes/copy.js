@@ -43,42 +43,23 @@ export const ARCHETYPES_COPY = {
       text: "Archetype",
       tip: "The deck's macro archetype: aggro, midrange or control. Each deck has one.",
     },
-    buildPct: {
-      text: "Build %",
-      tip: "Percentage of all built decks that have this archetype / tag.",
-    },
-    percentOfWins: {
-      text: "% of wins",
-      tip: "Number of wins from decks with this tag, divided by the total number of wins across all decks.",
-    },
-    trophies: {
-      text: "Trophies",
-      tip: "Number of 3-0 decks of this archetype / tag.",
+    decks: {
+      text: "Decks",
+      tip: "Decks with this archetype or tag, then their share of all built decks.",
     },
     bayesWinPct: {
-      text: "Bayes Win %",
-      tip: "Win rate pulled toward the cube average in proportion to how few games a row has, so a tag with one lucky deck doesn't top the table. Greyed when it can't be told apart from 50%. Hover for the raw win %, its interval, the games and the difference from average.",
-    },
-    lastPlace: {
-      text: "Last place",
-      tip: "Number of 0-3 decks of this archetype / tag.",
-    },
-    winning: {
-      text: "Winning",
-      tip: "Number of 2-1 or better.",
-    },
-    losing: {
-      text: "Losing",
-      tip: "Number of 1-2 or worse.",
+      text: "Win %",
+      tip: "Bayes win rate: pulled toward the cube average in proportion to how few games a row has. Always unreliable: archetype game win rates sit within chance of each other here. Hover for the raw win %, its interval and the games.",
     },
     winningPct: {
-      text: "Winning %",
-      tip: "Percentage of decks with a 2-1 or better match record.",
+      text: "Winning records",
+      tip: "Share of its decks that finished 2-1 or better. Hover for trophies, winning and losing records, and last places.",
     },
-    numDecks: {
-      text: "# Decks",
-      tip: "Total number of decks with this archetype / tag.",
-    },
+    finishesTitle: ({ decks }) => `How its ${decks} decks finished`,
+    trophies: "Trophies (3-0)",
+    winning: "Winning (2-1 or better)",
+    losing: "Losing (1-2 or worse)",
+    lastPlace: "Last place (0-3)",
     avgOtherTypes: {
       text: "Other tags",
       tip: "How many other tags the average deck in this row also carries, not counting aggro, midrange or control. Near 0 means the theme usually stands alone; 2 or more means it usually comes with others.",

@@ -8,6 +8,7 @@ import { archetypePageHref } from "../../shell/paths.js"
 import { OpenInCharts } from "../OpenInCharts.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
+import { HoverStats } from "../../components/kit/HoverStats.js"
 import { WinRateCell } from "../../components/kit/WinRateCell.js"
 import { visibleItems } from "../../utils/dataKinds.js"
 import { shownTab, splitArchetypes } from "./archetypeTabs.js"
@@ -28,65 +29,24 @@ const ARCHETYPE_COLUMNS = [
     ),
   },
   {
-    id: "build_percent",
-    text: ARCHETYPES_COPY.statsTable.buildPct.text,
-    tip: ARCHETYPES_COPY.statsTable.buildPct.tip,
-    cell: (t) => <td key="build_percent">{t.build_percent.toFixed(0)}%</td>,
-  },
-  {
-    id: "bayes_win",
-    text: ARCHETYPES_COPY.statsTable.bayesWinPct.text,
-    tip: ARCHETYPES_COPY.statsTable.bayesWinPct.tip,
-    needs: ["results"],
-    cell: (t, input) => <WinRateCell key="bayes_win" record={t} confidence={input.confidence} />,
-  },
-  {
-    id: "pwin",
-    text: ARCHETYPES_COPY.statsTable.percentOfWins.text,
-    tip: ARCHETYPES_COPY.statsTable.percentOfWins.tip,
-    needs: ["results"],
-    cell: (t) => <td key="pwin">{t.percent_of_wins.toFixed(0)}%</td>,
-  },
-  {
-    id: "trophies",
-    text: ARCHETYPES_COPY.statsTable.trophies.text,
-    tip: ARCHETYPES_COPY.statsTable.trophies.tip,
-    needs: ["results"],
-    cell: (t) => <td key="trophies">{t.trophies}</td>,
-  },
-  {
-    id: "lastplace",
-    text: ARCHETYPES_COPY.statsTable.lastPlace.text,
-    tip: ARCHETYPES_COPY.statsTable.lastPlace.tip,
-    needs: ["results"],
-    cell: (t) => <td key="lastplace">{t.last_place}</td>,
-  },
-  {
-    id: "winning",
-    text: ARCHETYPES_COPY.statsTable.winning.text,
-    tip: ARCHETYPES_COPY.statsTable.winning.tip,
-    needs: ["results"],
-    cell: (t) => <td key="winning">{t.winning}</td>,
-  },
-  {
-    id: "losing",
-    text: ARCHETYPES_COPY.statsTable.losing.text,
-    tip: ARCHETYPES_COPY.statsTable.losing.tip,
-    needs: ["results"],
-    cell: (t) => <td key="losing">{t.losing}</td>,
+    id: "num",
+    text: ARCHETYPES_COPY.statsTable.decks.text,
+    tip: ARCHETYPES_COPY.statsTable.decks.tip,
+    cell: (t) => <td key="num">{t.count} <span className="stats-muted">· {t.build_percent.toFixed(0)}%</span></td>,
   },
   {
     id: "winning_pct",
     text: ARCHETYPES_COPY.statsTable.winningPct.text,
     tip: ARCHETYPES_COPY.statsTable.winningPct.tip,
     needs: ["results"],
-    cell: (t) => <td key="winning_pct">{winningPercentText(t)}</td>,
+    cell: (t) => <WinningRecordsCell key="winning_pct" row={t} />,
   },
   {
-    id: "num",
-    text: ARCHETYPES_COPY.statsTable.numDecks.text,
-    tip: ARCHETYPES_COPY.statsTable.numDecks.tip,
-    cell: (t) => <td key="num">{t.count}</td>,
+    id: "bayes_win",
+    text: ARCHETYPES_COPY.statsTable.bayesWinPct.text,
+    tip: ARCHETYPES_COPY.statsTable.bayesWinPct.tip,
+    needs: ["results"],
+    cell: (t, input) => <WinRateCell key="bayes_win" record={t} confidence={input.confidence} alwaysMuted />,
   },
   {
     id: "shared",
@@ -105,18 +65,31 @@ function winningPercentText(t) {
   return Pct(t.winning, t.count) + "%"
 }
 
-// shownArchetypeSort returns sortBy when one of the shown columns has that id.
-// Otherwise it falls back to Bayes win % when that column shows, and to Build %
-// for a cube without results, so rows never sort by a hidden column.
+// WinningRecordsCell shows the share of a row's decks with a winning match
+// record, with how its decks finished on hover: trophies, winning, losing and
+// last places.
+function WinningRecordsCell({ row }) {
+  const rows = [
+    { label: ARCHETYPES_COPY.statsTable.trophies, value: row.trophies },
+    { label: ARCHETYPES_COPY.statsTable.winning, value: row.winning },
+    { label: ARCHETYPES_COPY.statsTable.losing, value: row.losing },
+    { label: ARCHETYPES_COPY.statsTable.lastPlace, value: row.last_place },
+  ]
+  return (
+    <HoverStats title={ARCHETYPES_COPY.statsTable.finishesTitle({ decks: row.count })} rows={rows}>
+      <td>{winningPercentText(row)}</td>
+    </HoverStats>
+  )
+}
+
+// shownArchetypeSort returns sortBy when one of the shown columns has that id,
+// and the deck count otherwise, so rows never sort by a hidden column.
 function shownArchetypeSort(sortBy, columns) {
   const ids = columns.map(column => column.id)
   if (ids.includes(sortBy)) {
     return sortBy
   }
-  if (ids.includes("bayes_win")) {
-    return "bayes_win"
-  }
-  return "build_percent"
+  return "num"
 }
 
 // archetypeSortValue is the value a row sorts by for the chosen column.
@@ -128,26 +101,15 @@ function archetypeSortValue(t, sortBy) {
       return t.bayesian_win_percent
     case "shared":
       return t.avg_shared
-    case "num":
-      return t.count
-    case "pwin":
-      return t.percent_of_wins
-    case "trophies":
-      return t.trophies
-    case "lastplace":
-      return t.last_place
-    case "winning":
-      return t.winning
-    case "losing":
-      return t.losing
     case "winning_pct":
       if (t.count >= MinWinningPctDecks) {
         return t.winning / t.count
       }
       return -1
   }
-  return t.build_percent
+  return t.count
 }
+
 
 function ArchetypeTableHeader(input) {
   return (
