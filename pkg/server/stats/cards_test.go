@@ -218,6 +218,39 @@ func TestCardPlayersCountsSeatsSeparately(t *testing.T) {
 	}
 }
 
+func TestCardStats_CountsDecksByMacro(t *testing.T) {
+	deck := func(id int, macro string, labels ...string) *storage.Deck {
+		d := makeStorageDeck("Freddie", 1, nil, nil, nil)
+		d.ID = id
+		d.Date = "2024-01-01"
+		d.MacroArchetype = macro
+		d.Labels = labels
+		d.Mainboard = []types.Card{{Name: "Lightning Bolt"}}
+		return d
+	}
+	decks := []*storage.Deck{
+		deck(1, "aggro"),
+		deck(2, "Aggro"),
+		deck(3, "", "control"),
+		deck(4, "", "burn"),
+	}
+	h := &cardStatsHandler{}
+	cube := map[string]types.Card{"Lightning Bolt": {Name: "Lightning Bolt"}}
+
+	got := h.statsForDecks(decks, cube, &CardStatsRequest{DecksRequest: &storage.DecksRequest{}})
+	bolt := got.Data["Lightning Bolt"]
+	if assert.NotNil(t, bolt) {
+		// A macro is read case-insensitively, or from a tag on older decks; a
+		// deck with neither is left out.
+		numWantByMacro := map[string]int{
+			"aggro":   2,
+			"control": 1,
+		}
+		assert.Equal(t, numWantByMacro, bolt.NumDecksByMacro)
+		assert.Equal(t, 4, bolt.Mainboard)
+	}
+}
+
 func TestCardStats_CarriesOracleTags(t *testing.T) {
 	stats := newCardStats(types.Card{Name: "Lightning Bolt", OracleTags: []string{"burn", "removal"}})
 	b, err := json.Marshal(stats)

@@ -30,11 +30,6 @@ type CardStatsRequest struct {
 	MinDrafts int `json:"min_drafts"`
 	// Minimum number of games a card must have been in to be included.
 	MinGames int `json:"min_games"`
-
-	// Confidence level for the per-archetype win-rate intervals (0,1).
-	// Defaults to defaultConfidence. Higher demands a stronger signal - see
-	// confidence.go.
-	Confidence float64 `json:"confidence"`
 }
 
 type CardStatsResponse struct {
@@ -67,7 +62,6 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 	p.Sliding = query.GetBool(r, "sliding")
 	p.MinDrafts = query.GetInt(r, "min_drafts")
 	p.MinGames = query.GetInt(r, "min_games")
-	p.Confidence = query.GetFloat(r, "confidence")
 
 	// Parse the embedded deck request.
 	p.DecksRequest = decks.ParseDecksRequest(r)
@@ -186,33 +180,10 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			cbn.TopHalf += deck.TopHalf()
 			cbn.BottomHalf += deck.BottomHalf()
 
-			// Add contribution to archetype-specific stats.
+			// Count the deck toward its macro archetype, for the archetype mix.
 			arch := deck.Macro()
 			if arch != "" {
-				if cbn.ByArchetype[arch] == nil {
-					cbn.ByArchetype[arch] = &winStats{}
-				}
-				cbn.ByArchetype[arch].Add(deck)
-			}
-
-			// For each deck that this card was in, go through each opponent deck and add to the AgainstArchetype stats.
-			for _, game := range deck.Games {
-				arch := server.LookupOpponentMacro(decks, deck, game.Opponent)
-				if arch == "" {
-					continue // No opponent deck found.
-				}
-				if cbn.AgainstArchetype[arch] == nil {
-					cbn.AgainstArchetype[arch] = &winStats{}
-				}
-				ws := cbn.AgainstArchetype[arch]
-				switch {
-				case game.Tie || game.Winner == "":
-					ws.Draws++
-				case game.Winner == deck.Player:
-					ws.Wins++
-				default:
-					ws.Losses++
-				}
+				cbn.NumDecksByMacro[arch]++
 			}
 
 			// Update the last date that this card was put in a mainboard.
@@ -297,7 +268,6 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 
 	// With every deck counted, finish each card's numbers and apply the
 	// request's filters.
-	z := zForConfidence(sr.Confidence)
 	for _, card := range resp.Data {
 		// Add ELO data.
 		if elo, ok := eloData[card.Name]; ok {
@@ -310,22 +280,6 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		card.TotalGames = card.Wins + card.Losses + card.Draws
 		card.WinPercent = winPctOf(card.Wins, card.Losses, card.Draws)
 		card.PercentOfWins = pct(float64(card.Wins), float64(totalWins))
-
-		// Calculate per-archetype win percentages. Only show archetype-specific
-		// win percentages with at least 15 games played; smaller samples are
-		// noisy and misleading.
-		for _, ws := range card.ByArchetype {
-			if ws.Wins+ws.Losses+ws.Draws > 15 {
-				ws.Finalize()
-				ws.SetInterval(z)
-			}
-		}
-		for _, ws := range card.AgainstArchetype {
-			if ws.Wins+ws.Losses+ws.Draws > 15 {
-				ws.Finalize()
-				ws.SetInterval(z)
-			}
-		}
 
 		// Calculate total drafts.
 		if drafts, ok := draftsByCard[card.Name]; ok {
@@ -656,26 +610,17 @@ type Cards struct {
 
 func newCardStats(c types.Card) *cardStats {
 	return &cardStats{
-		Card:         c,
-		TagSlugs:     c.OracleTags,
-		Archetypes:   make(map[string]int),
-		Players:      make(map[string]int),
-		Sideboarders: make(map[string]int),
-		Land:         c.IsLand(),
-		Interaction:  c.IsInteraction(),
-		Counterspell: c.IsCounterspell(),
-		Removal:      c.IsRemoval(),
-		WordCount:    c.WordCount(),
-		ByArchetype: map[string]*winStats{
-			"aggro":    {},
-			"midrange": {},
-			"control":  {},
-		},
-		AgainstArchetype: map[string]*winStats{
-			"aggro":    {},
-			"midrange": {},
-			"control":  {},
-		},
+		Card:            c,
+		TagSlugs:        c.OracleTags,
+		Archetypes:      make(map[string]int),
+		Players:         make(map[string]int),
+		Sideboarders:    make(map[string]int),
+		Land:            c.IsLand(),
+		Interaction:     c.IsInteraction(),
+		Counterspell:    c.IsCounterspell(),
+		Removal:         c.IsRemoval(),
+		WordCount:       c.WordCount(),
+		NumDecksByMacro: map[string]int{},
 	}
 }
 
@@ -774,15 +719,8 @@ type cardStats struct {
 	// ELO.
 	ELO int `json:"elo"`
 
-	// Track how this card as fared within various archetypes. i.e., win percentages given
-	// that the card was played in a specific archetype.
-	ByArchetype map[string]*winStats `json:"by_archetype,omitempty"`
-
-	// Track how this card has fared against various archetypes. i.e., win percentages given
-	// that the card was played against a specific archetype.
-	AgainstArchetype map[string]*winStats `json:"against_archetype,omitempty"`
-}
-
-type winStats struct {
-	Record
+	// NumDecksByMacro counts the decks that mainboarded the card by their
+	// macro archetype (aggro, midrange or control). Decks without one are left
+	// out, so the counts can sum to less than Mainboard.
+	NumDecksByMacro map[string]int `json:"num_decks_by_macro"`
 }

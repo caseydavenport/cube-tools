@@ -1,5 +1,5 @@
-// The Cards page's popularity filter and the Popularity column's tip. Kept
-// free of React so node tests can load it.
+// The Cards page's popularity filter, the Popularity column's tip, and the
+// archetype mix shares. Kept free of React so node tests can load it.
 
 // POPULARITY_OPTIONS are the popularity filter's choices. The values are the
 // server's popularity words, the same ones the card page shows.
@@ -29,4 +29,28 @@ export function popularityLabel(popularity) {
     return ""
   }
   return popularity[0].toUpperCase() + popularity.slice(1)
+}
+
+// MACROS are the macro archetypes the archetype mix splits a card's decks by.
+export const MACROS = ["aggro", "midrange", "control"]
+
+// macroDecks is how many of the card's decks carried a macro archetype.
+export function macroDecks(card) {
+  let total = 0
+  for (const macro of MACROS) {
+    total += (card.num_decks_by_macro || {})[macro] || 0
+  }
+  return total
+}
+
+// macroShare is the percent of the card's decks with a macro archetype that
+// were the given one, or NaN when none of its decks had one, so the card
+// sinks when the column is sorted.
+export function macroShare(card, macro) {
+  const total = macroDecks(card)
+  if (total === 0) {
+    return NaN
+  }
+  const count = (card.num_decks_by_macro || {})[macro] || 0
+  return 100 * count / total
 }

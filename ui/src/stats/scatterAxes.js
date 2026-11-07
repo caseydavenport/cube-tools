@@ -22,12 +22,6 @@ export const CardAxis = {
   draftPick: "draft_pick",
   numTrophies: "num_trophies",
   numLastPlace: "num_last_place",
-  vsAggro: "vs_aggro",
-  vsControl: "vs_control",
-  vsMidrange: "vs_midrange",
-  inAggro: "in_aggro",
-  inControl: "in_control",
-  inMidrange: "in_midrange",
   wordCount: "word_count",
 }
 
@@ -57,12 +51,6 @@ export const CardScatterAxes = [
   {label: CARDS_COPY.scatter.axisDraftPick, value: CardAxis.draftPick, needs: ["pick_logs"]},
   {label: CARDS_COPY.scatter.axisNumTrophies, value: CardAxis.numTrophies, needs: ["results"]},
   {label: CARDS_COPY.scatter.axisNumLastPlace, value: CardAxis.numLastPlace, needs: ["results"]},
-  {label: CARDS_COPY.scatter.axisVsAggro, value: CardAxis.vsAggro, needs: ["results", "archetypes"]},
-  {label: CARDS_COPY.scatter.axisVsControl, value: CardAxis.vsControl, needs: ["results", "archetypes"]},
-  {label: CARDS_COPY.scatter.axisVsMidrange, value: CardAxis.vsMidrange, needs: ["results", "archetypes"]},
-  {label: CARDS_COPY.scatter.axisInAggro, value: CardAxis.inAggro, needs: ["results", "archetypes"]},
-  {label: CARDS_COPY.scatter.axisInControl, value: CardAxis.inControl, needs: ["results", "archetypes"]},
-  {label: CARDS_COPY.scatter.axisInMidrange, value: CardAxis.inMidrange, needs: ["results", "archetypes"]},
   {label: CARDS_COPY.scatter.axisWordCount, value: CardAxis.wordCount},
 ]
 

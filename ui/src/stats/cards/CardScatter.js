@@ -283,18 +283,6 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
         return null
       }
       return Math.round(pick.pickNumSum / pick.count * 10) / 10
-    case CardAxis.vsAggro:
-      return card.against_archetype.aggro.win_percent
-    case CardAxis.vsMidrange:
-      return card.against_archetype.midrange.win_percent
-    case CardAxis.vsControl:
-      return card.against_archetype.control.win_percent
-    case CardAxis.inAggro:
-      return card.by_archetype.aggro.win_percent
-    case CardAxis.inMidrange:
-      return card.by_archetype.midrange.win_percent
-    case CardAxis.inControl:
-      return card.by_archetype.control.win_percent
     case CardAxis.wordCount:
       return card.word_count
   }

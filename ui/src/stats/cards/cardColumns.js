@@ -9,7 +9,7 @@ import { CardMainboardTooltipContent } from "./CardTooltip.js"
 import { CardLink } from "../../components/CardLink.js"
 import { NEW_CARD_DRAFTS, isNewCard as isNewDraftCount } from "../../cards/newCard.js"
 import { CARDS_COPY } from "./copy.js"
-import { POPULARITY_TIP, popularityLabel } from "./cardFilters.js"
+import { POPULARITY_TIP, macroDecks, macroShare, popularityLabel } from "./cardFilters.js"
 import "../stats.css"
 
 function colorSort(card) {
@@ -87,26 +87,32 @@ export function sortValue(sortBy, card) {
     case "draws":
       sort = card.draws
       break;
-    case "vsaggro":
-      sort = card.against_archetype.aggro.win_percent
-      break;
-    case "vsmidrange":
-      sort = card.against_archetype.midrange.win_percent
-      break;
-    case "vscontrol":
-      sort = card.against_archetype.control.win_percent
-      break;
-    case "inaggro":
-      sort = card.by_archetype.aggro.win_percent
-      break;
-    case "inmidrange":
-      sort = card.by_archetype.midrange.win_percent
-      break;
-    case "incontrol":
-      sort = card.by_archetype.control.win_percent
-      break;
+    case "wins":
+      sort = winSort(card)
+      break
+    case "macro_decks":
+      sort = macroDecks(card)
+      break
+    case "mix_aggro":
+      sort = macroShare(card, "aggro")
+      break
+    case "mix_midrange":
+      sort = macroShare(card, "midrange")
+      break
+    case "mix_control":
+      sort = macroShare(card, "control")
+      break
   }
   return sort
+}
+
+// winSort is the value the Win % column sorts by, blank (NaN, so it sinks)
+// for a card whose decks played no games.
+function winSort(card) {
+  if (!card.total_games) {
+    return NaN
+  }
+  return card.win_percent
 }
 
 // ---------------------------------------------------------------------------
@@ -115,7 +121,7 @@ export function sortValue(sortBy, card) {
 // One renderer drives every mode; a mode is just a list of column descriptors
 // {id, text, tip, cell}, where cell(card, input, key) returns the <td>. The
 // default "Overview" mode leads with how often the card is played; its board
-// counts and win rate sit in the Popularity cell's hover.
+// counts sit in the Popularity cell's hover.
 // ---------------------------------------------------------------------------
 
 // currentCubeId pulls the cube segment out of the HashRouter URL (#/{cube}/...).
@@ -186,9 +192,7 @@ function statsValueCell(card, input, key, value, title, rows) {
 }
 
 // popularityRows are the Popularity hover's rows: the popularity word, the
-// draft counts behind the rate, the card's deck counts by board, and, when
-// its decks played games, their record and win %. Per-card win rates are
-// mostly luck at this sample size, so they stay out of the table itself.
+// draft counts behind the rate, and the card's deck counts by board.
 function popularityRows(card) {
   const rows = []
   if (card.popularity) {
@@ -201,12 +205,6 @@ function popularityRows(card) {
     { label: CARDS_COPY.columns.sideboarded, value: card.sideboard },
     { label: CARDS_COPY.columns.playableSideboard, value: card.playable_sideboard },
   )
-  if (card.total_games > 0) {
-    rows.push(
-      { label: CARDS_COPY.columns.record, value: `${card.wins}-${card.losses}-${card.draws}` },
-      { label: CARDS_COPY.columns.winPercent, value: `${card.win_percent.toFixed(0)}%` },
-    )
-  }
   return rows
 }
 
@@ -219,6 +217,31 @@ function popularityCell(card, input, key) {
   }
   const value = `${Math.round(card.play_rate)}%`
   return statsValueCell(card, input, key, value, "Popularity", popularityRows(card))
+}
+
+// winPctCell shows the win rate of the card's decks, always greyed since a
+// single card's win rate is mostly luck at this sample size. The record and
+// games are on hover. A dash when its decks played no games.
+function winPctCell(card, input, key) {
+  if (!card.total_games) {
+    return <td key={key} id={card.name} onClick={input.onCardSelected} className="stats-muted">—</td>
+  }
+  const rows = [
+    { label: CARDS_COPY.columns.record, value: `${card.wins}-${card.losses}-${card.draws}` },
+    { label: CARDS_COPY.columns.games.text, value: card.total_games },
+  ]
+  const value = <span className="stats-muted">{Math.round(card.win_percent)}%</span>
+  return statsValueCell(card, input, key, value, CARDS_COPY.columns.winPct.text, rows)
+}
+
+// mixCell shows the share of the card's macro-labeled decks that were one
+// macro archetype, or a dash when none of its decks had one.
+function mixCell(card, input, key, macro) {
+  const share = macroShare(card, macro)
+  if (Number.isNaN(share)) {
+    return <td key={key} id={card.name} onClick={input.onCardSelected} className="stats-muted">—</td>
+  }
+  return valueCell(card, input, key, `${Math.round(share)}%`)
 }
 
 const colorsColumn = {
@@ -243,16 +266,16 @@ const gamesColumn = {
   cell: (c, i, k) => valueCell(c, i, k, c.total_games),
 }
 
-// OVERVIEW_COLUMNS show only numbers that hold up when the drafts are split in
-// half: how often the card is played and how it's picked. Win rate is in the
-// Popularity hover.
+// OVERVIEW_COLUMNS lead with the numbers that hold up when the drafts are
+// split in half, how often the card is played and how it's picked, then the
+// win rate, greyed and marked unreliable.
 export const OVERVIEW_COLUMNS = [
   cardColumn,
   colorsColumn,
   draftsColumn,
   { id: "popularity", text: "Popularity", tip: POPULARITY_TIP, cell: popularityCell },
   { needs: ["sideboards"], id: "elo", text: CARDS_COPY.columns.pickElo.text, tip: CARDS_COPY.columns.pickElo.tip, cell: (c, i, k) => valueCell(c, i, k, c.elo) },
-  { id: "lastPlayed", text: CARDS_COPY.columns.lastPlayed.text, tip: CARDS_COPY.columns.lastPlayed.tip, cell: (c, i, k) => valueCell(c, i, k, c.last_mainboarded) },
+  { needs: ["results"], id: "wins", text: CARDS_COPY.columns.winPct.text, tip: CARDS_COPY.columns.winPct.tip, cell: winPctCell },
 ]
 
 export const METADATA_COLUMNS = [
@@ -262,18 +285,16 @@ export const METADATA_COLUMNS = [
   { needs: ["archetypes"], id: "labels", text: CARDS_COPY.columns.tags.text, tip: CARDS_COPY.columns.tags.tip, cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.archetypes).length) },
   gamesColumn,
   { id: "players", text: CARDS_COPY.columns.players.text, tip: CARDS_COPY.columns.players.tip, cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.players).length) },
+  { id: "lastPlayed", text: CARDS_COPY.columns.lastPlayed.text, tip: CARDS_COPY.columns.lastPlayed.tip, cell: (c, i, k) => valueCell(c, i, k, c.last_mainboarded) },
 ]
 
-export const VS_ARCH_COLUMNS = [
-  cardColumn, colorsColumn, gamesColumn,
-  { needs: ["results", "archetypes"], id: "vsaggro", text: CARDS_COPY.columns.vsAggro.text, tip: CARDS_COPY.columns.vsAggro.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.aggro.win_percent.toFixed(0)}%`) },
-  { needs: ["results", "archetypes"], id: "vscontrol", text: CARDS_COPY.columns.vsControl.text, tip: CARDS_COPY.columns.vsControl.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.control.win_percent.toFixed(0)}%`) },
-  { needs: ["results", "archetypes"], id: "vsmidrange", text: CARDS_COPY.columns.vsMidrange.text, tip: CARDS_COPY.columns.vsMidrange.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.midrange.win_percent.toFixed(0)}%`) },
-]
-
-export const BY_ARCH_COLUMNS = [
-  cardColumn, colorsColumn, gamesColumn,
-  { needs: ["results", "archetypes"], id: "inaggro", text: CARDS_COPY.columns.inAggro.text, tip: CARDS_COPY.columns.inAggro.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.aggro.win_percent.toFixed(0)}%`) },
-  { needs: ["results", "archetypes"], id: "incontrol", text: CARDS_COPY.columns.inControl.text, tip: CARDS_COPY.columns.inControl.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.control.win_percent.toFixed(0)}%`) },
-  { needs: ["results", "archetypes"], id: "inmidrange", text: CARDS_COPY.columns.inMidrange.text, tip: CARDS_COPY.columns.inMidrange.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.midrange.win_percent.toFixed(0)}%`) },
+// MIX_COLUMNS show which macro archetypes play each card: of its decks with a
+// macro archetype, the share that were aggro, midrange and control.
+export const MIX_COLUMNS = [
+  cardColumn,
+  colorsColumn,
+  { id: "macro_decks", text: "Decks", tip: "Decks that mainboarded the card and have a macro archetype. The shares are out of these.", cell: (c, i, k) => valueCell(c, i, k, macroDecks(c)) },
+  { id: "mix_aggro", text: "Aggro", tip: "Share of the card's decks that were aggro.", cell: (c, i, k) => mixCell(c, i, k, "aggro") },
+  { id: "mix_midrange", text: "Midrange", tip: "Share of the card's decks that were midrange.", cell: (c, i, k) => mixCell(c, i, k, "midrange") },
+  { id: "mix_control", text: "Control", tip: "Share of the card's decks that were control.", cell: (c, i, k) => mixCell(c, i, k, "control") },
 ]

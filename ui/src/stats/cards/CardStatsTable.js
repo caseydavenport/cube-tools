@@ -13,7 +13,7 @@ import { cardMatchesTagChoice } from "../../utils/cardRoles.js"
 import { tagFilterOptions } from "../../utils/tagOptions.js"
 import { CARDS_COPY } from "./copy.js"
 import { POPULARITY_OPTIONS, POPULARITY_TIP, matchesPopularity } from "./cardFilters.js"
-import { BY_ARCH_COLUMNS, METADATA_COLUMNS, OVERVIEW_COLUMNS, VS_ARCH_COLUMNS, isNewCard, sortValue } from "./cardColumns.js"
+import { METADATA_COLUMNS, MIX_COLUMNS, OVERVIEW_COLUMNS, isNewCard, sortValue } from "./cardColumns.js"
 import "../stats.css"
 
 const Interaction = CARDS_COPY.statsTable.matchInteraction
@@ -87,18 +87,16 @@ export function shouldSkip(card, input) {
     return false
   }
 
-// CARD_STATS_TYPES are the views of the card stats table. The archetype views
-// break win rates down by archetype, so they need archetype labels.
+// CARD_STATS_TYPES are the views of the card stats table. The archetype mix
+// splits each card's decks by macro archetype, so it needs archetype labels.
 const OverviewType = CARDS_COPY.statsTable.typeOverview
 const MetadataType = CARDS_COPY.statsTable.typeMetadata
-const VersusArchetypeType = CARDS_COPY.statsTable.typeVersusArchetype
-const ByArchetypeType = CARDS_COPY.statsTable.typeByArchetype
+const ArchetypeMixType = CARDS_COPY.statsTable.typeArchetypeMix
 
 const CARD_STATS_TYPES = [
   { label: OverviewType, value: OverviewType },
   { label: MetadataType, value: MetadataType },
-  { label: VersusArchetypeType, value: VersusArchetypeType, needs: ["results", "archetypes"] },
-  { label: ByArchetypeType, value: ByArchetypeType, needs: ["results", "archetypes"] },
+  { label: ArchetypeMixType, value: ArchetypeMixType, needs: ["archetypes"] },
 ]
 
 // isBlank reports whether a sort value is missing, so it can sink to the bottom.
@@ -178,10 +176,8 @@ const CardTableForInputs = React.memo(function CardTableForInputs({ input }) {
   switch (availableValue(input.dropdownSelection, CARD_STATS_TYPES, input.info)) {
     case MetadataType:
       return CardStatsTable(cards, METADATA_COLUMNS, input)
-    case VersusArchetypeType:
-      return CardStatsTable(cards, VS_ARCH_COLUMNS, input)
-    case ByArchetypeType:
-      return CardStatsTable(cards, BY_ARCH_COLUMNS, input)
+    case ArchetypeMixType:
+      return CardStatsTable(cards, MIX_COLUMNS, input)
     default:
       return CardStatsTable(cards, OVERVIEW_COLUMNS, input)
   }
