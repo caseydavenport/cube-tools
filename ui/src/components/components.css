@@ -1,14 +1,7 @@
-/* Styles for the shared components: pill search, page sections, dropdowns, the player picker and the predicate builder. */
+/* Styles for the shared components: pill search, page tabs, dropdowns, the player picker and the predicate builder. */
 
-/* A content block within a page. scroll-margin keeps anchor jumps clear of the
-   sticky section nav. */
-.page-section {
-  margin-bottom: 2.5rem;
-  scroll-margin-top: calc(var(--app-shell-header-offset, 0px) + var(--toolbar-height) + 64px);
-}
-
-/* In-page jump nav. Pins to the top once the controls scroll past it, and
-   highlights the section currently in view. */
+/* A page's tab strip. Pins to the top once the controls scroll past it, and
+   highlights the shown tab. */
 .section-nav {
   position: sticky;
   top: calc(var(--app-shell-header-offset, 0px) + var(--toolbar-height));

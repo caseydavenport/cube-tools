@@ -130,7 +130,7 @@ function CardStatsTable(cards, allColumns, input) {
   const columns = visibleItems(allColumns, input.info)
 
   return (
-    <div className="table-scroll">
+    <div className="table-scroll cards-table-scroll">
       <table className="widget-table">
         <thead className="table-header">
           <tr>

@@ -1,18 +1,20 @@
-// The Archetypes stats page: the archetype table, top cards, and the charts.
-// The pieces live in the other files here.
+// The Archetypes stats page: tabs for the archetypes and tags table, how the
+// macro archetypes' decks finished, and the charts. The pieces live in the
+// other files here.
 
 import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
-import { availableValue, hasData, visibleItems } from "../../utils/dataKinds.js"
-import { Section, SectionNav } from "../../components/PageSections.js"
+import { SectionCard } from "../../components/kit/SectionCard.js"
+import { availableValue, visibleItems } from "../../utils/dataKinds.js"
+import { TabNav } from "../../components/PageSections.js"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import { MacroArchetypeDeltaChart, MacroArchetypesChart } from "./ArchetypeCharts.js"
 import { WinsByMatchup } from "./WinsByMatchup.js"
 import { MicroArchetypesChart } from "./TagCharts.js"
 import { ArchetypeStatsTable } from "./ArchetypeStatsTable.js"
-import { shownTab, splitArchetypes } from "./archetypeTabs.js"
-import { ArchetypeFinishes } from "./ArchetypeFinishes.js"
+import { FinishesChart } from "../finishes/FinishesChart.js"
+import { archetypeFinishRows } from "../finishes/finishesModel.js"
 import { ManaCurveChart, TypeMixChart } from "../deckstats/BuildShapeCharts.js"
 import { CloseMatchChart } from "../deckstats/HeadToHeadCharts.js"
 import "../stats.css"
@@ -56,24 +58,21 @@ const CHART_OPTIONS = [
   { label: ARCHETYPES_COPY.widget.tagPercentOfWins, value: "micro_pwin", needs: ["results"] },
 ]
 
-const ARCH_SECTIONS = [
-  { id: "archetypes", label: ARCHETYPES_COPY.widget.sectionArchetypes },
-  { id: "charts", label: ARCHETYPES_COPY.widget.sectionCharts },
+// PAGE_TABS are the Archetypes page's tabs. Finishes needs match results.
+const PAGE_TABS = [
+  { id: "table", label: ARCHETYPES_COPY.widget.tabTable },
+  { id: "finishes", label: ARCHETYPES_COPY.widget.tabFinishes, needs: ["results"] },
+  { id: "charts", label: ARCHETYPES_COPY.widget.tabCharts },
 ]
 
-// FinishesPart is the finishes chart under the archetypes table, shown only
-// for cubes with match results. It compares the macro archetypes, so the tags
-// tab leaves it out.
-function FinishesPart({ parsed, info, tab }) {
-  if (!hasData(info, "results") || tab !== "archetypes") {
-    return null
-  }
+// FinishesTab is how each macro archetype's decks finished, with a note that
+// the differences are mostly chance.
+function FinishesTab({ parsed }) {
   return (
-    <>
-      <h3 className="section-heading kit-section-title stats-section-gap-lg">{ARCHETYPES_COPY.widget.finishesHeading}</h3>
-      <ArchetypeFinishes archetypeData={parsed.archetypeData} />
+    <SectionCard title={ARCHETYPES_COPY.widget.finishesHeading}>
+      <FinishesChart rows={archetypeFinishRows(parsed.archetypeData)} />
       <p className="stats-muted-small">{ARCHETYPES_COPY.widget.finishesNote}</p>
-    </>
+    </SectionCard>
   )
 }
 
@@ -114,57 +113,73 @@ function renderChart(chartId, input) {
   }
 }
 
-export function ArchetypeWidget(input) {
+// ChartsTab is one chart at a time, picked from a dropdown.
+function ChartsTab({ input }) {
   const [chart, setChart] = React.useState("mana_curve")
-  const [tab, setTab] = React.useState("archetypes")
-
-  if (!input.show) {
-    return null
-  }
 
   // A chosen chart the cube can't fill falls back to one it can.
   const chartOptions = visibleItems(CHART_OPTIONS, input.info)
   const shown = availableValue(chart, CHART_OPTIONS, input.info)
 
-  // The tags tab falls back to archetypes when no tag is common enough to list.
-  const hasTags = splitArchetypes(input.parsed.archetypeData).microData.length > 0
-  const visibleTab = shownTab(tab, hasTags)
+  return (
+    <>
+      <div className="controls-panel">
+        <div className="selector-group stats-row-centered">
+          <DropdownHeader
+            label={ARCHETYPES_COPY.widget.chartLabel}
+            options={chartOptions}
+            value={shown}
+            onChange={(e) => setChart(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className="single-chart">
+        {renderChart(shown, input)}
+      </div>
+    </>
+  )
+}
+
+// ArchetypeWidget is the Archetypes page: one tab at a time, the archetypes
+// and tags table, how the macro archetypes' decks finished, or the charts.
+export function ArchetypeWidget(input) {
+  const [pageTab, setPageTab] = React.useState("table")
+  const [tableTab, setTableTab] = React.useState("archetypes")
+  const tabs = React.useMemo(() => visibleItems(PAGE_TABS, input.info), [input.info])
+
+  if (!input.show) {
+    return null
+  }
+
+  let shown = tabs[0].id
+  if (tabs.some(t => t.id === pageTab)) {
+    shown = pageTab
+  }
+
+  let content = <ChartsTab input={input} />
+  if (shown === "table") {
+    content = (
+      <ArchetypeStatsTable
+        parsed={input.parsed}
+        decks={input.decks}
+        dropdownSelection={input.colorTypeSelection}
+        sortBy={input.sortBy}
+        onHeaderClick={input.onHeaderClick}
+        cube={input.cubeID}
+        info={input.info}
+        confidence={input.winConfidence}
+        tab={tableTab}
+        onTab={setTableTab}
+      />
+    )
+  } else if (shown === "finishes") {
+    content = <FinishesTab parsed={input.parsed} />
+  }
 
   return (
     <div className="analyze-page">
-      <SectionNav sections={ARCH_SECTIONS} />
-
-      <Section id="archetypes">
-        <ArchetypeStatsTable
-          parsed={input.parsed}
-          decks={input.decks}
-          dropdownSelection={input.colorTypeSelection}
-          sortBy={input.sortBy}
-          onHeaderClick={input.onHeaderClick}
-          cube={input.cubeID}
-          info={input.info}
-          confidence={input.winConfidence}
-          tab={tab}
-          onTab={setTab}
-        />
-        <FinishesPart parsed={input.parsed} info={input.info} tab={visibleTab} />
-      </Section>
-
-      <Section id="charts" heading={ARCHETYPES_COPY.widget.chartsHeading}>
-        <div className="controls-panel">
-          <div className="selector-group stats-row-centered">
-            <DropdownHeader
-              label={ARCHETYPES_COPY.widget.chartLabel}
-              options={chartOptions}
-              value={shown}
-              onChange={(e) => setChart(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="single-chart">
-          {renderChart(shown, input)}
-        </div>
-      </Section>
+      <TabNav tabs={tabs} active={shown} onChange={setPageTab} />
+      {content}
     </div>
   );
 }

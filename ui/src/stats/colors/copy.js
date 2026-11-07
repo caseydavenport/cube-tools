@@ -5,6 +5,13 @@
 export const COLORS_COPY = {
   // ColorWidget.js: the chart over time's group picker.
   widget: {
+    tabTable: "Table",
+    tabTrend: "Over time",
+    tabFinishes: "Finishes",
+    tabNet: "Net performance",
+    tabMatchups: "Matchups",
+    finishesTitle: "How their decks finished",
+    finishesNote: "Color groups with at least 5 decks. With this many decks, most differences between colors here are within chance; read them as a rough picture, not a ranking.",
     trendPickerLabel: "Color groups to chart",
     trendPickerPlaceholder: "Pick up to 3",
 

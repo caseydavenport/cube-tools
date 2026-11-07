@@ -25,28 +25,11 @@
   overflow-x: auto;
 }
 
-/* The Colors page: the stats table across the top, the two charts over time
-   side by side, then the wide charts. One column on narrow screens. */
-.colors-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 16px;
-}
-
-.colors-wide {
-  grid-column: 1 / -1;
-  min-width: 0;
-}
-
-/* A wide block whose chart has nothing to draw stays out of the way. */
-.colors-wide:empty {
-  display: none;
-}
-
-@media (max-width: 62em) {
-  .colors-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
+/* The Colors page's color type, bucket and mode controls, above every tab. */
+.colors-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
 }
 
 /* A row of page controls in a card's header. */
@@ -196,6 +179,12 @@
   overflow-y: auto;
   border: 1px solid var(--se-border);
   border-radius: 12px;
+}
+
+/* The Cards table is alone on its tab, so it fills the window below the
+   toolbar instead of stopping at about 20 rows. */
+.table-scroll.cards-table-scroll {
+  max-height: calc(100vh - 140px);
 }
 
 .table-scroll .widget-table {
@@ -495,10 +484,9 @@
   font-weight: 600;
 }
 
-/* The Archetypes page's finishes chart: three short bars and a legend. */
-.archetype-finishes-chart {
+/* A finishes chart; its height is set inline from its number of bars. */
+.finishes-chart {
   position: relative;
-  height: 220px;
   max-width: 900px;
 }
 

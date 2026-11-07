@@ -16,7 +16,7 @@ import "../stats.css"
 
 // selectedColorRows returns the color rows for the chosen time bucket, or all
 // time for "ALL", so the charts and the table always agree.
-function selectedColorRows(colorData, buckets, selectedBucket) {
+export function selectedColorRows(colorData, buckets, selectedBucket) {
   if (buckets.length > 0 && selectedBucket !== "ALL") {
     for (const bucket of buckets) {
       if (bucket.name === selectedBucket) {
