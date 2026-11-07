@@ -11,6 +11,7 @@ import { MacroArchetypeDeltaChart, MacroArchetypesChart } from "./ArchetypeChart
 import { WinsByMatchup } from "./WinsByMatchup.js"
 import { MicroArchetypesChart } from "./TagCharts.js"
 import { ArchetypeStatsTable } from "./ArchetypeStatsTable.js"
+import { shownTab, splitArchetypes } from "./archetypeTabs.js"
 import { ArchetypeFinishes } from "./ArchetypeFinishes.js"
 import { ManaCurveChart, TypeMixChart } from "../deckstats/BuildShapeCharts.js"
 import { CloseMatchChart } from "../deckstats/HeadToHeadCharts.js"
@@ -60,10 +61,11 @@ const ARCH_SECTIONS = [
   { id: "charts", label: ARCHETYPES_COPY.widget.sectionCharts },
 ]
 
-// FinishesPart is the finishes chart under the tables, shown only for cubes
-// with match results.
-function FinishesPart({ parsed, info }) {
-  if (!hasData(info, "results")) {
+// FinishesPart is the finishes chart under the archetypes table, shown only
+// for cubes with match results. It compares the macro archetypes, so the tags
+// tab leaves it out.
+function FinishesPart({ parsed, info, tab }) {
+  if (!hasData(info, "results") || tab !== "archetypes") {
     return null
   }
   return (
@@ -113,6 +115,7 @@ function renderChart(chartId, input) {
 
 export function ArchetypeWidget(input) {
   const [chart, setChart] = React.useState("mana_curve")
+  const [tab, setTab] = React.useState("archetypes")
 
   if (!input.show) {
     return null
@@ -121,6 +124,10 @@ export function ArchetypeWidget(input) {
   // A chosen chart the cube can't fill falls back to one it can.
   const chartOptions = visibleItems(CHART_OPTIONS, input.info)
   const shown = availableValue(chart, CHART_OPTIONS, input.info)
+
+  // The tags tab falls back to archetypes when no tag is common enough to list.
+  const hasTags = splitArchetypes(input.parsed.archetypeData).microData.length > 0
+  const visibleTab = shownTab(tab, hasTags)
 
   return (
     <div className="analyze-page">
@@ -136,8 +143,10 @@ export function ArchetypeWidget(input) {
           cube={input.cubeID}
           info={input.info}
           confidence={input.winConfidence}
+          tab={tab}
+          onTab={setTab}
         />
-        <FinishesPart parsed={input.parsed} info={input.info} />
+        <FinishesPart parsed={input.parsed} info={input.info} tab={visibleTab} />
       </Section>
 
       <Section id="charts" heading={ARCHETYPES_COPY.widget.chartsHeading}>

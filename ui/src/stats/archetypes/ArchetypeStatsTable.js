@@ -3,13 +3,14 @@
 import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { Link } from "react-router-dom"
+import { SegmentedControl } from "@mantine/core"
 import { archetypePageHref } from "../../shell/paths.js"
 import { OpenInCharts } from "../OpenInCharts.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { WinRateCell } from "../../components/kit/WinRateCell.js"
 import { visibleItems } from "../../utils/dataKinds.js"
-import { macroArchetypes, watermark } from "./archetypeHelpers.js"
+import { shownTab, splitArchetypes } from "./archetypeTabs.js"
 import "../stats.css"
 
 // ARCHETYPE_COLUMNS are the archetype and tag tables' columns. Each draws its
@@ -182,63 +183,58 @@ function ArchetypeTableRows(input) {
   );
 }
 
-// TableTitle is one table's heading with a link opening the Charts page
-// grouped by the same dimension. spaced adds room above, for the second table.
-function TableTitle({ text, dim, spaced = false }) {
-  let className = "archetype-table-title"
-  if (spaced) {
-    className += " stats-section-gap-lg"
+// TABLE_TABS are the two tables the Archetypes section switches between, with
+// the Charts dimension each one opens on.
+const TABLE_TABS = [
+  { value: "archetypes", label: ARCHETYPES_COPY.statsTable.archetypesHeading, dim: "archetype" },
+  { value: "tags", label: ARCHETYPES_COPY.statsTable.tagsHeading, dim: "label" },
+]
+
+// TableTabs is the switch between the archetypes and tags tables, with a link
+// opening the Charts page grouped the same way. The tags tab only shows when
+// some tag is common enough to list.
+function TableTabs({ tab, onTab, hasTags }) {
+  let tabs = TABLE_TABS
+  if (!hasTags) {
+    tabs = TABLE_TABS.filter(t => t.value === "archetypes")
   }
+  const shown = tabs.find(t => t.value === tab) || tabs[0]
   return (
-    <div className={className}>
-      <h3 className="section-heading kit-section-title">{text}</h3>
-      <OpenInCharts slice={{ groupBy: { dim, granularity: 1, color_mode: "inclusive" } }} />
+    <div className="archetype-table-title">
+      <SegmentedControl
+        size="xs"
+        aria-label={ARCHETYPES_COPY.statsTable.tableTabsLabel}
+        data={tabs.map(t => ({ value: t.value, label: t.label }))}
+        value={shown.value}
+        onChange={onTab}
+      />
+      <OpenInCharts slice={{ groupBy: { dim: shown.dim, granularity: 1, color_mode: "inclusive" } }} />
     </div>
   )
 }
 
+// ArchetypeStatsTable shows one table at a time, the macro archetypes or the
+// tags, picked by input.tab and switched with input.onTab.
 export function ArchetypeStatsTable(input) {
-  let archetypes = input.parsed.archetypeData
-  let macroData = []
-  let microData = []
-  for (let arch of archetypes.values()) {
-    if (arch.build_percent >= watermark) {
-      if (macroArchetypes.has(arch.type)) {
-        macroData.push(arch)
-      } else {
-        microData.push(arch)
-      }
-    }
-  }
-
+  const { macroData, microData } = splitArchetypes(input.parsed.archetypeData)
+  const hasTags = microData.length > 0
+  const tab = shownTab(input.tab, hasTags)
   const columns = visibleItems(ARCHETYPE_COLUMNS, input.info)
 
-  // The tags table only shows when some tag is common enough to list.
-  let tagsTable = null
-  if (microData.length > 0) {
-    tagsTable = (
-      <>
-        <TableTitle text={ARCHETYPES_COPY.statsTable.tagsHeading} dim="label" spaced />
-        <div className="table-scroll">
-          <table className="widget-table">
-            <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
-            <ArchetypeTableRows columns={columns} data={microData} sortBy={input.sortBy} cube={input.cube} confidence={input.confidence} />
-          </table>
-        </div>
-      </>
-    )
+  let rows = macroData
+  if (tab === "tags") {
+    rows = microData
   }
 
   return (
     <div>
-      <TableTitle text={ARCHETYPES_COPY.statsTable.archetypesHeading} dim="archetype" />
+      <TableTabs tab={tab} onTab={input.onTab} hasTags={hasTags} />
       <div className="table-scroll">
         <table className="widget-table">
           <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
-          <ArchetypeTableRows columns={columns} data={macroData} sortBy={input.sortBy} cube={input.cube} confidence={input.confidence} />
+          <ArchetypeTableRows columns={columns} data={rows} sortBy={input.sortBy} cube={input.cube} confidence={input.confidence} />
         </table>
       </div>
-      {tagsTable}
     </div>
   );
 }

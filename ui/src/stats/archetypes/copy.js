@@ -82,6 +82,7 @@ export const ARCHETYPES_COPY = {
     tooFewDecks: "—",
     tagsHeading: "Tags",
     archetypesHeading: "Archetypes",
+    tableTabsLabel: "Archetypes or tags",
   },
 
   // ArchetypeCharts.js: the chart titles, axis and series labels, and the
