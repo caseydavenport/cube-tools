@@ -8,7 +8,7 @@ import "./components.css"
 // so every page picks up the kit's look without changing its own code.
 
 // ControlLabel is the short label shown to the left of a control.
-function ControlLabel({ children }) {
+export function ControlLabel({ children }) {
   if (children == null || children === "") {
     return null
   }

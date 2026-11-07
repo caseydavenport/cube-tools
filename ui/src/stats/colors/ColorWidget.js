@@ -70,7 +70,7 @@ export function ColorWidget(input) {
   return (
     <div className="analyze-page">
       <TabNav tabs={tabs} active={shown} onChange={setTab} />
-      <div className="colors-controls">
+      <div className="controls-panel">
         <TableHeader {...input} />
       </div>
       <ColorTab tab={shown} input={input} />

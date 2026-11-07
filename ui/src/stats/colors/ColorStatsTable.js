@@ -1,7 +1,7 @@
 // The Colors stats table: its columns, how each cell draws, and how rows sort.
 
 import React from 'react'
-import { DropdownHeader } from "../../components/Dropdown.js"
+import { ControlLabel, DropdownHeader } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { WinRateCell } from "../../components/kit/WinRateCell.js"
 import { asEvent } from "../../components/kit/controls.js"
@@ -191,34 +191,39 @@ export function TableHeader(input) {
   }
 
   return (
-    <Group gap="sm" wrap="wrap" justify="flex-end">
+    <div className="colors-controls-row">
+      <Group gap="xl" wrap="wrap">
+        <Group gap={8} wrap="nowrap">
+          <ControlLabel>{COLORS_COPY.statsTable.colorTypeLabel}</ControlLabel>
+          <SegmentedControl
+            size="xs"
+            aria-label={COLORS_COPY.statsTable.colorTypeLabel}
+            data={input.ddOpts}
+            value={input.colorTypeSelection}
+            onChange={value => input.onSelected(asEvent(value))}
+          />
+        </Group>
+
+        <DropdownHeader
+          label={COLORS_COPY.statsTable.bucketLabel}
+          options={bucketNames}
+          value={input.selectedBucket}
+          onChange={input.onBucketSelected}
+        />
+
+        <DropdownHeader
+          label={COLORS_COPY.statsTable.colorModeLabel}
+          options={[
+            { label: COLORS_COPY.statsTable.modeInclusive, value: "inclusive" },
+            { label: COLORS_COPY.statsTable.modeExact, value: "exact" },
+            { label: COLORS_COPY.statsTable.modePrimary, value: "primary" },
+          ]}
+          value={input.colorMode}
+          onChange={input.onColorModeChanged}
+        />
+      </Group>
+
       <OpenInCharts slice={{ groupBy: colorSide("color", input.colorTypeSelection, input.colorMode) }} />
-
-      <SegmentedControl
-        size="xs"
-        aria-label={COLORS_COPY.statsTable.colorTypeLabel}
-        data={input.ddOpts}
-        value={input.colorTypeSelection}
-        onChange={value => input.onSelected(asEvent(value))}
-      />
-
-      <DropdownHeader
-        label={COLORS_COPY.statsTable.bucketLabel}
-        options={bucketNames}
-        value={input.selectedBucket}
-        onChange={input.onBucketSelected}
-      />
-
-      <DropdownHeader
-        label={COLORS_COPY.statsTable.colorModeLabel}
-        options={[
-          { label: COLORS_COPY.statsTable.modeInclusive, value: "inclusive" },
-          { label: COLORS_COPY.statsTable.modeExact, value: "exact" },
-          { label: COLORS_COPY.statsTable.modePrimary, value: "primary" },
-        ]}
-        value={input.colorMode}
-        onChange={input.onColorModeChanged}
-      />
-    </Group>
+    </div>
   )
 }
