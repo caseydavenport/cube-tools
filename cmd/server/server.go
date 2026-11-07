@@ -52,6 +52,7 @@ func main() {
 	mux.Handle("GET /api/cubes", server.CubesHandler(reg))
 	mux.Handle("GET /api/search/check", searchapi.CheckHandler())
 	mux.Handle("GET /api/search/keywords", searchapi.KeywordsHandler())
+	mux.Handle("POST /api/search/highlight", searchapi.HighlightHandler())
 
 	cubeRoute := func(pattern string, h http.Handler) {
 		mux.Handle(pattern, server.WithCube(reg, h))
@@ -82,6 +83,7 @@ func main() {
 	cubeRoute("POST /api/{cube}/decks/record", decks.UpdateDeckRecordHandler(deckStore))
 	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler(deckStore, packagesFor))
 	cubeRoute("GET /api/{cube}/stats/cards", stats.CardStatsHandler(deckStore, provider))
+	cubeRoute("GET /api/{cube}/stats/cards/search", stats.CardSearchHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/colors", stats.ColorStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/archetypes", stats.ArchetypeStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/archetype", stats.ArchetypePageHandler(deckStore, provider))

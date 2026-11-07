@@ -82,17 +82,12 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	resp := CardStatsResponse{}
 
-	// Build a map of all the cards in the cube, so we can use it to skip any cards
-	// not curerently in the cube.
+	// The cube's cards, so cards not currently in the cube are skipped.
 	cubeID := server.CubeFromRequest(r)
-	cubeCards := make(map[string]types.Card)
-	cube, err := d.q.Cube(cubeID)
+	cube, cubeCards, err := d.cubeCards(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return
-	}
-	for _, c := range cube.Cards {
-		cubeCards[c.Name] = c
 	}
 
 	// Load allDecks matching the request.

@@ -116,6 +116,24 @@ func (q *Query) MatchCardStats(c Card) bool {
 	return q.root.matchCard(c)
 }
 
+// HighlightCard reports whether a decklist should mark a card for a deck
+// search: the card meets every top-level clause made of card terms. Clauses
+// with a deck keyword describe the deck, not a card, so they are skipped, and
+// a search without card clauses marks nothing.
+func (q *Query) HighlightCard(c types.Card) bool {
+	found := false
+	for _, part := range q.Parts() {
+		if part.root.hasDeckTerm() {
+			continue
+		}
+		if !part.MatchCard(c) {
+			return false
+		}
+		found = true
+	}
+	return found
+}
+
 // Parts splits the query into its top-level ANDed clauses, so a rule check
 // can say which clause a card passed or failed.
 func (q *Query) Parts() []Part {

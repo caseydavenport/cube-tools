@@ -1,7 +1,7 @@
 import React from "react"
 import { CardImagePreview } from "../components/kit/CardImagePreview.js"
 import { CardImageURL } from "../utils/Utils.js"
-import { CardMatches } from "../utils/Query.js"
+import { useHighlights } from "../search/useSearch.js"
 import { InDeckColor } from "../utils/Deck.js"
 import { CMC_COLUMNS, LAND_ORDER, cmcColumn, focusClass, getType, isLand, landCategory } from "./decklist.js"
 import { Link } from "react-router-dom"
@@ -32,9 +32,9 @@ function chunk(list, size) {
 
 // imageClassName highlights a card matching the deck filter, or a sideboard card
 // the deck could play, and lights or fades it for a focused group of cards.
-function imageClassName(card, deck, sideboard, matchStr, focus) {
+function imageClassName(card, deck, sideboard, marked, focus) {
   let className = "cardimage"
-  if (matchStr && CardMatches(card, matchStr, true)) {
+  if (marked.has(card.name)) {
     className += " button-selected"
   } else if (sideboard && InDeckColor(card, deck)) {
     className += " card-playable-highlight"
@@ -58,7 +58,7 @@ function CardImage({ card, className }) {
 
 // ImageGroup is one titled group of card images, such as all the 2 mana spells
 // or the basic lands, stacked in columns.
-function ImageGroup({ title, cards, deck, sideboard, matchStr, focus }) {
+function ImageGroup({ title, cards, deck, sideboard, marked, focus }) {
   if (cards.length === 0) {
     return null
   }
@@ -72,7 +72,7 @@ function ImageGroup({ title, cards, deck, sideboard, matchStr, focus }) {
         {chunk(sorted, CARDS_PER_STACK).map((stack, i) => (
           <div className="card-stack" key={i}>
             {stack.map((card, j) => (
-              <CardImage key={card.name + j} card={card} className={imageClassName(card, deck, sideboard, matchStr, focus)} />
+              <CardImage key={card.name + j} card={card} className={imageClassName(card, deck, sideboard, marked, focus)} />
             ))}
           </div>
         ))}
@@ -84,9 +84,10 @@ function ImageGroup({ title, cards, deck, sideboard, matchStr, focus }) {
 // ImageDecklist shows a board as card images: one group per mana value range,
 // then one per land role.
 export function ImageDecklist({ deck, cards, sideboard, matchStr, focus }) {
+  const marked = useHighlights(matchStr, cards.map(card => card.name))
   const spells = cards.filter(card => !isLand(card))
   const lands = cards.filter(isLand)
-  const shared = { deck, sideboard, matchStr, focus }
+  const shared = { deck, sideboard, marked, focus }
 
   return (
     <>

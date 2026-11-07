@@ -7,7 +7,7 @@ import { useCube } from "../../contexts/CubeContext.js"
 import { useCubeTags } from "../useCubeTags.js"
 import { TabNav } from "../../components/PageSections.js"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
-import { CardWidgetOptions, CardWidgetTable, matchOpts, tagOpts } from "./CardStatsTable.js"
+import { CardWidgetOptions, CardWidgetTable, cubeCobraTags } from "./CardStatsTable.js"
 import { CardGraph } from "./CardScatter.js"
 import { PickOrderSection } from "./PickOrder.js"
 import { CARDS_COPY } from "./copy.js"
@@ -50,16 +50,15 @@ export function CardWidget(input) {
   }
 
   const shown = shownTab(tab, tabs)
-  const matchInput = {
-    "matchOpts": matchOpts,
-    "tagOpts": tagOpts,
-    "cubeTags": cubeTags,
+  const tagInput = {
+    cubeCobraTags,
+    cubeTags,
   }
 
   // The card filters drive the table and the plots; pick order ignores them.
   let options = null
   if (shown !== "pickorder") {
-    options = <CardWidgetOptions {...input} {...matchInput} />
+    options = <CardWidgetOptions {...input} {...tagInput} />
   }
 
   return (

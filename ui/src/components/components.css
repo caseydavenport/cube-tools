@@ -134,6 +134,13 @@ html .section-nav a {
   border-radius: 0;
 }
 
+/* Why a search doesn't parse, under the search bar. */
+.search-error {
+  margin-top: 4px;
+  color: var(--mantine-color-red-6);
+  font-size: 0.8rem;
+}
+
 .search-bar-container {
   width: 100%;
   position: relative;

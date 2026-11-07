@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { LoadCube, LoadDecks, LoadArchetypeData, LoadDrafts } from "../utils/Fetch.js";
 import { useCube } from "../contexts/CubeContext.js";
 import { DeckBuckets } from "../utils/Buckets.js";
@@ -32,8 +32,6 @@ export function useStatsFilters() {
   const [minPlayers, setMinPlayers] = useState(0);
   const [maxPlayers, setMaxPlayers] = useState(0);
   const [selectedCard, setSelectedCard] = useState("");
-  const [cardFilter, setCardFilter] = useState("");
-  const [tagFilter, setTagFilter] = useState("");
   const [popularityFilter, setPopularityFilter] = useState("");
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const [cardWidgetSortBy, setCardWidgetSortBy] = useState("");
@@ -75,8 +73,6 @@ export function useStatsFilters() {
     minPlayers, setMinPlayers,
     maxPlayers, setMaxPlayers,
     selectedCard, setSelectedCard,
-    cardFilter, setCardFilter,
-    tagFilter, setTagFilter,
     popularityFilter, setPopularityFilter,
     cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy,
@@ -180,7 +176,8 @@ function toPlayerStats(response) {
 // widgets share. view is the page (cards, colors, types, deckstats or
 // players); only that page's data is fetched, and all of it is fetched again
 // when the cube changes. failed lists the page's data that didn't load.
-export function useStatsData(filters, props, refresh, view) {
+// cardQuery is the Cards page's search, answered by the server as cardSearch.
+export function useStatsData(filters, props, refresh, view, cardQuery) {
   const cubeID = useCube();
 
   const { startDate, endDate } = props;
@@ -219,6 +216,11 @@ export function useStatsData(filters, props, refresh, view) {
       start: startDate, end: endDate, size: minDraftSize, match,
     })).then(toAllData),
     [cardWidgetColorSelection, minDrafts, minGames, winConfidence, startDate, endDate, minDraftSize, match, refresh], NO_MAP);
+
+  const cardSearch = useCardSearch(cubeID, needs("cardStats") ? cardQuery : "", {
+    color: cardWidgetColorSelection, min_drafts: minDrafts, min_games: minGames,
+    start: startDate, end: endDate, size: minDraftSize, match,
+  });
 
   const colorFilters = {
     start: startDate, end: endDate, size: minDraftSize, colorMode, confidence: winConfidence, match,
@@ -332,8 +334,47 @@ export function useStatsData(filters, props, refresh, view) {
   }, [drafts]);
 
   return {
-    decks, decksLoaded, cube, drafts, archetypeMatchups, cardData,
+    decks, decksLoaded, cube, drafts, archetypeMatchups, cardData, cardSearch,
     colorData, colorDataBucketed, colorMatchupData,
     parsed, graphData, draftLogs, failed, deckCharts,
   };
+}
+
+// CARD_SEARCH_DELAY_MS is how long the Cards page's search waits after typing
+// stops before asking the server.
+const CARD_SEARCH_DELAY_MS = 250;
+
+// NO_CARD_SEARCH is the answer with no search: every card shows.
+const NO_CARD_SEARCH = { names: null, error: "" };
+
+// useCardSearch asks the server which cards match the Cards page's search,
+// judged against the decks the page's filters pick. names is a Set of the
+// matching card names, or null when there's no search (or no answer yet), so
+// every card shows; error says why a search doesn't parse.
+function useCardSearch(cubeID, query, params) {
+  const [result, setResult] = useState(NO_CARD_SEARCH);
+  const url = statsUrl(cubeID, "cards/search", { ...params, q: query });
+
+  useEffect(() => {
+    if (!query || !query.trim()) {
+      setResult(NO_CARD_SEARCH);
+      return undefined;
+    }
+    let live = true;
+    const timer = setTimeout(() => {
+      fetchJson(url)
+        .then(resp => {
+          if (live) {
+            setResult({ names: resp.error ? null : new Set(resp.names), error: resp.error || "" });
+          }
+        })
+        .catch(() => {});
+    }, CARD_SEARCH_DELAY_MS);
+    return () => {
+      live = false;
+      clearTimeout(timer);
+    };
+  }, [url]);
+
+  return result;
 }

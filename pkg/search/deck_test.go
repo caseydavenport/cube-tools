@@ -112,6 +112,19 @@ func TestPackageHonorsDraftRelevance(t *testing.T) {
 	assert.False(t, q.MatchDeck(deck, opts), "not in a draft whose list can't support it")
 }
 
+func TestHighlightCard(t *testing.T) {
+	bolt := cardNamed("Lightning Bolt")
+	bears := cardNamed("Grizzly Bears")
+
+	q := MustCompile("arch:aggro t:instant", TargetDecks)
+	assert.True(t, q.HighlightCard(bolt))
+	assert.False(t, q.HighlightCard(bears))
+
+	// A search of deck terms only marks no card.
+	assert.False(t, MustCompile("arch:aggro", TargetDecks).HighlightCard(bolt))
+	assert.False(t, MustCompile("", TargetDecks).HighlightCard(bolt))
+}
+
 func TestExactCardNames(t *testing.T) {
 	both := fakeDeck{main: []types.Card{{Name: "Lightning Bolt"}, {Name: "Bolt Bend"}}}
 	boltOnly := fakeDeck{main: []types.Card{{Name: "Lightning Bolt"}}}

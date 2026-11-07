@@ -1,91 +1,59 @@
-// The Cards stats table with its view tabs, and the controls above it: card
-// search and the match, tag and popularity pickers.
+// The Cards stats table with its view tabs, and the controls above it: the
+// card search with its quick chips, and the popularity switch.
 
 import React from 'react'
-import { ChoiceHeader, DropdownHeader, SearchableDropdownHeader } from "../../components/Dropdown.js"
+import { Chip, Group } from "@mantine/core"
+import { ChoiceHeader } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { asEvent } from "../../components/kit/controls.js"
 import { TabbedPanel } from "../../components/PageSections.js"
 import { availableValue, visibleItems } from "../../utils/dataKinds.js"
 import { PillSearchInput } from "../../components/PillSearchInput.js"
-import { CardMatches } from "../../utils/Query.js"
-import { cardMatchesTagChoice } from "../../utils/cardRoles.js"
-import { tagFilterOptions } from "../../utils/tagOptions.js"
+import { hasTerm, toggleTerm } from "../../search/searchTerms.js"
+import { searchTagValues } from "../../utils/tagOptions.js"
 import { CARDS_COPY } from "./copy.js"
 import { POPULARITY_OPTIONS, POPULARITY_TIP, matchesPopularity } from "./cardFilters.js"
 import { METADATA_COLUMNS, MIX_COLUMNS, OVERVIEW_COLUMNS, isNewCard, sortValue } from "./cardColumns.js"
 import "../stats.css"
 
-const Interaction = CARDS_COPY.statsTable.matchInteraction
-
-const Counterspells = CARDS_COPY.statsTable.matchCounterspells
-
-const Removal = CARDS_COPY.statsTable.matchRemoval
-
-const Land = CARDS_COPY.statsTable.matchLand
-
-const Nonland = CARDS_COPY.statsTable.matchNonland
-
-export const matchOpts = [
-  {label: "", value:""},
-  {label: Interaction, value: Interaction},
-  {label: Counterspells, value: Counterspells},
-  {label: Removal, value: Removal},
-  {label: Land, value: Land},
-  {label: Nonland, value: Nonland},
+// QUICK_TERMS are one-click search terms for the common card roles. Each chip
+// adds its term to the search, or takes it out again.
+const QUICK_TERMS = [
+  { label: "Removal", term: "is:removal" },
+  { label: "Counterspells", term: "is:counterspell" },
+  { label: "Interaction", term: "is:interaction" },
+  { label: "Lands", term: "t:land" },
+  { label: "Nonland", term: "-t:land" },
 ]
 
-// tagOpts drives the Tag filter dropdown. These are the cube owner's curated
-// Cube Cobra tags (card.tags), kept separate from the heuristic-driven Match
-// filter above. `value` is the raw tag string as it appears in the export;
-// `label` is a friendlier display name. Add entries here as more tags become
-// useful to filter on.
-export const tagOpts = [
-  {label: "", value: ""},
-  {label: CARDS_COPY.statsTable.tagDna, value: "🧬"},
-  {label: CARDS_COPY.statsTable.tagWatch, value: "watch"},
-  {label: CARDS_COPY.statsTable.tagRemove, value: "remove"},
+// cubeCobraTags are the cube owner's curated Cube Cobra tags, which the
+// search offers as cctag: values. value is the tag as Cube Cobra spells it.
+export const cubeCobraTags = [
+  { label: "DNA", value: "🧬" },
+  { label: "Watch", value: "watch" },
+  { label: "Remove", value: "remove" },
 ]
 
 // shouldSkip returns true if the card should be skipped, and false otherwise.
+// The search runs on the server; until it answers, every card shows.
 export function shouldSkip(card, input) {
-    let players = Object.entries(card.players)
-    if (players.length < input.minPlayers) {
-      return true
-    }
-    if (input.maxPlayers != 0 && players.length > input.maxPlayers) {
-      return true
-    }
-    if (input.manaValue >=0 && card.cmc != input.manaValue) {
-      return true
-    }
-    if (input.localMatchStr != "" && !CardMatches(card, input.localMatchStr, true)) {
-      return true
-    }
-
-    if (!cardMatchesTagChoice(card, input.tagFilter)) {
-      return true
-    }
-
-    if (!matchesPopularity(card, input.popularityFilter)) {
-      return true
-    }
-
-
-    switch (input.cardFilter) {
-      case Interaction:
-        return !card.interaction;
-      case Counterspells:
-        return !card.counterspell;
-      case Removal:
-        return !card.removal;
-      case Land:
-        return !card.land;
-      case Nonland:
-        return card.land;
-    }
-    return false
+  let players = Object.entries(card.players)
+  if (players.length < input.minPlayers) {
+    return true
   }
+  if (input.maxPlayers != 0 && players.length > input.maxPlayers) {
+    return true
+  }
+  if (input.manaValue >= 0 && card.cmc != input.manaValue) {
+    return true
+  }
+  const matched = input.cardSearch && input.cardSearch.names
+  if (matched && !matched.has(card.name)) {
+    return true
+  }
+  return !matchesPopularity(card, input.popularityFilter)
+}
+
 
 // CARD_STATS_TYPES are the views of the card stats table. The archetype mix
 // splits each card's decks by macro archetype, so it needs archetype labels.
@@ -193,36 +161,45 @@ const CardTableForInputs = React.memo(function CardTableForInputs({ input }) {
   }
 })
 
+// CardWidgetOptions is the Cards page's filters: the card search with quick
+// chips for common roles, and the popularity switch.
 export function CardWidgetOptions(input) {
-  // The tag list runs to hundreds of options, so it's only rebuilt when the
+  // The tag list runs to hundreds of entries, so it's only rebuilt when the
   // cube's tags change, not on every filter change.
-  const tagData = React.useMemo(() => tagFilterOptions(input.tagOpts, input.cubeTags), [input.tagOpts, input.cubeTags])
+  const tags = React.useMemo(() => searchTagValues(input.cubeCobraTags, input.cubeTags), [input.cubeCobraTags, input.cubeTags])
+
+  // toggleQuick adds or removes a quick chip's term in the search.
+  function toggleQuick(term) {
+    input.onLocalMatchUpdated(asEvent(toggleTerm(input.localMatchStr, term)))
+  }
 
   return (
     <div className="controls-panel">
       <PillSearchInput
         label={CARDS_COPY.statsTable.filterLabel}
-        placeholder={CARDS_COPY.statsTable.filterPlaceholder}
+        placeholder="Search cards (e.g. t:creature mv<=2, is:removal, pop:popular)"
         value={input.localMatchStr}
         onChange={input.onLocalMatchUpdated}
         cardNames={input.cardNames}
+        tags={tags}
+        target="cards"
       />
 
       <div className="selector-group stats-detail-row">
-        <DropdownHeader
-          label={CARDS_COPY.statsTable.matchLabel}
-          options={input.matchOpts}
-          value={input.cardFilter}
-          onChange={input.onCardFilterSelected}
-        />
-
-        <SearchableDropdownHeader
-          label={CARDS_COPY.statsTable.tagLabel}
-          placeholder="Any"
-          data={tagData}
-          value={input.tagFilter}
-          onChange={input.onTagFilterSelected}
-        />
+        <Group gap={6} className="search-chips">
+          {QUICK_TERMS.map(quick => (
+            <Chip
+              key={quick.term}
+              size="xs"
+              variant="outline"
+              checked={hasTerm(input.localMatchStr, quick.term)}
+              onChange={() => toggleQuick(quick.term)}
+              title={`Search for ${quick.term}`}
+            >
+              {quick.label}
+            </Chip>
+          ))}
+        </Group>
 
         <HoverInfo title="Popularity" info={POPULARITY_TIP}>
           <div>

@@ -48,19 +48,3 @@ export function isCounterspell(card) {
 export function isInteraction(card) {
   return isRemoval(card) || isCounterspell(card) || hasRole(card, "hand-disruption")
 }
-
-// cardMatchesTagChoice reports whether a card stats row passes the Cards
-// page's tag filter. A choice is "cctag:NAME" for a Cube Cobra tag or
-// "otag:SLUG" for a Scryfall tag; with no choice, every card passes.
-export function cardMatchesTagChoice(card, choice) {
-  if (!choice) {
-    return true
-  }
-  if (choice.startsWith("cctag:")) {
-    return (card.tags || []).includes(choice.slice("cctag:".length))
-  }
-  if (choice.startsWith("otag:")) {
-    return cardHasOracleTag(card, choice.slice("otag:".length))
-  }
-  return true
-}

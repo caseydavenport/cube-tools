@@ -82,10 +82,10 @@ export function StatsViewer(props) {
   }), [props.startDate, props.endDate, props.onStartSelected, props.onEndSelected, debouncedMatchStr]);
 
   const filters = useStatsFilters();
-  const data = useStatsData(filters, debouncedProps, refresh, props.view);
+  const data = useStatsData(filters, debouncedProps, refresh, props.view, localMatchStr);
 
   const {
-    decks, decksLoaded, cube, archetypeMatchups, cardData,
+    decks, decksLoaded, cube, archetypeMatchups, cardData, cardSearch,
     colorMatchupData,
     parsed, graphData, failed, deckCharts,
   } = data;
@@ -98,7 +98,7 @@ export function StatsViewer(props) {
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
     winConfidence, setWinConfidence,
     minPlayers, setMinPlayers, maxPlayers, setMaxPlayers, selectedCard, setSelectedCard,
-    cardFilter, setCardFilter, tagFilter, setTagFilter, popularityFilter, setPopularityFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
+    popularityFilter, setPopularityFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy, cardWidgetSortInvert, setCardWidgetSortInvert, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
     sortBy, setSortBy,
@@ -181,8 +181,7 @@ export function StatsViewer(props) {
         parsed={parsed} matchStr={debouncedMatchStr} startDate={props.startDate} endDate={props.endDate}
         cardData={cardData}
         decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
-        cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
-        tagFilter={tagFilter} onTagFilterSelected={setTagFilter}
+        cardSearch={cardSearch}
         popularityFilter={popularityFilter} onPopularityFilterSelected={(e) => setPopularityFilter(e.target.value)}
         onSelected={(e) => setCardWidgetSelection(e.target.value)}
         onCardSelected={(e) => navigate(cardPageHref(cubeID, e.currentTarget.id))}

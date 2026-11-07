@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { CardImageURL } from "../utils/Utils.js"
-import { CardMatches } from "../utils/Query.js"
+import { useHighlights } from "../search/useSearch.js"
 import { ColorImages } from "../utils/Colors.js"
 import { InDeckColor } from "../utils/Deck.js"
 import { decklistColumns, focusClass } from "./decklist.js"
@@ -30,10 +30,10 @@ function linkedInDeck(name, synergy, present) {
 // filter, a sideboard card the deck could play, and the synergy hover states
 // (the hovered card, the cards it links to, and everything else faded). With
 // no card hovered, a focused group from a hovered pill lights up instead.
-function rowClassName(card, { deck, sideboard, matchStr, hovered, linked, focus }) {
+function rowClassName(card, { deck, sideboard, marked, hovered, linked, focus }) {
   let className = "decklist-row"
 
-  if (matchStr && CardMatches(card, matchStr, true)) {
+  if (marked.has(card.name)) {
     className += " button-selected"
   } else if (sideboard && deck && InDeckColor(card, deck)) {
     className += " card-playable-highlight"
@@ -149,6 +149,7 @@ function useSynergyLines(containerRef, nodeRefs, hovered, linked) {
 // links to in the cube's design map. focus, when set, is a group of cards to
 // light up. deck is null when comparing several decks.
 export function TextDecklist({ deck, cards, sideboard, matchStr, synergy, focus }) {
+  const marked = useHighlights(matchStr, cards.map(card => card.name))
   const [hovered, setHovered] = useState(null)
   const containerRef = useRef(null)
 
@@ -184,7 +185,7 @@ export function TextDecklist({ deck, cards, sideboard, matchStr, synergy, focus 
     }
   }
 
-  const highlight = { deck, sideboard, matchStr, hovered, linked, focus }
+  const highlight = { deck, sideboard, marked, hovered, linked, focus }
   const spellColumns = columns.filter(c => c.key !== "lands")
   const landColumn = columns.find(c => c.key === "lands")
   const hoveredCard = hovered ? byName.get(hovered) : null

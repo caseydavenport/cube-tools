@@ -34,31 +34,28 @@ export function distinctiveLabel(row) {
   return `${row.slug} · ${row.cards} cards · ${Math.round(row.lift)}×`
 }
 
-// tagFilterOptions builds the Cards page's one tag dropdown, in groups: the
-// cube's Cube Cobra tags, the Scryfall tags most distinctive to this cube,
-// then every other Scryfall tag by how many cube cards carry it. Values are
-// "cctag:NAME" or "otag:SLUG", and empty groups are left out.
-export function tagFilterOptions(cubeCobraTags, cubeTags) {
-  const cubeCobra = []
+// searchTagValues builds the search bar's suggestions for otag: and cctag:
+// values. Cube Cobra tags come from cubeCobraTags ({ label, value }); Scryfall
+// tags list the ones most distinctive to this cube first, then the rest by
+// how many cube cards carry them.
+export function searchTagValues(cubeCobraTags, cubeTags) {
+  const cctag = []
   for (const tag of cubeCobraTags) {
     if (tag.value) {
-      cubeCobra.push({ value: `cctag:${tag.value}`, label: tag.label })
+      cctag.push({ value: tag.value, description: tag.label })
     }
   }
 
   const distinctiveSlugs = new Set(cubeTags.distinctive.map(row => row.slug))
-  const distinctive = cubeTags.distinctive.map(row => ({ value: `otag:${row.slug}`, label: distinctiveLabel(row) }))
-  const rest = []
+  const otag = cubeTags.distinctive.map(row => ({
+    value: row.slug,
+    description: `${row.cards} cards · ${Math.round(row.lift)}× as common as in all of Magic`,
+  }))
   for (const row of cubeTags.tags) {
     if (!distinctiveSlugs.has(row.slug)) {
-      rest.push({ value: `otag:${row.slug}`, label: `${row.slug} (${row.cards})` })
+      otag.push({ value: row.slug, description: `${row.cards} cards` })
     }
   }
-
-  const groups = [
-    { group: "Cube Cobra tags", items: cubeCobra },
-    { group: "Distinctive Scryfall tags", items: distinctive },
-    { group: "Scryfall tags", items: rest },
-  ]
-  return groups.filter(group => group.items.length > 0)
+  return { otag, cctag }
 }
+
