@@ -8,6 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -29,6 +30,10 @@ type ConditionCheck struct {
 	Condition string          `json:"condition"`
 	Matched   bool            `json:"matched"`
 	Parts     []ConditionPart `json:"parts"`
+
+	// Error says why the condition doesn't parse; such a condition matches
+	// no card.
+	Error string `json:"error,omitempty"`
 }
 
 // ConditionPart is one part of a condition and whether the card passed it.
@@ -46,17 +51,14 @@ type GroupCheckRequest struct {
 
 // explainCondition checks a card against one condition, part by part.
 func explainCondition(card types.Card, condition string) ConditionCheck {
-	tokens := tokenize(condition)
-	expr := parseExpr(&tokens)
-
-	parts := []exprNode{expr}
-	if and, ok := expr.(*andNode); ok {
-		parts = and.children
+	q, err := search.Compile(condition, search.TargetRules)
+	if err != nil {
+		return ConditionCheck{Condition: condition, Error: err.Error(), Parts: []ConditionPart{}}
 	}
 
-	check := ConditionCheck{Condition: condition, Matched: expr.matches(card), Parts: []ConditionPart{}}
-	for _, part := range parts {
-		check.Parts = append(check.Parts, ConditionPart{Text: part.text(), Matched: part.matches(card)})
+	check := ConditionCheck{Condition: condition, Matched: q.MatchCard(card), Parts: []ConditionPart{}}
+	for _, part := range q.Parts() {
+		check.Parts = append(check.Parts, ConditionPart{Text: part.String(), Matched: part.MatchCard(card)})
 	}
 	return check
 }

@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -68,7 +69,7 @@ func conditionsKey(groups []design.Group) string {
 // of the groups it matches. Cards are keyed by their full contents, so a card
 // whose data changes is matched again.
 type ruleMatches struct {
-	exprs [][]exprNode
+	exprs [][]*search.Query
 
 	mu        sync.Mutex
 	byCard    map[[sha256.Size]byte][]int
@@ -78,10 +79,9 @@ type ruleMatches struct {
 func newRuleMatches(groups []design.Group) *ruleMatches {
 	rm := &ruleMatches{byCard: map[[sha256.Size]byte][]int{}}
 	for _, g := range groups {
-		var exprs []exprNode
+		var exprs []*search.Query
 		for _, cond := range g.Conditions {
-			tokens := tokenize(cond)
-			exprs = append(exprs, parseExpr(&tokens))
+			exprs = append(exprs, ruleCondition(cond))
 		}
 		rm.exprs = append(rm.exprs, exprs)
 	}
@@ -100,7 +100,7 @@ func (rm *ruleMatches) matched(card types.Card) []int {
 
 	out = []int{}
 	for i, exprs := range rm.exprs {
-		if slices.ContainsFunc(exprs, func(e exprNode) bool { return e.matches(card) }) {
+		if slices.ContainsFunc(exprs, func(e *search.Query) bool { return conditionMatches(e, card) }) {
 			out = append(out, i)
 		}
 	}

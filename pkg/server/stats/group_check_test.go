@@ -34,11 +34,11 @@ func TestConditionParts_AndTerms(t *testing.T) {
 }
 
 func TestConditionParts_Nested(t *testing.T) {
-	got := explainCondition(artifactCreature, `(t:enchantment OR t:artifact) !t:creature`)
+	got := explainCondition(artifactCreature, `(t:enchantment OR t:artifact) -t:creature`)
 	assert.False(t, got.Matched)
 	assert.Equal(t, []ConditionPart{
-		{Text: "(t:enchantment OR t:artifact)", Matched: true},
-		{Text: "!t:creature", Matched: false},
+		{Text: "(t:enchantment or t:artifact)", Matched: true},
+		{Text: "-t:creature", Matched: false},
 	}, got.Parts)
 }
 

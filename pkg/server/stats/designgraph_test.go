@@ -517,9 +517,9 @@ func TestMatchCards(t *testing.T) {
 		{"simple AND", "c:G t:creature", []string{"Bear"}},
 		{"parens with OR then AND", "(t:enchantment OR t:artifact) cmc<=2", []string{"Enchant"}},
 		{"parens complex", "(c:R OR c:G) t:creature", []string{"Bear"}},
-		{"negation", "!t:creature", []string{"Bolt", "Sword", "Enchant", "Fireball"}},
-		{"negation with AND", "!t:creature cmc<=2", []string{"Bolt", "Enchant", "Fireball"}},
-		{"negated group", "!(t:creature OR t:instant)", []string{"Sword", "Enchant", "Fireball"}},
+		{"negation", "-t:creature", []string{"Bolt", "Sword", "Enchant", "Fireball"}},
+		{"negation with AND", "-t:creature cmc<=2", []string{"Bolt", "Enchant", "Fireball"}},
+		{"negated group", "-(t:creature OR t:instant)", []string{"Sword", "Enchant", "Fireball"}},
 		{"explicit AND keyword", "t:creature AND c:G", []string{"Bear"}},
 		{"is keyword", "is:creature", []string{"Bear"}},
 		{"quoted phrase", `o:"deals 3 damage"`, []string{"Bolt"}},
@@ -865,7 +865,7 @@ func TestMatchCards_Otag(t *testing.T) {
 		{"otag:creature-removal", []string{"Bolt"}},
 		{`otag:"self mill"`, []string{"Mill"}},
 		{"otag:Mill-Self", []string{"Mill"}},
-		{"!otag:removal", []string{"Mill", "Plain"}},
+		{"-otag:removal", []string{"Mill", "Plain"}},
 		{"otag:nope", nil},
 	}
 	for _, tt := range tests {
@@ -984,8 +984,8 @@ func TestMatchCards_Face(t *testing.T) {
 		"Fire // Ice":                     true,
 		"Lightning Bolt":                  true,
 	}
-	assert.Equal(t, want, matchCards(cards, "face:(!t:creature cmc<3)"))
-	assert.Equal(t, map[string]bool{"Grizzly Bears": true}, matchCards(cards, "!face:(!t:creature cmc<3)"))
+	assert.Equal(t, want, matchCards(cards, "face:(-t:creature cmc<3)"))
+	assert.Equal(t, map[string]bool{"Grizzly Bears": true}, matchCards(cards, "-face:(-t:creature cmc<3)"))
 }
 
 func TestMatchCards_SelfReference(t *testing.T) {

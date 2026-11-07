@@ -9,6 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -147,10 +148,9 @@ func groupMembers(entry string, config design.DesignMapConfig, cardMap map[strin
 	group := config.Groups[idx]
 
 	// Parse each condition once.
-	exprs := make([]exprNode, len(group.Conditions))
+	exprs := make([]*search.Query, len(group.Conditions))
 	for i, cond := range group.Conditions {
-		tokens := tokenize(cond)
-		exprs[i] = parseExpr(&tokens)
+		exprs[i] = ruleCondition(cond)
 		out.Conditions = append(out.Conditions, ConditionMembers{Condition: cond, Cards: []MemberCard{}})
 	}
 
@@ -160,7 +160,7 @@ func groupMembers(entry string, config design.DesignMapConfig, cardMap map[strin
 		first := -1
 		matched := []string{}
 		for i, expr := range exprs {
-			if expr.matches(card) {
+			if conditionMatches(expr, card) {
 				if first < 0 {
 					first = i
 				}

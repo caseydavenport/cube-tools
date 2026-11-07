@@ -10,6 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
+	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -47,14 +48,19 @@ type ExplorerResponse struct {
 func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe MaybeboardSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cubeID := server.CubeFromRequest(r)
-		search := strings.TrimSpace(query.GetString(r, "q"))
+		typed := strings.TrimSpace(query.GetString(r, "q"))
 		useMaybe := query.GetString(r, "maybe") == "1"
+		q, err := search.Compile(typed, search.TargetRules)
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusBadRequest)
+			return
+		}
 		resp := ExplorerResponse{Candidates: []ExplorerCard{}, InCube: []ExplorerCard{}}
 
 		names, status := maybeboardFor(maybe, cubeID)
 		resp.Maybeboard = status
 		filterMaybe := useMaybe && names != nil
-		if search == "" && !filterMaybe {
+		if q.Empty() && !filterMaybe {
 			writeJSON(rw, resp, "explorer")
 			return
 		}
@@ -71,8 +77,8 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 			pool = pickCards(pool, maybeboardNames(names, pool))
 		}
 		hits := pool
-		if search != "" {
-			hits = pickCards(pool, matchCards(pool, search))
+		if !q.Empty() {
+			hits = pickCards(pool, matchQuery(pool, q))
 		}
 
 		cards := exploreCards(hits, newExplorerRules(rules.cube, rules.relevantConfig(relevantToday)), thinParam(r))

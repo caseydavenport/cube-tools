@@ -11,12 +11,12 @@ import (
 // more than enter, rebound spells, and lands with a recurring trigger. One-shot
 // cards don't match.
 var buildaroundShape = []string{
-	`!t:instant !t:sorcery !t:land !o:"when ~ enters"`,
-	`!t:instant !t:sorcery !t:land o:"when ~ enters" o:"whenever"`,
-	`!t:instant !t:sorcery !t:land o:"when ~ enters" o:"at the beginning of your"`,
+	`-t:instant -t:sorcery -t:land -o:"when ~ enters"`,
+	`-t:instant -t:sorcery -t:land o:"when ~ enters" o:"whenever"`,
+	`-t:instant -t:sorcery -t:land o:"when ~ enters" o:"at the beginning of your"`,
 	`o:rebound`,
-	`t:land !otag:fetchland o:"whenever"`,
-	`t:land !otag:fetchland o:"at the beginning of your"`,
+	`t:land -otag:fetchland o:"whenever"`,
+	`t:land -otag:fetchland o:"at the beginning of your"`,
 }
 
 // buildaroundShapeGroup is buildaroundShape as one group, so its matches are

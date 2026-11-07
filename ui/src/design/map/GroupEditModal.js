@@ -201,9 +201,9 @@ export function GroupEditModal({ group, color, onSave, onCancel, pinnedCard, rul
           <div className="group-help-section">
             <div className="group-help-section-title">{MAP_COPY.groupEdit.operators}</div>
             <div className="group-help-note">
-              <code className="group-help-code">!</code> {MAP_COPY.groupEdit.operatorNegate}<br/>
+              <code className="group-help-code">-</code> {MAP_COPY.groupEdit.operatorNegate}<br/>
               {/* copy-ok: query operator */}
-              <code className="group-help-code">OR</code> {MAP_COPY.groupEdit.operatorOr}<br/>
+              <code className="group-help-code">or</code> {MAP_COPY.groupEdit.operatorOr}<br/>
               <code className="group-help-code">()</code> {MAP_COPY.groupEdit.operatorGrouping}<br/>
               <code className="group-help-code">""</code> {MAP_COPY.groupEdit.operatorQuote}<br/>
               <code className="group-help-code">*</code> {MAP_COPY.groupEdit.operatorWildcard}

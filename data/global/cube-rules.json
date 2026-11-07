@@ -15,7 +15,7 @@
     {
       "name": "1mv enchantments",
       "conditions": [
-        "t:enchantment !t:creature cmc<2"
+        "t:enchantment -t:creature cmc<2"
       ]
     },
     {
@@ -64,9 +64,9 @@
       "conditions": [
         "t:creature otag:evasion",
         "t:creature otag:power-matters-self",
-        "t:creature o:trample !otag:gives-trample",
-        "t:creature o:\"double strike\" !otag:gives-double-strike",
-        "t:creature o:\"first strike\" !otag:gives-first-strike"
+        "t:creature o:trample -otag:gives-trample",
+        "t:creature o:\"double strike\" -otag:gives-double-strike",
+        "t:creature o:\"first strike\" -otag:gives-first-strike"
       ]
     },
     {
@@ -78,7 +78,7 @@
     {
       "name": "Cantrips",
       "conditions": [
-        "otag:cantrip !t:creature"
+        "otag:cantrip -t:creature"
       ]
     },
     {
@@ -124,7 +124,7 @@
     {
       "name": "Counters on others",
       "conditions": [
-        "otag:gives-pp-counters !o:\"counter on each creature token\" !o:\"creature token you control enters\"",
+        "otag:gives-pp-counters -o:\"counter on each creature token\" -o:\"creature token you control enters\"",
         "o:reinforce"
       ]
     },
@@ -143,7 +143,7 @@
     {
       "name": "Creature activated abilities",
       "conditions": [
-        "t:creature otag:activated-ability !otag:activate-from-hand !otag:activate-from-graveyard"
+        "t:creature otag:activated-ability -otag:activate-from-hand -otag:activate-from-graveyard"
       ]
     },
     {
@@ -173,7 +173,7 @@
     {
       "name": "Delirium",
       "conditions": [
-        "otag:card-types-in-graveyard-matter !otag:imprinted-card-types-matter"
+        "otag:card-types-in-graveyard-matter -otag:imprinted-card-types-matter"
       ],
       "notBuildaround": true
     },
@@ -235,8 +235,8 @@
     {
       "name": "ETB noncreatures",
       "conditions": [
-        "!t:creature !t:land o:\"when ~ enters\"",
-        "!t:creature !t:land o:\"whenever ~ enters\"",
+        "-t:creature -t:land o:\"when ~ enters\"",
+        "-t:creature -t:land o:\"whenever ~ enters\"",
         "t:saga"
       ]
     },
@@ -249,7 +249,7 @@
     {
       "name": "Fetches basics",
       "conditions": [
-        "otag:tutor-land-basic !otag:donate-rampant-growth"
+        "otag:tutor-land-basic -otag:donate-rampant-growth"
       ]
     },
     {
@@ -300,7 +300,7 @@
     {
       "name": "Fixing creatures",
       "conditions": [
-        "o:\"mana of any color\" !o:\"to activate abilities\""
+        "o:\"mana of any color\" -o:\"to activate abilities\""
       ]
     },
     {
@@ -330,8 +330,8 @@
     {
       "name": "Graveyard size payoffs",
       "conditions": [
-        "otag:graveyard-fuel !otag:hate-graveyard",
-        "otag:cards-in-graveyard-matter !otag:card-types-in-graveyard-matter"
+        "otag:graveyard-fuel -otag:hate-graveyard",
+        "otag:cards-in-graveyard-matter -otag:card-types-in-graveyard-matter"
       ]
     },
     {
@@ -363,7 +363,7 @@
     {
       "name": "Instant speed",
       "conditions": [
-        "!t:instant o:flash !o:flashback"
+        "-t:instant o:flash -o:flashback"
       ]
     },
     {
@@ -382,7 +382,7 @@
     {
       "name": "Landfall enablers",
       "conditions": [
-        "otag:tutor-land-to-battlefield !otag:donate-rampant-growth",
+        "otag:tutor-land-to-battlefield -otag:donate-rampant-growth",
         "o:\"additional land\"",
         "o:\"land\" o:\"from your hand\" o:\"onto the battlefield\"",
         "o:\"lands from the top of your library\""
@@ -416,8 +416,8 @@
     {
       "name": "LTB noncreature",
       "conditions": [
-        "!t:creature !t:land o:\"~ leaves the battlefield\" !o:\"until ~ leaves\"",
-        "!t:creature !t:land o:\"~ enters or leaves\""
+        "-t:creature -t:land o:\"~ leaves the battlefield\" -o:\"until ~ leaves\"",
+        "-t:creature -t:land o:\"~ enters or leaves\""
       ]
     },
     {
@@ -461,7 +461,7 @@
     {
       "name": "Pow<2",
       "conditions": [
-        "t:creature pow<3 cmc<4 !o:\"enters with X\""
+        "t:creature pow<3 cmc<4 -o:\"enters with X\""
       ]
     },
     {
@@ -488,13 +488,13 @@
     {
       "name": "Ramp enablers",
       "conditions": [
-        "otag:mana-producer !t:land"
+        "otag:mana-producer -t:land"
       ]
     },
     {
       "name": "Ramp payoffs",
       "conditions": [
-        "cmc>4 !o:delve !o:\"less to cast\" !o:\"rather than pay\"",
+        "cmc>4 -o:delve -o:\"less to cast\" -o:\"rather than pay\"",
         "m:X",
         "o:\"mana value\" o:\"or greater\""
       ]
@@ -516,8 +516,8 @@
     {
       "name": "Recursive creatures",
       "conditions": [
-        "t:creature otag:recursion-self !otag:restock-self",
-        "t:creature otag:trigger-from-graveyard !otag:restock-self !otag:titan-immortality"
+        "t:creature otag:recursion-self -otag:restock-self",
+        "t:creature otag:trigger-from-graveyard -otag:restock-self -otag:titan-immortality"
       ]
     },
     {
@@ -559,7 +559,7 @@
     {
       "name": "Selective discard",
       "conditions": [
-        "otag:discard-outlet !otag:discard-outlet-land"
+        "otag:discard-outlet -otag:discard-outlet-land"
       ]
     },
     {
@@ -637,7 +637,7 @@
         "otag:anthem cmc<5",
         "otag:power-boost-to-all cmc<5",
         "otag:creature-count-matters",
-        "o:\"battle cry\" !o:\"gains battle cry\" cmc<5",
+        "o:\"battle cry\" -o:\"gains battle cry\" cmc<5",
         "otag:affinity-for-attacking cmc<5",
         "otag:tap-fuel-creature cmc<5",
         "otag:convoke cmc<5",
@@ -723,7 +723,7 @@
     {
       "name": "Heroic",
       "conditions": [
-        "otag:heroic !o:\"spell or ability\""
+        "otag:heroic -o:\"spell or ability\""
       ]
     },
     {
@@ -737,7 +737,7 @@
     {
       "name": "Cheap ETB creatures",
       "conditions": [
-        "t:creature cmc<4 o:\"when ~ enters\" !o:\"enters with\"",
+        "t:creature cmc<4 o:\"when ~ enters\" -o:\"enters with\"",
         "t:creature cmc<4 o:\"whenever ~ enters\""
       ]
     },
@@ -766,7 +766,7 @@
     {
       "name": "Classic reanimation",
       "conditions": [
-        "otag:reanimate-creature cmc<5 !o:\"or less\" !o:\"less than or equal\""
+        "otag:reanimate-creature cmc<5 -o:\"or less\" -o:\"less than or equal\""
       ]
     },
     {
@@ -780,7 +780,7 @@
     {
       "name": "Repeatable flickers",
       "conditions": [
-        "otag:flicker !t:instant !t:sorcery !o:\"when ~ enters\"",
+        "otag:flicker -t:instant -t:sorcery -o:\"when ~ enters\"",
         "otag:flicker o:rebound"
       ]
     },
@@ -796,7 +796,7 @@
         "otag:impulse-land",
         "otag:regrowth-land",
         "otag:mulch o:\"land card\"",
-        "otag:tutor-land !otag:tutor-land-to-battlefield"
+        "otag:tutor-land -otag:tutor-land-to-battlefield"
       ]
     },
     {
@@ -816,21 +816,21 @@
     {
       "name": "Instants in graveyard payoffs",
       "conditions": [
-        "otag:synergy-instant !otag:cast-trigger !otag:magecraft !otag:gives-castable-from-graveyard !otag:hate-graveyard"
+        "otag:synergy-instant -otag:cast-trigger -otag:magecraft -otag:gives-castable-from-graveyard -otag:hate-graveyard"
       ]
     },
     {
       "name": "Graveyard spell casts",
       "conditions": [
-        "otag:castable-from-graveyard !t:creature",
-        "otag:gives-castable-from-graveyard !o:\"permanent cards\"",
+        "otag:castable-from-graveyard -t:creature",
+        "otag:gives-castable-from-graveyard -o:\"permanent cards\"",
         "otag:free-cast-another"
       ]
     },
     {
       "name": "Cheap noncreature permanents",
       "conditions": [
-        "face:(!t:creature !t:land !t:instant !t:sorcery cmc<3)"
+        "face:(-t:creature -t:land -t:instant -t:sorcery cmc<3)"
       ]
     },
     {
@@ -934,7 +934,7 @@
     {
       "name": "Lifegain",
       "conditions": [
-        "otag:lifegain !t:land !otag:opponent-lifegain"
+        "otag:lifegain -t:land -otag:opponent-lifegain"
       ]
     },
     {
@@ -953,14 +953,14 @@
       "name": "Enchantress payoffs",
       "conditions": [
         "otag:enchantment-engine",
-        "otag:synergy-enchantment !otag:synergy-artifact"
+        "otag:synergy-enchantment -otag:synergy-artifact"
       ]
     },
     {
       "name": "Cheat into play",
       "conditions": [
-        "otag:sneak-creature !otag:low-mana-value-matters",
-        "otag:sneak-from-library o:\"creature card\" !o:\"or less\""
+        "otag:sneak-creature -otag:low-mana-value-matters",
+        "otag:sneak-from-library o:\"creature card\" -o:\"or less\""
       ]
     },
     {
@@ -1002,9 +1002,9 @@
     {
       "name": "Mill spells",
       "conditions": [
-        "o:\"target player mill\" !o:emblem",
-        "o:\"target opponent mill\" !o:emblem",
-        "o:\"each opponent mill\" !o:emblem",
+        "o:\"target player mill\" -o:emblem",
+        "o:\"target opponent mill\" -o:emblem",
+        "o:\"each opponent mill\" -o:emblem",
         "otag:mill-opponent"
       ]
     },
@@ -1017,7 +1017,7 @@
     {
       "name": "Artifact tutors",
       "conditions": [
-        "otag:tutor-artifact !otag:tutor-artifact-equipment"
+        "otag:tutor-artifact -otag:tutor-artifact-equipment"
       ]
     },
     {
@@ -1067,7 +1067,7 @@
     {
       "name": "Extra turns",
       "conditions": [
-        "otag:extra-turn !t:creature"
+        "otag:extra-turn -t:creature"
       ]
     },
     {
@@ -1086,7 +1086,7 @@
     {
       "name": "Army payoffs",
       "conditions": [
-        "otag:typal-army !o:amass"
+        "otag:typal-army -o:amass"
       ]
     },
     {
@@ -1098,13 +1098,13 @@
     {
       "name": "Creature copiers",
       "conditions": [
-        "otag:copy-creature !o:\"becomes a copy\""
+        "otag:copy-creature -o:\"becomes a copy\""
       ]
     },
     {
       "name": "Battlefield copiers",
       "conditions": [
-        "otag:copy-creature !o:\"creature card in your graveyard\" !o:\"creature card from your graveyard\" !o:\"creature card in a graveyard\" !o:\"creature card from a graveyard\" !o:\"permanent card in your graveyard\" !o:\"creature cards from graveyards\" !o:\"exiled with\""
+        "otag:copy-creature -o:\"creature card in your graveyard\" -o:\"creature card from your graveyard\" -o:\"creature card in a graveyard\" -o:\"creature card from a graveyard\" -o:\"permanent card in your graveyard\" -o:\"creature cards from graveyards\" -o:\"exiled with\""
       ]
     },
     {
@@ -1129,19 +1129,19 @@
     {
       "name": "Legends",
       "conditions": [
-        "t:legendary !t:land"
+        "t:legendary -t:land"
       ]
     },
     {
       "name": "Legendary payoffs",
       "conditions": [
-        "otag:synergy-legendary !t:land"
+        "otag:synergy-legendary -t:land"
       ]
     },
     {
       "name": "Low mana value payoffs",
       "conditions": [
-        "otag:low-mana-value-matters o:\"creature card\" !otag:reanimate-creature !otag:reanimate-permanent !otag:tutor-mv"
+        "otag:low-mana-value-matters o:\"creature card\" -otag:reanimate-creature -otag:reanimate-permanent -otag:tutor-mv"
       ]
     },
     {
@@ -1313,7 +1313,7 @@
     {
       "name": "Tap for value",
       "conditions": [
-        "otag:tap-fuel-creature !o:conspire",
+        "otag:tap-fuel-creature -o:conspire",
         "otag:uninspired",
         "o:\"{q}\""
       ]
@@ -1415,11 +1415,11 @@
     {
       "name": "Color payoffs",
       "conditions": [
-        "otag:synergy-white !o:conspire",
-        "otag:synergy-blue !o:conspire",
-        "otag:synergy-black !o:conspire",
-        "otag:synergy-red !o:conspire",
-        "otag:synergy-green !o:conspire",
+        "otag:synergy-white -o:conspire",
+        "otag:synergy-blue -o:conspire",
+        "otag:synergy-black -o:conspire",
+        "otag:synergy-red -o:conspire",
+        "otag:synergy-green -o:conspire",
         "o:chroma",
         "o:\"white spell\"",
         "o:\"blue spell\"",
