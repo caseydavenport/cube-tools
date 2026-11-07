@@ -20,8 +20,16 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
   const keywords = useSearchKeywords(target);
   const error = useSearchError(value, target);
 
+  // emitted is the last search this bar sent up. A different value came from
+  // outside, such as a link or the URL, so all of it shows as pills.
+  const emitted = useRef(null);
+  const emit = (event) => {
+    emitted.current = event.target.value;
+    onChange(event);
+  };
+
   // The finished terms show as pills; the last, unfinished one is typed.
-  const { pills: pillTerms, current: currentTyping } = splitPills(value || "");
+  const { pills: pillTerms, current: currentTyping } = splitPills(value || "", value !== emitted.current);
 
   const sources = { cardNames, playerNames, archetypes, eventCodes, tags };
   const options = useMemo(
@@ -63,12 +71,12 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
   const handleInputChange = (e) => {
     const newVal = e.target.value;
     setInputValue(newVal);
-    onChange({ target: { value: withTyped(newVal) } });
+    emit({ target: { value: withTyped(newVal) } });
     setShowDropdown(true);
   };
 
   const applySuggestion = (suggestion) => {
-    onChange({ target: { value: withTyped(suggestion.text) } });
+    emit({ target: { value: withTyped(suggestion.text) } });
     setInputValue(suggestion.text);
 
     // A color value grows a letter at a time, so the dropdown stays open.
@@ -105,7 +113,7 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
 
     // If backspace is pressed and input is empty, remove the last pill.
     if (e.key === 'Backspace' && inputValue === "" && pillTerms.length > 0) {
-      onChange({ target: { value: pillTerms.slice(0, -1).join(" ") } });
+      emit({ target: { value: pillTerms.slice(0, -1).join(" ") } });
     }
   };
 
@@ -117,7 +125,7 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
     if (inputValue) {
       fullString = fullString ? `${fullString} ${inputValue}` : inputValue;
     }
-    onChange({ target: { value: fullString } });
+    emit({ target: { value: fullString } });
   };
 
   const focusInput = () => {

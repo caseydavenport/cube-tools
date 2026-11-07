@@ -7,8 +7,9 @@ const TERM_PATTERN = /^([a-z_]+)(!=|<=|>=|:|=|<|>)(.*)$/i
 
 // splitPills splits a search into finished pills and the term still being
 // typed. A pill ends at a space outside quotes and parentheses, so a quoted
-// value or a parenthesized group stays one pill.
-export function splitPills(value) {
+// value or a parenthesized group stays one pill. finished makes the last term
+// a pill too, for a search that arrived whole, such as from a link.
+export function splitPills(value, finished = false) {
   const pills = []
   let current = ""
   let depth = 0
@@ -29,6 +30,9 @@ export function splitPills(value) {
       continue
     }
     current += ch
+  }
+  if (finished && current) {
+    return { pills: [...pills, current], current: "" }
   }
   return { pills, current }
 }

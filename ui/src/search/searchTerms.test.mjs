@@ -20,6 +20,14 @@ test("splitPills keeps quotes and groups whole", () => {
   assert.deepEqual(splitPills(""), { pills: [], current: "" })
 })
 
+test("splitPills makes every term a pill for a finished search", () => {
+  assert.deepEqual(splitPills('arch:aggro card:"Lightning Bolt"', true), {
+    pills: ["arch:aggro", 'card:"Lightning Bolt"'],
+    current: "",
+  })
+  assert.deepEqual(splitPills("", true), { pills: [], current: "" })
+})
+
 test("pillKind marks deck terms and invalid ones", () => {
   assert.equal(pillKind("t:creature", KEYWORDS), "card")
   assert.equal(pillKind("-type:creature", KEYWORDS), "card")
