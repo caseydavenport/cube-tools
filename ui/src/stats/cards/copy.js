@@ -8,9 +8,6 @@ export const CARDS_COPY = {
     sectionStats: "Stats",
     sectionPlots: "Plots",
     sectionPickOrder: "Pick Order",
-    statsHeading: "Card Stats",
-    plotsHeading: "Plots",
-    pickOrderHeading: "Pick Order",
   },
 
   // CardStatsTable.js: the controls above the table.

@@ -14,6 +14,34 @@ export function Section({ id, heading, children }) {
   );
 }
 
+// TabNav renders the same strip as SectionNav, but as tabs: clicking one
+// shows that tab's content instead of scrolling to it. tabs is an array of
+// { id, label }; active is the shown tab's id and onChange gets the clicked id.
+export function TabNav({ tabs, active, onChange }) {
+  // pick switches tabs without following the link's href.
+  function pick(e, id) {
+    e.preventDefault()
+    onChange(id)
+  }
+
+  return (
+    <nav className="section-nav" role="tablist">
+      {tabs.map((tab) => (
+        <a
+          key={tab.id}
+          href={`#${tab.id}`}
+          role="tab"
+          aria-selected={tab.id === active}
+          className={tab.id === active ? "active" : ""}
+          onClick={(e) => pick(e, tab.id)}
+        >
+          {tab.label}
+        </a>
+      ))}
+    </nav>
+  )
+}
+
 // SectionNav renders the sticky in-page jump strip. It scroll-spies the active
 // section via an IntersectionObserver and scrolls to a section on click.
 // sections is an array of { id, label }; pass a stable reference so the
