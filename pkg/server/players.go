@@ -58,8 +58,16 @@ func PlayerAddHandler(dataRoot string) http.Handler {
 	})
 }
 
+// playerPatchRequest is the body of the update route. Each field present is
+// changed; an empty group takes the player out of their play group.
+type playerPatchRequest struct {
+	Name  *string `json:"name"`
+	Group *string `json:"group"`
+}
+
 // PlayerRenameHandler serves PATCH /api/players/{id}: it renames the player
-// and drops cached deck names so the next read shows the new name.
+// or sets their play group, then drops cached deck names so the next read
+// shows the change.
 func PlayerRenameHandler(dataRoot string, inv PlayerInvalidator) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		id, err := strconv.Atoi(r.PathValue("id"))
@@ -67,14 +75,23 @@ func PlayerRenameHandler(dataRoot string, inv PlayerInvalidator) http.Handler {
 			http.NotFound(rw, r)
 			return
 		}
-		var req playerNameRequest
-		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		var req playerPatchRequest
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil || (req.Name == nil && req.Group == nil) {
 			http.Error(rw, "Invalid request", http.StatusBadRequest)
 			return
 		}
-		p, err := players.Rename(dataRoot, id, req.Name)
-		if writePlayerError(rw, err) {
-			return
+		var p players.Player
+		if req.Name != nil {
+			p, err = players.Rename(dataRoot, id, *req.Name)
+			if writePlayerError(rw, err) {
+				return
+			}
+		}
+		if req.Group != nil {
+			p, err = players.SetGroup(dataRoot, id, *req.Group)
+			if writePlayerError(rw, err) {
+				return
+			}
 		}
 		inv.InvalidatePlayers()
 		writePlayerJSON(rw, http.StatusOK, p)

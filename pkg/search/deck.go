@@ -11,6 +11,7 @@ import (
 // package's deck can satisfy it without an import cycle.
 type Deck interface {
 	GetPlayer() string
+	GetPlayGroup() string
 	GetLabels() []string
 	GetDraftSize() int
 	GetMainboard() []types.Card

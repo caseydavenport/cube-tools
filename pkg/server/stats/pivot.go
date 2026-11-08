@@ -359,6 +359,8 @@ func deckKeyer(dim PivotDimension, draftBucket map[int]string, cubeCards map[str
 			}
 			return []string{d.Player}
 		}
+	case "playgroup":
+		return func(d *storage.Deck) []string { return []string{d.GetPlayGroup()} }
 	case "time":
 		return func(d *storage.Deck) []string {
 			if b, ok := draftBucket[d.Metadata.DraftID]; ok {
@@ -394,6 +396,8 @@ func opponentKeyer(dim PivotDimension, cubeCards map[string]types.Card) func(*st
 			}
 			return []string{opp.MacroArchetype}
 		}
+	case "playgroup":
+		return func(opp *storage.Deck) []string { return []string{opp.GetPlayGroup()} }
 	case "removal", "interaction", "counterspell", "creatures", "multicolor", "lands", "dna", "avg_cmc":
 		return func(opp *storage.Deck) []string {
 			if len(opp.Mainboard) == 0 {
@@ -590,6 +594,8 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 		return compareString(d.MacroArchetype, p.Op, p.Value)
 	case "player":
 		return compareString(d.Player, p.Op, p.Value)
+	case "playgroup":
+		return compareString(d.GetPlayGroup(), p.Op, p.Value)
 	case "label":
 		has := false
 		for _, l := range d.Labels {

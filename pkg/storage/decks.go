@@ -95,6 +95,14 @@ type DecksRequest struct {
 
 func (d *Deck) GetPlayer() string { return d.Player }
 
+// GetPlayGroup returns the deck's play group, the leftover group when unset.
+func (d *Deck) GetPlayGroup() string {
+	if d.PlayGroup == "" {
+		return players.NoGroup
+	}
+	return d.PlayGroup
+}
+
 // GetDraftID returns the draft the deck was played in.
 func (d *Deck) GetDraftID() int { return d.Metadata.DraftID }
 

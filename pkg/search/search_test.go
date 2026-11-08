@@ -170,6 +170,7 @@ func TestPartsAndString(t *testing.T) {
 // fakeDeck is a deck for deck query tests.
 type fakeDeck struct {
 	player  string
+	group   string
 	labels  []string
 	size    int
 	main    []types.Card
@@ -181,6 +182,10 @@ type fakeDeck struct {
 
 func (d fakeDeck) GetPlayer() string {
 	return d.player
+}
+
+func (d fakeDeck) GetPlayGroup() string {
+	return d.group
 }
 
 func (d fakeDeck) GetLabels() []string {
@@ -225,6 +230,7 @@ func cardNamed(name string) types.Card {
 // creature, but no cheap creature.
 var testDeck = fakeDeck{
 	player: "Joan Jett",
+	group:  "The Crew",
 	labels: []string{"aggro", "burn"},
 	size:   8,
 	main:   []types.Card{cardNamed("Lightning Bolt"), cardNamed("Fire // Ice"), {Name: "Big Guy", Types: []string{"Creature"}, CMC: 5}},
@@ -246,6 +252,9 @@ func TestDeckQueries(t *testing.T) {
 		{"arch!=control", true},
 		{`player:"Joan Jett"`, true},
 		{"player:joan", false},
+		{`playgroup:"the crew"`, true},
+		{"pg:crew", false},
+		{`-playgroup:"Everyone else"`, true},
 		{"joan", true},
 		{"burn", true},
 		{"cubecon", false},

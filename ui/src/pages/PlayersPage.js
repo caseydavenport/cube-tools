@@ -5,7 +5,7 @@ import { useSelection } from "../hooks/useSelection.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
 import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
 import { useCubeWritable } from "../utils/useCubeWritable.js"
-import { fetchPlayers, isAnonymous } from "../utils/Players.js"
+import { fetchPlayers, groupNames, isAnonymous } from "../utils/Players.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
@@ -90,8 +90,10 @@ function usePlayerSelection(players) {
   }
 
   let id = null
+  let group = ""
   if (entry) {
     id = entry.id
+    group = entry.group || ""
   }
 
   // select picks a player by name, storing their id in the URL when they have one.
@@ -99,7 +101,7 @@ function usePlayerSelection(players) {
     setSelected(selectionFor(playerName))
   }
 
-  return { name, id, selectionFor, select }
+  return { name, id, group, selectionFor, select }
 }
 
 // PlayersPage lists the cube's players by matches played, with what each tends
@@ -173,6 +175,8 @@ export function PlayersPage(props) {
         decks={parsed.filteredDecks}
         onMatch={props.onLinkMatch}
         playerId={selection.id}
+        group={selection.group}
+        groups={groupNames(players)}
         editable={editable}
         onRenamed={() => setRefresh(r => r + 1)}
         copy={COPY}

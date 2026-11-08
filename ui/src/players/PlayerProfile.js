@@ -8,6 +8,7 @@ import { ColorImages } from "../utils/Colors.js"
 import { archetypeLabel } from "../decks/deckModel.js"
 import { pageHrefWithMatch } from "../shell/paths.js"
 import { PlayerRename } from "./PlayerRename.js"
+import { PlayerGroup } from "./PlayerGroup.js"
 import { CardLink } from "../components/CardLink.js"
 
 // MANA_ORDER is the order colors are listed and drawn in.
@@ -174,8 +175,9 @@ function SignatureCards({ row, link, cube }) {
 // PlayerProfile is an expanded player's profile. cube, start and end build
 // the links, and onMatch sets the app's deck filter as one is followed; decks
 // are the loaded decks, for the player's first and last draft. playerId,
-// editable and onRenamed drive the rename control.
-export function PlayerProfile({ row, cube, start, end, decks, onMatch, playerId, editable, onRenamed, copy }) {
+// editable and onRenamed drive the rename control; group and groups drive the
+// play group picker.
+export function PlayerProfile({ row, cube, start, end, decks, onMatch, playerId, group, groups, editable, onRenamed, copy }) {
   const t = row.tendencies || {}
   const match = `player:"${row.name}"`
 
@@ -196,6 +198,7 @@ export function PlayerProfile({ row, cube, start, end, decks, onMatch, playerId,
     <div className="players-profile">
       <div className="players-profile-header">
         <PlayerRename player={{ id: playerId, name: row.name }} editable={editable} onRenamed={onRenamed} copy={copy} />
+        <PlayerGroup player={{ id: playerId, group }} groups={groups} editable={editable} onChanged={onRenamed} />
         <span className="players-muted">{facts.join(" · ")}</span>
       </div>
 

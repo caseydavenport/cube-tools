@@ -12,6 +12,7 @@ function predicateDims(copy) {
     { value: "archetype", label: copy.dims.archetype, kind: "choice", metaKey: "archetypes" },
     { value: "label", label: copy.dims.label, kind: "choice", metaKey: "labels" },
     { value: "player", label: copy.dims.player, kind: "choice", metaKey: "players" },
+    { value: "playgroup", label: copy.dims.playGroup, kind: "choice", metaKey: "playGroups" },
     { value: "removal", label: copy.dims.removal, kind: "numeric" },
     { value: "interaction", label: copy.dims.interaction, kind: "numeric" },
     { value: "counterspell", label: copy.dims.counterspell, kind: "numeric" },

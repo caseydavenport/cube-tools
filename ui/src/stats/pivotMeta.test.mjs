@@ -29,3 +29,12 @@ test("collects sorted archetypes and tags", () => {
   assert.deepEqual(meta.archetypes, ["aggro", "control"])
   assert.deepEqual(meta.labels, ["burn", "spells"])
 })
+
+test("collects sorted play groups, the leftover group included", () => {
+  const decks = [
+    { player: "Ozzy", player_id: 1, play_group: "The Crew" },
+    { player: "p4", seat: 4, play_group: "Everyone else" },
+    { player: "Joan", player_id: 2, play_group: "The Crew" },
+  ]
+  assert.deepEqual(pivotMeta(decks).playGroups, ["Everyone else", "The Crew"])
+})

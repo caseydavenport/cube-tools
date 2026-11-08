@@ -314,6 +314,35 @@ func TestPivot_OpponentCompositionSplit(t *testing.T) {
 	assert.Equal(t, 1, b.Cells["aggro"].Wins)
 }
 
+func TestPivotPlayGroup(t *testing.T) {
+	joan := makePivotDeck("Joan", 1, "2025-01-01", []string{"R"}, "aggro", nil, []types.Game{{Opponent: "Ozzy", Winner: "Joan"}, {Opponent: "Stevie", Winner: "Joan"}})
+	joan.PlayGroup = "The Crew"
+	stevie := makePivotDeck("Stevie", 1, "2025-01-01", []string{"G"}, "midrange", nil, []types.Game{{Opponent: "Joan", Winner: "Joan"}})
+	stevie.PlayGroup = "The Crew"
+	ozzy := makePivotDeck("Ozzy", 1, "2025-01-01", []string{"B"}, "control", nil, []types.Game{{Opponent: "Joan", Winner: "Joan"}})
+	decks := []*storage.Deck{joan, stevie, ozzy}
+
+	resp := computePivot(decks, decks, &PivotRequest{
+		GroupBy: dim("playgroup", 0, ""),
+		SplitBy: dim("opponent_playgroup", 0, ""),
+	}, nil, nil)
+
+	crew := rowByKey(resp, "The Crew")
+	require.NotNil(t, crew)
+	assert.Equal(t, 2, crew.Cells[""].Wins)
+	assert.Equal(t, 1, crew.Cells[""].Losses)
+	require.NotNil(t, crew.Cells["Everyone else"])
+	assert.Equal(t, 1, crew.Cells["Everyone else"].Wins, "Joan beat Ozzy, the one deck in no group")
+
+	rest := rowByKey(resp, "Everyone else")
+	require.NotNil(t, rest)
+	assert.Equal(t, 1, rest.Cells[""].Losses)
+
+	p := PivotPredicate{Dim: "playgroup", Op: "eq", Value: "the crew"}
+	assert.True(t, predicatePasses(joan, p, nil, nil))
+	assert.False(t, predicatePasses(ozzy, p, nil, nil))
+}
+
 func TestPivotCardQueryPackage(t *testing.T) {
 	pkgs, err := graveyardPackages("testcube")
 	require.NoError(t, err)

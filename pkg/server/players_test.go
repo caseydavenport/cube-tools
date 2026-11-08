@@ -65,6 +65,42 @@ func TestPlayersAPI(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, call(mux, http.MethodPatch, "/api/players/1", `{"name": "42"}`).Code)
 	assert.Equal(t, http.StatusNotFound, call(mux, http.MethodPatch, "/api/players/9", `{"name": "Ozzy"}`).Code)
 	assert.Equal(t, http.StatusNotFound, call(mux, http.MethodPatch, "/api/players/abc", `{"name": "Ozzy"}`).Code)
+	assert.Equal(t, http.StatusBadRequest, call(mux, http.MethodPatch, "/api/players/1", `{}`).Code)
+
+	rec = call(mux, http.MethodPatch, "/api/players/1", `{"group": " The Crew "}`)
+	require.Equal(t, http.StatusOK, rec.Code)
+	assert.JSONEq(t, `{"id": 1, "name": "Joan Marie Larkin", "group": "The Crew"}`, rec.Body.String())
+	assert.Equal(t, http.StatusNotFound, call(mux, http.MethodPatch, "/api/players/9", `{"group": "The Crew"}`).Code)
+}
+
+func TestGroupChangeReachesDecks(t *testing.T) {
+	root := t.TempDir()
+	_, err := players.Add(root, "Freddie")
+	require.NoError(t, err)
+
+	b := memory.New()
+	d := &storage.Deck{}
+	d.PlayerID = 1
+	d.Metadata.DraftID = 1
+	d.Date = "2026-01-10"
+	anon := &storage.Deck{}
+	anon.ID = 2
+	anon.Metadata.DraftID = 1
+	anon.Date = "2026-01-10"
+	b.Seed("c", d, anon)
+	store := storage.NewStore(b, storage.WithPlayers(players.FileSource{DataRoot: root}))
+
+	before, err := store.List("c", nil)
+	require.NoError(t, err)
+	require.Equal(t, players.NoGroup, before[0].PlayGroup)
+
+	rec := call(playersMux(root, store), http.MethodPatch, "/api/players/1", `{"group": "The Crew"}`)
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	after, err := store.List("c", &storage.DecksRequest{Match: "playgroup:\"the crew\""})
+	require.NoError(t, err)
+	require.Len(t, after, 1)
+	assert.Equal(t, "Freddie", after[0].Player)
 }
 
 func TestRenameInvalidatesDeckNames(t *testing.T) {

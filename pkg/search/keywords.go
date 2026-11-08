@@ -218,6 +218,12 @@ var keywords = []*Keyword{
 		matchDeck:   func(d deckSubject, t *term) bool { return strings.EqualFold(d.deck.GetPlayer(), t.value) },
 	},
 	{
+		Name: "playgroup", Aliases: []string{"pg"}, Scope: ScopeDeck, Kind: ValueText,
+		Description: `Play group of the deck's player, whole. Anonymous seats and players in no group are in "Everyone else".`,
+		Example:     `playgroup:"Everyone else"`,
+		matchDeck:   func(d deckSubject, t *term) bool { return strings.EqualFold(d.deck.GetPlayGroup(), t.value) },
+	},
+	{
 		Name: "event", Scope: ScopeDeck, Kind: ValueText,
 		Description: "Draft event code, name or flight contains.",
 		Example:     "event:ccc2025",

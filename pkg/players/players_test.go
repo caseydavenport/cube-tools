@@ -86,6 +86,35 @@ func TestRenameKeepsID(t *testing.T) {
 	assert.Equal(t, "FREDDIE MERCURY", got.Name)
 }
 
+func TestSetGroup(t *testing.T) {
+	root := t.TempDir()
+	_, err := Add(root, "Freddie Mercury")
+	require.NoError(t, err)
+	_, err = Add(root, "Ozzy Osbourne")
+	require.NoError(t, err)
+
+	p, err := SetGroup(root, 1, " The Crew ")
+	require.NoError(t, err)
+	assert.Equal(t, "The Crew", p.Group)
+
+	p, err = SetGroup(root, 2, "the crew")
+	require.NoError(t, err)
+	assert.Equal(t, "The Crew", p.Group, "a group differing only in case reuses the existing spelling")
+
+	p, err = SetGroup(root, 2, "everyone ELSE")
+	require.NoError(t, err)
+	assert.Empty(t, p.Group, "the leftover group's name means no group")
+
+	_, err = SetGroup(root, 9, "The Crew")
+	assert.ErrorIs(t, err, ErrUnknownPlayer)
+
+	l, err := Load(root)
+	require.NoError(t, err)
+	assert.Equal(t, "The Crew", l.GroupFor(1))
+	assert.Equal(t, NoGroup, l.GroupFor(2))
+	assert.Equal(t, NoGroup, l.GroupFor(0))
+}
+
 func TestConcurrentAddsGetDistinctIDs(t *testing.T) {
 	root := t.TempDir()
 	var wg sync.WaitGroup

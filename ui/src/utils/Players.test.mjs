@@ -1,6 +1,16 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { isAnonymous, isSeatLabel, matchPlayerByName, personLabel, playerNameMatches, playerOptions } from "./Players.js"
+import { groupNames, isAnonymous, isSeatLabel, matchPlayerByName, personLabel, playerNameMatches, playerOptions } from "./Players.js"
+
+test("groupNames lists each play group once, sorted, skipping players in none", () => {
+  const players = [
+    { id: 1, name: "Ozzy", group: "the crew" },
+    { id: 2, name: "Joan" },
+    { id: 3, name: "Stevie", group: "Cube Con" },
+    { id: 4, name: "Freddie", group: "the crew" },
+  ]
+  assert.deepEqual(groupNames(players), ["Cube Con", "the crew"])
+})
 
 test("a deck with no player id showing its seat label is anonymous", () => {
   assert.equal(isAnonymous({ id: 3, player: "p3" }), true)

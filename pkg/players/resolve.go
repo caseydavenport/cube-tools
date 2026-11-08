@@ -28,15 +28,16 @@ func IsSeatLabel(name string) bool {
 }
 
 // ResolveDraft fills in the display names deck files don't store: each deck's
-// Player, each match's Opponent, OpponentPlayerID and Winner, and each game's
-// Opponent and Winner. All decks must come from one draft, since opponents are
-// found by deck ID. A deck with no PlayerID keeps a Player already set (a
-// remote source's name) and otherwise gets its seat label. A nil list resolves
-// seat labels and opponents only.
+// Player and PlayGroup, each match's Opponent, OpponentPlayerID and Winner, and
+// each game's Opponent and Winner. All decks must come from one draft, since
+// opponents are found by deck ID. A deck with no PlayerID keeps a Player
+// already set (a remote source's name) and otherwise gets its seat label. A
+// nil list resolves seat labels, the leftover group and opponents only.
 func (l *List) ResolveDraft(decks []*types.Deck) {
 	byID := make(map[int]*types.Deck, len(decks))
 	for _, d := range decks {
 		byID[d.ID] = d
+		d.PlayGroup = l.GroupFor(d.PlayerID)
 		switch {
 		case d.PlayerID != 0:
 			d.Player = l.nameFor(d.PlayerID)

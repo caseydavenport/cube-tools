@@ -76,6 +76,31 @@ export async function addPlayer(name) {
   })
 }
 
+// setPlayerGroup puts a player in a play group, or in none for an empty
+// group, and returns the player.
+export async function setPlayerGroup(id, group) {
+  return playersRequest(`/api/players/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ group }),
+  })
+}
+
+// NO_GROUP is the play group of anonymous seats and players in no group. The
+// server uses the same name.
+export const NO_GROUP = "Everyone else"
+
+// groupNames lists the play groups players are in, sorted, for a picker.
+export function groupNames(players) {
+  const names = new Set()
+  for (const p of players || []) {
+    if (p.group) {
+      names.add(p.group)
+    }
+  }
+  return [...names].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }))
+}
+
 // renamePlayer changes a player's display name and returns the player.
 export async function renamePlayer(id, name) {
   return playersRequest(`/api/players/${id}`, {

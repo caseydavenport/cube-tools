@@ -77,6 +77,21 @@
   flex-wrap: wrap;
 }
 
+.players-group {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--mantine-primary-color-light);
+  color: var(--mantine-primary-color-light-color);
+}
+
+.players-group-none {
+  background: none;
+  border: 1px solid var(--se-border);
+  color: var(--se-muted);
+}
+
 .players-profile-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

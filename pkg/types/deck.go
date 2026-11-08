@@ -238,7 +238,11 @@ type Deck struct {
 	// an anonymous seat label, or a remote source's name. Deck files never store
 	// it; players.List.ResolveDraft fills it in.
 	Player string `json:"player"`
-	Date   string `json:"date"`
+
+	// PlayGroup is the play group of the deck's player, or the leftover group
+	// for an anonymous seat. ResolveDraft fills it in.
+	PlayGroup string `json:"play_group,omitempty"`
+	Date      string `json:"date"`
 
 	// Optional user-defined name for the deck.
 	Name string `json:"name,omitempty"`

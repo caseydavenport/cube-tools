@@ -13,18 +13,22 @@ function byCountThenName(a, b) {
   return a.name.localeCompare(b.name)
 }
 
-// pivotMeta returns { archetypes, players, labels, playerFreq } for decks.
-// playerFreq is [{ name, count }] ranked by deck count, and players is the
-// same names sorted alphabetically. Anonymous seats are left out, since every
-// draft reuses their labels.
+// pivotMeta returns { archetypes, players, playGroups, labels, playerFreq }
+// for decks. playerFreq is [{ name, count }] ranked by deck count, and players
+// is the same names sorted alphabetically. Anonymous seats are left out of
+// both, since every draft reuses their labels.
 export function pivotMeta(decks) {
   const archetypes = new Set()
   const labels = new Set()
+  const playGroups = new Set()
   const playerCounts = {}
 
   for (const deck of decks) {
     if (deck.macro_archetype) {
       archetypes.add(deck.macro_archetype)
+    }
+    if (deck.play_group) {
+      playGroups.add(deck.play_group)
     }
     if (deck.player && !isAnonymous(deck)) {
       playerCounts[deck.player] = (playerCounts[deck.player] || 0) + 1
@@ -41,6 +45,7 @@ export function pivotMeta(decks) {
   return {
     archetypes: [...archetypes].sort(),
     players: playerFreq.map(p => p.name).sort(),
+    playGroups: [...playGroups].sort(),
     labels: [...labels].sort(),
     playerFreq,
   }

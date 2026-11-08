@@ -41,6 +41,15 @@ export const PRESETS = [
       metric: "win_pct",
     },
   },
+  {
+    id: "color-by-play-group",
+    label: "Color by play group",
+    slice: {
+      groupBy: { dim: "color", granularity: 2, color_mode: "inclusive" },
+      splitBy: { dim: "playgroup", granularity: 1, color_mode: "inclusive" },
+      metric: "win_pct",
+    },
+  },
 ]
 
 // SLICE_PARAMS are the URL parameter names the slice uses. The date range and
@@ -126,6 +135,8 @@ const ROW_NOUNS = {
   opponent_archetype: () => "opponents of one macro archetype",
   label: () => "decks with one tag",
   player: () => "one player's decks",
+  playgroup: () => "decks by players in one play group",
+  opponent_playgroup: () => "opponents in one play group",
   time: (size, bucket) => `decks from ${bucket} drafts in a row`,
   removal: () => "decks with that many removal spells",
   interaction: () => "decks with that many removal spells and counterspells",

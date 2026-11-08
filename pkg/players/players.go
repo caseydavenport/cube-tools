@@ -33,11 +33,17 @@ var (
 	ErrInvalidName = errors.New("invalid player name")
 )
 
+// NoGroup is the play group of anonymous seats and players with no group, so
+// every deck lands in exactly one group.
+const NoGroup = "Everyone else"
+
 // Player is one person in the list. ID is 1-based, never reused, and never
-// changes; Name is what every page shows.
+// changes; Name is what every page shows. Group is the player's play group,
+// empty for none.
 type Player struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID    int    `json:"id"`
+	Name  string `json:"name"`
+	Group string `json:"group,omitempty"`
 }
 
 // List is the contents of players.json.
@@ -178,6 +184,47 @@ func Rename(dataRoot string, id int, name string) (Player, error) {
 		}
 	}
 	return Player{}, fmt.Errorf("%w: id %d", ErrUnknownPlayer, id)
+}
+
+// SetGroup puts a player in a play group, or in none for an empty group.
+// Naming NoGroup also means none. A group differing only in case from an
+// existing one takes that group's spelling.
+func SetGroup(dataRoot string, id int, group string) (Player, error) {
+	group = strings.TrimSpace(group)
+	if strings.EqualFold(group, NoGroup) {
+		group = ""
+	}
+	writeMu.Lock()
+	defer writeMu.Unlock()
+	list, err := Load(dataRoot)
+	if err != nil {
+		return Player{}, err
+	}
+	for _, p := range list.Players {
+		if p.Group != "" && strings.EqualFold(p.Group, group) {
+			group = p.Group
+			break
+		}
+	}
+	for i := range list.Players {
+		if list.Players[i].ID == id {
+			list.Players[i].Group = group
+			if err := save(dataRoot, list); err != nil {
+				return Player{}, err
+			}
+			return list.Players[i], nil
+		}
+	}
+	return Player{}, fmt.Errorf("%w: id %d", ErrUnknownPlayer, id)
+}
+
+// GroupFor returns the play group of the player with the given ID, or NoGroup
+// for an anonymous seat (zero) or a player in no group.
+func (l *List) GroupFor(id int) string {
+	if p, ok := l.ByID(id); ok && p.Group != "" {
+		return p.Group
+	}
+	return NoGroup
 }
 
 // save writes the list atomically: a temp file in dataRoot, then a rename over
