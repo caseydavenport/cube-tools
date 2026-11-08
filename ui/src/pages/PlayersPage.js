@@ -25,13 +25,6 @@ const COPY = {
   retry: "Try again",
   filterPlaceholder: "Filter decks",
 
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
-
   settings: "List settings",
   minGames: "Min games",
   winConfidence: "Win % confidence",
@@ -190,7 +183,7 @@ export function PlayersPage(props) {
   return (
     <>
       <PageToolbar title={COPY.title} actions={<PlayerSettings filters={filters} copy={COPY} />}>
-        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
         <PillSearchInput
           placeholder={COPY.filterPlaceholder}
           value={filter.typed}

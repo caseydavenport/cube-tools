@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Button, Divider, Popover, Stack, TextInput, UnstyledButton } from "@mantine/core"
 import { IconCalendar, IconChevronDown } from "@tabler/icons-react"
-import { presetRange, rangeLabel, rangePreset, todayString } from "./dateRanges.js"
+import { PRESETS, presetRange, rangeLabel, rangePreset, todayString } from "./dateRanges.js"
 import "./toolbar.css"
 
 // PresetOption is one row in the menu that picks a preset range. The current
@@ -21,7 +21,7 @@ function PresetOption({ label, selected, onClick }) {
 
 // CustomRangeForm holds two date inputs and an Apply button. The dates are kept
 // here until Apply, so the page doesn't reload its data on every keystroke.
-function CustomRangeForm({ start, end, onApply, copy }) {
+function CustomRangeForm({ start, end, onApply }) {
   const [draftStart, setDraftStart] = useState(start)
   const [draftEnd, setDraftEnd] = useState(end)
 
@@ -30,19 +30,19 @@ function CustomRangeForm({ start, end, onApply, copy }) {
       <TextInput
         type="date"
         size="xs"
-        label={copy.from}
+        label="From"
         value={draftStart}
         onChange={event => setDraftStart(event.currentTarget.value)}
       />
       <TextInput
         type="date"
         size="xs"
-        label={copy.to}
+        label="To"
         value={draftEnd}
         onChange={event => setDraftEnd(event.currentTarget.value)}
       />
       <Button size="xs" onClick={() => onApply(draftStart, draftEnd)}>
-        {copy.apply}
+        Apply
       </Button>
     </div>
   )
@@ -50,11 +50,12 @@ function CustomRangeForm({ start, end, onApply, copy }) {
 
 // DateRangeMenu is the toolbar button that picks the date range every browse
 // page filters by. Its label names the current range; clicking it offers the
-// presets ("All time", "Last 12 months") and a custom range form.
+// presets ("All time", "Last 12 months", "Last 24 months") and a custom
+// range form.
 //
 // It's a Popover rather than a Menu because a Menu's arrow-key handling would
 // fight with typing in the custom range's date inputs.
-export function DateRangeMenu({ start, end, onChange, copy }) {
+export function DateRangeMenu({ start, end, onChange }) {
   const [opened, setOpened] = useState(false)
   const now = todayString()
   const preset = rangePreset(start, end, now)
@@ -81,21 +82,22 @@ export function DateRangeMenu({ start, end, onChange, copy }) {
           rightSection={<IconChevronDown size={14} />}
           onClick={() => setOpened(!opened)}
         >
-          {rangeLabel(start, end, now, copy)}
+          {rangeLabel(start, end, now)}
         </Button>
       </Popover.Target>
 
       <Popover.Dropdown p={4}>
         <Stack gap={0}>
-          <PresetOption label={copy.allTime} selected={preset === "all"} onClick={() => choosePreset("all")} />
-          <PresetOption label={copy.last12Months} selected={preset === "12m"} onClick={() => choosePreset("12m")} />
+          {PRESETS.map(p => (
+            <PresetOption key={p.id} label={p.label} selected={preset === p.id} onClick={() => choosePreset(p.id)} />
+          ))}
         </Stack>
 
-        <Divider my={4} label={copy.customRange} labelPosition="left" />
+        <Divider my={4} label="Custom range" labelPosition="left" />
 
         {/* The key resets the form's drafts to the current range each time
             the popover opens, discarding anything left unapplied. */}
-        <CustomRangeForm key={String(opened)} start={start} end={end} onApply={choose} copy={copy} />
+        <CustomRangeForm key={String(opened)} start={start} end={end} onApply={choose} />
       </Popover.Dropdown>
     </Popover>
   )

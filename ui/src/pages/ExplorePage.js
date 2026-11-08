@@ -50,13 +50,6 @@ const COPY = {
   winConfidence: "Win % confidence",
   filterPlaceholder: "Filter decks",
 
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
-
   dims: {
     color: "Color",
     archetype: "Archetype",
@@ -449,7 +442,7 @@ export function ExplorePage(props) {
   return (
     <>
       <PageToolbar title={COPY.title} actions={actions}>
-        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
         <PillSearchInput
           placeholder={COPY.filterPlaceholder}
           value={filter.typed}

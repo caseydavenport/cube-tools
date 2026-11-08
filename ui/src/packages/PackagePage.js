@@ -32,16 +32,6 @@ import "../pages/pages.css"
 import "../cards/cardPage.css"
 import "./packagePage.css"
 
-// RANGE_COPY is the date range menu's text.
-const RANGE_COPY = {
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
-}
-
 // usePackagePage loads the package page's data for name over the date range,
 // again whenever refresh changes. It returns { page, missing }: page is null
 // while loading, and missing is true when the rules have no such package.
@@ -260,7 +250,7 @@ export function PackagePage(props) {
 
   const toolbar = (
     <PageToolbar title={name}>
-      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={RANGE_COPY} />
+      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
     </PageToolbar>
   )
 

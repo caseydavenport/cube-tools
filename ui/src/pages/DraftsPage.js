@@ -15,13 +15,6 @@ import "../drafts/drafts.css"
 const COPY = {
   title: "Drafts",
 
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
-
   pickDraft: "Pick a draft from the list",
   noDrafts: "No drafts in this date range",
   loading: "Loading…",
@@ -88,7 +81,7 @@ export function DraftsPage(props) {
   return (
     <>
       <PageToolbar title={COPY.title}>
-        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
       </PageToolbar>
 
       <ListDetail

@@ -27,13 +27,6 @@ const COPY = {
   coverage: "Coverage",
   loading: "Loading removal…",
 
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
-
   tabs: { table: "Table", scatter: "Coverage vs cost", byColor: "By color", hard: "Hard to remove" },
   coverageOpts: { raw: "Raw (cube)", played: "Play-weighted" },
   colorLabel: "Removal color",
@@ -149,7 +142,7 @@ export function RemovalPage(props) {
 
   const toolbar = (
     <PageToolbar title={COPY.title}>
-      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
       <ChoiceHeader
         label={COPY.coverage}
         options={visibleItems(COVERAGE_OPTS, info)}

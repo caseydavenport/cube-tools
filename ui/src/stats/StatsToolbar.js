@@ -37,7 +37,7 @@ export function StatsToolbar({ title, props, filter, onFilterChange, extraFilter
 
   return (
     <PageToolbar title={title} actions={actions}>
-      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={copy} />
+      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
       <PillSearchInput
         placeholder={copy.filterPlaceholder}
         value={filter}

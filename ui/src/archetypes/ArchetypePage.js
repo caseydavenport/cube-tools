@@ -26,16 +26,6 @@ import "../cards/cardPage.css"
 import "../packages/packagePage.css"
 import "./archetypePage.css"
 
-// RANGE_COPY is the date range menu's text.
-const RANGE_COPY = {
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
-}
-
 // DECKS_SHOWN is how many decks the decks section lists before "Show all".
 const DECKS_SHOWN = 10
 
@@ -228,7 +218,7 @@ export function ArchetypePage(props) {
 
   const toolbar = (
     <PageToolbar title={pageTitle(name)}>
-      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={RANGE_COPY} />
+      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
     </PageToolbar>
   )
 

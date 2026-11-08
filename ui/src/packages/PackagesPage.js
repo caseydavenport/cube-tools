@@ -26,16 +26,6 @@ import "../stats/stats.css"
 import "../pages/pages.css"
 import "./packages.css"
 
-// RANGE_COPY is the date range menu's text.
-const RANGE_COPY = {
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
-}
-
 // PAGE_TABS are the Packages page's two views.
 const PAGE_TABS = [
   { id: "table", label: "Table" },
@@ -95,7 +85,7 @@ export function PackagesPage(props) {
 
   const toolbar = (
     <PageToolbar title="Packages" actions={settings}>
-      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={RANGE_COPY} />
+      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
       <PillSearchInput
         placeholder="Filter decks"
         value={filter.typed}

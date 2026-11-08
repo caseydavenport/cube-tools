@@ -19,16 +19,6 @@ import { packageIndexOf } from "./cardPageModel.js"
 import "../pages/pages.css"
 import "./cardPage.css"
 
-// RANGE_COPY is the date range menu's text.
-const RANGE_COPY = {
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
-}
-
 // useCardPage fetches the card page's data for name over the date range. It
 // returns { page, missing }: page is null while loading, and missing is true
 // when the server doesn't know the name.
@@ -144,7 +134,7 @@ export function CardPage(props) {
 
   const toolbar = (
     <PageToolbar title={name}>
-      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={RANGE_COPY} />
+      <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
       <AnyCardSearch cube={cube} onPick={openCard} placeholder="Find a card" className="card-page-find" />
     </PageToolbar>
   )

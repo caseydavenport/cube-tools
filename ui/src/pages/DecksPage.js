@@ -18,13 +18,6 @@ const COPY = {
   title: "Decks",
   filterPlaceholder: "Filter decks",
 
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
-
   copyList: "Copy list",
   copied: "Copied",
   compare: "Compare",
@@ -126,7 +119,7 @@ export function DecksPage(props) {
   return (
     <>
       <PageToolbar title={COPY.title} actions={actions}>
-        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} />
         <PillSearchInput
           placeholder={COPY.filterPlaceholder}
           value={page.filter.typed}

@@ -39,13 +39,6 @@ const COPY = {
   noMatchingDecks: "No decks match this filter",
   loadFailed: "Some of this page's data didn't load.",
   retry: "Try again",
-
-  allTime: "All time",
-  last12Months: "Last 12 months",
-  customRange: "Custom range",
-  from: "From",
-  to: "To",
-  apply: "Apply",
 }
 
 // StatsViewer displays stats spanning the selected drafts. props.view picks
