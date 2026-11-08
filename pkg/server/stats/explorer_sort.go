@@ -31,7 +31,7 @@ var explorerSortKeys = map[string]func(ExplorerCard) float64{
 	"connections": func(c ExplorerCard) float64 { return float64(len(c.Connections)) },
 }
 
-// sortParams reads "sort" and "dir". An unknown column sorts by Fills gaps,
+// sortParams reads "sort" and "dir". An unknown column sorts by Uniqueness,
 // and a column without a direction sorts high to low, except Name, A to Z.
 func sortParams(r *http.Request) explorerSort {
 	key := query.GetString(r, "sort")

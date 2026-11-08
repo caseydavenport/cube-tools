@@ -236,7 +236,7 @@ func (c compiledGroups) match(card types.Card) []ExplorerGroup {
 	return out
 }
 
-// exploreCard scores one card: its joins, linked cube cards, Fills gaps and
+// exploreCard scores one card: its joins, linked cube cards, Uniqueness and
 // New connections.
 func exploreCard(card types.Card, inCube bool, groups []ExplorerGroup, rules explorerRules, thin int) ExplorerCard {
 	out := newExplorerCard(card, inCube, groups)

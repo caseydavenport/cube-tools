@@ -189,7 +189,7 @@ func TestExplorerHandler_SortDirection(t *testing.T) {
 	resp := explorerFor(t, nil, url.Values{"q": {"o:sacrifice"}, "sort": {"name"}, "dir": {"desc"}})
 	assert.Equal(t, []string{"Outlet Zed", "Outlet Mo", "Outlet Amy"}, names(resp.Candidates))
 
-	// An unknown column sorts by Fills gaps; the three tie, so names break it.
+	// An unknown column sorts by Uniqueness; the three tie, so names break it.
 	fallback := explorerFor(t, nil, url.Values{"q": {"o:sacrifice"}, "sort": {"bogus"}})
 	assert.Equal(t, []string{"Outlet Amy", "Outlet Mo", "Outlet Zed"}, names(fallback.Candidates))
 }

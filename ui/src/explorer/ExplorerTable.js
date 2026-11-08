@@ -127,7 +127,7 @@ export function ExplorerTable({ cards, total, cube, thin, sort, setSort, onMore 
               {header("groups", "Groups", "Groups in the rules this card lands in. Hover one for the condition it matched.", true)}
               {header("packages", "Packages", "The wires it would join: its role there, and how many cube cards already hold that role.", true)}
               {header("linked", "Linked", "Cube cards it would pair with on the wires it joins, with basic lands counted as one.")}
-              {header("fills", "Fills gaps", "Each wire it joins adds 1 ÷ (cards already in its role + 1). Thin spots count most.")}
+              {header("fills", "Uniqueness", "Roughly, how many of its roles few or no other cube cards fill. A role it holds alone counts 1; one shared with one other card counts ½.")}
               {header("connections", "New connections", `Package pairs it joins through roles with at most ${thin} other cards, and how many cards they share today.`)}
             </tr>
           </thead>
