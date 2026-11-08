@@ -24,7 +24,7 @@ function colorSort(card) {
 // playRateSort is the value the Popularity column sorts by: the play rate, or
 // blank (NaN, so it sinks) for a card no fully recorded deck took.
 function playRateSort(card) {
-  if (!card.drafts_taken) {
+  if (!card.times_taken) {
     return NaN
   }
   return card.play_rate
@@ -192,15 +192,15 @@ function statsValueCell(card, input, key, value, title, rows) {
 }
 
 // popularityRows are the Popularity hover's rows: the popularity word, the
-// draft counts behind the rate, and the card's deck counts by board.
+// copy counts behind the rate, and the card's deck counts by board.
 function popularityRows(card) {
   const rows = []
   if (card.popularity) {
     rows.push({ label: "Popularity", value: popularityLabel(card.popularity) })
   }
   rows.push(
-    { label: "Drafts a deck took it", value: card.drafts_taken },
-    { label: "Drafts it was played", value: card.drafts_played },
+    { label: "Times a deck took it", value: card.times_taken },
+    { label: "Times it was played", value: card.times_played },
     { label: CARDS_COPY.columns.mainboarded, value: card.mainboard },
     { label: CARDS_COPY.columns.sideboarded, value: card.sideboard },
     { label: CARDS_COPY.columns.playableSideboard, value: card.playable_sideboard },
@@ -208,11 +208,11 @@ function popularityRows(card) {
   return rows
 }
 
-// popularityCell shows the card's play rate: the share of drafts where a deck
-// took it that it was mainboarded. The popularity word and the counts behind
-// it are on hover. A dash when no fully recorded deck took it.
+// popularityCell shows the card's play rate: the share of the copies decks
+// took that they mainboarded. The popularity word and the counts behind it are
+// on hover. A dash when no fully recorded deck took it.
 function popularityCell(card, input, key) {
-  if (!card.drafts_taken) {
+  if (!card.times_taken) {
     return <td key={key} id={card.name} onClick={input.onCardSelected} className="stats-muted">—</td>
   }
   const value = `${Math.round(card.play_rate)}%`

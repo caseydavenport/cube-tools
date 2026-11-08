@@ -53,7 +53,7 @@ func (h *cardSearchHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	all := h.stats.statsForDecks(allDecks, cubeCards, sr)
-	addPopularity(all, cube, draftRates(allDecks))
+	addPopularity(all, cube, playRates(allDecks))
 
 	for name, row := range all.Data {
 		if compiled.MatchCardStats(searchCard(row)) {

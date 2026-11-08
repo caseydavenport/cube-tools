@@ -113,7 +113,7 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		resp.All = d.statsForDecks(allDecks, cubeCards, sr)
-		addPopularity(resp.All, cube, draftRates(allDecks))
+		addPopularity(resp.All, cube, playRates(allDecks))
 	}
 
 	// Marshal the response and write it back.
@@ -290,14 +290,14 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 	return resp
 }
 
-// addPopularity sets each card's per-draft play rate and its popularity
+// addPopularity sets each card's per-copy play rate and its popularity
 // against its color peers, the same rule the card page uses.
-func addPopularity(cards *Cards, cube *types.Cube, rates map[string]draftRate) {
+func addPopularity(cards *Cards, cube *types.Cube, rates map[string]playRate) {
 	labels := cubePopularity(cube, rates)
 	for name, card := range cards.Data {
 		rate := rates[name]
-		card.DraftsTaken = rate.Taken
-		card.DraftsPlayed = rate.Played
+		card.TimesTaken = rate.Taken
+		card.TimesPlayed = rate.Played
 		card.PlayRate = round1(rate.percent())
 		card.Popularity = labels[name]
 	}
@@ -647,13 +647,13 @@ type cardStats struct {
 	// Total number of games this card has been in.
 	TotalGames int `json:"total_games"`
 
-	// DraftsTaken counts drafts where the card sat in a fully recorded deck,
-	// DraftsPlayed those where it was mainboarded, and PlayRate the share.
+	// TimesTaken counts copies taken by decks recording their choices,
+	// TimesPlayed those where it was mainboarded, and PlayRate the share.
 	// Popularity compares PlayRate with same-color cards.
-	DraftsTaken  int     `json:"drafts_taken"`
-	DraftsPlayed int     `json:"drafts_played"`
-	PlayRate     float64 `json:"play_rate"`
-	Popularity   string  `json:"popularity,omitempty"`
+	TimesTaken  int     `json:"times_taken"`
+	TimesPlayed int     `json:"times_played"`
+	PlayRate    float64 `json:"play_rate"`
+	Popularity  string  `json:"popularity,omitempty"`
 
 	// Number of times this card was in deck color(s), and sideboarded
 	PlayableSideboard int `json:"playable_sideboard"`

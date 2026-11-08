@@ -36,8 +36,8 @@ export function GamesWon({ tile }) {
 function PlayTiles({ play, history, record, info }) {
   const played = playedTile(play)
   const tiles = [
-    <StatTile key="played" label="Drafts played in" value={played.value} detail={played.detail}
-      tip={`Drafts where a deck mainboarded it, out of the drafts where a deck with its sideboard recorded took it, in the date range. Drafts where nobody took it, or where the deck's sideboard wasn't recorded, don't count either way. ${play.mainboard} decks in all.`} />,
+    <StatTile key="played" label="Times played" value={played.value} detail={played.detail}
+      tip={`Copies a deck mainboarded, out of the copies taken by decks with both their main deck and sideboard recorded, in the date range. A card the cube runs twice counts each copy. Decks missing either list don't count either way. ${play.mainboard} decks in all.`} />,
     <StatTile key="sideboarded" label="Sideboarded" value={play.sideboard}
       tip="Decks that had it in the sideboard." />,
   ]
@@ -76,7 +76,7 @@ function ScryfallLink({ card }) {
 // cube's info, which says whether it records results.
 export function CardHeader({ page, info }) {
   let tiles = null
-  if (page.in_cube || page.play.drafts_played > 0) {
+  if (page.in_cube || page.play.times_played > 0) {
     tiles = <PlayTiles play={page.play} history={page.history} record={page.record} info={info} />
   }
   return (

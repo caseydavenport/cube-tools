@@ -246,7 +246,7 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
       return card.total_games
     case CardAxis.popularity:
       // Cards no fully recorded deck took have no rate, so they drop off.
-      if (!card.drafts_taken) {
+      if (!card.times_taken) {
         return null
       }
       return card.play_rate

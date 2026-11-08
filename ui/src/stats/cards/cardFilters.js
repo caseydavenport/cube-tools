@@ -12,7 +12,7 @@ export const POPULARITY_OPTIONS = [
 
 // POPULARITY_TIP explains the Popularity column: the rate it shows and what
 // the popularity words mean.
-export const POPULARITY_TIP = "Share of the drafts where a deck took the card that it made the main deck. Only decks with their sideboard recorded count, so a card nobody opened, or one whose deck's sideboard is missing, counts neither for nor against it. Popular means a higher rate than two thirds of the same-color cube cards, niche lower than two thirds. Hover a value for its counts."
+export const POPULARITY_TIP = "Share of the times a deck took the card that it made the main deck, counting each copy when the cube runs more than one. Only decks with both their main deck and sideboard recorded count, so a card nobody opened, or one whose deck is missing either list, counts neither for nor against it. Popular means a higher rate than two thirds of the same-color cube cards, niche lower than two thirds. Hover a value for its counts."
 
 // matchesPopularity reports whether a card passes the popularity filter.
 // An empty choice passes every card.

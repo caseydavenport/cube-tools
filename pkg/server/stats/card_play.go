@@ -15,10 +15,9 @@ const (
 	// compared against before it gets a popular, typical or niche label.
 	minPopularityPeers = 10
 
-	// minPopularityDrafts is how many drafts a card, or a peer, must have been
-	// taken in to count toward a popularity label. It matches the UI's "New to
-	// the cube" cutoff.
-	minPopularityDrafts = 5
+	// minPopularityTaken is how many times a card, or a peer, must have been
+	// taken to count toward a popularity label.
+	minPopularityTaken = 5
 
 	// Draft states on a card's cube history.
 	draftPlayed  = "played"
@@ -28,17 +27,16 @@ const (
 )
 
 // CardPlay is how much a card gets played in the page's date range, counted
-// in drafts: a singleton card can be in only one deck per draft. DraftsTaken
-// counts drafts where the card sits in a fully recorded deck (see
-// draftRates), and DraftsPlayed those where that deck mainboarded it; Rate is
-// the share as a percent. Popularity compares Rate with the same-color cube
-// cards, Peers, whose median is PeerMedian. Mainboard and Sideboard count
-// decks. Drafts and DraftsInCube cover all time.
+// per copy (see playRates): TimesTaken is the copies decks recording their
+// choices took, TimesPlayed those they mainboarded, and Rate the share as a
+// percent. Popularity compares Rate with the same-color cube cards, Peers,
+// whose median is PeerMedian. Mainboard and Sideboard count decks. Drafts and
+// DraftsInCube cover all time.
 type CardPlay struct {
 	Mainboard    int     `json:"mainboard"`
 	Sideboard    int     `json:"sideboard"`
-	DraftsPlayed int     `json:"drafts_played"`
-	DraftsTaken  int     `json:"drafts_taken"`
+	TimesPlayed  int     `json:"times_played"`
+	TimesTaken   int     `json:"times_taken"`
 	DraftsInCube int     `json:"drafts_in_cube"`
 	Drafts       int     `json:"drafts"`
 	Popularity   string  `json:"popularity"`
@@ -142,10 +140,10 @@ func cardPlay(card types.Card, ranged []*storage.Deck, history []DraftPresence, 
 		}
 	}
 
-	// Drafts played out of drafts taken, against the same-color cards.
-	rates := draftRates(ranged)
+	// Copies played out of copies taken, against the same-color cards.
+	rates := playRates(ranged)
 	rate := rates[card.Name]
-	play.DraftsPlayed, play.DraftsTaken = rate.Played, rate.Taken
+	play.TimesPlayed, play.TimesTaken = rate.Played, rate.Taken
 	if rate.Taken == 0 {
 		return play
 	}
@@ -154,77 +152,68 @@ func cardPlay(card types.Card, ranged []*storage.Deck, history []DraftPresence, 
 	if len(peers) > 0 {
 		play.PeerMedian = median(peers)
 	}
-	if rate.Taken >= minPopularityDrafts {
+	if rate.Taken >= minPopularityTaken {
 		play.Popularity = popularity(rate.percent(), peers)
 	}
 	return play
 }
 
-// draftRate is one card's play counted in drafts: Played of the Taken drafts
-// where it sat in a fully recorded deck saw that deck mainboard it.
-type draftRate struct {
+// playRate is one card's play counted in copies: Played of the Taken copies
+// that sat in a deck recording its choices were mainboarded. For a singleton
+// card that's one copy per draft.
+type playRate struct {
 	Played int
 	Taken  int
 }
 
-// percent is the rate as a percent, 0 when the card was taken in no draft.
-func (r draftRate) percent() float64 {
+// percent is the rate as a percent, 0 when no copy was taken.
+func (r playRate) percent() float64 {
 	if r.Taken == 0 {
 		return 0
 	}
 	return 100 * float64(r.Played) / float64(r.Taken)
 }
 
-// draftRates counts every non-basic card's play over decks, in drafts. A
-// draft counts for a card only when the card sits in a deck that records its
-// whole pool, as a sideboard or pool list. A card absent from every such deck
-// may never have been opened, and a mainboard-only deck can't show the cards
-// it benched, so neither counts for or against the card.
-func draftRates(decks []*storage.Deck) map[string]draftRate {
-	taken := map[string]map[int]bool{}
-	played := map[string]map[int]bool{}
-	note := func(seen map[string]map[int]bool, name string, draftID int) {
-		if seen[name] == nil {
-			seen[name] = map[int]bool{}
-		}
-		seen[name][draftID] = true
-	}
-
+// playRates counts every non-basic card's play over decks, per copy. A deck
+// counts only when it records its choices, a mainboard and a sideboard; one
+// with only a pool or only a mainboard can't say whether a card it holds was
+// played, so its cards count neither for nor against. Each copy such a deck
+// took is taken, each it mainboarded is played, so a card the cube runs more
+// than once is judged by every copy.
+func playRates(decks []*storage.Deck) map[string]playRate {
+	rates := map[string]playRate{}
 	for _, d := range decks {
-		if !recordsWholePool(d) {
+		if !recordsChoices(d) {
 			continue
-		}
-		draftID := d.Metadata.DraftID
-		for _, board := range [][]types.Card{d.Mainboard, d.Sideboard, d.Pool} {
-			for _, c := range board {
-				if !types.IsBasic(c.Name) {
-					note(taken, c.Name, draftID)
-				}
-			}
 		}
 		for _, c := range d.Mainboard {
 			if !types.IsBasic(c.Name) {
-				note(played, c.Name, draftID)
+				r := rates[c.Name]
+				r.Taken++
+				r.Played++
+				rates[c.Name] = r
 			}
 		}
-	}
-
-	rates := map[string]draftRate{}
-	for name, drafts := range taken {
-		rates[name] = draftRate{Played: len(played[name]), Taken: len(drafts)}
+		for _, c := range d.Sideboard {
+			if !types.IsBasic(c.Name) {
+				r := rates[c.Name]
+				r.Taken++
+				rates[c.Name] = r
+			}
+		}
 	}
 	return rates
 }
 
-// recordsWholePool reports whether a deck lists the cards it didn't
-// mainboard, so a card missing from its mainboard is known to be benched.
-func recordsWholePool(d *storage.Deck) bool {
-	return len(d.Sideboard) > 0 || len(d.Pool) > 0
+// recordsChoices reports whether a deck lists both what it mainboarded and
+// what it benched, so a card in it is known to be played or not.
+func recordsChoices(d *storage.Deck) bool {
+	return len(d.Mainboard) > 0 && len(d.Sideboard) > 0
 }
 
 // peerRates lists the rates of the cube cards in card's color bucket, other
-// than card, that were taken in at least minPopularityDrafts drafts.
-func peerRates(card types.Card, cube *types.Cube, rates map[string]draftRate) []float64 {
+// than card, that were taken in at least minPopularityTaken drafts.
+func peerRates(card types.Card, cube *types.Cube, rates map[string]playRate) []float64 {
 	bucket := colorBucket(card)
 	var out []float64
 	for _, c := range cube.Cards {
@@ -232,7 +221,7 @@ func peerRates(card types.Card, cube *types.Cube, rates map[string]draftRate) []
 			continue
 		}
 		rate, ok := rates[c.Name]
-		if ok && rate.Taken >= minPopularityDrafts {
+		if ok && rate.Taken >= minPopularityTaken {
 			out = append(out, rate.percent())
 		}
 	}
@@ -240,13 +229,13 @@ func peerRates(card types.Card, cube *types.Cube, rates map[string]draftRate) []
 }
 
 // cubePopularity labels every cube card taken in at least
-// minPopularityDrafts drafts as popular, typical or niche against its color
+// minPopularityTaken drafts as popular, typical or niche against its color
 // peers, keyed by name. Cards without a label are left out.
-func cubePopularity(cube *types.Cube, rates map[string]draftRate) map[string]string {
+func cubePopularity(cube *types.Cube, rates map[string]playRate) map[string]string {
 	labels := map[string]string{}
 	for _, c := range cube.Cards {
 		rate, ok := rates[c.Name]
-		if !ok || rate.Taken < minPopularityDrafts {
+		if !ok || rate.Taken < minPopularityTaken {
 			continue
 		}
 		if label := popularity(rate.percent(), peerRates(c, cube, rates)); label != "" {

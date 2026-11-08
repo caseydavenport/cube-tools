@@ -49,9 +49,10 @@ func TestDraftHistory_States(t *testing.T) {
 }
 
 // takenDeck builds a fully recorded deck: it mainboards played and sideboards
-// benched, as red spells, with a basic in the sideboard so it's never empty.
+// benched, as red spells, with a basic on each board so neither is empty.
 func takenDeck(draftID, deckID int, played, benched []string) *storage.Deck {
 	d := playDeck("Freddie", draftID, deckID, "2024-01-01", played...)
+	d.Mainboard = append(d.Mainboard, types.Card{Name: "Mountain"})
 	d.Sideboard = []types.Card{{Name: "Mountain"}}
 	for _, n := range benched {
 		d.Sideboard = append(d.Sideboard, tendencySpell(n, "R"))
@@ -59,14 +60,14 @@ func takenDeck(draftID, deckID int, played, benched []string) *storage.Deck {
 	return d
 }
 
-func TestCardPlay_CountsDraftsNotDecks(t *testing.T) {
+func TestCardPlay_CountsCopies(t *testing.T) {
 	card := tendencySpell("Goblin Bombardment", "R")
 	bombardment := []string{card.Name}
 	decks := []*storage.Deck{
 		// Draft 1's decks never had it, so the draft says nothing about it.
 		takenDeck(1, 1, []string{"Shock"}, nil),
 
-		// Draft 2: two decks played it, from two copies.
+		// Draft 2: the cube ran two copies and two decks played them.
 		takenDeck(2, 1, bombardment, nil),
 		takenDeck(2, 2, bombardment, nil),
 		takenDeck(2, 3, []string{"Shock"}, nil),
@@ -77,8 +78,23 @@ func TestCardPlay_CountsDraftsNotDecks(t *testing.T) {
 
 	got := cardPlay(card, decks, nil, &types.Cube{Cards: []types.Card{card}})
 	assert.Equal(t, 2, got.Mainboard)
-	assert.Equal(t, 1, got.DraftsPlayed)
-	assert.Equal(t, 2, got.DraftsTaken)
+	assert.Equal(t, 2, got.TimesPlayed)
+	assert.Equal(t, 3, got.TimesTaken)
+	assert.Equal(t, 66.7, got.Rate)
+}
+
+func TestCardPlay_BenchedCopyCountsAgainst(t *testing.T) {
+	// Two copies in one draft, one played and one benched: half its copies
+	// were played, though some deck played it in every draft.
+	card := tendencySpell("Temple Garden", "G")
+	decks := []*storage.Deck{
+		takenDeck(1, 1, []string{card.Name}, nil),
+		takenDeck(1, 2, []string{"Shock"}, []string{card.Name}),
+	}
+
+	got := cardPlay(card, decks, nil, &types.Cube{Cards: []types.Card{card}})
+	assert.Equal(t, 1, got.TimesPlayed)
+	assert.Equal(t, 2, got.TimesTaken)
 	assert.Equal(t, 50.0, got.Rate)
 }
 
@@ -89,24 +105,31 @@ func TestCardPlay_SkipsMainboardOnlyDecks(t *testing.T) {
 	// A deck with no sideboard can't show what it benched, so it's ignored.
 	mainboardOnly := playDeck("Freddie", 1, 1, "2024-01-01", card.Name)
 	got := cardPlay(card, []*storage.Deck{mainboardOnly, benched}, nil, &types.Cube{})
-	assert.Equal(t, 0, got.DraftsPlayed)
-	assert.Equal(t, 1, got.DraftsTaken)
+	assert.Equal(t, 0, got.TimesPlayed)
+	assert.Equal(t, 1, got.TimesTaken)
 
 	// The same deck with its sideboard recorded counts.
 	recorded := takenDeck(1, 1, []string{card.Name}, nil)
 	got = cardPlay(card, []*storage.Deck{recorded, benched}, nil, &types.Cube{})
-	assert.Equal(t, 1, got.DraftsPlayed)
-	assert.Equal(t, 2, got.DraftsTaken)
+	assert.Equal(t, 1, got.TimesPlayed)
+	assert.Equal(t, 2, got.TimesTaken)
 }
 
-func TestCardPlay_PoolListCountsAsTaken(t *testing.T) {
+func TestCardPlay_PoolOnlyDeckSkipped(t *testing.T) {
+	// A deck recorded only as its pool can't say what it played, so its cards
+	// count neither for nor against.
 	card := tendencySpell("Goblin Bombardment", "R")
-	d := playDeck("Freddie", 1, 1, "2024-01-01", "Shock")
-	d.Pool = []types.Card{card}
+	d := playDeck("Freddie", 1, 1, "2024-01-01")
+	d.Pool = []types.Card{card, tendencySpell("Shock", "R")}
 
 	got := cardPlay(card, []*storage.Deck{d}, nil, &types.Cube{})
-	assert.Equal(t, 0, got.DraftsPlayed)
-	assert.Equal(t, 1, got.DraftsTaken)
+	assert.Equal(t, 0, got.TimesPlayed)
+	assert.Equal(t, 0, got.TimesTaken)
+
+	// Recorded with its choices, the same card counts.
+	recorded := takenDeck(1, 1, nil, []string{card.Name})
+	got = cardPlay(card, []*storage.Deck{d, recorded}, nil, &types.Cube{})
+	assert.Equal(t, 1, got.TimesTaken)
 }
 
 func TestCardPlay_SideboardAndDrafts(t *testing.T) {
@@ -137,7 +160,7 @@ func TestPopularity_NoLabelWhenPeersAllEqual(t *testing.T) {
 
 func TestCardPlay_NoPopularityUnderFiveDrafts(t *testing.T) {
 	got := popularityFixture(t, 4, 4, func(i int) int { return i % 4 })
-	assert.Equal(t, 4, got.DraftsTaken)
+	assert.Equal(t, 4, got.TimesTaken)
 	assert.Equal(t, "", got.Popularity)
 }
 
@@ -207,7 +230,7 @@ func TestCardPlay_RangeWithoutDecks(t *testing.T) {
 
 	got := cardPlay(card, nil, history, &types.Cube{Cards: []types.Card{card}})
 	assert.Equal(t, 0, got.Mainboard)
-	assert.Equal(t, 0, got.DraftsTaken)
+	assert.Equal(t, 0, got.TimesTaken)
 	assert.Equal(t, "", got.Popularity)
 	assert.Equal(t, 2, got.Drafts)
 }
@@ -289,10 +312,10 @@ func TestCubePopularity_LabelsEveryCardLikeCardPlay(t *testing.T) {
 	}
 
 	decks := sameColorDrafts()
-	rates := draftRates(decks)
+	rates := playRates(decks)
 	got := cubePopularity(cube, rates)
 
-	assert.Equal(t, draftRate{Played: 20, Taken: 20}, rates["Goblin Bombardment"])
+	assert.Equal(t, playRate{Played: 20, Taken: 20}, rates["Goblin Bombardment"])
 	assert.Equal(t, "popular", got["Goblin Bombardment"])
 	assert.Equal(t, "niche", got[peerName(0)])
 	assert.Equal(t, cardPlay(cube.Cards[0], decks, nil, cube).Popularity, got["Goblin Bombardment"])
@@ -304,10 +327,10 @@ func TestCubePopularity_LabelsEveryCardLikeCardPlay(t *testing.T) {
 
 func TestCubePopularity_SkipsCardsInTooFewDrafts(t *testing.T) {
 	cube := &types.Cube{Cards: []types.Card{tendencySpell("Goblin Bombardment", "R")}}
-	rates := map[string]draftRate{"Goblin Bombardment": {Played: 4, Taken: minPopularityDrafts - 1}}
+	rates := map[string]playRate{"Goblin Bombardment": {Played: 4, Taken: minPopularityTaken - 1}}
 	for i := 0; i < 12; i++ {
 		cube.Cards = append(cube.Cards, tendencySpell(peerName(i), "R"))
-		rates[peerName(i)] = draftRate{Played: i, Taken: 12}
+		rates[peerName(i)] = playRate{Played: i, Taken: 12}
 	}
 
 	got := cubePopularity(cube, rates)
