@@ -75,12 +75,13 @@ func names(cards []ExplorerCard) []string {
 func TestExplorerHandler_EmptySearch(t *testing.T) {
 	usePool(t, explorerPoolCards()...)
 
-	// With no search, every card is scored, so the page can open on the best
-	// fits; cards in no group still stay out.
+	// With no search, only the cube's cards are scored, so the page opens on
+	// them; candidates from the pool stay out.
 	for _, q := range []string{"", "   "} {
-		resp := explorerFor(t, nil, url.Values{"q": {q}})
-		assert.Equal(t, []string{"Candidate A"}, names(resp.Candidates), "search %q", q)
-		assert.Equal(t, []string{"Outlet A"}, names(resp.InCube), "search %q", q)
+		resp := explorerFor(t, nil, url.Values{"q": {q}, "sort": {"name"}})
+		assert.Empty(t, resp.Candidates, "search %q", q)
+		assert.Contains(t, names(resp.InCube), "Outlet A", "search %q", q)
+		assert.Contains(t, names(resp.InCube), "Outlet B", "search %q", q)
 	}
 }
 

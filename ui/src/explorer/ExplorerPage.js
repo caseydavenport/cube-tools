@@ -11,12 +11,16 @@ import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { startLoad } from "../stats/loading.js"
 import { explorerUrl } from "../stats/pageRequests.js"
 import { fetchJson } from "../utils/fetchJson.js"
-import { BestFits } from "./BestFits.js"
+import { CubeGrid } from "./CubeGrid.js"
 import { ExplorerTable, PAGE_SIZE } from "./ExplorerTable.js"
 import { DEFAULT_THIN, readParams, writeParams } from "./explorerModel.js"
 import "../stats/stats.css"
 import "../pages/pages.css"
 import "./explorer.css"
+
+// CUBE_GRID_LIMIT is how many cube cards the opening grid asks for: more than
+// any cube holds.
+const CUBE_GRID_LIMIT = 1000
 
 // useExplorer loads the explorer's answer for settings. It returns
 // { data, loading, failed }; data is null until the first answer arrives.
@@ -111,7 +115,11 @@ export function ExplorerPage() {
   const [params, setParams] = useSearchParams()
   const settings = readParams(params)
   const [limit, showMore] = useRowLimit(explorerUrl(cube, settings))
-  const { data, loading, failed } = useExplorer(cube, { ...settings, limit })
+
+  // With no search, the page opens on the whole cube as a grid, so it asks for
+  // every cube card at once.
+  const landing = !settings.q && !settings.maybe
+  const { data, loading, failed } = useExplorer(cube, { ...settings, limit: landing ? CUBE_GRID_LIMIT : limit })
 
   // update writes a change to the settings into the URL.
   function update(patch) {
@@ -145,15 +153,17 @@ export function ExplorerPage() {
     body = <div className="browse-empty">Couldn't run that search.</div>
   } else if (!data) {
     body = <div className="browse-empty">Loading…</div>
-  } else if (!settings.q && !settings.maybe) {
-    body = <BestFits cards={data.candidates} onPick={name => update({ q: `!"${name}"` })} />
+  } else if (landing) {
+    body = <CubeGrid cards={data.in_cube} total={data.in_cube_total} onPick={name => update({ q: `!"${name}"` })} />
   } else {
     body = (
       <>
         {maybeboard.error && <div className="ex-note">{maybeboard.error}</div>}
-        <SectionCard title={`Candidates · ${data.candidates_total}`} action={loading ? <span className="ex-note">Updating…</span> : null}>
-          <ExplorerTable cards={data.candidates} total={data.candidates_total} {...tableProps} />
-        </SectionCard>
+        {(data.candidates_total > 0 || data.in_cube_total === 0) && (
+          <SectionCard title={`Candidates · ${data.candidates_total}`} action={loading ? <span className="ex-note">Updating…</span> : null}>
+            <ExplorerTable cards={data.candidates} total={data.candidates_total} {...tableProps} />
+          </SectionCard>
+        )}
         {data.in_cube_total > 0 && (
           <SectionCard title={`In the cube · ${data.in_cube_total}`}>
             <ExplorerTable cards={data.in_cube} total={data.in_cube_total} {...tableProps} />

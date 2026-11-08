@@ -43,8 +43,8 @@ type ExplorerResponse struct {
 }
 
 // ExplorerHandler serves GET /api/{cube}/stats/explorer. "q" is a search over
-// every card, and with none every card is scored; "maybe=1" limits either to
-// the cube's CubeCobra maybeboard. "thin" sets the New connections cutoff,
+// every card, and with none only the cube's cards are scored; "maybe=1" limits
+// the search, or with none shows, the cube's CubeCobra maybeboard. "thin" sets the New connections cutoff,
 // "all=1" keeps cards in no group and on no wire, and "sort", "dir" and
 // "limit" order each table and cut it. maybe may be nil without CubeCobra.
 func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe MaybeboardSource) http.Handler {
@@ -75,8 +75,12 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 			pool = pickCards(pool, maybeboardNames(names, pool))
 		}
 		hits := pool
-		if !q.Empty() {
+		switch {
+		case !q.Empty():
 			hits = pickCards(pool, matchQuery(pool, q))
+		case !filterMaybe:
+			// With no search, the page opens on the cube's own cards.
+			hits = cubeHits(pool, rules.cube)
 		}
 
 		cards := exploreCards(hits, newExplorerRules(rules.cube, rules.relevantConfig(relevantToday)), thinParam(r))
@@ -134,6 +138,19 @@ func thinParam(r *http.Request) int {
 		return defaultThin
 	}
 	return max(thin, 0)
+}
+
+// cubeHits is the cube's cards to score, basics left out. Each takes its full
+// oracle card from pool when there is one, since the cube's own copy can lack
+// tags and an image.
+func cubeHits(pool map[string]types.Card, cube *types.Cube) map[string]types.Card {
+	out := buildCardMap(cube)
+	for name := range out {
+		if c, ok := pool[name]; ok {
+			out[name] = c
+		}
+	}
+	return out
 }
 
 // pickCards returns the cards in pool named in names.
