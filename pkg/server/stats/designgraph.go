@@ -192,7 +192,7 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 // package carries its relevance, so one its draft's list can't support isn't
 // named.
 func builtPackages(pkgs []design.PackageCards, deck *storage.Deck) []string {
-	cards := deckCardSet(deck)
+	cards := deckCards(deck)
 	out := []string{}
 	for _, p := range pkgs {
 		if p.BuiltIn(deck.Metadata.DraftID, cards) {

@@ -223,7 +223,7 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	// The decks in range that built the package.
 	var built []*storage.Deck
 	for _, d := range page.ranged {
-		if cards.BuiltIn(d.Metadata.DraftID, deckCardSet(d)) {
+		if cards.BuiltIn(d.Metadata.DraftID, deckCards(d)) {
 			built = append(built, d)
 		}
 	}
@@ -294,20 +294,26 @@ func packageCards(pkg design.Package, wires []PackageWire, cards map[string]type
 func mainboardCounts(decks []*storage.Deck) map[string]int {
 	numDecks := map[string]int{}
 	for _, d := range decks {
-		for name := range deckCardSet(d) {
+		for name := range deckCards(d) {
 			numDecks[name]++
 		}
 	}
 	return numDecks
 }
 
-// deckCardSet is the deck's mainboard as a set, basic lands included, the
-// shape package checks take. Basics only meet wire sides whose groups match
-// them; they never count as package cards.
-func deckCardSet(d *storage.Deck) map[string]bool {
-	out := map[string]bool{}
-	for _, c := range d.Mainboard {
-		out[c.Name] = true
+// deckCards is the deck's mainboard as card counts, basic lands included, the
+// shape package checks take, so a second copy counts like any other card.
+// Basics only meet wire sides whose groups match them; they never count as
+// package cards.
+func deckCards(d *storage.Deck) design.CardCounts {
+	return countCards(d.Mainboard)
+}
+
+// countCards counts the copies of each card in a list.
+func countCards(cards []types.Card) design.CardCounts {
+	out := design.CardCounts{}
+	for _, c := range cards {
+		out[c.Name]++
 	}
 	return out
 }
@@ -469,7 +475,7 @@ func colorCounts(names []string, cards map[string]types.Card) map[string]int {
 // empty for open, mark the drafts in the date range.
 func packageOverTime(pkg design.PackageCards, all []*storage.Deck, start, end string) []DraftBuild {
 	return draftShares(all, start, end, func(d *storage.Deck) bool {
-		return pkg.BuiltIn(d.Metadata.DraftID, deckCardSet(d))
+		return pkg.BuiltIn(d.Metadata.DraftID, deckCards(d))
 	})
 }
 

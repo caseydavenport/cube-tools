@@ -135,7 +135,7 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 		}
 		populated++
 
-		deck := deckCardSet(d)
+		deck := deckCards(d)
 		for _, p := range pkgs {
 			if p.HasCards(deck) {
 				has3[p.Name]++

@@ -6,13 +6,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// set builds a card name set, the shape BuiltBy and HasCards take for a deck.
+// set builds a card name set, the shape a wire side takes.
 func set(names ...string) map[string]bool {
 	s := make(map[string]bool, len(names))
 	for _, n := range names {
 		s[n] = true
 	}
 	return s
+}
+
+// deckOf builds a deck or cube list's card counts: one copy per name, and a
+// name given twice is two copies.
+func deckOf(names ...string) CardCounts {
+	c := CardCounts{}
+	for _, n := range names {
+		c[n]++
+	}
+	return c
 }
 
 // onePackage is a package with a single wire between the given sides, each
@@ -39,49 +49,49 @@ func TestWireCards_BuildaroundCarriesScarceColumn(t *testing.T) {
 	enablers := set("E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10")
 	w := WireCards{Sources: enablers, Targets: set("Delney"), NeedSources: 3, NeedTargets: 2, Buildarounds: set("Delney")}
 
-	assert.True(t, w.BuiltBy(set("Delney", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8")), "8 links")
-	assert.False(t, w.BuiltBy(set("Delney", "E1", "E2", "E3", "E4", "E5", "E6", "E7")), "7 links")
+	assert.True(t, w.BuiltBy(deckOf("Delney", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8")), "8 links")
+	assert.False(t, w.BuiltBy(deckOf("Delney", "E1", "E2", "E3", "E4", "E5", "E6", "E7")), "7 links")
 }
 
 func TestWireCards_OneShotScarceColumnNeedsTwo(t *testing.T) {
 	creatures := set("C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9")
 	w := WireCards{Sources: creatures, Targets: set("Unearth", "Helping Hand"), NeedSources: 3, NeedTargets: 2}
 
-	assert.False(t, w.BuiltBy(set("Unearth", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9")))
-	assert.True(t, w.BuiltBy(set("Unearth", "Helping Hand", "C1", "C2", "C3")))
+	assert.False(t, w.BuiltBy(deckOf("Unearth", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9")))
+	assert.True(t, w.BuiltBy(deckOf("Unearth", "Helping Hand", "C1", "C2", "C3")))
 }
 
 func TestPackageCards_BothSidesNeeded(t *testing.T) {
 	p := onePackage(set("A", "B"), set("C", "D", "E"), 2, 2)
-	assert.True(t, p.BuiltBy(set("A", "B", "C", "D")))
+	assert.True(t, p.BuiltBy(deckOf("A", "B", "C", "D")))
 
 	// Plenty of cards, but only one from the source side.
-	assert.False(t, p.BuiltBy(set("A", "C", "D", "E")))
+	assert.False(t, p.BuiltBy(deckOf("A", "C", "D", "E")))
 }
 
 func TestPackageCards_SingleCardSide(t *testing.T) {
 	p := onePackage(set("P"), set("C", "D", "E"), 1, 2)
-	assert.True(t, p.BuiltBy(set("P", "C", "D")))
-	assert.False(t, p.BuiltBy(set("P", "C")))
+	assert.True(t, p.BuiltBy(deckOf("P", "C", "D")))
+	assert.False(t, p.BuiltBy(deckOf("P", "C")))
 }
 
 func TestPackageCards_NeedsThreeCards(t *testing.T) {
 	p := onePackage(set("P"), set("Q"), 1, 1)
-	assert.False(t, p.BuiltBy(set("P", "Q")))
+	assert.False(t, p.BuiltBy(deckOf("P", "Q")))
 }
 
 func TestPackageCards_EmptySideNeverBuilt(t *testing.T) {
 	p := onePackage(set(), set("C", "D", "E"), 0, 2)
-	assert.False(t, p.BuiltBy(set("C", "D", "E")))
+	assert.False(t, p.BuiltBy(deckOf("C", "D", "E")))
 }
 
 func TestPackageCards_OverlapCountsOnce(t *testing.T) {
 	p := onePackage(set("A", "B"), set("B", "C"), 2, 2)
-	assert.True(t, p.BuiltBy(set("A", "B", "C")))
+	assert.True(t, p.BuiltBy(deckOf("A", "B", "C")))
 
 	// Both sides are met by the same two cards, which is short of three.
 	same := onePackage(set("A", "B"), set("A", "B"), 2, 2)
-	assert.False(t, same.BuiltBy(set("A", "B")))
+	assert.False(t, same.BuiltBy(deckOf("A", "B")))
 }
 
 func TestPackageCards_AnyWire(t *testing.T) {
@@ -92,15 +102,15 @@ func TestPackageCards_AnyWire(t *testing.T) {
 			{Sources: set("A", "B"), Targets: set("C", "D"), NeedSources: 2, NeedTargets: 2},
 		},
 	}
-	assert.True(t, p.BuiltBy(set("A", "B", "C", "D")))
-	assert.False(t, p.BuiltBy(set("A", "B", "Z", "W")))
+	assert.True(t, p.BuiltBy(deckOf("A", "B", "C", "D")))
+	assert.False(t, p.BuiltBy(deckOf("A", "B", "Z", "W")))
 }
 
 func TestPackageCards_HasCards(t *testing.T) {
 	p := onePackage(set("A", "B"), set("C", "D", "E"), 2, 2)
-	assert.True(t, p.HasCards(set("A", "C", "D")))
-	assert.False(t, p.HasCards(set("C", "D", "E")))
-	assert.False(t, p.HasCards(set("A", "C")))
+	assert.True(t, p.HasCards(deckOf("A", "C", "D")))
+	assert.False(t, p.HasCards(deckOf("C", "D", "E")))
+	assert.False(t, p.HasCards(deckOf("A", "C")))
 }
 
 // basicsWire is a package whose one wire needs two of A, B and C on one side,
@@ -120,11 +130,11 @@ func basicsWire() PackageCards {
 
 func TestPackageCards_BasicsMeetASide(t *testing.T) {
 	p := basicsWire()
-	assert.False(t, p.BuiltBy(set("A", "B", "Forest")), "basics don't count toward the three cards")
-	assert.True(t, p.BuiltBy(set("A", "B", "C", "Forest")))
-	assert.False(t, p.BuiltBy(set("A", "B", "C")), "without a basic the other side is unmet")
+	assert.False(t, p.BuiltBy(deckOf("A", "B", "Forest")), "basics don't count toward the three cards")
+	assert.True(t, p.BuiltBy(deckOf("A", "B", "C", "Forest")))
+	assert.False(t, p.BuiltBy(deckOf("A", "B", "C")), "without a basic the other side is unmet")
 }
 
 func TestPackageCards_HasCardsWithBasics(t *testing.T) {
-	assert.True(t, basicsWire().HasCards(set("A", "B", "C", "Forest")))
+	assert.True(t, basicsWire().HasCards(deckOf("A", "B", "C", "Forest")))
 }

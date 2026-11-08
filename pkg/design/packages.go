@@ -49,11 +49,24 @@ func SideMinimum(cubeCards, otherCards int) int {
 	return min(3, max(1, int(math.Round(math.Sqrt(float64(cubeCards))/2))))
 }
 
+// CardCounts maps card names to how many copies a deck or cube list holds, so
+// a second copy of a card counts toward a package like any other card.
+type CardCounts map[string]int
+
+// copies is how many cards the counts hold in all.
+func copies(counts CardCounts) int {
+	n := 0
+	for _, c := range counts {
+		n += c
+	}
+	return n
+}
+
 // BuiltBy reports whether a deck builds the package. The deck builds it when
 // one wire has enough cards on both sides, per NeedSources and NeedTargets,
-// and at least MinPackageCards distinct non-basic cards across the two. deck
-// holds the deck's mainboard card names, basic lands included.
-func (p PackageCards) BuiltBy(deck map[string]bool) bool {
+// and at least MinPackageCards non-basic cards across the two, counting
+// copies. deck holds the deck's mainboard, basic lands included.
+func (p PackageCards) BuiltBy(deck CardCounts) bool {
 	for _, w := range p.Wires {
 		if w.BuiltBy(deck) {
 			return true
@@ -63,10 +76,10 @@ func (p PackageCards) BuiltBy(deck map[string]bool) bool {
 }
 
 // HasCards reports whether the deck plays at least MinPackageCards of the
-// package's cards on wires where both sides are present, whether or not it
-// plays enough of each side to build the package.
-func (p PackageCards) HasCards(deck map[string]bool) bool {
-	cards := make(map[string]bool)
+// package's cards, counting copies, on wires where both sides are present,
+// whether or not it plays enough of each side to build the package.
+func (p PackageCards) HasCards(deck CardCounts) bool {
+	cards := CardCounts{}
 	for _, w := range p.Wires {
 		sources := present(w.Sources, deck)
 		targets := present(w.Targets, deck)
@@ -74,77 +87,78 @@ func (p PackageCards) HasCards(deck map[string]bool) bool {
 			continue
 		}
 		both := union(sources, targets)
-		if len(both) < 2 {
+		if copies(both) < 2 {
 			continue
 		}
-		for name := range both {
-			cards[name] = true
+		for name, n := range both {
+			cards[name] = n
 		}
 	}
-	return len(cards) >= MinPackageCards
+	return copies(cards) >= MinPackageCards
 }
 
 // BuiltBy reports whether the deck plays enough of this wire to build the
 // package through it.
-func (w WireCards) BuiltBy(deck map[string]bool) bool {
+func (w WireCards) BuiltBy(deck CardCounts) bool {
 	sources := present(w.Sources, deck)
 	targets := present(w.Targets, deck)
-	if !w.sideMet(sources, w.NeedSources, w.SourceBasics, len(targets), deck) ||
-		!w.sideMet(targets, w.NeedTargets, w.TargetBasics, len(sources), deck) {
+	if !w.sideMet(sources, w.NeedSources, w.SourceBasics, copies(targets), deck) ||
+		!w.sideMet(targets, w.NeedTargets, w.TargetBasics, copies(sources), deck) {
 		return false
 	}
-	return len(union(sources, targets)) >= MinPackageCards
+	return copies(union(sources, targets)) >= MinPackageCards
 }
 
 // sideMet reports whether a deck plays enough of one wire side: need of its
-// non-basic cards, any of its basics, or a build-around with BuildaroundLinks
-// links to the other side's other played cards. A side needing 0 with no
-// basics matches nothing and is never met.
-func (w WireCards) sideMet(played map[string]bool, need int, basics map[string]bool, other int, deck map[string]bool) bool {
-	if need > 0 && len(played) >= need {
+// non-basic cards, counting copies, any of its basics, or a build-around with
+// BuildaroundLinks links to the other side's other played cards. A side
+// needing 0 with no basics matches nothing and is never met.
+func (w WireCards) sideMet(played CardCounts, need int, basics map[string]bool, other int, deck CardCounts) bool {
+	if need > 0 && copies(played) >= need {
 		return true
 	}
 	if playsAny(basics, deck) {
 		return true
 	}
-	return playsAny(w.Buildarounds, played) && len(played)*other >= BuildaroundLinks
+	return playsAny(w.Buildarounds, played) && copies(played)*other >= BuildaroundLinks
 }
 
 // sidePresent reports whether a deck plays anything from one wire side,
 // counting its basics.
-func sidePresent(played, basics, deck map[string]bool) bool {
+func sidePresent(played CardCounts, basics map[string]bool, deck CardCounts) bool {
 	return len(played) > 0 || playsAny(basics, deck)
 }
 
 // playsAny reports whether the deck plays any of names.
-func playsAny(names, deck map[string]bool) bool {
+func playsAny(names map[string]bool, deck CardCounts) bool {
 	for name := range names {
-		if deck[name] {
+		if deck[name] > 0 {
 			return true
 		}
 	}
 	return false
 }
 
-// present returns the cards in side that the deck plays.
-func present(side, deck map[string]bool) map[string]bool {
-	out := make(map[string]bool)
+// present returns the cards in side that the deck plays, with their copies.
+func present(side map[string]bool, deck CardCounts) CardCounts {
+	out := CardCounts{}
 	for name := range side {
-		if deck[name] {
-			out[name] = true
+		if n := deck[name]; n > 0 {
+			out[name] = n
 		}
 	}
 	return out
 }
 
-// union returns every card in either set, each once.
-func union(a, b map[string]bool) map[string]bool {
-	out := make(map[string]bool, len(a)+len(b))
-	for name := range a {
-		out[name] = true
+// union returns every card in either count, each once with its copies, so a
+// card on both sides of a wire isn't counted twice.
+func union(a, b CardCounts) CardCounts {
+	out := make(CardCounts, len(a)+len(b))
+	for name, n := range a {
+		out[name] = n
 	}
-	for name := range b {
-		out[name] = true
+	for name, n := range b {
+		out[name] = max(out[name], n)
 	}
 	return out
 }

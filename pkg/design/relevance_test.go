@@ -10,12 +10,12 @@ import (
 type presentCase struct {
 	name string
 	wire WireCards
-	list map[string]bool
+	list CardCounts
 	want bool
 }
 
 func TestWirePresentIn(t *testing.T) {
-	all := set("S1", "S2", "S3", "S4", "S5", "T1", "T2", "T3", "T4", "T5")
+	all := deckOf("S1", "S2", "S3", "S4", "S5", "T1", "T2", "T3", "T4", "T5")
 	cases := []presentCase{
 		{"2 and 3", WireCards{Sources: set("S1", "S2"), Targets: set("T1", "T2", "T3")}, all, true},
 		{"3 and 2", WireCards{Sources: set("S1", "S2", "S3"), Targets: set("T1", "T2")}, all, true},
@@ -33,7 +33,7 @@ func TestWirePresentIn(t *testing.T) {
 }
 
 func TestPackagePresentIn(t *testing.T) {
-	list := set("S1", "S2", "T1", "T2", "T3")
+	list := deckOf("S1", "S2", "T1", "T2", "T3")
 	thin := WireCards{Sources: set("S1"), Targets: set("T1")}
 	full := WireCards{Sources: set("S1", "S2"), Targets: set("T1", "T2", "T3")}
 	assert.True(t, PackageCards{Wires: []WireCards{thin, full}}.PresentIn(list), "any present wire is enough")
@@ -62,11 +62,28 @@ func TestRelevanceInAny(t *testing.T) {
 
 func TestBuiltIn(t *testing.T) {
 	p := onePackage(set("S1", "S2"), set("T1", "T2"), 2, 1)
-	deck := set("S1", "S2", "T1")
+	deck := deckOf("S1", "S2", "T1")
 	assert.True(t, p.BuiltIn(1, deck), "nil relevance leaves BuiltBy alone")
 
 	p.Relevance = &Relevance{Today: true, Drafts: map[int]bool{1: false}}
 	assert.False(t, p.BuiltIn(1, deck), "not built in a draft where it isn't relevant")
 	assert.True(t, p.BuiltIn(2, deck))
-	assert.False(t, p.BuiltIn(2, set("S1")), "still needs the deck to build it")
+	assert.False(t, p.BuiltIn(2, deckOf("S1")), "still needs the deck to build it")
+}
+
+func TestCopiesCountTowardBuilds(t *testing.T) {
+	p := onePackage(set("S1", "S2"), set("T1", "T2"), 2, 1)
+
+	// Two copies of one card meet a side that needs 2, and count toward the
+	// package's three cards.
+	assert.True(t, p.BuiltBy(deckOf("S1", "S1", "T1")))
+	assert.False(t, p.BuiltBy(deckOf("S1", "T1")))
+}
+
+func TestCopiesCountTowardPresence(t *testing.T) {
+	w := WireCards{Sources: set("S1"), Targets: set("T1", "T2", "T3")}
+
+	// A cube running two copies of its only source supports the wire.
+	assert.True(t, w.PresentIn(deckOf("S1", "S1", "T1", "T2", "T3")))
+	assert.False(t, w.PresentIn(deckOf("S1", "T1", "T2", "T3")))
 }

@@ -10,13 +10,13 @@ const (
 )
 
 // PresentIn reports whether the wire is present in a cube list: its scarcer
-// side has RelevantScarceCards of the list's cards and the other side
-// RelevantOtherCards. A side whose groups match a basic land always counts as
-// met, since every deck gets basics free, so the other side then needs only
-// RelevantScarceCards.
-func (w WireCards) PresentIn(list map[string]bool) bool {
-	sources := len(present(w.Sources, list))
-	targets := len(present(w.Targets, list))
+// side has RelevantScarceCards of the list's cards, counting copies, and the
+// other side RelevantOtherCards. A side whose groups match a basic land always
+// counts as met, since every deck gets basics free, so the other side then
+// needs only RelevantScarceCards.
+func (w WireCards) PresentIn(list CardCounts) bool {
+	sources := copies(present(w.Sources, list))
+	targets := copies(present(w.Targets, list))
 	sourceBasics := len(w.SourceBasics) > 0
 	targetBasics := len(w.TargetBasics) > 0
 	if sourceBasics && targetBasics {
@@ -33,7 +33,7 @@ func (w WireCards) PresentIn(list map[string]bool) bool {
 
 // PresentIn reports whether any of the package's wires is present in a cube
 // list, which makes the package relevant to a cube with that list.
-func (p PackageCards) PresentIn(list map[string]bool) bool {
+func (p PackageCards) PresentIn(list CardCounts) bool {
 	for _, w := range p.Wires {
 		if w.PresentIn(list) {
 			return true
@@ -84,6 +84,6 @@ func (r *Relevance) InAny(draftIDs []int) bool {
 
 // BuiltIn reports whether a deck from a draft builds the package: the package
 // must be relevant in that draft, and the deck must build it per BuiltBy.
-func (p PackageCards) BuiltIn(draftID int, deck map[string]bool) bool {
+func (p PackageCards) BuiltIn(draftID int, deck CardCounts) bool {
 	return p.Relevance.InDraft(draftID) && p.BuiltBy(deck)
 }

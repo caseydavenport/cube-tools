@@ -633,12 +633,7 @@ func TestResolvePackages_DanglingGroup(t *testing.T) {
 	assert.Equal(t, 1, pkgs[0].Wires[0].NeedSources)
 	assert.Equal(t, 0, pkgs[0].Wires[0].NeedTargets)
 
-	deck := map[string]bool{
-		"Flooded Strand":    true,
-		"Hallowed Fountain": true,
-		"Steam Vents":       true,
-		"Bear":              true,
-	}
+	deck := deckCounts("Flooded Strand", "Hallowed Fountain", "Steam Vents", "Bear")
 	assert.False(t, pkgs[0].BuiltBy(deck))
 }
 
@@ -840,10 +835,10 @@ func TestResolvePackages_CutCardRefStillResolves(t *testing.T) {
 	assert.Equal(t, 2, delta.Wires[0].NeedSources)
 	assert.True(t, delta.Wires[0].Sources["Polluted Delta"])
 	assert.True(t, delta.Wires[0].Buildarounds["Polluted Delta"])
-	assert.False(t, delta.BuiltBy(cardSet("Polluted Delta", "Hallowed Fountain", "Steam Vents")), "2 links is short of 8")
+	assert.False(t, delta.BuiltBy(deckCounts("Polluted Delta", "Hallowed Fountain", "Steam Vents")), "2 links is short of 8")
 
 	assert.Equal(t, 0, typo.Wires[0].NeedSources)
-	assert.False(t, typo.BuiltBy(cardSet("Polluted Delta", "Hallowed Fountain", "Steam Vents")))
+	assert.False(t, typo.BuiltBy(deckCounts("Polluted Delta", "Hallowed Fountain", "Steam Vents")))
 }
 
 // otagCase is one otag: query and the cards it should match.
@@ -929,8 +924,8 @@ func TestResolvePackages_BasicLandsGroup(t *testing.T) {
 	assert.True(t, w.SourceBasics["Wastes"])
 	assert.Empty(t, w.TargetBasics)
 
-	assert.False(t, pkgs[0].BuiltBy(cardSet("Fetcher A", "Fetcher B", "Forest")))
-	assert.True(t, pkgs[0].BuiltBy(cardSet("Fetcher A", "Fetcher B", "Fetcher C", "Forest")))
+	assert.False(t, pkgs[0].BuiltBy(deckCounts("Fetcher A", "Fetcher B", "Forest")))
+	assert.True(t, pkgs[0].BuiltBy(deckCounts("Fetcher A", "Fetcher B", "Fetcher C", "Forest")))
 }
 
 func TestResolvePackages_ForestsGroupIncludesBasicForest(t *testing.T) {

@@ -15,13 +15,13 @@ import (
 // list, and each draft's own. A draft whose snapshot is empty maps to nil,
 // and a draft with no snapshot is left out.
 type cardLists struct {
-	today  map[string]bool
-	drafts map[int]map[string]bool
+	today  design.CardCounts
+	drafts map[int]design.CardCounts
 }
 
-// snapshotNames reads a draft's cube list as card names. found is false when
+// snapshotNames reads a draft's cube list as card counts. found is false when
 // the draft has no snapshot; an empty snapshot gives found true and nil names.
-func snapshotNames(store storage.DeckStorage, cubeID string, draftID int) (names map[string]bool, found bool) {
+func snapshotNames(store storage.DeckStorage, cubeID string, draftID int) (names design.CardCounts, found bool) {
 	snapshot, err := store.GetSnapshot(cubeID, draftID)
 	if err != nil {
 		if !errors.Is(err, storage.ErrDeckNotFound) && !errors.Is(err, storage.ErrUnsupported) {
@@ -32,22 +32,13 @@ func snapshotNames(store storage.DeckStorage, cubeID string, draftID int) (names
 	if len(snapshot.Cards) == 0 {
 		return nil, true
 	}
-	return cardNames(snapshot), true
-}
-
-// cardNames returns a cube list's card names as a set.
-func cardNames(cube *types.Cube) map[string]bool {
-	names := make(map[string]bool, len(cube.Cards))
-	for _, c := range cube.Cards {
-		names[c.Name] = true
-	}
-	return names
+	return countCards(snapshot.Cards), true
 }
 
 // loadCardLists reads today's list and the snapshot of every draft the decks
-// came from.
+// came from, counting each card's copies.
 func loadCardLists(store storage.DeckStorage, cubeID string, cube *types.Cube, decks []*storage.Deck) cardLists {
-	lists := cardLists{today: cardNames(cube), drafts: map[int]map[string]bool{}}
+	lists := cardLists{today: countCards(cube.Cards), drafts: map[int]design.CardCounts{}}
 	tried := map[int]bool{}
 	for _, d := range decks {
 		draftID := d.Metadata.DraftID
@@ -67,10 +58,15 @@ func loadCardLists(store storage.DeckStorage, cubeID string, cube *types.Cube, d
 // left out, which counts every card as available there.
 func (l cardLists) known() cubeLists {
 	out := cubeLists{}
-	for draftID, names := range l.drafts {
-		if names != nil {
-			out[draftID] = names
+	for draftID, counts := range l.drafts {
+		if counts == nil {
+			continue
 		}
+		names := make(map[string]bool, len(counts))
+		for name := range counts {
+			names[name] = true
+		}
+		out[draftID] = names
 	}
 	return out
 }
@@ -82,7 +78,7 @@ func (l cardLists) snapshotOnlyNames() []string {
 	var out []string
 	for _, names := range l.drafts {
 		for name := range names {
-			if l.today[name] || seen[name] {
+			if l.today[name] > 0 || seen[name] {
 				continue
 			}
 			seen[name] = true

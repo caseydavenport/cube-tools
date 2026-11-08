@@ -111,9 +111,9 @@ func (d deckSubject) bareWordMatches(t *term) bool {
 // package, or any package for an empty name. Basic lands count, since they
 // meet wire sides whose groups match them.
 func (d deckSubject) buildsPackage(name string) bool {
-	deck := make(map[string]bool)
+	deck := design.CardCounts{}
 	for _, c := range d.deck.GetMainboard() {
-		deck[c.Name] = true
+		deck[c.Name]++
 	}
 	for _, p := range d.opts.Packages {
 		if name != "" && !strings.EqualFold(p.Name, name) {

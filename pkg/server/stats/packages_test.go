@@ -41,6 +41,16 @@ func cardSet(names ...string) map[string]bool {
 	return out
 }
 
+// deckCounts builds a deck's card counts: one copy per name, and a name given
+// twice is two copies.
+func deckCounts(names ...string) design.CardCounts {
+	out := design.CardCounts{}
+	for _, n := range names {
+		out[n]++
+	}
+	return out
+}
+
 // twoSided is a package with one wire whose sides each need two cards.
 func twoSided(name string, sources, targets map[string]bool) design.PackageCards {
 	return design.PackageCards{

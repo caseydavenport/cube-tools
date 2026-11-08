@@ -68,9 +68,9 @@ func buildPackageMap(pkg design.Package, cards design.PackageCards, cube map[str
 	})
 
 	// Each deck's card set, built once for every wire.
-	sets := make([]map[string]bool, len(decks))
+	sets := make([]design.CardCounts, len(decks))
 	for i, d := range decks {
-		sets[i] = deckCardSet(d)
+		sets[i] = deckCards(d)
 	}
 
 	for i, w := range pkg.Wires {
@@ -148,18 +148,18 @@ func selfLinked(w design.Wire, cube map[string]map[string]bool) []string {
 // wirePairs counts the card pairs a wire links in one deck: its cards on one
 // side times its cards on the other, less the cards on both sides, which
 // can't pair with themselves.
-func wirePairs(w design.WireCards, deck map[string]bool) int {
+func wirePairs(w design.WireCards, deck design.CardCounts) int {
 	a, b, both := 0, 0, 0
-	for name := range deck {
+	for name, n := range deck {
 		inA, inB := w.Sources[name], w.Targets[name]
 		if inA {
-			a++
+			a += n
 		}
 		if inB {
-			b++
+			b += n
 		}
 		if inA && inB {
-			both++
+			both += n
 		}
 	}
 	return a*b - both
@@ -176,14 +176,14 @@ type depthKey struct {
 func depthCells(w design.WireCards, decks []*storage.Deck) []DepthCell {
 	byCell := map[depthKey][]*storage.Deck{}
 	for _, d := range decks {
-		deck := deckCardSet(d)
+		deck := deckCards(d)
 		a, b := 0, 0
-		for name := range deck {
+		for name, n := range deck {
 			if w.Sources[name] {
-				a++
+				a += n
 			}
 			if w.Targets[name] {
-				b++
+				b += n
 			}
 		}
 		if a == 0 && b == 0 {
