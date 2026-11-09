@@ -74,15 +74,18 @@
   },
   {
    "id": 17,
-   "name": "Colton"
+   "name": "Colton",
+   "group": "SF Cube"
   },
   {
    "id": 18,
-   "name": "Joe Anderson"
+   "name": "Joe Anderson",
+   "group": "SF Cube"
   },
   {
    "id": 19,
-   "name": "Joe van den Berg"
+   "name": "Joe van den Berg",
+   "group": "SF Cube"
   },
   {
    "id": 20,
@@ -94,7 +97,8 @@
   },
   {
    "id": 22,
-   "name": "Sebastian"
+   "name": "Sebastian",
+   "group": "SF Cube"
   },
   {
    "id": 23,
@@ -102,7 +106,8 @@
   },
   {
    "id": 24,
-   "name": "Bryan"
+   "name": "Bryan",
+   "group": "SF Cube"
   },
   {
    "id": 25,
@@ -118,7 +123,8 @@
   },
   {
    "id": 28,
-   "name": "Zephyr"
+   "name": "Zephyr",
+   "group": "SF Cube"
   },
   {
    "id": 29,
@@ -150,7 +156,8 @@
   },
   {
    "id": 36,
-   "name": "Isaiah"
+   "name": "Isaiah",
+   "group": "SF Cube"
   },
   {
    "id": 37,
@@ -182,11 +189,13 @@
   },
   {
    "id": 44,
-   "name": "Patrick"
+   "name": "Patrick",
+   "group": "SF Cube"
   },
   {
    "id": 45,
-   "name": "Wanqi"
+   "name": "Wanqi",
+   "group": "SF Cube"
   },
   {
    "id": 46,
@@ -194,11 +203,13 @@
   },
   {
    "id": 47,
-   "name": "Brett"
+   "name": "Brett",
+   "group": "SF Cube"
   },
   {
    "id": 48,
-   "name": "An"
+   "name": "An",
+   "group": "SF Cube"
   },
   {
    "id": 49,
