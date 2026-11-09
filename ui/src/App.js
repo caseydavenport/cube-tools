@@ -18,7 +18,12 @@ import { useState } from "react";
 import { CubeProvider } from './contexts/CubeContext.js';
 import Welcome from './pages/Welcome.js';
 import CubeHome from './pages/CubeHome.js';
-import ImportHub from './pages/ImportHub.js';
+import ImportHub, { ToImportHub } from './import/ImportHub.js';
+import DecklistImport from './import/decklists/DecklistImport.js';
+import HedronImport from './import/HedronImport.js';
+import PhotoFolderImport from './import/PhotoFolderImport.js';
+import DraftReviewPage from './import/photos/DraftReviewPage.js';
+import SeatPage from './import/photos/SeatPage.js';
 import NotFound from './pages/NotFound.js';
 import { AppLayout } from './shell/AppLayout.js';
 import { changePage, followLink, linkFilterStart, typeFilter } from './shell/linkFilter.js';
@@ -158,7 +163,12 @@ function AppRoutes({ dateProps, initialMatch }) {
           <Route path='rules-editor/link' element={<LinkCheckPage {...statsProps} />} />
           <Route path='decks' element={<DecksPage {...statsProps} />} />
           <Route path='import' element={<ImportHub />} />
-          <Route path='import/:mode' element={<ImportHub />} />
+          <Route path='import/decklists' element={<DecklistImport />} />
+          <Route path='import/hedron' element={<HedronImport />} />
+          <Route path='import/photos' element={<PhotoFolderImport />} />
+          <Route path='import/review/:draftId' element={<DraftReviewPage />} />
+          <Route path='import/review/:draftId/:seatId' element={<SeatPage />} />
+          <Route path='import/*' element={<ToImportHub />} />
           <Route path='*' element={<NotFound />} />
         </Route>
         <Route path='*' element={<NotFound />} />

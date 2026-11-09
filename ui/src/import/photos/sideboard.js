@@ -1,4 +1,4 @@
-import { isBasic } from './Reconcile.js';
+import { isBasic } from './reconcile.js';
 
 // previewSideboard returns what's left of the pool once the mainboard is
 // removed - the implied sideboard. Basics played in the deck don't count

@@ -19,21 +19,6 @@ const babelParser = require("@babel/parser")
 // KINDS lists every finding kind, in the order the CLI documents them.
 const KINDS = ["unused-class", "bootstrap", "css-color", "js-color", "static-style"]
 
-// IMPORT_FILES are the import flow's files. They're skipped for js-color and
-// static-style because the queued "Import pages on the kit" plan rewrites them.
-const IMPORT_FILES = [
-  "src/pages/ImportHub.js",
-  "src/pages/ImportWizard.js",
-  "src/pages/ImportReview.js",
-  "src/pages/HedronImport.js",
-  "src/pages/PhotoImport.js",
-  "src/pages/PhotoViewer.js",
-  "src/pages/OCRImport.js",
-  "src/pages/PoolList.js",
-  "src/pages/PlayerWorkspace.js",
-  "src/utils/OCRStatus.js",
-]
-
 // The comment that skips each kind of finding: `// style-ok: <reason>`.
 const SKIP_TAG = {
   "unused-class": "style-ok",
@@ -370,12 +355,6 @@ function filesUnder(dir) {
   return files
 }
 
-// isImportFile says whether a file belongs to the import flow.
-function isImportFile(file) {
-  const relative = path.relative(UI_DIR, file)
-  return IMPORT_FILES.includes(relative)
-}
-
 // isThemeFile says whether a file is under ui/src/theme/, where raw colors live.
 function isThemeFile(file) {
   return !path.relative(path.join(SRC_DIR, "theme"), file).startsWith("..")
@@ -426,7 +405,7 @@ export function checkFiles(files, only) {
     if (isCss && wanted("css-color")) {
       add("css-color", colorFindings(source, "css-color"))
     }
-    if (!isCss && !isImportFile(file)) {
+    if (!isCss) {
       if (wanted("js-color")) {
         add("js-color", colorFindings(source, "js-color"))
       }

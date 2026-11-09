@@ -95,7 +95,10 @@ export function resolvedCaptures(boxesMap) {
   Object.entries(boxesMap || {}).forEach(([photo, boxes]) => {
     (boxes || []).forEach(b => {
       if (!b.chosen || b.status === "pending" || b.status === "unmatched") return;
-      items.push({ key: b.id, photo, source: { photo, box: b.bbox }, chosen: b.chosen, status: b.status });
+      items.push({
+        key: b.id, photo, source: { photo, box: b.bbox },
+        chosen: b.chosen, status: b.status, candidates: b.candidates || [],
+      });
     });
   });
   items.sort((a, b) =>

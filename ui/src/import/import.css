@@ -1,0 +1,622 @@
+/* Styles for the import pages: the hub, decklists, Hedron, the photo folder,
+   and the photo review's draft, seat and workspace views. */
+
+/* ── Page frame ───────────────────────────────────────────────────── */
+
+.import-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.import-page.wide {
+  padding: 12px 20px 3rem;
+}
+
+.import-crumb {
+  color: var(--se-muted);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.import-crumb:hover {
+  color: var(--mantine-primary-color-filled);
+}
+
+.import-crumb-sep {
+  margin: 0 8px;
+  color: var(--se-muted);
+  font-weight: 400;
+}
+
+.import-muted {
+  color: var(--se-muted);
+  font-size: 0.85em;
+  font-variant-numeric: tabular-nums;
+}
+
+.import-grow {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.import-toggle {
+  margin-top: 10px;
+}
+
+/* ── Hub ──────────────────────────────────────────────────────────── */
+
+.import-sources {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.import-source {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 16px 18px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.import-source:hover {
+  border-color: var(--mantine-primary-color-filled);
+  transform: translateY(-2px);
+}
+
+/* Linked rows: photo drafts, Hedron drafts, seats. */
+.import-rows {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.import-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--se-card);
+  border: 1px solid var(--se-border);
+  border-radius: var(--mantine-radius-md);
+  color: var(--se-text);
+}
+
+.import-row:hover:not(:disabled) {
+  border-color: var(--mantine-primary-color-filled);
+}
+
+.import-row-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 600;
+}
+
+/* ── Consistency check ────────────────────────────────────────────── */
+
+.import-consistency {
+  padding: 12px 16px;
+}
+
+.import-consistency-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.import-problems {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.import-problem,
+.import-problem-toggle {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 0.9em;
+}
+
+.import-problem.fixable {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.import-problem-toggle {
+  width: 100%;
+  padding: 4px 0;
+}
+
+.import-problem-kind {
+  flex: none;
+  width: 90px;
+  color: var(--se-bad);
+  font-size: 0.78em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.import-problem-name {
+  font-weight: 600;
+}
+
+.import-problem-open {
+  margin-left: auto;
+  color: var(--se-muted);
+  font-size: 0.85em;
+}
+
+.import-missing {
+  margin-top: 10px;
+}
+
+.import-captures {
+  list-style: none;
+  padding: 8px 0 4px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.import-capture {
+  padding: 8px 10px;
+}
+
+.import-capture.busy {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.import-capture-search {
+  margin-top: 6px;
+}
+
+/* ── Decklists ────────────────────────────────────────────────────── */
+
+.import-paste {
+  font-family: 'Fira Code', monospace;
+}
+
+.import-decks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.import-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+}
+
+.import-warnings {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.85em;
+}
+
+.import-deck-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.import-deck-cards li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.import-deck-cards li.unknown {
+  background: color-mix(in srgb, var(--se-bad) 12%, transparent);
+  box-shadow: inset 2px 0 0 var(--se-bad);
+}
+
+.import-photo-files {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--se-muted);
+  font-size: 0.9em;
+}
+
+/* ── Card search ──────────────────────────────────────────────────── */
+
+.import-search {
+  position: relative;
+  margin-top: 8px;
+}
+
+.import-search-matches {
+  position: absolute;
+  z-index: 5;
+  width: 100%;
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 4px;
+  background: var(--se-card);
+  border: 1px solid var(--se-border);
+  border-radius: 6px;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--se-shadow) 40%, transparent);
+}
+
+.import-search-match {
+  display: block;
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.import-search-match:hover,
+.import-search-match.active {
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+}
+
+/* ── Match status colors ──────────────────────────────────────────── */
+
+/* A dot colored by match status, or by a seat's progress. */
+.import-dot {
+  flex: none;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.import-dot.import-status-high,
+.import-seat-done {
+  background: var(--se-good);
+}
+
+.import-dot.import-status-low,
+.import-seat-in_progress {
+  background: var(--se-warn);
+}
+
+.import-dot.import-status-unmatched,
+.import-seat-unstarted {
+  background: var(--se-bad);
+}
+
+.import-dot.import-status-pending {
+  background: var(--se-muted);
+}
+
+/* ── Seat workspace ───────────────────────────────────────────────── */
+
+.import-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.import-columns {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.import-photo-column {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* The list keeps a fixed share of the width, so card names stay readable
+   however wide the photo wants to be. */
+.import-list-column {
+  flex: 0 0 min(640px, 45%);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.import-card-list {
+  padding: 14px 16px;
+}
+
+.import-card-rows {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+
+.import-card-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+/* Only the name grows or shrinks; the crop and controls keep their size. */
+.import-card-row > :not(.import-grow) {
+  flex: none;
+}
+
+.import-card-row + .import-card-row {
+  border-top: 1px solid color-mix(in srgb, var(--se-muted) 10%, transparent);
+}
+
+.import-card-row.hot {
+  background: color-mix(in srgb, var(--mantine-primary-color-filled) 20%, transparent);
+  box-shadow: inset 2px 0 0 var(--mantine-primary-color-filled);
+}
+
+.import-card-row.over {
+  background: color-mix(in srgb, var(--se-bad) 15%, transparent);
+}
+
+.import-card-row.unnamed {
+  align-items: flex-start;
+  background: color-mix(in srgb, var(--se-bad) 10%, transparent);
+  box-shadow: inset 2px 0 0 var(--se-bad);
+}
+
+.import-confidence {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 44px;
+  color: var(--se-muted);
+  font-size: 0.8em;
+  font-variant-numeric: tabular-nums;
+}
+
+.import-counter-value {
+  min-width: 18px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.import-basics {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--se-border);
+}
+
+/* The name-bar crop. Its size and the image offset are set inline. */
+.import-snip {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--se-page);
+  border: 1px solid var(--se-border);
+}
+
+.import-snip.empty {
+  border-style: dashed;
+  opacity: 0.4;
+}
+
+.import-snip img {
+  position: absolute;
+  max-width: none;
+}
+
+.import-snip img.loading {
+  opacity: 0;
+}
+
+/* ── Photo viewer ─────────────────────────────────────────────────── */
+
+.import-viewer {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 170px);
+  min-height: 420px;
+}
+
+.import-viewer-tools {
+  flex: none;
+  margin-bottom: 10px;
+}
+
+.import-zoom-level {
+  min-width: 44px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.import-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  align-items: safe center;
+  justify-content: safe center;
+  background: var(--se-page);
+  border: 1px solid var(--se-border);
+  border-radius: var(--mantine-radius-md);
+}
+
+.import-canvas {
+  position: relative;
+  flex: none;
+}
+
+.import-canvas img {
+  display: block;
+  width: 100%;
+}
+
+.import-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+.import-box {
+  fill: transparent;
+  cursor: move;
+  transition: stroke-width 0.12s ease, fill 0.12s ease;
+}
+
+.import-overlay.lasso .import-box {
+  cursor: pointer;
+}
+
+.import-box.import-status-high {
+  stroke: var(--mantine-color-green-5);
+}
+
+.import-box.import-status-low {
+  stroke: var(--mantine-color-yellow-5);
+}
+
+.import-box.import-status-unmatched {
+  stroke: var(--mantine-color-red-5);
+}
+
+.import-box.import-status-pending {
+  stroke: var(--mantine-color-gray-5);
+}
+
+.import-box.sideboard {
+  stroke: var(--mantine-color-blue-5);
+}
+
+.import-box.selected {
+  stroke: var(--mantine-color-cyan-4);
+}
+
+.import-box.hot {
+  fill: color-mix(in srgb, var(--mantine-color-cyan-4) 18%, transparent);
+}
+
+.import-box.lassoed {
+  stroke: var(--mantine-color-green-5);
+  fill: color-mix(in srgb, var(--mantine-color-green-5) 25%, transparent);
+}
+
+.import-box-label {
+  fill: var(--mantine-color-gray-1);
+  stroke: var(--mantine-color-dark-9);
+  paint-order: stroke;
+  pointer-events: none;
+}
+
+.import-box-handle {
+  fill: var(--mantine-color-cyan-4);
+  stroke: var(--mantine-color-dark-9);
+  cursor: nwse-resize;
+}
+
+.import-box-delete {
+  cursor: pointer;
+}
+
+.import-box-delete circle {
+  fill: var(--mantine-color-red-5);
+  stroke: var(--mantine-color-dark-9);
+}
+
+.import-box-delete text {
+  fill: var(--mantine-color-white);
+  pointer-events: none;
+}
+
+.import-drag {
+  fill: color-mix(in srgb, var(--mantine-color-cyan-4) 20%, transparent);
+  stroke: var(--mantine-color-cyan-4);
+}
+
+.import-drag.lasso {
+  fill: color-mix(in srgb, var(--mantine-color-green-5) 15%, transparent);
+  stroke: var(--mantine-color-green-5);
+}
+
+.import-thumbs {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.import-thumbs button {
+  overflow: hidden;
+  line-height: 0;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.import-thumbs button:hover {
+  transform: translateY(-2px);
+}
+
+.import-thumbs button.active {
+  border-color: var(--mantine-primary-color-filled);
+}
+
+.import-thumbs img {
+  display: block;
+  width: 84px;
+}
+
+/* ── Confirm ──────────────────────────────────────────────────────── */
+
+.import-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+}
+
+.import-slideshow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+}
+
+.import-slideshow .import-snip {
+  max-width: 100%;
+  border-width: 2px;
+}
+
+.import-slide-name {
+  font-size: 1.5em;
+  font-weight: 700;
+  text-align: center;
+}
+
+.import-slide-fix {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+}
