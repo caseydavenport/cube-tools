@@ -23,10 +23,11 @@ const sameRoleLimit = 6
 // CardPageResponse is everything the card page shows about one card. Play,
 // the decks, who plays it, the record and picks follow the request's date
 // range; History covers every draft. InCube says whether the current cube
-// holds the card.
+// holds the card, and Copies how many copies it holds.
 type CardPageResponse struct {
 	Card        types.Card        `json:"card"`
 	InCube      bool              `json:"in_cube"`
+	Copies      int               `json:"copies"`
 	Groups      []string          `json:"groups"`
 	Play        CardPlay          `json:"play"`
 	History     []DraftPresence   `json:"history"`
@@ -156,6 +157,7 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 	resp := CardPageResponse{
 		Card:        page.card,
 		InCube:      page.inCube,
+		Copies:      countCards(page.design.cube.Cards)[page.card.Name],
 		Groups:      relations.groupsOf(page.card.Name),
 		Play:        cardPlay(page.card, page.ranged, history, page.design.cube),
 		History:     history,

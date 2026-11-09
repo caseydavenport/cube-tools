@@ -192,7 +192,10 @@ export function PackageCards({ page, cube }) {
           <tbody>
             {shown.map(row => (
               <tr key={row.name} className="widget-table-row">
-                <td className="header-cell"><CardLink cube={cube} name={row.name} /></td>
+                <td className="header-cell">
+                  <CardLink cube={cube} name={row.name} />
+                  {row.copies > 1 && <span className="package-card-copies" title={`${row.copies} copies in the cube`}>×{row.copies}</span>}
+                </td>
                 <td>{ColorImages(row.colors || [])}</td>
                 <td className="page-right-cell">{row.cmc}</td>
                 <td>{rolesText(row.roles)}</td>

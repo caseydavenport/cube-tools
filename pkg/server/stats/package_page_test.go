@@ -118,7 +118,7 @@ func TestPackageCards_PairsAndBothSides(t *testing.T) {
 		{Sources: []WireGroup{{Name: "A", Cards: []string{"X"}}}, Targets: []WireGroup{{Name: "B", Cards: []string{"Y"}}}},
 		{Sources: []WireGroup{{Name: "B", Cards: []string{"Y"}}}, Targets: []WireGroup{{Name: "C", Cards: []string{"Y", "Z"}}}},
 	}
-	rows := packageCards(pkg, wires, map[string]types.Card{}, nil, nil)
+	rows := packageCards(pkg, wires, map[string]types.Card{}, design.CardCounts{"Y": 2, "Z": 1}, nil, nil)
 
 	byName := map[string]PackageCardRow{}
 	for _, r := range rows {
@@ -128,6 +128,9 @@ func TestPackageCards_PairsAndBothSides(t *testing.T) {
 	assert.Equal(t, []string{"enabler", "pairs", "payoff"}, byName["Y"].Roles)
 	assert.Equal(t, []string{"B", "C"}, byName["Y"].Groups)
 	assert.Equal(t, []string{"payoff"}, byName["Z"].Roles)
+	assert.Equal(t, 2, byName["Y"].Copies)
+	assert.Equal(t, 1, byName["Z"].Copies)
+	assert.Equal(t, 0, byName["X"].Copies, "a card missing from the cube has no copies")
 }
 
 func TestPackagePage_IgnoresDeckFilter(t *testing.T) {

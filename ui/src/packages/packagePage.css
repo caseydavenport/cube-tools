@@ -1,5 +1,12 @@
 /* The package page. Its layout reuses the card page's classes. */
 
+.package-card-copies {
+  margin-left: 0.4rem;
+  font-size: 0.85em;
+  font-weight: 400;
+  color: var(--se-muted);
+}
+
 .package-page-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

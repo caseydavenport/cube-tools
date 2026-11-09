@@ -76,6 +76,7 @@ func TestCardPage_CubeCard(t *testing.T) {
 
 	require.Equal(t, http.StatusOK, rr.Code)
 	assert.True(t, resp.InCube)
+	assert.Equal(t, 1, resp.Copies)
 	assert.Equal(t, "Goblin Bombardment", resp.Card.Name)
 	assert.Equal(t, 2, resp.Play.Mainboard)
 	assert.Len(t, resp.Decks, 2)
@@ -96,6 +97,7 @@ func TestCardPage_CutCard(t *testing.T) {
 
 	require.Equal(t, http.StatusOK, rr.Code)
 	assert.False(t, resp.InCube)
+	assert.Equal(t, 0, resp.Copies)
 	require.Len(t, resp.History, 1)
 	assert.Equal(t, "played", resp.History[0].State)
 }

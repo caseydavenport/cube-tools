@@ -7,7 +7,7 @@ import { StatTile } from "../components/kit/StatTile.js"
 import { CardImageURL } from "../utils/Utils.js"
 import { hasData } from "../utils/dataKinds.js"
 import { HistoryStrip } from "./HistoryStrip.js"
-import { cardSubtitle, draftsTile, gamesWonTile, isNewToCube, notInCubeTag, playedTile, popularityLabel, popularityTip } from "./cardPageModel.js"
+import { cardSubtitle, copiesLabel, draftsTile, gamesWonTile, isNewToCube, notInCubeTag, playedTile, popularityLabel, popularityTip } from "./cardPageModel.js"
 
 // headerTags lists the small badges beside the card's name.
 function headerTags(page) {
@@ -16,6 +16,10 @@ function headerTags(page) {
     tags.push(notInCubeTag(page.history))
   } else if (isNewToCube(page.history)) {
     tags.push("New to the cube")
+  }
+  const copies = copiesLabel(page.copies)
+  if (copies) {
+    tags.push(copies)
   }
   return tags
 }

@@ -219,6 +219,15 @@ export function notInCubeTag(history) {
   return "Not in the cube"
 }
 
+// copiesLabel names how many copies the cube runs, like "2 copies in the
+// cube", or "" for one copy or none, which need no mention.
+export function copiesLabel(copies) {
+  if (!copies || copies < 2) {
+    return ""
+  }
+  return `${copies} copies in the cube`
+}
+
 // isNewToCube reports whether the cube lists show the card in fewer than
 // NEW_CARD_DRAFTS drafts. Without any cube lists there's no telling.
 export function isNewToCube(history) {

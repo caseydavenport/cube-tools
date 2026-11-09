@@ -66,6 +66,7 @@ type PackageCardRow struct {
 	CMC    int      `json:"cmc"`
 	Roles  []string `json:"roles"`
 	Groups []string `json:"groups"`
+	Copies int      `json:"copies"`
 	Played int      `json:"played"`
 	Builds int      `json:"builds"`
 }
@@ -228,7 +229,7 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 		}
 	}
 	resp.Decks = deckRows(built)
-	resp.Cards = packageCards(page.pkg, resp.Wires, cardMap, page.ranged, built)
+	resp.Cards = packageCards(page.pkg, resp.Wires, cardMap, countCards(cube.Cards), page.ranged, built)
 
 	// Related packages, with the edge turned so this package is the source.
 	for _, e := range packageEdges(others) {
@@ -243,8 +244,9 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 
 // packageCards lists the cube cards on the package's wires, one row each.
 // wires holds the package's wires resolved to cube cards, in the package's
-// order. Cards most built with come first, then the most played, then by name.
-func packageCards(pkg design.Package, wires []PackageWire, cards map[string]types.Card, ranged, built []*storage.Deck) []PackageCardRow {
+// order, and copies counts each card's copies in the cube. Cards most built
+// with come first, then the most played, then by name.
+func packageCards(pkg design.Package, wires []PackageWire, cards map[string]types.Card, copies design.CardCounts, ranged, built []*storage.Deck) []PackageCardRow {
 	roles := map[string]map[string]bool{}
 	groups := map[string]map[string]bool{}
 	add := func(side []WireGroup, role string) {
@@ -279,6 +281,7 @@ func packageCards(pkg design.Package, wires []PackageWire, cards map[string]type
 			CMC:    c.CMC,
 			Roles:  slices.Sorted(maps.Keys(roles[name])),
 			Groups: slices.Sorted(maps.Keys(groups[name])),
+			Copies: copies[name],
 			Played: played[name],
 			Builds: inBuilds[name],
 		})

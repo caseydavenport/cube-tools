@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { bothCardsMatch, cardSubtitle, connectionText, compareLoom, deckRecord, draftsTile, gamesWonTile, historyTitle, isNewToCube, notInCubeTag, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
+import { bothCardsMatch, cardSubtitle, copiesLabel, connectionText, compareLoom, deckRecord, draftsTile, gamesWonTile, historyTitle, isNewToCube, notInCubeTag, partnerMapData, pickLine, playedTile, popularityLabel, popularityTip, whoPlaysMatch } from "./cardPageModel.js"
 import { ruleColor } from "../design/map/ruleColors.js"
 
 const bombardment = { times_played: 18, times_taken: 37, rate: 48.6, popularity: "niche", peers: "R", peer_median: 52.1 }
@@ -109,6 +109,10 @@ test("a card out of the cube is cut only when its history shows it in", () => {
   assert.equal(notInCubeTag(historyOf("ppio")), "Cut from the cube")
   assert.equal(notInCubeTag(historyOf("uuoo")), "Not in the cube")
   assert.equal(notInCubeTag([]), "Not in the cube")
+  assert.equal(copiesLabel(2), "2 copies in the cube")
+  assert.equal(copiesLabel(1), "")
+  assert.equal(copiesLabel(0), "")
+  assert.equal(copiesLabel(undefined), "")
 })
 
 test("the games won tile shows the Bayes rate with the record in its tip", () => {
