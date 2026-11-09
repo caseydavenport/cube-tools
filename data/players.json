@@ -2,31 +2,38 @@
  "players": [
   {
    "id": 1,
-   "name": "Casey Davenport"
+   "name": "Casey Davenport",
+   "group": "Core"
   },
   {
    "id": 2,
-   "name": "Dom Pesce"
+   "name": "Dom Pesce",
+   "group": "Core"
   },
   {
    "id": 3,
-   "name": "Jen Lehmann"
+   "name": "Jen Lehmann",
+   "group": "Core"
   },
   {
    "id": 4,
-   "name": "Xander Allewell"
+   "name": "Xander Allewell",
+   "group": "Core"
   },
   {
    "id": 5,
-   "name": "Greg Malkov"
+   "name": "Greg Malkov",
+   "group": "Core"
   },
   {
    "id": 6,
-   "name": "James Cucchi"
+   "name": "James Cucchi",
+   "group": "Core"
   },
   {
    "id": 7,
-   "name": "Paul Norris"
+   "name": "Paul Norris",
+   "group": "Core"
   },
   {
    "id": 8,
@@ -42,7 +49,8 @@
   },
   {
    "id": 11,
-   "name": "Cara"
+   "name": "Cara",
+   "group": "Core"
   },
   {
    "id": 12,
