@@ -134,7 +134,6 @@ func main() {
 	// Text and Hedron import endpoints.
 	cubeRoute("GET /api/{cube}/import/cards", importer.ImportCardsHandler(provider))
 	cubeRoute("POST /api/{cube}/import/parse", importer.ParseHandler(provider))
-	cubeRoute("POST /api/{cube}/import/parse-dir", importer.ParseDirHandler(provider))
 	writeRoute("POST /api/{cube}/import/commit", importer.CommitHandler(provider, "data"))
 	cubeRoute("POST /api/{cube}/import/check", importer.CheckHandler(provider))
 	cubeRoute("GET /api/{cube}/import/hedron", importer.HedronListHandler())

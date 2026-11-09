@@ -48,7 +48,7 @@ func TestImportCardsHandler(t *testing.T) {
 		t.Fatalf("status: want 200, got %d (%s)", rw.Code, rw.Body.String())
 	}
 	var resp struct {
-		Cards []CardInfo `json:"cards"`
+		Cards []server.CubeCard `json:"cards"`
 	}
 	if err := json.Unmarshal(rw.Body.Bytes(), &resp); err != nil {
 		t.Fatal(err)

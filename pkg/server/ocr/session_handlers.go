@@ -102,7 +102,7 @@ func cubeLands(dataRoot, cube string, draft drafts.Draft) map[string]bool {
 		return lands
 	}
 	for _, name := range cl.Names() {
-		lands[name] = isLandCard(name)
+		lands[name] = server.IsLand(name)
 	}
 	return lands
 }

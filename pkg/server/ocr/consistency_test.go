@@ -57,7 +57,7 @@ func TestBuildConsistencyReport(t *testing.T) {
 			t.Fatalf("expected 1 discrepancy, got %+v", got.Discrepancies)
 		}
 		d := got.Discrepancies[0]
-		if d.CardName != "Brainstorm" || d.Kind != "over" || d.Pooled != 3 || d.Cube != 2 {
+		if d.CardName != "Brainstorm" || d.Kind != "over" || d.Seen != 3 || d.Cube != 2 {
 			t.Fatalf("discrepancy = %+v", d)
 		}
 	})
@@ -72,10 +72,10 @@ func TestBuildConsistencyReport(t *testing.T) {
 		for _, d := range got.Discrepancies {
 			kinds[d.CardName] = d
 		}
-		if kinds["Brainstorm"].Kind != "missing" || kinds["Brainstorm"].Pooled != 1 {
+		if kinds["Brainstorm"].Kind != "missing" || kinds["Brainstorm"].Seen != 1 {
 			t.Fatalf("Brainstorm = %+v", kinds["Brainstorm"])
 		}
-		if kinds["Misty Rainforest"].Kind != "missing" || kinds["Misty Rainforest"].Pooled != 0 {
+		if kinds["Misty Rainforest"].Kind != "missing" || kinds["Misty Rainforest"].Seen != 0 {
 			t.Fatalf("Misty Rainforest = %+v", kinds["Misty Rainforest"])
 		}
 	})
@@ -92,7 +92,7 @@ func TestBuildConsistencyReport(t *testing.T) {
 				unknown = append(unknown, d)
 			}
 		}
-		if len(unknown) != 1 || unknown[0].CardName != "Brainstrm" || unknown[0].Pooled != 1 || unknown[0].Cube != 0 {
+		if len(unknown) != 1 || unknown[0].CardName != "Brainstrm" || unknown[0].Seen != 1 || unknown[0].Cube != 0 {
 			t.Fatalf("unknown = %+v", unknown)
 		}
 		// unknown sorts ahead of any missing/over.

@@ -16,7 +16,7 @@ import (
 // (fewer, including zero), or "unknown" (a name not in the cube at all).
 type Discrepancy struct {
 	CardName string `json:"card_name"`
-	Pooled   int    `json:"pooled"`
+	Seen     int    `json:"seen"`
 	Cube     int    `json:"cube"`
 	Kind     string `json:"kind"`
 
@@ -83,7 +83,7 @@ func buildConsistencyReport(cl *types.Cube, sess *Session, playersTotal int) Con
 		PlayersTotal:   playersTotal,
 	}
 	for _, d := range check.Discrepancies {
-		report.Discrepancies = append(report.Discrepancies, Discrepancy{CardName: d.CardName, Pooled: d.Seen, Cube: d.Cube, Kind: string(d.Kind)})
+		report.Discrepancies = append(report.Discrepancies, Discrepancy{CardName: d.CardName, Seen: d.Seen, Cube: d.Cube, Kind: string(d.Kind)})
 	}
 	attachCaptures(&report, sess)
 	return report

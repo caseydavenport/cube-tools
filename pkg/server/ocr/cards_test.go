@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -24,7 +25,7 @@ func TestCardsHandler(t *testing.T) {
 		t.Fatalf("status = %d, body=%s", w.Code, w.Body.String())
 	}
 	var out struct {
-		Cards []CardInfo `json:"cards"`
+		Cards []server.CubeCard `json:"cards"`
 	}
 	if err := json.Unmarshal(w.Body.Bytes(), &out); err != nil {
 		t.Fatal(err)

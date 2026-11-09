@@ -2,12 +2,12 @@ package ocr
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
+// CardsHandler serves the card list of the cube a draft was played with, for
+// the photo review's card-name search.
 func CardsHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
@@ -20,16 +20,6 @@ func CardsHandler(dataRoot string) http.Handler {
 			http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
-		var cards []CardInfo
-		for _, name := range cl.Names() {
-			cards = append(cards, CardInfo{Name: name, MaxCopies: cl.MaxCopies(name), IsLand: isLandCard(name)})
-		}
-		writeJSON(rw, map[string]any{"cards": cards})
+		writeJSON(rw, map[string]any{"cards": server.CubeCards(cl)})
 	})
-}
-
-// isLandCard reports whether a card's oracle type line makes it a land. A card
-// with no oracle data isn't one.
-func isLandCard(name string) bool {
-	return strings.Contains(types.GetOracleData(name).TypeLine, "Land")
 }

@@ -55,12 +55,6 @@ type DraftSummary struct {
 	Warnings        int `json:"warnings"`
 }
 
-type CardInfo struct {
-	Name      string `json:"name"`
-	MaxCopies int    `json:"max_copies"`
-	IsLand    bool   `json:"is_land"`
-}
-
 // Breakdown sums a player's mainboard for the review page: every card with
 // basics included, the lands among them, and the basics alone.
 type Breakdown struct {
