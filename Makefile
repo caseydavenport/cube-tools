@@ -120,7 +120,12 @@ bin/parser: $(GO_FILES)
 ###################
 # One image on Cloud Run behind IAP, reading data/ from a read-only bucket
 # mount. Override these on the command line; the project defaults to gcloud's.
-GCP_PROJECT ?= $(shell gcloud config get-value project 2>/dev/null)
+
+# gcloud and docker's credential helper run under this named configuration, so
+# work credentials are never used by mistake.
+GCLOUD_CONFIG ?= personal
+export CLOUDSDK_ACTIVE_CONFIG_NAME := $(GCLOUD_CONFIG)
+GCP_PROJECT ?= $(shell CLOUDSDK_ACTIVE_CONFIG_NAME=$(GCLOUD_CONFIG) gcloud config get-value project 2>/dev/null)
 GCP_REGION ?= us-central1
 GCS_BUCKET ?= $(GCP_PROJECT)-cube-tools-data
 IMAGE ?= $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT)/cube-tools/server:$(GIT_VERSION)
