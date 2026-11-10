@@ -1,10 +1,12 @@
 const path = require("path")
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
+// A production build (npm run build -- --mode production) drops the inline
+// source maps, which would otherwise make the bundle several times larger.
+module.exports = (env, argv) => ({
   mode: "development",
   entry: "./src/index.js",
-  devtool: "inline-source-map",
+  devtool: argv.mode === "production" ? false : "inline-source-map",
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "index_bundle.js",
@@ -51,4 +53,4 @@ module.exports = {
       },
     ],
   },
-};
+});

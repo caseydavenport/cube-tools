@@ -115,10 +115,39 @@ bin/parser: $(GO_FILES)
 	mkdir -p bin
 	go build -o bin/parser ./main.go
 
-image:
-	docker build -t caseydavenport/cube-tools .
-	docker tag caseydavenport/cube-tools caseydavenport/cube-tools:$(GIT_VERSION)
+###################
+# Hosted deployment
+###################
+# One image on Cloud Run behind IAP, reading data/ from a read-only bucket
+# mount. Override these on the command line; the project defaults to gcloud's.
+GCP_PROJECT ?= $(shell gcloud config get-value project 2>/dev/null)
+GCP_REGION ?= us-central1
+GCS_BUCKET ?= $(GCP_PROJECT)-cube-tools-data
+IMAGE ?= $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT)/cube-tools/server:$(GIT_VERSION)
 
-push:
-	docker push caseydavenport/cube-tools:$(GIT_VERSION)
-	docker push caseydavenport/cube-tools:latest
+image: data/oracle-cards.json data/oracle-tags.jsonl
+	docker build -t $(IMAGE) .
+
+push: image
+	docker push $(IMAGE)
+
+deploy: push
+	gcloud run deploy cube-tools --project $(GCP_PROJECT) --region $(GCP_REGION) \
+		--image $(IMAGE) --port 8888 --memory 1Gi \
+		--execution-environment gen2 \
+		--add-volume name=data,type=cloud-storage,bucket=$(GCS_BUCKET),readonly=true \
+		--add-volume-mount volume=data,mount-path=/code/data \
+		--args=-read-only \
+		--no-allow-unauthenticated --iap
+
+# Copies data/ to the bucket, deleting bucket files that are gone locally. The
+# site picks the changes up within the deck cache's 10 seconds.
+sync-data:
+	gcloud storage rsync --recursive --delete-unmatched-destination-objects \
+		--exclude='oracle-.*' data gs://$(GCS_BUCKET)
+
+# Lets one Google account through IAP: make grant-access EMAIL=someone@example.com
+grant-access:
+	gcloud iap web add-iam-policy-binding --project $(GCP_PROJECT) \
+		--resource-type=cloud-run --service=cube-tools --region=$(GCP_REGION) \
+		--member=user:$(EMAIL) --role=roles/iap.httpsResourceAccessor

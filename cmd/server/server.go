@@ -25,6 +25,7 @@ import (
 
 func main() {
 	readOnly := flag.Bool("read-only", false, "refuse every write, for a public read-only deployment")
+	uiDir := flag.String("ui-dir", "", "serve the built UI from this directory; unset in dev, where webpack serves it")
 	flag.Parse()
 
 	// Deck hydration resolves card names against the oracle dataset. Without it
@@ -148,6 +149,10 @@ func main() {
 	cubeRoute("GET /api/{cube}/import/hedron", importer.HedronListHandler())
 	writeRoute("POST /api/{cube}/import/hedron", importer.HedronImportHandler(provider))
 	writeRoute("POST /api/{cube}/import/photos", importer.PhotoImportHandler(provider))
+
+	if *uiDir != "" {
+		mux.Handle("GET /", http.FileServer(http.Dir(*uiDir)))
+	}
 
 	fmt.Println("Server listening on port 8888")
 	if err := http.ListenAndServe(":8888", server.Gzip(mux)); err != nil {

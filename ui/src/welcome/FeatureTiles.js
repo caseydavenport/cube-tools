@@ -2,18 +2,20 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { SimpleGrid, Text, UnstyledButton } from "@mantine/core"
 import { IconAffiliate, IconCamera, IconCards, IconChartBar } from "@tabler/icons-react"
+import { useCubeWritable } from "../utils/useCubeWritable.js"
 
 // The cube the feature tiles open, since every feature page belongs to a cube.
 const HOME_CUBE = "polyverse"
 
 // FEATURES lists the welcome page's highlight tiles: where each links within the
-// home cube, its icon, and which COPY entries hold its text. Icon is written
+// home cube, its icon, and which COPY entries hold its text. A tile marked
+// needsWrites only shows when the home cube can be edited. Icon is written
 // with a capital I because React only treats capitalized names as components.
 const FEATURES = [
   { path: "decks", Icon: IconCards, title: "decksTitle", text: "decksText" },
   { path: "cards", Icon: IconChartBar, title: "winsTitle", text: "winsText" },
   { path: "packages?view=map", Icon: IconAffiliate, title: "mapTitle", text: "mapText" },
-  { path: "import/photos", Icon: IconCamera, title: "importTitle", text: "importText" },
+  { path: "import/photos", Icon: IconCamera, title: "importTitle", text: "importText", needsWrites: true },
 ]
 
 // FeatureTile is one highlight: an icon on a soft violet square, a title, and a
@@ -33,9 +35,12 @@ function FeatureTile({ feature, copy }) {
 
 // FeatureTiles is the row of feature highlights, each opening its page.
 export function FeatureTiles({ copy }) {
+  const writable = useCubeWritable(HOME_CUBE)
+  const shown = FEATURES.filter(feature => !feature.needsWrites || writable === true)
+
   return (
     <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }} spacing="md">
-      {FEATURES.map(feature => (
+      {shown.map(feature => (
         <FeatureTile key={feature.path} feature={feature} copy={copy} />
       ))}
     </SimpleGrid>

@@ -1,11 +1,28 @@
-FROM ubuntu
+# Hosted image: the API server plus the built UI. On Cloud Run a bucket is
+# mounted over /code/data, hiding anything the image puts there, so the oracle
+# files live in /oracle.
 
-# Install dependencies.
-RUN apt update && apt install -y nodejs npm golang
+FROM node:22 AS ui
+WORKDIR /ui
+COPY ui/package.json ui/package-lock.json ./
+RUN npm ci
+COPY ui/ ./
+RUN npx webpack --mode production && rm -f public/data
 
-# Copy the full repo. This is a bit of a hack, but it's quick to get working!
+FROM golang:1.26 AS server
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY cmd cmd
+COPY pkg pkg
+RUN CGO_ENABLED=0 go build -o /server ./cmd/server/server.go
+
+# distroless/static carries the CA certificates the CubeCobra fetches need.
+FROM gcr.io/distroless/static-debian12
 WORKDIR /code
-COPY . .
-
-WORKDIR /code
-CMD ["/usr/bin/make", "run"]
+COPY --from=server /server /server
+COPY --from=ui /ui/public /ui
+COPY data/oracle-cards.json data/oracle-tags.jsonl /oracle/
+ENV CUBE_TOOLS_ORACLE_DIR=/oracle
+EXPOSE 8888
+ENTRYPOINT ["/server", "-ui-dir", "/ui"]
