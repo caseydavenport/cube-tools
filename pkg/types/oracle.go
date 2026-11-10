@@ -5,7 +5,6 @@ import (
 	"errors"
 	"io"
 	"os"
-	"path/filepath"
 	"slices"
 	"strings"
 
@@ -14,23 +13,13 @@ import (
 
 var oracleCards = map[string]OracleCard{}
 
-// OracleDirEnv names the environment variable that overrides where the oracle
-// files load from. The hosted image sets it because its data/ directory is a
-// mounted bucket that doesn't hold them.
-const OracleDirEnv = "CUBE_TOOLS_ORACLE_DIR"
-
 func init() {
-	dir := os.Getenv(OracleDirEnv)
-	if dir == "" {
-		dir = "./data"
-	}
-
 	// A missing oracle file is non-fatal so tests and fresh checkouts run
 	// without it; a present-but-malformed file is still a hard error.
-	if err := LoadOracleData(filepath.Join(dir, "oracle-cards.json")); err != nil && !errors.Is(err, os.ErrNotExist) {
+	if err := LoadOracleData("./data/oracle-cards.json"); err != nil && !errors.Is(err, os.ErrNotExist) {
 		panic(err)
 	}
-	if err := LoadOracleTags(filepath.Join(dir, "oracle-tags.jsonl")); err != nil && !errors.Is(err, os.ErrNotExist) {
+	if err := LoadOracleTags("./data/oracle-tags.jsonl"); err != nil && !errors.Is(err, os.ErrNotExist) {
 		panic(err)
 	}
 }

@@ -130,7 +130,7 @@ GCP_REGION ?= us-central1
 GCS_BUCKET ?= $(GCP_PROJECT)-cube-tools-data
 IMAGE ?= $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT)/cube-tools/server:$(GIT_VERSION)
 
-image: data/oracle-cards.json data/oracle-tags.jsonl
+image:
 	docker build -t $(IMAGE) .
 
 push: image
@@ -147,9 +147,9 @@ deploy: push
 
 # Copies data/ to the bucket, deleting bucket files that are gone locally. The
 # site picks the changes up within the deck cache's 10 seconds.
-sync-data:
+sync-data: data/oracle-cards.json data/oracle-tags.jsonl
 	gcloud storage rsync --recursive --delete-unmatched-destination-objects \
-		--exclude='oracle-.*' data gs://$(GCS_BUCKET)
+		data gs://$(GCS_BUCKET)
 
 # Lets one Google account through IAP: make grant-access EMAIL=someone@example.com
 grant-access:

@@ -1,6 +1,5 @@
-# Hosted image: the API server plus the built UI. On Cloud Run a bucket is
-# mounted over /code/data, hiding anything the image puts there, so the oracle
-# files live in /oracle.
+# Hosted image: the API server plus the built UI. On Cloud Run, all of data/,
+# oracle files included, comes from a bucket mounted at /code/data.
 
 FROM node:22 AS ui
 WORKDIR /ui
@@ -22,7 +21,5 @@ FROM gcr.io/distroless/static-debian12
 WORKDIR /code
 COPY --from=server /server /server
 COPY --from=ui /ui/public /ui
-COPY data/oracle-cards.json data/oracle-tags.jsonl /oracle/
-ENV CUBE_TOOLS_ORACLE_DIR=/oracle
 EXPOSE 8888
 ENTRYPOINT ["/server", "-ui-dir", "/ui"]
