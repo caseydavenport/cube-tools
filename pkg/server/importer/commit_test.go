@@ -10,6 +10,8 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/players"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -18,8 +20,17 @@ type commitResponse struct {
 	DraftID int `json:"draft_id"`
 }
 
+// commitStore moves the test into a fresh directory and returns its data root
+// with a file-backed Store over it, so commits land on disk.
+func commitStore(t *testing.T, opts ...storage.StoreOption) (string, *storage.Store) {
+	t.Helper()
+	t.Chdir(t.TempDir())
+	opts = append(opts, storage.WithPlayers(players.FileSource{DataRoot: "data"}))
+	return "data", storage.NewStore(file.New(nil), opts...)
+}
+
 func TestCommitCreatesNumberedDraft(t *testing.T) {
-	root := t.TempDir()
+	root, store := commitStore(t)
 	if _, err := players.Add(root, "Joan Jett"); err != nil {
 		t.Fatal(err)
 	}
@@ -39,7 +50,7 @@ func TestCommitCreatesNumberedDraft(t *testing.T) {
 			{Player: "p2", Mainboard: []CountedCard{{Name: "Monastery Mentor", Count: 1}}},
 		},
 	}
-	rw := postJSON(t, CommitHandler(src, root), "polyverse", "/api/polyverse/import/commit", body)
+	rw := postJSON(t, CommitHandler(src, store), "polyverse", "/api/polyverse/import/commit", body)
 	if rw.Code != http.StatusOK {
 		t.Fatalf("status %d: %s", rw.Code, rw.Body.String())
 	}
@@ -97,10 +108,13 @@ func TestCommitCreatesNumberedDraft(t *testing.T) {
 }
 
 func TestCommitHandlerRejectsBadDate(t *testing.T) {
-	root := t.TempDir()
+	root, store := commitStore(t)
+	if err := os.MkdirAll(root, 0o755); err != nil {
+		t.Fatal(err)
+	}
 	src := testCubeSource("polyverse", []string{"Monastery Mentor"})
 	body := CommitRequest{Date: "../escape", Decks: []ParsedDeck{{Player: "casey"}}}
-	rw := postJSON(t, CommitHandler(src, root), "polyverse", "/api/polyverse/import/commit", body)
+	rw := postJSON(t, CommitHandler(src, store), "polyverse", "/api/polyverse/import/commit", body)
 	if rw.Code != http.StatusBadRequest {
 		t.Fatalf("want 400 for bad date, got %d", rw.Code)
 	}
@@ -114,7 +128,7 @@ func TestCommitHandlerRejectsBadDate(t *testing.T) {
 }
 
 func TestCommitRejectsBadPlayerIDs(t *testing.T) {
-	root := t.TempDir()
+	root, store := commitStore(t)
 	if _, err := players.Add(root, "Joan Jett"); err != nil {
 		t.Fatal(err)
 	}
@@ -125,12 +139,25 @@ func TestCommitRejectsBadPlayerIDs(t *testing.T) {
 	}
 	for name, ids := range playerIDsByCase {
 		body := CommitRequest{Date: "2026-06-30", Decks: []ParsedDeck{{PlayerID: ids[0]}, {PlayerID: ids[1]}}}
-		rw := postJSON(t, CommitHandler(src, root), "polyverse", "/api/polyverse/import/commit", body)
+		rw := postJSON(t, CommitHandler(src, store), "polyverse", "/api/polyverse/import/commit", body)
 		if rw.Code != http.StatusBadRequest {
 			t.Errorf("%s: status %d, want 400", name, rw.Code)
 		}
 	}
 	if _, err := os.Stat(filepath.Join(root, "polyverse")); !os.IsNotExist(err) {
 		t.Fatalf("a rejected commit created the cube dir: %v", err)
+	}
+}
+
+func TestCommitRefusedOnReadOnlyStore(t *testing.T) {
+	root, store := commitStore(t, storage.WithReadOnly())
+	src := testCubeSource("polyverse", []string{"Monastery Mentor"})
+	body := CommitRequest{Date: "2026-06-30", Decks: []ParsedDeck{{Mainboard: []CountedCard{{Name: "Monastery Mentor", Count: 1}}}}}
+	rw := postJSON(t, CommitHandler(src, store), "polyverse", "/api/polyverse/import/commit", body)
+	if rw.Code != http.StatusForbidden {
+		t.Fatalf("status %d, want 403", rw.Code)
+	}
+	if _, err := os.Stat(filepath.Join(root, "polyverse")); !os.IsNotExist(err) {
+		t.Fatalf("a refused commit created the cube dir: %v", err)
 	}
 }

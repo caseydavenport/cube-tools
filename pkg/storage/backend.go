@@ -41,6 +41,11 @@ type Backend interface {
 	// draftID. It returns ErrDeckNotFound for a deck the draft doesn't hold.
 	SaveDecks(cube string, draftID int, decks []*Deck) error
 
+	// CreateDraft saves a new draft with the next unused ID, holding decks and
+	// the cube list it was played with, and returns that ID. It sets each
+	// deck's DraftID; the caller numbers the decks.
+	CreateDraft(cube string, meta types.DraftMetadata, snapshot *types.Cube, decks []*Deck) (int, error)
+
 	GetRules(cube string) (*design.DesignMapConfig, error)
 	PutRules(cube string, rules *design.DesignMapConfig) error
 

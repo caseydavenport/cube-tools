@@ -123,6 +123,27 @@ func (b *Backend) SaveDecks(cube string, draftID int, decks []*storage.Deck) err
 	return nil
 }
 
+// CreateDraft makes a new draft directory with its metadata and cube list,
+// then writes each deck into it. If a deck fails to save, it removes the
+// half-written draft so no partial import is left behind.
+func (b *Backend) CreateDraft(cube string, meta types.DraftMetadata, snapshot *types.Cube, decks []*storage.Deck) (int, error) {
+	draft, err := drafts.Create(filepath.Join("data", cube), meta, snapshot)
+	if err != nil {
+		return 0, err
+	}
+	for _, d := range decks {
+		td := d.Deck
+		td.Metadata.DraftID = draft.ID
+		if err := draft.SaveDeck(&td); err != nil {
+			if rmErr := draft.Remove(); rmErr != nil {
+				logrus.WithError(rmErr).WithField("draft", draft.ID).Error("Failed to remove the half-written draft")
+			}
+			return 0, fmt.Errorf("save deck %d: %w", d.ID, err)
+		}
+	}
+	return draft.ID, nil
+}
+
 // findDraft resolves a draft ID to its directory under the data root,
 // mapping an unknown ID to ErrDeckNotFound.
 func findDraft(cube string, draftID int) (drafts.Draft, error) {

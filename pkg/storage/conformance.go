@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/players"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -42,6 +44,8 @@ func RunConformance(t *testing.T, s *Store, readOnlyCube string) {
 	runRulesConformance(t, s)
 	runIndexConformance(t, s)
 	runDraftLogConformance(t, s)
+	runCreateDraftConformance(t, s)
+	runPlayerConformance(t, s)
 	if readOnlyCube != "" {
 		runReadOnlyConformance(t, s, readOnlyCube)
 	}
@@ -59,6 +63,8 @@ func runReadOnlyConformance(t *testing.T, s *Store, cube string) {
 	_, err = s.SaveDeckRecord(cube, RecordEdit{DraftID: 1, DeckID: 1, PlayerID: &playerID})
 	assert.ErrorIs(t, err, ErrReadOnly)
 	assert.ErrorIs(t, s.PutOverrides(cube, design.PackageOverrides{On: []string{"combo"}}), ErrReadOnly)
+	_, err = s.CreateDraft(cube, types.DraftMetadata{Date: "2024-02-01"}, &types.Cube{}, []*Deck{{}})
+	assert.ErrorIs(t, err, ErrReadOnly)
 }
 
 // deckByPlayer lists the cube and returns the named player's deck, failing the
@@ -203,4 +209,72 @@ func runDraftLogConformance(t *testing.T, s *Store) {
 	got, err := s.GetDraftLog("conf", 1)
 	assert.NoError(t, err)
 	assert.JSONEq(t, `{"picks":[]}`, string(got))
+}
+
+// runCreateDraftConformance checks that a new draft takes the next ID and its
+// decks show up in the cube, and that bad player IDs are refused.
+func runCreateDraftConformance(t *testing.T, s *Store) {
+	t.Helper()
+
+	meta := types.DraftMetadata{Date: "2024-02-01", EventName: "Second"}
+	_, err := s.CreateDraft("conf", meta, &types.Cube{}, []*Deck{createDeck(1, 1), createDeck(9, 2)})
+	assert.ErrorIs(t, err, ErrUnknownPlayer)
+	_, err = s.CreateDraft("conf", meta, &types.Cube{}, []*Deck{createDeck(1, 1), createDeck(1, 2)})
+	assert.ErrorIs(t, err, ErrPlayerExists)
+
+	anon := createDeck(0, 2)
+	anon.Seat = 2
+	id, err := s.CreateDraft("conf", meta, &types.Cube{}, []*Deck{createDeck(1, 1), anon})
+	assert.NoError(t, err)
+	assert.Equal(t, 2, id)
+
+	decks, err := s.List("conf", nil)
+	assert.NoError(t, err)
+	playerByDeck := map[int]string{}
+	for _, d := range decks {
+		if d.Metadata.DraftID == id {
+			playerByDeck[d.ID] = d.Player
+		}
+	}
+	assert.Equal(t, map[int]string{
+		1: "Alice",
+		2: "p2",
+	}, playerByDeck)
+}
+
+// createDeck returns an empty deck for CreateDraft with the given player and
+// deck ID.
+func createDeck(playerID, id int) *Deck {
+	d := &Deck{}
+	d.ID = id
+	d.PlayerID = playerID
+	d.Date = "2024-02-01"
+	d.Mainboard = []types.Card{}
+	d.Sideboard = []types.Card{}
+	return d
+}
+
+// runPlayerConformance checks that player edits reach the list and that a
+// rename shows on the player's decks at once.
+func runPlayerConformance(t *testing.T, s *Store) {
+	t.Helper()
+
+	added, err := s.AddPlayer("Ozzy")
+	assert.NoError(t, err)
+	assert.Equal(t, 4, added.ID)
+	_, err = s.AddPlayer("ozzy")
+	assert.ErrorIs(t, err, players.ErrNameTaken)
+
+	deckByPlayer(t, s, "Alice")
+	_, err = s.RenamePlayer(1, "Alicia")
+	assert.NoError(t, err)
+	deckByPlayer(t, s, "Alicia")
+
+	grouped, err := s.SetPlayerGroup(3, "The Crew")
+	assert.NoError(t, err)
+	assert.Equal(t, "The Crew", grouped.Group)
+
+	pl, err := s.Players()
+	assert.NoError(t, err)
+	assert.Len(t, pl.Players, 4)
 }

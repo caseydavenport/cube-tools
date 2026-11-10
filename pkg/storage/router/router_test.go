@@ -39,6 +39,11 @@ func (f *fakeFile) SaveDecks(cube string, draftID int, decks []*storage.Deck) er
 	return nil
 }
 
+func (f *fakeFile) CreateDraft(string, types.DraftMetadata, *types.Cube, []*storage.Deck) (int, error) {
+	f.wrote = true
+	return 1, nil
+}
+
 func (f *fakeFile) GetRules(cube string) (*design.DesignMapConfig, error) {
 	f.rulesCube = cube
 	return &design.DesignMapConfig{}, nil
@@ -109,6 +114,23 @@ func TestRouterWritesGatedForCC(t *testing.T) {
 	}
 	if _, err := r.GetDraftLog("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc GetDraftLog err = %v, want ErrUnsupported", err)
+	}
+}
+
+func TestRouterCreateDraftGatedForCC(t *testing.T) {
+	ff := &fakeFile{}
+	r := New(ff, fakeCC{})
+	if _, err := r.CreateDraft("cc:polyversal", types.DraftMetadata{}, nil, nil); !errors.Is(err, storage.ErrReadOnly) {
+		t.Errorf("cc CreateDraft err = %v, want ErrReadOnly", err)
+	}
+	if ff.wrote {
+		t.Error("cc CreateDraft reached the file backend")
+	}
+	if _, err := r.CreateDraft("polyverse", types.DraftMetadata{}, nil, nil); err != nil {
+		t.Fatalf("registry CreateDraft errored: %v", err)
+	}
+	if !ff.wrote {
+		t.Error("registry CreateDraft did not reach file backend")
 	}
 }
 

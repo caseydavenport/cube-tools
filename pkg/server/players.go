@@ -12,13 +12,16 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
-// PlayerInvalidator drops cached deck names after a rename. storage.Store
-// implements it.
-type PlayerInvalidator interface {
-	InvalidatePlayers()
+// PlayerStore reads and edits the global player list. storage.Store
+// implements it, refusing edits when it is read-only.
+type PlayerStore interface {
+	Players() (*players.List, error)
+	AddPlayer(name string) (players.Player, error)
+	RenamePlayer(id int, name string) (players.Player, error)
+	SetPlayerGroup(id int, group string) (players.Player, error)
 }
 
-var _ PlayerInvalidator = &storage.Store{}
+var _ PlayerStore = &storage.Store{}
 
 // playerNameRequest is the body of the add and rename routes.
 type playerNameRequest struct {
@@ -26,16 +29,13 @@ type playerNameRequest struct {
 }
 
 // PlayersListHandler serves GET /api/players: the whole player list.
-func PlayersListHandler(dataRoot string) http.Handler {
+func PlayersListHandler(ps PlayerStore) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		l, err := players.Load(dataRoot)
+		l, err := ps.Players()
 		if err != nil {
 			logrus.WithError(err).Error("Failed to load player list")
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
-		}
-		if l.Players == nil {
-			l.Players = []players.Player{}
 		}
 		writePlayerJSON(rw, http.StatusOK, l)
 	})
@@ -43,14 +43,14 @@ func PlayersListHandler(dataRoot string) http.Handler {
 
 // PlayerAddHandler serves POST /api/players: it adds a player and returns it
 // with 201, or 400 for an invalid name and 409 for a taken one.
-func PlayerAddHandler(dataRoot string) http.Handler {
+func PlayerAddHandler(ps PlayerStore) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		var req playerNameRequest
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			http.Error(rw, "Invalid request", http.StatusBadRequest)
 			return
 		}
-		p, err := players.Add(dataRoot, req.Name)
+		p, err := ps.AddPlayer(req.Name)
 		if writePlayerError(rw, err) {
 			return
 		}
@@ -66,9 +66,8 @@ type playerPatchRequest struct {
 }
 
 // PlayerRenameHandler serves PATCH /api/players/{id}: it renames the player
-// or sets their play group, then drops cached deck names so the next read
-// shows the change.
-func PlayerRenameHandler(dataRoot string, inv PlayerInvalidator) http.Handler {
+// or sets their play group.
+func PlayerRenameHandler(ps PlayerStore) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		id, err := strconv.Atoi(r.PathValue("id"))
 		if err != nil || id <= 0 {
@@ -82,18 +81,17 @@ func PlayerRenameHandler(dataRoot string, inv PlayerInvalidator) http.Handler {
 		}
 		var p players.Player
 		if req.Name != nil {
-			p, err = players.Rename(dataRoot, id, *req.Name)
+			p, err = ps.RenamePlayer(id, *req.Name)
 			if writePlayerError(rw, err) {
 				return
 			}
 		}
 		if req.Group != nil {
-			p, err = players.SetGroup(dataRoot, id, *req.Group)
+			p, err = ps.SetPlayerGroup(id, *req.Group)
 			if writePlayerError(rw, err) {
 				return
 			}
 		}
-		inv.InvalidatePlayers()
 		writePlayerJSON(rw, http.StatusOK, p)
 	})
 }
@@ -110,6 +108,8 @@ func writePlayerError(rw http.ResponseWriter, err error) bool {
 		http.Error(rw, err.Error(), http.StatusConflict)
 	case errors.Is(err, players.ErrUnknownPlayer):
 		http.Error(rw, err.Error(), http.StatusNotFound)
+	case errors.Is(err, storage.ErrReadOnly):
+		http.Error(rw, "The player list is read-only", http.StatusForbidden)
 	default:
 		logrus.WithError(err).Error("Failed to update player list")
 		http.Error(rw, "Internal server error", http.StatusInternalServerError)

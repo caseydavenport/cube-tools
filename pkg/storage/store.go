@@ -16,9 +16,10 @@ import (
 // backend.
 type Store struct {
 	sync.Mutex
-	backend Backend
-	players PlayerSource
-	caches  map[string]*cubeCache
+	backend  Backend
+	players  PlayerSource
+	readOnly bool
+	caches   map[string]*cubeCache
 }
 
 type cubeCache struct {
@@ -69,12 +70,116 @@ func (s *Store) resolve(decks []*Deck) error {
 	return nil
 }
 
-// InvalidatePlayers drops every cached cube, so the next read resolves the
-// current player names. Call it after renaming a player.
-func (s *Store) InvalidatePlayers() {
+// Players returns the global player list, empty when the Store has no source.
+func (s *Store) Players() (*players.List, error) {
+	pl, err := s.playerList()
+	if err != nil {
+		return nil, err
+	}
+	if pl == nil {
+		pl = &players.List{}
+	}
+	if pl.Players == nil {
+		pl.Players = []players.Player{}
+	}
+	return pl, nil
+}
+
+// AddPlayer adds a player to the global list and returns it.
+func (s *Store) AddPlayer(name string) (players.Player, error) {
+	ps, err := s.playerStore()
+	if err != nil {
+		return players.Player{}, err
+	}
+	return ps.AddPlayer(name)
+}
+
+// RenamePlayer changes a player's display name, then drops every cached cube
+// so the next read shows the new name.
+func (s *Store) RenamePlayer(id int, name string) (players.Player, error) {
+	ps, err := s.playerStore()
+	if err != nil {
+		return players.Player{}, err
+	}
+	p, err := ps.RenamePlayer(id, name)
+	if err != nil {
+		return players.Player{}, err
+	}
+	s.invalidateAll()
+	return p, nil
+}
+
+// SetPlayerGroup sets a player's play group, then drops every cached cube so
+// the next read groups decks by it.
+func (s *Store) SetPlayerGroup(id int, group string) (players.Player, error) {
+	ps, err := s.playerStore()
+	if err != nil {
+		return players.Player{}, err
+	}
+	p, err := ps.SetPlayerGroup(id, group)
+	if err != nil {
+		return players.Player{}, err
+	}
+	s.invalidateAll()
+	return p, nil
+}
+
+// playerStore returns the source to send a player edit to. It returns
+// ErrReadOnly for a read-only Store and ErrUnsupported when the source can't
+// change the list.
+func (s *Store) playerStore() (PlayerStore, error) {
+	if s.readOnly {
+		return nil, ErrReadOnly
+	}
+	ps, ok := s.players.(PlayerStore)
+	if !ok {
+		return nil, ErrUnsupported
+	}
+	return ps, nil
+}
+
+// invalidateAll drops every cached cube, so the next read resolves the
+// current player names and groups.
+func (s *Store) invalidateAll() {
 	s.Lock()
 	defer s.Unlock()
 	s.caches = nil
+}
+
+// CreateDraft saves a new draft of decks played with the snapshot cube list
+// and returns its ID. Every deck's player must be in the list, and no player
+// may hold two decks; anonymous decks (player zero) always pass. It returns
+// ErrReadOnly if the cube can't be written, ErrUnknownPlayer for a player ID
+// not in the list, and ErrPlayerExists for a player picked twice.
+func (s *Store) CreateDraft(cube string, meta types.DraftMetadata, snapshot *types.Cube, decks []*Deck) (int, error) {
+	if !s.Writable(cube) {
+		return 0, ErrReadOnly
+	}
+	pl, err := s.playerList()
+	if err != nil {
+		return 0, err
+	}
+	seen := map[int]bool{}
+	for _, d := range decks {
+		if d.PlayerID == 0 {
+			continue
+		}
+		if _, ok := pl.ByID(d.PlayerID); !ok {
+			return 0, fmt.Errorf("%w: id %d", ErrUnknownPlayer, d.PlayerID)
+		}
+		if seen[d.PlayerID] {
+			return 0, fmt.Errorf("%w: id %d", ErrPlayerExists, d.PlayerID)
+		}
+		seen[d.PlayerID] = true
+	}
+	s.Lock()
+	defer s.Unlock()
+	id, err := s.backend.CreateDraft(cube, meta, snapshot, decks)
+	if err != nil {
+		return 0, err
+	}
+	delete(s.caches, cube)
+	return id, nil
 }
 
 func (s *Store) List(cube string, req *DecksRequest) ([]*Deck, error) {
@@ -117,7 +222,7 @@ func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 // returns ErrReadOnly if the cube can't be written and ErrDeckNotFound if the
 // draft has no deck with w.DeckID.
 func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
-	if !s.backend.Writable(cube) {
+	if !s.Writable(cube) {
 		return nil, ErrReadOnly
 	}
 	s.Lock()
@@ -157,7 +262,7 @@ func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
 // a player ID not in the list, and ErrPlayerExists if another deck in the
 // draft already has that player.
 func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
-	if !s.backend.Writable(cube) {
+	if !s.Writable(cube) {
 		return nil, ErrReadOnly
 	}
 	s.Lock()
@@ -252,9 +357,10 @@ func findDeck(decks []*Deck, id int) *Deck {
 	return nil
 }
 
-// Writable reports whether the cube accepts writes.
+// Writable reports whether the cube accepts writes. Nothing does on a
+// read-only Store.
 func (s *Store) Writable(cube string) bool {
-	return s.backend.Writable(cube)
+	return !s.readOnly && s.backend.Writable(cube)
 }
 
 // GetRules returns the cube's design-map rules.
@@ -264,8 +370,11 @@ func (s *Store) GetRules(cube string) (*design.DesignMapConfig, error) {
 
 // PutRules writes the cube's design-map rules. Rules live in a shared file
 // rather than with a cube's decks, so a cube whose decks are read-only can
-// still save them.
+// still save them, unless the whole Store is read-only.
 func (s *Store) PutRules(cube string, rules *design.DesignMapConfig) error {
+	if s.readOnly {
+		return ErrReadOnly
+	}
 	return s.backend.PutRules(cube, rules)
 }
 
@@ -277,7 +386,7 @@ func (s *Store) GetOverrides(cube string) (design.PackageOverrides, error) {
 // PutOverrides saves the packages the cube forces on or off, or returns
 // ErrReadOnly if the cube can't be written.
 func (s *Store) PutOverrides(cube string, ov design.PackageOverrides) error {
-	if !s.backend.Writable(cube) {
+	if !s.Writable(cube) {
 		return ErrReadOnly
 	}
 	return s.backend.PutOverrides(cube, ov)

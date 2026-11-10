@@ -16,6 +16,7 @@ type FileBackend interface {
 	Index(cube string) (*storage.CubeIndex, error)
 	LoadDraft(cube string, draftID int) ([]*storage.Deck, error)
 	SaveDecks(cube string, draftID int, decks []*storage.Deck) error
+	CreateDraft(cube string, meta types.DraftMetadata, snapshot *types.Cube, decks []*storage.Deck) (int, error)
 	GetRules(cube string) (*design.DesignMapConfig, error)
 	PutRules(cube string, rules *design.DesignMapConfig) error
 	GetOverrides(cube string) (design.PackageOverrides, error)
@@ -79,6 +80,15 @@ func (r *Router) SaveDecks(cube string, draftID int, decks []*storage.Deck) erro
 		return storage.ErrReadOnly
 	}
 	return r.file.SaveDecks(cube, draftID, decks)
+}
+
+// CreateDraft saves a new draft for a registry cube through the file backend,
+// returning ErrReadOnly for CubeCobra cubes.
+func (r *Router) CreateDraft(cube string, meta types.DraftMetadata, snapshot *types.Cube, decks []*storage.Deck) (int, error) {
+	if cubes.IsCubeCobra(cube) {
+		return 0, storage.ErrReadOnly
+	}
+	return r.file.CreateDraft(cube, meta, snapshot, decks)
 }
 
 func (r *Router) GetRules(cube string) (*design.DesignMapConfig, error) {

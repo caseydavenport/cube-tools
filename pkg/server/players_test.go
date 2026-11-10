@@ -15,19 +15,20 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
 )
 
-// nopInvalidator satisfies PlayerInvalidator for tests without a Store.
-type nopInvalidator struct{}
-
-// InvalidatePlayers does nothing.
-func (nopInvalidator) InvalidatePlayers() {}
-
-// playersMux serves the three player routes over dataRoot.
-func playersMux(dataRoot string, inv PlayerInvalidator) *http.ServeMux {
+// playersMux serves the three player routes over ps.
+func playersMux(ps PlayerStore) *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.Handle("GET /api/players", PlayersListHandler(dataRoot))
-	mux.Handle("POST /api/players", PlayerAddHandler(dataRoot))
-	mux.Handle("PATCH /api/players/{id}", PlayerRenameHandler(dataRoot, inv))
+	mux.Handle("GET /api/players", PlayersListHandler(ps))
+	mux.Handle("POST /api/players", PlayerAddHandler(ps))
+	mux.Handle("PATCH /api/players/{id}", PlayerRenameHandler(ps))
 	return mux
+}
+
+// fileStore returns a Store over an empty memory backend whose players live in
+// players.json under root.
+func fileStore(root string, opts ...storage.StoreOption) *storage.Store {
+	opts = append(opts, storage.WithPlayers(players.FileSource{DataRoot: root}))
+	return storage.NewStore(memory.New(), opts...)
 }
 
 // call sends one request through mux and returns the recorded response.
@@ -38,7 +39,7 @@ func call(mux *http.ServeMux, method, path, body string) *httptest.ResponseRecor
 }
 
 func TestPlayersAPI(t *testing.T) {
-	mux := playersMux(t.TempDir(), nopInvalidator{})
+	mux := playersMux(fileStore(t.TempDir()))
 
 	rec := call(mux, http.MethodPost, "/api/players", `{"name": " Joan Jett "}`)
 	require.Equal(t, http.StatusCreated, rec.Code)
@@ -94,7 +95,7 @@ func TestGroupChangeReachesDecks(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, players.NoGroup, before[0].PlayGroup)
 
-	rec := call(playersMux(root, store), http.MethodPatch, "/api/players/1", `{"group": "The Crew"}`)
+	rec := call(playersMux(store), http.MethodPatch, "/api/players/1", `{"group": "The Crew"}`)
 	require.Equal(t, http.StatusOK, rec.Code)
 
 	after, err := store.List("c", &storage.DecksRequest{Match: "playgroup:\"the crew\""})
@@ -119,10 +120,29 @@ func TestRenameInvalidatesDeckNames(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, "Freddie", before[0].Player)
 
-	rec := call(playersMux(root, store), http.MethodPatch, "/api/players/1", `{"name": "Freddie Mercury"}`)
+	rec := call(playersMux(store), http.MethodPatch, "/api/players/1", `{"name": "Freddie Mercury"}`)
 	require.Equal(t, http.StatusOK, rec.Code)
 
 	after, err := store.List("c", nil)
 	require.NoError(t, err)
 	assert.Equal(t, "Freddie Mercury", after[0].Player)
+}
+
+func TestReadOnlyStoreRefusesPlayerEdits(t *testing.T) {
+	root := t.TempDir()
+	_, err := players.Add(root, "Freddie")
+	require.NoError(t, err)
+
+	writable := playersMux(fileStore(root))
+	require.Equal(t, http.StatusOK, call(writable, http.MethodPatch, "/api/players/1", `{"name": "Freddie Mercury"}`).Code)
+
+	readOnly := playersMux(fileStore(root, storage.WithReadOnly()))
+	assert.Equal(t, http.StatusOK, call(readOnly, http.MethodGet, "/api/players", "").Code)
+	assert.Equal(t, http.StatusForbidden, call(readOnly, http.MethodPost, "/api/players", `{"name": "Ozzy"}`).Code)
+	assert.Equal(t, http.StatusForbidden, call(readOnly, http.MethodPatch, "/api/players/1", `{"name": "Freddie"}`).Code)
+	assert.Equal(t, http.StatusForbidden, call(readOnly, http.MethodPatch, "/api/players/1", `{"group": "The Crew"}`).Code)
+
+	l, err := players.Load(root)
+	require.NoError(t, err)
+	assert.Equal(t, []players.Player{{ID: 1, Name: "Freddie Mercury"}}, l.Players)
 }

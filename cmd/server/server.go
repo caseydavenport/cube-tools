@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 
@@ -23,6 +24,9 @@ import (
 )
 
 func main() {
+	readOnly := flag.Bool("read-only", false, "refuse every write, for a public read-only deployment")
+	flag.Parse()
+
 	// Deck hydration resolves card names against the oracle dataset. Without it
 	// every card loads with no metadata, so refuse to start rather than serve
 	// garbage.
@@ -59,7 +63,12 @@ func main() {
 	}
 	fileBackend := file.New(provider)
 	ccBackend := cubecobra.New(commands.DefaultCubeCobraURL, provider)
-	deckStore := storage.NewStore(router.New(fileBackend, ccBackend), storage.WithPlayers(players.FileSource{DataRoot: "data"}))
+	storeOpts := []storage.StoreOption{storage.WithPlayers(players.FileSource{DataRoot: "data"})}
+	if *readOnly {
+		logrus.Info("Serving read-only; every write is refused")
+		storeOpts = append(storeOpts, storage.WithReadOnly())
+	}
+	deckStore := storage.NewStore(router.New(fileBackend, ccBackend), storeOpts...)
 
 	// writeRoute is for handlers that write under data/<cube> directly rather
 	// than through deckStore, so they need their own read-only check.
@@ -69,9 +78,9 @@ func main() {
 	packagesFor := func(cubeID string) ([]design.PackageCards, error) {
 		return stats.PackagesForCube(deckStore, provider, cubeID)
 	}
-	mux.Handle("GET /api/players", server.PlayersListHandler("data"))
-	mux.Handle("POST /api/players", server.PlayerAddHandler("data"))
-	mux.Handle("PATCH /api/players/{id}", server.PlayerRenameHandler("data", deckStore))
+	mux.Handle("GET /api/players", server.PlayersListHandler(deckStore))
+	mux.Handle("POST /api/players", server.PlayerAddHandler(deckStore))
+	mux.Handle("PATCH /api/players/{id}", server.PlayerRenameHandler(deckStore))
 	cubeRoute("GET /api/{cube}/cube", server.CubeContentHandler(provider))
 	cubeRoute("GET /api/{cube}/info", server.CubeInfoHandler(deckStore))
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler(deckStore))
@@ -134,7 +143,7 @@ func main() {
 	// Text and Hedron import endpoints.
 	cubeRoute("GET /api/{cube}/import/cards", importer.ImportCardsHandler(provider))
 	cubeRoute("POST /api/{cube}/import/parse", importer.ParseHandler(provider))
-	writeRoute("POST /api/{cube}/import/commit", importer.CommitHandler(provider, "data"))
+	writeRoute("POST /api/{cube}/import/commit", importer.CommitHandler(provider, deckStore))
 	cubeRoute("POST /api/{cube}/import/check", importer.CheckHandler(provider))
 	cubeRoute("GET /api/{cube}/import/hedron", importer.HedronListHandler())
 	writeRoute("POST /api/{cube}/import/hedron", importer.HedronImportHandler(provider))

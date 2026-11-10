@@ -72,6 +72,23 @@ func TestPutRules_ReadOnlyCubeAllowed(t *testing.T) {
 	assert.True(t, b.putRules)
 }
 
+func TestReadOnlyStoreRefusesEveryWrite(t *testing.T) {
+	b := &fakeBackend{}
+	s := NewStore(b, WithReadOnly())
+	assert.False(t, s.Writable("c"))
+	_, err := s.UpdateDeckMeta("c", DeckMetaWrite{DraftID: 1, DeckID: 1})
+	assert.ErrorIs(t, err, ErrReadOnly)
+	assert.ErrorIs(t, s.PutOverrides("c", design.PackageOverrides{}), ErrReadOnly)
+	assert.ErrorIs(t, s.PutRules("c", &design.DesignMapConfig{}), ErrReadOnly)
+	assert.False(t, b.putRules)
+	_, err = s.CreateDraft("c", types.DraftMetadata{}, &types.Cube{}, nil)
+	assert.ErrorIs(t, err, ErrReadOnly)
+	_, err = s.AddPlayer("Freddie")
+	assert.ErrorIs(t, err, ErrReadOnly)
+	_, err = s.RenamePlayer(1, "Freddie")
+	assert.ErrorIs(t, err, ErrReadOnly)
+}
+
 // rosterSource is a fixed player list for Store tests.
 type rosterSource struct{}
 

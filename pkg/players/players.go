@@ -134,13 +134,43 @@ var writeMu sync.Mutex
 
 // Add appends a player with the next unused ID and returns it.
 func Add(dataRoot, name string) (Player, error) {
-	name, err := validateName(name)
-	if err != nil {
-		return Player{}, err
-	}
+	return update(dataRoot, func(l *List) (Player, error) { return l.Add(name) })
+}
+
+// Rename changes a player's display name. A change of case alone is allowed.
+func Rename(dataRoot string, id int, name string) (Player, error) {
+	return update(dataRoot, func(l *List) (Player, error) { return l.Rename(id, name) })
+}
+
+// SetGroup puts a player in a play group, or in none for an empty group.
+// Naming NoGroup also means none. A group differing only in case from an
+// existing one takes that group's spelling.
+func SetGroup(dataRoot string, id int, group string) (Player, error) {
+	return update(dataRoot, func(l *List) (Player, error) { return l.SetGroup(id, group) })
+}
+
+// update loads the list under dataRoot, applies change, and saves the result
+// unless change fails, all while holding writeMu.
+func update(dataRoot string, change func(*List) (Player, error)) (Player, error) {
 	writeMu.Lock()
 	defer writeMu.Unlock()
 	l, err := Load(dataRoot)
+	if err != nil {
+		return Player{}, err
+	}
+	p, err := change(l)
+	if err != nil {
+		return Player{}, err
+	}
+	if err := save(dataRoot, l); err != nil {
+		return Player{}, err
+	}
+	return p, nil
+}
+
+// Add appends a player with the next unused ID to the list and returns it.
+func (l *List) Add(name string) (Player, error) {
+	name, err := validateName(name)
 	if err != nil {
 		return Player{}, err
 	}
@@ -153,69 +183,56 @@ func Add(dataRoot, name string) (Player, error) {
 	}
 	p := Player{ID: highest + 1, Name: name}
 	l.Players = append(l.Players, p)
-	if err := save(dataRoot, l); err != nil {
-		return Player{}, err
-	}
 	return p, nil
 }
 
-// Rename changes a player's display name. A change of case alone is allowed.
-func Rename(dataRoot string, id int, name string) (Player, error) {
+// Rename changes the display name of the player with the given ID. A change
+// of case alone is allowed.
+func (l *List) Rename(id int, name string) (Player, error) {
 	name, err := validateName(name)
-	if err != nil {
-		return Player{}, err
-	}
-	writeMu.Lock()
-	defer writeMu.Unlock()
-	l, err := Load(dataRoot)
 	if err != nil {
 		return Player{}, err
 	}
 	if other, ok := l.ByName(name); ok && other.ID != id {
 		return Player{}, fmt.Errorf("%w: %q", ErrNameTaken, name)
 	}
-	for i := range l.Players {
-		if l.Players[i].ID == id {
-			l.Players[i].Name = name
-			if err := save(dataRoot, l); err != nil {
-				return Player{}, err
-			}
-			return l.Players[i], nil
-		}
+	i := l.indexOf(id)
+	if i < 0 {
+		return Player{}, fmt.Errorf("%w: id %d", ErrUnknownPlayer, id)
 	}
-	return Player{}, fmt.Errorf("%w: id %d", ErrUnknownPlayer, id)
+	l.Players[i].Name = name
+	return l.Players[i], nil
 }
 
-// SetGroup puts a player in a play group, or in none for an empty group.
-// Naming NoGroup also means none. A group differing only in case from an
-// existing one takes that group's spelling.
-func SetGroup(dataRoot string, id int, group string) (Player, error) {
+// SetGroup puts the player with the given ID in a play group, following the
+// same rules as the package-level SetGroup.
+func (l *List) SetGroup(id int, group string) (Player, error) {
 	group = strings.TrimSpace(group)
 	if strings.EqualFold(group, NoGroup) {
 		group = ""
 	}
-	writeMu.Lock()
-	defer writeMu.Unlock()
-	list, err := Load(dataRoot)
-	if err != nil {
-		return Player{}, err
-	}
-	for _, p := range list.Players {
+	for _, p := range l.Players {
 		if p.Group != "" && strings.EqualFold(p.Group, group) {
 			group = p.Group
 			break
 		}
 	}
-	for i := range list.Players {
-		if list.Players[i].ID == id {
-			list.Players[i].Group = group
-			if err := save(dataRoot, list); err != nil {
-				return Player{}, err
-			}
-			return list.Players[i], nil
+	i := l.indexOf(id)
+	if i < 0 {
+		return Player{}, fmt.Errorf("%w: id %d", ErrUnknownPlayer, id)
+	}
+	l.Players[i].Group = group
+	return l.Players[i], nil
+}
+
+// indexOf returns the position of the player with the given ID, or -1.
+func (l *List) indexOf(id int) int {
+	for i, p := range l.Players {
+		if p.ID == id {
+			return i
 		}
 	}
-	return Player{}, fmt.Errorf("%w: id %d", ErrUnknownPlayer, id)
+	return -1
 }
 
 // GroupFor returns the play group of the player with the given ID, or NoGroup

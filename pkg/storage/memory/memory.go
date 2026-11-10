@@ -26,7 +26,7 @@ type Backend struct {
 	readOnly  map[string]bool
 }
 
-var _ storage.PlayerSource = &Backend{}
+var _ storage.PlayerStore = &Backend{}
 
 // New returns an empty in-memory backend.
 func New() *Backend {
@@ -83,6 +83,57 @@ func (b *Backend) Players() (*players.List, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	return b.players, nil
+}
+
+// AddPlayer adds a player to the seeded list.
+func (b *Backend) AddPlayer(name string) (players.Player, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	return b.playerList().Add(name)
+}
+
+// RenamePlayer renames a player in the seeded list.
+func (b *Backend) RenamePlayer(id int, name string) (players.Player, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	return b.playerList().Rename(id, name)
+}
+
+// SetPlayerGroup sets a player's play group in the seeded list.
+func (b *Backend) SetPlayerGroup(id int, group string) (players.Player, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	return b.playerList().SetGroup(id, group)
+}
+
+// playerList returns the seeded list, creating an empty one on first use. The
+// caller must hold b.mu.
+func (b *Backend) playerList() *players.List {
+	if b.players == nil {
+		b.players = &players.List{}
+	}
+	return b.players
+}
+
+// CreateDraft adds decks as a new draft numbered after the cube's highest
+// draft ID, and keeps snapshot as its cube list.
+func (b *Backend) CreateDraft(cube string, meta types.DraftMetadata, snapshot *types.Cube, decks []*storage.Deck) (int, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	id := 0
+	for _, d := range b.decks[cube] {
+		id = max(id, d.Metadata.DraftID)
+	}
+	id++
+	meta.ID = id
+	for _, d := range decks {
+		cp := copyDeck(d)
+		cp.Metadata.DraftID = id
+		cp.Draft = storage.NewDraftInfo(meta)
+		b.decks[cube] = append(b.decks[cube], cp)
+	}
+	b.snapshots[draftLogKey(cube, id)] = snapshot
+	return id, nil
 }
 
 // Seed adds decks for a cube. Call before wrapping in a Store. A deck with no
