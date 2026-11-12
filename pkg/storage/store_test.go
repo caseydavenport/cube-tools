@@ -2,11 +2,13 @@ package storage
 
 import (
 	"testing"
+	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // fakeBackend serves fixed decks. Methods it doesn't define panic through the
@@ -87,6 +89,18 @@ func TestReadOnlyStoreRefusesEveryWrite(t *testing.T) {
 	assert.ErrorIs(t, err, ErrReadOnly)
 	_, err = s.RenamePlayer(1, "Freddie")
 	assert.ErrorIs(t, err, ErrReadOnly)
+}
+
+func TestReadOnlyStoreKeepsCache(t *testing.T) {
+	b := &fakeBackend{decks: []*Deck{{}}}
+	s := NewStore(b, WithReadOnly())
+	first, err := s.List("c", &DecksRequest{})
+	require.NoError(t, err)
+	s.caches["c"].loadedAt = time.Now().Add(-time.Hour)
+	b.decks = nil
+	again, err := s.List("c", &DecksRequest{})
+	require.NoError(t, err)
+	assert.Len(t, again, len(first))
 }
 
 // rosterSource is a fixed player list for Store tests.

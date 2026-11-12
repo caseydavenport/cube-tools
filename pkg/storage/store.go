@@ -29,7 +29,8 @@ type cubeCache struct {
 }
 
 // cacheTTL is how long a cube's cache is served before the next access
-// reloads it from the backend.
+// reloads it from the backend. A read-only Store never reloads, since nothing
+// changes its data short of a restart.
 const cacheTTL = 10 * time.Second
 
 // NewStore wraps a backend with caching, name resolution and enrichment.
@@ -198,7 +199,7 @@ func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 	if s.caches == nil {
 		s.caches = map[string]*cubeCache{}
 	}
-	if c, ok := s.caches[cube]; ok && time.Since(c.loadedAt) < cacheTTL {
+	if c, ok := s.caches[cube]; ok && (s.readOnly || time.Since(c.loadedAt) < cacheTTL) {
 		return c, nil
 	}
 	loaded, err := s.backend.RawDecks(cube)

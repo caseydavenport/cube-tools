@@ -145,11 +145,17 @@ deploy: push
 		--args=-read-only \
 		--no-allow-unauthenticated --iap
 
-# Copies data/ to the bucket, deleting bucket files that are gone locally. The
-# site picks the changes up within the deck cache's 10 seconds.
+# Copies data/ to the bucket, deleting bucket files that are gone locally, then
+# rolls the service, since the read-only server caches decks until restart.
 sync-data: data/oracle-cards.json data/oracle-tags.jsonl
 	gcloud storage rsync --recursive --delete-unmatched-destination-objects \
 		data gs://$(GCS_BUCKET)
+	$(MAKE) restart
+
+# Starts a fresh revision of the same image so the server rereads the bucket.
+restart:
+	gcloud run services update cube-tools --project $(GCP_PROJECT) --region $(GCP_REGION) \
+		--update-env-vars=DATA_SYNCED=$$(date +%s)
 
 # Lets one Google account through IAP: make grant-access EMAIL=someone@example.com
 grant-access:
