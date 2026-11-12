@@ -39,6 +39,12 @@ func NewStore(backend Backend, opts ...StoreOption) *Store {
 	for _, o := range opts {
 		o(s)
 	}
+	if s.readOnly {
+		s.backend = newFrozenBackend(s.backend)
+		if s.players != nil {
+			s.players = &frozenPlayers{PlayerSource: s.players, memo: map[string]memoEntry{}}
+		}
+	}
 	return s
 }
 

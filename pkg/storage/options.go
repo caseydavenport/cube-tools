@@ -30,7 +30,7 @@ func WithPlayers(ps PlayerSource) StoreOption {
 
 // WithReadOnly makes the Store refuse every write, whatever the backend
 // allows: deck edits, rules, overrides, new drafts and player edits. It also
-// keeps each cube's decks cached until restart.
+// keeps everything it reads cached until restart.
 func WithReadOnly() StoreOption {
 	return func(s *Store) { s.readOnly = true }
 }

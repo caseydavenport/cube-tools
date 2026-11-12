@@ -103,6 +103,44 @@ func TestReadOnlyStoreKeepsCache(t *testing.T) {
 	assert.Len(t, again, len(first))
 }
 
+// countingBackend counts reads, to show which ones reach the backend.
+type countingBackend struct {
+	fakeBackend
+	indexReads    int
+	snapshotReads int
+}
+
+func (c *countingBackend) Index(string) (*CubeIndex, error) {
+	c.indexReads++
+	return &CubeIndex{}, nil
+}
+
+func (c *countingBackend) GetSnapshot(string, int) (*types.Cube, error) {
+	c.snapshotReads++
+	return nil, ErrDeckNotFound
+}
+
+func TestReadOnlyStoreReadsBackendOnce(t *testing.T) {
+	b := &countingBackend{}
+	s := NewStore(b, WithReadOnly())
+	for range 3 {
+		_, err := s.Index("c")
+		require.NoError(t, err)
+		_, err = s.GetSnapshot("c", 1)
+		require.ErrorIs(t, err, ErrDeckNotFound)
+	}
+	assert.Equal(t, 1, b.indexReads)
+	assert.Equal(t, 1, b.snapshotReads)
+
+	w := &countingBackend{}
+	writable := NewStore(w)
+	for range 3 {
+		_, err := writable.Index("c")
+		require.NoError(t, err)
+	}
+	assert.Equal(t, 3, w.indexReads)
+}
+
 // rosterSource is a fixed player list for Store tests.
 type rosterSource struct{}
 
