@@ -1,6 +1,6 @@
 {
   "cubes": [
-    {"id": "polyverse", "name": "Polyverse", "description": "Casey's home cube.", "cubecobra_id": "polyversal"},
-    {"id": "aurora", "name": "Aurora", "description": "Aurora cube.", "cubecobra_id": "aurora", "sleeve_color": "purple"}
+    {"id": "polyverse", "name": "Defender of the Polyverse", "description": "Casey's home cube.", "cubecobra_id": "polyversal"},
+    {"id": "aurora", "name": "The Great Aurora", "description": "Aurora cube.", "cubecobra_id": "aurora", "sleeve_color": "purple"}
   ]
 }
