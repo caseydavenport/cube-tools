@@ -19,21 +19,22 @@ import (
 type frozenBackend struct {
 	Backend
 	mu   sync.Mutex
-	memo map[string]memoEntry
+	memo map[string]readResult
 }
 
-type memoEntry struct {
+// readResult is one stored backend answer: its value and error.
+type readResult struct {
 	value any
 	err   error
 }
 
 func newFrozenBackend(b Backend) *frozenBackend {
-	return &frozenBackend{Backend: b, memo: map[string]memoEntry{}}
+	return &frozenBackend{Backend: b, memo: map[string]readResult{}}
 }
 
 // remember returns the stored result for key, or calls load and stores it.
 // Only lasting answers are stored: success or a definite "not there".
-func remember[T any](mu *sync.Mutex, memo map[string]memoEntry, key string, load func() (T, error)) (T, error) {
+func remember[T any](mu *sync.Mutex, memo map[string]readResult, key string, load func() (T, error)) (T, error) {
 	mu.Lock()
 	e, ok := memo[key]
 	mu.Unlock()
@@ -44,29 +45,34 @@ func remember[T any](mu *sync.Mutex, memo map[string]memoEntry, key string, load
 	v, err := load()
 	if err == nil || errors.Is(err, ErrDeckNotFound) || errors.Is(err, ErrUnsupported) || errors.Is(err, os.ErrNotExist) {
 		mu.Lock()
-		memo[key] = memoEntry{value: v, err: err}
+		memo[key] = readResult{value: v, err: err}
 		mu.Unlock()
 	}
 	return v, err
 }
 
+// Index returns the cube's index, read once.
 func (f *frozenBackend) Index(cube string) (*CubeIndex, error) {
 	return remember(&f.mu, f.memo, "index/"+cube, func() (*CubeIndex, error) { return f.Backend.Index(cube) })
 }
 
+// GetRules returns the cube's rules, read once.
 func (f *frozenBackend) GetRules(cube string) (*design.DesignMapConfig, error) {
 	return remember(&f.mu, f.memo, "rules/"+cube, func() (*design.DesignMapConfig, error) { return f.Backend.GetRules(cube) })
 }
 
+// GetOverrides returns the cube's package overrides, read once.
 func (f *frozenBackend) GetOverrides(cube string) (design.PackageOverrides, error) {
 	return remember(&f.mu, f.memo, "overrides/"+cube, func() (design.PackageOverrides, error) { return f.Backend.GetOverrides(cube) })
 }
 
+// GetSnapshot returns a draft's cube list, read once.
 func (f *frozenBackend) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
 	key := fmt.Sprintf("snapshot/%s/%d", cube, draftID)
 	return remember(&f.mu, f.memo, key, func() (*types.Cube, error) { return f.Backend.GetSnapshot(cube, draftID) })
 }
 
+// GetDraftLog returns a draft's raw log, read once.
 func (f *frozenBackend) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {
 	key := fmt.Sprintf("log/%s/%d", cube, draftID)
 	return remember(&f.mu, f.memo, key, func() (json.RawMessage, error) { return f.Backend.GetDraftLog(cube, draftID) })
@@ -76,9 +82,10 @@ func (f *frozenBackend) GetDraftLog(cube string, draftID int) (json.RawMessage, 
 type frozenPlayers struct {
 	PlayerSource
 	mu   sync.Mutex
-	memo map[string]memoEntry
+	memo map[string]readResult
 }
 
+// Players returns the player list, read once.
 func (f *frozenPlayers) Players() (*players.List, error) {
 	return remember(&f.mu, f.memo, "players", f.PlayerSource.Players)
 }
