@@ -186,14 +186,19 @@ function DepthGrid({ wire, color }) {
       const cell = cellAt[a + ":" + b] || { built: 0, decks: [] }
       return <DepthCell key={b} a={a} b={b} count={count} built={cell.built} decks={cell.decks} max={max} color={color} />
     })
-    return <tr key={a}>{rowHead}{cells}</tr>
+    // The row axis label spans every row, so only the first row holds it.
+    let rowAxis = null
+    if (a === 0) {
+      rowAxis = <th rowSpan={SIZES.length} className="wp-axis wp-axis-rows">{axisLabel(wire, "first")} →</th>
+    }
+    return <tr key={a}>{rowAxis}{rowHead}{cells}</tr>
   })
 
   return (
     <table className="wp-grid">
       <tbody>
-        <tr><th /><th colSpan={SIZES.length} className="wp-axis">{axisLabel(wire, "second")} →</th></tr>
-        <tr><th className="wp-axis">{axisLabel(wire, "first")} ↓</th>{columnHeads}</tr>
+        <tr><th /><th /><th colSpan={SIZES.length} className="wp-axis">{axisLabel(wire, "second")} →</th></tr>
+        <tr><th /><th />{columnHeads}</tr>
         {rows}
       </tbody>
     </table>

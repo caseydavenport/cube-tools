@@ -177,7 +177,13 @@
 .wp-grid .wp-axis {
   font-weight: 400;
   font-size: 0.72rem;
-  text-align: left;
+  text-align: center;
+}
+
+/* Vertical text reads top to bottom, which turns its → to point down. */
+.wp-grid .wp-axis-rows {
+  writing-mode: vertical-rl;
+  padding: 0 0.2rem;
 }
 
 .wp-cell {
