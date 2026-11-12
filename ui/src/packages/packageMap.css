@@ -125,6 +125,31 @@
   gap: 0.35rem;
 }
 
+.wp-role {
+  font-size: 0.72rem;
+  color: var(--se-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  align-self: center;
+}
+
+.wp-rule,
+.wp-caption {
+  font-size: 0.8rem;
+  color: var(--se-muted);
+  margin-bottom: 0.6rem;
+}
+
+.wp-grid th.wp-zero {
+  font-weight: 400;
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+.wp-decks {
+  white-space: pre;
+}
+
 .wp-join {
   color: var(--se-muted);
 }

@@ -53,7 +53,11 @@ func TestPackageMap_Wires(t *testing.T) {
 	assert.Equal(t, 1, wire.Depth[0].A)
 	assert.Equal(t, 2, wire.Depth[0].B)
 	assert.Equal(t, 2, wire.Depth[0].Count)
-	assert.Len(t, wire.Depth[0].Decks, 2)
+	assert.Equal(t, 2, wire.Depth[0].Built)
+	require.Len(t, wire.Depth[0].Decks, 2)
+	assert.True(t, wire.Depth[0].Decks[0].Built)
+	assert.Positive(t, wire.NeedSources)
+	assert.Positive(t, wire.NeedTargets)
 }
 
 func TestPackageMap_Flags(t *testing.T) {

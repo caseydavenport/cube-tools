@@ -296,6 +296,11 @@ func cardDecks(card string, ranged []*storage.Deck) []CardDeck {
 	return deckRows(played)
 }
 
+// deckRef is a deck's "draft/deck" reference, as the deck pages link it.
+func deckRef(d *storage.Deck) string {
+	return fmt.Sprintf("%d/%d", d.Metadata.DraftID, d.ID)
+}
+
 // deckRows turns decks into detail-page rows, newest first, for the card and
 // package pages' deck lists.
 func deckRows(decks []*storage.Deck) []CardDeck {
@@ -307,7 +312,7 @@ func deckRows(decks []*storage.Deck) []CardDeck {
 	out := []CardDeck{}
 	for _, d := range sorted {
 		out = append(out, CardDeck{
-			Ref:       fmt.Sprintf("%d/%d", d.Metadata.DraftID, d.ID),
+			Ref:       deckRef(d),
 			Date:      d.Date,
 			Player:    d.PersonLabel(),
 			Colors:    d.GetColors().String(),

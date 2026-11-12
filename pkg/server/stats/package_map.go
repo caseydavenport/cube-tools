@@ -35,11 +35,14 @@ type MapGroup struct {
 
 // MapWire is one wire: its kind and entries, the decks that built the package
 // through it, the median of its own linked pairs over those decks, the cube
-// cards on both of its sides, and its depth grid.
+// cards on both of its sides, and its depth grid. NeedSources and NeedTargets
+// are the cards per side a deck needs to build it.
 type MapWire struct {
 	Kind         string      `json:"kind"`
 	Sources      []string    `json:"sources"`
 	Targets      []string    `json:"targets"`
+	NeedSources  int         `json:"need_sources"`
+	NeedTargets  int         `json:"need_targets"`
 	Decks        int         `json:"decks"`
 	TypicalPairs int         `json:"typical_pairs"`
 	SelfLinked   []string    `json:"self_linked"`
@@ -48,12 +51,19 @@ type MapWire struct {
 
 // DepthCell is one cell of a wire's depth grid: the decks that played A cards
 // from the wire's sources side and B from its targets side, each capped at
-// depthCap.
+// depthCap. Built counts the ones that built the package through the wire.
 type DepthCell struct {
-	A     int        `json:"a"`
-	B     int        `json:"b"`
-	Count int        `json:"count"`
-	Decks []CardDeck `json:"decks"`
+	A     int         `json:"a"`
+	B     int         `json:"b"`
+	Count int         `json:"count"`
+	Built int         `json:"built"`
+	Decks []DepthDeck `json:"decks"`
+}
+
+// DepthDeck is one deck in a depth cell, marked when it built the wire.
+type DepthDeck struct {
+	CardDeck
+	Built bool `json:"built"`
 }
 
 // buildPackageMap builds the map for pkg. cards is the package resolved for
@@ -76,11 +86,13 @@ func buildPackageMap(pkg design.Package, cards design.PackageCards, cube map[str
 	for i, w := range pkg.Wires {
 		resolved := cards.Wires[i]
 		wire := MapWire{
-			Kind:       w.KindOrPairs(),
-			Sources:    w.Sources,
-			Targets:    w.Targets,
-			SelfLinked: selfLinked(w, cube),
-			Depth:      depthCells(resolved, decks),
+			Kind:        w.KindOrPairs(),
+			Sources:     w.Sources,
+			Targets:     w.Targets,
+			NeedSources: resolved.NeedSources,
+			NeedTargets: resolved.NeedTargets,
+			SelfLinked:  selfLinked(w, cube),
+			Depth:       depthCells(resolved, decks),
 		}
 		var pairs []int
 		for _, deck := range sets {
@@ -175,6 +187,7 @@ type depthKey struct {
 // they played from each side, capped at depthCap, sorted by A then B.
 func depthCells(w design.WireCards, decks []*storage.Deck) []DepthCell {
 	byCell := map[depthKey][]*storage.Deck{}
+	builtRefs := map[string]bool{}
 	for _, d := range decks {
 		deck := deckCards(d)
 		a, b := 0, 0
@@ -191,11 +204,22 @@ func depthCells(w design.WireCards, decks []*storage.Deck) []DepthCell {
 		}
 		k := depthKey{a: min(a, depthCap), b: min(b, depthCap)}
 		byCell[k] = append(byCell[k], d)
+		if w.BuiltBy(deck) {
+			builtRefs[deckRef(d)] = true
+		}
 	}
 
 	out := []DepthCell{}
 	for k, cellDecks := range byCell {
-		out = append(out, DepthCell{A: k.a, B: k.b, Count: len(cellDecks), Decks: deckRows(cellDecks)})
+		cell := DepthCell{A: k.a, B: k.b, Count: len(cellDecks), Decks: []DepthDeck{}}
+		for _, row := range deckRows(cellDecks) {
+			built := builtRefs[row.Ref]
+			if built {
+				cell.Built++
+			}
+			cell.Decks = append(cell.Decks, DepthDeck{CardDeck: row, Built: built})
+		}
+		out = append(out, cell)
 	}
 	slices.SortFunc(out, func(x, y DepthCell) int { return cmp.Or(cmp.Compare(x.A, y.A), cmp.Compare(x.B, y.B)) })
 	return out
