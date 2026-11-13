@@ -70,6 +70,9 @@ var isRoles = map[string]func(types.Card) bool{
 	"handhate":     types.Card.IsHandDisruption,
 }
 
+// colorValues are the color values the c: and dc: keywords suggest.
+var colorValues = []string{"w", "u", "b", "r", "g", "m", "c"}
+
 // popularities are the pop: choices, matching the Cards page's Popularity
 // switch.
 var popularities = []string{"popular", "typical", "niche"}
@@ -93,7 +96,7 @@ var keywords = []*Keyword{
 		Name: "c", Aliases: []string{"color"}, Scope: ScopeCard, Kind: ValueColor,
 		Description: "Card colors. c:ug is at least blue and green, c<=ug fits a blue-green deck, c=ug is exactly, c:m is multicolor and c:c colorless.",
 		Example:     "c<=ug",
-		Values:      []string{"w", "u", "b", "r", "g", "m", "c"},
+		Values:      colorValues,
 		matchCard:   func(c Card, t *term) bool { return t.colors.compare(newColorSet(c.Colors), t.op) },
 	},
 	{
@@ -233,8 +236,10 @@ var keywords = []*Keyword{
 		Name: "dc", Aliases: []string{"dcolor", "deckcolor"}, Scope: ScopeDeck, Kind: ValueColor,
 		Description: "Deck colors, compared like c:.",
 		Example:     "dc=ub",
-		Values:      []string{"w", "u", "b", "r", "g", "m", "c"},
-		matchDeck:   func(d deckSubject, t *term) bool { return t.colors.compare(identitySet(d.deck.GetColors()), t.op) },
+		Values:      colorValues,
+		matchDeck: func(d deckSubject, t *term) bool {
+			return t.colors.compare(newColorSet(d.deck.GetColors().Slice()), t.op)
+		},
 	},
 	{
 		Name: "draftsize", Scope: ScopeDeck, Kind: ValueNumber,
@@ -244,7 +249,7 @@ var keywords = []*Keyword{
 	},
 	{
 		Name: "package", Scope: ScopeDeck, Kind: ValueText,
-		Description: "Builds a package: 2 or more cards on each side of one of its wires. A bare package: means any.",
+		Description: "Builds a package: enough cards on both sides of one of its wires. A bare package: means any.",
 		Example:     "package:graveyard",
 		matchDeck:   func(d deckSubject, t *term) bool { return d.buildsPackage(t.value) },
 	},
@@ -253,6 +258,7 @@ var keywords = []*Keyword{
 // keywordsByName maps every keyword name and alias to its keyword.
 var keywordsByName = indexKeywords()
 
+// indexKeywords builds keywordsByName from the keyword table.
 func indexKeywords() map[string]*Keyword {
 	idx := make(map[string]*Keyword)
 	for _, kw := range keywords {

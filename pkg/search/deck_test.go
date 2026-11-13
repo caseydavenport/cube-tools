@@ -101,7 +101,10 @@ func TestPackageHonorsDraftRelevance(t *testing.T) {
 			Sources: sideSet("A", "B"), Targets: sideSet("C", "D"),
 			NeedSources: 2, NeedTargets: 2,
 		}},
-		Relevance: &design.Relevance{Drafts: map[int]bool{1: true, 2: false}},
+		Relevance: &design.Relevance{Drafts: map[int]bool{
+			1: true,
+			2: false,
+		}},
 	}
 	opts := DeckOptions{Packages: []design.PackageCards{pkg}}
 	q := MustCompile("package:lifegain", TargetDecks)

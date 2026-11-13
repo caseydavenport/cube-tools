@@ -68,6 +68,15 @@ func TestSeatLabel(t *testing.T) {
 	assert.Equal(t, "p7", SeatLabel(7))
 }
 
+func TestIsSeatLabel(t *testing.T) {
+	for _, label := range []string{"p1", "p12"} {
+		assert.True(t, IsSeatLabel(label), label)
+	}
+	for _, name := range []string{"", "p", "p-3", "p+3", "p3x", "P3", "Prince", "3"} {
+		assert.False(t, IsSeatLabel(name), name)
+	}
+}
+
 func TestResolveDraftUsesSeat(t *testing.T) {
 	seat := &types.Deck{ID: 2, Seat: 5}
 	named := &types.Deck{ID: 3, Seat: 6, PlayerID: 1, Matches: []types.Match{{OpponentID: 2, Wins: 2}}}

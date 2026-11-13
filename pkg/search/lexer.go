@@ -43,27 +43,27 @@ var operators = []string{"!=", "<=", ">=", ":", "=", "<", ">"}
 func lex(q string) ([]token, error) {
 	var tokens []token
 	runes := []rune(q)
-	i := 0
-	for i < len(runes) {
-		r := runes[i]
+	pos := 0
+	for pos < len(runes) {
+		r := runes[pos]
 		switch {
 		case unicode.IsSpace(r):
-			i++
+			pos++
 		case r == '(':
 			tokens = append(tokens, token{kind: tokenOpen})
-			i++
+			pos++
 		case r == ')':
 			tokens = append(tokens, token{kind: tokenClose})
-			i++
-		case r == '-' && i+1 < len(runes) && !unicode.IsSpace(runes[i+1]):
+			pos++
+		case r == '-' && pos+1 < len(runes) && !unicode.IsSpace(runes[pos+1]):
 			tokens = append(tokens, token{kind: tokenNot})
-			i++
+			pos++
 		default:
-			word, next, err := readWord(runes, i)
+			word, next, err := readWord(runes, pos)
 			if err != nil {
 				return nil, err
 			}
-			i = next
+			pos = next
 			tok, err := wordToken(word)
 			if err != nil {
 				return nil, err

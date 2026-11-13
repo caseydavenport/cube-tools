@@ -2,10 +2,13 @@ package cubes
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 )
 
+// Cube is one cube in the registry: its id, display name and the optional
+// Cube Cobra and OCR settings that go with it.
 type Cube struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
@@ -20,15 +23,20 @@ type Cube struct {
 	SleeveColor string `json:"sleeve_color,omitempty"`
 }
 
+// Registry is the list of cubes in cubes.json, in file order, with lookup by
+// id.
 type Registry struct {
 	cubes []Cube
 	index map[string]Cube
 }
 
+// fileFormat mirrors cubes.json.
 type fileFormat struct {
 	Cubes []Cube `json:"cubes"`
 }
 
+// Load reads a cube registry from path. It fails if the file can't be read or
+// parsed, or if a cube has no id or repeats another's.
 func Load(path string) (*Registry, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -38,21 +46,32 @@ func Load(path string) (*Registry, error) {
 	if err := json.Unmarshal(data, &ff); err != nil {
 		return nil, fmt.Errorf("parse cube registry: %w", err)
 	}
-	idx := make(map[string]Cube, len(ff.Cubes))
+	index := make(map[string]Cube, len(ff.Cubes))
 	for _, c := range ff.Cubes {
 		if c.ID == "" {
-			return nil, fmt.Errorf("cube registry entry missing id")
+			return nil, errors.New("cube registry entry missing id")
 		}
-		if _, dup := idx[c.ID]; dup {
+		if _, dup := index[c.ID]; dup {
 			return nil, fmt.Errorf("duplicate cube id %q in registry", c.ID)
 		}
-		idx[c.ID] = c
+		index[c.ID] = c
 	}
-	return &Registry{cubes: ff.Cubes, index: idx}, nil
+	return &Registry{cubes: ff.Cubes, index: index}, nil
 }
 
-func (r *Registry) List() []Cube { return append([]Cube(nil), r.cubes...) }
+// List returns a copy of the cubes in file order.
+func (r *Registry) List() []Cube {
+	return append([]Cube(nil), r.cubes...)
+}
 
-func (r *Registry) Has(id string) bool { _, ok := r.index[id]; return ok }
+// Has reports whether a cube with the id is registered.
+func (r *Registry) Has(id string) bool {
+	_, ok := r.index[id]
+	return ok
+}
 
-func (r *Registry) Get(id string) (Cube, bool) { c, ok := r.index[id]; return c, ok }
+// Get returns the cube with the id, and false when none is registered.
+func (r *Registry) Get(id string) (Cube, bool) {
+	c, ok := r.index[id]
+	return c, ok
+}

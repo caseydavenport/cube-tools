@@ -2,16 +2,16 @@ package design
 
 import "math"
 
-// MinPackageCards is the fewest distinct cards a deck needs from a package's
+// minPackageCards is the fewest distinct cards a deck needs from a package's
 // wire before the package counts as built.
-const MinPackageCards = 3
+const minPackageCards = 3
 
 // WireCards is one wire of a package with its groups resolved to card names.
 // NeedSources and NeedTargets are how many cards from each side a deck must
 // play, from SideMinimum, or 0 for a side that matches nothing. Buildarounds
-// are the wire's build-around cards, which can carry their side alone. SourceBasics and TargetBasics are the basic lands a
-// side's groups match; playing any of them meets that side, since every deck
-// gets basics free.
+// are the wire's build-around cards, which can carry their side alone.
+// SourceBasics and TargetBasics are the basic lands a side's groups match;
+// playing any of them meets that side, since every deck gets basics free.
 type WireCards struct {
 	Sources      map[string]bool
 	Targets      map[string]bool
@@ -31,9 +31,9 @@ type PackageCards struct {
 	Relevance *Relevance
 }
 
-// BuildaroundLinks is how many links a build-around needs to carry its side
+// buildaroundLinks is how many links a build-around needs to carry its side
 // alone: build-arounds played on the side times cards played on the other.
-const BuildaroundLinks = 8
+const buildaroundLinks = 8
 
 // SideMinimum is how many cards a deck must play from a wire side with
 // cubeCards cards in the cube, when the other side has otherCards. The
@@ -64,7 +64,7 @@ func copies(counts CardCounts) int {
 
 // BuiltBy reports whether a deck builds the package. The deck builds it when
 // one wire has enough cards on both sides, per NeedSources and NeedTargets,
-// and at least MinPackageCards non-basic cards across the two, counting
+// and at least minPackageCards non-basic cards across the two, counting
 // copies. deck holds the deck's mainboard, basic lands included.
 func (p PackageCards) BuiltBy(deck CardCounts) bool {
 	for _, w := range p.Wires {
@@ -75,7 +75,7 @@ func (p PackageCards) BuiltBy(deck CardCounts) bool {
 	return false
 }
 
-// HasCards reports whether the deck plays at least MinPackageCards of the
+// HasCards reports whether the deck plays at least minPackageCards of the
 // package's cards, counting copies, on wires where both sides are present,
 // whether or not it plays enough of each side to build the package.
 func (p PackageCards) HasCards(deck CardCounts) bool {
@@ -87,6 +87,8 @@ func (p PackageCards) HasCards(deck CardCounts) bool {
 			continue
 		}
 		both := union(sources, targets)
+
+		// One card alone links nothing, so it doesn't count toward the package.
 		if copies(both) < 2 {
 			continue
 		}
@@ -94,7 +96,7 @@ func (p PackageCards) HasCards(deck CardCounts) bool {
 			cards[name] = n
 		}
 	}
-	return copies(cards) >= MinPackageCards
+	return copies(cards) >= minPackageCards
 }
 
 // BuiltBy reports whether the deck plays enough of this wire to build the
@@ -106,12 +108,12 @@ func (w WireCards) BuiltBy(deck CardCounts) bool {
 		!w.sideMet(targets, w.NeedTargets, w.TargetBasics, copies(sources), deck) {
 		return false
 	}
-	return copies(union(sources, targets)) >= MinPackageCards
+	return copies(union(sources, targets)) >= minPackageCards
 }
 
 // sideMet reports whether a deck plays enough of one wire side: need of its
 // non-basic cards, counting copies, any of its basics, or a build-around with
-// BuildaroundLinks links to the other side's other played cards. A side
+// buildaroundLinks links to the other side's other played cards. A side
 // needing 0 with no basics matches nothing and is never met.
 func (w WireCards) sideMet(played CardCounts, need int, basics map[string]bool, other int, deck CardCounts) bool {
 	if need > 0 && copies(played) >= need {
@@ -120,7 +122,7 @@ func (w WireCards) sideMet(played CardCounts, need int, basics map[string]bool, 
 	if playsAny(basics, deck) {
 		return true
 	}
-	return playsAny(w.Buildarounds, played) && copies(played)*other >= BuildaroundLinks
+	return playsAny(w.Buildarounds, played) && copies(played)*other >= buildaroundLinks
 }
 
 // sidePresent reports whether a deck plays anything from one wire side,

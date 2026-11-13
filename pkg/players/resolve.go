@@ -2,7 +2,6 @@ package players
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -20,11 +19,7 @@ func SeatLabel(seat int) string {
 // seat: "p" followed by a seat number.
 func IsSeatLabel(name string) bool {
 	digits, ok := strings.CutPrefix(name, "p")
-	if !ok || digits == "" {
-		return false
-	}
-	_, err := strconv.Atoi(digits)
-	return err == nil
+	return ok && digitsRE.MatchString(digits)
 }
 
 // ResolveDraft fills in the display names deck files don't store: each deck's
@@ -34,6 +29,7 @@ func IsSeatLabel(name string) bool {
 // already set (a remote source's name) and otherwise gets its seat label. A
 // nil list resolves seat labels, the leftover group and opponents only.
 func (l *List) ResolveDraft(decks []*types.Deck) {
+	// First pass: name every deck and index it, so opponents resolve below.
 	byID := make(map[int]*types.Deck, len(decks))
 	for _, d := range decks {
 		byID[d.ID] = d
@@ -45,6 +41,8 @@ func (l *List) ResolveDraft(decks []*types.Deck) {
 			d.Player = SeatLabel(d.SeatNumber())
 		}
 	}
+
+	// Second pass: fill each match and game from the decks' resolved names.
 	for _, d := range decks {
 		for i := range d.Matches {
 			match := &d.Matches[i]
@@ -52,6 +50,8 @@ func (l *List) ResolveDraft(decks []*types.Deck) {
 				match.Opponent = opp.Player
 				match.OpponentPlayerID = opp.PlayerID
 			}
+
+			// A drawn match has no winner.
 			switch {
 			case match.Wins > match.Losses:
 				match.Winner = d.Player

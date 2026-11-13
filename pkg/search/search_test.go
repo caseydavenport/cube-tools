@@ -67,6 +67,14 @@ func TestCardQueries(t *testing.T) {
 		{"cctag!=watch", []string{"Lightning Bolt", "Counterspell", "Grizzly Bears", "Fire // Ice", "Tarmogoyf"}},
 		{"face:(t:instant mv<3)", []string{"Lightning Bolt", "Counterspell", "Fire // Ice"}},
 		{"t:instant mv<3", []string{"Lightning Bolt", "Counterspell"}},
+		{"t:zzz*", nil},
+		{"o:deals*target", []string{"Lightning Bolt"}},
+		{"o:target*deals", nil},
+		{"otag:no-such-tag", nil},
+		{"cctag:unwatched", nil},
+		{"pow>=2 or tou>=1", []string{"Grizzly Bears"}},
+		{"name=bolt", nil},
+		{"name=counterspell", []string{"Counterspell"}},
 	}
 	for _, tc := range cases {
 		t.Run(tc.query, func(t *testing.T) {
@@ -118,6 +126,12 @@ func TestCompileErrors(t *testing.T) {
 		{"games>3", TargetRules, "Cards page"},
 		{"games>3", TargetDecks, "Cards page"},
 		{"arch:aggro", TargetCards, "deck search"},
+		{"t:creature or", TargetRules, "expected a search term"},
+		{"or t:creature", TargetRules, "expected a search term"},
+		{"()", TargetRules, "expected a search term"},
+		{"-or", TargetRules, "unexpected or"},
+		{"c:", TargetRules, "needs a color"},
+		{"face:(t:creature", TargetRules, "missing )"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.query, func(t *testing.T) {
@@ -144,6 +158,36 @@ func TestIsRoles(t *testing.T) {
 	assert.True(t, q.MatchCard(removal))
 	assert.True(t, q.MatchCard(counter))
 	assert.False(t, q.MatchCard(bear))
+}
+
+func TestParseTarget(t *testing.T) {
+	for _, name := range []string{"rules", "cards", "decks"} {
+		target, err := ParseTarget(name)
+		require.NoError(t, err, name)
+		assert.Equal(t, Target(name), target)
+	}
+	_, err := ParseTarget("players")
+	assert.Error(t, err)
+	_, err = ParseTarget("")
+	assert.Error(t, err)
+}
+
+func TestKeywordsByTarget(t *testing.T) {
+	names := func(target Target) []string {
+		var out []string
+		for _, kw := range Keywords(target) {
+			out = append(out, kw.Name)
+		}
+		return out
+	}
+
+	assert.Contains(t, names(TargetRules), "t")
+	assert.NotContains(t, names(TargetRules), "games")
+	assert.NotContains(t, names(TargetRules), "arch")
+	assert.Contains(t, names(TargetCards), "games")
+	assert.NotContains(t, names(TargetCards), "arch")
+	assert.Contains(t, names(TargetDecks), "arch")
+	assert.NotContains(t, names(TargetDecks), "games")
 }
 
 func TestStatKeywords(t *testing.T) {

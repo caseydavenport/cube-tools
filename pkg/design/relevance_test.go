@@ -53,7 +53,13 @@ func TestRelevanceInAny(t *testing.T) {
 	var none *Relevance
 	assert.True(t, none.InAny([]int{1}))
 
-	r := &Relevance{Today: false, Drafts: map[int]bool{1: false, 2: true}}
+	r := &Relevance{
+		Today: false,
+		Drafts: map[int]bool{
+			1: false,
+			2: true,
+		},
+	}
 	assert.True(t, r.InAny([]int{1, 2}))
 	assert.False(t, r.InAny([]int{1}))
 	assert.False(t, r.InAny(nil), "no drafts falls back to today")

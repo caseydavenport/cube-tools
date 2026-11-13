@@ -61,6 +61,7 @@ func (p *parser) peek() tokenKind {
 	return p.tokens[p.pos].kind
 }
 
+// expr parses andExprs joined by "or".
 func (p *parser) expr() (node, error) {
 	first, err := p.andExpr()
 	if err != nil {
@@ -81,6 +82,8 @@ func (p *parser) expr() (node, error) {
 	return &orNode{children: children}, nil
 }
 
+// andExpr parses unary terms up to an "or", a closing parenthesis or the end;
+// an explicit "and" is skipped.
 func (p *parser) andExpr() (node, error) {
 	var children []node
 	for {
@@ -107,6 +110,7 @@ func (p *parser) andExpr() (node, error) {
 	return &andNode{children: children}, nil
 }
 
+// unary parses any number of leading - marks and the term they negate.
 func (p *parser) unary() (node, error) {
 	if p.peek() != tokenNot {
 		return p.primary()
@@ -119,6 +123,7 @@ func (p *parser) unary() (node, error) {
 	return &notNode{child: child}, nil
 }
 
+// primary parses a parenthesized group, a face:( ) group or one term.
 func (p *parser) primary() (node, error) {
 	tok := p.tokens[p.pos]
 	p.pos++

@@ -48,3 +48,25 @@ func TestLoad_RejectsDuplicateID(t *testing.T) {
 	_, err := Load(path)
 	require.Error(t, err)
 }
+
+func TestGet(t *testing.T) {
+	path := writeRegistry(t, `{"cubes":[{"id":"polyverse","name":"Polyverse"}]}`)
+	r, err := Load(path)
+	require.NoError(t, err)
+
+	cube, ok := r.Get("polyverse")
+	require.True(t, ok)
+	require.Equal(t, "Polyverse", cube.Name)
+
+	_, ok = r.Get("nope")
+	require.False(t, ok)
+}
+
+func TestListReturnsACopy(t *testing.T) {
+	path := writeRegistry(t, `{"cubes":[{"id":"polyverse","name":"Polyverse"}]}`)
+	r, err := Load(path)
+	require.NoError(t, err)
+
+	r.List()[0].Name = "Edited"
+	require.Equal(t, "Polyverse", r.List()[0].Name)
+}

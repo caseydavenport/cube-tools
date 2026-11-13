@@ -1,19 +1,19 @@
 package design
 
 const (
-	// RelevantScarceCards is how many cards a wire's scarcer side needs in a
+	// relevantScarceCards is how many cards a wire's scarcer side needs in a
 	// card list before the wire counts as present there.
-	RelevantScarceCards = 2
+	relevantScarceCards = 2
 
-	// RelevantOtherCards is how many cards the other side needs.
-	RelevantOtherCards = 3
+	// relevantOtherCards is how many cards the other side needs.
+	relevantOtherCards = 3
 )
 
 // PresentIn reports whether the wire is present in a cube list: its scarcer
-// side has RelevantScarceCards of the list's cards, counting copies, and the
-// other side RelevantOtherCards. A side whose groups match a basic land always
+// side has relevantScarceCards of the list's cards, counting copies, and the
+// other side relevantOtherCards. A side whose groups match a basic land always
 // counts as met, since every deck gets basics free, so the other side then
-// needs only RelevantScarceCards.
+// needs only relevantScarceCards.
 func (w WireCards) PresentIn(list CardCounts) bool {
 	sources := copies(present(w.Sources, list))
 	targets := copies(present(w.Targets, list))
@@ -23,12 +23,12 @@ func (w WireCards) PresentIn(list CardCounts) bool {
 		return true
 	}
 	if sourceBasics {
-		return targets >= RelevantScarceCards
+		return targets >= relevantScarceCards
 	}
 	if targetBasics {
-		return sources >= RelevantScarceCards
+		return sources >= relevantScarceCards
 	}
-	return min(sources, targets) >= RelevantScarceCards && max(sources, targets) >= RelevantOtherCards
+	return min(sources, targets) >= relevantScarceCards && max(sources, targets) >= relevantOtherCards
 }
 
 // PresentIn reports whether any of the package's wires is present in a cube

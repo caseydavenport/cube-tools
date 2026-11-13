@@ -67,7 +67,10 @@ type Card struct {
 // cardText is a card's text lowercased once, for a card judged by many
 // queries. Each field fills on first use.
 type cardText struct {
-	name, oracle, mana, self *string
+	name   *string
+	oracle *string
+	mana   *string
+	self   *string
 }
 
 // Prepare readies a card to be judged by many queries: its text is

@@ -1,10 +1,8 @@
 package search
 
 import (
-	"fmt"
+	"errors"
 	"strings"
-
-	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // colorSet is a set of WUBRG colors as a bitmask. A query value can also be
@@ -18,12 +16,23 @@ type colorSet struct {
 }
 
 // colorBits maps each color letter to its bit.
-var colorBits = map[rune]uint8{'w': 1, 'u': 2, 'b': 4, 'r': 8, 'g': 16}
+var colorBits = map[rune]uint8{
+	'w': 1,
+	'u': 2,
+	'b': 4,
+	'r': 8,
+	'g': 16,
+}
 
 // colorWords are color names a query may spell out.
 var colorWords = map[string]string{
-	"white": "w", "blue": "u", "black": "b", "red": "r", "green": "g",
-	"multicolor": "m", "colorless": "c",
+	"white":      "w",
+	"blue":       "u",
+	"black":      "b",
+	"red":        "r",
+	"green":      "g",
+	"multicolor": "m",
+	"colorless":  "c",
 }
 
 // parseColors reads a query color value: letters such as "ug", a color
@@ -43,12 +52,12 @@ func parseColors(value string) (colorSet, error) {
 	for _, r := range v {
 		bit, ok := colorBits[r]
 		if !ok {
-			return colorSet{}, fmt.Errorf("colors are letters from wubrg, or m or c")
+			return colorSet{}, errors.New("colors are letters from wubrg, or m or c")
 		}
 		set.bits |= bit
 	}
 	if set.bits == 0 {
-		return colorSet{}, fmt.Errorf("needs a color")
+		return colorSet{}, errors.New("needs a color")
 	}
 	return set, nil
 }
@@ -64,11 +73,6 @@ func newColorSet(colors []string) colorSet {
 	return set
 }
 
-// identitySet builds the set of a deck's colors.
-func identitySet(ci types.ColorIdentity) colorSet {
-	return newColorSet(ci.Slice())
-}
-
 // count is how many colors the set holds.
 func (s colorSet) count() int {
 	n := 0
@@ -78,13 +82,13 @@ func (s colorSet) count() int {
 	return n
 }
 
-// compare tests have, a card's or deck's colors, against the query set q
+// compare tests have, a card's or deck's colors, against the query set s
 // with Scryfall's meanings: : and >= mean at least, = exactly, <= within,
 // < and > strictly within or beyond, != not exactly.
-func (q colorSet) compare(have colorSet, op string) bool {
-	if q.multicolor || q.colorless {
+func (s colorSet) compare(have colorSet, op string) bool {
+	if s.multicolor || s.colorless {
 		match := have.count() >= 2
-		if q.colorless {
+		if s.colorless {
 			match = have.bits == 0
 		}
 		if op == "!=" {
@@ -93,19 +97,19 @@ func (q colorSet) compare(have colorSet, op string) bool {
 		return match
 	}
 
-	within := have.bits&^q.bits == 0
-	covers := q.bits&^have.bits == 0
+	within := have.bits&^s.bits == 0
+	covers := s.bits&^have.bits == 0
 	switch op {
 	case "=":
-		return have.bits == q.bits
+		return have.bits == s.bits
 	case "!=":
-		return have.bits != q.bits
+		return have.bits != s.bits
 	case "<=":
 		return within
 	case "<":
-		return within && have.bits != q.bits
+		return within && have.bits != s.bits
 	case ">":
-		return covers && have.bits != q.bits
+		return covers && have.bits != s.bits
 	}
 	return covers
 }

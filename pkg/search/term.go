@@ -1,6 +1,7 @@
 package search
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"slices"
@@ -37,35 +38,38 @@ type term struct {
 // newTerm checks a term token against the keyword table and the target, and
 // reads its value. A != on a text or choice keyword becomes a negated :.
 func newTerm(tok token, target Target) (node, error) {
-	t := &term{op: tok.op, value: tok.value, exact: tok.exact}
+	parsed := &term{op: tok.op, value: tok.value, exact: tok.exact}
+
+	// A bare word or exact name has no keyword to check.
 	if tok.key == "" {
-		t.bare = !tok.exact
-		if t.value == "" {
-			return nil, fmt.Errorf("empty search term")
+		parsed.bare = !tok.exact
+		if parsed.value == "" {
+			return nil, errors.New("empty search term")
 		}
-		t.setPattern()
-		return &termNode{term: t, target: target}, nil
+		parsed.setPattern()
+		return &termNode{term: parsed, target: target}, nil
 	}
 
-	kw, ok := keywordsByName[tok.key]
+	keyword, ok := keywordsByName[tok.key]
 	if !ok {
 		return nil, fmt.Errorf("unknown keyword %s%s", tok.key, tok.op)
 	}
-	if !target.allows(kw.Scope) {
-		return nil, fmt.Errorf("%s%s %s", tok.key, tok.op, target.refusal(kw.Scope))
+	if !target.allows(keyword.Scope) {
+		return nil, fmt.Errorf("%s%s %s", tok.key, tok.op, target.refusal(keyword.Scope))
 	}
-	if !slices.Contains(operatorsFor(kw.Kind), tok.op) {
+	if !slices.Contains(operatorsFor(keyword.Kind), tok.op) {
 		return nil, fmt.Errorf("%s doesn't take %s", tok.key, tok.op)
 	}
-	t.kw = kw
+	parsed.kw = keyword
 
-	if err := t.read(tok); err != nil {
+	if err := parsed.read(tok); err != nil {
 		return nil, err
 	}
 
-	n := node(&termNode{term: t, target: target})
-	if t.op == "!=" && (kw.Kind == ValueText || kw.Kind == ValueChoice) {
-		t.op = ":"
+	// != on text is a negated :, since a contains check has no "not equal".
+	n := node(&termNode{term: parsed, target: target})
+	if parsed.op == "!=" && (keyword.Kind == ValueText || keyword.Kind == ValueChoice) {
+		parsed.op = ":"
 		n = &notNode{child: n}
 	}
 	return n, nil
