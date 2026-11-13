@@ -47,6 +47,21 @@ func TestDecksSkipsNonDecks(t *testing.T) {
 	assert.Equal(t, []int{1, 2}, deckIDs(got))
 }
 
+func TestReadableDecksSkipsBrokenDecks(t *testing.T) {
+	draft := Draft{Dir: t.TempDir()}
+	writeDeck(t, filepath.Join(draft.Dir, "1.json"), 1)
+	writeFile(t, filepath.Join(draft.Dir, "2.json"), "{not json")
+
+	got, skipped, err := draft.ReadableDecks()
+	require.NoError(t, err)
+	assert.Equal(t, []int{1}, deckIDs(got))
+	require.Len(t, skipped, 1)
+	assert.ErrorContains(t, skipped[0], "2.json")
+
+	_, err = draft.Decks()
+	assert.ErrorContains(t, err, "2.json", "Decks fails on the deck ReadableDecks skips")
+}
+
 func TestDecksSetPathFromFile(t *testing.T) {
 	draft := Draft{Dir: t.TempDir()}
 	writeFile(t, filepath.Join(draft.Dir, "stevie.json"), `{"id": 1, "metadata": {"path": "somewhere/else.json"}}`)

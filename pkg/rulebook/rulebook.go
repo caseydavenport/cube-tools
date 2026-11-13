@@ -105,12 +105,6 @@ func (rb *Rulebook) PlayedCardNames() []string {
 	return rb.played
 }
 
-// DeckCardNames is the cards resolution reaches beyond today's list: those
-// decks played and those only an old draft's list held.
-func (rb *Rulebook) DeckCardNames() []string {
-	return rb.deckCardNames
-}
-
 // DraftLists maps each draft whose saved list holds cards to those card
 // names. A draft left out has no usable list, so every card counts as
 // available in it.

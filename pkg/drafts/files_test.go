@@ -115,3 +115,13 @@ func removeSnapshot(t *testing.T, d Draft) {
 	t.Helper()
 	require.NoError(t, os.Remove(filepath.Join(d.Dir, snapshotFile)))
 }
+
+func TestCopySourceDropsUnknownExtension(t *testing.T) {
+	draft := Draft{Dir: t.TempDir()}
+	src := filepath.Join(t.TempDir(), "freddie.docx")
+	writeFile(t, src, "1 Lightning Bolt")
+
+	got, err := draft.CopySource(src, 4, "-mainboard")
+	require.NoError(t, err)
+	assert.Equal(t, filepath.Join(draft.Dir, "4-mainboard"), got)
+}

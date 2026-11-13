@@ -4,13 +4,15 @@
 package drafts
 
 import (
+	"cmp"
 	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
-	"sort"
+	"slices"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -63,11 +65,8 @@ func List(cubeDir string) ([]Draft, error) {
 		}
 		out = append(out, Draft{Dir: dir, DraftMetadata: *meta})
 	}
-	sort.Slice(out, func(i, j int) bool {
-		if out[i].Date != out[j].Date {
-			return out[i].Date < out[j].Date
-		}
-		return out[i].ID < out[j].ID
+	slices.SortFunc(out, func(a, b Draft) int {
+		return cmp.Or(strings.Compare(a.Date, b.Date), cmp.Compare(a.ID, b.ID))
 	})
 	return out, nil
 }
@@ -124,14 +123,14 @@ func highestID(cubeDir string) (int, error) {
 
 // Create makes a new draft under cubeDir from meta, which must have a Date. It
 // assigns the next unused ID, creates the draft's directory, and writes its
-// metadata.json and cl, the cube list the draft was played with, as its
+// metadata.json and cubeList, the cube list the draft was played with, as its
 // snapshot. Every draft gets one so pages can tell which cards it could have
 // had. It refuses to reuse a directory that already exists.
-func Create(cubeDir string, meta types.DraftMetadata, cl *types.Cube) (Draft, error) {
+func Create(cubeDir string, meta types.DraftMetadata, cubeList *types.Cube) (Draft, error) {
 	if meta.Date == "" {
 		return Draft{}, errors.New("a new draft needs a date")
 	}
-	if cl == nil {
+	if cubeList == nil {
 		return Draft{}, errors.New("a new draft needs the cube list it was played with")
 	}
 
@@ -141,6 +140,7 @@ func Create(cubeDir string, meta types.DraftMetadata, cl *types.Cube) (Draft, er
 		return Draft{}, fmt.Errorf("draft date %q must be YYYY-MM-DD", meta.Date)
 	}
 
+	// Pick the next ID and claim its directory under the lock.
 	createMu.Lock()
 	defer createMu.Unlock()
 	highest, err := highestID(cubeDir)
@@ -167,11 +167,13 @@ func Create(cubeDir string, meta types.DraftMetadata, cl *types.Cube) (Draft, er
 		}
 		return Draft{}, fmt.Errorf("draft %d was created concurrently; try again", meta.ID)
 	}
+
+	// Write the files, removing the directory if the snapshot can't be saved.
 	d := Draft{Dir: dir, DraftMetadata: meta}
 	if err := d.SaveMetadata(); err != nil {
 		return Draft{}, fmt.Errorf("write draft metadata: %w", err)
 	}
-	if err := d.SaveSnapshot(cl); err != nil {
+	if err := d.SaveSnapshot(cubeList); err != nil {
 		if rmErr := d.Remove(); rmErr != nil {
 			logrus.WithError(rmErr).WithField("draft", d.ID).Error("could not remove a draft whose cube list failed to save")
 		}

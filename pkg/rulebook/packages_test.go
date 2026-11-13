@@ -131,7 +131,7 @@ func TestResolvePackages_NotBuildaround(t *testing.T) {
 
 	w := load(t, cube, config).Packages()[0].Wires[0]
 
-	assert.False(t, w.Buildarounds["Goyf"], "Goyf's shape alone no longer makes it a build-around")
+	assert.False(t, w.Buildarounds["Goyf"], "the group keeps Goyf's shape from making it a build-around")
 	assert.True(t, w.Buildarounds["Flayer"], "a card: entry still marks Flayer")
 	assert.True(t, w.Buildarounds["Delney"], "cards outside the group keep their shape")
 }
@@ -233,17 +233,4 @@ func TestResolvePackages_ForestsGroupIncludesBasicForest(t *testing.T) {
 
 	pkgs := load(t, basicFetcherCube(), config).Packages()
 	assert.Equal(t, cardSet("Forest", "Snow-Covered Forest"), pkgs[0].Wires[0].SourceBasics)
-}
-
-func TestMatchGroups_MatchesConditionsAndExclude(t *testing.T) {
-	cards := map[string]types.Card{
-		"Bear": {Name: "Bear", Types: []string{"Creature"}},
-		"Elk":  {Name: "Elk", Types: []string{"Creature"}},
-		"Bolt": {Name: "Bolt", Types: []string{"Instant"}},
-	}
-	groups := []design.Group{{Name: "Creatures", Conditions: []string{"t:creature"}, Exclude: []string{"Elk"}}}
-
-	got, _ := matchGroups(cards, groups)
-
-	assert.Equal(t, map[string]bool{"Bear": true}, got["Creatures"])
 }

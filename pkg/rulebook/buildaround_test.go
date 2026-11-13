@@ -8,8 +8,8 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/search"
 )
 
-// TestBuildaroundShapesParse does the same for the built-in build-around
-// shapes.
+// TestBuildaroundShapesParse checks every built-in build-around shape
+// compiles.
 func TestBuildaroundShapesParse(t *testing.T) {
 	for _, cond := range buildaroundShape {
 		_, err := search.Compile(cond, search.TargetRules)

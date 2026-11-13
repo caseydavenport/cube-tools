@@ -2,7 +2,6 @@ package rulebook
 
 import (
 	"errors"
-	"strings"
 
 	"github.com/sirupsen/logrus"
 
@@ -84,46 +83,6 @@ func (l cardLists) snapshotOnlyNames() []string {
 			seen[name] = true
 			out = append(out, name)
 		}
-	}
-	return out
-}
-
-// attachRelevance records on each package where the cube's lists support it,
-// then applies the cube's overrides: a package forced on is relevant
-// everywhere and one forced off nowhere. Override names match ignoring case,
-// and names that match no package are ignored.
-func attachRelevance(pkgs []design.PackageCards, lists cardLists, ov design.PackageOverrides) {
-	on := lowerSet(ov.On)
-	off := lowerSet(ov.Off)
-	for i := range pkgs {
-		p := &pkgs[i]
-		rel := &design.Relevance{Today: p.PresentIn(lists.today), Drafts: map[int]bool{}}
-		for draftID, names := range lists.drafts {
-			rel.Drafts[draftID] = names == nil || p.PresentIn(names)
-		}
-		name := strings.ToLower(p.Name)
-		if on[name] {
-			forceRelevance(rel, true)
-		} else if off[name] {
-			forceRelevance(rel, false)
-		}
-		p.Relevance = rel
-	}
-}
-
-// forceRelevance sets every verdict in rel to v.
-func forceRelevance(rel *design.Relevance, v bool) {
-	rel.Today = v
-	for draftID := range rel.Drafts {
-		rel.Drafts[draftID] = v
-	}
-}
-
-// lowerSet returns the names lowercased, as a set.
-func lowerSet(names []string) map[string]bool {
-	out := make(map[string]bool, len(names))
-	for _, n := range names {
-		out[strings.ToLower(n)] = true
 	}
 	return out
 }

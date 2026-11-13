@@ -30,6 +30,7 @@ type groupMemo struct {
 	sets  map[string]*ruleMatches
 }
 
+// newGroupMemo returns an empty memo that keeps up to limit rule sets.
 func newGroupMemo(limit int) *groupMemo {
 	return &groupMemo{limit: limit, sets: map[string]*ruleMatches{}}
 }
@@ -82,6 +83,7 @@ type groupHit struct {
 	conditions []int
 }
 
+// newRuleMatches compiles the groups' conditions, with no card matched yet.
 func newRuleMatches(groups []design.Group) *ruleMatches {
 	rm := &ruleMatches{byCard: map[[sha256.Size]byte][]groupHit{}}
 	for _, g := range groups {

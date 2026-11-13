@@ -100,3 +100,25 @@ func TestSessionMissingIsNil(t *testing.T) {
 	require.NoError(t, err)
 	assert.Nil(t, got)
 }
+
+func TestSeatNumber(t *testing.T) {
+	tests := []seatNumberCase{
+		{"p3", 3},
+		{"p12", 12},
+		{"p0", 0},
+		{"p03", 0},
+		{"p-1", 0},
+		{"3", 0},
+		{"stevie", 0},
+		{"", 0},
+	}
+	for _, tc := range tests {
+		assert.Equal(t, tc.want, SeatNumber(tc.folder), tc.folder)
+	}
+}
+
+// seatNumberCase is one row of TestSeatNumber.
+type seatNumberCase struct {
+	folder string
+	want   int
+}

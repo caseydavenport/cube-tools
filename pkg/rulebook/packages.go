@@ -9,10 +9,10 @@ import (
 )
 
 // resolvePackages turns each package's wires into card sets, sorted by
-// package name, from today's cards and the groups resolved over them. A side holds the cards decks may play, cut cards included;
-// how many of them a deck needs comes from sideNeed, and which can carry a
-// side alone from buildaroundCards. Basic lands are left out
-// of both and listed per side instead, from the groups that match them.
+// package name. A side holds the cards decks may play, cut cards included,
+// resolved from groups. sideNeed gives how many of them a deck needs, and
+// buildaroundCards which can carry a side alone. Basic lands stay out of both
+// and are listed per side instead, from the groups that match them.
 func resolvePackages(cardMap map[string]types.Card, groups Groups, config design.DesignMapConfig, deckCardNames []string) []design.PackageCards {
 	basicGroups, _ := matchGroups(basicLandCards(), config.Groups)
 	buildarounds := buildaroundCards(widen(cardMap, deckCardNames), config, groups.Widened)
