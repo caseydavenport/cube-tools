@@ -1,7 +1,6 @@
 package stats
 
 import (
-	"encoding/json"
 	"math"
 	"net/http"
 	"slices"
@@ -84,34 +83,29 @@ type cardStatsHandler struct {
 }
 
 // ServeHTTP computes the card statistics for the request and writes them as JSON.
-func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+func (h *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	statsReq := parseCardsRequest(r)
 	logrus.WithField("params", statsReq).Info("/api/stats/cards")
 
-	resp := CardStatsResponse{}
-
 	// The cube's cards, so cards not currently in the cube are skipped.
 	cubeID := server.CubeFromRequest(r)
-	cube, cubeCards, err := d.cubeCards(cubeID)
+	cube, cubeCards, err := h.cubeCards(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return
 	}
 
-	// Load allDecks matching the request.
-	allDecks, err := d.q.Decks(cubeID, statsReq.DecksRequest)
+	allDecks, err := h.q.Decks(cubeID, statsReq.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
-	// Initialize the response structure.
-	resp = CardStatsResponse{}
+	resp := CardStatsResponse{}
 	if statsReq.BucketSize > 0 {
-		// If bucket size is set, then create bucketed response.
 		buckets := decks.DeckBuckets(allDecks, statsReq.BucketSize, !statsReq.Sliding)
 		for _, b := range buckets {
-			s := d.statsForDecks(b.AllDecks(), cubeCards, statsReq)
+			s := statsForDecks(b.AllDecks(), cubeCards, statsReq)
 			resp.Buckets = append(resp.Buckets, &Bucket{
 				Cards: *s,
 				Name:  b.Name(),
@@ -120,182 +114,138 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			})
 		}
 	} else {
-		resp.All = d.statsForDecks(allDecks, cubeCards, statsReq)
+		resp.All = statsForDecks(allDecks, cubeCards, statsReq)
 		addPopularity(resp.All, cube, playRates(allDecks))
 	}
 
-	// Marshal the response and write it back.
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	_, err = rw.Write(b)
-	if err != nil {
-		logrus.WithError(err).Error("could not write response")
-		return
-	}
+	writeJSON(rw, resp, "card stats")
 }
 
-func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[string]types.Card, sr *CardStatsRequest) *Cards {
+// statsForDecks totals each cube card's results over allDecks, then drops the
+// cards the request's minimums filter out. Popularity is left for addPopularity.
+func statsForDecks(allDecks []*storage.Deck, cubeCards map[string]types.Card, sr *CardStatsRequest) *Cards {
 	resp := &Cards{
 		Data: make(map[string]*cardStats),
 	}
 
-	// Sum up the total number of wins across all decks - we'll use this to calculate
-	// PercentOfWins for each card later.
+	// The wins of every deck, the denominator of each card's PercentOfWins.
 	var totalWins int
 
-	// Track the drafts that this card has been seen in.
 	draftsByCard := make(map[string]map[int]bool)
-	seeCardInDraft := func(cardName string, draftID int) {
+	recordDraft := func(cardName string, draftID int) {
 		if _, ok := draftsByCard[cardName]; !ok {
 			draftsByCard[cardName] = make(map[int]bool)
 		}
 		draftsByCard[cardName][draftID] = true
 	}
 
-	// Go through each deck, adding stats for each card in the deck.
-	for _, deck := range decks {
-		// Increment the total wins counter.
+	for _, deck := range allDecks {
 		totalWins += deck.GameWins()
-
-		// Get the set of unique cards in this deck's mainboard.
 		mbSet, sbSet, poolSet := cardSetFromDeck(deck.Deck, cubeCards, sr.Color)
 
 		for _, card := range mbSet {
-			// Initalize a new cardStats if we haven't seen this card before.
-			if _, ok := resp.Data[card.Name]; !ok {
-				cp := *card
-				resp.Data[card.Name] = &cp
-			}
-
-			// Get the global cardStats for this card.
-			cbn := resp.Data[card.Name]
-
-			// Increment basic stats for this card based on the deck.
-			cbn.Mainboard++
-			cbn.Wins += deck.GameWins()
-			cbn.Losses += deck.GameLosses()
-			cbn.Draws += deck.GameDraws()
-			cbn.Trophies += deck.Trophies()
-			cbn.LastPlace += deck.LastPlace()
-			cbn.TopHalf += deck.TopHalf()
-			cbn.BottomHalf += deck.BottomHalf()
-
-			// Count the deck toward its macro archetype, for the archetype mix.
-			arch := deck.Macro()
-			if arch != "" {
-				cbn.NumDecksByMacro[arch]++
-			}
-
-			// Update the last date that this card was put in a mainboard.
-			deckDate, err := time.Parse("2006-01-02", deck.Date)
-			if err != nil {
-				logrus.WithError(err).WithField("date", deck.Date).Warn("could not parse deck date")
+			if !countMainboard(statsRow(resp, card), deck) {
 				continue
 			}
-			if cbn.LastMainboarded == "" {
-				// First time seeing this card, so set last mainboarded to the deck date.
-				cbn.LastMainboarded = deck.Date
-			}
-			lastDate, err := time.Parse("2006-01-02", cbn.LastMainboarded)
-			if err != nil {
-				logrus.WithError(err).WithField("date", cbn.LastMainboarded).Warn("could not parse last mainboarded date")
-				continue
-			}
-			if deckDate.After(lastDate) {
-				cbn.LastMainboarded = deck.Date
-			}
-
-			// Increment player count.
-			cbn.Players[deck.PersonLabel()]++
-
-			// Include archetype data for this card. The macro archetype is counted
-			// alongside the secondary labels so selecting a macro (aggro/midrange/
-			// control) matches the cards played in it.
-			for _, l := range deck.Labels {
-				cbn.Archetypes[l]++
-			}
-			if arch != "" {
-				cbn.Archetypes[arch]++
-			}
-
-			// Track drafts for this card.
-			seeCardInDraft(card.Name, deck.Metadata.DraftID)
+			recordDraft(card.Name, deck.Metadata.DraftID)
 		}
 
 		for _, card := range sbSet {
-			// Initalize a new cardStats if we haven't seen this card before.
-			if _, ok := resp.Data[card.Name]; !ok {
-				cp := *card
-				resp.Data[card.Name] = &cp
-			}
-
-			// Get the global cardStats for this card.
-			cbn := resp.Data[card.Name]
-
-			// Increment basic stats for this card.
+			cbn := statsRow(resp, card)
 			cbn.Sideboard++
-
-			// If the card is in the deck color(s), increment PlayableSideboard.
 			if deck.CanCast(cubeCards[card.Name]) {
 				cbn.PlayableSideboard++
 			}
-
-			// Increment player count.
 			cbn.Sideboarders[deck.PersonLabel()]++
-
-			// Track drafts for this card.
-			seeCardInDraft(card.Name, deck.Metadata.DraftID)
+			recordDraft(card.Name, deck.Metadata.DraftID)
 		}
 
 		for _, card := range poolSet {
-			// Initalize a new cardStats if we haven't seen this card before.
-			if _, ok := resp.Data[card.Name]; !ok {
-				cp := *card
-				resp.Data[card.Name] = &cp
-			}
-
-			// Get the global cardStats for this card.
-			cbn := resp.Data[card.Name]
-			cbn.Pool++
-
-			// Track drafts for this card.
-			seeCardInDraft(card.Name, deck.Metadata.DraftID)
+			statsRow(resp, card).Pool++
+			recordDraft(card.Name, deck.Metadata.DraftID)
 		}
 	}
 
-	// Get ELO data to include in the response.
-	eloData := PickELOData(decks)
+	eloData := PickELOData(allDecks)
 
 	// With every deck counted, finish each card's numbers and apply the
 	// request's filters.
 	for _, card := range resp.Data {
-		// Add ELO data.
 		if elo, ok := eloData[card.Name]; ok {
 			card.ELO = elo
 		} else {
 			card.ELO = int(eloBase)
 		}
 
-		// Calculate win percentage.
 		card.TotalGames = card.Wins + card.Losses + card.Draws
 		card.WinPercent = winPctOf(card.Wins, card.Losses, card.Draws)
 		card.PercentOfWins = pct(float64(card.Wins), float64(totalWins))
+		card.Drafts = len(draftsByCard[card.Name])
 
-		// Calculate total drafts.
-		if drafts, ok := draftsByCard[card.Name]; ok {
-			card.Drafts = len(drafts)
-		}
-
-		// Apply filtering based on the request parameters.
 		if shouldFilterCard(card, sr) {
 			delete(resp.Data, card.Name)
 		}
 	}
 
 	return resp
+}
+
+// statsRow returns the response's running stats for the card, starting them
+// from a copy of fresh the first time the card turns up.
+func statsRow(resp *Cards, fresh *cardStats) *cardStats {
+	if _, ok := resp.Data[fresh.Name]; !ok {
+		cp := *fresh
+		resp.Data[fresh.Name] = &cp
+	}
+	return resp.Data[fresh.Name]
+}
+
+// countMainboard adds the deck's record, archetype, player and date to a card
+// it mainboarded. It returns false, leaving the player and archetype counts
+// unadded, when a date doesn't parse.
+func countMainboard(cbn *cardStats, deck *storage.Deck) bool {
+	cbn.Mainboard++
+	cbn.Wins += deck.GameWins()
+	cbn.Losses += deck.GameLosses()
+	cbn.Draws += deck.GameDraws()
+	cbn.Trophies += deck.Trophies()
+	cbn.LastPlace += deck.LastPlace()
+	cbn.TopHalf += deck.TopHalf()
+	cbn.BottomHalf += deck.BottomHalf()
+
+	arch := deck.Macro()
+	if arch != "" {
+		cbn.NumDecksByMacro[arch]++
+	}
+
+	deckDate, err := time.Parse("2006-01-02", deck.Date)
+	if err != nil {
+		logrus.WithError(err).WithField("date", deck.Date).Warn("could not parse deck date")
+		return false
+	}
+	if cbn.LastMainboarded == "" {
+		cbn.LastMainboarded = deck.Date
+	}
+	lastDate, err := time.Parse("2006-01-02", cbn.LastMainboarded)
+	if err != nil {
+		logrus.WithError(err).WithField("date", cbn.LastMainboarded).Warn("could not parse last mainboarded date")
+		return false
+	}
+	if deckDate.After(lastDate) {
+		cbn.LastMainboarded = deck.Date
+	}
+
+	cbn.Players[deck.PersonLabel()]++
+
+	// The macro archetype is counted alongside the secondary labels so selecting
+	// a macro (aggro/midrange/control) matches the cards played in it.
+	for _, l := range deck.Labels {
+		cbn.Archetypes[l]++
+	}
+	if arch != "" {
+		cbn.Archetypes[arch]++
+	}
+	return true
 }
 
 // addPopularity sets each card's per-copy play rate and its popularity
@@ -311,7 +261,7 @@ func addPopularity(cards *Cards, cube *types.Cube, rates map[string]playRate) {
 	}
 }
 
-// K-factor for the pick ELO updates.
+// eloK is the K-factor of the pick ELO updates.
 const eloK = 4.0
 
 // eloBase is the rating every card starts at, shared by the pick and match ELO
@@ -334,9 +284,10 @@ func colorsCompete(a, b []string) bool {
 	return false
 }
 
-// How much the mainboard card "wins" against the sideboard card. The closer
-// the two cards are in CMC, color, and type, the more directly they compete,
-// so the mainboard card gets more credit for being chosen.
+// eloWinValue is how much the mainboard card "wins" against the sideboard
+// card. The closer the two cards are in CMC, color, and type, the more
+// directly they compete, so the mainboard card gets more credit for being
+// chosen.
 func eloWinValue(mb, sb types.Card) float64 {
 	winValue := 1.0
 	if mb.CMC != sb.CMC {
@@ -357,7 +308,7 @@ func eloWinValue(mb, sb types.Card) float64 {
 	return winValue
 }
 
-// A mainboard-vs-sideboard matchup. mbIdx and sbIdx are positions into the
+// eloPair is a mainboard-vs-sideboard matchup. mbIdx and sbIdx are positions into the
 // cards-by-index slice built in PickELOData (so we can avoid map lookups in the
 // hot loop). count is the number of decks in which this pair appears -
 // since winValue depends only on the two cards, identical pairs across
@@ -370,10 +321,10 @@ type eloPair struct {
 }
 
 // buildELOPairs walks every deck and produces the deduplicated list of
-// (mainboard card, sideboard card) pairs that contribute to ELO. The idx
+// (mainboard card, sideboard card) pairs that contribute to ELO. The cardIndex
 // map translates card names to their integer position in the rating slice,
 // so the returned pairs are ready for use in the index-based inner loop.
-func buildELOPairs(decks []*storage.Deck, idx map[string]int) []eloPair {
+func buildELOPairs(decks []*storage.Deck, cardIndex map[string]int) []eloPair {
 	// Accumulate counts and winValues by (mbIdx, sbIdx) so duplicate pairs
 	// across decks collapse together. We split count and winValue into two
 	// maps so we only have to call eloWinValue the first time we see a pair.
@@ -385,7 +336,7 @@ func buildELOPairs(decks []*storage.Deck, idx map[string]int) []eloPair {
 	values := make(map[key]float64)
 
 	// Reusable scratch space for the eligible sideboard of the current deck.
-	// Looking up idx[card.Name] and CanCast once per sideboard card (instead
+	// Looking up cardIndex[card.Name] and CanCast once per sideboard card (instead
 	// of once per mainboard-sideboard pair) is a big speedup.
 	type eligibleSideboardCard struct {
 		idx  int32
@@ -399,7 +350,7 @@ func buildELOPairs(decks []*storage.Deck, idx map[string]int) []eloPair {
 			if sb.IsBasicLand() || !deck.CanCast(sb) {
 				continue
 			}
-			eligibleSB = append(eligibleSB, eligibleSideboardCard{int32(idx[sb.Name]), sb})
+			eligibleSB = append(eligibleSB, eligibleSideboardCard{int32(cardIndex[sb.Name]), sb})
 		}
 		if len(eligibleSB) == 0 {
 			continue
@@ -408,7 +359,7 @@ func buildELOPairs(decks []*storage.Deck, idx map[string]int) []eloPair {
 			if mb.IsBasicLand() {
 				continue
 			}
-			mbIdx := int32(idx[mb.Name])
+			mbIdx := int32(cardIndex[mb.Name])
 			for _, sb := range eligibleSB {
 				k := key{mbIdx, sb.idx}
 				if _, ok := counts[k]; !ok {
@@ -431,9 +382,9 @@ func buildELOPairs(decks []*storage.Deck, idx map[string]int) []eloPair {
 	return pairs
 }
 
-// Compute one pass of ELO updates against the given snapshot of ratings.
+// runELOPass computes one pass of ELO updates against the given snapshot of ratings.
 // Diffs are written but not applied, so all pairs see the same starting
-// state and the result doesn't depend on iteration order. The ratings and
+// state and the eloByName doesn't depend on iteration order. The ratings and
 // diffs slices are caller-owned scratch space indexed by the same card
 // index used in eloPair, so this whole inner loop is map-free.
 func runELOPass(pairs []eloPair, snapshot, ratings, diffs []float64) {
@@ -457,11 +408,11 @@ func runELOPass(pairs []eloPair, snapshot, ratings, diffs []float64) {
 // PickELOData rates every card seen in the decks with an ELO-style score. Each mainboarded card counts as beating the castable sideboard cards it was chosen over. It returns the rounded rating by card name.
 func PickELOData(decks []*storage.Deck) map[string]int {
 	// Cards get integer indexes so ratings and diffs live in plain slices, since a map lookup is measurably slower here. The names slice maps an index back to its card name.
-	idx := make(map[string]int)
+	cardIndex := make(map[string]int)
 	var names []string
 	addCard := func(name string) {
-		if _, ok := idx[name]; !ok {
-			idx[name] = len(names)
+		if _, ok := cardIndex[name]; !ok {
+			cardIndex[name] = len(names)
 			names = append(names, name)
 		}
 	}
@@ -480,10 +431,10 @@ func PickELOData(decks []*storage.Deck) map[string]int {
 		elos[i] = eloBase
 	}
 
-	pairs := buildELOPairs(decks, idx)
+	pairs := buildELOPairs(decks, cardIndex)
 
 	// Iterate until ratings stop moving. Each pass updates against a snapshot
-	// of the previous iteration's ratings so the result is independent of
+	// of the previous iteration's ratings so the eloByName is independent of
 	// deck order. Output is rounded to int, so a 0.5 swing is invisible.
 	const maxIterations = 50
 	const convergenceThreshold = 0.5
@@ -507,21 +458,20 @@ func PickELOData(decks []*storage.Deck) map[string]int {
 
 	// Translate the indexed rating slice back to a name-keyed map for the
 	// caller.
-	result := make(map[string]int, len(names))
+	eloByName := make(map[string]int, len(names))
 	for i, name := range names {
-		result[name] = int(elos[i])
+		eloByName[name] = int(elos[i])
 	}
-	return result
+	return eloByName
 }
 
+// shouldFilterCard reports whether the request's minimum drafts or games rule
+// the card out. Bucketed requests never filter: the minimums only apply to the
+// aggregate.
 func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
-	// For bucketed requests, we don't filter. The filteres in the request only apply to non-bucketed
-	// aggregate requests.
 	if sr.BucketSize > 0 {
 		return false
 	}
-
-	// Filter based on min drafts and min games.
 	if sr.MinDrafts > 0 && cbn.Drafts < sr.MinDrafts {
 		return true
 	}
@@ -534,64 +484,38 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 	sbSet := make(map[string]*cardStats)
 	poolSet := make(map[string]*cardStats)
 
-	for _, card := range deck.Mainboard {
-		// Skip the card if it's not currently in the cube, or if it's a basic land.
-		cubeCard, ok := cubeCards[card.Name]
-		if !ok {
-			continue
-		}
-		if card.IsBasicLand() {
-			continue
-		}
-		if !card.MatchesColor(color) {
-			continue
-		}
-
-		// Use the cube card for stats, since it has enriched data (e.g., oracle text
-		// for multi-face cards).
-		mbSet[card.Name] = newCardStats(cubeCard)
+	// The cube's copy of each card supplies the stats, since it has enriched
+	// data (e.g., oracle text for multi-face cards).
+	for _, card := range countableCards(deck.Mainboard, cubeCards, color) {
+		mbSet[card.Name] = newCardStats(cubeCards[card.Name])
 	}
-
-	for _, card := range deck.Sideboard {
-		// Skip the card if it's not currently in the cube, or if it's a basic land.
-		cubeCard, ok := cubeCards[card.Name]
-		if !ok {
-			continue
-		}
-		if card.IsBasicLand() {
-			continue
-		}
-		if !card.MatchesColor(color) {
-			continue
-		}
-
-		// Use the cube card for stats, since it has enriched data (e.g., oracle text
-		// for multi-face cards).
-		sbSet[card.Name] = newCardStats(cubeCard)
+	for _, card := range countableCards(deck.Sideboard, cubeCards, color) {
+		sbSet[card.Name] = newCardStats(cubeCards[card.Name])
 	}
 
 	// For pools with a color identity but no mainboard/sideboard split, assume cards outside the identity are sideboarded. Castable cards could be in either, so they stay in the pool.
-	for _, card := range deck.Pool {
-		// Skip the card if it's not currently in the cube, or if it's a basic land.
-		cubeCard, ok := cubeCards[card.Name]
-		if !ok {
-			continue
-		}
-		if card.IsBasicLand() {
-			continue
-		}
-		if !card.MatchesColor(color) {
-			continue
-		}
-
+	for _, card := range countableCards(deck.Pool, cubeCards, color) {
 		if len(deck.GetColors()) > 0 && !deck.CanCast(card) {
-			sbSet[card.Name] = newCardStats(cubeCard)
+			sbSet[card.Name] = newCardStats(cubeCards[card.Name])
 		} else {
-			poolSet[card.Name] = newCardStats(cubeCard)
+			poolSet[card.Name] = newCardStats(cubeCards[card.Name])
 		}
 	}
 
 	return mbSet, sbSet, poolSet
+}
+
+// countableCards lists the cards that count toward card stats: in the cube
+// today, not a basic land, and matching the color filter.
+func countableCards(cards []types.Card, cubeCards map[string]types.Card, color string) []types.Card {
+	var out []types.Card
+	for _, card := range cards {
+		if _, ok := cubeCards[card.Name]; !ok || card.IsBasicLand() || !card.MatchesColor(color) {
+			continue
+		}
+		out = append(out, card)
+	}
+	return out
 }
 
 // Cards is the per-card statistics keyed by card name.
@@ -662,7 +586,7 @@ type cardStats struct {
 	// Number of 3-0 decks this card has been in
 	Trophies int `json:"trophies"`
 
-	// Numer of 2-1 (or better) and 1-2 (or worse) finishes for this card.
+	// Number of 2-1 (or better) and 1-2 (or worse) finishes for this card.
 	TopHalf    int `json:"top_half"`
 	BottomHalf int `json:"bottom_half"`
 

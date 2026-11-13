@@ -45,10 +45,11 @@ type ExplorerResponse struct {
 }
 
 // ExplorerHandler serves GET /api/{cube}/stats/explorer. "q" is a search over
-// every card, and with none only the cube's cards are scored; "maybe=1" limits
-// the search, or with none shows, the cube's CubeCobra maybeboard. "thin" sets the New connections cutoff,
-// "all=1" keeps cards in no group and on no wire, and "sort", "dir" and
-// "limit" order each table and cut it. maybe may be nil without CubeCobra.
+// every card; with none, only the cube's cards are scored. "maybe=1" limits
+// the search to the CubeCobra maybeboard, or with no search shows it. "thin"
+// sets the New connections cutoff, "all=1" keeps cards in no group and on no
+// wire, and "sort", "dir" and "limit" order each table and cut it. maybe may
+// be nil without CubeCobra.
 func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe MaybeboardSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cubeID := server.CubeFromRequest(r)
@@ -59,8 +60,7 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 			http.Error(rw, err.Error(), http.StatusBadRequest)
 			return
 		}
-		resp := ExplorerResponse{Candidates: []ExplorerCard{}, InCube: []ExplorerCard{}}
-
+		resp := ExplorerResponse{}
 		names, status := maybeboardFor(maybe, cubeID)
 		resp.Maybeboard = status
 		filterMaybe := useMaybe && names != nil
@@ -86,17 +86,7 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 		}
 
 		cards := exploreCards(hits, newExplorerRules(rules, rules.Shown(rulebook.Today).Config()), thinParam(r))
-		keepAll := query.GetString(r, "all") == "1"
-		for _, c := range cards {
-			if len(c.Groups) == 0 && len(c.Joins) == 0 && !keepAll {
-				continue
-			}
-			if c.InCube {
-				resp.InCube = append(resp.InCube, c)
-			} else {
-				resp.Candidates = append(resp.Candidates, c)
-			}
-		}
+		resp.Candidates, resp.InCube = splitExplorerCards(cards, query.GetString(r, "all") == "1")
 		order, limit := sortParams(r), limitParam(r)
 		resp.CandidatesTotal, resp.InCubeTotal = len(resp.Candidates), len(resp.InCube)
 		sortExplorerCards(resp.Candidates, order)
@@ -105,6 +95,24 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 		resp.InCube = resp.InCube[:min(limit, len(resp.InCube))]
 		writeJSON(rw, resp, "explorer")
 	})
+}
+
+// splitExplorerCards sorts scored cards into candidates and cube cards. Cards
+// in no group and on no wire are dropped unless keepAll is set. Both lists
+// are non-nil.
+func splitExplorerCards(cards []ExplorerCard, keepAll bool) ([]ExplorerCard, []ExplorerCard) {
+	candidates, inCube := []ExplorerCard{}, []ExplorerCard{}
+	for _, c := range cards {
+		if len(c.Groups) == 0 && len(c.Joins) == 0 && !keepAll {
+			continue
+		}
+		if c.InCube {
+			inCube = append(inCube, c)
+		} else {
+			candidates = append(candidates, c)
+		}
+	}
+	return candidates, inCube
 }
 
 // maybeboardFor asks maybe for the cube's maybeboard. It returns nil names

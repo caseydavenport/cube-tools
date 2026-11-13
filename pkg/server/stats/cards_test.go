@@ -208,9 +208,8 @@ func TestCardPlayersCountsSeatsSeparately(t *testing.T) {
 		d.Mainboard = []types.Card{{Name: "Lightning Bolt"}}
 		return d
 	}
-	h := &cardStatsHandler{}
 	cube := map[string]types.Card{"Lightning Bolt": {Name: "Lightning Bolt"}}
-	got := h.statsForDecks([]*storage.Deck{seat(1), seat(2)}, cube, &CardStatsRequest{DecksRequest: &storage.DecksRequest{}})
+	got := statsForDecks([]*storage.Deck{seat(1), seat(2)}, cube, &CardStatsRequest{DecksRequest: &storage.DecksRequest{}})
 	bolt := got.Data["Lightning Bolt"]
 	if assert.NotNil(t, bolt) {
 		assert.Len(t, bolt.Players, 2)
@@ -233,10 +232,9 @@ func TestCardStats_CountsDecksByMacro(t *testing.T) {
 		deck(3, "", "control"),
 		deck(4, "", "burn"),
 	}
-	h := &cardStatsHandler{}
 	cube := map[string]types.Card{"Lightning Bolt": {Name: "Lightning Bolt"}}
 
-	got := h.statsForDecks(decks, cube, &CardStatsRequest{DecksRequest: &storage.DecksRequest{}})
+	got := statsForDecks(decks, cube, &CardStatsRequest{DecksRequest: &storage.DecksRequest{}})
 	bolt := got.Data["Lightning Bolt"]
 	if assert.NotNil(t, bolt) {
 		// A macro is read case-insensitively, or from a tag on older decks; a
@@ -259,4 +257,60 @@ func TestCardStats_CarriesOracleTags(t *testing.T) {
 	b, err = json.Marshal(types.Card{Name: "Lightning Bolt", OracleTags: []string{"burn"}})
 	assert.NoError(t, err)
 	assert.NotContains(t, string(b), "oracle_tags", "deck cards keep their full tags off the wire")
+}
+
+func TestShouldFilterCard(t *testing.T) {
+	card := &cardStats{Drafts: 2, Wins: 1, Losses: 1}
+
+	assert.False(t, shouldFilterCard(card, &CardStatsRequest{}), "no minimums keeps everything")
+	assert.True(t, shouldFilterCard(card, &CardStatsRequest{MinDrafts: 3}))
+	assert.False(t, shouldFilterCard(card, &CardStatsRequest{MinDrafts: 2}))
+	assert.True(t, shouldFilterCard(card, &CardStatsRequest{MinGames: 3}))
+	assert.False(t, shouldFilterCard(card, &CardStatsRequest{MinGames: 2}))
+	assert.False(t, shouldFilterCard(card, &CardStatsRequest{MinDrafts: 3, MinGames: 3, BucketSize: 7}), "buckets are never filtered")
+}
+
+func TestCardSetFromDeck_SkipsCardsThatDontCount(t *testing.T) {
+	bolt := types.Card{Name: "Lightning Bolt", Types: []string{"Instant"}, Colors: []string{"R"}, ColorIdentity: []string{"R"}}
+	plains := types.Card{Name: "Plains", Types: []string{"Basic", "Land"}}
+	counterspell := types.Card{Name: "Counterspell", Types: []string{"Instant"}, Colors: []string{"U"}, ColorIdentity: []string{"U"}}
+	cube := map[string]types.Card{
+		bolt.Name:         bolt,
+		plains.Name:       plains,
+		counterspell.Name: counterspell,
+	}
+	cutCard := types.Card{Name: "Cut Card", Types: []string{"Instant"}, Colors: []string{"R"}}
+
+	deck := types.Deck{
+		Mainboard: []types.Card{bolt, bolt, plains, cutCard, counterspell},
+		Sideboard: []types.Card{counterspell},
+	}
+	mb, sb, pool := cardSetFromDeck(deck, cube, "R")
+
+	assert.Len(t, mb, 1, "two bolts count once; basics, cut cards and off-color cards are skipped")
+	assert.Contains(t, mb, "Lightning Bolt")
+	assert.Empty(t, sb, "an off-color sideboard card is skipped by the color filter")
+	assert.Empty(t, pool)
+}
+
+func TestCardSetFromDeck_PoolSplitsByCastability(t *testing.T) {
+	bolt := types.Card{Name: "Lightning Bolt", Types: []string{"Instant"}, Colors: []string{"R"}, ColorIdentity: []string{"R"}}
+	counterspell := types.Card{Name: "Counterspell", Types: []string{"Instant"}, Colors: []string{"U"}, ColorIdentity: []string{"U"}}
+	cube := map[string]types.Card{
+		bolt.Name:         bolt,
+		counterspell.Name: counterspell,
+	}
+
+	deck := types.Deck{Pool: []types.Card{bolt, counterspell}}
+	deck.Colors = []string{"R"}
+	mb, sb, pool := cardSetFromDeck(deck, cube, "")
+
+	assert.Empty(t, mb)
+	assert.Contains(t, pool, "Lightning Bolt", "a castable pool card stays in the pool")
+	assert.Contains(t, sb, "Counterspell", "a pool card outside the deck's colors counts as sideboarded")
+
+	deck.Colors = nil
+	_, sb, pool = cardSetFromDeck(deck, cube, "")
+	assert.Empty(t, sb, "a pool with no color identity can't tell what was sideboarded")
+	assert.Len(t, pool, 2)
 }

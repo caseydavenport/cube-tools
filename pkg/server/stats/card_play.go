@@ -115,7 +115,12 @@ func draftState(card string, draftID int, played bool, cubes cubeLists) string {
 
 // deckPlays reports whether the deck mainboarded the card.
 func deckPlays(d *storage.Deck, card string) bool {
-	return slices.ContainsFunc(d.Mainboard, func(c types.Card) bool { return c.Name == card })
+	return hasCard(d.Mainboard, card)
+}
+
+// hasCard reports whether a card of that name is in cards.
+func hasCard(cards []types.Card, name string) bool {
+	return slices.ContainsFunc(cards, func(c types.Card) bool { return c.Name == name })
 }
 
 // cardPlay counts a card's play over ranged, the decks in the page's date
@@ -132,10 +137,10 @@ func cardPlay(card types.Card, ranged []*storage.Deck, history []DraftPresence, 
 
 	// Range counts: decks with the card in each board.
 	for _, d := range ranged {
-		if deckPlays(d, card.Name) {
+		if hasCard(d.Mainboard, card.Name) {
 			play.Mainboard++
 		}
-		if slices.ContainsFunc(d.Sideboard, func(c types.Card) bool { return c.Name == card.Name }) {
+		if hasCard(d.Sideboard, card.Name) {
 			play.Sideboard++
 		}
 	}
@@ -262,20 +267,20 @@ func colorBucket(c types.Card) string {
 // at least two thirds of them are lower, "niche" when under a third are, else
 // "typical". Fewer than minPopularityPeers peers, or peers that all share
 // one rate, give no label.
-func popularity(rate float64, peerRates []float64) string {
-	if len(peerRates) < minPopularityPeers {
+func popularity(rate float64, peers []float64) string {
+	if len(peers) < minPopularityPeers {
 		return ""
 	}
-	if slices.Min(peerRates) == slices.Max(peerRates) {
+	if slices.Min(peers) == slices.Max(peers) {
 		return ""
 	}
 	below := 0
-	for _, r := range peerRates {
+	for _, r := range peers {
 		if r < rate {
 			below++
 		}
 	}
-	share := float64(below) / float64(len(peerRates))
+	share := float64(below) / float64(len(peers))
 	if share >= 2.0/3.0 {
 		return "popular"
 	}

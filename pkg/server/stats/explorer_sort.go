@@ -61,7 +61,7 @@ func limitParam(r *http.Request) int {
 func sortExplorerCards(cards []ExplorerCard, s explorerSort) {
 	value := explorerSortKeys[s.key]
 	slices.SortFunc(cards, func(a, b ExplorerCard) int {
-		order := 0
+		var order int
 		if value != nil {
 			order = cmp.Compare(value(a), value(b))
 		} else {

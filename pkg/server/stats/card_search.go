@@ -53,7 +53,7 @@ func (h *cardSearchHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
-	all := h.stats.statsForDecks(allDecks, cubeCards, sr)
+	all := statsForDecks(allDecks, cubeCards, sr)
 	addPopularity(all, cube, playRates(allDecks))
 
 	for name, row := range all.Data {
@@ -82,8 +82,8 @@ func searchCard(row *cardStats) search.Card {
 }
 
 // cubeCards loads the cube's current list, and its cards by name.
-func (d *cardStatsHandler) cubeCards(cubeID string) (*types.Cube, map[string]types.Card, error) {
-	cube, err := d.q.Cube(cubeID)
+func (h *cardStatsHandler) cubeCards(cubeID string) (*types.Cube, map[string]types.Card, error) {
+	cube, err := h.q.Cube(cubeID)
 	if err != nil {
 		return nil, nil, err
 	}

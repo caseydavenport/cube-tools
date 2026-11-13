@@ -2,11 +2,8 @@ package stats
 
 import (
 	"cmp"
-	"encoding/json"
 	"net/http"
 	"slices"
-
-	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -73,15 +70,7 @@ func (h *tagsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	b, err := json.Marshal(tagRows(cube.Cards, types.DistinctOracleCardCount()))
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Error("could not write tags response")
-	}
+	writeJSON(rw, tagRows(cube.Cards, types.DistinctOracleCardCount()), "tags")
 }
 
 // tagRows counts the visible tags on cards and ranks them. oracleTotal is how

@@ -39,3 +39,13 @@ func TestCardPicks_BadLogSkipped(t *testing.T) {
 	got := cardPicks("Goblin Bombardment", logs, map[int]string{31: "2025-08-31"})
 	assert.Len(t, got, 1)
 }
+
+func TestPickedName_IgnoresPicksThatDontPointAtTheBooster(t *testing.T) {
+	log := draftLogFile{CardData: map[string]draftLogCard{"c1": {Name: "Shock"}}}
+
+	assert.Equal(t, "Shock", pickedName(log, draftLogPick{Pick: []int{0}, Booster: []string{"c1"}}))
+	assert.Empty(t, pickedName(log, draftLogPick{Booster: []string{"c1"}}), "no pick recorded")
+	assert.Empty(t, pickedName(log, draftLogPick{Pick: []int{-1}, Booster: []string{"c1"}}))
+	assert.Empty(t, pickedName(log, draftLogPick{Pick: []int{1}, Booster: []string{"c1"}}), "index past the booster")
+	assert.Empty(t, pickedName(log, draftLogPick{Pick: []int{0}, Booster: []string{"c9"}}), "card id the log has no data for")
+}

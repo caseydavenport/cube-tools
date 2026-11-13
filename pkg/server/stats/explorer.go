@@ -218,6 +218,8 @@ func exploreCard(card types.Card, inCube bool, groups []ExplorerGroup, rules exp
 	out := newExplorerCard(card, inCube, groups)
 	mine := cardEntries(card.Name, groups)
 
+	// Join the card to every wire side it sits on, noting the cube cards it
+	// would pair with and the packages that are thin enough to connect.
 	linked := map[string]bool{}
 	thinPackages := map[string]bool{}
 	for _, pkg := range rules.config.Packages {

@@ -110,7 +110,7 @@ func (h *cardPageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		cubes:  cubeLists(rules.DraftLists()),
 		start:  start,
 		end:    end,
-		z:      zForConfidence(query.GetFloat(r, "confidence")),
+		zScore: zForConfidence(query.GetFloat(r, "confidence")),
 	}
 	resp := buildCardPage(page)
 	resp.Picks = cardPicks(card.Name, h.readLogs(cubeID, resp.History), historyDates(resp.History))
@@ -120,7 +120,8 @@ func (h *cardPageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 // cardPageInputs is what the card page is built from: the card, whether the
 // current cube holds it, its rulebook and the rules shown over the range,
-// every deck and those in the date range, each draft's cube list, the range itself, and the interval's z.
+// every deck and those in the date range, each draft's cube list, the range
+// itself, and the z-score for the record's confidence interval.
 type cardPageInputs struct {
 	card   types.Card
 	inCube bool
@@ -131,7 +132,7 @@ type cardPageInputs struct {
 	cubes  cubeLists
 	start  string
 	end    string
-	z      float64
+	zScore float64
 }
 
 // buildCardPage computes every section of the card page except pick history,
@@ -174,7 +175,7 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 			resp.Record.Add(d)
 		}
 	}
-	finishRecord(&resp.Record, page.z)
+	finishRecord(&resp.Record, page.zScore)
 	return resp
 }
 
