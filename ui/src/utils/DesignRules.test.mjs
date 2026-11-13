@@ -7,9 +7,9 @@ const trample = "t:creature o:trample"
 const buff = () => ({ name: "Buff targets", conditions: [firstStrike, trample], exclude: ["Blade Splicer"] })
 const ramp = () => ({ name: "Ramp", conditions: ["o:search"], exclude: [] })
 
-test("requestForGroups labels each condition with its group and matches card: entries by name", () => {
+test("requestForGroups labels each condition with its group and matches card: entries by exact name", () => {
   assert.deepEqual(requestForGroups(["Buff targets", "card:Ozzy's Bat"], [buff(), ramp()]), {
-    conditions: [firstStrike, trample, `n:"Ozzy's Bat"`],
+    conditions: [firstStrike, trample, `!"Ozzy's Bat"`],
     groups: ["Buff targets", "Buff targets", "card:Ozzy's Bat"],
   })
   assert.deepEqual(requestForGroups(["", "Missing"], [buff()]), { conditions: [], groups: [] })

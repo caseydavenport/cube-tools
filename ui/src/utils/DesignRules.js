@@ -14,7 +14,8 @@ export function cardRefName(entry) {
 
 // requestForGroups builds a match request from group names, labeling each
 // condition with its group so the server can apply the group's exclusions. A
-// card: entry matches that card by name.
+// card: entry matches that card by exact name, as the server's packages do;
+// n: would also match every card whose name contains it.
 export function requestForGroups(names, groups) {
   const byName = {}
   for (const g of (groups || [])) byName[g.name] = g.conditions || []
@@ -23,7 +24,7 @@ export function requestForGroups(names, groups) {
     if (!name) continue
     const refName = cardRefName(name)
     if (refName) {
-      out.conditions.push(`n:"${refName}"`)
+      out.conditions.push(`!"${refName}"`)
       out.groups.push(name)
       continue
     }
