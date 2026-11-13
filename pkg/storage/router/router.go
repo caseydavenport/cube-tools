@@ -50,6 +50,8 @@ func New(file FileBackend, cc CCBackend) *Router {
 	return &Router{file: file, cc: cc}
 }
 
+// RawDecks returns the cube's decks from the CubeCobra backend for a cc: cube,
+// otherwise from the file backend.
 func (r *Router) RawDecks(cube string) ([]*storage.Deck, error) {
 	if cubes.IsCubeCobra(cube) {
 		return r.cc.RawDecks(cube)
@@ -57,6 +59,8 @@ func (r *Router) RawDecks(cube string) ([]*storage.Deck, error) {
 	return r.file.RawDecks(cube)
 }
 
+// Index returns the cube's index from the CubeCobra backend for a cc: cube,
+// otherwise from the file backend.
 func (r *Router) Index(cube string) (*storage.CubeIndex, error) {
 	if cubes.IsCubeCobra(cube) {
 		return r.cc.Index(cube)
@@ -91,6 +95,8 @@ func (r *Router) CreateDraft(cube string, meta types.DraftMetadata, snapshot *ty
 	return r.file.CreateDraft(cube, meta, snapshot, decks)
 }
 
+// GetRules returns a cube's design-map rules. A cc: cube reads the global
+// rules, since CubeCobra has none.
 func (r *Router) GetRules(cube string) (*design.DesignMapConfig, error) {
 	if cubes.IsCubeCobra(cube) {
 		return r.file.GetRules(baselineRulesCube)
@@ -125,7 +131,7 @@ func (r *Router) PutOverrides(cube string, ov design.PackageOverrides) error {
 	return r.file.PutOverrides(cube, ov)
 }
 
-// GetSnapshot returns a draft's cube list from the file backend. Cube Cobra
+// GetSnapshot returns a draft's cube list from the file backend. CubeCobra
 // cubes keep no snapshots.
 func (r *Router) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
 	if cubes.IsCubeCobra(cube) {
@@ -134,7 +140,7 @@ func (r *Router) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
 	return r.file.GetSnapshot(cube, draftID)
 }
 
-// GetDraftLog returns a draft's log from the file backend. Cube Cobra cubes
+// GetDraftLog returns a draft's log from the file backend. CubeCobra cubes
 // keep no draft logs.
 func (r *Router) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {
 	if cubes.IsCubeCobra(cube) {

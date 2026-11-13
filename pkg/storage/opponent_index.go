@@ -9,18 +9,18 @@ import "github.com/caseydavenport/cube-tools/pkg/types"
 // (match Elo, color and archetype matchups, opponent win rate) share one lookup
 // instead of each rebuilding their own.
 type OpponentIndex struct {
-	byID   map[key]*Deck
+	byID   map[deckKey]*Deck
 	byName map[nameKey]*Deck
 }
 
 // NewOpponentIndex builds an opponent lookup over the given decks.
 func NewOpponentIndex(decks []*Deck) *OpponentIndex {
 	i := &OpponentIndex{
-		byID:   make(map[key]*Deck, len(decks)),
+		byID:   make(map[deckKey]*Deck, len(decks)),
 		byName: make(map[nameKey]*Deck, len(decks)),
 	}
 	for _, d := range decks {
-		i.byID[key{draft: d.Metadata.DraftID, id: d.ID}] = d
+		i.byID[deckKey{draft: d.Metadata.DraftID, id: d.ID}] = d
 		i.byName[nameKey{draft: d.Metadata.DraftID, player: d.Player}] = d
 	}
 	return i
@@ -54,7 +54,7 @@ func (i *OpponentIndex) MatchOpponent(deck *Deck, m types.Match) (*Deck, bool) {
 // legacy data.
 func (i *OpponentIndex) find(draft int, m types.Match) (*Deck, bool) {
 	if m.OpponentID != 0 {
-		d, ok := i.byID[key{draft: draft, id: m.OpponentID}]
+		d, ok := i.byID[deckKey{draft: draft, id: m.OpponentID}]
 		return d, ok
 	}
 	if m.Opponent == "" {

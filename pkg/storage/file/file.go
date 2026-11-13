@@ -7,12 +7,13 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
 // Backend reads and writes decks from the on-disk data/<cube>/ layout.
@@ -20,6 +21,8 @@ type Backend struct {
 	src       types.CubeSource
 	snapshots *snapshotCache
 }
+
+var _ storage.Backend = &Backend{}
 
 // New returns a filesystem-backed deck backend. src overlays each deck's cards
 // with the cube's live printings and tags; pass nil outside the server (CLI,
@@ -241,11 +244,11 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 		if !ok {
 			continue
 		}
-		id := storage.IndexedDraft{DraftInfo: storage.NewDraftInfo(draft.DraftMetadata), HasLog: draft.HasLog()}
+		indexed := storage.IndexedDraft{DraftInfo: storage.NewDraftInfo(draft.DraftMetadata), HasLog: draft.HasLog()}
 		for _, d := range decks {
-			id.Decks = append(id.Decks, storage.IndexedDeck{ID: d.ID})
+			indexed.Decks = append(indexed.Decks, storage.IndexedDeck{ID: d.ID})
 		}
-		out.Drafts = append(out.Drafts, id)
+		out.Drafts = append(out.Drafts, indexed)
 	}
 	return out, nil
 }
@@ -281,6 +284,7 @@ func (b *Backend) GetDraftLog(cube string, draftID int) (json.RawMessage, error)
 	return json.RawMessage(contents), nil
 }
 
+// cubeCard is the printing and tags the live cube holds for a card.
 type cubeCard struct {
 	image string
 	url   string

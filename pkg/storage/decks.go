@@ -3,29 +3,32 @@ package storage
 import (
 	"errors"
 	"fmt"
+	"slices"
 	"strings"
 	"time"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
-// Wrap the on-disk types.Deck with additional calculated fields.
+// Deck wraps the on-disk types.Deck with the fields the server computes:
+// flattened games, stats and opponent win rate.
 type Deck struct {
 	types.Deck `json:",inline"`
 
-	// Games is a flattened list of all games in all matches.
-	// We include this for compatibility with the UI.
+	// Games is a flattened list of all games in all matches, kept for the UI.
 	Games []types.Game `json:"games"`
 
-	// Calculated stats based on the raw deck info. We calculate this server side
-	// to avoid recalculating it in the UI.
+	// Stats are computed server side from the raw deck, so the UI doesn't
+	// recompute them.
 	Stats Stats `json:"stats"`
 
-	// The average win percentage of this deck's opponents, excluding games against this deck.
+	// OpponentWinPercentage is the average win percentage of this deck's
+	// opponents, excluding games against this deck.
 	OpponentWinPercentage float64 `json:"opponent_win_percentage"`
 
 	// RatedOpponents counts the opponents OpponentWinPercentage averages over:
@@ -33,7 +36,7 @@ type Deck struct {
 	// percentage is unknown, not 0%.
 	RatedOpponents int `json:"rated_opponents"`
 
-	// The size of the draft, used for filtering.
+	// DraftSize is the number of seats in the draft, used for filtering.
 	DraftSize int `json:"draft_size"`
 
 	// Draft describes the draft the deck was played in, for display.
@@ -55,6 +58,8 @@ func NewDraftInfo(m types.DraftMetadata) DraftInfo {
 	return DraftInfo{ID: m.ID, Date: m.Date, EventName: m.EventName, EventCode: m.EventCode, Flight: m.Flight}
 }
 
+// Stats is a deck's match and game tallies, with whether it won a trophy or
+// came last.
 type Stats struct {
 	MatchWins   int `json:"match_wins"`
 	MatchLosses int `json:"match_losses"`
@@ -66,8 +71,8 @@ type Stats struct {
 	LastPlace   int `json:"last_place"`
 }
 
-// key identifies a precise deck: its ID within its draft.
-type key struct {
+// deckKey identifies a precise deck: its ID within its draft.
+type deckKey struct {
 	draft int
 	id    int
 }
@@ -79,6 +84,9 @@ type nameKey struct {
 	player string
 }
 
+// DecksRequest is the filter a client sends to list decks. Empty fields don't
+// filter; Start and End are inclusive dates in YYYY-MM-DD form, DraftSize is a
+// minimum, and Match is a deck search query.
 type DecksRequest struct {
 	Player    string `json:"player,omitempty"`
 	Start     string `json:"start,omitempty"`
@@ -93,7 +101,10 @@ type DecksRequest struct {
 	Packages []design.PackageCards `json:"-"`
 }
 
-func (d *Deck) GetPlayer() string { return d.Player }
+// GetPlayer returns the deck's player name.
+func (d *Deck) GetPlayer() string {
+	return d.Player
+}
 
 // GetPlayGroup returns the deck's play group, the leftover group when unset.
 func (d *Deck) GetPlayGroup() string {
@@ -104,7 +115,9 @@ func (d *Deck) GetPlayGroup() string {
 }
 
 // GetDraftID returns the draft the deck was played in.
-func (d *Deck) GetDraftID() int { return d.Metadata.DraftID }
+func (d *Deck) GetDraftID() int {
+	return d.Metadata.DraftID
+}
 
 // IsAnonymous reports whether the deck is an anonymous seat: no player ID,
 // shown by its seat label. Per-player rollups leave these out, since the same
@@ -123,6 +136,7 @@ func (d *Deck) PersonLabel() string {
 	return d.Player
 }
 
+// GetLabels returns the deck's labels, led by its macro archetype when set.
 func (d *Deck) GetLabels() []string {
 	if d.MacroArchetype != "" {
 		return append([]string{d.MacroArchetype}, d.Labels...)
@@ -139,42 +153,35 @@ func (d *Deck) GetDraftSize() int {
 // any that are empty.
 func (d *Deck) GetEventTerms() []string {
 	var out []string
-	for _, t := range []string{d.Draft.EventCode, d.Draft.EventName, d.Draft.Flight} {
-		if t != "" {
-			out = append(out, t)
+	for _, term := range []string{d.Draft.EventCode, d.Draft.EventName, d.Draft.Flight} {
+		if term != "" {
+			out = append(out, term)
 		}
 	}
 	return out
 }
 
+// GetMainboard returns a copy of the deck's mainboard.
 func (d *Deck) GetMainboard() []types.Card {
-	res := make([]types.Card, len(d.Mainboard))
-	for i, c := range d.Mainboard {
-		res[i] = c
-	}
-	return res
+	return slices.Clone(d.Mainboard)
 }
 
+// GetSideboard returns a copy of the deck's sideboard.
 func (d *Deck) GetSideboard() []types.Card {
-	res := make([]types.Card, len(d.Sideboard))
-	for i, c := range d.Sideboard {
-		res[i] = c
-	}
-	return res
+	return slices.Clone(d.Sideboard)
 }
 
+// GetPool returns a copy of the deck's card pool.
 func (d *Deck) GetPool() []types.Card {
-	res := make([]types.Card, len(d.Pool))
-	for i, c := range d.Pool {
-		res[i] = c
-	}
-	return res
+	return slices.Clone(d.Pool)
 }
 
 // ErrDeckNotFound is returned when no deck matches the (draftID, ID) key, or
 // the draft itself doesn't exist.
 var ErrDeckNotFound = errors.New("deck not found")
 
+// DeckStorage is what server handlers use to list and annotate decks and to
+// read a cube's rules, overrides and draft snapshots. Store implements it.
 type DeckStorage interface {
 	List(cube string, req *DecksRequest) ([]*Deck, error)
 	UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error)
@@ -214,6 +221,8 @@ type RecordEdit struct {
 	Matches  []types.Match
 }
 
+// filter returns the decks that match every field r sets, in order. A nil r or
+// one with no filtering fields returns decks itself.
 func filter(decks []*Deck, r *DecksRequest) []*Deck {
 	// Check if we need to do any filtering. Packages alone never filters - it's
 	// inert without a package: term in Match - so it's left out here.
@@ -237,7 +246,7 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 		}
 
 		// Parse the deck's date.
-		dd, err := time.Parse(time.DateOnly, d.Date)
+		deckDate, err := time.Parse(time.DateOnly, d.Date)
 		if err != nil {
 			logrus.WithError(err).Warn("failed to parse deck date")
 			continue
@@ -245,24 +254,24 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 
 		// Check start date.
 		if r.Start != "" {
-			s, err := time.Parse(time.DateOnly, r.Start)
+			start, err := time.Parse(time.DateOnly, r.Start)
 			if err != nil {
 				logrus.WithError(err).Warn("failed to parse start")
 				continue
 			}
-			if dd.Before(s) {
+			if deckDate.Before(start) {
 				continue
 			}
 		}
 
 		// Check end date.
 		if r.End != "" {
-			e, err := time.Parse(time.DateOnly, r.End)
+			end, err := time.Parse(time.DateOnly, r.End)
 			if err != nil {
 				logrus.WithError(err).Warn("failed to parse end")
 				continue
 			}
-			if dd.After(e) {
+			if deckDate.After(end) {
 				continue
 			}
 		}

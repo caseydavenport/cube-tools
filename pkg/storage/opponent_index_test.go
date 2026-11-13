@@ -11,77 +11,77 @@ import (
 func TestOpponentIndex(t *testing.T) {
 	// Two drafts, each with the same player names, so the (draftID, player) key
 	// has to keep them apart.
-	alice1 := makeStorageDeck("alice", 1, "2026-01-01", nil, nil, nil)
-	bob1 := makeStorageDeck("bob", 1, "2026-01-01", nil, nil, nil)
-	alice2 := makeStorageDeck("alice", 2, "2026-02-02", nil, nil, nil)
+	freddie1 := makeStorageDeck("freddie", 1, "2026-01-01", nil, nil, nil)
+	joan1 := makeStorageDeck("joan", 1, "2026-01-01", nil, nil, nil)
+	freddie2 := makeStorageDeck("freddie", 2, "2026-02-02", nil, nil, nil)
 
-	idx := NewOpponentIndex([]*Deck{alice1, bob1, alice2})
+	idx := NewOpponentIndex([]*Deck{freddie1, joan1, freddie2})
 
 	t.Run("resolves opponent within the same draft", func(t *testing.T) {
-		got, ok := idx.OpponentDeck(alice1, "bob")
+		got, ok := idx.OpponentDeck(freddie1, "joan")
 		assert.True(t, ok)
-		assert.Same(t, bob1, got)
+		assert.Same(t, joan1, got)
 	})
 
 	t.Run("does not match an opponent from another draft", func(t *testing.T) {
-		_, ok := idx.OpponentDeck(alice2, "bob")
+		_, ok := idx.OpponentDeck(freddie2, "joan")
 		assert.False(t, ok)
 	})
 
 	t.Run("unknown opponent", func(t *testing.T) {
-		_, ok := idx.OpponentDeck(alice1, "carol")
+		_, ok := idx.OpponentDeck(freddie1, "stevie")
 		assert.False(t, ok)
 	})
 
 	t.Run("empty opponent name", func(t *testing.T) {
-		_, ok := idx.OpponentDeck(alice1, "")
+		_, ok := idx.OpponentDeck(freddie1, "")
 		assert.False(t, ok)
 	})
 
 	t.Run("deck with no draft", func(t *testing.T) {
-		orphan := makeStorageDeck("dave", 0, "", nil, nil, nil)
-		_, ok := idx.OpponentDeck(orphan, "bob")
+		orphan := makeStorageDeck("ozzy", 0, "", nil, nil, nil)
+		_, ok := idx.OpponentDeck(orphan, "joan")
 		assert.False(t, ok)
 	})
 }
 
 func TestOpponentIndexPrefersOpponentID(t *testing.T) {
-	alice := makeStorageDeck("alice", 1, "2026-01-01", nil, nil, nil)
-	alice.ID = 1
-	bob := makeStorageDeck("bob", 1, "2026-01-01", nil, nil, nil)
-	bob.ID = 2
-	idx := NewOpponentIndex([]*Deck{alice, bob})
+	freddie := makeStorageDeck("freddie", 1, "2026-01-01", nil, nil, nil)
+	freddie.ID = 1
+	joan := makeStorageDeck("joan", 1, "2026-01-01", nil, nil, nil)
+	joan.ID = 2
+	idx := NewOpponentIndex([]*Deck{freddie, joan})
 
-	// The name is stale; the id still finds Bob.
-	got, ok := idx.MatchOpponent(alice, types.Match{Opponent: "robert", OpponentID: 2})
+	// The name is stale; the id still finds Joan.
+	got, ok := idx.MatchOpponent(freddie, types.Match{Opponent: "joanie", OpponentID: 2})
 	assert.True(t, ok)
-	assert.Same(t, bob, got)
+	assert.Same(t, joan, got)
 
-	_, ok = idx.MatchOpponent(alice, types.Match{Opponent: "bob", OpponentID: 7})
+	_, ok = idx.MatchOpponent(freddie, types.Match{Opponent: "joan", OpponentID: 7})
 	assert.False(t, ok)
 }
 
 func TestOpponentIndexFallsBackToName(t *testing.T) {
-	alice := makeStorageDeck("alice", 1, "2026-01-01", nil, nil, nil)
-	alice.ID = 1
-	bob := makeStorageDeck("bob", 1, "2026-01-01", nil, nil, nil)
-	bob.ID = 2
-	idx := NewOpponentIndex([]*Deck{alice, bob})
+	freddie := makeStorageDeck("freddie", 1, "2026-01-01", nil, nil, nil)
+	freddie.ID = 1
+	joan := makeStorageDeck("joan", 1, "2026-01-01", nil, nil, nil)
+	joan.ID = 2
+	idx := NewOpponentIndex([]*Deck{freddie, joan})
 
-	got, ok := idx.MatchOpponent(alice, types.Match{Opponent: "bob"})
+	got, ok := idx.MatchOpponent(freddie, types.Match{Opponent: "joan"})
 	assert.True(t, ok)
-	assert.Same(t, bob, got)
+	assert.Same(t, joan, got)
 }
 
 func TestEnrichFindsOpponentByID(t *testing.T) {
-	// Bob's name in Alice's match is stale, so only the id can find him.
-	alice := makeStorageDeck("alice", 1, "2026-01-01", nil, []types.Match{{Opponent: "robert", OpponentID: 2, Wins: 2}}, nil)
-	alice.ID = 1
-	bob := makeStorageDeck("bob", 1, "2026-01-01", nil, []types.Match{
-		{Opponent: "alice", OpponentID: 1, Losses: 2},
-		{Opponent: "carol", OpponentID: 3, Wins: 2},
+	// Joan's name in Freddie's match is stale, so only the id can find him.
+	freddie := makeStorageDeck("freddie", 1, "2026-01-01", nil, []types.Match{{Opponent: "joanie", OpponentID: 2, Wins: 2}}, nil)
+	freddie.ID = 1
+	joan := makeStorageDeck("joan", 1, "2026-01-01", nil, []types.Match{
+		{Opponent: "freddie", OpponentID: 1, Losses: 2},
+		{Opponent: "stevie", OpponentID: 3, Wins: 2},
 	}, nil)
-	bob.ID = 2
-	Enrich([]*Deck{alice, bob})
-	assert.Equal(t, 100.0, alice.OpponentWinPercentage)
+	joan.ID = 2
+	Enrich([]*Deck{freddie, joan})
+	assert.Equal(t, 100.0, freddie.OpponentWinPercentage)
 }

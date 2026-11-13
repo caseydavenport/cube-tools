@@ -3,8 +3,9 @@ package storage
 import (
 	"math"
 
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
+
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // Enrich populates each deck's flattened Games list, Stats, and
@@ -15,55 +16,11 @@ func Enrich(decks []*Deck) {
 	idx := NewOpponentIndex(decks)
 
 	for _, d := range decks {
-		d.Games = make([]types.Game, 0)
-		for _, m := range d.Matches {
-			if len(m.Games) > 0 {
-				d.Games = append(d.Games, m.Games...)
-				continue
-			}
-			for i := 0; i < m.Wins; i++ {
-				d.Games = append(d.Games, types.Game{Opponent: m.Opponent, Winner: d.Player, Won: true})
-			}
-			for i := 0; i < m.Losses; i++ {
-				d.Games = append(d.Games, types.Game{Opponent: m.Opponent, Winner: m.Opponent})
-			}
-			for i := 0; i < m.Draws; i++ {
-				d.Games = append(d.Games, types.Game{Opponent: m.Opponent, Tie: true})
-			}
-		}
+		d.Games = flattenGames(d)
 	}
 
 	for _, d := range decks {
-		percentages := []float64{}
-		seen := map[*Deck]bool{}
-		for _, m := range d.Matches {
-			if m.Opponent == "" && m.OpponentID == 0 {
-				continue
-			}
-			opponentDeck, ok := idx.find(d.Metadata.DraftID, m)
-			if !ok {
-				logrus.WithField("opponent", m.Opponent).Warn("failed to find opponent deck")
-				continue
-			}
-			if seen[opponentDeck] {
-				continue
-			}
-			seen[opponentDeck] = true
-			wins, games := opponentRecordExcluding(opponentDeck, d)
-			if games > 0 {
-				percentages = append(percentages, float64(wins)/float64(games))
-			}
-		}
-		d.RatedOpponents = len(percentages)
-		if len(percentages) > 0 {
-			total := 0.0
-			for _, p := range percentages {
-				total += p
-			}
-			d.OpponentWinPercentage = math.Round(100 * total / float64(len(percentages)))
-		} else {
-			d.OpponentWinPercentage = 0.0
-		}
+		d.OpponentWinPercentage, d.RatedOpponents = opponentWinPercentage(d, idx)
 		d.Stats = Stats{
 			MatchWins:   d.MatchWins(),
 			MatchLosses: d.MatchLosses(),
@@ -75,6 +32,63 @@ func Enrich(decks []*Deck) {
 			LastPlace:   d.LastPlace(),
 		}
 	}
+}
+
+// flattenGames lists every game in the deck's matches. A match with no
+// per-game records is expanded from its win, loss and draw tallies.
+func flattenGames(d *Deck) []types.Game {
+	games := make([]types.Game, 0)
+	for _, m := range d.Matches {
+		if len(m.Games) > 0 {
+			games = append(games, m.Games...)
+			continue
+		}
+		for i := 0; i < m.Wins; i++ {
+			games = append(games, types.Game{Opponent: m.Opponent, Winner: d.Player, Won: true})
+		}
+		for i := 0; i < m.Losses; i++ {
+			games = append(games, types.Game{Opponent: m.Opponent, Winner: m.Opponent})
+		}
+		for i := 0; i < m.Draws; i++ {
+			games = append(games, types.Game{Opponent: m.Opponent, Tie: true})
+		}
+	}
+	return games
+}
+
+// opponentWinPercentage averages, over the distinct opponents the deck faced,
+// each opponent's win rate outside their games against the deck. It returns
+// the rounded percentage and the number of opponents averaged, which is zero
+// when none could be found or had other games.
+func opponentWinPercentage(d *Deck, idx *OpponentIndex) (float64, int) {
+	var rates []float64
+	seen := map[*Deck]bool{}
+	for _, m := range d.Matches {
+		if m.Opponent == "" && m.OpponentID == 0 {
+			continue
+		}
+		opponentDeck, ok := idx.find(d.Metadata.DraftID, m)
+		if !ok {
+			logrus.WithField("opponent", m.Opponent).Warn("failed to find opponent deck")
+			continue
+		}
+		if seen[opponentDeck] {
+			continue
+		}
+		seen[opponentDeck] = true
+		wins, games := opponentRecordExcluding(opponentDeck, d)
+		if games > 0 {
+			rates = append(rates, float64(wins)/float64(games))
+		}
+	}
+	if len(rates) == 0 {
+		return 0, 0
+	}
+	total := 0.0
+	for _, rate := range rates {
+		total += rate
+	}
+	return math.Round(100 * total / float64(len(rates))), len(rates)
 }
 
 // opponentRecordExcluding returns (wins, total games) for opponentDeck across all

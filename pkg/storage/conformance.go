@@ -3,16 +3,17 @@ package storage
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
 )
 
 // RunConformance checks the storage contract against a Store seeded with the
-// canonical dataset: players Alice (1), Bob (2) and Carol (3); cube "conf"
-// with draft 1 holding Alice's deck (id 1, 2-0 vs Bob in round 1, two games)
-// and Bob's (id 2, the mirror). readOnlyCube names a cube the backend refuses
+// canonical dataset: players Freddie (1), Joan (2) and Stevie (3); cube "conf"
+// with draft 1 holding Freddie's deck (id 1, 2-0 vs Joan in round 1, two games)
+// and Joan's (id 2, the mirror). readOnlyCube names a cube the backend refuses
 // writes to, or is empty when the backend has none.
 func RunConformance(t *testing.T, s *Store, readOnlyCube string) {
 	t.Helper()
@@ -25,18 +26,18 @@ func RunConformance(t *testing.T, s *Store, readOnlyCube string) {
 	for _, d := range decks {
 		byPlayer[d.Player] = d
 	}
-	assert.NotNil(t, byPlayer["Alice"])
-	assert.NotNil(t, byPlayer["Bob"])
-	assert.Equal(t, 1, byPlayer["Alice"].ID)
-	assert.Equal(t, 2, byPlayer["Bob"].ID)
-	assert.Equal(t, 1, byPlayer["Alice"].Stats.MatchWins)
-	assert.Equal(t, 1, byPlayer["Bob"].Stats.MatchLosses)
-	assert.Len(t, byPlayer["Alice"].Games, 2)
+	assert.NotNil(t, byPlayer["Freddie"])
+	assert.NotNil(t, byPlayer["Joan"])
+	assert.Equal(t, 1, byPlayer["Freddie"].ID)
+	assert.Equal(t, 2, byPlayer["Joan"].ID)
+	assert.Equal(t, 1, byPlayer["Freddie"].Stats.MatchWins)
+	assert.Equal(t, 1, byPlayer["Joan"].Stats.MatchLosses)
+	assert.Len(t, byPlayer["Freddie"].Games, 2)
 
-	filtered, err := s.List("conf", &DecksRequest{Player: "Alice"})
+	filtered, err := s.List("conf", &DecksRequest{Player: "Freddie"})
 	assert.NoError(t, err)
 	assert.Len(t, filtered, 1)
-	assert.Equal(t, "Alice", filtered[0].Player)
+	assert.Equal(t, "Freddie", filtered[0].Player)
 
 	assert.True(t, s.Writable("conf"))
 	runAnnotationConformance(t, s)
@@ -92,21 +93,21 @@ func runAnnotationConformance(t *testing.T, s *Store) {
 	assert.NoError(t, err)
 	assert.Equal(t, "Aggro", updated.MacroArchetype)
 	assert.Equal(t, 1, updated.Stats.MatchWins)
-	assert.Equal(t, "Aggro", deckByPlayer(t, s, "Alice").MacroArchetype)
+	assert.Equal(t, "Aggro", deckByPlayer(t, s, "Freddie").MacroArchetype)
 
 	notes := "hi"
 	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: 1, DeckID: 1, MacroArchetype: "Aggro", Notes: &notes})
 	assert.NoError(t, err)
-	assert.Equal(t, "hi", deckByPlayer(t, s, "Alice").Notes)
+	assert.Equal(t, "hi", deckByPlayer(t, s, "Freddie").Notes)
 
 	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: 1, DeckID: 1, Labels: []string{"slow"}})
 	assert.NoError(t, err)
-	assert.Equal(t, "hi", deckByPlayer(t, s, "Alice").Notes)
+	assert.Equal(t, "hi", deckByPlayer(t, s, "Freddie").Notes)
 
 	empty := ""
 	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: 1, DeckID: 1, Notes: &empty})
 	assert.NoError(t, err)
-	assert.Equal(t, "", deckByPlayer(t, s, "Alice").Notes)
+	assert.Equal(t, "", deckByPlayer(t, s, "Freddie").Notes)
 
 	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: 1, DeckID: 9})
 	assert.ErrorIs(t, err, ErrDeckNotFound)
@@ -125,17 +126,17 @@ func runRecordConformance(t *testing.T, s *Store) {
 	changed, err := assign(1, 3)
 	assert.NoError(t, err)
 	assert.Len(t, changed, 1)
-	carol := deckByPlayer(t, s, "Carol")
-	assert.Equal(t, 1, carol.ID)
-	assert.Equal(t, 3, carol.PlayerID)
-	assert.Equal(t, 1, carol.Matches[0].Round)
-	assert.Len(t, carol.Matches[0].Games, 2)
-	assert.Equal(t, 1, carol.Stats.MatchWins)
-	bob := deckByPlayer(t, s, "Bob")
-	assert.Equal(t, "Carol", bob.Matches[0].Opponent)
-	assert.Equal(t, 3, bob.Matches[0].OpponentPlayerID)
-	assert.Equal(t, "Carol", bob.Matches[0].Winner)
-	assert.Len(t, bob.Matches[0].Games, 2)
+	stevie := deckByPlayer(t, s, "Stevie")
+	assert.Equal(t, 1, stevie.ID)
+	assert.Equal(t, 3, stevie.PlayerID)
+	assert.Equal(t, 1, stevie.Matches[0].Round)
+	assert.Len(t, stevie.Matches[0].Games, 2)
+	assert.Equal(t, 1, stevie.Stats.MatchWins)
+	joan := deckByPlayer(t, s, "Joan")
+	assert.Equal(t, "Stevie", joan.Matches[0].Opponent)
+	assert.Equal(t, 3, joan.Matches[0].OpponentPlayerID)
+	assert.Equal(t, "Stevie", joan.Matches[0].Winner)
+	assert.Len(t, joan.Matches[0].Games, 2)
 
 	_, err = assign(1, 2)
 	assert.ErrorIs(t, err, ErrPlayerExists)
@@ -150,11 +151,11 @@ func runRecordConformance(t *testing.T, s *Store) {
 	assert.NoError(t, err)
 	seat := deckByPlayer(t, s, "p1")
 	assert.Equal(t, 0, seat.PlayerID)
-	assert.Equal(t, "p1", deckByPlayer(t, s, "Bob").Matches[0].Opponent)
+	assert.Equal(t, "p1", deckByPlayer(t, s, "Joan").Matches[0].Opponent)
 
 	_, err = assign(1, 1)
 	assert.NoError(t, err)
-	assert.Equal(t, "Alice", deckByPlayer(t, s, "Bob").Matches[0].Opponent)
+	assert.Equal(t, "Freddie", deckByPlayer(t, s, "Joan").Matches[0].Opponent)
 }
 
 // runRulesConformance checks that a small design-map config written and read
@@ -237,7 +238,7 @@ func runCreateDraftConformance(t *testing.T, s *Store) {
 		}
 	}
 	assert.Equal(t, map[int]string{
-		1: "Alice",
+		1: "Freddie",
 		2: "p2",
 	}, playerByDeck)
 }
@@ -265,10 +266,10 @@ func runPlayerConformance(t *testing.T, s *Store) {
 	_, err = s.AddPlayer("ozzy")
 	assert.ErrorIs(t, err, players.ErrNameTaken)
 
-	deckByPlayer(t, s, "Alice")
-	_, err = s.RenamePlayer(1, "Alicia")
+	deckByPlayer(t, s, "Freddie")
+	_, err = s.RenamePlayer(1, "Fred")
 	assert.NoError(t, err)
-	deckByPlayer(t, s, "Alicia")
+	deckByPlayer(t, s, "Fred")
 
 	grouped, err := s.SetPlayerGroup(3, "The Crew")
 	assert.NoError(t, err)

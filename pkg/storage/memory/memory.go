@@ -26,7 +26,10 @@ type Backend struct {
 	readOnly  map[string]bool
 }
 
-var _ storage.PlayerStore = &Backend{}
+var (
+	_ storage.Backend     = &Backend{}
+	_ storage.PlayerStore = &Backend{}
+)
 
 // New returns an empty in-memory backend.
 func New() *Backend {
@@ -56,8 +59,8 @@ func (b *Backend) Writable(cube string) bool {
 	return !b.readOnly[cube]
 }
 
-// draftLogKey builds the map key for a draft's log.
-func draftLogKey(cube string, draftID int) string {
+// draftKey builds the map key for a draft's log or snapshot.
+func draftKey(cube string, draftID int) string {
 	return fmt.Sprintf("%s\x00%d", cube, draftID)
 }
 
@@ -132,28 +135,29 @@ func (b *Backend) CreateDraft(cube string, meta types.DraftMetadata, snapshot *t
 		cp.Draft = storage.NewDraftInfo(meta)
 		b.decks[cube] = append(b.decks[cube], cp)
 	}
-	b.snapshots[draftLogKey(cube, id)] = snapshot
+	b.snapshots[draftKey(cube, id)] = snapshot
 	return id, nil
 }
 
-// Seed adds decks for a cube. Call before wrapping in a Store. A deck with no
+// Seed adds decks for a cube. Call before wrapping in a Store (this holds for
+// every Seed method). A deck with no
 // ID is numbered after the highest ID already in its draft, matching how
 // writers number new decks. A game whose Winner names the deck's player is
 // marked Won, so tests can describe games by the winner's name.
 func (b *Backend) Seed(cube string, decks ...*storage.Deck) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	highestIDByDraft := map[int]int{}
+	lastDeckIDInDraft := map[int]int{}
 	for _, d := range b.decks[cube] {
-		highestIDByDraft[d.Metadata.DraftID] = max(highestIDByDraft[d.Metadata.DraftID], d.ID)
+		lastDeckIDInDraft[d.Metadata.DraftID] = max(lastDeckIDInDraft[d.Metadata.DraftID], d.ID)
 	}
 	for _, d := range decks {
-		highestIDByDraft[d.Metadata.DraftID] = max(highestIDByDraft[d.Metadata.DraftID], d.ID)
+		lastDeckIDInDraft[d.Metadata.DraftID] = max(lastDeckIDInDraft[d.Metadata.DraftID], d.ID)
 	}
 	for _, d := range decks {
 		if d.ID == 0 {
-			highestIDByDraft[d.Metadata.DraftID]++
-			d.ID = highestIDByDraft[d.Metadata.DraftID]
+			lastDeckIDInDraft[d.Metadata.DraftID]++
+			d.ID = lastDeckIDInDraft[d.Metadata.DraftID]
 		}
 		for i := range d.Matches {
 			for j := range d.Matches[i].Games {
@@ -275,7 +279,7 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 func (b *Backend) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	log, ok := b.draftLogs[draftLogKey(cube, draftID)]
+	log, ok := b.draftLogs[draftKey(cube, draftID)]
 	if !ok {
 		return nil, storage.ErrDeckNotFound
 	}
@@ -286,7 +290,7 @@ func (b *Backend) GetDraftLog(cube string, draftID int) (json.RawMessage, error)
 func (b *Backend) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	snapshot, ok := b.snapshots[draftLogKey(cube, draftID)]
+	snapshot, ok := b.snapshots[draftKey(cube, draftID)]
 	if !ok {
 		return nil, storage.ErrDeckNotFound
 	}
@@ -297,26 +301,26 @@ func (b *Backend) GetSnapshot(cube string, draftID int) (*types.Cube, error) {
 func (b *Backend) SeedSnapshot(cube string, draftID int, snapshot *types.Cube) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	b.snapshots[draftLogKey(cube, draftID)] = snapshot
+	b.snapshots[draftKey(cube, draftID)] = snapshot
 }
 
-// SeedRules preloads a cube's design-map rules. Call before wrapping in a Store.
+// SeedRules preloads a cube's design-map rules.
 func (b *Backend) SeedRules(cube string, rules *design.DesignMapConfig) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	b.rules[cube] = rules
 }
 
-// SeedIndex preloads a cube's index. Call before wrapping in a Store.
+// SeedIndex preloads a cube's index.
 func (b *Backend) SeedIndex(cube string, idx *storage.CubeIndex) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	b.index[cube] = idx
 }
 
-// SeedDraftLog preloads a draft's raw log bytes. Call before wrapping in a Store.
+// SeedDraftLog preloads a draft's raw log bytes.
 func (b *Backend) SeedDraftLog(cube string, draftID int, log json.RawMessage) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	b.draftLogs[draftLogKey(cube, draftID)] = log
+	b.draftLogs[draftKey(cube, draftID)] = log
 }

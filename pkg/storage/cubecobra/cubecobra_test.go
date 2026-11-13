@@ -3,8 +3,10 @@ package cubecobra
 import (
 	"net/http"
 	"net/http/httptest"
+	"sync/atomic"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -12,39 +14,63 @@ import (
 // oracle bulk dataset.
 type fakeCube struct{ cards []types.Card }
 
-func (f fakeCube) Current(string) (*types.Cube, error) { return &types.Cube{Cards: f.cards}, nil }
-func (f fakeCube) Refresh(string) (*types.Cube, error) { return &types.Cube{Cards: f.cards}, nil }
+func (f fakeCube) Current(string) (*types.Cube, error) {
+	return &types.Cube{Cards: f.cards}, nil
+}
+
+func (f fakeCube) Refresh(string) (*types.Cube, error) {
+	return &types.Cube{Cards: f.cards}, nil
+}
 
 const analysisFixture = `{"success":"true",
   "records":[
     {"id":"rec1","name":"Draft 1","date":1681862400000,
-     "players":[{"name":"casey"},{"name":"matt"}],
-     "matches":[{"matches":[{"p1":"casey","p2":"matt","results":[2,1,0]}]}],
-     "trophy":["casey"],
-     "decks":{"casey":["oa","ob"],"matt":["oc"]}}],
+     "players":[{"name":"freddie"},{"name":"ozzy"}],
+     "matches":[{"matches":[{"p1":"freddie","p2":"ozzy","results":[2,1,0]}]}],
+     "trophy":["freddie"],
+     "decks":{"freddie":["oa","ob"],"ozzy":["oc"]}}],
   "cards":{
     "oa":{"name":"Llanowar Elves"},
     "ob":{"name":"Forest"},
     "oc":{"name":"Mountain"}}}`
 
-func newFixtureServer(t *testing.T) *httptest.Server {
+// newFixtureServer serves analysisFixture for the polyversal cube and counts
+// the requests it answers.
+func newFixtureServer(t *testing.T, requests *atomic.Int32) *httptest.Server {
 	t.Helper()
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/cube/records/analysisdata/polyversal" {
 			http.NotFound(w, r)
 			return
 		}
+		requests.Add(1)
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(analysisFixture))
+		if _, err := w.Write([]byte(analysisFixture)); err != nil {
+			t.Error(err)
+		}
 	}))
 }
 
+// deckOf returns the named player's deck, failing the test if there is none.
+func deckOf(t *testing.T, decks []*storage.Deck, player string) *storage.Deck {
+	t.Helper()
+	for _, d := range decks {
+		if d.Player == player {
+			return d
+		}
+	}
+	t.Fatalf("no deck for player %q", player)
+	return nil
+}
+
 func TestRawDecks(t *testing.T) {
-	srv := newFixtureServer(t)
+	var requests atomic.Int32
+	srv := newFixtureServer(t, &requests)
 	defer srv.Close()
 	src := fakeCube{cards: []types.Card{
 		{Name: "Llanowar Elves", Tags: []string{"ramp"}},
-		{Name: "Forest"}, {Name: "Mountain"},
+		{Name: "Forest"},
+		{Name: "Mountain"},
 	}}
 	b := New(srv.URL, src)
 
@@ -55,10 +81,10 @@ func TestRawDecks(t *testing.T) {
 	if len(decks) != 2 {
 		t.Fatalf("got %d decks, want 2", len(decks))
 	}
-	byPlayer := map[string]int{}
+	numCardsByPlayer := map[string]int{}
 	ids := map[int]bool{}
 	for _, d := range decks {
-		byPlayer[d.Player] = len(d.Mainboard)
+		numCardsByPlayer[d.Player] = len(d.Mainboard)
 		ids[d.ID] = true
 		if d.Metadata.DraftID != 1 {
 			t.Errorf("deck %s: DraftID=%d, want 1", d.Player, d.Metadata.DraftID)
@@ -76,46 +102,40 @@ func TestRawDecks(t *testing.T) {
 	if !ids[1] || !ids[2] {
 		t.Errorf("deck ids = %v, want 1 and 2", ids)
 	}
-	if byPlayer["casey"] != 2 || byPlayer["matt"] != 1 {
-		t.Fatalf("mainboard sizes: %v, want casey=2 matt=1", byPlayer)
+	if numCardsByPlayer["freddie"] != 2 || numCardsByPlayer["ozzy"] != 1 {
+		t.Fatalf("mainboard sizes: %v, want freddie=2 ozzy=1", numCardsByPlayer)
 	}
 
-	var casey *struct{}
-	for _, d := range decks {
-		if d.Player != "casey" {
-			continue
-		}
-		casey = &struct{}{}
-		if len(d.Matches) != 1 {
-			t.Fatalf("casey matches=%d, want 1", len(d.Matches))
-		}
-		m := d.Matches[0]
-		if m.Opponent != "matt" || m.Wins != 2 || m.Losses != 1 || m.Draws != 0 || m.Round != 1 {
-			t.Errorf("casey match = %+v, want opp=matt 2-1-0 round=1", m)
-		}
-		// Tag overlay from the cube source.
-		if len(d.Mainboard) > 0 && d.Mainboard[0].Name == "Llanowar Elves" && len(d.Mainboard[0].Tags) == 0 {
-			t.Error("expected cube tags overlaid on Llanowar Elves")
-		}
+	freddie := deckOf(t, decks, "freddie")
+	if len(freddie.Matches) != 1 {
+		t.Fatalf("freddie matches=%d, want 1", len(freddie.Matches))
 	}
-	if casey == nil {
-		t.Fatal("no casey deck")
+	match := freddie.Matches[0]
+	if match.Opponent != "ozzy" || match.Wins != 2 || match.Losses != 1 || match.Draws != 0 || match.Round != 1 {
+		t.Errorf("freddie match = %+v, want opp=ozzy 2-1-0 round=1", match)
 	}
 
-	// matt sees the match from the opposite side.
-	for _, d := range decks {
-		if d.Player != "matt" {
-			continue
-		}
-		m := d.Matches[0]
-		if m.Opponent != "casey" || m.Wins != 1 || m.Losses != 2 {
-			t.Errorf("matt match = %+v, want opp=casey 1-2", m)
-		}
+	// The cube source's tags land on the deck's card, and a card the cube
+	// lacks a tag for stays tagless.
+	elves := freddie.Mainboard[0]
+	if elves.Name != "Llanowar Elves" || len(elves.Tags) != 1 || elves.Tags[0] != "ramp" {
+		t.Errorf("first card = %+v, want Llanowar Elves tagged ramp", elves)
+	}
+	if forest := freddie.Mainboard[1]; len(forest.Tags) != 0 {
+		t.Errorf("Forest tags = %v, want none", forest.Tags)
+	}
+
+	// Ozzy sees the match from the opposite side.
+	ozzy := deckOf(t, decks, "ozzy")
+	match = ozzy.Matches[0]
+	if match.Opponent != "freddie" || match.Wins != 1 || match.Losses != 2 {
+		t.Errorf("ozzy match = %+v, want opp=freddie 1-2", match)
 	}
 }
 
 func TestIndex(t *testing.T) {
-	srv := newFixtureServer(t)
+	var requests atomic.Int32
+	srv := newFixtureServer(t, &requests)
 	defer srv.Close()
 	b := New(srv.URL, fakeCube{})
 
@@ -126,19 +146,53 @@ func TestIndex(t *testing.T) {
 	if len(idx.Drafts) != 1 {
 		t.Fatalf("got %d drafts, want 1", len(idx.Drafts))
 	}
-	d := idx.Drafts[0]
-	if d.ID != 1 || d.Date != "2023-04-19" || d.EventName != "Draft 1" || d.HasLog {
-		t.Errorf("draft = %+v, want 1 2023-04-19 \"Draft 1\" HasLog=false", d)
+	draft := idx.Drafts[0]
+	if draft.ID != 1 || draft.Date != "2023-04-19" || draft.EventName != "Draft 1" || draft.HasLog {
+		t.Errorf("draft = %+v, want 1 2023-04-19 \"Draft 1\" HasLog=false", draft)
 	}
-	if len(d.Decks) != 2 {
-		t.Fatalf("got %d decks, want 2", len(d.Decks))
+	if len(draft.Decks) != 2 {
+		t.Fatalf("got %d decks, want 2", len(draft.Decks))
 	}
 	ids := map[int]bool{}
-	for _, dk := range d.Decks {
-		ids[dk.ID] = true
+	for _, deck := range draft.Decks {
+		ids[deck.ID] = true
 	}
 	if !ids[1] || !ids[2] {
 		t.Errorf("deck ids = %v, want 1 and 2", ids)
+	}
+}
+
+func TestFetchIsCached(t *testing.T) {
+	var requests atomic.Int32
+	srv := newFixtureServer(t, &requests)
+	defer srv.Close()
+	b := New(srv.URL, fakeCube{})
+
+	for range 3 {
+		if _, err := b.RawDecks("cc:polyversal"); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if _, err := b.Index("cc:polyversal"); err != nil {
+		t.Fatal(err)
+	}
+	if got := requests.Load(); got != 1 {
+		t.Errorf("server saw %d requests, want 1", got)
+	}
+}
+
+func TestRawDecksReportsFetchFailure(t *testing.T) {
+	var requests atomic.Int32
+	srv := newFixtureServer(t, &requests)
+	defer srv.Close()
+	b := New(srv.URL, fakeCube{})
+
+	// The fixture server answers 404 for any cube but polyversal.
+	if _, err := b.RawDecks("cc:missing"); err == nil {
+		t.Error("RawDecks of a cube CubeCobra 404s on returned no error")
+	}
+	if _, err := b.Index("cc:missing"); err == nil {
+		t.Error("Index of a cube CubeCobra 404s on returned no error")
 	}
 }
 
@@ -146,8 +200,8 @@ func TestIndex(t *testing.T) {
 // must come from dates rather than response order.
 const twoRecordFixture = `{"success":"true",
   "records":[
-    {"id":"late","name":"Later","date":1700000000000,"players":[{"name":"casey"}],"matches":[],"decks":{"casey":[]}},
-    {"id":"early","name":"Earlier","date":1600000000000,"players":[{"name":"casey"}],"matches":[],"decks":{"casey":[]}}],
+    {"id":"late","name":"Later","date":1700000000000,"players":[{"name":"freddie"}],"matches":[],"decks":{"freddie":[]}},
+    {"id":"early","name":"Earlier","date":1600000000000,"players":[{"name":"freddie"}],"matches":[],"decks":{"freddie":[]}}],
   "cards":{}}`
 
 func TestCubeCobraDraftIDsByDate(t *testing.T) {
@@ -164,15 +218,15 @@ func TestCubeCobraDraftIDsByDate(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	idsByName := map[string]int{}
+	draftIDByEventName := map[string]int{}
 	for _, d := range decks {
-		idsByName[d.Draft.EventName] = d.Metadata.DraftID
+		draftIDByEventName[d.Draft.EventName] = d.Metadata.DraftID
 		if d.Draft.ID != d.Metadata.DraftID {
 			t.Errorf("deck draft info id %d != metadata draft id %d", d.Draft.ID, d.Metadata.DraftID)
 		}
 	}
-	if idsByName["Earlier"] != 1 || idsByName["Later"] != 2 {
-		t.Errorf("draft ids by record name = %v, want Earlier 1 and Later 2", idsByName)
+	if draftIDByEventName["Earlier"] != 1 || draftIDByEventName["Later"] != 2 {
+		t.Errorf("draft ids by record name = %v, want Earlier 1 and Later 2", draftIDByEventName)
 	}
 
 	idx, err := backend.Index("cc:polyversal")

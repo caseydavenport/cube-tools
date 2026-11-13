@@ -7,51 +7,45 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestFileBackend_ListPolyverse(t *testing.T) {
 	if _, err := os.Stat("data/polyverse"); err != nil {
-		if err := os.Chdir("../../.."); err != nil {
-			t.Fatalf("chdir to repo root: %v", err)
-		}
+		t.Chdir("../../..")
 	}
 	s := NewStore(nil)
 	decks, err := s.List("polyverse", nil)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, decks)
-	var _ *storage.Store = s
 }
 
 func TestFileRawDecksReadsIDFromFile(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	b := New(nil)
 	got, err := b.RawDecks("conf")
 	assert.NoError(t, err)
-	deckIDByPlayer := map[int]int{}
+	deckIDByPlayerID := map[int]int{}
 	for _, d := range got {
-		deckIDByPlayer[d.PlayerID] = d.ID
+		deckIDByPlayerID[d.PlayerID] = d.ID
 	}
 	assert.Equal(t, map[int]int{
 		1: 1,
 		2: 2,
-	}, deckIDByPlayer)
+	}, deckIDByPlayerID)
 }
 
 func TestFileConformance(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	writeConfDraftLog(t, root)
 	s := NewStore(nil)
@@ -60,9 +54,7 @@ func TestFileConformance(t *testing.T) {
 
 func TestFileRawDecksBlanksPath(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	b := New(nil)
 	got, err := b.RawDecks("conf")
@@ -75,21 +67,19 @@ func TestFileRawDecksBlanksPath(t *testing.T) {
 
 func TestFileSaveDecksKeepsFileAndPath(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	s := NewStore(nil)
 
-	carol := 3
-	_, err := s.SaveDeckRecord("conf", storage.RecordEdit{DraftID: 1, DeckID: 1, PlayerID: &carol})
+	stevie := 3
+	_, err := s.SaveDeckRecord("conf", storage.RecordEdit{DraftID: 1, DeckID: 1, PlayerID: &stevie})
 	assert.NoError(t, err)
 
-	alice, err := types.LoadDeck(filepath.Join(root, "data/conf/0001_2024-01-01/alice.json"))
+	freddie, err := types.LoadDeck(filepath.Join(root, "data/conf/0001_2024-01-01/freddie.json"))
 	assert.NoError(t, err)
-	assert.Equal(t, 3, alice.PlayerID)
-	assert.Equal(t, 1, alice.ID)
-	assert.Equal(t, "data/conf/0001_2024-01-01/alice.json", alice.Metadata.Path)
+	assert.Equal(t, 3, freddie.PlayerID)
+	assert.Equal(t, 1, freddie.ID)
+	assert.Equal(t, "data/conf/0001_2024-01-01/freddie.json", freddie.Metadata.Path)
 
 	draft, err := drafts.Find(filepath.Join(root, "data/conf"), 1)
 	assert.NoError(t, err)
@@ -100,9 +90,7 @@ func TestFileSaveDecksKeepsFileAndPath(t *testing.T) {
 
 func TestFileSaveDecksUnknownID(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	b := New(nil)
 
@@ -115,7 +103,7 @@ func TestFileSaveDecksUnknownID(t *testing.T) {
 }
 
 func TestFileRefusesDraftWithDuplicateOrMissingIDs(t *testing.T) {
-	for name, bobID := range map[string]string{
+	for name, joanID := range map[string]string{
 		"duplicate": `"id": 1,`,
 		"missing":   ``,
 	} {
@@ -123,20 +111,20 @@ func TestFileRefusesDraftWithDuplicateOrMissingIDs(t *testing.T) {
 			root := t.TempDir()
 			t.Chdir(root)
 			writeConfFixture(t, root)
-			bobPath := filepath.Join(root, "data/conf/0001_2024-01-01/bob.json")
-			raw, err := os.ReadFile(bobPath)
+			joanPath := filepath.Join(root, "data/conf/0001_2024-01-01/joan.json")
+			raw, err := os.ReadFile(joanPath)
 			assert.NoError(t, err)
-			assert.NoError(t, os.WriteFile(bobPath, []byte(strings.Replace(string(raw), `"id": 2,`, bobID, 1)), 0o644))
+			assert.NoError(t, os.WriteFile(joanPath, []byte(strings.Replace(string(raw), `"id": 2,`, joanID, 1)), 0o644))
 			b := New(nil)
 
 			_, err = b.LoadDraft("conf", 1)
-			assert.ErrorContains(t, err, "bob.json")
+			assert.ErrorContains(t, err, "joan.json")
 
-			alice := &storage.Deck{}
-			alice.ID = 1
-			alice.Notes = "overwritten"
-			assert.Error(t, b.SaveDecks("conf", 1, []*storage.Deck{alice}))
-			after, err := os.ReadFile(bobPath)
+			freddie := &storage.Deck{}
+			freddie.ID = 1
+			freddie.Notes = "overwritten"
+			assert.Error(t, b.SaveDecks("conf", 1, []*storage.Deck{freddie}))
+			after, err := os.ReadFile(joanPath)
 			assert.NoError(t, err)
 			assert.NotContains(t, string(after), "overwritten")
 		})
@@ -158,9 +146,7 @@ func TestFileRawDecksCarryDraftInfo(t *testing.T) {
 
 func TestFileClearedColorOverrideIsAbsentOnDisk(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	s := NewStore(nil)
 
@@ -169,7 +155,7 @@ func TestFileClearedColorOverrideIsAbsentOnDisk(t *testing.T) {
 	_, err = s.UpdateDeckMeta("conf", storage.DeckMetaWrite{DraftID: 1, DeckID: 1, Colors: []string{}})
 	assert.NoError(t, err)
 
-	raw, err := os.ReadFile(filepath.Join(root, "data/conf/0001_2024-01-01/alice.json"))
+	raw, err := os.ReadFile(filepath.Join(root, "data/conf/0001_2024-01-01/freddie.json"))
 	assert.NoError(t, err)
 	var onDisk map[string]any
 	assert.NoError(t, json.Unmarshal(raw, &onDisk))
@@ -178,13 +164,13 @@ func TestFileClearedColorOverrideIsAbsentOnDisk(t *testing.T) {
 }
 
 // writeConfFixture writes a throwaway "conf" cube under root/data, matching
-// the canonical conformance dataset: players Alice (1), Bob (2) and Carol (3),
-// and draft 1 with Alice's deck (id 1, 2-0 vs Bob in round 1, two games) and
-// Bob's (id 2, the mirror).
+// the canonical conformance dataset: players Freddie (1), Joan (2) and Stevie
+// (3), and draft 1 with Freddie's deck (id 1, 2-0 vs Joan in round 1, two
+// games) and Joan's (id 2, the mirror).
 func writeConfFixture(t *testing.T, root string) {
 	t.Helper()
 
-	roster := `{"players": [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}, {"id": 3, "name": "Carol"}]}`
+	roster := `{"players": [{"id": 1, "name": "Freddie"}, {"id": 2, "name": "Joan"}, {"id": 3, "name": "Stevie"}]}`
 	if err := os.MkdirAll(filepath.Join(root, "data"), 0o755); err != nil {
 		t.Fatalf("mkdir data: %v", err)
 	}
@@ -202,11 +188,11 @@ func writeConfFixture(t *testing.T, root string) {
 		t.Fatalf("write draft metadata: %v", err)
 	}
 
-	alicePath := "data/conf/0001_2024-01-01/alice.json"
-	bobPath := "data/conf/0001_2024-01-01/bob.json"
+	freddiePath := "data/conf/0001_2024-01-01/freddie.json"
+	joanPath := "data/conf/0001_2024-01-01/joan.json"
 
-	alice := `{
- "metadata": {"path": "` + alicePath + `", "draft_id": 1},
+	freddie := `{
+ "metadata": {"path": "` + freddiePath + `", "draft_id": 1},
  "id": 1,
  "labels": [],
  "player_id": 1,
@@ -216,12 +202,12 @@ func writeConfFixture(t *testing.T, root string) {
  "mainboard": [],
  "sideboard": []
 }`
-	if err := os.WriteFile(filepath.Join(root, alicePath), []byte(alice), 0o644); err != nil {
-		t.Fatalf("write alice.json: %v", err)
+	if err := os.WriteFile(filepath.Join(root, freddiePath), []byte(freddie), 0o644); err != nil {
+		t.Fatalf("write freddie.json: %v", err)
 	}
 
-	bob := `{
- "metadata": {"path": "` + bobPath + `", "draft_id": 1},
+	joan := `{
+ "metadata": {"path": "` + joanPath + `", "draft_id": 1},
  "id": 2,
  "labels": [],
  "player_id": 2,
@@ -231,8 +217,8 @@ func writeConfFixture(t *testing.T, root string) {
  "mainboard": [],
  "sideboard": []
 }`
-	if err := os.WriteFile(filepath.Join(root, bobPath), []byte(bob), 0o644); err != nil {
-		t.Fatalf("write bob.json: %v", err)
+	if err := os.WriteFile(filepath.Join(root, joanPath), []byte(joan), 0o644); err != nil {
+		t.Fatalf("write joan.json: %v", err)
 	}
 }
 
@@ -248,9 +234,7 @@ func writeConfDraftLog(t *testing.T, root string) {
 
 func TestFileRulesRoundTrip(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	b := New(nil)
 
@@ -266,9 +250,7 @@ func TestFileRulesRoundTrip(t *testing.T) {
 
 func TestFileIndex(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	writeConfDraftLog(t, root)
 
@@ -285,9 +267,7 @@ func TestFileIndex(t *testing.T) {
 
 func TestFileGetDraftLog(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	writeConfDraftLog(t, root)
 
@@ -299,9 +279,7 @@ func TestFileGetDraftLog(t *testing.T) {
 
 func TestFileGetDraftLogMissing(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 
 	b := New(nil)
@@ -340,7 +318,7 @@ func TestFileReadsSkipOnlyTheUnreadableDeck(t *testing.T) {
 	root := t.TempDir()
 	t.Chdir(root)
 	writeConfFixture(t, root)
-	broken := filepath.Join(root, "data/conf/0001_2024-01-01/carol.json")
+	broken := filepath.Join(root, "data/conf/0001_2024-01-01/stevie.json")
 	assert.NoError(t, os.WriteFile(broken, []byte("{not json"), 0o644))
 	b := New(nil)
 
@@ -404,9 +382,7 @@ func writeRules(t *testing.T, dir, pkg string) {
 // directory the file backend resolves data/ from.
 func chdirTemp(t *testing.T) {
 	t.Helper()
-	if err := os.Chdir(t.TempDir()); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(t.TempDir())
 }
 
 func TestGetRules_FallsBackToGlobal(t *testing.T) {
@@ -490,9 +466,7 @@ func TestOverrides_NewCubeWithoutDirectory(t *testing.T) {
 // such as a rebuilt one, is read fresh rather than served from memory.
 func TestGetSnapshot_RereadsRewrittenFile(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	draft, err := drafts.Find(filepath.Join("data", "conf"), 1)
 	if err != nil {
@@ -519,9 +493,7 @@ func TestGetSnapshot_RereadsRewrittenFile(t *testing.T) {
 // snapshot doesn't change what the next caller reads.
 func TestGetSnapshot_CallersGetTheirOwnCopy(t *testing.T) {
 	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
+	t.Chdir(root)
 	writeConfFixture(t, root)
 	draft, err := drafts.Find(filepath.Join("data", "conf"), 1)
 	if err != nil {

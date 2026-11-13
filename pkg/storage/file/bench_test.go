@@ -9,9 +9,7 @@ import (
 // request does for every draft.
 func BenchmarkGetSnapshot(b *testing.B) {
 	if _, err := os.Stat("data/polyverse"); err != nil {
-		if err := os.Chdir("../../.."); err != nil {
-			b.Fatalf("chdir to repo root: %v", err)
-		}
+		b.Chdir("../../..")
 	}
 	backend := New(nil)
 	b.ReportAllocs()

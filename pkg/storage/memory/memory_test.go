@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestMemoryConformance(t *testing.T) {
@@ -20,30 +21,64 @@ func TestMemoryConformance(t *testing.T) {
 
 func TestMemorySeedNumbersDecksPerDraft(t *testing.T) {
 	b := New()
-	b.Seed("c", seedDeck("Alice", 1, nil), seedDeck("Bob", 1, nil), seedDeck("Alice", 2, nil))
+	b.Seed("c", seedDeck("Freddie", 1, nil), seedDeck("Joan", 1, nil), seedDeck("Freddie", 2, nil))
 	got, err := b.RawDecks("c")
 	assert.NoError(t, err)
-	ids := map[string]int{}
+	deckIDByDraftAndPlayer := map[string]int{}
 	for _, d := range got {
-		ids[fmt.Sprintf("%d/%s", d.Metadata.DraftID, d.Player)] = d.ID
+		deckIDByDraftAndPlayer[fmt.Sprintf("%d/%s", d.Metadata.DraftID, d.Player)] = d.ID
 	}
 	assert.Equal(t, map[string]int{
-		"1/Alice": 1,
-		"1/Bob":   2,
-		"2/Alice": 1,
-	}, ids)
+		"1/Freddie": 1,
+		"1/Joan":    2,
+		"2/Freddie": 1,
+	}, deckIDByDraftAndPlayer)
+}
+
+func TestMemorySaveDecksUnknownDeck(t *testing.T) {
+	b := New()
+	b.Seed("c", seedDeck("Freddie", 1, nil))
+
+	missing := &storage.Deck{}
+	missing.ID = 9
+	assert.ErrorIs(t, b.SaveDecks("c", 1, []*storage.Deck{missing}), storage.ErrDeckNotFound)
+
+	otherDraft := &storage.Deck{}
+	otherDraft.ID = 1
+	assert.ErrorIs(t, b.SaveDecks("c", 2, []*storage.Deck{otherDraft}), storage.ErrDeckNotFound)
+}
+
+func TestMemoryCreateDraftNumbersAfterHighest(t *testing.T) {
+	b := New()
+	b.Seed("c", seedDeck("Freddie", 3, nil))
+
+	id, err := b.CreateDraft("c", types.DraftMetadata{Date: "2024-02-01"}, &types.Cube{}, []*storage.Deck{{}})
+	assert.NoError(t, err)
+	assert.Equal(t, 4, id)
+
+	otherCube, err := b.CreateDraft("other", types.DraftMetadata{}, &types.Cube{}, []*storage.Deck{{}})
+	assert.NoError(t, err)
+	assert.Equal(t, 1, otherCube)
+}
+
+func TestMemorySetReadOnlyScopedToCube(t *testing.T) {
+	b := New()
+	b.SetReadOnly("ro")
+
+	assert.False(t, b.Writable("ro"))
+	assert.True(t, b.Writable("rw"))
 }
 
 func TestMemoryLoadDraftReturnsCopies(t *testing.T) {
 	b := New()
-	b.Seed("c", seedDeck("Alice", 1, nil))
+	b.Seed("c", seedDeck("Freddie", 1, nil))
 	got, err := b.LoadDraft("c", 1)
 	assert.NoError(t, err)
 	got[0].Player = "changed"
 
 	again, err := b.LoadDraft("c", 1)
 	assert.NoError(t, err)
-	assert.Equal(t, "Alice", again[0].Player)
+	assert.Equal(t, "Freddie", again[0].Player)
 
 	_, err = b.LoadDraft("c", 99)
 	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
@@ -51,10 +86,9 @@ func TestMemoryLoadDraftReturnsCopies(t *testing.T) {
 
 func TestMemoryBackend_UpdateRoundTrips(t *testing.T) {
 	b := New()
-	b.Seed("cubeA",
-		seedDeck("Alice", 1, []types.Match{{Opponent: "Bob", Wins: 2, Losses: 0}}),
-		seedDeck("Bob", 1, []types.Match{{Opponent: "Alice", Wins: 0, Losses: 2}}),
-	)
+	freddieDeck := seedDeck("Freddie", 1, []types.Match{{Opponent: "Joan", Wins: 2, Losses: 0}})
+	joanDeck := seedDeck("Joan", 1, []types.Match{{Opponent: "Freddie", Wins: 0, Losses: 2}})
+	b.Seed("cubeA", freddieDeck, joanDeck)
 	s := storage.NewStore(b)
 
 	_, err := s.UpdateDeckMeta("cubeA", storage.DeckMetaWrite{
@@ -64,15 +98,15 @@ func TestMemoryBackend_UpdateRoundTrips(t *testing.T) {
 
 	got, err := s.List("cubeA", nil)
 	assert.NoError(t, err)
-	var alice *storage.Deck
+	var freddie *storage.Deck
 	for _, d := range got {
-		if d.Player == "Alice" {
-			alice = d
+		if d.Player == "Freddie" {
+			freddie = d
 		}
 	}
-	assert.NotNil(t, alice)
-	assert.Equal(t, "Aggro", alice.MacroArchetype)
-	assert.Equal(t, []string{"fast"}, alice.Labels)
+	assert.NotNil(t, freddie)
+	assert.Equal(t, "Aggro", freddie.MacroArchetype)
+	assert.Equal(t, []string{"fast"}, freddie.Labels)
 }
 
 func TestMemoryRulesRoundTrip(t *testing.T) {

@@ -11,6 +11,8 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
+// fakeFile is the file backend stub. It records which cube each call named and
+// whether any write reached it.
 type fakeFile struct {
 	wrote         bool
 	rulesCube     string
@@ -29,7 +31,11 @@ func deckFor(source string) *storage.Deck {
 func (f *fakeFile) RawDecks(cube string) ([]*storage.Deck, error) {
 	return []*storage.Deck{deckFor("file:" + cube)}, nil
 }
-func (f *fakeFile) Index(cube string) (*storage.CubeIndex, error) { return &storage.CubeIndex{}, nil }
+
+func (f *fakeFile) Index(cube string) (*storage.CubeIndex, error) {
+	return &storage.CubeIndex{}, nil
+}
+
 func (f *fakeFile) LoadDraft(cube string, draftID int) ([]*storage.Deck, error) {
 	return []*storage.Deck{deckFor("file:" + cube)}, nil
 }
@@ -73,124 +79,130 @@ func (f *fakeFile) GetSnapshot(cube string, d int) (*types.Cube, error) {
 	return &types.Cube{}, nil
 }
 
+// fakeCC is the CubeCobra backend stub.
 type fakeCC struct{}
 
 func (fakeCC) RawDecks(cube string) ([]*storage.Deck, error) {
 	return []*storage.Deck{deckFor("cc:" + cube)}, nil
 }
-func (fakeCC) Index(cube string) (*storage.CubeIndex, error) { return &storage.CubeIndex{}, nil }
+
+func (fakeCC) Index(cube string) (*storage.CubeIndex, error) {
+	return &storage.CubeIndex{}, nil
+}
 
 func TestRouterReadDispatch(t *testing.T) {
-	r := New(&fakeFile{}, fakeCC{})
-	fd, _ := r.RawDecks("polyverse")
-	if fd[0].Player != "file:polyverse" {
-		t.Errorf("registry cube routed to %q, want file", fd[0].Player)
+	router := New(&fakeFile{}, fakeCC{})
+	fileDecks, err := router.RawDecks("polyverse")
+	if err != nil || len(fileDecks) != 1 || fileDecks[0].Player != "file:polyverse" {
+		t.Errorf("registry cube routed to %v, %v, want the file backend's deck", fileDecks, err)
 	}
-	cd, _ := r.RawDecks("cc:polyversal")
-	if cd[0].Player != "cc:cc:polyversal" {
-		t.Errorf("cc cube routed to %q, want cc backend", cd[0].Player)
+	ccDecks, err := router.RawDecks("cc:polyversal")
+	if err != nil || len(ccDecks) != 1 || ccDecks[0].Player != "cc:cc:polyversal" {
+		t.Errorf("cc cube routed to %v, %v, want the cc backend's deck", ccDecks, err)
 	}
 }
 
 func TestRouterWritesGatedForCC(t *testing.T) {
-	ff := &fakeFile{}
-	r := New(ff, fakeCC{})
+	files := &fakeFile{}
+	router := New(files, fakeCC{})
 
-	if err := r.SaveDecks("polyverse", 1, nil); err != nil {
+	if err := router.SaveDecks("polyverse", 1, nil); err != nil {
 		t.Fatalf("registry write errored: %v", err)
 	}
-	if !ff.wrote {
+	if !files.wrote {
 		t.Error("registry write did not reach file backend")
 	}
-	if _, err := r.LoadDraft("polyverse", 1); err != nil {
+	if _, err := router.LoadDraft("polyverse", 1); err != nil {
 		t.Fatalf("registry LoadDraft errored: %v", err)
 	}
 
-	if err := r.SaveDecks("cc:polyversal", 1, nil); !errors.Is(err, storage.ErrReadOnly) {
+	if err := router.SaveDecks("cc:polyversal", 1, nil); !errors.Is(err, storage.ErrReadOnly) {
 		t.Errorf("cc SaveDecks err = %v, want ErrReadOnly", err)
 	}
-	if _, err := r.LoadDraft("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
+	if _, err := router.LoadDraft("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc LoadDraft err = %v, want ErrUnsupported", err)
 	}
-	if _, err := r.GetDraftLog("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
+	if _, err := router.GetDraftLog("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc GetDraftLog err = %v, want ErrUnsupported", err)
 	}
 }
 
 func TestRouterCreateDraftGatedForCC(t *testing.T) {
-	ff := &fakeFile{}
-	r := New(ff, fakeCC{})
-	if _, err := r.CreateDraft("cc:polyversal", types.DraftMetadata{}, nil, nil); !errors.Is(err, storage.ErrReadOnly) {
+	files := &fakeFile{}
+	router := New(files, fakeCC{})
+	if _, err := router.CreateDraft("cc:polyversal", types.DraftMetadata{}, nil, nil); !errors.Is(err, storage.ErrReadOnly) {
 		t.Errorf("cc CreateDraft err = %v, want ErrReadOnly", err)
 	}
-	if ff.wrote {
+	if files.wrote {
 		t.Error("cc CreateDraft reached the file backend")
 	}
-	if _, err := r.CreateDraft("polyverse", types.DraftMetadata{}, nil, nil); err != nil {
+	if _, err := router.CreateDraft("polyverse", types.DraftMetadata{}, nil, nil); err != nil {
 		t.Fatalf("registry CreateDraft errored: %v", err)
 	}
-	if !ff.wrote {
+	if !files.wrote {
 		t.Error("registry CreateDraft did not reach file backend")
 	}
 }
 
-func TestRouterCCRulesBaseline(t *testing.T) {
-	ff := &fakeFile{}
-	r := New(ff, fakeCC{})
-	if _, err := r.GetRules("cc:polyversal"); err != nil {
+func TestRouter_RulesCubeChoice(t *testing.T) {
+	files := &fakeFile{}
+	router := New(files, fakeCC{})
+	if _, err := router.GetRules("cc:polyversal"); err != nil {
 		t.Fatalf("cc GetRules errored: %v", err)
 	}
-	if ff.rulesCube != baselineRulesCube {
-		t.Errorf("cc GetRules read rules for %q, want baseline %q", ff.rulesCube, baselineRulesCube)
+	if files.rulesCube != "global" {
+		t.Errorf("cc GetRules read %q, want global", files.rulesCube)
 	}
-}
-
-func TestRouter_CCRulesUseGlobal(t *testing.T) {
-	ff := &fakeFile{}
-	r := New(ff, fakeCC{})
-	if _, err := r.GetRules("cc:polyversal"); err != nil {
-		t.Fatalf("cc GetRules errored: %v", err)
-	}
-	if ff.rulesCube != "global" {
-		t.Errorf("cc GetRules read %q, want global", ff.rulesCube)
-	}
-	if err := r.PutRules("cc:polyversal", &design.DesignMapConfig{}); err != nil {
+	if err := router.PutRules("cc:polyversal", &design.DesignMapConfig{}); err != nil {
 		t.Fatalf("cc PutRules errored: %v", err)
 	}
-	if ff.putRulesCube != "global" {
-		t.Errorf("cc PutRules wrote %q, want global", ff.putRulesCube)
+	if files.putRulesCube != "global" {
+		t.Errorf("cc PutRules wrote %q, want global", files.putRulesCube)
+	}
+
+	if _, err := router.GetRules("polyverse"); err != nil {
+		t.Fatalf("registry GetRules errored: %v", err)
+	}
+	if files.rulesCube != "polyverse" {
+		t.Errorf("registry GetRules read %q, want polyverse", files.rulesCube)
+	}
+	if err := router.PutRules("polyverse", &design.DesignMapConfig{}); err != nil {
+		t.Fatalf("registry PutRules errored: %v", err)
+	}
+	if files.putRulesCube != "polyverse" {
+		t.Errorf("registry PutRules wrote %q, want polyverse", files.putRulesCube)
 	}
 }
 
 func TestRouter_CCOverridesUnsupported(t *testing.T) {
-	ff := &fakeFile{}
-	r := New(ff, fakeCC{})
-	got, err := r.GetOverrides("cc:polyversal")
+	files := &fakeFile{}
+	router := New(files, fakeCC{})
+	got, err := router.GetOverrides("cc:polyversal")
 	if err != nil {
 		t.Fatalf("cc GetOverrides errored: %v", err)
 	}
-	if len(got.On) != 0 || ff.overridesCube != "" {
-		t.Errorf("cc GetOverrides = %v from %q, want empty without the file backend", got, ff.overridesCube)
+	if len(got.On) != 0 || files.overridesCube != "" {
+		t.Errorf("cc GetOverrides = %v from %q, want empty without the file backend", got, files.overridesCube)
 	}
-	if err := r.PutOverrides("cc:polyversal", design.PackageOverrides{}); !errors.Is(err, storage.ErrReadOnly) {
+	if err := router.PutOverrides("cc:polyversal", design.PackageOverrides{}); !errors.Is(err, storage.ErrReadOnly) {
 		t.Errorf("cc PutOverrides err = %v, want ErrReadOnly", err)
 	}
-	if ff.wrote {
+	if files.wrote {
 		t.Error("cc PutOverrides reached the file backend")
 	}
 
-	reg, err := r.GetOverrides("polyverse")
-	if err != nil || ff.overridesCube != "polyverse" || len(reg.On) != 1 {
-		t.Errorf("registry GetOverrides = %v, %v from %q, want the file backend's", reg, err, ff.overridesCube)
+	reg, err := router.GetOverrides("polyverse")
+	if err != nil || files.overridesCube != "polyverse" || len(reg.On) != 1 {
+		t.Errorf("registry GetOverrides = %v, %v from %q, want the file backend's", reg, err, files.overridesCube)
 	}
 }
 
 func TestRouterWritable(t *testing.T) {
-	r := New(&fakeFile{}, fakeCC{})
-	if !r.Writable("polyverse") {
+	router := New(&fakeFile{}, fakeCC{})
+	if !router.Writable("polyverse") {
 		t.Error("registry cube should be writable")
 	}
-	if r.Writable("cc:polyversal") {
+	if router.Writable("cc:polyversal") {
 		t.Error("cc cube should be read-only")
 	}
 }

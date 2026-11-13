@@ -15,16 +15,20 @@ import (
 // implements DeckStorage, so server handlers depend on it, not on any concrete
 // backend.
 type Store struct {
-	sync.Mutex
 	backend  Backend
 	players  PlayerSource
 	readOnly bool
-	caches   map[string]*cubeCache
+
+	// mu guards caches.
+	mu     sync.Mutex
+	caches map[string]*cubeCache
 }
 
+// cubeCache is one cube's enriched decks, indexed by (draft, deck ID), and
+// when they were loaded.
 type cubeCache struct {
 	decks    []*Deck
-	lookup   map[key]*Deck
+	lookup   map[deckKey]*Deck
 	loadedAt time.Time
 }
 
@@ -32,6 +36,8 @@ type cubeCache struct {
 // reloads it from the backend. A read-only Store never reloads, since nothing
 // changes its data short of a restart.
 const cacheTTL = 10 * time.Second
+
+var _ DeckStorage = (*Store)(nil)
 
 // NewStore wraps a backend with caching, name resolution and enrichment.
 func NewStore(backend Backend, opts ...StoreOption) *Store {
@@ -86,10 +92,14 @@ func (s *Store) Players() (*players.List, error) {
 	if pl == nil {
 		pl = &players.List{}
 	}
-	if pl.Players == nil {
-		pl.Players = []players.Player{}
+
+	// Copy rather than fill in the source's list, which a read-only Store
+	// shares between callers.
+	out := *pl
+	if out.Players == nil {
+		out.Players = []players.Player{}
 	}
-	return pl, nil
+	return &out, nil
 }
 
 // AddPlayer adds a player to the global list and returns it.
@@ -148,8 +158,8 @@ func (s *Store) playerStore() (PlayerStore, error) {
 // invalidateAll drops every cached cube, so the next read resolves the
 // current player names and groups.
 func (s *Store) invalidateAll() {
-	s.Lock()
-	defer s.Unlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	s.caches = nil
 }
 
@@ -162,6 +172,8 @@ func (s *Store) CreateDraft(cube string, meta types.DraftMetadata, snapshot *typ
 	if !s.Writable(cube) {
 		return 0, ErrReadOnly
 	}
+
+	// Check every player exists and appears at most once before writing.
 	pl, err := s.playerList()
 	if err != nil {
 		return 0, err
@@ -179,8 +191,9 @@ func (s *Store) CreateDraft(cube string, meta types.DraftMetadata, snapshot *typ
 		}
 		seen[d.PlayerID] = true
 	}
-	s.Lock()
-	defer s.Unlock()
+
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	id, err := s.backend.CreateDraft(cube, meta, snapshot, decks)
 	if err != nil {
 		return 0, err
@@ -189,9 +202,12 @@ func (s *Store) CreateDraft(cube string, meta types.DraftMetadata, snapshot *typ
 	return id, nil
 }
 
+// List returns the cube's enriched decks matching req, which may be nil for
+// all of them. The decks come from a cache shared between callers, so they
+// must not be modified.
 func (s *Store) List(cube string, req *DecksRequest) ([]*Deck, error) {
-	s.Lock()
-	defer s.Unlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	c, err := s.cacheForLocked(cube)
 	if err != nil {
 		return nil, err
@@ -200,7 +216,7 @@ func (s *Store) List(cube string, req *DecksRequest) ([]*Deck, error) {
 }
 
 // cacheForLocked returns the cube's cache, loading it from the backend and
-// enriching on a miss. The caller must hold s.Mutex.
+// enriching on a miss. The caller must hold s.mu.
 func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 	if s.caches == nil {
 		s.caches = map[string]*cubeCache{}
@@ -208,6 +224,9 @@ func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 	if c, ok := s.caches[cube]; ok && (s.readOnly || time.Since(c.loadedAt) < cacheTTL) {
 		return c, nil
 	}
+
+	// Miss: load, name and enrich the whole cube, since opponent win rates
+	// need every deck.
 	loaded, err := s.backend.RawDecks(cube)
 	if err != nil {
 		return nil, err
@@ -216,9 +235,9 @@ func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 		return nil, err
 	}
 	Enrich(loaded)
-	c := &cubeCache{decks: loaded, lookup: map[key]*Deck{}, loadedAt: time.Now()}
+	c := &cubeCache{decks: loaded, lookup: map[deckKey]*Deck{}, loadedAt: time.Now()}
 	for _, d := range loaded {
-		c.lookup[key{draft: d.Metadata.DraftID, id: d.ID}] = d
+		c.lookup[deckKey{draft: d.Metadata.DraftID, id: d.ID}] = d
 	}
 	s.caches[cube] = c
 	return c, nil
@@ -232,8 +251,8 @@ func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
 	if !s.Writable(cube) {
 		return nil, ErrReadOnly
 	}
-	s.Lock()
-	defer s.Unlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	decks, err := s.backend.LoadDraft(cube, w.DraftID)
 	if err != nil {
 		return nil, err
@@ -245,6 +264,8 @@ func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
 	if target == nil {
 		return nil, ErrDeckNotFound
 	}
+
+	// Apply the annotation fields; nil Notes leaves the existing notes.
 	target.MacroArchetype = w.MacroArchetype
 	target.Labels = w.Labels
 	target.Colors = w.Colors
@@ -272,8 +293,8 @@ func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
 	if !s.Writable(cube) {
 		return nil, ErrReadOnly
 	}
-	s.Lock()
-	defer s.Unlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	decks, err := s.backend.LoadDraft(cube, e.DraftID)
 	if err != nil {
 		return nil, err
@@ -282,6 +303,8 @@ func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
 	if target == nil {
 		return nil, ErrDeckNotFound
 	}
+
+	// Reassign the player, then resolve names so the reconcile below sees them.
 	if e.PlayerID != nil {
 		if err := s.assignPlayer(decks, target, *e.PlayerID); err != nil {
 			return nil, err
@@ -293,15 +316,17 @@ func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
 
 	changed := []*Deck{target}
 	if e.Matches != nil {
-		tds := make([]*types.Deck, len(decks))
-		byTD := make(map[*types.Deck]*Deck, len(decks))
+		// Reconcile the new record across the draft, collecting every deck it
+		// changes, including opponents whose matches mirror it.
+		rawDecks := make([]*types.Deck, len(decks))
+		deckByRaw := make(map[*types.Deck]*Deck, len(decks))
 		for i, d := range decks {
-			tds[i] = &d.Deck
-			byTD[&d.Deck] = d
+			rawDecks[i] = &d.Deck
+			deckByRaw[&d.Deck] = d
 		}
 		changed = changed[:0]
-		for _, td := range types.ReconcileRecord(tds, e.DeckID, e.Matches) {
-			changed = append(changed, byTD[td])
+		for _, raw := range types.ReconcileRecord(rawDecks, e.DeckID, e.Matches) {
+			changed = append(changed, deckByRaw[raw])
 		}
 	}
 	if err := s.backend.SaveDecks(cube, e.DraftID, changed); err != nil {
@@ -336,7 +361,7 @@ func (s *Store) assignPlayer(decks []*Deck, target *Deck, playerID int) error {
 }
 
 // reloadLocked drops the cube's cache after a write and returns the freshly
-// enriched copies of the given decks. The caller must hold s.Mutex.
+// enriched copies of the given decks. The caller must hold s.mu.
 func (s *Store) reloadLocked(cube string, draftID int, written []*Deck) ([]*Deck, error) {
 	delete(s.caches, cube)
 	c, err := s.cacheForLocked(cube)
@@ -345,7 +370,7 @@ func (s *Store) reloadLocked(cube string, draftID int, written []*Deck) ([]*Deck
 	}
 	out := make([]*Deck, 0, len(written))
 	for _, w := range written {
-		d, ok := c.lookup[key{draft: draftID, id: w.ID}]
+		d, ok := c.lookup[deckKey{draft: draftID, id: w.ID}]
 		if !ok {
 			return nil, ErrDeckNotFound
 		}

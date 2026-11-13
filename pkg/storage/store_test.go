@@ -1,14 +1,16 @@
 package storage
 
 import (
+	"errors"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 // fakeBackend serves fixed decks. Methods it doesn't define panic through the
@@ -35,18 +37,91 @@ func (f *fakeBackend) RawDecks(cube string) ([]*Deck, error) {
 	return out, nil
 }
 
-func TestStore_ListEnriches(t *testing.T) {
-	alice := makeStorageDeck("Alice", 1, "2024-01-01", nil, []types.Match{{Opponent: "Bob", Wins: 2, Losses: 1}}, nil)
-	bob := makeStorageDeck("Bob", 1, "2024-01-01", nil, []types.Match{{Opponent: "Alice", Wins: 1, Losses: 2}}, nil)
+// failingIndexBackend fails its first Index read with a transient error.
+type failingIndexBackend struct {
+	fakeBackend
+	indexReads int
+}
 
-	s := NewStore(&fakeBackend{decks: []*Deck{alice, bob}})
+func (f *failingIndexBackend) Index(string) (*CubeIndex, error) {
+	f.indexReads++
+	if f.indexReads == 1 {
+		return nil, errors.New("bucket mount hiccup")
+	}
+	return &CubeIndex{}, nil
+}
+
+func TestReadOnlyStoreRetriesTransientErrors(t *testing.T) {
+	b := &failingIndexBackend{}
+	s := NewStore(b, WithReadOnly())
+
+	_, err := s.Index("c")
+	require.Error(t, err)
+	_, err = s.Index("c")
+	require.NoError(t, err)
+	assert.Equal(t, 2, b.indexReads, "a transient error isn't remembered")
+}
+
+func TestStorePlayersLeavesSourceListUntouched(t *testing.T) {
+	source := &players.List{}
+	s := NewStore(&fakeBackend{}, WithPlayers(listSource{source}))
+
+	got, err := s.Players()
+	require.NoError(t, err)
+	assert.NotNil(t, got.Players)
+	assert.Nil(t, source.Players, "the source's list is shared, so Players works on a copy")
+
+	empty, err := NewStore(&fakeBackend{}).Players()
+	require.NoError(t, err)
+	assert.Empty(t, empty.Players)
+	assert.NotNil(t, empty.Players)
+}
+
+func TestReadOnlyStoreReadsPlayersOnce(t *testing.T) {
+	source := &countingSource{}
+	s := NewStore(&fakeBackend{}, WithReadOnly(), WithPlayers(source))
+	for range 3 {
+		_, err := s.Players()
+		require.NoError(t, err)
+	}
+	assert.Equal(t, 1, source.reads)
+
+	live := &countingSource{}
+	writable := NewStore(&fakeBackend{}, WithPlayers(live))
+	for range 3 {
+		_, err := writable.Players()
+		require.NoError(t, err)
+	}
+	assert.Equal(t, 3, live.reads)
+}
+
+// listSource serves one list as the Store's player source.
+type listSource struct{ list *players.List }
+
+func (l listSource) Players() (*players.List, error) {
+	return l.list, nil
+}
+
+// countingSource counts how often the player list is read.
+type countingSource struct{ reads int }
+
+func (c *countingSource) Players() (*players.List, error) {
+	c.reads++
+	return &players.List{}, nil
+}
+
+func TestStore_ListEnriches(t *testing.T) {
+	freddie := makeStorageDeck("Freddie", 1, "2024-01-01", nil, []types.Match{{Opponent: "Joan", Wins: 2, Losses: 1}}, nil)
+	joan := makeStorageDeck("Joan", 1, "2024-01-01", nil, []types.Match{{Opponent: "Freddie", Wins: 1, Losses: 2}}, nil)
+
+	s := NewStore(&fakeBackend{decks: []*Deck{freddie, joan}})
 	got, err := s.List("anycube", nil)
 	assert.NoError(t, err)
 	assert.Len(t, got, 2)
 
 	var a *Deck
 	for _, d := range got {
-		if d.Player == "Alice" {
+		if d.Player == "Freddie" {
 			a = d
 		}
 	}

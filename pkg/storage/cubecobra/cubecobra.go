@@ -10,6 +10,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -29,11 +31,12 @@ type Backend struct {
 	src     types.CubeSource
 
 	mu     sync.Mutex
-	cache  map[string]cached
+	cache  map[string]cachedResponse
 	client *http.Client
 }
 
-type cached struct {
+// cachedResponse is a fetched analysisdata response and when it was fetched.
+type cachedResponse struct {
 	resp    analysisResponse
 	fetched time.Time
 }
@@ -45,7 +48,7 @@ func New(baseURL string, src types.CubeSource) *Backend {
 	return &Backend{
 		baseURL: baseURL,
 		src:     src,
-		cache:   map[string]cached{},
+		cache:   map[string]cachedResponse{},
 		client:  &http.Client{Timeout: 30 * time.Second},
 	}
 }
@@ -59,6 +62,8 @@ type analysisResponse struct {
 	Cards   map[string]analysisCard `json:"cards"`
 }
 
+// analysisRecord is one recorded draft: its players, round-by-round matches,
+// and each player's mainboard as oracle IDs.
 type analysisRecord struct {
 	ID      string              `json:"id"`
 	Name    string              `json:"name"`
@@ -69,6 +74,7 @@ type analysisRecord struct {
 	Decks   map[string][]string `json:"decks"`
 }
 
+// analysisCard is an entry in the analysisdata oracle-id card map.
 type analysisCard struct {
 	Name string `json:"name"`
 }
@@ -86,7 +92,11 @@ func (b *Backend) fetch(cube string) (analysisResponse, error) {
 	if err != nil {
 		return analysisResponse{}, err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			logrus.WithError(err).Warn("Failed to close the CubeCobra response body")
+		}
+	}()
 	if resp.StatusCode != http.StatusOK {
 		return analysisResponse{}, fmt.Errorf("cubecobra analysisdata %s: status %d", ccid, resp.StatusCode)
 	}
@@ -98,7 +108,7 @@ func (b *Backend) fetch(cube string) (analysisResponse, error) {
 	if err := json.Unmarshal(body, &out); err != nil {
 		return analysisResponse{}, err
 	}
-	b.cache[ccid] = cached{resp: out, fetched: time.Now()}
+	b.cache[ccid] = cachedResponse{resp: out, fetched: time.Now()}
 	return out, nil
 }
 
@@ -124,6 +134,7 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 			d.DraftSize = len(rec.Players)
 			d.Labels = []string{}
 			d.Mainboard = buildMainboard(rec.Decks[p.Name], data.Cards, byName)
+
 			// analysisdata is mainboard-only; keep Sideboard a non-nil empty
 			// slice so the UI can iterate it like any other deck.
 			d.Sideboard = []types.Card{}
@@ -181,8 +192,8 @@ func (b *Backend) cubeCardsByName(cube string) map[string]types.Card {
 }
 
 // buildMainboard resolves each oracle id to a card, preferring the cube's live
-// printing and tags and falling back to the oracle dataset for cards no longer
-// in the cube.
+// printing and tags and falling back to the oracle dataset for cards the cube
+// has since dropped.
 func buildMainboard(oracleIDs []string, cards map[string]analysisCard, byName map[string]types.Card) []types.Card {
 	out := make([]types.Card, 0, len(oracleIDs))
 	for _, id := range oracleIDs {
