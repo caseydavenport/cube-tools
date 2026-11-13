@@ -53,6 +53,7 @@ func (stubCubes) Refresh(string) (*types.Cube, error) {
 	return stubCube(), nil
 }
 
+// stubCube is three graveyard cards and a creature.
 func stubCube() *types.Cube {
 	return &types.Cube{Cards: []types.Card{
 		{Name: "gy1", OracleText: "Return a card from your graveyard."},
@@ -84,6 +85,7 @@ func graveyardPackages(string) ([]design.PackageCards, error) {
 	}}, nil
 }
 
+// queryDeck builds a draft 1 deck for the player ID holding the named cards.
 func queryDeck(playerID int, date string, names ...string) *storage.Deck {
 	d := &storage.Deck{}
 	d.PlayerID = playerID
@@ -108,6 +110,7 @@ func newSpy() *spyStore {
 	})}
 }
 
+// serve runs one request against the handler as the "testcube" cube.
 func serve(t *testing.T, h http.Handler, method, target, body string) *httptest.ResponseRecorder {
 	t.Helper()
 	req := httptest.NewRequest(method, target, strings.NewReader(body))
@@ -160,9 +163,7 @@ func TestFilteredHandlersMatchDecksPage(t *testing.T) {
 type populationCase struct {
 	name    string
 	handler func(storage.DeckStorage) http.Handler
-	method  string
 	target  string
-	body    string
 	want    storage.DecksRequest
 }
 
@@ -171,13 +172,13 @@ func TestWholePopulationHandlersKeepPopulation(t *testing.T) {
 	const dates = "&start=2026-01-01&end=2026-06-30"
 	dateRange := storage.DecksRequest{Start: "2026-01-01", End: "2026-06-30"}
 	for _, tc := range []populationCase{
-		{"removal", func(s storage.DeckStorage) http.Handler { return RemovalHandler(s, stubCubes{}) }, http.MethodGet, "/stats/removal?" + filters, "", storage.DecksRequest{}},
-		{"removal with dates", func(s storage.DeckStorage) http.Handler { return RemovalHandler(s, stubCubes{}) }, http.MethodGet, "/stats/removal?" + filters + dates, "", dateRange},
-		{"group distributions", func(s storage.DeckStorage) http.Handler { return GroupDistributionsHandler(s, stubCubes{}) }, http.MethodGet, "/stats/group-distributions?" + filters + dates, "", storage.DecksRequest{}},
+		{"removal", func(s storage.DeckStorage) http.Handler { return RemovalHandler(s, stubCubes{}) }, "/stats/removal?" + filters, storage.DecksRequest{}},
+		{"removal with dates", func(s storage.DeckStorage) http.Handler { return RemovalHandler(s, stubCubes{}) }, "/stats/removal?" + filters + dates, dateRange},
+		{"group distributions", func(s storage.DeckStorage) http.Handler { return GroupDistributionsHandler(s, stubCubes{}) }, "/stats/group-distributions?" + filters + dates, storage.DecksRequest{}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			spy := newSpy()
-			rec := serve(t, tc.handler(spy), tc.method, "/api/testcube"+tc.target, tc.body)
+			rec := serve(t, tc.handler(spy), http.MethodGet, "/api/testcube"+tc.target, "")
 			require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
 
 			// The design graph's card-name pass always reads every deck, so

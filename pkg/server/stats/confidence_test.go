@@ -13,10 +13,6 @@ func TestZForConfidence_KnownValues(t *testing.T) {
 	assert.InDelta(t, 2.5758, zForConfidence(0.99), 0.001)
 }
 
-func TestZForConfidence_DefaultIs95(t *testing.T) {
-	assert.InDelta(t, 1.9600, zForConfidence(0), 0.001)
-}
-
 func TestZForConfidence_FallsBackToDefault(t *testing.T) {
 	// Unset or nonsensical levels resolve to defaultConfidence (0.95).
 	def := zForConfidence(defaultConfidence)
@@ -47,6 +43,13 @@ func TestWilsonInterval_DrawsCountAsHalfWin(t *testing.T) {
 	assert.Less(t, low, 50.0)
 	assert.Greater(t, high, 50.0)
 	assert.InDelta(t, 50.0, (low+high)/2, 0.1)
+}
+
+func TestWilsonInterval_ClampsToZeroAndHundred(t *testing.T) {
+	_, high := wilsonInterval(10, 0, 0, zForConfidence(0.95))
+	assert.Equal(t, 100.0, high)
+	low, _ := wilsonInterval(0, 10, 0, zForConfidence(0.95))
+	assert.Equal(t, 0.0, low)
 }
 
 func TestWilsonInterval_HigherConfidenceWidens(t *testing.T) {

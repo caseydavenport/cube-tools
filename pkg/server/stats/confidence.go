@@ -46,13 +46,7 @@ func wilsonInterval(wins, losses, draws int, z float64) (float64, float64) {
 	center := (phat + z2/(2*n)) / denom
 	margin := (z / denom) * math.Sqrt(phat*(1-phat)/n+z2/(4*n*n))
 
-	low := center - margin
-	high := center + margin
-	if low < 0 {
-		low = 0
-	}
-	if high > 1 {
-		high = 1
-	}
+	low := max(0, center-margin)
+	high := min(1, center+margin)
 	return math.Round(1000*low) / 10, math.Round(1000*high) / 10
 }

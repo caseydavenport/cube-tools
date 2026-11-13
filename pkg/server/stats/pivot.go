@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"net/http"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -117,7 +118,9 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// Cube cards carry the richer oracle text and Tags, so composition dims
 	// prefer them over the deck's own (possibly sparser) card copies.
 	cubeCards := make(map[string]types.Card)
-	if cube, err := h.q.Cube(cubeID); err == nil {
+	if cube, err := h.q.Cube(cubeID); err != nil {
+		logrus.WithError(err).Warn("could not load cube for pivot, composition uses the decks' own cards")
+	} else {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c
 		}
@@ -149,15 +152,7 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	resp := computePivot(allDecks, subjects, &req, cubeCards, pkgs)
 
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Error("could not write pivot response")
-	}
+	writeJSON(rw, resp, "pivot")
 }
 
 // pivotPackages loads the cube's resolved packages when a card query
@@ -293,6 +288,8 @@ func computePivot(allDecks, subjects []*storage.Deck, req *PivotRequest, cubeCar
 	}
 }
 
+// addOutcome counts one game's outcome ("W", "L" or anything else for a draw)
+// in the cell, and records the deck it came from.
 func addOutcome(c *PivotCell, outcome, deckID string) {
 	switch outcome {
 	case "W":
@@ -317,6 +314,7 @@ func gameOutcome(g types.Game, d *storage.Deck) string {
 	}
 }
 
+// colorModeOf is the dimension's color mode, exact when unset.
 func colorModeOf(dim PivotDimension) colorMode {
 	if dim.ColorMode == "" {
 		return ColorModeExact
@@ -324,6 +322,7 @@ func colorModeOf(dim PivotDimension) colorMode {
 	return dim.ColorMode
 }
 
+// granularityOf is the dimension's color count (mono, dual or trio), clamped to 1 through 3.
 func granularityOf(dim PivotDimension) int {
 	if dim.Granularity < 1 {
 		return 1
@@ -368,10 +367,10 @@ func deckKeyer(dim PivotDimension, draftBucket map[int]string, cubeCards map[str
 			}
 			return nil
 		}
-	case "removal", "interaction", "counterspell", "creatures", "multicolor", "lands", "dna", "avg_cmc":
+	}
+	if isCompositionDim(dim.Dim) {
 		return func(d *storage.Deck) []string {
-			comp := composition(d, cubeCards)
-			return []string{compBucketLabel(dim.Dim, comp.value(dim.Dim))}
+			return []string{compBucketLabel(dim.Dim, composition(d, cubeCards).value(dim.Dim))}
 		}
 	}
 	return func(*storage.Deck) []string { return nil }
@@ -388,17 +387,17 @@ func opponentKeyer(dim PivotDimension, cubeCards map[string]types.Card) func(*st
 		}
 	}
 	base := strings.TrimPrefix(dim.Dim, "opponent_")
-	switch base {
-	case "archetype":
+	switch {
+	case base == "archetype":
 		return func(opp *storage.Deck) []string {
 			if opp.MacroArchetype == "" {
 				return nil
 			}
 			return []string{opp.MacroArchetype}
 		}
-	case "playgroup":
+	case base == "playgroup":
 		return func(opp *storage.Deck) []string { return []string{opp.GetPlayGroup()} }
-	case "removal", "interaction", "counterspell", "creatures", "multicolor", "lands", "dna", "avg_cmc":
+	case isCompositionDim(base):
 		return func(opp *storage.Deck) []string {
 			if len(opp.Mainboard) == 0 {
 				return nil
@@ -425,6 +424,16 @@ func buildDraftBuckets(allDecks []*storage.Deck, bucketSize int) map[int]string 
 	return out
 }
 
+// isCompositionDim reports whether dim is one of the per-deck count dimensions
+// that deckComposition measures.
+func isCompositionDim(dim string) bool {
+	switch dim {
+	case "removal", "interaction", "counterspell", "creatures", "multicolor", "lands", "dna", "avg_cmc":
+		return true
+	}
+	return false
+}
+
 // deckComposition holds per-deck counts over the nonland mainboard, plus the
 // land count and average mana value.
 type deckComposition struct {
@@ -438,6 +447,7 @@ type deckComposition struct {
 	AvgCMC       float64
 }
 
+// value is the count (or average mana value) for a composition dimension, 0 for any other.
 func (c deckComposition) value(dim string) float64 {
 	switch dim {
 	case "removal":
@@ -460,6 +470,8 @@ func (c deckComposition) value(dim string) float64 {
 	return 0
 }
 
+// composition counts the deck's mainboard by classifier. A card the cube also
+// holds is read from the cube's copy, which carries the fuller oracle text and tags.
 func composition(d *storage.Deck, cubeCards map[string]types.Card) deckComposition {
 	comp := deckComposition{}
 	cmcSum, nonland := 0, 0
@@ -489,11 +501,8 @@ func composition(d *storage.Deck, cubeCards map[string]types.Card) deckCompositi
 		if len(card.Colors) >= 2 {
 			comp.Multicolor++
 		}
-		for _, t := range card.Tags {
-			if t == dnaTag {
-				comp.DNA++
-				break
-			}
+		if slices.Contains(card.Tags, dnaTag) {
+			comp.DNA++
 		}
 	}
 	if nonland > 0 {
@@ -565,33 +574,13 @@ func deckPasses(d *storage.Deck, preds []PivotPredicate, cubeCards map[string]ty
 	return true
 }
 
+// predicatePasses reports whether a deck satisfies one predicate. A predicate on
+// a dimension the engine doesn't know, or a numeric one with an unparseable
+// value, passes every deck rather than emptying the table.
 func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]types.Card, pkgs []design.PackageCards) bool {
 	switch p.Dim {
 	case "color":
-		colors := d.GetColors()
-		want := strings.ToUpper(p.Value)
-
-		switch p.Op {
-		case "excludes":
-			if colors.Contains(want) {
-				return false
-			}
-			for _, c := range want {
-				if colors[string(c)] {
-					return false
-				}
-			}
-			return true
-
-		// contains
-		default:
-			for _, c := range want {
-				if !colors[string(c)] {
-					return false
-				}
-			}
-			return true
-		}
+		return colorPredicatePasses(d.GetColors(), p.Op, strings.ToUpper(p.Value))
 	case "archetype":
 		return compareString(d.MacroArchetype, p.Op, p.Value)
 	case "player":
@@ -599,13 +588,7 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 	case "playgroup":
 		return compareString(d.GetPlayGroup(), p.Op, p.Value)
 	case "label":
-		has := false
-		for _, l := range d.Labels {
-			if strings.EqualFold(l, p.Value) {
-				has = true
-				break
-			}
-		}
+		has := slices.ContainsFunc(d.Labels, func(l string) bool { return strings.EqualFold(l, p.Value) })
 		if p.Op == "neq" {
 			return !has
 		}
@@ -624,7 +607,6 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 		got := composition(d, cubeCards).value(p.Dim)
 		want, err := strconv.ParseFloat(p.Value, 64)
 		if err != nil {
-			// ignore an unparseable numeric predicate rather than drop everything
 			return true
 		}
 		return compareNumber(got, p.Op, want)
@@ -632,6 +614,18 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 	return true
 }
 
+// colorPredicatePasses reports whether the deck's colors include every letter
+// in want, or with op "excludes", none of them.
+func colorPredicatePasses(colors types.ColorIdentity, op, want string) bool {
+	for _, c := range want {
+		if colors[string(c)] == (op == "excludes") {
+			return false
+		}
+	}
+	return true
+}
+
+// compareString compares case-insensitively: "neq" negates, anything else is equality.
 func compareString(got, op, want string) bool {
 	if op == "neq" {
 		return !strings.EqualFold(got, want)
@@ -639,6 +633,7 @@ func compareString(got, op, want string) bool {
 	return strings.EqualFold(got, want)
 }
 
+// compareNumber applies op ("lte", "eq", or anything else for at least) to the value.
 func compareNumber(got float64, op string, want float64) bool {
 	switch op {
 	case "lte":
@@ -723,7 +718,7 @@ func keyRanks(keys []string, dim string) map[string]float64 {
 	dim = strings.TrimPrefix(dim, "opponent_")
 	rank := map[string]float64{}
 	switch dim {
-	case "color", "opponent_color":
+	case "color":
 		for _, k := range keys {
 			rank[k] = colorRank(k)
 		}
@@ -753,13 +748,14 @@ func colorRank(key string) float64 {
 	return r
 }
 
+// leadingNumber parses the number a bucket label starts with ("12-14" is 12,
+// "15+" is 15, "0.5-1.0" is 0.5). A label with no leading number sorts last.
 func leadingNumber(key string) float64 {
 	end := 0
 	for end < len(key) && (key[end] == '.' || (key[end] >= '0' && key[end] <= '9')) {
 		end++
 	}
 	if end == 0 {
-		// "9+" and other non-numeric-leading go last
 		return math.MaxFloat64
 	}
 	n, err := strconv.ParseFloat(key[:end], 64)

@@ -19,9 +19,8 @@ func TestPct_TwoDecimalPrecision(t *testing.T) {
 	assert.InDelta(t, 33.33, pct(1, 3), 1e-9)
 }
 
-// Two ratios that round to the same integer percent must remain distinct
-// after pct(). The old code returned math.Round(100*a/b) (integer), which
-// collapsed these together and left sort order map-iteration-dependent.
+// Two ratios that round to the same integer percent stay distinct after pct(),
+// so sort order doesn't depend on map iteration.
 func TestPct_PreservesSubPercentOrdering(t *testing.T) {
 	// 66/100 = 66.00, 67/100 = 67.00 (the easy case).
 	// Harder case: 200/301 and 199/300 both round to 66.something integer

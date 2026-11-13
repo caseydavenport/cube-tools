@@ -1,11 +1,11 @@
 package stats
 
 import (
-	"encoding/json"
 	"fmt"
 	"math"
 	"net/http"
 	"regexp"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -27,9 +27,11 @@ const representativeX = 3
 // RemovalProfile is the parsed kill condition of a spot-removal spell. A zero
 // value on a Max* axis means that axis is unconstrained.
 type RemovalProfile struct {
+	// Spot is true for single-target battlefield removal, the only kind the page scores.
 	Spot bool
 
-	// Kind is "destroy", "exile", "damage", "shrink" or "fight".
+	// Kind is "destroy", "exile", "damage", "shrink" or "fight" for spot removal.
+	// Other removal keeps "sweeper", "edict", "tempo" or "unclassified".
 	Kind string
 
 	// Restriction is a human label such as "toughness ≤ 3" or "any creature".
@@ -62,6 +64,7 @@ type removalOverride struct {
 	modes   []removalMode
 }
 
+// removalOverrides are the curated corrections, keyed by card name.
 var removalOverrides = map[string]removalOverride{
 	// Reduced / alternate cast costs.
 	// Leyline Binding's domain makes it about {1}-{2} in a 5-color cube.
@@ -136,6 +139,26 @@ var (
 	reUntargetable = regexp.MustCompile(`(?im)^(?:[a-z ]+, )*(?:hexproof|shroud)(?:,| \(|$)`)
 )
 
+// removalQualifier is a rules-text cap on what a removal spell can target, such
+// as "mana value 3 or less". The regexp captures the number, format builds the
+// restriction label, and apply sets the matching Max* field. Kickable
+// qualifiers note a kicker in the label.
+type removalQualifier struct {
+	re       *regexp.Regexp
+	format   string
+	kickable bool
+	apply    func(p *RemovalProfile, n int)
+}
+
+// removalQualifiers are checked in order, so the first cap in the text wins.
+var removalQualifiers = []removalQualifier{
+	{re: rePTSum, format: "P+T ≤ %d", apply: func(p *RemovalProfile, n int) { p.MaxPTSum = n }},
+	{re: reMV, format: "MV ≤ %d", kickable: true, apply: func(p *RemovalProfile, n int) { p.MaxMV = n }},
+	{re: rePower, format: "power ≤ %d", apply: func(p *RemovalProfile, n int) { p.MaxPower = n }},
+	{re: reToughness, format: "toughness ≤ %d", apply: func(p *RemovalProfile, n int) { p.MaxToughness = n }},
+}
+
+// colorLetter maps a color word in rules text to its mana symbol.
 var colorLetter = map[string]string{
 	"white": "W",
 	"blue":  "U",
@@ -145,8 +168,8 @@ var colorLetter = map[string]string{
 }
 
 // classifyRemoval parses a card into its spot-removal profile. Cards that aren't
-// removal, or are sweepers/edicts/tempo/graveyard-hate/unparseable, come back with
-// Spot=false.
+// removal come back as the zero profile. Sweepers, edicts and tempo effects keep
+// their Kind, and removal the regexes can't read is "unclassified"; all have Spot false.
 func classifyRemoval(c types.Card) RemovalProfile {
 	if o, ok := removalOverrides[c.Name]; ok && o.profile != nil {
 		return *o.profile
@@ -185,28 +208,18 @@ func classifyRemoval(c types.Card) RemovalProfile {
 		kicked = " (kicker: any)"
 	}
 
-	// Destroy/exile with an explicit qualifier - check before plain destroy.
-	if m := rePTSum.FindStringSubmatch(text); m != nil {
+	// A cap on power, toughness, mana value or total P+T comes before plain destroy.
+	for _, q := range removalQualifiers {
+		m := q.re.FindStringSubmatch(text)
+		if m == nil {
+			continue
+		}
 		n := parseCapturedInt(m[1])
-		p := RemovalProfile{Spot: true, Kind: verb, MaxPTSum: n, Restriction: fmt.Sprintf("P+T ≤ %d", n)}
-		applyColor(&p)
-		return p
-	}
-	if m := reMV.FindStringSubmatch(text); m != nil {
-		n := parseCapturedInt(m[1])
-		p := RemovalProfile{Spot: true, Kind: verb, MaxMV: n, Restriction: fmt.Sprintf("MV ≤ %d%s", n, kicked)}
-		applyColor(&p)
-		return p
-	}
-	if m := rePower.FindStringSubmatch(text); m != nil {
-		n := parseCapturedInt(m[1])
-		p := RemovalProfile{Spot: true, Kind: verb, MaxPower: n, Restriction: fmt.Sprintf("power ≤ %d", n)}
-		applyColor(&p)
-		return p
-	}
-	if m := reToughness.FindStringSubmatch(text); m != nil {
-		n := parseCapturedInt(m[1])
-		p := RemovalProfile{Spot: true, Kind: verb, MaxToughness: n, Restriction: fmt.Sprintf("toughness ≤ %d", n)}
+		p := RemovalProfile{Spot: true, Kind: verb, Restriction: fmt.Sprintf(q.format, n)}
+		q.apply(&p, n)
+		if q.kickable {
+			p.Restriction += kicked
+		}
 		applyColor(&p)
 		return p
 	}
@@ -253,17 +266,15 @@ func classifyRemoval(c types.Card) RemovalProfile {
 
 // effectiveCost is what the removal really costs to fire, not its printed mana
 // value. Curated overrides win; then delve (drop the generic, assume fully
-// delved) and X (assume X≈3); otherwise the printed mana value.
+// delved); otherwise the printed mana value. X spells get their cost from an
+// override using representativeX.
 func effectiveCost(c types.Card) int {
 	if o, ok := removalOverrides[c.Name]; ok && o.cost > 0 {
 		return o.cost
 	}
 	text := strings.ToLower(c.OracleText)
 	if strings.Contains(text, "delve") {
-		if cost := c.CMC - genericMana(c.ManaCost); cost >= 0 {
-			return cost
-		}
-		return 0
+		return max(0, c.CMC-genericMana(c.ManaCost))
 	}
 	return c.CMC
 }
@@ -282,8 +293,7 @@ func parseCapturedInt(digits string) int {
 func genericMana(cost string) int {
 	total := 0
 	for _, m := range reGeneric.FindAllStringSubmatch(cost, -1) {
-		n := parseCapturedInt(m[1])
-		total += n
+		total += parseCapturedInt(m[1])
 	}
 	return total
 }
@@ -328,22 +338,13 @@ func (p RemovalProfile) killable(c removalTarget) bool {
 	if p.FlyingOnly && !c.flying {
 		return false
 	}
-	if p.ColorExclude != "" && hasColor(c.colors, p.ColorExclude) {
+	if p.ColorExclude != "" && slices.Contains(c.colors, p.ColorExclude) {
 		return false
 	}
-	if p.ColorOnly != "" && !hasColor(c.colors, p.ColorOnly) {
+	if p.ColorOnly != "" && !slices.Contains(c.colors, p.ColorOnly) {
 		return false
 	}
 	return true
-}
-
-func hasColor(colors []string, c string) bool {
-	for _, x := range colors {
-		if x == c {
-			return true
-		}
-	}
-	return false
 }
 
 // RemovalCard is one row of the removal page: a spot-removal card (or one mode of it) with its cost and how much of the cube it can kill.
@@ -424,7 +425,9 @@ func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// card list always comes from the current cube.
 	decksReq := &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")}
 	numPlaysByCard := map[string]int{}
-	if decks, err := h.q.Decks(cubeID, decksReq); err == nil {
+	if decks, err := h.q.Decks(cubeID, decksReq); err != nil {
+		logrus.WithError(err).Warn("could not load decks for removal play weights, scoring coverage unweighted")
+	} else {
 		for _, d := range decks {
 			for _, c := range d.Mainboard {
 				numPlaysByCard[c.Name]++
@@ -436,6 +439,7 @@ func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		totalWeight += numPlaysByCard[cr.name]
 	}
 
+	// Score the removal, then derive the per-creature and per-color tables from it.
 	resp := RemovalResponse{CreatureCount: len(creatures), TotalPlayWeight: totalWeight}
 	spot, rows, excluded := cubeSpotRemoval(cube, creatures, numPlaysByCard, totalWeight)
 	resp.Cards = rows
@@ -456,67 +460,67 @@ func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	logrus.WithFields(logrus.Fields{"spot": len(resp.Cards), "excluded": resp.Excluded}).Info("/api/stats/removal")
 
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Error("could not write removal response")
-	}
+	writeJSON(rw, resp, "removal")
 }
 
-func buildRemovalCard(c types.Card, prof RemovalProfile, eff int, creatures []removalTarget, numPlaysByCard map[string]int, totalWeight int) RemovalCard {
+// buildRemovalCard scores one removal profile against the cube's creatures at
+// the given effective cost. numPlaysByCard and totalWeight weight the coverage
+// by mainboard plays; nil and 0 leave the play-weighted numbers at zero.
+// Scalable profiles come back with no coverage.
+func buildRemovalCard(c types.Card, profile RemovalProfile, cost int, creatures []removalTarget, numPlaysByCard map[string]int, totalWeight int) RemovalCard {
 	row := RemovalCard{
 		Name:        c.Name,
 		ManaCost:    c.ManaCost,
 		MV:          c.CMC,
-		EffCost:     eff,
+		EffCost:     cost,
 		Colors:      c.Colors,
-		Kind:        prof.Kind,
-		Restriction: prof.Restriction,
-		Scalable:    prof.Scalable,
+		Kind:        profile.Kind,
+		Restriction: profile.Restriction,
+		Scalable:    profile.Scalable,
 	}
 
 	// Scalable removal (variable X, fights) has no well-defined coverage or
 	// efficiency, so leave those blank rather than fabricate them.
-	if prof.Scalable {
+	if profile.Scalable {
 		return row
 	}
-	sumMV, wCov, wSumMV, maxMV := 0, 0, 0, 0
-	for _, cr := range creatures {
-		if !prof.killable(cr) {
+
+	// Tally the creatures it can kill, raw and weighted by plays.
+	sumMV, playedTargets, playedSumMV, maxMV := 0, 0, 0, 0
+	for _, creature := range creatures {
+		if !profile.killable(creature) {
 			continue
 		}
 		row.Targets++
-		sumMV += cr.mv
-		if cr.mv > maxMV {
-			maxMV = cr.mv
-		}
-		w := numPlaysByCard[cr.name]
-		wCov += w
-		wSumMV += w * cr.mv
+		sumMV += creature.mv
+		maxMV = max(maxMV, creature.mv)
+		plays := numPlaysByCard[creature.name]
+		playedTargets += plays
+		playedSumMV += plays * creature.mv
 	}
+
+	// Turn the tallies into coverage and efficiency.
 	row.MaxMVKilled = maxMV
 	if len(creatures) > 0 {
 		row.PctCube = round1(100 * float64(row.Targets) / float64(len(creatures)))
 	}
 	if row.Targets > 0 {
 		row.AvgMVKilled = round1(float64(sumMV) / float64(row.Targets))
-		row.Efficiency = round1(row.AvgMVKilled - float64(eff))
-		row.ReachEff = round1(float64(maxMV) - float64(eff))
+		row.Efficiency = round1(row.AvgMVKilled - float64(cost))
+		row.ReachEff = round1(float64(maxMV) - float64(cost))
 	}
 	if totalWeight > 0 {
-		row.PctPlayed = round1(100 * float64(wCov) / float64(totalWeight))
+		row.PctPlayed = round1(100 * float64(playedTargets) / float64(totalWeight))
 	}
-	if wCov > 0 {
-		row.PlayedAvgMVKilled = round1(float64(wSumMV) / float64(wCov))
-		row.PlayedEfficiency = round1(row.PlayedAvgMVKilled - float64(eff))
+	if playedTargets > 0 {
+		row.PlayedAvgMVKilled = round1(float64(playedSumMV) / float64(playedTargets))
+		row.PlayedEfficiency = round1(row.PlayedAvgMVKilled - float64(cost))
 	}
 	return row
 }
 
+// toRemovalTarget reduces a cube creature to what removal cares about. Power or
+// toughness that isn't an integer ("*") leaves known false.
 func toRemovalTarget(c types.Card) removalTarget {
 	p, pErr := strconv.Atoi(c.Power)
 	t, tErr := strconv.Atoi(c.Toughness)
@@ -533,6 +537,7 @@ func toRemovalTarget(c types.Card) removalTarget {
 	}
 }
 
+// round1 rounds to one decimal place.
 func round1(f float64) float64 {
 	return math.Round(f*10) / 10
 }
@@ -543,13 +548,6 @@ var reReminder = regexp.MustCompile(`\([^)]*\)`)
 // delve reminder don't interfere with parsing the real rules text.
 func reminderTextStripped(s string) string {
 	return reReminder.ReplaceAllString(s, "")
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
 
 // cubeSpotRemoval builds the cube's spot removal: one spotCard per card, the
@@ -580,19 +578,18 @@ func spotRemovalCard(c types.Card, creatures []removalTarget, numPlaysByCard map
 	card := spotCard{name: c.Name, colors: c.Colors}
 	if o, ok := removalOverrides[c.Name]; ok && len(o.modes) > 0 {
 		for _, m := range o.modes {
-			rc := buildRemovalCard(c, m.profile, m.cost, creatures, numPlaysByCard, totalWeight)
-			rc.Name = fmt.Sprintf("%s (%s)", c.Name, m.label)
+			row := buildRemovalCard(c, m.profile, m.cost, creatures, numPlaysByCard, totalWeight)
+			row.Name = fmt.Sprintf("%s (%s)", c.Name, m.label)
 			card.modes = append(card.modes, m.profile)
-			card.rows = append(card.rows, rc)
+			card.rows = append(card.rows, row)
 		}
 		return card, true
 	}
-	prof := classifyRemoval(c)
-	if !prof.Spot {
+	profile := classifyRemoval(c)
+	if !profile.Spot {
 		return spotCard{}, false
 	}
-	rc := buildRemovalCard(c, prof, effectiveCost(c), creatures, numPlaysByCard, totalWeight)
-	card.modes = append(card.modes, prof)
-	card.rows = append(card.rows, rc)
+	card.modes = append(card.modes, profile)
+	card.rows = append(card.rows, buildRemovalCard(c, profile, effectiveCost(c), creatures, numPlaysByCard, totalWeight))
 	return card, true
 }

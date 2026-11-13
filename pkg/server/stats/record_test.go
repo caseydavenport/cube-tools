@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 func TestRecord_WinPercent_NoDraws(t *testing.T) {
@@ -40,4 +42,29 @@ func TestRecord_WinPercent_DrawDenominatorHurts(t *testing.T) {
 
 	// (2 + 1.5) / 5 = 70%
 	assert.InDelta(t, 70.0, r.WinPercent, 0.01)
+}
+
+func TestRecord_AddFoldsDeckGames(t *testing.T) {
+	deck := makePivotDeck("Freddie", 1, "2025-01-01", []string{"R"}, "", nil, []types.Game{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Ozzy", Winner: "Ozzy"},
+		{Opponent: "Ozzy", Tie: true},
+	})
+	r := Record{}
+	r.Add(deck)
+	r.Add(deck)
+	assert.Equal(t, Record{Wins: 2, Losses: 2, Draws: 2}, r)
+}
+
+func TestRecord_SetBayesianShrinksTowardFifty(t *testing.T) {
+	r := Record{Wins: 6}
+	r.Finalize()
+	r.SetBayesian(10)
+	assert.Equal(t, 100.0, r.WinPercent)
+	assert.Greater(t, r.BayesianWinPercent, 50.0)
+	assert.Less(t, r.BayesianWinPercent, r.WinPercent)
+
+	smallPrior := Record{Wins: 6}
+	smallPrior.SetBayesian(1)
+	assert.Greater(t, smallPrior.BayesianWinPercent, r.BayesianWinPercent, "a smaller prior shrinks less")
 }

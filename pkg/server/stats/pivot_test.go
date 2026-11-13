@@ -2,6 +2,7 @@ package stats
 
 import (
 	"math"
+	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -421,4 +422,106 @@ func TestPivot_PlayerRowsSortByBayes(t *testing.T) {
 	resp := computePivot(decks, decks, &PivotRequest{GroupBy: dim("player", 0, "")}, nil, nil)
 	require.GreaterOrEqual(t, len(resp.Rows), 2)
 	assert.Equal(t, "Stevie", resp.Rows[0].Key, "30-10 ranks above 6-0 on Bayes")
+}
+
+// predicateCase is one predicate and whether the deck it's tried on passes.
+type predicateCase struct {
+	name      string
+	predicate PivotPredicate
+	want      bool
+}
+
+func TestPredicatePasses(t *testing.T) {
+	removalCard := types.Card{Name: "Doom Blade", OracleTags: []string{"removal"}}
+	deck := makePivotDeck("Freddie", 1, "2025-01-01", []string{"W", "U"}, "control", []types.Card{removalCard, removalCard}, nil)
+	deck.Labels = []string{"Tempo"}
+
+	for _, tc := range []predicateCase{
+		{"color contains held", PivotPredicate{Dim: "color", Op: "contains", Value: "wu"}, true},
+		{"color contains missing", PivotPredicate{Dim: "color", Op: "contains", Value: "WR"}, false},
+		{"color excludes absent", PivotPredicate{Dim: "color", Op: "excludes", Value: "BR"}, true},
+		{"color excludes held", PivotPredicate{Dim: "color", Op: "excludes", Value: "RU"}, false},
+		{"archetype equal ignores case", PivotPredicate{Dim: "archetype", Op: "eq", Value: "CONTROL"}, true},
+		{"archetype neq", PivotPredicate{Dim: "archetype", Op: "neq", Value: "control"}, false},
+		{"player neq other", PivotPredicate{Dim: "player", Op: "neq", Value: "Ozzy"}, true},
+		{"label held", PivotPredicate{Dim: "label", Op: "eq", Value: "tempo"}, true},
+		{"label not held", PivotPredicate{Dim: "label", Op: "eq", Value: "ramp"}, false},
+		{"label neq held", PivotPredicate{Dim: "label", Op: "neq", Value: "tempo"}, false},
+		{"removal gte met", PivotPredicate{Dim: "removal", Op: "gte", Value: "2"}, true},
+		{"removal gte unmet", PivotPredicate{Dim: "removal", Op: "gte", Value: "3"}, false},
+		{"removal lte met", PivotPredicate{Dim: "removal", Op: "lte", Value: "2"}, true},
+		{"removal lte unmet", PivotPredicate{Dim: "removal", Op: "lte", Value: "1"}, false},
+		{"removal eq unmet", PivotPredicate{Dim: "removal", Op: "eq", Value: "1"}, false},
+		{"unparseable number is ignored", PivotPredicate{Dim: "removal", Op: "gte", Value: "lots"}, true},
+		{"unknown dimension is ignored", PivotPredicate{Dim: "weather", Op: "eq", Value: "rain"}, true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			assert.Equal(t, tc.want, predicatePasses(deck, tc.predicate, nil, nil))
+		})
+	}
+}
+
+// bucketCase is a composition dimension and value with the bucket label it gets.
+type bucketCase struct {
+	dim   string
+	value float64
+	want  string
+}
+
+func TestCompBucketLabel(t *testing.T) {
+	for _, tc := range []bucketCase{
+		{"removal", 2, "0-2"},
+		{"removal", 3, "3-5"},
+		{"removal", 8, "6-8"},
+		{"removal", 9, "9+"},
+		{"creatures", 8, "0-8"},
+		{"creatures", 9, "9-11"},
+		{"creatures", 15, "15+"},
+		{"lands", 14, "0-14"},
+		{"lands", 16, "15-16"},
+		{"lands", 17, "17+"},
+		{"multicolor", 0, "0"},
+		{"multicolor", 2, "1-2"},
+		{"multicolor", 3, "3+"},
+		{"avg_cmc", 2.74, "2.5-3.0"},
+		{"avg_cmc", 3.0, "3.0-3.5"},
+	} {
+		assert.Equal(t, tc.want, compBucketLabel(tc.dim, tc.value), "%s %v", tc.dim, tc.value)
+	}
+}
+
+func TestGranularityOf_Clamps(t *testing.T) {
+	assert.Equal(t, 1, granularityOf(PivotDimension{Granularity: 0}))
+	assert.Equal(t, 2, granularityOf(PivotDimension{Granularity: 2}))
+	assert.Equal(t, 3, granularityOf(PivotDimension{Granularity: 7}))
+}
+
+// Color rows run in WUBRG order, whatever their win rates.
+func TestPivot_ColorRowsInWUBRGOrder(t *testing.T) {
+	win := []types.Game{{Opponent: "Ozzy", Winner: "Stevie"}}
+	lose := []types.Game{{Opponent: "Ozzy", Winner: "Ozzy"}}
+	decks := []*storage.Deck{
+		makePivotDeck("Stevie", 1, "2025-01-01", []string{"W", "U"}, "", nil, win),
+		makePivotDeck("Joan", 1, "2025-01-01", []string{"R"}, "", nil, win),
+		makePivotDeck("Freddie", 1, "2025-01-01", []string{"W"}, "", nil, lose),
+	}
+	resp := computePivot(decks, decks, &PivotRequest{GroupBy: dim("color", 1, "inclusive")}, nil, nil)
+	var keys []string
+	for _, r := range resp.Rows {
+		keys = append(keys, r.Key)
+	}
+	assert.Equal(t, []string{"W", "U", "R"}, keys, "WUBRG order, though red wins most")
+}
+
+func TestPivotHandler_RejectsBadRequests(t *testing.T) {
+	handler := PivotHandler(newSpy(), stubCubes{})
+
+	rec := serve(t, handler, http.MethodGet, "/api/testcube/stats/pivot", "")
+	assert.Equal(t, http.StatusMethodNotAllowed, rec.Code)
+
+	rec = serve(t, handler, http.MethodPost, "/api/testcube/stats/pivot", "{not json")
+	assert.Equal(t, http.StatusBadRequest, rec.Code)
+
+	rec = serve(t, handler, http.MethodPost, "/api/testcube/stats/pivot", `{"group_by":{"dim":"player"}}`)
+	assert.Equal(t, http.StatusOK, rec.Code)
 }

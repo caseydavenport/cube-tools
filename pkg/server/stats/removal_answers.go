@@ -5,12 +5,12 @@ import (
 	"slices"
 )
 
-// manaColors are the five colors, in the order the Removal page shows them.
+// manaColors are the five colors in WUBRG order.
 var manaColors = []string{"W", "U", "B", "R", "G"}
 
 // removalColors are the rows of the Removal page's per-color table: the five
 // colors, then "C" for colorless.
-var removalColors = []string{"W", "U", "B", "R", "G", "C"}
+var removalColors = append(slices.Clone(manaColors), "C")
 
 // spotCard is one spot-removal card, by name, with its modes' kill conditions
 // and the rows built from them. Most cards have one mode; kicker and revolt
@@ -101,7 +101,7 @@ func (c spotCard) kills(creature removalTarget) bool {
 // playableIn reports whether a deck of the given color can play the card:
 // the card has that color, or no color at all.
 func (c spotCard) playableIn(color string) bool {
-	return len(c.colors) == 0 || hasColor(c.colors, color)
+	return len(c.colors) == 0 || slices.Contains(c.colors, color)
 }
 
 // removalByColor summarizes spot removal per color, in removalColors order.
@@ -136,7 +136,7 @@ func (c spotCard) inColorRow(color string) bool {
 	if color == "C" {
 		return len(c.colors) == 0
 	}
-	return hasColor(c.colors, color)
+	return slices.Contains(c.colors, color)
 }
 
 // bestCoverage returns the card's highest raw and play-weighted coverage over
