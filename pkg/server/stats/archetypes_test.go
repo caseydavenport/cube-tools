@@ -6,11 +6,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
 )
 
 type mockDeckStorage struct {
@@ -89,13 +90,11 @@ func foldGamesIntoMatches(d *storage.Deck, player string, games []types.Game) {
 	}
 }
 
-// --- SharedWith: macro archetype excluded ---
-
 func TestArchetypeStats_SharedWith_MacroSkip(t *testing.T) {
-	d := makeStorageDeck("Alice", 1, []string{"spells"}, []types.Game{
-		{Opponent: "Bob", Winner: "Alice"},
+	d := makeStorageDeck("Freddie", 1, []string{"spells"}, []types.Game{
+		{Opponent: "Ozzy", Winner: "Freddie"},
 	}, []types.Match{
-		{Opponent: "Bob", Winner: "Alice"},
+		{Opponent: "Ozzy", Winner: "Freddie"},
 	})
 	d.MacroArchetype = "control"
 	decks := []*storage.Deck{d}
@@ -121,19 +120,17 @@ func TestArchetypeStats_SharedWith_MacroSkip(t *testing.T) {
 	assert.Equal(t, 1, control.SharedWith["spells"])
 }
 
-// --- WinPercent ---
-
 func TestArchetypeStats_WinPercent(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", 1, []string{"aggro"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},
-			{Opponent: "Bob", Winner: "Alice"},
-			{Opponent: "Bob", Winner: "Bob"},
+		makeStorageDeck("Freddie", 1, []string{"aggro"}, []types.Game{
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Ozzy", Winner: "Ozzy"},
 		}, nil),
-		makeStorageDeck("Bob", 1, []string{"aggro"}, []types.Game{
-			{Opponent: "Alice", Winner: "Alice"},
-			{Opponent: "Alice", Winner: "Alice"},
-			{Opponent: "Alice", Winner: "Bob"},
+		makeStorageDeck("Ozzy", 1, []string{"aggro"}, []types.Game{
+			{Opponent: "Freddie", Winner: "Freddie"},
+			{Opponent: "Freddie", Winner: "Freddie"},
+			{Opponent: "Freddie", Winner: "Ozzy"},
 		}, nil),
 	}
 
@@ -148,21 +145,20 @@ func TestArchetypeStats_WinPercent(t *testing.T) {
 
 	aggro := resp.Archetypes["aggro"]
 	assert.NotNil(t, aggro)
+
 	// 3 wins, 3 losses → 50%
 	assert.InDelta(t, 50.0, aggro.WinPercent, 0.5)
 }
 
-// --- TotalGames equals totalWins (no double-counting) ---
-
 func TestArchetypeStats_TotalGames(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", 1, []string{"aggro"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},
-			{Opponent: "Bob", Winner: "Bob"},
+		makeStorageDeck("Freddie", 1, []string{"aggro"}, []types.Game{
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Ozzy", Winner: "Ozzy"},
 		}, nil),
-		makeStorageDeck("Bob", 1, []string{"control"}, []types.Game{
-			{Opponent: "Alice", Winner: "Alice"},
-			{Opponent: "Alice", Winner: "Bob"},
+		makeStorageDeck("Ozzy", 1, []string{"control"}, []types.Game{
+			{Opponent: "Freddie", Winner: "Freddie"},
+			{Opponent: "Freddie", Winner: "Ozzy"},
 		}, nil),
 	}
 
@@ -176,7 +172,7 @@ func TestArchetypeStats_TotalGames(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Each game is counted once as a win for the winning deck.
-	// Alice: 1 win, Bob: 1 win → totalGames = 2 (sum of GameWins across all decks)
+	// Freddie: 1 win, Ozzy: 1 win → totalGames = 2 (sum of GameWins across all decks)
 	assert.Equal(t, 2, resp.TotalGames)
 }
 
@@ -186,17 +182,17 @@ func TestArchetypeStats_TotalGames(t *testing.T) {
 // per-row math.Round and is bounded by the number of rows.
 func TestArchetypeStats_PercentOfWinsSumsTo100(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", 1, []string{"aggro", "control"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},
-			{Opponent: "Bob", Winner: "Alice"},
+		makeStorageDeck("Freddie", 1, []string{"aggro", "control"}, []types.Game{
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Ozzy", Winner: "Freddie"},
 		}, nil),
-		makeStorageDeck("Bob", 1, []string{"aggro"}, []types.Game{
-			{Opponent: "Alice", Winner: "Bob"},
-			{Opponent: "Alice", Winner: "Alice"},
+		makeStorageDeck("Ozzy", 1, []string{"aggro"}, []types.Game{
+			{Opponent: "Freddie", Winner: "Ozzy"},
+			{Opponent: "Freddie", Winner: "Freddie"},
 		}, nil),
-		makeStorageDeck("Carol", 2, []string{"midrange", "ramp"}, []types.Game{
-			{Opponent: "Dave", Winner: "Carol"},
-			{Opponent: "Dave", Winner: "Carol"},
+		makeStorageDeck("Debbie", 2, []string{"midrange", "ramp"}, []types.Game{
+			{Opponent: "Joan", Winner: "Debbie"},
+			{Opponent: "Joan", Winner: "Debbie"},
 		}, nil),
 	}
 
@@ -239,10 +235,10 @@ func getArchetypes(t *testing.T, decks []*storage.Deck, query string) ArchetypeS
 func TestArchetypeStats_BayesianWinPercent(t *testing.T) {
 	var games []types.Game
 	for range 9 {
-		games = append(games, types.Game{Opponent: "Bob", Winner: "Alice"})
+		games = append(games, types.Game{Opponent: "Ozzy", Winner: "Freddie"})
 	}
-	games = append(games, types.Game{Opponent: "Bob", Winner: "Bob"})
-	decks := []*storage.Deck{makeStorageDeck("Alice", 1, []string{"ramp"}, games, nil)}
+	games = append(games, types.Game{Opponent: "Ozzy", Winner: "Ozzy"})
+	decks := []*storage.Deck{makeStorageDeck("Freddie", 1, []string{"ramp"}, games, nil)}
 
 	resp := getArchetypes(t, decks, "")
 
@@ -253,9 +249,9 @@ func TestArchetypeStats_BayesianWinPercent(t *testing.T) {
 // With bucket_size set, the answer is one set of archetype rows per time
 // bucket, labeled by the bucket's first draft date.
 func TestArchetypeStats_Buckets(t *testing.T) {
-	first := makeStorageDeck("Alice", 1, []string{"ramp"}, []types.Game{{Opponent: "Bob", Winner: "Alice"}}, nil)
+	first := makeStorageDeck("Freddie", 1, []string{"ramp"}, []types.Game{{Opponent: "Ozzy", Winner: "Freddie"}}, nil)
 	first.Date = "2026-01-01"
-	second := makeStorageDeck("Alice", 2, []string{"token"}, []types.Game{{Opponent: "Bob", Winner: "Bob"}}, nil)
+	second := makeStorageDeck("Freddie", 2, []string{"token"}, []types.Game{{Opponent: "Ozzy", Winner: "Ozzy"}}, nil)
 	second.Date = "2026-02-01"
 
 	resp := getArchetypes(t, []*storage.Deck{first, second}, "?bucket_size=1&sliding=true")

@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 // deckOf builds a deck with the given mainboard card names.
@@ -322,7 +323,10 @@ func inDraft(draftID int, names ...string) *storage.Deck {
 // relevantOnlyIn is a two-sided package relevant in draft 1 and not in draft 2.
 func relevantOnlyIn() design.PackageCards {
 	p := twoSided("Lifegain", cardSet("A", "B"), cardSet("C", "D"))
-	p.Relevance = &design.Relevance{Drafts: map[int]bool{1: true, 2: false}}
+	p.Relevance = &design.Relevance{Drafts: map[int]bool{
+		1: true,
+		2: false,
+	}}
 	return p
 }
 

@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
@@ -11,9 +13,9 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/caseydavenport/cube-tools/pkg/utils"
-	"github.com/sirupsen/logrus"
 )
 
+// ColorMatchupResponse is the color matchup payload: win records keyed by the player's color group, then by the opponent's.
 type ColorMatchupResponse struct {
 	Matchups map[string]map[string]*MatchupRecord `json:"matchups"`
 }
@@ -43,6 +45,7 @@ func (m *MatchupRecord) finish(prior, z float64) {
 	}
 }
 
+// ColorMatchupHandler serves the color-versus-color matchup records for the requested cube and decks.
 func ColorMatchupHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &colorMatchupHandler{q: deckquery.New(store, src)}
 }
@@ -51,8 +54,9 @@ type colorMatchupHandler struct {
 	q *deckquery.Query
 }
 
+// ServeHTTP builds the color matchup records for the request and writes them as JSON.
 func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	dr := decks.ParseDecksRequest(r)
+	decksReq := decks.ParseDecksRequest(r)
 
 	// Determine color mode and type from query parameters.
 	colorMode := colorMode(r.URL.Query().Get("color_mode"))
@@ -73,9 +77,9 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	case "Trio":
 		groupSize = 3
 	}
-	logrus.WithField("params", dr).Info("/api/stats/color-matchups")
+	logrus.WithField("params", decksReq).Info("/api/stats/color-matchups")
 
-	allDecks, err := h.q.Decks(server.CubeFromRequest(r), dr)
+	allDecks, err := h.q.Decks(server.CubeFromRequest(r), decksReq)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
@@ -151,7 +155,9 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(b)
+	if _, err := rw.Write(b); err != nil {
+		logrus.WithError(err).Error("could not write color matchup response")
+	}
 }
 
 // colorGroups returns canonical color group strings of the given size for a deck.

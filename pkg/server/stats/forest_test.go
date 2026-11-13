@@ -3,9 +3,10 @@ package stats
 import (
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
 // forestRow returns the row for key, failing the test when it's missing.

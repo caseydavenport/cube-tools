@@ -54,7 +54,7 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 		cubeID := server.CubeFromRequest(r)
 		typed := strings.TrimSpace(query.GetString(r, "q"))
 		useMaybe := query.GetString(r, "maybe") == "1"
-		q, err := search.Compile(typed, search.TargetRules)
+		searchQuery, err := search.Compile(typed, search.TargetRules)
 		if err != nil {
 			http.Error(rw, err.Error(), http.StatusBadRequest)
 			return
@@ -78,8 +78,8 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 		}
 		hits := pool
 		switch {
-		case !q.Empty():
-			hits = pickCards(pool, matchQuery(pool, q))
+		case !searchQuery.Empty():
+			hits = pickCards(pool, matchQuery(pool, searchQuery))
 		case !filterMaybe:
 			// With no search, the page opens on the cube's own cards.
 			hits = cubeHits(pool, rules.CardMap())

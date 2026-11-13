@@ -6,11 +6,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func makeColorDeck(player string, colors []string, games []types.Game, matches []types.Match, mainboard []types.Card) *storage.Deck {
@@ -23,16 +24,14 @@ func makeColorDeck(player string, colors []string, games []types.Game, matches [
 	return d
 }
 
-// --- Basic color aggregation ---
-
 func TestColorStats_WinPercent(t *testing.T) {
 	decks := []*storage.Deck{
-		makeColorDeck("Alice", []string{"R"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},
-			{Opponent: "Bob", Winner: "Alice"},
-			{Opponent: "Bob", Winner: "Bob"},
+		makeColorDeck("Freddie", []string{"R"}, []types.Game{
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Ozzy", Winner: "Ozzy"},
 		}, []types.Match{
-			{Opponent: "Bob", Winner: "Alice"},
+			{Opponent: "Ozzy", Winner: "Freddie"},
 		}, []types.Card{
 			{Name: "Lightning Bolt", Colors: []string{"R"}},
 		}),
@@ -52,6 +51,7 @@ func TestColorStats_WinPercent(t *testing.T) {
 	assert.NotNil(t, red)
 	assert.Equal(t, 2, red.Wins)
 	assert.Equal(t, 1, red.Losses)
+
 	// 2/(2+1) = 66.67 → rounded to 67
 	assert.InDelta(t, 67.0, red.WinPercent, 0.5)
 }
@@ -59,11 +59,11 @@ func TestColorStats_WinPercent(t *testing.T) {
 func TestColorStats_MultipleColors(t *testing.T) {
 	// In inclusive mode, a WU deck should contribute to W, U, and WU
 	decks := []*storage.Deck{
-		makeColorDeck("Alice", []string{"W", "U"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},
-			{Opponent: "Bob", Winner: "Bob"},
+		makeColorDeck("Freddie", []string{"W", "U"}, []types.Game{
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Ozzy", Winner: "Ozzy"},
 		}, []types.Match{
-			{Opponent: "Bob", Winner: "Alice"},
+			{Opponent: "Ozzy", Winner: "Freddie"},
 		}, []types.Card{
 			{Name: "Swords to Plowshares", Colors: []string{"W"}},
 			{Name: "Counterspell", Colors: []string{"U"}},
@@ -91,12 +91,12 @@ func TestColorStats_MultipleColors(t *testing.T) {
 
 func TestColorStats_Trophies(t *testing.T) {
 	decks := []*storage.Deck{
-		makeColorDeck("Alice", []string{"G"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},
+		makeColorDeck("Freddie", []string{"G"}, []types.Game{
+			{Opponent: "Ozzy", Winner: "Freddie"},
 		}, []types.Match{
-			{Opponent: "Bob", Winner: "Alice"},
-			{Opponent: "Charlie", Winner: "Alice"},
-			{Opponent: "Dave", Winner: "Alice"},
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Stevie", Winner: "Freddie"},
+			{Opponent: "Joan", Winner: "Freddie"},
 		}, []types.Card{
 			{Name: "Llanowar Elves", Colors: []string{"G"}},
 		}),
@@ -120,16 +120,16 @@ func TestColorStats_Trophies(t *testing.T) {
 func TestColorStats_TopBottomHalf(t *testing.T) {
 	decks := []*storage.Deck{
 		// 2-1 deck → top half
-		makeColorDeck("Alice", []string{"R"}, nil, []types.Match{
-			{Opponent: "Bob", Winner: "Alice"},
-			{Opponent: "Charlie", Winner: "Alice"},
-			{Opponent: "Dave", Winner: "Dave"},
+		makeColorDeck("Freddie", []string{"R"}, nil, []types.Match{
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Stevie", Winner: "Freddie"},
+			{Opponent: "Joan", Winner: "Joan"},
 		}, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
 		// 1-2 deck → bottom half
-		makeColorDeck("Bob", []string{"R"}, nil, []types.Match{
-			{Opponent: "Alice", Winner: "Alice"},
-			{Opponent: "Charlie", Winner: "Charlie"},
-			{Opponent: "Dave", Winner: "Bob"},
+		makeColorDeck("Ozzy", []string{"R"}, nil, []types.Match{
+			{Opponent: "Freddie", Winner: "Freddie"},
+			{Opponent: "Stevie", Winner: "Stevie"},
+			{Opponent: "Joan", Winner: "Ozzy"},
 		}, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
 	}
 
@@ -150,9 +150,9 @@ func TestColorStats_TopBottomHalf(t *testing.T) {
 
 func TestColorStats_BuildPercent(t *testing.T) {
 	decks := []*storage.Deck{
-		makeColorDeck("Alice", []string{"R"}, nil, nil, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
-		makeColorDeck("Bob", []string{"U"}, nil, nil, []types.Card{{Name: "Recall", Colors: []string{"U"}}}),
-		makeColorDeck("Charlie", []string{"R"}, nil, nil, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
+		makeColorDeck("Freddie", []string{"R"}, nil, nil, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
+		makeColorDeck("Ozzy", []string{"U"}, nil, nil, []types.Card{{Name: "Recall", Colors: []string{"U"}}}),
+		makeColorDeck("Stevie", []string{"R"}, nil, nil, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
 	}
 
 	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
@@ -166,11 +166,13 @@ func TestColorStats_BuildPercent(t *testing.T) {
 
 	red := resp.All.Data["R"]
 	assert.NotNil(t, red)
+
 	// 2 out of 3 decks are red → round(67) = 67
 	assert.InDelta(t, 67.0, red.BuildPercent, 0.5)
 
 	blue := resp.All.Data["U"]
 	assert.NotNil(t, blue)
+
 	// 1 out of 3 → round(33) = 33
 	assert.InDelta(t, 33.0, blue.BuildPercent, 0.5)
 }
@@ -179,27 +181,36 @@ func TestColorStats_BuildPercent(t *testing.T) {
 // deck with 1 win, an R deck with 1 win, and a BG deck with 2 wins.
 func percentDecks() []*storage.Deck {
 	return []*storage.Deck{
-		makeColorDeck("Alice", []string{"W", "U"},
-			[]types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Bob", Winner: "Bob"}},
+		makeColorDeck(
+			"Freddie",
+			[]string{"W", "U"},
+			[]types.Game{{Opponent: "Ozzy", Winner: "Freddie"}, {Opponent: "Ozzy", Winner: "Ozzy"}},
 			nil,
 			[]types.Card{
 				{Name: "Swords to Plowshares", Colors: []string{"W"}},
 				{Name: "Counterspell", Colors: []string{"U"}},
-			}),
-		makeColorDeck("Bob", []string{"R"},
-			[]types.Game{{Opponent: "Alice", Winner: "Bob"}, {Opponent: "Alice", Winner: "Alice"}},
+			},
+		),
+		makeColorDeck(
+			"Ozzy",
+			[]string{"R"},
+			[]types.Game{{Opponent: "Freddie", Winner: "Ozzy"}, {Opponent: "Freddie", Winner: "Freddie"}},
 			nil,
 			[]types.Card{
 				{Name: "Lightning Bolt", Colors: []string{"R"}},
 				{Name: "Shock", Colors: []string{"R"}},
-			}),
-		makeColorDeck("Carol", []string{"G", "B"},
-			[]types.Game{{Opponent: "Dave", Winner: "Carol"}, {Opponent: "Dave", Winner: "Carol"}},
+			},
+		),
+		makeColorDeck(
+			"Debbie",
+			[]string{"G", "B"},
+			[]types.Game{{Opponent: "Joan", Winner: "Debbie"}, {Opponent: "Joan", Winner: "Debbie"}},
 			nil,
 			[]types.Card{
 				{Name: "Llanowar Elves", Colors: []string{"G"}},
 				{Name: "Dark Ritual", Colors: []string{"B"}},
-			}),
+			},
+		),
 	}
 }
 
@@ -269,10 +280,10 @@ func TestColorStats_PrimaryModeNoDoubleCounting(t *testing.T) {
 		mb = append(mb, types.Card{Name: "G card", Colors: []string{"G"}, ManaCost: "{G}", Types: []string{"Creature"}})
 	}
 	decks := []*storage.Deck{
-		makeColorDeck("Alice", []string{"W", "U", "G"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},
+		makeColorDeck("Freddie", []string{"W", "U", "G"}, []types.Game{
+			{Opponent: "Ozzy", Winner: "Freddie"},
 		}, []types.Match{
-			{Opponent: "Bob", Winner: "Alice"},
+			{Opponent: "Ozzy", Winner: "Freddie"},
 		}, mb),
 	}
 
@@ -288,6 +299,7 @@ func TestColorStats_PrimaryModeNoDoubleCounting(t *testing.T) {
 	// WU is the primary pair - the deck should contribute exactly once there.
 	assert.NotNil(t, resp.All.Data["WU"])
 	assert.Equal(t, 1, resp.All.Data["WU"].NumDecks)
+
 	// The other 2-char sub-identities must NOT pick up the deck.
 	if wg, ok := resp.All.Data["WG"]; ok {
 		assert.Equal(t, 0, wg.NumDecks, "WG should not pick up a primary-WU deck")
@@ -321,11 +333,11 @@ type bayesModeCase struct {
 func TestColorStats_BayesianPriorPerMode(t *testing.T) {
 	var games []types.Game
 	for range 9 {
-		games = append(games, types.Game{Opponent: "Bob", Winner: "Alice"})
+		games = append(games, types.Game{Opponent: "Ozzy", Winner: "Freddie"})
 	}
-	games = append(games, types.Game{Opponent: "Bob", Winner: "Bob"})
+	games = append(games, types.Game{Opponent: "Ozzy", Winner: "Ozzy"})
 	decks := []*storage.Deck{
-		makeColorDeck("Alice", []string{"W", "U"}, games, nil, nil),
+		makeColorDeck("Freddie", []string{"W", "U"}, games, nil, nil),
 	}
 
 	tests := []bayesModeCase{
@@ -354,10 +366,10 @@ func TestColorStats_BayesianPriorPerMode(t *testing.T) {
 // A deck with no decklist and no recorded colors has unknown colors, not
 // colorless ones, so it gets no row and isn't counted in Build %.
 func TestColorStats_SkipsDecksWithUnknownColors(t *testing.T) {
-	win := []types.Game{{Opponent: "Bob", Winner: "Alice"}}
+	win := []types.Game{{Opponent: "Ozzy", Winner: "Freddie"}}
 	decks := []*storage.Deck{
-		makeColorDeck("Alice", []string{"W"}, win, nil, nil),
-		makeColorDeck("Alice", nil, win, nil, nil),
+		makeColorDeck("Freddie", []string{"W"}, win, nil, nil),
+		makeColorDeck("Freddie", nil, win, nil, nil),
 	}
 
 	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}

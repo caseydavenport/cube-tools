@@ -6,9 +6,10 @@ import (
 	"math/rand"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
 )
 
 func makeCardDeck(player string, games []types.Game, mainboard []types.Card, sideboard []types.Card) *storage.Deck {
@@ -20,8 +21,6 @@ func makeCardDeck(player string, games []types.Game, mainboard []types.Card, sid
 	return d
 }
 
-// --- PickELOData ---
-
 func TestPickELOData_Empty(t *testing.T) {
 	result := PickELOData(nil)
 	assert.Empty(t, result)
@@ -31,7 +30,9 @@ func TestPickELOData_MainboardGainsELO(t *testing.T) {
 	// A card that is consistently mainboarded over a sideboarded card should gain ELO.
 	decks := make([]*storage.Deck, 0, 10)
 	for i := 0; i < 10; i++ {
-		d := makeCardDeck("Alice", nil,
+		d := makeCardDeck(
+			"Freddie",
+			nil,
 			[]types.Card{{Name: "Good Card", CMC: 3, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Creature"}}},
 			[]types.Card{{Name: "Bad Card", CMC: 3, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Creature"}}},
 		)
@@ -58,7 +59,7 @@ func makeELODecks(n int) []*storage.Deck {
 	for i := 0; i < n; i++ {
 		mb := []types.Card{cards[i%5], cards[(i+1)%5], cards[(i+2)%5]}
 		sb := []types.Card{cards[(i+3)%5], cards[(i+4)%5]}
-		d := makeCardDeck("Alice", nil, mb, sb)
+		d := makeCardDeck("Freddie", nil, mb, sb)
 		d.Colors = []string{"R"}
 		decks = append(decks, d)
 	}
@@ -67,10 +68,7 @@ func makeELODecks(n int) []*storage.Deck {
 
 func TestPickELOData_InitsAt1200(t *testing.T) {
 	decks := []*storage.Deck{
-		makeCardDeck("Alice", nil,
-			[]types.Card{{Name: "MB-Only", CMC: 1, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Instant"}}},
-			nil,
-		),
+		makeCardDeck("Freddie", nil, []types.Card{{Name: "MB-Only", CMC: 1, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Instant"}}}, nil),
 	}
 	decks[0].Colors = []string{"R"}
 	result := PickELOData(decks)
@@ -83,7 +81,9 @@ func TestPickELOData_InitsAt1200(t *testing.T) {
 
 func TestPickELOData_BasicLandsSkipped(t *testing.T) {
 	decks := []*storage.Deck{
-		makeCardDeck("Alice", nil,
+		makeCardDeck(
+			"Freddie",
+			nil,
 			[]types.Card{{Name: "Plains", Types: []string{"Basic", "Land"}, Colors: []string{"W"}, ColorIdentity: []string{"W"}}},
 			[]types.Card{{Name: "Sideboard Spell", CMC: 2, Colors: []string{"W"}, ColorIdentity: []string{"W"}, Types: []string{"Instant"}}},
 		),
@@ -96,7 +96,9 @@ func TestPickELOData_BasicLandsSkipped(t *testing.T) {
 
 func TestPickELOData_UncastableSideboardSkipped(t *testing.T) {
 	decks := []*storage.Deck{
-		makeCardDeck("Alice", nil,
+		makeCardDeck(
+			"Freddie",
+			nil,
 			[]types.Card{{Name: "Red Spell", CMC: 2, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Instant"}}},
 			[]types.Card{{Name: "Black Spell", CMC: 2, Colors: []string{"B"}, ColorIdentity: []string{"B"}, Types: []string{"Instant"}}},
 		),
@@ -120,8 +122,7 @@ func TestPickELOData_ApproximatelyZeroSum(t *testing.T) {
 	}
 	expected := 1200 * len(result)
 	delta := int(math.Abs(float64(total - expected)))
-	assert.LessOrEqual(t, delta, len(result),
-		"sum of ELO drifts from N*1200 by %d (decks=%d, cards=%d)", delta, len(decks), len(result))
+	assert.LessOrEqual(t, delta, len(result), "sum of ELO drifts from N*1200 by %d (decks=%d, cards=%d)", delta, len(decks), len(result))
 }
 
 func TestPickELOData_OrderIndependent(t *testing.T) {
@@ -144,17 +145,18 @@ func TestPickELOData_OrderIndependent(t *testing.T) {
 			worstCard = name
 		}
 	}
-	assert.LessOrEqual(t, maxDiff, 2,
-		"deck order changed %s's ELO by %d points", worstCard, maxDiff)
+	assert.LessOrEqual(t, maxDiff, 2, "deck order changed %s's ELO by %d points", worstCard, maxDiff)
+}
+
+type colorsCompeteCase struct {
+	name string
+	a    []string
+	b    []string
+	want bool
 }
 
 func TestColorsCompete(t *testing.T) {
-	tests := []struct {
-		name string
-		a    []string
-		b    []string
-		want bool
-	}{
+	tests := []colorsCompeteCase{
 		{"both colorless", nil, nil, true},
 		{"colorless empty slices", []string{}, []string{}, true},
 		{"colorless vs mono", []string{}, []string{"W"}, true},
@@ -175,9 +177,9 @@ func TestColorsCompete(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equal(t, tt.want, colorsCompete(tt.a, tt.b))
+
 			// Symmetric: order shouldn't matter.
-			assert.Equal(t, tt.want, colorsCompete(tt.b, tt.a),
-				"colorsCompete should be symmetric")
+			assert.Equal(t, tt.want, colorsCompete(tt.b, tt.a), "colorsCompete should be symmetric")
 		})
 	}
 }
@@ -193,12 +195,9 @@ func TestEloWinValue_ColorPenalty(t *testing.T) {
 	monoVsDualDisjoint := types.Card{CMC: 2, Types: []string{"Creature"}, Colors: []string{"U", "B"}}
 	colorless := types.Card{CMC: 2, Types: []string{"Creature"}, Colors: []string{}}
 
-	assert.InDelta(t, eloWinValue(base, sameColor), eloWinValue(base, monoVsDualShared), 1e-9,
-		"W vs WU should match (share W)")
-	assert.InDelta(t, eloWinValue(base, sameColor), eloWinValue(base, colorless), 1e-9,
-		"colorless competes with anything")
-	assert.Greater(t, eloWinValue(base, sameColor), eloWinValue(base, monoVsDualDisjoint),
-		"disjoint colors should drop winValue")
+	assert.InDelta(t, eloWinValue(base, sameColor), eloWinValue(base, monoVsDualShared), 1e-9, "W vs WU should match (share W)")
+	assert.InDelta(t, eloWinValue(base, sameColor), eloWinValue(base, colorless), 1e-9, "colorless competes with anything")
+	assert.Greater(t, eloWinValue(base, sameColor), eloWinValue(base, monoVsDualDisjoint), "disjoint colors should drop winValue")
 }
 
 func TestCardPlayersCountsSeatsSeparately(t *testing.T) {

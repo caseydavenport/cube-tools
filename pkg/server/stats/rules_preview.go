@@ -23,9 +23,9 @@ type RulesPreviewResponse struct {
 	Packages []PackageChange `json:"packages"`
 }
 
-// PackageChange is one package's build count under the current rules (Now)
-// and the proposal (After), over every deck. Now is 0 for a package the
-// proposal adds.
+// PackageChange is one package's build count over every deck, under the
+// current rules and under the proposal (After). The current-rules count is 0
+// for a package the proposal adds.
 type PackageChange struct {
 	Name  string `json:"name"`
 	Now   int    `json:"now"`

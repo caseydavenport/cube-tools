@@ -3,10 +3,11 @@ package stats
 import (
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // macroDeck returns a deck with the given macro archetype and mainboard.

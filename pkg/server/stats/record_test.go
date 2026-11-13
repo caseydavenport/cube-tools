@@ -37,6 +37,7 @@ func TestRecord_WinPercent_DrawDenominatorHurts(t *testing.T) {
 	// because they sit at 50%, not "ignored".
 	r := Record{Wins: 2, Losses: 0, Draws: 3}
 	r.Finalize()
+
 	// (2 + 1.5) / 5 = 70%
 	assert.InDelta(t, 70.0, r.WinPercent, 0.01)
 }

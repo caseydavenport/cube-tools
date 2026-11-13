@@ -7,15 +7,17 @@ import (
 	"slices"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
+// CardStatsRequest holds the query parameters of the cards stats endpoint: the deck filters plus bucketing and minimum-count options.
 type CardStatsRequest struct {
 	// Embed deck request to allow filtering by player, date range, and draft size.
 	*storage.DecksRequest
@@ -26,12 +28,15 @@ type CardStatsRequest struct {
 
 	// Color to filter by - WUBRG.
 	Color string `json:"color"`
-	// Minimum nubmer of drafts a card must have been in to be included.
+
+	// Minimum number of drafts a card must have been in to be included.
 	MinDrafts int `json:"min_drafts"`
+
 	// Minimum number of games a card must have been in to be included.
 	MinGames int `json:"min_games"`
 }
 
+// CardStatsResponse is the cards stats payload: one aggregate over all matching decks, or one entry per time bucket.
 type CardStatsResponse struct {
 	// Aggregated stats for each card across all decks matching the request.
 	All *Cards `json:"all"`
@@ -40,6 +45,7 @@ type CardStatsResponse struct {
 	Buckets []*Bucket `json:"buckets,omitempty"`
 }
 
+// Bucket is the card statistics for one time bucket of decks.
 type Bucket struct {
 	// Inline the cards data.
 	Cards `json:",inline"`
@@ -68,6 +74,7 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 	return &p
 }
 
+// CardStatsHandler serves per-card statistics for the requested cube, decks and optional time buckets.
 func CardStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &cardStatsHandler{q: deckquery.New(store, src)}
 }
@@ -76,9 +83,10 @@ type cardStatsHandler struct {
 	q *deckquery.Query
 }
 
+// ServeHTTP computes the card statistics for the request and writes them as JSON.
 func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	sr := parseCardsRequest(r)
-	logrus.WithField("params", sr).Info("/api/stats/cards")
+	statsReq := parseCardsRequest(r)
+	logrus.WithField("params", statsReq).Info("/api/stats/cards")
 
 	resp := CardStatsResponse{}
 
@@ -91,19 +99,19 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Load allDecks matching the request.
-	allDecks, err := d.q.Decks(cubeID, sr.DecksRequest)
+	allDecks, err := d.q.Decks(cubeID, statsReq.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
-	// Initlialize the response structure.
+	// Initialize the response structure.
 	resp = CardStatsResponse{}
-	if sr.BucketSize > 0 {
+	if statsReq.BucketSize > 0 {
 		// If bucket size is set, then create bucketed response.
-		buckets := decks.DeckBuckets(allDecks, sr.BucketSize, !sr.Sliding)
+		buckets := decks.DeckBuckets(allDecks, statsReq.BucketSize, !statsReq.Sliding)
 		for _, b := range buckets {
-			s := d.statsForDecks(b.AllDecks(), cubeCards, sr)
+			s := d.statsForDecks(b.AllDecks(), cubeCards, statsReq)
 			resp.Buckets = append(resp.Buckets, &Bucket{
 				Cards: *s,
 				Name:  b.Name(),
@@ -112,7 +120,7 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			})
 		}
 	} else {
-		resp.All = d.statsForDecks(allDecks, cubeCards, sr)
+		resp.All = d.statsForDecks(allDecks, cubeCards, statsReq)
 		addPopularity(resp.All, cube, playRates(allDecks))
 	}
 
@@ -311,15 +319,9 @@ const eloK = 4.0
 const eloBase = 1200.0
 
 // colorsCompete reports whether two cards' color identities suggest they
-// compete for the same slot. Colorless cards fit any deck, so they compete
-// with anything. Otherwise, the cards compete iff their colors overlap.
-//
-// Note: this is only called for (mb, sb) pairs that survive buildELOPairs's
-// CanCast filter, so both cards are already known to be castable in the
-// same deck. That lets us treat "shares a color" as genuine competition -
-// e.g., W vs WU only reaches here inside a WU deck. A W card in a WG deck
-// being compared against a WU sideboard card can't happen, because the WU
-// card would be filtered out by CanCast.
+// compete for the same slot. Colorless cards compete with anything, and
+// otherwise the cards compete when their colors overlap. It only sees pairs that
+// passed buildELOPairs's CanCast filter, so a shared color is genuine competition.
 func colorsCompete(a, b []string) bool {
 	if len(a) == 0 || len(b) == 0 {
 		return true
@@ -361,9 +363,10 @@ func eloWinValue(mb, sb types.Card) float64 {
 // since winValue depends only on the two cards, identical pairs across
 // decks collapse to a single entry with a count.
 type eloPair struct {
-	mbIdx, sbIdx int
-	count        float64
-	winValue     float64
+	mbIdx    int
+	sbIdx    int
+	count    float64
+	winValue float64
 }
 
 // buildELOPairs walks every deck and produces the deduplicated list of
@@ -374,18 +377,21 @@ func buildELOPairs(decks []*storage.Deck, idx map[string]int) []eloPair {
 	// Accumulate counts and winValues by (mbIdx, sbIdx) so duplicate pairs
 	// across decks collapse together. We split count and winValue into two
 	// maps so we only have to call eloWinValue the first time we see a pair.
-	type key struct{ mbIdx, sbIdx int32 }
+	type key struct {
+		mbIdx int32
+		sbIdx int32
+	}
 	counts := make(map[key]int)
 	values := make(map[key]float64)
 
 	// Reusable scratch space for the eligible sideboard of the current deck.
 	// Looking up idx[card.Name] and CanCast once per sideboard card (instead
 	// of once per mainboard-sideboard pair) is a big speedup.
-	type sbEntry struct {
+	type eligibleSideboardCard struct {
 		idx  int32
 		card types.Card
 	}
-	var eligibleSB []sbEntry
+	var eligibleSB []eligibleSideboardCard
 
 	for _, deck := range decks {
 		eligibleSB = eligibleSB[:0]
@@ -393,7 +399,7 @@ func buildELOPairs(decks []*storage.Deck, idx map[string]int) []eloPair {
 			if sb.IsBasicLand() || !deck.CanCast(sb) {
 				continue
 			}
-			eligibleSB = append(eligibleSB, sbEntry{int32(idx[sb.Name]), sb})
+			eligibleSB = append(eligibleSB, eligibleSideboardCard{int32(idx[sb.Name]), sb})
 		}
 		if len(eligibleSB) == 0 {
 			continue
@@ -448,14 +454,9 @@ func runELOPass(pairs []eloPair, snapshot, ratings, diffs []float64) {
 	}
 }
 
+// PickELOData rates every card seen in the decks with an ELO-style score. Each mainboarded card counts as beating the castable sideboard cards it was chosen over. It returns the rounded rating by card name.
 func PickELOData(decks []*storage.Deck) map[string]int {
-	// Assign each unique card an integer index. Throughout the rest of the
-	// calculation, cards are referred to by this index instead of by name,
-	// so we can keep ratings / diffs / etc. in plain []float64 slices keyed
-	// by index. Surprisingly, we have enough data here that the difference
-	// between a slice index lookup and a map lookup actually matters! The
-	// names slice maps the index back to a card name when we build the
-	// result.
+	// Cards get integer indexes so ratings and diffs live in plain slices, since a map lookup is measurably slower here. The names slice maps an index back to its card name.
 	idx := make(map[string]int)
 	var names []string
 	addCard := func(name string) {
@@ -527,12 +528,7 @@ func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
 	return sr.MinGames > 0 && cbn.Wins+cbn.Losses < sr.MinGames
 }
 
-// Most cards are singleton in my cube. Except for fetches / shocks, for which it is
-// very possible there are multiple in the same deck. Create a "set" of all the unique
-// cards in the deck - this prevents double counting the wins contributed from a deck when there are
-// two of a card in that deck. This is imperfect - there is some value in knowing that a deck with two Arid Mesas
-// performed well - but I think without this deduplication we would overstate the importance of Arid Mesa in that deck
-// more than we understate it now.
+// cardSetFromDeck builds sets of the deck's unique cards, so a deck holding two copies of a card (fetches, say) doesn't count its wins twice. This loses the signal that a deck with two Arid Mesas did well, but without deduplication the overstatement would be larger.
 func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color string) (map[string]*cardStats, map[string]*cardStats, map[string]*cardStats) {
 	mbSet := make(map[string]*cardStats)
 	sbSet := make(map[string]*cardStats)
@@ -568,14 +564,13 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 		if !card.MatchesColor(color) {
 			continue
 		}
+
 		// Use the cube card for stats, since it has enriched data (e.g., oracle text
 		// for multi-face cards).
 		sbSet[card.Name] = newCardStats(cubeCard)
 	}
 
-	// As an approximation - for card pools that do not have a mainbard/sideboard split, but do have a color identity specified,
-	// assume that any card NOT in that identity is sideboarded. We don't do the same for the mainboard, because castable cards could go in
-	// either the mainboard or sideboard. This is imperfect, but should be directionally correct most of the time.
+	// For pools with a color identity but no mainboard/sideboard split, assume cards outside the identity are sideboarded. Castable cards could be in either, so they stay in the pool.
 	for _, card := range deck.Pool {
 		// Skip the card if it's not currently in the cube, or if it's a basic land.
 		cubeCard, ok := cubeCards[card.Name]
@@ -599,6 +594,7 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 	return mbSet, sbSet, poolSet
 }
 
+// Cards is the per-card statistics keyed by card name.
 type Cards struct {
 	Data map[string]*cardStats `json:"data"`
 }
@@ -627,10 +623,6 @@ type cardStats struct {
 	// TagSlugs are the card's Scryfall oracle tags. Deck cards keep theirs
 	// off the wire, but the Cards page filters on them.
 	TagSlugs []string `json:"oracle_tags"`
-
-	///////////////////////////////////////////////
-	// Augment the base Card with computed statistics.
-	///////////////////////////////////////////////
 
 	// Number of times this card has been mainboarded
 	Mainboard int `json:"mainboard"`

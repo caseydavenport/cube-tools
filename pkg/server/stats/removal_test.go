@@ -3,8 +3,9 @@ package stats
 import (
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // removalCard returns an instant Scryfall tags as removal, with the rules
@@ -15,48 +16,52 @@ func removalCard(name, oracle string) types.Card {
 
 func TestClassifyRemoval(t *testing.T) {
 	// Unconditional destroy (delve noted).
-	p := classifyRemoval(removalCard("Murderous Cut", "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature."))
-	assert.True(t, p.Spot)
-	assert.Equal(t, "destroy", p.Kind)
-	assert.Equal(t, "any creature (delve)", p.Restriction)
-	assert.Equal(t, 0, p.MaxToughness, "unconditional has no toughness cap")
+	profile := classifyRemoval(removalCard("Murderous Cut", "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature."))
+	assert.True(t, profile.Spot)
+	assert.Equal(t, "destroy", profile.Kind)
+	assert.Equal(t, "any creature (delve)", profile.Restriction)
+	assert.Equal(t, 0, profile.MaxToughness, "unconditional has no toughness cap")
 
-	// Exile verb is labelled distinctly from destroy.
-	p = classifyRemoval(removalCard("Path to Exile", "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."))
-	assert.True(t, p.Spot)
-	assert.Equal(t, "exile", p.Kind)
-	assert.Equal(t, "any creature", p.Restriction)
+	// Exile verb is labeled distinctly from destroy.
+	profile = classifyRemoval(removalCard("Path to Exile", "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."))
+	assert.True(t, profile.Spot)
+	assert.Equal(t, "exile", profile.Kind)
+	assert.Equal(t, "any creature", profile.Restriction)
 
 	// Total power and toughness.
-	p = classifyRemoval(removalCard("Cut Down", "Destroy target creature with total power and toughness 5 or less."))
-	assert.True(t, p.Spot)
-	assert.Equal(t, 5, p.MaxPTSum)
+	profile = classifyRemoval(removalCard("Cut Down", "Destroy target creature with total power and toughness 5 or less."))
+	assert.True(t, profile.Spot)
+	assert.Equal(t, 5, profile.MaxPTSum)
 
 	// Mana value, with kicker note.
-	p = classifyRemoval(removalCard("Bloodchief's Thirst", "Kicker {2}{B}\nDestroy target creature or planeswalker with mana value 2 or less. If this spell was kicked, instead destroy that permanent."))
-	assert.True(t, p.Spot)
-	assert.Equal(t, 2, p.MaxMV)
-	assert.Contains(t, p.Restriction, "kicker")
+	profile = classifyRemoval(removalCard("Bloodchief's Thirst", "Kicker {2}{B}\nDestroy target creature or planeswalker with mana value 2 or less. If this spell was kicked, instead destroy that permanent."))
+	assert.True(t, profile.Spot)
+	assert.Equal(t, 2, profile.MaxMV)
+	assert.Contains(t, profile.Restriction, "kicker")
 
 	// -X/-X shrink caps by toughness.
-	p = classifyRemoval(removalCard("Disfigure", "Target creature gets -2/-2 until end of turn."))
-	assert.True(t, p.Spot)
-	assert.Equal(t, "shrink", p.Kind)
-	assert.Equal(t, 2, p.MaxToughness)
+	profile = classifyRemoval(removalCard("Disfigure", "Target creature gets -2/-2 until end of turn."))
+	assert.True(t, profile.Spot)
+	assert.Equal(t, "shrink", profile.Kind)
+	assert.Equal(t, 2, profile.MaxToughness)
 
 	// Damage caps by toughness.
-	p = classifyRemoval(removalCard("Abrade", "Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact."))
-	assert.True(t, p.Spot)
-	assert.Equal(t, "damage", p.Kind)
-	assert.Equal(t, 3, p.MaxToughness)
+	profile = classifyRemoval(removalCard("Abrade", "Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact."))
+	assert.True(t, profile.Spot)
+	assert.Equal(t, "damage", profile.Kind)
+	assert.Equal(t, 3, profile.MaxToughness)
 
 	// Sweeper and edict are excluded.
 	assert.False(t, classifyRemoval(removalCard("Toxic Deluge", "As an additional cost to cast this spell, pay X life.\nAll creatures get -X/-X until end of turn.")).Spot)
 	assert.False(t, classifyRemoval(removalCard("Diabolic Edict", "Target player sacrifices a creature.")).Spot)
 
 	// Graveyard-card exile (Deathrite Shaman) is not battlefield removal.
-	p = classifyRemoval(types.Card{Name: "Deathrite Shaman", Types: []string{"Creature"}, OracleText: "{1}{G}, {T}: Exile target creature card from a graveyard. You gain 3 life."})
-	assert.False(t, p.Spot, "exiling a creature card from a graveyard isn't removal")
+	profile = classifyRemoval(types.Card{
+		Name:       "Deathrite Shaman",
+		Types:      []string{"Creature"},
+		OracleText: "{1}{G}, {T}: Exile target creature card from a graveyard. You gain 3 life.",
+	})
+	assert.False(t, profile.Spot, "exiling a creature card from a graveyard isn't removal")
 
 	// Non-removal returns the zero profile.
 	assert.False(t, classifyRemoval(types.Card{Name: "Bear", Types: []string{"Creature"}, OracleText: "Vanilla."}).Spot)
@@ -77,8 +82,10 @@ func TestClassifyRemoval_Override(t *testing.T) {
 func TestEffectiveCost(t *testing.T) {
 	// Delve: drop the generic, assume fully delved. {4}{B} -> {B}.
 	assert.Equal(t, 1, effectiveCost(types.Card{Name: "Murderous Cut", CMC: 5, ManaCost: "{4}{B}", OracleText: "Delve\nDestroy target creature."}))
+
 	// Curated override (activated ability on a land).
 	assert.Equal(t, 1, effectiveCost(types.Card{Name: "Barbarian Ring", CMC: 0, ManaCost: ""}))
+
 	// Plain spell: printed mana value (no X guessing).
 	assert.Equal(t, 2, effectiveCost(types.Card{Name: "Whatever", CMC: 2, ManaCost: "{1}{B}", OracleText: "Destroy target creature with toughness 2 or less."}))
 }
@@ -91,19 +98,19 @@ func TestClassifyRemoval_ScalableX(t *testing.T) {
 	assert.Equal(t, 0, p.MaxToughness)
 
 	// Scalable cards get no fabricated coverage/efficiency.
-	rc := buildRemovalCard(types.Card{Name: "Fireball", CMC: 1, ManaCost: "{X}{R}"}, p, 1, []creatureInfo{{name: "a", toughness: 1, mv: 1, known: true}}, map[string]int{"a": 1}, 1)
+	rc := buildRemovalCard(types.Card{Name: "Fireball", CMC: 1, ManaCost: "{X}{R}"}, p, 1, []removalTarget{{name: "a", toughness: 1, mv: 1, known: true}}, map[string]int{"a": 1}, 1)
 	assert.True(t, rc.Scalable)
 	assert.Equal(t, 0, rc.Targets)
 	assert.Equal(t, 0.0, rc.ReachEff)
 }
 
 func TestKillable(t *testing.T) {
-	small := creatureInfo{name: "Elf", power: 1, toughness: 1, mv: 1, colors: []string{"G"}, known: true}
-	big := creatureInfo{name: "Titan", power: 6, toughness: 6, mv: 6, colors: []string{"G"}, known: true}
-	star := creatureInfo{name: "Tarmogoyf", mv: 2, colors: []string{"G"}, known: false}
-	flier := creatureInfo{name: "Bird", power: 1, toughness: 1, mv: 1, flying: true, known: true}
+	small := removalTarget{name: "Elf", power: 1, toughness: 1, mv: 1, colors: []string{"G"}, known: true}
+	big := removalTarget{name: "Titan", power: 6, toughness: 6, mv: 6, colors: []string{"G"}, known: true}
+	star := removalTarget{name: "Tarmogoyf", mv: 2, colors: []string{"G"}, known: false}
+	flier := removalTarget{name: "Bird", power: 1, toughness: 1, mv: 1, flying: true, known: true}
 
-	anyCreature := RemovalProfile{} // no constraints
+	anyCreature := RemovalProfile{}
 	assert.True(t, anyCreature.killable(small))
 	assert.True(t, anyCreature.killable(big))
 	assert.True(t, anyCreature.killable(star), "unconditional removal kills even unknown-P/T creatures")
@@ -111,7 +118,7 @@ func TestKillable(t *testing.T) {
 	tough2 := RemovalProfile{MaxToughness: 2}
 	assert.True(t, tough2.killable(small))
 	assert.False(t, tough2.killable(big))
-	assert.False(t, tough2.killable(star), "can't confirm a */* body against a toughness limit")
+	assert.False(t, tough2.killable(star), "can't confirm a variable-size body against a toughness limit")
 
 	mv3 := RemovalProfile{MaxMV: 3}
 	assert.True(t, mv3.killable(small))
@@ -126,22 +133,30 @@ func TestKillable(t *testing.T) {
 // Coverage counts scale with restrictiveness, and both efficiency metrics use the
 // effective cost.
 func TestRemovalCoverage(t *testing.T) {
-	creatures := []creatureInfo{
+	creatures := []removalTarget{
 		{name: "a", power: 1, toughness: 1, mv: 1, known: true},
 		{name: "b", power: 3, toughness: 3, mv: 3, known: true},
 		{name: "c", power: 5, toughness: 5, mv: 6, known: true},
 	}
-	weights := map[string]int{"a": 10, "b": 5, "c": 1}
+	numPlaysByCard := map[string]int{
+		"a": 10,
+		"b": 5,
+		"c": 1,
+	}
 	total := 16
 
 	uncond := buildRemovalCard(
 		types.Card{Name: "Doom", CMC: 2, ManaCost: "{1}{B}", OracleText: "Destroy target creature."},
 		classifyRemoval(removalCard("Doom", "Destroy target creature.")),
-		2, creatures, weights, total,
+		2,
+		creatures,
+		numPlaysByCard,
+		total,
 	)
 	assert.Equal(t, 3, uncond.Targets)
 	assert.Equal(t, 100.0, uncond.PctCube)
 	assert.Equal(t, 6, uncond.MaxMVKilled)
+
 	// Reach = ceiling (6) - cost (2) = 4; avg = (1+3+6)/3 - 2 = 1.3.
 	assert.InDelta(t, 4.0, uncond.ReachEff, 0.01)
 	assert.InDelta(t, 1.3, uncond.Efficiency, 0.1)
@@ -151,7 +166,10 @@ func TestRemovalCoverage(t *testing.T) {
 	casket := buildRemovalCard(
 		types.Card{Name: "Casket", CMC: 2, ManaCost: "{1}{W}", OracleText: "exile target creature with mana value 3 or less."},
 		classifyRemoval(removalCard("Casket", "exile target creature with mana value 3 or less.")),
-		2, creatures, weights, total,
+		2,
+		creatures,
+		numPlaysByCard,
+		total,
 	)
 	assert.Equal(t, 3, casket.MaxMVKilled)
 	assert.InDelta(t, 1.0, casket.ReachEff, 0.01)
@@ -182,15 +200,15 @@ func findHardToRemoveRow(t *testing.T, rows []HardToRemoveRow, name string) Hard
 }
 
 var (
-	bearInfo  = creatureInfo{name: "Bear", power: 2, toughness: 2, mv: 2, known: true}
-	giantInfo = creatureInfo{name: "Giant", power: 5, toughness: 5, mv: 5, known: true}
+	bearInfo  = removalTarget{name: "Bear", power: 2, toughness: 2, mv: 2, known: true}
+	giantInfo = removalTarget{name: "Giant", power: 5, toughness: 5, mv: 5, known: true}
 	smallBurn = RemovalProfile{Spot: true, Kind: "damage", MaxToughness: 2}
 	murder    = RemovalProfile{Spot: true, Kind: "destroy"}
 )
 
 func TestHardToRemove_FewestAnswersFirst(t *testing.T) {
 	cards := []spotCard{spot("Shock", []string{"R"}, 30, smallBurn), spot("Murder", []string{"B"}, 100, murder)}
-	rows := hardToRemove(cards, []creatureInfo{bearInfo, giantInfo})
+	rows := hardToRemove(cards, []removalTarget{bearInfo, giantInfo})
 
 	assert.Equal(t, "Giant", rows[0].Name)
 	assert.Equal(t, 1, rows[0].Answers[""])
@@ -203,7 +221,7 @@ func TestHardToRemove_CountsPerColor(t *testing.T) {
 		spot("Murder", []string{"B"}, 100, murder),
 		spot("Ratchet Bomb", nil, 100, murder),
 	}
-	giant := findHardToRemoveRow(t, hardToRemove(cards, []creatureInfo{giantInfo}), "Giant")
+	giant := findHardToRemoveRow(t, hardToRemove(cards, []removalTarget{giantInfo}), "Giant")
 
 	assert.Equal(t, 2, giant.Answers["B"], "black removal plus colorless")
 	assert.Equal(t, 1, giant.Answers["R"], "only the colorless card")
@@ -213,21 +231,21 @@ func TestHardToRemove_CountsPerColor(t *testing.T) {
 
 func TestHardToRemove_MultiModeCountsOnce(t *testing.T) {
 	kicker := spot("Bloodchief's Thirst", []string{"B"}, 50, RemovalProfile{Spot: true, MaxMV: 2}, murder)
-	bear := findHardToRemoveRow(t, hardToRemove([]spotCard{kicker}, []creatureInfo{bearInfo}), "Bear")
+	bear := findHardToRemoveRow(t, hardToRemove([]spotCard{kicker}, []removalTarget{bearInfo}), "Bear")
 	assert.Equal(t, 1, bear.Answers[""])
 }
 
 func TestHardToRemove_UnknownStatsCountsOnlyUnrestricted(t *testing.T) {
-	tarmogoyf := creatureInfo{name: "Tarmogoyf", mv: 2, known: false}
+	tarmogoyf := removalTarget{name: "Tarmogoyf", mv: 2, known: false}
 	cards := []spotCard{spot("Shock", []string{"R"}, 30, smallBurn), spot("Murder", []string{"B"}, 100, murder)}
-	row := findHardToRemoveRow(t, hardToRemove(cards, []creatureInfo{tarmogoyf}), "Tarmogoyf")
+	row := findHardToRemoveRow(t, hardToRemove(cards, []removalTarget{tarmogoyf}), "Tarmogoyf")
 	assert.Equal(t, 1, row.Answers[""])
 }
 
 func TestHardToRemove_ScalableCountsWhenRestrictionsAllow(t *testing.T) {
 	fireball := spot("Fireball", []string{"R"}, 0, RemovalProfile{Spot: true, Kind: "damage", Scalable: true})
 	flyingOnly := spot("Plummet", []string{"G"}, 10, RemovalProfile{Spot: true, FlyingOnly: true})
-	giant := findHardToRemoveRow(t, hardToRemove([]spotCard{fireball, flyingOnly}, []creatureInfo{giantInfo}), "Giant")
+	giant := findHardToRemoveRow(t, hardToRemove([]spotCard{fireball, flyingOnly}, []removalTarget{giantInfo}), "Giant")
 	assert.Equal(t, 1, giant.Answers[""], "Fireball can kill anything given mana; Plummet needs a flier")
 }
 
@@ -273,22 +291,22 @@ func TestToCreatureInfo_Untargetable(t *testing.T) {
 	creature := func(text string) types.Card {
 		return types.Card{Name: "x", Types: []string{"Creature"}, Power: "1", Toughness: "1", OracleText: text}
 	}
-	assert.True(t, toCreatureInfo(creature("Hexproof (This creature can't be the target of spells or abilities your opponents control.)\nEnchanted creature gets +1/+1.")).untargetable)
-	assert.True(t, toCreatureInfo(creature("Flying, shroud")).untargetable)
-	assert.False(t, toCreatureInfo(creature("Flying, hexproof from blue")).untargetable, "hexproof from one color leaves the rest")
-	assert.False(t, toCreatureInfo(creature("As long as you control an Elf, this creature has shroud.")).untargetable, "conditional shroud")
-	assert.False(t, toCreatureInfo(creature("Target creature gains hexproof until end of turn.")).untargetable)
+	assert.True(t, toRemovalTarget(creature("Hexproof (This creature can't be the target of spells or abilities your opponents control.)\nEnchanted creature gets +1/+1.")).untargetable)
+	assert.True(t, toRemovalTarget(creature("Flying, shroud")).untargetable)
+	assert.False(t, toRemovalTarget(creature("Flying, hexproof from blue")).untargetable, "hexproof from one color leaves the rest")
+	assert.False(t, toRemovalTarget(creature("As long as you control an Elf, this creature has shroud.")).untargetable, "conditional shroud")
+	assert.False(t, toRemovalTarget(creature("Target creature gains hexproof until end of turn.")).untargetable)
 }
 
 func TestHardToRemove_HexproofHasNoAnswers(t *testing.T) {
-	bogle := creatureInfo{name: "Slippery Bogle", power: 1, toughness: 1, mv: 1, known: true, untargetable: true}
+	bogle := removalTarget{name: "Slippery Bogle", power: 1, toughness: 1, mv: 1, known: true, untargetable: true}
 	cards := []spotCard{spot("Murder", []string{"B"}, 100, murder)}
-	row := findHardToRemoveRow(t, hardToRemove(cards, []creatureInfo{bogle, bearInfo}), "Slippery Bogle")
+	row := findHardToRemoveRow(t, hardToRemove(cards, []removalTarget{bogle, bearInfo}), "Slippery Bogle")
 	assert.Equal(t, 0, row.Answers[""])
 }
 
 func TestHardToRemove_OneRowPerCreatureName(t *testing.T) {
 	cards := []spotCard{spot("Murder", []string{"B"}, 100, murder)}
-	rows := hardToRemove(cards, []creatureInfo{bearInfo, giantInfo, bearInfo})
+	rows := hardToRemove(cards, []removalTarget{bearInfo, giantInfo, bearInfo})
 	assert.Len(t, rows, 2, "a cube with two copies of a creature lists it once")
 }

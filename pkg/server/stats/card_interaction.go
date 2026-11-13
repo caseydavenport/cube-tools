@@ -20,17 +20,17 @@ type CardInteraction struct {
 // card needn't be in the cube: a creature from outside is checked against the
 // cube's removal, and removal from outside against the cube's creatures.
 func cardInteraction(c types.Card, cube *types.Cube) CardInteraction {
-	var creatures []creatureInfo
+	var creatures []removalTarget
 	for _, cc := range cube.Cards {
 		if cc.IsCreature() {
-			creatures = append(creatures, toCreatureInfo(cc))
+			creatures = append(creatures, toRemovalTarget(cc))
 		}
 	}
 	spot, _, _ := cubeSpotRemoval(cube, creatures, nil, 0)
 
 	out := CardInteraction{Creatures: len(creatures), AnsweredBy: []string{}, Removal: []RemovalCard{}}
 	if c.IsCreature() {
-		target := toCreatureInfo(c)
+		target := toRemovalTarget(c)
 		for _, card := range spot {
 			if card.kills(target) {
 				out.AnsweredBy = append(out.AnsweredBy, card.name)

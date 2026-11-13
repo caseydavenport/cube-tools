@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/rulebook"
@@ -16,7 +18,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
 // playerBayesPriorGames is the coin-flip games mixed into a player's Bayes
@@ -24,6 +25,7 @@ import (
 // points beyond chance, which fits about 31.
 const playerBayesPriorGames = 30
 
+// PlayerStatsResponse is the players payload: rows for all matching decks, or one set of rows per time bucket.
 type PlayerStatsResponse struct {
 	Players map[string]*PlayerStats `json:"players"`
 
@@ -43,6 +45,7 @@ type PlayerBucket struct {
 	Players map[string]*PlayerStats `json:"players"`
 }
 
+// PlayerStats is one player's record, deck results and color and archetype tendencies across the matching decks.
 type PlayerStats struct {
 	Record
 
@@ -100,9 +103,10 @@ type playerStatsHandler struct {
 	src   types.CubeSource
 }
 
+// ServeHTTP computes the player statistics for the request and writes them as JSON.
 func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	dr := decks.ParseDecksRequest(r)
-	logrus.WithField("params", dr).Info("/api/stats/players")
+	decksReq := decks.ParseDecksRequest(r)
+	logrus.WithField("params", decksReq).Info("/api/stats/players")
 
 	cubeID := server.CubeFromRequest(r)
 	bucketSize := query.GetInt(r, "bucket_size")
@@ -112,7 +116,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	var baseline *tendencyBaseline
 	if bucketSize <= 0 {
 		var err error
-		baseline, err = s.loadBaseline(cubeID, dr)
+		baseline, err = s.loadBaseline(cubeID, decksReq)
 		if err != nil {
 			logrus.WithError(err).Error("could not load the player tendency baseline")
 			http.Error(rw, "could not load decks", http.StatusInternalServerError)
@@ -120,7 +124,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		}
 	}
 
-	allDecks, err := s.q.Decks(cubeID, dr)
+	allDecks, err := s.q.Decks(cubeID, decksReq)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

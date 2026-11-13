@@ -3,9 +3,10 @@ package stats
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
 )
 
 // makePipDeck builds a deck with explicit colors and n creature spells per mana
@@ -21,19 +22,28 @@ func makePipDeck(colors []string, spells map[string]int) *storage.Deck {
 	return d
 }
 
+type colorGroupsCase struct {
+	name      string
+	deck      *storage.Deck
+	groupSize int
+	want      []string
+}
+
 // Primary mode only produces pairs, so it returns groups for the Any (0) and
 // Dual (2) sizes and nothing for Mono or Trio.
 func TestColorGroups_PrimaryOnlyReturnsPairs(t *testing.T) {
-	dual := makePipDeck([]string{"W", "U"}, map[string]int{"{W}": 10, "{U}": 10})
-	splash := makePipDeck([]string{"W", "U", "R"}, map[string]int{"{W}": 10, "{U}": 10, "{R}": 2})
+	dual := makePipDeck([]string{"W", "U"}, map[string]int{
+		"{W}": 10,
+		"{U}": 10,
+	})
+	splash := makePipDeck([]string{"W", "U", "R"}, map[string]int{
+		"{W}": 10,
+		"{U}": 10,
+		"{R}": 2,
+	})
 	mono := makePipDeck([]string{"W"}, map[string]int{"{W}": 10})
 
-	tests := []struct {
-		name      string
-		deck      *storage.Deck
-		groupSize int
-		want      []string
-	}{
+	tests := []colorGroupsCase{
 		{"dual deck, any size", dual, 0, []string{"WU"}},
 		{"dual deck, mono size", dual, 1, nil},
 		{"dual deck, dual size", dual, 2, []string{"WU"}},

@@ -49,7 +49,7 @@ type RemovalColorRow struct {
 // A card answers when any of its modes can kill the creature; scalable
 // removal answers whenever its restrictions allow, since mana is the only limit.
 // A creature the cube holds more than once gets one row.
-func hardToRemove(cards []spotCard, creatures []creatureInfo) []HardToRemoveRow {
+func hardToRemove(cards []spotCard, creatures []removalTarget) []HardToRemoveRow {
 	rows := make([]HardToRemoveRow, 0, len(creatures))
 	seen := map[string]bool{}
 	for _, creature := range creatures {
@@ -89,7 +89,7 @@ func hardToRemove(cards []spotCard, creatures []creatureInfo) []HardToRemoveRow 
 }
 
 // kills reports whether any of the card's modes can kill the creature.
-func (c spotCard) kills(creature creatureInfo) bool {
+func (c spotCard) kills(creature removalTarget) bool {
 	for _, mode := range c.modes {
 		if mode.killable(creature) {
 			return true

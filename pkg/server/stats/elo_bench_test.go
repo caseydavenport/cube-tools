@@ -13,6 +13,7 @@ import (
 
 func loadAllDecks(b *testing.B) []*storage.Deck {
 	b.Helper()
+
 	// Tests run with CWD=pkg/server/stats; the data dir lives at the repo root.
 	if _, err := os.Stat("data/polyverse"); err != nil {
 		if err := os.Chdir("../../.."); err != nil {

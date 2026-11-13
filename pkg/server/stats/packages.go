@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"sort"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
@@ -12,7 +14,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -66,6 +67,7 @@ type PackageStatsResponse struct {
 	MostLinked     []NamedCount  `json:"mostLinked"`
 }
 
+// PackageStatsHandler serves how often each design package is built, carried and won with across the requested decks.
 func PackageStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &packageStatsHandler{store: store, src: src, q: deckquery.New(store, src)}
 }
@@ -76,6 +78,7 @@ type packageStatsHandler struct {
 	q     *deckquery.Query
 }
 
+// ServeHTTP computes the package statistics for the request and writes them as JSON.
 func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	logrus.Info("/api/stats/packages")
 
@@ -121,8 +124,8 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 // populated decks every package gets a row at zero.
 func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float64) PackageStatsResponse {
 	populated := 0
-	has3 := map[string]int{}
-	pkg := map[string]int{}
+	numDecksWith3 := map[string]int{}
+	numDecksBuilt := map[string]int{}
 	records := map[string]*Record{}
 	for _, p := range pkgs {
 		records[p.Name] = &Record{}
@@ -138,10 +141,10 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 		deck := deckCards(d)
 		for _, p := range pkgs {
 			if p.HasCards(deck) {
-				has3[p.Name]++
+				numDecksWith3[p.Name]++
 			}
 			if p.BuiltIn(d.Metadata.DraftID, deck) {
-				pkg[p.Name]++
+				numDecksBuilt[p.Name]++
 				records[p.Name].Add(d)
 			}
 		}
@@ -150,17 +153,17 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 	zScore := zForConfidence(conf)
 	stats := []PackageStat{}
 	for _, p := range pkgs {
-		stat := PackageStat{Name: p.Name, Package: pkg[p.Name], Has3: has3[p.Name]}
+		stat := PackageStat{Name: p.Name, Package: numDecksBuilt[p.Name], Has3: numDecksWith3[p.Name]}
 		if populated > 0 {
 			n := float64(populated)
-			low, high := wilsonInterval(pkg[p.Name], populated-pkg[p.Name], 0, zScore)
-			stat.BuildRate = round3(float64(pkg[p.Name]) / n)
+			low, high := wilsonInterval(numDecksBuilt[p.Name], populated-numDecksBuilt[p.Name], 0, zScore)
+			stat.BuildRate = round3(float64(numDecksBuilt[p.Name]) / n)
 			stat.BuildRateLow = round3(low / 100)
 			stat.BuildRateHigh = round3(high / 100)
-			stat.Has3Rate = round3(float64(has3[p.Name]) / n)
+			stat.Has3Rate = round3(float64(numDecksWith3[p.Name]) / n)
 		}
-		if has3[p.Name] > 0 {
-			stat.CameTogether = round3(float64(pkg[p.Name]) / float64(has3[p.Name]))
+		if numDecksWith3[p.Name] > 0 {
+			stat.CameTogether = round3(float64(numDecksBuilt[p.Name]) / float64(numDecksWith3[p.Name]))
 		}
 		record := records[p.Name]
 		record.Finalize()

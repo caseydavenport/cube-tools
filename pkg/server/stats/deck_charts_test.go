@@ -6,9 +6,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
 // getDeckCharts serves a deck-charts request over decks and returns the

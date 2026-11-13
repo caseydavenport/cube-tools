@@ -62,6 +62,7 @@ type DesignGraphNode struct {
 	ConnectionCount int `json:"connection_count"`
 }
 
+// DesignGraphEdge is a card-level connection between two cards, weighted by the packages that join them.
 type DesignGraphEdge struct {
 	// Source and Target are card names.
 	Source string `json:"source"`
@@ -88,14 +89,13 @@ type DesignGraphGroupNode struct {
 	CardCount int `json:"card_count"`
 
 	// Cards is the sorted list of card names in the group, so the UI can list
-	// members when the group is selected. Connection counts are view-specific
-	// (card-derived vs. package-derived), so the client computes node degree from
-	// whichever edge set is active rather than baking it in here.
+	// members when the group is selected. The client computes node degree from
+	// whichever edge set is active.
 	Cards []string `json:"cards"`
 
 	// ExcludedCards lists cards that matched the group's conditions but were
 	// carved out by the group's exclude list, so the editor can show them
-	// greyed with a restore action.
+	// grayed with a restore action.
 	ExcludedCards []string `json:"excluded_cards,omitempty"`
 }
 
@@ -113,6 +113,7 @@ type DesignGraphGroupEdge struct {
 	Packages []string `json:"packages"`
 }
 
+// DesignGraphHandler serves the design graph for the cube, or one deck's built subgraph when the request names a deck.
 func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		logrus.Info("/api/stats/design-graph")
@@ -172,7 +173,9 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			return
 		}
 		rw.Header().Set("Content-Type", "application/json")
-		rw.Write(b)
+		if _, err := rw.Write(b); err != nil {
+			logrus.WithError(err).Error("could not write design graph response")
+		}
 	})
 }
 
@@ -279,6 +282,7 @@ type DesignGraphMatchRequest struct {
 	Groups     []string `json:"groups"`
 }
 
+// DesignGraphMatchResponse lists the cards matching a set of conditions and groups.
 type DesignGraphMatchResponse struct {
 	Cards []MatchedCard `json:"cards"`
 }
@@ -315,7 +319,9 @@ func DesignGraphMatchHandler(store storage.DeckStorage, src types.CubeSource) ht
 			return
 		}
 		rw.Header().Set("Content-Type", "application/json")
-		rw.Write(b)
+		if _, err := rw.Write(b); err != nil {
+			logrus.WithError(err).Error("could not write design graph match response")
+		}
 	})
 }
 
@@ -397,6 +403,7 @@ const distributionMinDeckSize = 20
 // to read as manabase plumbing rather than a strategy.
 const manabaseLandFraction = 0.8
 
+// GroupDistributionsHandler serves how many of each group's cards appear in every deck's mainboard.
 func GroupDistributionsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &groupDistributionsHandler{store: store, src: src}
 }
@@ -406,6 +413,7 @@ type groupDistributionsHandler struct {
 	src   types.CubeSource
 }
 
+// ServeHTTP loads the cube's rules and writes the per-deck group counts as JSON.
 func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	logrus.Info("/api/stats/group-distributions")
 
@@ -493,7 +501,10 @@ func groupDistributions(rules *rulebook.Rulebook, decks []*storage.Deck) GroupDi
 // buildCardEdges creates one undirected edge per pair of cards joined by a
 // package, stamped with every package that joins them.
 func buildCardEdges(packages []design.Package, groupCards rulebook.Members) []DesignGraphEdge {
-	type edgeKey struct{ source, target string }
+	type edgeKey struct {
+		source string
+		target string
+	}
 	edgePackages := make(map[edgeKey]map[string]bool)
 
 	for _, pkg := range packages {
@@ -506,6 +517,7 @@ func buildCardEdges(packages []design.Package, groupCards rulebook.Members) []De
 					if s == t {
 						continue
 					}
+
 					// Normalize edge direction so (A,B) and (B,A) are the same edge.
 					a, b := s, t
 					if a > b {
@@ -609,25 +621,25 @@ func buildDesignGraph(cardMap map[string]types.Card, resolved rulebook.Groups, c
 	}
 }
 
-// buildGroupGraph aggregates the card-level graph up to the group level: one node
-// per group, plus two edge sets between groups.
-//
-// cardEdges are derived from the actual card-level connections: two groups are joined
-// whenever a card in one is connected to a card in the other, with weight equal to the
-// number of distinct card-pairs spanning them. A card in multiple groups contributes
-// to all of them, so this reflects how the groups actually relate through their cards.
-//
-// packageEdges instead mirror the package definitions directly: two groups are
-// joined when a package names one as a source and the other as a target. This is
-// the raw view of how the rules wire the groups together.
+// buildGroupGraph aggregates the card-level graph up to the group level. It
+// returns one node per group, the card edges, and the package edges. Card edges
+// join two groups when a card in one connects to a card in the other, weighted
+// by the distinct card pairs spanning them. Package edges join two groups when
+// a package names one as a source and the other as a target.
 func buildGroupGraph(
 	config design.DesignMapConfig,
 	groupCards rulebook.Members,
 	groupExcluded map[string][]string,
 	edges []DesignGraphEdge,
-) (groupNodes []DesignGraphGroupNode, cardEdges, packageEdges []DesignGraphGroupEdge) {
-	type groupEdgeKey struct{ source, target string }
-	type cardPair struct{ a, b string }
+) ([]DesignGraphGroupNode, []DesignGraphGroupEdge, []DesignGraphGroupEdge) {
+	type groupEdgeKey struct {
+		source string
+		target string
+	}
+	type cardPair struct {
+		a string
+		b string
+	}
 
 	// finalize turns the accumulated card-pair and package maps into a sorted edge slice.
 	finalize := func(pairs map[groupEdgeKey]map[cardPair]bool, packageSets map[groupEdgeKey]map[string]bool) []DesignGraphGroupEdge {
@@ -665,9 +677,9 @@ func buildGroupGraph(
 	cardPairs := make(map[groupEdgeKey]map[cardPair]bool)
 	cardPackages := make(map[groupEdgeKey]map[string]bool)
 	for _, e := range edges {
-		ca, cb := e.Source, e.Target
-		if ca > cb {
-			ca, cb = cb, ca
+		lowCard, highCard := e.Source, e.Target
+		if lowCard > highCard {
+			lowCard, highCard = highCard, lowCard
 		}
 		for _, gs := range cardGroups[e.Source] {
 			for _, gt := range cardGroups[e.Target] {
@@ -687,14 +699,14 @@ func buildGroupGraph(
 					cardPairs[gk] = make(map[cardPair]bool)
 					cardPackages[gk] = make(map[string]bool)
 				}
-				cardPairs[gk][cardPair{ca, cb}] = true
+				cardPairs[gk][cardPair{lowCard, highCard}] = true
 				for _, n := range e.Packages {
 					cardPackages[gk][n] = true
 				}
 			}
 		}
 	}
-	cardEdges = finalize(cardPairs, cardPackages)
+	cardEdges := finalize(cardPairs, cardPackages)
 
 	// packageEdges: one edge per pair of groups named together by a package,
 	// weighted by the full set of card-pairs the package implies between them.
@@ -733,10 +745,10 @@ func buildGroupGraph(
 			}
 		}
 	}
-	packageEdges = finalize(packagePairs, packageNames)
+	packageEdges := finalize(packagePairs, packageNames)
 
 	// nodes: one per group, with card membership.
-	groupNodes = make([]DesignGraphGroupNode, 0, len(config.Groups))
+	groupNodes := make([]DesignGraphGroupNode, 0, len(config.Groups))
 	for _, g := range config.Groups {
 		cards := make([]string, 0, len(groupCards[g.Name]))
 		for name := range groupCards[g.Name] {

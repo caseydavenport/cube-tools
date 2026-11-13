@@ -3,10 +3,11 @@ package stats
 import (
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // spell returns a mainboard card of one type with the given mana value and text.

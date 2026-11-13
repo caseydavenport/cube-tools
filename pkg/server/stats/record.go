@@ -28,6 +28,7 @@ type Record struct {
 	Significant bool `json:"significant"`
 }
 
+// Add folds the deck's game wins, losses and draws into the record.
 func (r *Record) Add(d *storage.Deck) {
 	r.Wins += d.GameWins()
 	r.Losses += d.GameLosses()

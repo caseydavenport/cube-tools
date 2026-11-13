@@ -43,10 +43,10 @@ func TestBuildDesignGraphWithConfig(t *testing.T) {
 	// Should have all 3 cards as nodes.
 	assert.Len(t, resp.Nodes, 3)
 
-	// Red Stuff = {Bolt}, Damage Dealers = {Bolt}. Bolt->Bolt is self-edge, so no edges from first link.
-	// Artifacts = {Sword}, Red Stuff = {Bolt}. Sword<->Bolt should create 1 edge.
+	// Red Stuff and Damage Dealers are both {Bolt}, so the first link is a self-edge and adds nothing. Artifacts {Sword} to Red Stuff {Bolt} creates the one edge.
 	assert.Len(t, resp.Edges, 1)
 	edge := resp.Edges[0]
+
 	// Normalized: "Bolt" < "Sword"
 	assert.Equal(t, "Bolt", edge.Source)
 	assert.Equal(t, "Sword", edge.Target)
@@ -473,6 +473,12 @@ func TestMatchCardsWithConditions(t *testing.T) {
 	assert.ElementsMatch(t, []string{"Red Cards", "Creatures"}, groupStrs)
 }
 
+type matchQueryCase struct {
+	name     string
+	query    string
+	expected []string
+}
+
 func TestMatchCards(t *testing.T) {
 	cards := map[string]types.Card{
 		"Bolt": {
@@ -502,11 +508,7 @@ func TestMatchCards(t *testing.T) {
 		},
 	}
 
-	tests := []struct {
-		name     string
-		query    string
-		expected []string
-	}{
+	tests := []matchQueryCase{
 		{"simple name", "n:bolt", []string{"Bolt"}},
 		{"oracle text", "o:damage", []string{"Bolt", "Fireball"}},
 		{"type", "t:creature", []string{"Bear"}},
@@ -580,7 +582,9 @@ func TestBuildDesignGraphIncludesCutCards(t *testing.T) {
 	resp := designGraph(testRules(t, cube, config, "Shock"), config)
 	require.Len(t, resp.Edges, 1)
 	edge := resp.Edges[0]
-	assert.Equal(t, "Bear", edge.Source) // "Bear" < "Shock"
+
+	// "Bear" < "Shock"
+	assert.Equal(t, "Bear", edge.Source)
 	assert.Equal(t, "Shock", edge.Target)
 
 	// Cube view unchanged: only Bear is a node, and the cut-card edge doesn't

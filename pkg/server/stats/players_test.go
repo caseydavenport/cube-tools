@@ -7,44 +7,43 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-)
 
-// --- OpponentWinPercent: weighted by match count ---
+	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
+)
 
 func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 	// Deck 1: 3 matches, OWP=60
 	// Deck 2: 1 match, OWP=40
 	// Weighted: (60*3 + 40*1) / 4 = 220/4 = 55, NOT (60+40)/2 = 50
-	d1 := &storage.Deck{}
-	d1.Player = "Alice"
-	d1.Matches = []types.Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Charlie"},
-		{Opponent: "Dave", Winner: "Alice"},
+	firstDeck := &storage.Deck{}
+	firstDeck.Player = "Freddie"
+	firstDeck.Matches = []types.Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Stevie"},
+		{Opponent: "Joan", Winner: "Freddie"},
 	}
-	foldGamesIntoMatches(d1, "Alice", []types.Game{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Bob", Winner: "Alice"},
+	foldGamesIntoMatches(firstDeck, "Freddie", []types.Game{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Ozzy", Winner: "Freddie"},
 	})
-	d1.OpponentWinPercentage = 60
-	d1.RatedOpponents = 3
+	firstDeck.OpponentWinPercentage = 60
+	firstDeck.RatedOpponents = 3
 
-	d2 := &storage.Deck{}
-	d2.Player = "Alice"
-	d2.Matches = []types.Match{
-		{Opponent: "Eve", Winner: "Eve"},
+	secondDeck := &storage.Deck{}
+	secondDeck.Player = "Freddie"
+	secondDeck.Matches = []types.Match{
+		{Opponent: "Mick", Winner: "Mick"},
 	}
-	foldGamesIntoMatches(d2, "Alice", []types.Game{
-		{Opponent: "Eve", Winner: "Eve"},
+	foldGamesIntoMatches(secondDeck, "Freddie", []types.Game{
+		{Opponent: "Mick", Winner: "Mick"},
 	})
-	d2.OpponentWinPercentage = 40
-	d2.RatedOpponents = 1
+	secondDeck.OpponentWinPercentage = 40
+	secondDeck.RatedOpponents = 1
 
-	handler := PlayerStatsHandler(&mockDeckStorage{decks: []*storage.Deck{d1, d2}}, testCubeSource{})
+	handler := PlayerStatsHandler(&mockDeckStorage{decks: []*storage.Deck{firstDeck, secondDeck}}, testCubeSource{})
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/players", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -53,10 +52,11 @@ func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 	err := json.Unmarshal(rr.Body.Bytes(), &resp)
 	assert.NoError(t, err)
 
-	alice := resp.Players["Alice"]
-	assert.NotNil(t, alice)
+	freddie := resp.Players["Freddie"]
+	assert.NotNil(t, freddie)
+
 	// Weighted: round((60*3 + 40*1) / 4) = round(55) = 55
-	assert.InDelta(t, 55.0, alice.OpponentWinPercent, 0.5)
+	assert.InDelta(t, 55.0, freddie.OpponentWinPercent, 0.5)
 }
 
 func TestPlayerStats_OpponentWinPercent_SkipsUnratedDecks(t *testing.T) {
@@ -82,29 +82,27 @@ func TestPlayerStats_OpponentWinPercent_SkipsUnratedDecks(t *testing.T) {
 	assert.InDelta(t, 60.0, resp.Players["Ozzy"].OpponentWinPercent, 0.5)
 }
 
-// --- Basic aggregation ---
-
 func TestPlayerStats_BasicAggregation(t *testing.T) {
-	d1 := makeStorageDeck("Alice", 1, []string{"aggro"}, []types.Game{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Bob", Winner: "Bob"},
+	aggroDeck := makeStorageDeck("Freddie", 1, []string{"aggro"}, []types.Game{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Ozzy", Winner: "Ozzy"},
 	}, []types.Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: "Alice"},
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Freddie"},
+		{Opponent: "Joan", Winner: "Freddie"},
 	})
 
-	d2 := makeStorageDeck("Alice", 2, []string{"control"}, []types.Game{
-		{Opponent: "Eve", Winner: "Eve"},
-		{Opponent: "Eve", Winner: "Alice"},
+	controlDeck := makeStorageDeck("Freddie", 2, []string{"control"}, []types.Game{
+		{Opponent: "Mick", Winner: "Mick"},
+		{Opponent: "Mick", Winner: "Freddie"},
 	}, []types.Match{
-		{Opponent: "Eve", Winner: "Eve"},
+		{Opponent: "Mick", Winner: "Mick"},
 		{Opponent: "Frank", Winner: "Frank"},
 		{Opponent: "Grace", Winner: "Grace"},
 	})
 
-	handler := PlayerStatsHandler(&mockDeckStorage{decks: []*storage.Deck{d1, d2}}, testCubeSource{})
+	handler := PlayerStatsHandler(&mockDeckStorage{decks: []*storage.Deck{aggroDeck, controlDeck}}, testCubeSource{})
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/players", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -113,14 +111,20 @@ func TestPlayerStats_BasicAggregation(t *testing.T) {
 	err := json.Unmarshal(rr.Body.Bytes(), &resp)
 	assert.NoError(t, err)
 
-	alice := resp.Players["Alice"]
-	assert.NotNil(t, alice)
-	assert.Equal(t, 2, alice.NumDecks)
-	assert.Equal(t, 3, alice.Wins)   // 2 + 1
-	assert.Equal(t, 2, alice.Losses) // 1 + 1
-	assert.Equal(t, 5, alice.Games)  // 3 + 2
-	assert.Equal(t, 1, alice.Trophies)
-	assert.Equal(t, 1, alice.LastPlace)
+	freddie := resp.Players["Freddie"]
+	assert.NotNil(t, freddie)
+	assert.Equal(t, 2, freddie.NumDecks)
+
+	// 2 + 1
+	assert.Equal(t, 3, freddie.Wins)
+
+	// 1 + 1
+	assert.Equal(t, 2, freddie.Losses)
+
+	// 3 + 2
+	assert.Equal(t, 5, freddie.Games)
+	assert.Equal(t, 1, freddie.Trophies)
+	assert.Equal(t, 1, freddie.LastPlace)
 }
 
 func TestPlayerStatsSkipsAnonymous(t *testing.T) {

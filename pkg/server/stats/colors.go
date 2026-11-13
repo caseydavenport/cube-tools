@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/sirupsen/logrus"
+	"gonum.org/v1/gonum/stat"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
-	"gonum.org/v1/gonum/stat"
 )
 
 type colorMode string
@@ -24,8 +25,7 @@ const (
 	// ColorModeExact counts a deck only for its exact color identity (e.g., a WU deck counts only as WU).
 	ColorModeExact colorMode = "exact"
 
-	// ColorModePrimary counts a deck only for its exact color identity, but 3+ color decks with a clear
-	// primary pair count as that pair (e.g., a WUB deck with a primary pair of WU counts as WU).
+	// ColorModePrimary counts a deck for its exact color identity, but a 3+ color deck with a clear primary pair counts as that pair (WUB with primary pair WU counts as WU).
 	ColorModePrimary colorMode = "primary"
 )
 
@@ -41,6 +41,7 @@ func bayesPriorGames(mode colorMode) float64 {
 	return 600
 }
 
+// ColorStatsRequest holds the query parameters of the colors stats endpoint: the deck filters plus bucketing, color mode and confidence.
 type ColorStatsRequest struct {
 	// Embed deck request to allow filtering by player, date range, and draft size.
 	*storage.DecksRequest
@@ -57,6 +58,7 @@ type ColorStatsRequest struct {
 	Confidence float64 `json:"confidence"`
 }
 
+// ColorStatsResponse is the colors stats payload: one aggregate over all matching decks, or one entry per time bucket.
 type ColorStatsResponse struct {
 	// Aggregated stats for each card across all decks matching the request.
 	All *Colors `json:"all"`
@@ -65,6 +67,7 @@ type ColorStatsResponse struct {
 	Buckets []*ColorBucket `json:"buckets,omitempty"`
 }
 
+// ColorBucket is the color statistics for one time bucket of decks.
 type ColorBucket struct {
 	// Inline the cards data.
 	Colors `json:",inline"`
@@ -106,6 +109,7 @@ func validateColorsRequest(r ColorStatsRequest) error {
 	return nil
 }
 
+// ColorStatsHandler serves per-color win and pick statistics for the requested cube and decks.
 func ColorStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &colorStatsHandler{q: deckquery.New(store, src)}
 }
@@ -114,37 +118,38 @@ type colorStatsHandler struct {
 	q *deckquery.Query
 }
 
+// ServeHTTP computes the color statistics for the request and writes them as JSON.
 func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	sr := parseColorsRequest(r)
-	if err := validateColorsRequest(*sr); err != nil {
-		logrus.WithError(err).WithField("params", sr).Warn("invalid request")
+	statsReq := parseColorsRequest(r)
+	if err := validateColorsRequest(*statsReq); err != nil {
+		logrus.WithError(err).WithField("params", statsReq).Warn("invalid request")
 		http.Error(rw, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	logrus.WithField("params", sr).Info("/api/stats/cards")
+	logrus.WithField("params", statsReq).Info("/api/stats/cards")
 
 	cubeID := server.CubeFromRequest(r)
 	resp := ColorStatsResponse{}
 
 	// Load allDecks matching the request.
-	allDecks, err := d.q.Decks(cubeID, sr.DecksRequest)
+	allDecks, err := d.q.Decks(cubeID, statsReq.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
-	// Initlialize the response structure.
+	// Initialize the response structure.
 	resp = ColorStatsResponse{}
-	if sr.BucketSize > 0 {
+	if statsReq.BucketSize > 0 {
 		// If bucket size is set, then create bucketed response.
-		buckets := decks.DeckBuckets(allDecks, sr.BucketSize, !sr.Sliding)
+		buckets := decks.DeckBuckets(allDecks, statsReq.BucketSize, !statsReq.Sliding)
 		logrus.WithFields(logrus.Fields{
 			"num_buckets": len(buckets),
 			"num_decks":   len(allDecks),
 		}).Info("Created buckets for response")
 		for _, b := range buckets {
-			s := d.statsForDecks(b.AllDecks(), sr)
+			s := d.statsForDecks(b.AllDecks(), statsReq)
 			resp.Buckets = append(resp.Buckets, &ColorBucket{
 				Colors: *s,
 				Name:   b.Name(),
@@ -153,7 +158,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			})
 		}
 	} else {
-		resp.All = d.statsForDecks(allDecks, sr)
+		resp.All = d.statsForDecks(allDecks, statsReq)
 	}
 
 	// Print out correlation coefficients between color pick percentages and win percentages.
@@ -175,9 +180,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // printCorrelations calculates and prints correlation coefficients between color pick percentages
 // and win percentages, both overall and over time if bucketed data is available.
 func (d *colorStatsHandler) printCorrelations(resp ColorStatsResponse) {
-	// Build an array of color pick percentages for each of WUBRG, and another for
-	// color win percentages. We'll use this to generate a correlation coefficient to see
-	// if there's a correlation between how often a color is drafted and how well it performs.
+	// Build arrays of pick and win percentages for each of WUBRG, to correlate how often a color is drafted with how well it performs.
 	picks := []float64{}
 	wins := []float64{}
 	colors := []string{"W", "U", "B", "R", "G"}
@@ -226,11 +229,10 @@ func (d *colorStatsHandler) printCorrelations(resp ColorStatsResponse) {
 	}
 }
 
-// statsForDecks computes color-bucketed deck stats. Same logic also lives
+// statsForDecks computes color-bucketed deck stats. The same logic also lives
 // client-side in GetColorStats (ui/src/pages/Colors.js) for per-player
-// breakdowns and live re-filtering. Keep them in sync (see TODO on the JS
-// side for collapsing the duplication).
-func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsRequest) *Colors {
+// breakdowns and live re-filtering, so keep them in sync.
+func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, statsReq *ColorStatsRequest) *Colors {
 	resp := &Colors{
 		Data: make(map[string]*colorStats),
 	}
@@ -251,7 +253,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 	for _, deck := range decks {
 		var colors []types.ColorIdentity
 		var strict bool
-		switch sr.ColorMode {
+		switch statsReq.ColorMode {
 		case ColorModeInclusive:
 			colors = deck.GetColors().Subsets()
 		case ColorModeExact:
@@ -264,7 +266,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 				colors = []types.ColorIdentity{pair}
 			}
 		default:
-			logrus.WithField("color_mode", sr.ColorMode).Warn("invalid color mode")
+			logrus.WithField("color_mode", statsReq.ColorMode).Warn("invalid color mode")
 			return nil
 		}
 
@@ -294,10 +296,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			resp.Data[color].NumDecks += 1
 		}
 
-		// Add metrics to the color based on card scope statistics.
-		// Calculate the total number of cards drafted of the color across
-		// all drafts, as well as the percentage of that color within the deck, which we'll
-		// use to calculate an indicator of which colors are primary and which are splashed.
+		// Count the deck's non-basic cards, to measure each color's share of the deck and tell primary colors from splashes.
 		totalCardsInDeck := 0
 		for _, card := range deck.Mainboard {
 			// Skip basic lands, since they just dilute the percentages.
@@ -309,24 +308,21 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 
 		// Count the colored mana symbols in the deck (its true devotion), so we can
 		// measure how much a deck leans on each color by mana cost rather than card count.
-		deckPips := map[string]int{}
+		numPipsByColor := map[string]int{}
 		totalPips := 0
 		for _, card := range deck.Mainboard {
 			if card.IsLand() {
 				continue
 			}
 			for color, n := range card.ColorPips() {
-				deckPips[color] += n
+				numPipsByColor[color] += n
 				totalPips += n
 			}
 		}
 
-		// Go through each color in the deck's color identity, and increment
-		// the count of cards within the deck that match that color identity.
-		//
-		// TODO: This calculation excludes colorless cards, meaning percentages for colors
-		// will not add up to 100%.
-		cardsPerColorInDeck := make(map[string]int)
+		// Count the deck's cards matching each color in its identity.
+		// TODO: CASEY: this excludes colorless cards, so color percentages don't add up to 100%.
+		numCardsByColorInDeck := make(map[string]int)
 		for _, deckColor := range colors {
 			for _, card := range deck.Mainboard {
 				// Skip basic lands, since they just dilute the percentages.
@@ -337,7 +333,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 					if !deckColor.Contains(cardColor) {
 						continue
 					}
-					cardsPerColorInDeck[deckColor.String()]++
+					numCardsByColorInDeck[deckColor.String()]++
 
 					// Once we count a card as counting towards this part of the deck's identity,
 					// we don't need to count the same card twice (e.g., if it is multi-color and matches
@@ -347,13 +343,13 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			}
 		}
 
-		for color, num := range cardsPerColorInDeck {
+		for color, num := range numCardsByColorInDeck {
 			// Track this color's devotion in the deck: the share of colored mana symbols
 			// that belong to it, summed over the letters of its identity (e.g. "WU" -> W + U pips).
 			if totalPips > 0 {
 				colorPips := 0
 				for _, c := range color {
-					colorPips += deckPips[string(c)]
+					colorPips += numPipsByColor[string(c)]
 				}
 				resp.Data[color].DeckPercentages = append(resp.Data[color].DeckPercentages, float64(colorPips)/float64(totalPips))
 			}
@@ -364,12 +360,9 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 	}
 
 	// Summarize resp.Data stats and calculate percentages.
-	z := zForConfidence(sr.Confidence)
+	zScore := zForConfidence(statsReq.Confidence)
 	for _, color := range resp.Data {
-		// First, calculate the average color devotion of each deck based on colored mana symbols.
-		// This is a measure of, on average, what share of a deck's mana pips are a given color in
-		// decks with that color identity. A lower percentage means a splash, a higher percentage
-		// means it is a primary staple.
+		// Average devotion: the share of a deck's mana pips in this color, over decks with this identity. Lower means a splash, higher a primary color.
 		densitySum := 0.0
 		for _, a := range color.DeckPercentages {
 			densitySum += a
@@ -380,8 +373,8 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		color.BuildPercent = pct(float64(color.NumDecks), float64(len(decks)))
 		color.TotalPickPercentage = pct(float64(color.Cards), float64(totalCards))
 		color.Finalize()
-		color.SetBayesian(bayesPriorGames(sr.ColorMode))
-		color.SetInterval(z)
+		color.SetBayesian(bayesPriorGames(statsReq.ColorMode))
+		color.SetInterval(zScore)
 		logrus.WithFields(logrus.Fields{
 			"color":       color.Color,
 			"wins":        color.Wins,
@@ -394,6 +387,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 	return resp
 }
 
+// Colors is the per-color statistics keyed by color identity string.
 type Colors struct {
 	Data map[string]*colorStats `json:"data"`
 }
@@ -405,21 +399,39 @@ func newColorStats(color string) *colorStats {
 	}
 }
 
-// colorStats holds statistics about a specific card.
+// colorStats holds statistics about a specific color identity.
 type colorStats struct {
 	Record
-	Color                 string    `json:"color"`           // color
-	Cards                 int       `json:"cards"`           // Number of cards of this color
-	PercentOfWins         float64   `json:"percent_of_wins"` // % of all wins that included this color
-	Trophies              int       `json:"trophies"`        // Number of 3-0 decks
-	LastPlace             int       `json:"last_place"`      // Number of 0-3 decks
-	Top50                 int       `json:"top_half"`
-	Bottom50              int       `json:"bottom_half"`
-	DeckPercentages       []float64 `json:"deck_percentages"`        // Each element: % of cards in a deck with this color
-	AverageDeckPercentage float64   `json:"average_deck_percentage"` // Avg % of non-land cards in a deck that are this color
-	TotalPickPercentage   float64   `json:"total_pick_percentage"`   // % of all drafted cards that are this color
-	BuildPercent          float64   `json:"build_percent"`           // % of all decks that have included this color
-	NumDecks              int       `json:"num_decks"`               // Total number of decks that included this color
+	Color string `json:"color"`
+
+	// Number of cards of this color.
+	Cards int `json:"cards"`
+
+	// Percent of all wins that included this color.
+	PercentOfWins float64 `json:"percent_of_wins"`
+
+	// Number of 3-0 decks.
+	Trophies int `json:"trophies"`
+
+	// Number of 0-3 decks.
+	LastPlace int `json:"last_place"`
+	Top50     int `json:"top_half"`
+	Bottom50  int `json:"bottom_half"`
+
+	// Each element is the percent of cards in a deck with this color.
+	DeckPercentages []float64 `json:"deck_percentages"`
+
+	// Average percent of non-land cards in a deck that are this color.
+	AverageDeckPercentage float64 `json:"average_deck_percentage"`
+
+	// Percent of all drafted cards that are this color.
+	TotalPickPercentage float64 `json:"total_pick_percentage"`
+
+	// Percent of all decks that have included this color.
+	BuildPercent float64 `json:"build_percent"`
+
+	// Total number of decks that included this color.
+	NumDecks int `json:"num_decks"`
 }
 
 // decksWithKnownColors returns the decks that have at least one color, either

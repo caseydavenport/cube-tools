@@ -5,13 +5,14 @@ import (
 	"math"
 	"net/http"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
 // archetypeBayesPriorGames is how many coin-flip games the archetype Bayesian
@@ -19,6 +20,7 @@ import (
 // points beyond chance, which fits a prior of about 90 games.
 const archetypeBayesPriorGames = 90
 
+// ArchetypeStatsResponse is the archetypes payload: rows for all matching decks, or one set of rows per time bucket.
 type ArchetypeStatsResponse struct {
 	TotalGames int                        `json:"total_games"`
 	Archetypes map[string]*ArchetypeStats `json:"archetypes"`
@@ -39,6 +41,7 @@ type ArchetypeBucket struct {
 	Start string `json:"start"`
 }
 
+// ArchetypeStats is the win record and shape of one archetype label across the matching decks.
 type ArchetypeStats struct {
 	Record
 	Type          string         `json:"type"`
@@ -58,6 +61,7 @@ type ArchetypeStats struct {
 	cmcCount int
 }
 
+// ArchetypeStatsHandler serves per-archetype statistics for the requested cube and decks.
 func ArchetypeStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &archetypeStatsHandler{q: deckquery.New(store, src)}
 }
@@ -66,6 +70,7 @@ type archetypeStatsHandler struct {
 	q *deckquery.Query
 }
 
+// ServeHTTP computes the archetype statistics for the request and writes them as JSON.
 func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	dr := decks.ParseDecksRequest(r)
 	logrus.WithField("params", dr).Info("/api/stats/archetypes")
@@ -120,10 +125,7 @@ func archetypeStatsForDecks(allDecks []*storage.Deck, z float64) *ArchetypeStats
 		resp.Archetypes[m] = &ArchetypeStats{Type: m, SharedWith: make(map[string]int), Players: make(map[string]int)}
 	}
 
-	// totalWins counts each game once (used for TotalGames display).
-	// percentOfWinsDenom is inflated the same way as.Wins is: a deck labeled both
-	// "aggro" and "control" contributes its wins to both buckets and to the
-	// denominator twice, so PercentOfWins actually sums to 100% across rows.
+	// totalWins counts each game once, for TotalGames. percentOfWinsDenom counts a multi-label deck's wins once per label, like the rows do, so PercentOfWins sums to 100%.
 	totalWins := 0
 	percentOfWinsDenom := 0
 	for _, deck := range allDecks {
@@ -137,14 +139,14 @@ func archetypeStatsForDecks(allDecks []*storage.Deck, z float64) *ArchetypeStats
 			if _, ok := resp.Archetypes[label]; !ok {
 				resp.Archetypes[label] = &ArchetypeStats{Type: label, SharedWith: make(map[string]int), Players: make(map[string]int)}
 			}
-			as := resp.Archetypes[label]
-			as.Count++
-			as.Add(deck)
+			archetype := resp.Archetypes[label]
+			archetype.Count++
+			archetype.Add(deck)
 			percentOfWinsDenom += deck.GameWins()
-			as.Trophies += deck.Trophies()
-			as.LastPlace += deck.LastPlace()
-			as.Winning += deck.TopHalf()
-			as.Losing += deck.BottomHalf()
+			archetype.Trophies += deck.Trophies()
+			archetype.LastPlace += deck.LastPlace()
+			archetype.Winning += deck.TopHalf()
+			archetype.Losing += deck.BottomHalf()
 
 			// Add to the CMC sum (will divide later).
 			deckCMC := 0.0
@@ -156,18 +158,18 @@ func archetypeStatsForDecks(allDecks []*storage.Deck, z float64) *ArchetypeStats
 				}
 			}
 			if count > 0 {
-				as.AvgCMC += deckCMC / float64(count)
-				as.cmcCount++
+				archetype.AvgCMC += deckCMC / float64(count)
+				archetype.cmcCount++
 			}
 
-			as.Players[deck.PersonLabel()]++
+			archetype.Players[deck.PersonLabel()]++
 
 			// Track shared labels (secondary tags only; macro archetype excluded).
 			for _, other := range deck.Labels {
 				if other == label {
 					continue
 				}
-				as.SharedWith[other]++
+				archetype.SharedWith[other]++
 			}
 		}
 	}

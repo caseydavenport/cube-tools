@@ -6,10 +6,9 @@ import (
 	"gonum.org/v1/gonum/stat/distuv"
 )
 
-// defaultConfidence is the confidence level used when a request doesn't set
-// one. At 0.80, shuffled deck results with no real effects flagged about 22% of
-// cards as significant, the same share as real data, so the default demands
-// 95%. Callers can lower it to explore weaker signals.
+// defaultConfidence applies when a request sets none. At 0.80, shuffled data
+// with no real effects flagged as many cards significant as real data did, so
+// the default is 0.95.
 const defaultConfidence = 0.95
 
 // resolveConfidence clamps a requested confidence level into (0,1), falling

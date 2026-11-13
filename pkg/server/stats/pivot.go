@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
@@ -16,16 +18,9 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
-// The pivot engine answers one question in many shapes: group decks/games by a
-// dimension, measure a win-rate record, optionally over a filtered subpopulation,
-// optionally split by a second dimension. Color win rates, matchups, time trends,
-// and deck-composition cuts all fall out of the same aggregation - see
-// design/Explore in the plan. It intentionally overlaps colors.go and
-// color_matchups.go (which stay as the polished color-specific views) rather than
-// replacing them.
+// The pivot engine groups decks or games by a dimension, measures a win-rate record, and optionally filters or splits by a second dimension. It overlaps colors.go and color_matchups.go on purpose.
 
 // dnaTag is the Cube Cobra tag marking signature build-around cards.
 const dnaTag = "🧬"
@@ -46,6 +41,7 @@ type PivotPredicate struct {
 	Value string `json:"value"`
 }
 
+// PivotRequest is the pivot query: what to group and split by, which decks to include, and the confidence of the intervals.
 type PivotRequest struct {
 	Start      string           `json:"start"`
 	End        string           `json:"end"`
@@ -78,12 +74,14 @@ type PivotCell struct {
 	deckSet map[string]bool `json:"-"`
 }
 
+// PivotRow is one group of the pivot with a cell per split column.
 type PivotRow struct {
 	Key   string                `json:"key"`
 	Label string                `json:"label"`
 	Cells map[string]*PivotCell `json:"cells"`
 }
 
+// PivotResponse is the pivot table: the rows, and the split columns their cells are keyed by.
 type PivotResponse struct {
 	GroupBy string      `json:"group_by"`
 	SplitBy string      `json:"split_by"`
@@ -91,6 +89,7 @@ type PivotResponse struct {
 	Rows    []*PivotRow `json:"rows"`
 }
 
+// PivotHandler serves the pivot table for the POSTed request over the cube's decks.
 func PivotHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &pivotHandler{q: deckquery.New(store, src)}
 }
@@ -99,6 +98,7 @@ type pivotHandler struct {
 	q *deckquery.Query
 }
 
+// ServeHTTP decodes the pivot request, aggregates the decks, and writes the table as JSON.
 func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(rw, "method not allowed", http.StatusMethodNotAllowed)
@@ -463,33 +463,33 @@ func (c deckComposition) value(dim string) float64 {
 func composition(d *storage.Deck, cubeCards map[string]types.Card) deckComposition {
 	comp := deckComposition{}
 	cmcSum, nonland := 0, 0
-	for _, card := range d.Mainboard {
-		c := card
-		if cc, ok := cubeCards[card.Name]; ok {
-			c = cc
+	for _, deckCard := range d.Mainboard {
+		card := deckCard
+		if cubeCard, ok := cubeCards[deckCard.Name]; ok {
+			card = cubeCard
 		}
-		if c.IsLand() {
+		if card.IsLand() {
 			comp.Lands++
 			continue
 		}
 		nonland++
-		cmcSum += c.CMC
-		if c.IsRemoval() {
+		cmcSum += card.CMC
+		if card.IsRemoval() {
 			comp.Removal++
 		}
-		if c.IsInteraction() {
+		if card.IsInteraction() {
 			comp.Interaction++
 		}
-		if c.IsCounterspell() {
+		if card.IsCounterspell() {
 			comp.Counterspell++
 		}
-		if c.IsCreature() {
+		if card.IsCreature() {
 			comp.Creatures++
 		}
-		if len(c.Colors) >= 2 {
+		if len(card.Colors) >= 2 {
 			comp.Multicolor++
 		}
-		for _, t := range c.Tags {
+		for _, t := range card.Tags {
 			if t == dnaTag {
 				comp.DNA++
 				break
@@ -508,47 +508,47 @@ func composition(d *storage.Deck, cubeCards map[string]types.Card) deckCompositi
 // most decks 0-2 gold); the default 0-2/3-5/6-8/9+ fits spell counts like
 // removal and interaction.
 func compBucketLabel(dim string, v float64) string {
-	n := int(v)
+	whole := int(v)
 	switch dim {
 	case "avg_cmc":
 		lo := math.Floor(v*2) / 2
 		return fmt.Sprintf("%.1f-%.1f", lo, lo+0.5)
 	case "creatures":
 		switch {
-		case n <= 8:
+		case whole <= 8:
 			return "0-8"
-		case n <= 11:
+		case whole <= 11:
 			return "9-11"
-		case n <= 14:
+		case whole <= 14:
 			return "12-14"
 		default:
 			return "15+"
 		}
 	case "lands":
 		switch {
-		case n <= 14:
+		case whole <= 14:
 			return "0-14"
-		case n <= 16:
+		case whole <= 16:
 			return "15-16"
 		default:
 			return "17+"
 		}
 	case "multicolor":
 		switch {
-		case n == 0:
+		case whole == 0:
 			return "0"
-		case n <= 2:
+		case whole <= 2:
 			return "1-2"
 		default:
 			return "3+"
 		}
 	}
 	switch {
-	case n <= 2:
+	case whole <= 2:
 		return "0-2"
-	case n <= 5:
+	case whole <= 5:
 		return "3-5"
-	case n <= 8:
+	case whole <= 8:
 		return "6-8"
 	default:
 		return "9+"
@@ -582,7 +582,9 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 				}
 			}
 			return true
-		default: // contains
+
+		// contains
+		default:
 			for _, c := range want {
 				if !colors[string(c)] {
 					return false
@@ -622,7 +624,8 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 		got := composition(d, cubeCards).value(p.Dim)
 		want, err := strconv.ParseFloat(p.Value, 64)
 		if err != nil {
-			return true // ignore an unparseable numeric predicate rather than drop everything
+			// ignore an unparseable numeric predicate rather than drop everything
+			return true
 		}
 		return compareNumber(got, p.Op, want)
 	}
@@ -642,7 +645,9 @@ func compareNumber(got float64, op string, want float64) bool {
 		return got <= want
 	case "eq":
 		return got == want
-	default: // gte
+
+	// gte
+	default:
 		return got >= want
 	}
 }
@@ -726,7 +731,9 @@ func keyRanks(keys []string, dim string) map[string]float64 {
 		for _, k := range keys {
 			rank[k] = leadingNumber(k)
 		}
-	default: // time (dates sort lexically) and any alpha dim
+
+	// time (dates sort lexically) and any alpha dim
+	default:
 		sorted := append([]string{}, keys...)
 		sort.Strings(sorted)
 		for i, k := range sorted {
@@ -752,7 +759,8 @@ func leadingNumber(key string) float64 {
 		end++
 	}
 	if end == 0 {
-		return math.MaxFloat64 // "9+" and other non-numeric-leading go last
+		// "9+" and other non-numeric-leading go last
+		return math.MaxFloat64
 	}
 	n, err := strconv.ParseFloat(key[:end], 64)
 	if err != nil {
