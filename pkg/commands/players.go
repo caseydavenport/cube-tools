@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/flag"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 )
 
@@ -72,6 +73,7 @@ var playersRenameCmd = &cobra.Command{
 	},
 }
 
+// assignDeckID is the --deck flag of `players assign`.
 var assignDeckID int
 
 var playersAssignCmd = &cobra.Command{
@@ -91,11 +93,7 @@ func init() {
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
 	flags.IntVar(&draftID, "draft", 0, "ID of the draft holding the deck (required)")
 	flags.IntVar(&assignDeckID, "deck", 0, "ID of the deck within the draft (required)")
-	for _, f := range []string{"cube", "draft", "deck"} {
-		if err := playersAssignCmd.MarkFlagRequired(f); err != nil {
-			logrus.WithError(err).Fatalf("Failed to mark --%s required", f)
-		}
-	}
+	flag.MarkRequired(playersAssignCmd, "cube", "draft", "deck")
 }
 
 // ResolvePlayer returns the ID of the player ref names, by ID or by name. An

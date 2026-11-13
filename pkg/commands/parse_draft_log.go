@@ -3,17 +3,18 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
+
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/flag"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
 )
 
+// DraftLogCmd writes a deck into a draft for each player in a draft log file.
 var DraftLogCmd = &cobra.Command{
 	Use:   "parse-draft-log",
 	Short: "Parse a draft log",
@@ -22,49 +23,52 @@ var DraftLogCmd = &cobra.Command{
 		if err != nil {
 			logrus.WithError(err).Fatalf("Failed to find draft %d", draftID)
 		}
-		parseDraftLog(draftLog, draft)
+		if err := parseDraftLog(draftLog, draft); err != nil {
+			logrus.WithError(err).Fatal("Failed to parse the draft log")
+		}
 	},
 }
 
 func init() {
-	// Add flags for the command to parse a single deck.
 	flags := DraftLogCmd.Flags()
 	flag.StringVarP(flags, &draftLog, "log-file", "f", "", "", "Path to the draft log file to parse.")
 	flags.IntVar(&draftID, "draft", 0, "ID of the draft the log belongs to")
 	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, every deck is an anonymous seat with no player")
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
-	_ = DraftLogCmd.MarkFlagRequired("cube")
+	flag.MarkRequired(DraftLogCmd, "cube")
 }
 
 // parseDraftLog writes a deck into the draft for each player in the log.
-func parseDraftLog(draftLog string, draft drafts.Draft) {
+func parseDraftLog(draftLog string, draft drafts.Draft) error {
 	logrus.Infof("Parsing draft log: %s", draftLog)
-	log := loadDraftLog(draftLog)
+	log, err := loadDraftLog(draftLog)
+	if err != nil {
+		return err
+	}
 
 	decks, err := decksFromDraftLog(log, draft.Date)
 	if err != nil {
-		logrus.WithError(err).Fatal("Failed to match draft log users to players")
+		return fmt.Errorf("match draft log users to players: %w", err)
 	}
-	for _, d := range decks {
-		if err := writeDeck(&d, draft); err != nil {
-			logrus.WithError(err).WithField("player_id", d.PlayerID).Fatal("Failed to write deck")
+	for _, deck := range decks {
+		if err := writeDeck(&deck, draft); err != nil {
+			return fmt.Errorf("write deck for player %d: %w", deck.PlayerID, err)
 		}
 	}
+	return nil
 }
 
-func loadDraftLog(file string) *types.DraftLog {
-	f, err := os.Open(file)
-	defer f.Close()
+// loadDraftLog reads and decodes the draft log JSON at file.
+func loadDraftLog(file string) (*types.DraftLog, error) {
+	data, err := os.ReadFile(file)
 	if err != nil {
-		panic(err)
-	}
-	bytes, err := io.ReadAll(f)
-	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	draftLog := types.DraftLog{}
-	json.Unmarshal(bytes, &draftLog)
-	return &draftLog
+	if err := json.Unmarshal(data, &draftLog); err != nil {
+		return nil, fmt.Errorf("decode draft log %s: %w", file, err)
+	}
+	return &draftLog, nil
 }
 
 // decksFromDraftLog builds a deck per user in the log. Each username goes

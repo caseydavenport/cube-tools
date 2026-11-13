@@ -11,39 +11,47 @@ import (
 // board's cards, each carrying a hydrated `details` object with the card's name,
 // global draft Elo, and the printing the cube owner selected.
 type ccCubeJSON struct {
-	Cards struct {
-		Mainboard  []ccCubeCard `json:"mainboard"`
-		Maybeboard []ccCubeCard `json:"maybeboard"`
-	} `json:"cards"`
+	Cards ccBoards `json:"cards"`
 }
 
+// ccBoards is the card lists of a Cube Cobra cube export.
+type ccBoards struct {
+	Mainboard  []ccCubeCard `json:"mainboard"`
+	Maybeboard []ccCubeCard `json:"maybeboard"`
+}
+
+// ccCubeCard is one card of a Cube Cobra cube export.
 type ccCubeCard struct {
-	Details struct {
-		Name        string  `json:"name"`
-		Elo         float64 `json:"elo"`
-		ImageNormal string  `json:"image_normal"`
-		ScryfallURI string  `json:"scryfall_uri"`
-	} `json:"details"`
+	Details ccHydratedCard `json:"details"`
 
 	// Tags are the cube owner's per-card tags. They live on the cube card
 	// object itself, not inside details.
 	Tags []string `json:"tags"`
 }
 
-// ccCardInfo is the per-card data we pull from the Cube Cobra export: the global
-// draft Elo, the exact printing (image and Scryfall page) the cube runs, and the
-// owner's per-card tags.
-type ccCardInfo struct {
+// ccHydratedCard is the card, filled in from Cube Cobra's card database, that
+// a cube export carries under each cube card's details.
+type ccHydratedCard struct {
+	Name        string  `json:"name"`
+	Elo         float64 `json:"elo"`
+	ImageNormal string  `json:"image_normal"`
+	ScryfallURI string  `json:"scryfall_uri"`
+}
+
+// ccCardEnrichment is the per-card data we pull from the Cube Cobra export: the
+// global draft Elo, the exact printing (image and Scryfall page) the cube runs,
+// and the owner's per-card tags.
+type ccCardEnrichment struct {
 	elo   int
 	image string
 	url   string
 	tags  []string
 }
 
-// FetchMaybeboard returns the card names on a CubeCobra cube's maybeboard, in
+// fetchMaybeboard returns the card names on a CubeCobra cube's maybeboard, in
 // CubeCobra's order, skipping entries with no name. It gives up after
 // maybeboardClient's timeout.
-func FetchMaybeboard(baseURL, cubeID string) ([]string, error) {
+func fetchMaybeboard(baseURL, cubeID string) ([]string, error) {
 	cube, err := fetchCubeCobra(maybeboardClient, baseURL, cubeID)
 	if err != nil {
 		return nil, err
@@ -65,7 +73,7 @@ func fetchCubeCobra(client *http.Client, baseURL, cubeID string) (*ccCubeJSON, e
 	if err != nil {
 		return nil, fmt.Errorf("fetch cube JSON: %w", err)
 	}
-	defer resp.Body.Close()
+	defer logClose(resp.Body, "Cube Cobra response body")
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("fetch cube JSON: status %d", resp.StatusCode)
 	}
@@ -77,21 +85,20 @@ func fetchCubeCobra(client *http.Client, baseURL, cubeID string) (*ccCubeJSON, e
 	return &cube, nil
 }
 
-// cardInfo returns per-card data keyed by name across both boards.
-func (c *ccCubeJSON) cardInfo() map[string]ccCardInfo {
-	cards := make(map[string]ccCardInfo)
+// enrichments returns per-card data keyed by name across both boards. A card on
+// both boards takes its mainboard data.
+func (c *ccCubeJSON) enrichments() map[string]ccCardEnrichment {
+	cards := make(map[string]ccCardEnrichment)
 	add := func(list []ccCubeCard) {
 		for _, card := range list {
 			if card.Details.Name == "" {
 				continue
 			}
-			// Some cards run multiple copies (fetches, shocks) and Cube Cobra
-			// tags each copy independently, so a name can recur with tags on
-			// only some copies. Union the tags across every copy - a card is
-			// tagged if any of its copies is - rather than letting a tagless
-			// duplicate clobber a tagged one.
+
+			// A name can recur (fetches, shocks) with tags on only some
+			// copies, so union the tags rather than let a tagless copy win.
 			existing := cards[card.Details.Name]
-			cards[card.Details.Name] = ccCardInfo{
+			cards[card.Details.Name] = ccCardEnrichment{
 				elo:   int(math.Round(card.Details.Elo)),
 				image: card.Details.ImageNormal,
 				url:   card.Details.ScryfallURI,
@@ -99,6 +106,7 @@ func (c *ccCubeJSON) cardInfo() map[string]ccCardInfo {
 			}
 		}
 	}
+
 	// Mainboard last so a card present in both boards keeps its mainboard data.
 	add(c.Cards.Maybeboard)
 	add(c.Cards.Mainboard)
@@ -107,10 +115,10 @@ func (c *ccCubeJSON) cardInfo() map[string]ccCardInfo {
 
 // unionTags merges two tag lists, preserving first-seen order and dropping
 // duplicates and blanks.
-func unionTags(a, b []string) []string {
-	seen := make(map[string]bool, len(a)+len(b))
-	out := make([]string, 0, len(a)+len(b))
-	for _, t := range append(append([]string{}, a...), b...) {
+func unionTags(first, second []string) []string {
+	seen := make(map[string]bool, len(first)+len(second))
+	out := make([]string, 0, len(first)+len(second))
+	for _, t := range append(append([]string{}, first...), second...) {
 		if t == "" || seen[t] {
 			continue
 		}
@@ -130,13 +138,4 @@ func (c *ccCubeJSON) mainboardNames() []string {
 		names = append(names, card.Details.Name)
 	}
 	return names
-}
-
-// fetchCubeCobraCards returns per-card Cube Cobra data keyed by name.
-func fetchCubeCobraCards(baseURL, cubeID string) (map[string]ccCardInfo, error) {
-	cube, err := fetchCubeCobra(http.DefaultClient, baseURL, cubeID)
-	if err != nil {
-		return nil, err
-	}
-	return cube.cardInfo(), nil
 }

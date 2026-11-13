@@ -4,12 +4,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// EditRoot groups the commands that change an existing draft's files.
 var EditRoot = &cobra.Command{
 	Use:   "edit",
 	Short: "Edit an existing deck file",
 }
 
-// Add sub-commands to the root.
 func init() {
 	EditRoot.AddCommand(AddMatchCmd)
 }

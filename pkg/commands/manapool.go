@@ -4,50 +4,58 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"slices"
 
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
+// ManapoolCommand prints the cards in cards.csv that are neither owned nor on
+// the maybeboard, one per line as "name [set] collector-number", for pasting
+// into a Mana Pool bulk order.
 var ManapoolCommand = &cobra.Command{
 	Use:   "mp",
 	Short: "Generate a manapool bulk order list from a cube CSV file.",
 	Run: func(cmd *cobra.Command, args []string) {
-		cards := parseCards("cards.csv")
+		cards, err := parseManapoolCards("cards.csv")
+		if err != nil {
+			logrus.WithError(err).Fatal("Failed to read the card list")
+		}
 		for _, card := range cards {
-			fmt.Printf("%s [%s] %s\n", card.name, card.set, card.num)
+			fmt.Printf("%s [%s] %s\n", card.name, card.set, card.number)
 		}
 	},
 }
 
-type card struct {
-	name string
-	set  string
-	num  string
+// manapoolCard is one card to order: its name and the printing, by set code and
+// collector number.
+type manapoolCard struct {
+	name   string
+	set    string
+	number string
 }
 
-func parseCards(file string) []card {
-	cards := []card{}
-
-	// Open the CSV file.
+// parseManapoolCards reads the cube CSV at file and returns the cards still
+// to buy. The header row must have the name, Set, Collector Number, status and
+// maybeboard columns.
+func parseManapoolCards(file string) ([]manapoolCard, error) {
 	f, err := os.Open(file)
 	if err != nil {
-		fmt.Println("Error opening CSV file:", err)
-		return nil
+		return nil, fmt.Errorf("open CSV file: %w", err)
 	}
-	defer f.Close()
+	defer logClose(f, file)
 
-	// Read the CSV file.
-	reader := csv.NewReader(f)
-	records, err := reader.ReadAll()
+	records, err := csv.NewReader(f).ReadAll()
 	if err != nil {
-		fmt.Println("Error reading CSV file:", err)
-		return nil
+		return nil, fmt.Errorf("read CSV file: %w", err)
+	}
+	if len(records) == 0 {
+		return nil, fmt.Errorf("CSV file %s is empty", file)
 	}
 
-	// Get the indices of relevant columns from the header.
-	header := records[0]
+	// Find the columns we need from the header.
 	nameIdx, setIdx, numIdx, ownedIdx, maybeboardIdx := -1, -1, -1, -1, -1
-	for i, col := range header {
+	for i, col := range records[0] {
 		switch col {
 		case "name":
 			nameIdx = i
@@ -61,27 +69,17 @@ func parseCards(file string) []card {
 			maybeboardIdx = i
 		}
 	}
-
-	// Parse the records into card structs.
-	for _, record := range records[1:] { // Skip header row
-		if len(record) < 3 {
-			continue // Skip rows that don't have enough columns
-		}
-		name := record[nameIdx]
-		set := record[setIdx]
-		num := record[numIdx]
-		owned := record[ownedIdx]
-		maybeboard := record[maybeboardIdx]
-
-		if maybeboard == "true" {
-			continue // Skip maybeboard cards
-		}
-		if owned == "true" {
-			continue // Skip owned cards
-		}
-
-		cards = append(cards, card{name: name, set: set, num: num})
+	columns := []int{nameIdx, setIdx, numIdx, ownedIdx, maybeboardIdx}
+	if slices.Contains(columns, -1) {
+		return nil, fmt.Errorf("CSV file %s needs name, Set, Collector Number, status and maybeboard columns", file)
 	}
 
-	return cards
+	cards := []manapoolCard{}
+	for _, record := range records[1:] {
+		if record[maybeboardIdx] == "true" || record[ownedIdx] == "true" {
+			continue
+		}
+		cards = append(cards, manapoolCard{name: record[nameIdx], set: record[setIdx], number: record[numIdx]})
+	}
+	return cards, nil
 }

@@ -42,3 +42,25 @@ func TestParseDeckBytesUnknownFormat(t *testing.T) {
 		t.Fatal("expected error for unsupported format")
 	}
 }
+
+func TestParseDeckBytesTXTLineWithOnlyANumber(t *testing.T) {
+	if err := types.LoadOracleData("testdata/oracle-mini.json"); err != nil {
+		t.Fatalf("load oracle fixture: %v", err)
+	}
+	mb, sb, err := ParseDeckBytes([]byte("3\n1 Plains\n"), ".txt")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(mb) != 1 || len(sb) != 0 {
+		t.Fatalf("mainboard %d and sideboard %d cards, want 1 and 0 (a card named \"3\" is unknown and adds none)", len(mb), len(sb))
+	}
+}
+
+func TestCardsFromDeckFileRejectsUnknownTypeAndMissingFile(t *testing.T) {
+	if _, _, err := cardsFromDeckFile("deck.pdf"); err == nil {
+		t.Fatal("expected an error for an unsupported file type")
+	}
+	if _, _, err := cardsFromDeckFile("nope.txt"); err == nil {
+		t.Fatal("expected an error for a missing file")
+	}
+}

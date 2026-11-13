@@ -17,13 +17,9 @@ func TestAddMatchBySeatAndName(t *testing.T) {
 	require.NoError(t, err)
 	draft, err := drafts.Create(filepath.Join("data", "polyverse"), types.DraftMetadata{Date: "2026-01-02"}, testCubeList)
 	require.NoError(t, err)
-	playerIDByDeck := map[int]int{
-		1: 1,
-		2: 0,
-	}
-	for id, playerID := range playerIDByDeck {
+	for i, playerID := range []int{1, 0} {
 		d := types.NewDeck()
-		d.ID, d.PlayerID = id, playerID
+		d.ID, d.PlayerID = i+1, playerID
 		require.NoError(t, draft.SaveDeck(d))
 	}
 
@@ -49,3 +45,14 @@ func TestAddMatchBySeatAndName(t *testing.T) {
 
 // testCubeList is the cube list tests create drafts with.
 var testCubeList = &types.Cube{Cards: []types.Card{{Name: "Test Card"}}}
+
+func TestParseRecord(t *testing.T) {
+	wins, losses, ties, err := parseRecord("2-1-0")
+	require.NoError(t, err)
+	require.Equal(t, []int{2, 1, 0}, []int{wins, losses, ties})
+
+	for _, bad := range []string{"2-1", "2:1:0", "x-1-0", "2-y-0", "2-1-z"} {
+		_, _, _, err := parseRecord(bad)
+		require.Error(t, err, bad)
+	}
+}

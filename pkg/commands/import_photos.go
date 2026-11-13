@@ -15,18 +15,21 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
+// photoSlugRE matches an event slug: lowercase letters, digits and hyphens.
 var photoSlugRE = regexp.MustCompile(`^[a-z0-9-]+$`)
 
+// photoImageExts holds the lowercase file extensions scanPhotoFolder treats as
+// photos.
 var photoImageExts = map[string]bool{
 	".jpg":  true,
 	".jpeg": true,
 	".png":  true,
 }
 
-// ScanPhotoFolder lists image files (jpg/jpeg/png) directly under dir, in
-// natural filename order. Subdirectories and non-image files are ignored. It errors if dir does
-// not exist or is not a directory.
-func ScanPhotoFolder(dir string) ([]string, error) {
+// scanPhotoFolder lists image files (jpg/jpeg/png) directly under dir, in
+// natural filename order. Subdirectories and non-image files are ignored. It
+// errors if dir does not exist or is not a directory.
+func scanPhotoFolder(dir string) ([]string, error) {
 	info, err := os.Stat(dir)
 	if err != nil {
 		return nil, fmt.Errorf("source folder: %w", err)
@@ -64,7 +67,7 @@ func buildPhotoDraftDir(dataRoot, cube string, cl *types.Cube, sourcePath, date,
 	if _, err := time.Parse("2006-01-02", date); err != nil {
 		return drafts.Draft{}, nil, fmt.Errorf("date %q must be in YYYY-MM-DD format", date)
 	}
-	images, err := ScanPhotoFolder(sourcePath)
+	images, err := scanPhotoFolder(sourcePath)
 	if err != nil {
 		return drafts.Draft{}, nil, err
 	}
@@ -92,7 +95,6 @@ func buildPhotoDraftDir(dataRoot, cube string, cl *types.Cube, sourcePath, date,
 // writePhotoDraft copies each photo into its seat's folder in the new draft and
 // writes an anonymous deck stub for the seat, returning the photo paths.
 func writePhotoDraft(draft drafts.Draft, sourcePath, date string, images []string) ([]string, error) {
-	logc := logrus.WithField("draft", draft.ID)
 	var written []string
 	for i, name := range images {
 		deckID := i + 1
@@ -100,7 +102,7 @@ func writePhotoDraft(draft drafts.Draft, sourcePath, date string, images []strin
 		if err != nil {
 			return nil, err
 		}
-		if err := copyFile(*logc, filepath.Join(sourcePath, name), dst); err != nil {
+		if err := copyFile(filepath.Join(sourcePath, name), dst); err != nil {
 			return nil, fmt.Errorf("copy image %s: %w", name, err)
 		}
 		written = append(written, dst)
@@ -118,13 +120,12 @@ func writePhotoDraft(draft drafts.Draft, sourcePath, date string, images []strin
 }
 
 // copyFile copies a source photo to dst, replacing any file already there.
-func copyFile(logc logrus.Entry, src, dst string) error {
-	logc.WithField("file", src).Debugf("Copying file")
-	bs, err := os.ReadFile(src)
+func copyFile(src, dst string) error {
+	data, err := os.ReadFile(src)
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(dst, bs, 0o644)
+	return os.WriteFile(dst, data, 0o644)
 }
 
 // BuildPhotoDraft builds a draft under data/ from a folder of deck photos,

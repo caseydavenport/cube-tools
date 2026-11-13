@@ -6,14 +6,16 @@ import (
 	"regexp"
 	"strconv"
 
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
+
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/flag"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
 )
 
+// AddMatchCmd records a match between two decks of a draft, on both decks.
 var AddMatchCmd = &cobra.Command{
 	Use:   "add-match",
 	Short: "Add a match to draft",
@@ -33,8 +35,7 @@ var AddMatchCmd = &cobra.Command{
 		clog := logrus.WithFields(logrus.Fields{"player1": who, "player2": opp, "draft": draftID})
 		clog.WithField("record", record).Info("Adding match to draft")
 
-		// Parse the record string.
-		w, l, t, err := parseRecord(record)
+		wins, losses, ties, err := parseRecord(record)
 		if err != nil {
 			clog.WithError(err).Fatal("Failed to parse record")
 		}
@@ -43,7 +44,7 @@ var AddMatchCmd = &cobra.Command{
 		if err != nil {
 			clog.WithError(err).Fatal("Failed to find draft")
 		}
-		if err := addMatch(draft, who, opp, w, l, t); err != nil {
+		if err := addMatch(draft, who, opp, wins, losses, ties); err != nil {
 			clog.WithError(err).Fatal("Failed to add match")
 		}
 	},
@@ -59,7 +60,6 @@ var (
 )
 
 func init() {
-	// Add flags for the command to parse a single deck.
 	flags := AddMatchCmd.Flags()
 	flag.StringVarP(flags, &who, "who", "p", "WHO", "", "The player who played the match: an ID, a name, or a seat label like p3")
 	flag.StringVarP(flags, &opp, "opponent", "o", "OPPONENT", "", "The opponent, in the same forms as --who")
@@ -67,29 +67,27 @@ func init() {
 	flag.StringVarP(flags, &record, "record", "r", "RECORD", "", "The record of the player passed to 'who', formatted as 'W-L-T'")
 	flag.BoolVarP(flags, &force, "force", "", "FORCE", false, "Force overwrite of any existing games against the opponent")
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
-	_ = AddMatchCmd.MarkFlagRequired("cube")
+	flag.MarkRequired(AddMatchCmd, "cube")
 }
 
-// parseRecord parses a record string into wins and losses.
-func parseRecord(record string) (wins, losses, ties int, err error) {
+// parseRecord parses a "W-L-T" record string, each a single digit, into wins,
+// losses and ties. An empty record is 0-0-0.
+func parseRecord(record string) (int, int, int, error) {
 	if record == "" {
 		return 0, 0, 0, nil
 	}
-	if len(record) != 5 {
+	if len(record) != 5 || record[1] != '-' || record[3] != '-' {
 		return 0, 0, 0, fmt.Errorf("record must be formatted as 'W-L-T'")
 	}
-	if record[1] != '-' || record[3] != '-' {
-		return 0, 0, 0, fmt.Errorf("record must be formatted as 'W-L'")
-	}
-	wins, err = strconv.Atoi(string(record[0]))
+	wins, err := strconv.Atoi(string(record[0]))
 	if err != nil {
 		return 0, 0, 0, fmt.Errorf("failed to parse wins")
 	}
-	losses, err = strconv.Atoi(string(record[2]))
+	losses, err := strconv.Atoi(string(record[2]))
 	if err != nil {
 		return 0, 0, 0, fmt.Errorf("failed to parse losses")
 	}
-	ties, err = strconv.Atoi(string(record[4]))
+	ties, err := strconv.Atoi(string(record[4]))
 	if err != nil {
 		return 0, 0, 0, fmt.Errorf("failed to parse ties")
 	}
@@ -154,6 +152,7 @@ func addMatch(draft drafts.Draft, whoRef, oppRef string, wins, losses, ties int)
 		return err
 	}
 
+	// The opponent's games are the same, with wins and losses swapped.
 	var games []types.Game
 	for range wins {
 		games = append(games, types.Game{Won: true})
@@ -165,8 +164,8 @@ func addMatch(draft drafts.Draft, whoRef, oppRef string, wins, losses, ties int)
 		games = append(games, types.Game{Tie: true})
 	}
 	mirrored := make([]types.Game, len(games))
-	for i, g := range games {
-		mirrored[i] = types.Game{Won: !g.Won && !g.Tie, Tie: g.Tie}
+	for i, game := range games {
+		mirrored[i] = types.Game{Won: !game.Won && !game.Tie, Tie: game.Tie}
 	}
 	if wins == losses {
 		logrus.WithFields(logrus.Fields{"player": whoRef, "opponent": oppRef}).Info("Match was a draw")
@@ -189,13 +188,13 @@ func addMatch(draft drafts.Draft, whoRef, oppRef string, wins, losses, ties int)
 func setMatch(deck *types.Deck, m types.Match) error {
 	var kept []types.Match
 	for _, existing := range deck.Matches {
-		if existing.OpponentID == m.OpponentID {
-			if !force {
-				return fmt.Errorf("deck %d already has a match against deck %d; pass --force to replace it", deck.ID, m.OpponentID)
-			}
+		if existing.OpponentID != m.OpponentID {
+			kept = append(kept, existing)
 			continue
 		}
-		kept = append(kept, existing)
+		if !force {
+			return fmt.Errorf("deck %d already has a match against deck %d; pass --force to replace it", deck.ID, m.OpponentID)
+		}
 	}
 	deck.Matches = append(kept, m)
 	return nil

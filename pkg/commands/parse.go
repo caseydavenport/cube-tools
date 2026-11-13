@@ -5,20 +5,19 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
+
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/flag"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
-
-	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
 )
 
 var (
@@ -47,11 +46,11 @@ var (
 	eventCode        string
 	eventDescription string
 
-	// cubeFlag is the cube ID used to determine the data directory for all commands.
+	// cubeFlag is the cube ID that picks the data directory for all commands.
 	cubeFlag string
 )
 
-// Define a cobra command for parsing a single deck file.
+// ParseCmd parses one deck file into a draft, for a player or an anonymous seat.
 var ParseCmd = &cobra.Command{
 	Use:   "parse",
 	Short: "Parse a single deck file",
@@ -72,7 +71,7 @@ var ParseCmd = &cobra.Command{
 // parseOne parses one deck file and writes it into the --draft draft, or a new
 // draft created only once the deck has parsed. player is a player ID or name
 // from the player list, ignored under --anonymous.
-func parseOne(cube, deckFile, player, labels string) error {
+func parseOne(cube, deckFile, player, deckLabels string) error {
 	playerID := 0
 	if !anon {
 		var err error
@@ -88,7 +87,7 @@ func parseOne(cube, deckFile, player, labels string) error {
 		}
 		deckDate = draft.Date
 	}
-	d, err := parseDeck([]string{deckFile}, playerID, labels, deckDate, draftID)
+	deck, err := parseDeck([]string{deckFile}, playerID, deckLabels, deckDate, draftID)
 	if err != nil {
 		return err
 	}
@@ -96,12 +95,11 @@ func parseOne(cube, deckFile, player, labels string) error {
 	if err != nil {
 		return fmt.Errorf("find or create the draft: %w", err)
 	}
-	d.Date = draft.Date
-	return discardOnError(draft, created, writeDeck(d, draft))
+	deck.Date = draft.Date
+	return discardOnError(draft, created, writeDeck(deck, draft))
 }
 
 func init() {
-	// Add flags for the command to parse a single deck.
 	flags := ParseCmd.Flags()
 	flag.StringVarP(flags, &deckInput, "deck", "d", "DECK", "", "Path to the deck file to import")
 	flag.StringVarP(flags, &who, "who", "w", "WHO", "", "ID or name of the player who made the deck")
@@ -110,7 +108,7 @@ func init() {
 	addDraftFlags(flags)
 	flag.StringVarP(flags, &eventDescription, "event-description", "", "EVENT_DESCRIPTION", "", "Event description (written to metadata.json)")
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
-	_ = ParseCmd.MarkFlagRequired("cube")
+	flag.MarkRequired(ParseCmd, "cube")
 }
 
 // addDraftFlags registers the flags that pick an existing draft (--draft) or
@@ -152,118 +150,113 @@ func resolveDraft(cube string) (drafts.Draft, bool, error) {
 }
 
 // parseDeck parses a deck's source files into a deck for the given draft and
-// player, where player zero is an anonymous seat.
-func parseDeck(deckFiles []string, playerID int, labels, date string, draftID int) (*types.Deck, error) {
-	// Go through each file, and parse it. We allow multiple files
-	// to be specified, in case a deck is split across multiple files - namely, a mainboard and
-	// sideboard file.
+// player, where player zero is an anonymous seat. One file is a combined deck
+// (or a whole 45-card pool), and two files are a mainboard and a sideboard in
+// either order. Macro archetypes in deckLabels (aggro, midrange, control) go to
+// their own field instead of the label list.
+func parseDeck(deckFiles []string, playerID int, deckLabels, draftDate string, deckDraftID int) (*types.Deck, error) {
+	// A deck can be split across files, namely a mainboard and a sideboard.
 	cardSets := [][]types.Card{}
 	for _, f := range deckFiles {
-		mb, sb, err := cardsFromDeckFile(f)
+		mainboard, sideboard, err := cardsFromDeckFile(f)
 		if err != nil {
 			return nil, err
 		}
 
-		cardSets = append(cardSets, mb)
-		if len(sb) > 0 {
-			cardSets = append(cardSets, sb)
+		cardSets = append(cardSets, mainboard)
+		if len(sideboard) > 0 {
+			cardSets = append(cardSets, sideboard)
 		}
 	}
 
 	if len(cardSets) == 0 {
-		return nil, fmt.Errorf("No cards found in deck files: %v", deckFiles)
+		return nil, fmt.Errorf("no cards found in deck files: %v", deckFiles)
 	}
 	if len(cardSets) > 2 {
-		return nil, fmt.Errorf("Too many card sets (%d) found in deck files: %v", len(cardSets), deckFiles)
+		return nil, fmt.Errorf("too many card sets (%d) found in deck files: %v", len(cardSets), deckFiles)
 	}
 
-	// Build the deck struct. Macro archetype values (aggro/midrange/control)
-	// passed through --labels are auto-promoted to the dedicated field so callers
-	// don't need to keep them in sync.
-	d := types.NewDeck()
-	if len(labels) > 0 {
-		for _, l := range strings.Split(labels, ",") {
-			l = strings.TrimSpace(l)
-			switch strings.ToLower(l) {
+	deck := types.NewDeck()
+	if len(deckLabels) > 0 {
+		for _, label := range strings.Split(deckLabels, ",") {
+			label = strings.TrimSpace(label)
+			switch strings.ToLower(label) {
 			case "aggro", "midrange", "control":
-				d.MacroArchetype = strings.ToLower(l)
+				deck.MacroArchetype = strings.ToLower(label)
 			default:
-				d.Labels = append(d.Labels, l)
+				deck.Labels = append(deck.Labels, label)
 			}
 		}
 	}
-	d.PlayerID = playerID
-	d.Date = date
-	d.Metadata.DraftID = draftID
+	deck.PlayerID = playerID
+	deck.Date = draftDate
+	deck.Metadata.DraftID = deckDraftID
 
-	// Add the cards to the deck. We assume the longer list is the mainboard.
-	// TODO: This is pretty janky.
+	// Which card set is the mainboard is a guess: the longer one.
 	if len(deckFiles) == 1 {
 		if len(cardSets[0]) >= 45 {
-			// If thre is only a single card set, and it is exactly 45 cards, assume it is the draft pool
-			// and not a mainboard + sideboard.
-			d.Pool = cardSets[0]
-			d.Metadata.PoolFile = deckFiles[0]
-			return d, nil
+			// A single card set of 45 or more cards is the draft pool, not a
+			// mainboard and sideboard.
+			deck.Pool = cardSets[0]
+			deck.Metadata.PoolFile = deckFiles[0]
+			return deck, nil
 		}
 
-		// Otherwise, assume it is a mainboard, with an optional sideboard.
-		d.Mainboard = cardSets[0]
+		deck.Mainboard = cardSets[0]
 		if len(cardSets) > 1 {
-			d.Sideboard = cardSets[1]
+			deck.Sideboard = cardSets[1]
 		}
-		d.Metadata.CombinedFile = deckFiles[0]
+		deck.Metadata.CombinedFile = deckFiles[0]
 	} else if len(deckFiles) == 2 {
 		if len(cardSets[0]) >= len(cardSets[1]) {
-			d.Mainboard = cardSets[0]
-			d.Sideboard = cardSets[1]
-			d.Metadata.MainboardFile = deckFiles[0]
-			d.Metadata.SideboardFile = deckFiles[1]
+			deck.Mainboard = cardSets[0]
+			deck.Sideboard = cardSets[1]
+			deck.Metadata.MainboardFile = deckFiles[0]
+			deck.Metadata.SideboardFile = deckFiles[1]
 		} else {
-			d.Mainboard = cardSets[1]
-			d.Sideboard = cardSets[0]
-			d.Metadata.MainboardFile = deckFiles[1]
-			d.Metadata.SideboardFile = deckFiles[0]
+			deck.Mainboard = cardSets[1]
+			deck.Sideboard = cardSets[0]
+			deck.Metadata.MainboardFile = deckFiles[1]
+			deck.Metadata.SideboardFile = deckFiles[0]
 		}
 	}
 
-	// Make sure the mainboard and sideboard are not the same, as that's weird!
-	if !cardSetsDiffer(d.Mainboard, d.Sideboard) {
-		return nil, fmt.Errorf("Mainboard and sideboard are the same: %v", deckFiles)
+	// Identical mainboard and sideboard means the same file was given twice.
+	if !cardSetsDiffer(deck.Mainboard, deck.Sideboard) {
+		return nil, fmt.Errorf("mainboard and sideboard are the same: %v", deckFiles)
 	}
 
-	// If a deck has less than 40 cards in the mainboard, that likely indicates a
-	// scan error or a deck that was not properly built.
-	if len(d.Mainboard) < 40 {
+	// A short mainboard likely means a scan error or an unfinished deck.
+	if len(deck.Mainboard) < 40 {
 		logrus.WithFields(logrus.Fields{
 			"files":     deckFiles,
-			"mainboard": len(d.Mainboard),
+			"mainboard": len(deck.Mainboard),
 		}).Warn("Deck has less than 40 cards in the mainboard, likely a scan error or incomplete deck.")
 	}
 
-	if d.PickCount() != 45 {
+	if deck.PickCount() != 45 {
 		logrus.WithFields(logrus.Fields{
 			"files": deckFiles,
-			"count": d.PickCount(),
+			"count": deck.PickCount(),
 		}).Warn("Deck does not have 45 cards total (main + side), likely a scan error, incomplete deck, or unusual draft format.")
 	}
-	return d, nil
+	return deck, nil
 }
 
 // cardSetsDiffer returns true if the two slices of cards are not equal, ignoring order.
-func cardSetsDiffer(a, b []types.Card) bool {
-	if len(a) != len(b) {
+func cardSetsDiffer(first, second []types.Card) bool {
+	if len(first) != len(second) {
 		return true
 	}
-	m := make(map[string]int)
-	for _, c := range a {
-		m[c.Name]++
+	numCopiesByName := make(map[string]int)
+	for _, c := range first {
+		numCopiesByName[c.Name]++
 	}
-	for _, c := range b {
-		m[c.Name]--
+	for _, c := range second {
+		numCopiesByName[c.Name]--
 	}
-	for _, v := range m {
-		if v != 0 {
+	for _, numCopies := range numCopiesByName {
+		if numCopies != 0 {
 			return true
 		}
 	}
@@ -274,11 +267,11 @@ func cardSetsDiffer(a, b []types.Card) bool {
 // style, "<count> <name>" per line, a blank line splitting mainboard from
 // sideboard) or ".csv" (Delver Lens / CubeCobra export). It returns the
 // mainboard and sideboard card lists.
-func ParseDeckBytes(data []byte, format string) (mainboard, sideboard []types.Card, err error) {
+func ParseDeckBytes(data []byte, format string) ([]types.Card, []types.Card, error) {
 	switch format {
 	case ".txt":
-		mb, sb := cardsFromTXTBytes(data)
-		return mb, sb, nil
+		mainboard, sideboard := cardsFromTXTBytes(data)
+		return mainboard, sideboard, nil
 	case ".csv":
 		return cardsFromCSVBytes(data)
 	default:
@@ -286,20 +279,17 @@ func ParseDeckBytes(data []byte, format string) (mainboard, sideboard []types.Ca
 	}
 }
 
+// cardsFromDeckFile reads a .csv or .txt deck file and returns its mainboard
+// and sideboard.
 func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
-	var mb, sb []types.Card
-	if strings.HasSuffix(deckFile, ".csv") {
-		var err error
-		mb, sb, err = cardsFromCSV(deckFile)
-		if err != nil {
-			return nil, nil, err
-		}
-	} else if strings.HasSuffix(deckFile, ".txt") {
-		mb, sb = cardsFromTXT(deckFile)
-	} else {
-		return nil, nil, fmt.Errorf("Unsupported file type: %s", deckFile)
+	switch {
+	case strings.HasSuffix(deckFile, ".csv"):
+		return cardsFromCSV(deckFile)
+	case strings.HasSuffix(deckFile, ".txt"):
+		return cardsFromTXT(deckFile)
+	default:
+		return nil, nil, fmt.Errorf("unsupported file type: %s", deckFile)
 	}
-	return mb, sb, nil
 }
 
 // writeDeck writes a parsed deck into a draft. A deck the draft already has,
@@ -364,7 +354,7 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 
 	// Keep the original "raw" decklist with the draft and point the metadata at
 	// the copy, so a reparse never needs the files it came from.
-	copyOrKeep := func(src, suffix, label string) string {
+	copyIntoDraft := func(src, suffix, label string) string {
 		if src == "" {
 			return ""
 		}
@@ -374,14 +364,13 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 		}
 		return dst
 	}
-	d.Metadata.CombinedFile = copyOrKeep(d.Metadata.CombinedFile, "", "source")
-	d.Metadata.MainboardFile = copyOrKeep(d.Metadata.MainboardFile, "-mainboard", "mainboard")
-	d.Metadata.SideboardFile = copyOrKeep(d.Metadata.SideboardFile, "-sideboard", "sideboard")
-	d.Metadata.PoolFile = copyOrKeep(d.Metadata.PoolFile, "-pool", "pool")
+	d.Metadata.CombinedFile = copyIntoDraft(d.Metadata.CombinedFile, "", "source")
+	d.Metadata.MainboardFile = copyIntoDraft(d.Metadata.MainboardFile, "-mainboard", "mainboard")
+	d.Metadata.SideboardFile = copyIntoDraft(d.Metadata.SideboardFile, "-sideboard", "sideboard")
+	d.Metadata.PoolFile = copyIntoDraft(d.Metadata.PoolFile, "-pool", "pool")
 
-	// Write the canonical deck file in our format. The JSON is the source of
-	// truth - the `export-cc` command handles cubecobra exports on demand, so
-	// we no longer write a per-deck .cubecobra.txt alongside.
+	// The JSON is the source of truth; `export-cc` makes Cube Cobra exports on
+	// demand.
 	logc.Debug("Writing canonical deck file")
 	if err := draft.SaveDeck(d); err != nil {
 		return fmt.Errorf("save deck %d: %w", d.ID, err)
@@ -414,95 +403,84 @@ func existingDeck(d *types.Deck, draft drafts.Draft) (*types.Deck, error) {
 //
 //	1 <Cardname>
 //
-// Newlines used to separate mainboard and sideboard.
-func cardsFromTXT(txt string) ([]types.Card, []types.Card) {
-	f, err := os.Open(txt)
-	defer f.Close()
+// A blank line separates the mainboard from the sideboard.
+func cardsFromTXT(path string) ([]types.Card, []types.Card, error) {
+	b, err := os.ReadFile(path)
 	if err != nil {
-		panic(err)
+		return nil, nil, err
 	}
-	b, err := io.ReadAll(f)
-	if err != nil {
-		panic(err)
-	}
-	return cardsFromTXTBytes(b)
+	mainboard, sideboard := cardsFromTXTBytes(b)
+	return mainboard, sideboard, nil
 }
 
 // cardsFromTXTBytes is the byte-based core of cardsFromTXT.
 func cardsFromTXTBytes(b []byte) ([]types.Card, []types.Card) {
-	// Add in cards.
 	lines := strings.Split(string(b), "\n")
 
-	mainboard := true
+	inMainboard := true
 	sawCard := false
 	flipped := false
 
-	// The first character is always the number.
-	mb := []types.Card{}
-	sb := []types.Card{}
+	mainboard := []types.Card{}
+	sideboard := []types.Card{}
 	for _, l := range lines {
 		if len(l) == 0 {
-			// Blank line marks the mainboard/sideboard divider. Skip leading
-			// blanks (before any card) and treat consecutive blanks as one
-			// divider — only the first blank after content flips the section.
+			// A blank line divides mainboard from sideboard. Leading blanks
+			// (before any card) don't count, and consecutive blanks are one
+			// divider, so only the first blank after a card flips the section.
 			if sawCard && !flipped {
-				mainboard = false
+				inMainboard = false
 				flipped = true
 			}
 			continue
 		}
 		sawCard = true
 
-		// Default to a single entry if no number is specified.
-		var count int64
-		var err error
+		// A line is "<count> <name>", or just the name for a single copy.
 		var name string
 		splits := strings.SplitN(l, " ", 2)
-		count, err = strconv.ParseInt(splits[0], 10, 32)
-		if err != nil {
-			// The whole line is the name, and we default to a count of 1.
+		count, err := strconv.ParseInt(splits[0], 10, 32)
+		if err != nil || len(splits) < 2 {
 			name = l
 			count = 1
 		} else {
-			// First part is the count, second part is the name.
 			name = splits[1]
 		}
 
-		for i := 0; i < int(count); i++ {
+		for range int(count) {
 			oracleData := types.GetOracleData(name)
 			if oracleData.Name == "" {
 				logrus.Errorf("Failed to find oracle data for: %s", name)
 				continue
 			}
-			if mainboard {
-				mb = append(mb, types.FromOracle(oracleData))
+			if inMainboard {
+				mainboard = append(mainboard, types.FromOracle(oracleData))
 			} else {
-				sb = append(sb, types.FromOracle(oracleData))
+				sideboard = append(sideboard, types.FromOracle(oracleData))
 			}
-
 		}
 	}
-	return mb, sb
+	return mainboard, sideboard
 }
 
+// cardsFromCSV imports cards from a .csv deck file; cardsFromCSVBytes
+// describes the format.
 func cardsFromCSV(path string) ([]types.Card, []types.Card, error) {
-	f, err := os.Open(path)
-	if err != nil {
-		return nil, nil, err
-	}
-	defer f.Close()
-
-	b, err := io.ReadAll(f)
+	b, err := os.ReadFile(path)
 	if err != nil {
 		return nil, nil, err
 	}
 	return cardsFromCSVBytes(b)
 }
 
-// cardsFromCSVBytes is the byte-based core of cardsFromCSV.
+// cardsFromCSVBytes is the byte-based core of cardsFromCSV. The first row is
+// a header with a Name column, and optionally Quantity (or Count) and
+// maybeboard; a row of just "Sideboard" starts the sideboard.
 func cardsFromCSVBytes(b []byte) ([]types.Card, []types.Card, error) {
 	r := csv.NewReader(bytes.NewReader(b))
-	r.FieldsPerRecord = -1 // tolerate variable column counts (e.g. "Sideboard" rows)
+
+	// "Sideboard" marker rows have a different column count from card rows.
+	r.FieldsPerRecord = -1
 	records, err := r.ReadAll()
 	if err != nil {
 		return nil, nil, err
@@ -511,9 +489,8 @@ func cardsFromCSVBytes(b []byte) ([]types.Card, []types.Card, error) {
 		return nil, nil, nil
 	}
 
-	// First row is the header. CubeCobra exports have one row per card (no
-	// Quantity/Count column) and a "maybeboard" column marking cards that
-	// aren't actually in the cube.
+	// CubeCobra exports have one row per card (no Quantity/Count column) and a
+	// "maybeboard" column marking cards that aren't actually in the cube.
 	quantityIdx := -1
 	nameIdx := -1
 	maybeboardIdx := -1
@@ -533,16 +510,17 @@ func cardsFromCSVBytes(b []byte) ([]types.Card, []types.Card, error) {
 		return nil, nil, fmt.Errorf("no name column in csv data")
 	}
 
-	mb := []types.Card{}
-	sb := []types.Card{}
-	sideboard := false
+	mainboard := []types.Card{}
+	sideboard := []types.Card{}
+	inSideboard := false
 	for _, row := range records[1:] {
 		if len(row) == 0 {
 			continue
 		}
+
 		// A "Sideboard" marker can appear as a single-column row.
 		if len(row) == 1 && strings.EqualFold(strings.TrimSpace(row[0]), "Sideboard") {
-			sideboard = true
+			inSideboard = true
 			continue
 		}
 		if nameIdx >= len(row) {
@@ -566,18 +544,18 @@ func cardsFromCSVBytes(b []byte) ([]types.Card, []types.Card, error) {
 			strings.EqualFold(strings.TrimSpace(row[maybeboardIdx]), "true")
 		name := strings.TrimSpace(row[nameIdx])
 
-		for i := 0; i < count; i++ {
+		for range count {
 			oracleData := types.GetOracleData(name)
 			if oracleData.Name == "" {
 				logrus.Errorf("Failed to find oracle data for: %s", name)
 				continue
 			}
-			if sideboard || maybeboard {
-				sb = append(sb, types.FromOracle(oracleData))
+			if inSideboard || maybeboard {
+				sideboard = append(sideboard, types.FromOracle(oracleData))
 			} else {
-				mb = append(mb, types.FromOracle(oracleData))
+				mainboard = append(mainboard, types.FromOracle(oracleData))
 			}
 		}
 	}
-	return mb, sb, nil
+	return mainboard, sideboard, nil
 }

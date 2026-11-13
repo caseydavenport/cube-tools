@@ -30,11 +30,12 @@ func TestFetchCube(t *testing.T) {
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/cube/api/cubeJSON/xyz", r.URL.Path)
-		_, _ = w.Write([]byte(testCubeJSON))
+		_, err := w.Write([]byte(testCubeJSON))
+		assert.NoError(t, err)
 	}))
 	defer srv.Close()
 
-	cube, err := FetchCube(srv.URL, "xyz")
+	cube, err := fetchCube(srv.URL, "xyz")
 	require.NoError(t, err)
 
 	// The blank-named card is dropped; the other two hydrate from oracle data
@@ -50,7 +51,8 @@ func TestCubeProviderCachesAndRefreshes(t *testing.T) {
 	var fetches atomic.Int32
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fetches.Add(1)
-		_, _ = w.Write([]byte(testCubeJSON))
+		_, err := w.Write([]byte(testCubeJSON))
+		assert.NoError(t, err)
 	}))
 	defer srv.Close()
 

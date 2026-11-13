@@ -67,3 +67,48 @@ func TestExportCreatesRecordAndSavesID(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, "newrec", got.CubeCobraRecord)
 }
+
+func TestBuildCCRecordListsEachMatchOnceAndPicksTrophy(t *testing.T) {
+	draft := newDraft(t)
+	decks := []*types.Deck{
+		{Player: "Freddie", Date: "2026-01-02", Matches: []types.Match{
+			{Opponent: "Ozzy", Round: 1, Wins: 2, Losses: 1},
+			{Opponent: "Stevie", Round: 2, Wins: 2, Losses: 0},
+			{Opponent: "Joan", Round: 3, Wins: 2, Losses: 0},
+		}},
+		{Player: "Ozzy", Matches: []types.Match{{Opponent: "Freddie", Round: 1, Wins: 1, Losses: 2}}},
+		{Player: "Stevie", Matches: []types.Match{{Opponent: "Freddie", Round: 2, Wins: 0, Losses: 2}}},
+	}
+
+	record := buildCCRecord(draft, decks)
+
+	require.Equal(t, []CCPlayer{{Name: "Freddie"}, {Name: "Ozzy"}, {Name: "Stevie"}}, record.Players)
+	require.Equal(t, []CCRound{
+		{Matches: []CCMatch{{P1: "Freddie", P2: "Ozzy", Results: []int{2, 1, 0}}}},
+		{Matches: []CCMatch{{P1: "Freddie", P2: "Stevie", Results: []int{2, 0, 0}}}},
+	}, record.Matches, "each match once, and none against Joan, who has no deck")
+	require.Equal(t, []string{"Freddie"}, record.Trophy)
+}
+
+func TestBuildCCRecordPutsUnknownRoundLast(t *testing.T) {
+	decks := []*types.Deck{
+		{Player: "Freddie", Matches: []types.Match{
+			{Opponent: "Ozzy", Round: 0, Wins: 2},
+			{Opponent: "Stevie", Round: 1, Wins: 2},
+		}},
+		{Player: "Ozzy"},
+		{Player: "Stevie"},
+	}
+
+	record := buildCCRecord(newDraft(t), decks)
+
+	require.Len(t, record.Matches, 2)
+	require.Equal(t, "Stevie", record.Matches[0].Matches[0].P2)
+	require.Equal(t, "Ozzy", record.Matches[1].Matches[0].P2)
+}
+
+func TestBuildCCRecordNoTrophyWithoutWins(t *testing.T) {
+	decks := []*types.Deck{{Player: "Freddie"}, {Player: "Ozzy"}}
+
+	require.Empty(t, buildCCRecord(newDraft(t), decks).Trophy)
+}

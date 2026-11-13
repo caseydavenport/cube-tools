@@ -29,7 +29,7 @@ func TestScanPhotoFolder(t *testing.T) {
 	writeFile(t, filepath.Join(dir, "notes.txt"))
 	writeFile(t, filepath.Join(dir, "sub", "d.jpg"))
 
-	got, err := ScanPhotoFolder(dir)
+	got, err := scanPhotoFolder(dir)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -53,7 +53,7 @@ func TestScanPhotoFolderNaturalOrder(t *testing.T) {
 		want = append(want, name)
 	}
 
-	got, err := ScanPhotoFolder(dir)
+	got, err := scanPhotoFolder(dir)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -63,12 +63,12 @@ func TestScanPhotoFolderNaturalOrder(t *testing.T) {
 }
 
 func TestScanPhotoFolderErrors(t *testing.T) {
-	if _, err := ScanPhotoFolder(filepath.Join(t.TempDir(), "nope")); err == nil {
+	if _, err := scanPhotoFolder(filepath.Join(t.TempDir(), "nope")); err == nil {
 		t.Fatal("expected error for missing dir")
 	}
 	f := filepath.Join(t.TempDir(), "file.jpg")
 	writeFile(t, f)
-	if _, err := ScanPhotoFolder(f); err == nil {
+	if _, err := scanPhotoFolder(f); err == nil {
 		t.Fatal("expected error for non-directory")
 	}
 }
@@ -160,25 +160,37 @@ func TestBuildPhotoDraftDirRemovesDraftOnFailure(t *testing.T) {
 	}
 }
 
+// buildPhotoDraftDirCase is one input buildPhotoDraftDir must refuse.
+type buildPhotoDraftDirCase struct {
+	name   string
+	source string
+	date   string
+	slug   string
+}
+
 func TestBuildPhotoDraftDirErrors(t *testing.T) {
 	root := t.TempDir()
 	src := t.TempDir()
 	writeFile(t, filepath.Join(src, "a.jpg"))
 
-	// bad slug
-	if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, src, "2026-06-20", "Bad_Slug", "", ""); err == nil {
-		t.Fatal("expected slug error")
+	cases := []buildPhotoDraftDirCase{
+		{name: "bad slug", source: src, date: "2026-06-20", slug: "Bad_Slug"},
+		{name: "bad date", source: src, date: "06/20/2026", slug: "evt"},
+		{name: "no images", source: t.TempDir(), date: "2026-06-20", slug: "evt"},
+		{name: "nonexistent source path", source: filepath.Join(t.TempDir(), "nope"), date: "2026-06-20", slug: "evt"},
 	}
-	// bad date
-	if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, src, "06/20/2026", "evt", "", ""); err == nil {
-		t.Fatal("expected date error")
-	}
-	// no images
-	if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, t.TempDir(), "2026-06-20", "evt", "", ""); err == nil {
-		t.Fatal("expected no-images error")
-	}
-	// nonexistent source path
-	if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, filepath.Join(t.TempDir(), "nope"), "2026-06-20", "evt", "", ""); err == nil {
-		t.Fatal("expected error for missing source path")
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			if _, _, err := buildPhotoDraftDir(root, "aurora", &types.Cube{}, c.source, c.date, c.slug, "", ""); err == nil {
+				t.Fatal("expected an error")
+			}
+			left, err := drafts.List(filepath.Join(root, "aurora"))
+			if err != nil {
+				t.Fatal(err)
+			}
+			if len(left) != 0 {
+				t.Fatalf("drafts left behind: %+v", left)
+			}
+		})
 	}
 }

@@ -28,12 +28,14 @@ func TestFetchCubeCobraCards(t *testing.T) {
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/cube/api/cubeJSON/polyversal", r.URL.Path)
-		_, _ = w.Write([]byte(body))
+		_, err := w.Write([]byte(body))
+		assert.NoError(t, err)
 	}))
 	defer srv.Close()
 
-	cards, err := fetchCubeCobraCards(srv.URL, "polyversal")
+	cube, err := fetchCubeCobra(http.DefaultClient, srv.URL, "polyversal")
 	require.NoError(t, err)
+	cards := cube.enrichments()
 
 	// Rounded, both boards merged, blank names skipped. Mainboard wins over the
 	// maybeboard entry, so we keep the mainboard Elo and printing.
@@ -59,7 +61,7 @@ func TestFetchCubeCobraCards_HTTPError(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	_, err := fetchCubeCobraCards(srv.URL, "missing")
+	_, err := fetchCubeCobra(http.DefaultClient, srv.URL, "missing")
 	assert.Error(t, err)
 }
 
@@ -75,7 +77,7 @@ func TestFetchMaybeboard(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	names, err := FetchMaybeboard(srv.URL, "polyversal")
+	names, err := fetchMaybeboard(srv.URL, "polyversal")
 	require.NoError(t, err)
 	assert.Equal(t, []string{"Counterspell", "Fire // Ice"}, names)
 }

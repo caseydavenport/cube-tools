@@ -7,15 +7,16 @@ import (
 	"sync"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
-// FetchCube builds a cube's card list from its CubeCobra list: the mainboard
+// fetchCube builds a cube's card list from its CubeCobra list: the mainboard
 // names hydrated from oracle data, then enriched with CubeCobra draft Elo, the
 // printings the cube owner picked, and their per-card tags.
-func FetchCube(baseURL, ccID string) (*types.Cube, error) {
+func fetchCube(baseURL, ccID string) (*types.Cube, error) {
 	ccCube, err := fetchCubeCobra(http.DefaultClient, baseURL, ccID)
 	if err != nil {
 		return nil, err
@@ -30,57 +31,53 @@ func FetchCube(baseURL, ccID string) (*types.Cube, error) {
 		}
 		cards = append(cards, types.FromOracle(oracle))
 	}
-	mergeCubeCobra(cards, ccCube.cardInfo())
+	mergeCubeCobra(cards, ccCube.enrichments())
 	return &types.Cube{Cards: cards}, nil
 }
 
-// liveCube fetches a cube's current card list from Cube Cobra. CLI commands use
-// it wherever they used to read data/{cube}/cube.json; the server reads through
-// the cached provider instead.
+// liveCube fetches a cube's current card list from Cube Cobra, for CLI commands.
+// The server reads through the cached CubeProvider instead.
 func liveCube(cube string) (*types.Cube, error) {
 	id := cubeCobraID(cube)
 	if id == "" {
 		return nil, fmt.Errorf("cube %q has no Cube Cobra id", cube)
 	}
-	return FetchCube(ccBaseURL, id)
+	return fetchCube(ccBaseURL, id)
 }
 
 // mergeCubeCobra overlays Cube Cobra draft Elo and printings onto cards, keyed
-// by name. It returns the number of cards matched.
-func mergeCubeCobra(cards []types.Card, ccCards map[string]ccCardInfo) int {
-	matched := 0
+// by name; a card Cube Cobra has no entry for keeps what it has.
+func mergeCubeCobra(cards []types.Card, ccCards map[string]ccCardEnrichment) {
 	for i := range cards {
-		info, ok := ccCards[cards[i].Name]
+		enrichment, ok := ccCards[cards[i].Name]
 		if !ok {
 			// Cube Cobra keys double-faced cards by their front-face name,
 			// while our cube list uses the full "Front // Back" name. Retry
 			// on the front face.
 			if front, _, found := strings.Cut(cards[i].Name, " // "); found {
-				info, ok = ccCards[strings.TrimSpace(front)]
+				enrichment, ok = ccCards[strings.TrimSpace(front)]
 			}
 		}
 		if !ok {
 			continue
 		}
-		cards[i].DraftELO = info.elo
+		cards[i].DraftELO = enrichment.elo
 
 		// Prefer the printing the cube owner picked on Cube Cobra over
 		// whatever printing our oracle bulk happens to carry.
-		if info.image != "" {
-			cards[i].Image = info.image
+		if enrichment.image != "" {
+			cards[i].Image = enrichment.image
 		}
-		if info.url != "" {
-			cards[i].URL = info.url
+		if enrichment.url != "" {
+			cards[i].URL = enrichment.url
 		}
-		cards[i].Tags = info.tags
-		matched++
+		cards[i].Tags = enrichment.tags
 	}
-	return matched
 }
 
 // CubeProvider serves cube card lists from CubeCobra, caching one copy per cube
-// in memory. It's the server's source of truth now that cube lists aren't kept
-// on disk.
+// in memory. It's the server's source of truth, since cube lists aren't kept on
+// disk.
 type CubeProvider struct {
 	reg *cubes.Registry
 
@@ -149,7 +146,7 @@ func (p *CubeProvider) Maybeboard(cube string) ([]string, error) {
 		return entry.names, entry.err
 	}
 
-	names, err := FetchMaybeboard(ccBaseURL, ccID)
+	names, err := fetchMaybeboard(ccBaseURL, ccID)
 	p.maybeMu.Lock()
 	p.maybe[cube] = cachedMaybeboard{names: names, err: err, fetched: time.Now()}
 	p.maybeMu.Unlock()
@@ -187,7 +184,7 @@ func (p *CubeProvider) Refresh(cube string) (*types.Cube, error) {
 	if ccID == "" {
 		return nil, fmt.Errorf("cube %q has no CubeCobra id", cube)
 	}
-	c, err := FetchCube(ccBaseURL, ccID)
+	c, err := fetchCube(ccBaseURL, ccID)
 	if err != nil {
 		return nil, err
 	}
