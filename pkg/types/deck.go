@@ -103,7 +103,9 @@ func LoadDeck(path string) (*Deck, error) {
 		return nil, err
 	}
 	if len(deck.Matches) == 0 {
-		deck.Matches = legacyMatches(contents)
+		if legacy := legacyMatches(contents); legacy != nil {
+			deck.Matches = legacy
+		}
 	}
 	return deck, nil
 }

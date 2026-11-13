@@ -42,6 +42,13 @@ func TestLoadDeck_NoLegacyCountsMakeNoMatch(t *testing.T) {
 	assert.Equal(t, "Ozzy's Deck", deck.Name)
 }
 
+func TestLoadDeck_EmptyMatchesStayEmptyNotNil(t *testing.T) {
+	deck, err := LoadDeck(writeDeckFile(t, `{"matches": []}`))
+	require.NoError(t, err)
+	require.NotNil(t, deck.Matches, "the API sends nil matches as null instead of []")
+	assert.Empty(t, deck.Matches)
+}
+
 func TestLoadDeck_MatchesWinOverLegacyCounts(t *testing.T) {
 	deck, err := LoadDeck(writeDeckFile(t, `{"wins": 5, "losses": 5, "matches": [{"opponent_id": 2, "wins": 2}]}`))
 	require.NoError(t, err)
