@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"cmp"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -167,15 +168,7 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			resp = designGraph(rules, config)
 		}
 
-		b, err := json.Marshal(resp)
-		if err != nil {
-			http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-			return
-		}
-		rw.Header().Set("Content-Type", "application/json")
-		if _, err := rw.Write(b); err != nil {
-			logrus.WithError(err).Error("could not write design graph response")
-		}
+		writeJSON(rw, resp, "design graph")
 	})
 }
 
@@ -312,16 +305,7 @@ func DesignGraphMatchHandler(store storage.DeckStorage, src types.CubeSource) ht
 			return
 		}
 
-		resp := DesignGraphMatchResponse{Cards: matchConditions(rules.CardMap(), rules.Config(), req)}
-		b, err := json.Marshal(resp)
-		if err != nil {
-			http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-			return
-		}
-		rw.Header().Set("Content-Type", "application/json")
-		if _, err := rw.Write(b); err != nil {
-			logrus.WithError(err).Error("could not write design graph match response")
-		}
+		writeJSON(rw, DesignGraphMatchResponse{Cards: matchConditions(rules.CardMap(), rules.Config(), req)}, "design graph match")
 	})
 }
 
@@ -424,16 +408,7 @@ func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Re
 		return
 	}
 
-	resp := groupDistributions(rules, rules.Decks())
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Error("could not write group distributions response")
-	}
+	writeJSON(rw, groupDistributions(rules, rules.Decks()), "group distributions")
 }
 
 // groupDistributions counts each group's cards in every deck's mainboard. Only
@@ -464,19 +439,14 @@ func groupDistributions(rules *rulebook.Rulebook, decks []*storage.Deck) GroupDi
 			continue
 		}
 
-		cards := make([]string, 0, len(members))
 		lands := 0
 		for name := range members {
-			cards = append(cards, name)
-
-			// cardMap excludes basic lands, so a basic won't be found here - but
-			// basics never match group conditions anyway, so it can't skew the
-			// land fraction.
+			// cardMap excludes basic lands, but basics never match group
+			// conditions, so a missing card can't skew the land fraction.
 			if c, ok := cardMap[name]; ok && c.IsLand() {
 				lands++
 			}
 		}
-		slices.Sort(cards)
 
 		counts := make([]int, len(mainboards))
 		for i, names := range mainboards {
@@ -489,7 +459,7 @@ func groupDistributions(rules *rulebook.Rulebook, decks []*storage.Deck) GroupDi
 
 		groups = append(groups, GroupDistribution{
 			Name:       g.Name,
-			Cards:      cards,
+			Cards:      sortedCards(members),
 			DeckCounts: counts,
 			Manabase:   float64(lands)/float64(len(members)) >= manabaseLandFraction,
 		})
@@ -498,15 +468,25 @@ func groupDistributions(rules *rulebook.Rulebook, decks []*storage.Deck) GroupDi
 	return GroupDistributionsResponse{DeckCount: len(mainboards), Groups: groups}
 }
 
+// namePair is two names in sorted order, so the pair (A, B) and (B, A) are
+// one key. Card edges, group edges and card pairs all use it.
+type namePair struct {
+	first  string
+	second string
+}
+
+// newNamePair returns the pair of x and y in sorted order.
+func newNamePair(x, y string) namePair {
+	if y < x {
+		x, y = y, x
+	}
+	return namePair{first: x, second: y}
+}
+
 // buildCardEdges creates one undirected edge per pair of cards joined by a
 // package, stamped with every package that joins them.
 func buildCardEdges(packages []design.Package, groupCards rulebook.Members) []DesignGraphEdge {
-	type edgeKey struct {
-		source string
-		target string
-	}
-	edgePackages := make(map[edgeKey]map[string]bool)
-
+	edgePackages := make(map[namePair]map[string]bool)
 	for _, pkg := range packages {
 		for _, wire := range pkg.Wires {
 			sources := groupCards.Side(wire.Sources)
@@ -517,13 +497,7 @@ func buildCardEdges(packages []design.Package, groupCards rulebook.Members) []De
 					if s == t {
 						continue
 					}
-
-					// Normalize edge direction so (A,B) and (B,A) are the same edge.
-					a, b := s, t
-					if a > b {
-						a, b = b, a
-					}
-					k := edgeKey{a, b}
+					k := newNamePair(s, t)
 					if edgePackages[k] == nil {
 						edgePackages[k] = make(map[string]bool)
 					}
@@ -535,14 +509,10 @@ func buildCardEdges(packages []design.Package, groupCards rulebook.Members) []De
 
 	var edges []DesignGraphEdge
 	for k, nameSet := range edgePackages {
-		names := make([]string, 0, len(nameSet))
-		for n := range nameSet {
-			names = append(names, n)
-		}
-		slices.Sort(names)
+		names := sortedCards(nameSet)
 		edges = append(edges, DesignGraphEdge{
-			Source:   k.source,
-			Target:   k.target,
+			Source:   k.first,
+			Target:   k.second,
 			Weight:   len(names),
 			Packages: names,
 		})
@@ -600,12 +570,12 @@ func buildDesignGraph(cardMap map[string]types.Card, resolved rulebook.Groups, c
 	groups := make([]design.Group, len(config.Groups))
 	copy(groups, config.Groups)
 	slices.SortFunc(groups, func(a, b design.Group) int {
-		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+		return compareNamesIgnoringCase(a.Name, b.Name)
 	})
 	packages := make([]design.Package, len(config.Packages))
 	copy(packages, config.Packages)
 	slices.SortFunc(packages, func(a, b design.Package) int {
-		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+		return compareNamesIgnoringCase(a.Name, b.Name)
 	})
 
 	groupNodes, groupEdges, packageEdges := buildGroupGraph(config, groupCards, groupExcluded, edges)
@@ -632,130 +602,119 @@ func buildGroupGraph(
 	groupExcluded map[string][]string,
 	edges []DesignGraphEdge,
 ) ([]DesignGraphGroupNode, []DesignGraphGroupEdge, []DesignGraphGroupEdge) {
-	type groupEdgeKey struct {
-		source string
-		target string
-	}
-	type cardPair struct {
-		a string
-		b string
-	}
+	return buildGroupNodes(config, groupCards, groupExcluded), buildGroupCardEdges(groupCards, edges), buildGroupPackageEdges(config, groupCards)
+}
 
-	// finalize turns the accumulated card-pair and package maps into a sorted edge slice.
-	finalize := func(pairs map[groupEdgeKey]map[cardPair]bool, packageSets map[groupEdgeKey]map[string]bool) []DesignGraphGroupEdge {
-		out := make([]DesignGraphGroupEdge, 0, len(pairs))
-		for gk, ps := range pairs {
-			names := make([]string, 0, len(packageSets[gk]))
-			for n := range packageSets[gk] {
-				names = append(names, n)
-			}
-			slices.Sort(names)
-			out = append(out, DesignGraphGroupEdge{
-				Source:   gk.source,
-				Target:   gk.target,
-				Weight:   len(ps),
-				Packages: names,
-			})
-		}
-		slices.SortFunc(out, func(a, b DesignGraphGroupEdge) int {
-			if c := strings.Compare(a.Source, b.Source); c != 0 {
-				return c
-			}
-			return strings.Compare(a.Target, b.Target)
+// groupEdgeSet accumulates group edges: for each pair of groups, the distinct
+// card pairs that give the edge its weight and the packages that join them.
+type groupEdgeSet struct {
+	cardPairs map[namePair]map[namePair]bool
+	packages  map[namePair]map[string]bool
+}
+
+// newGroupEdgeSet returns an empty set.
+func newGroupEdgeSet() *groupEdgeSet {
+	return &groupEdgeSet{cardPairs: map[namePair]map[namePair]bool{}, packages: map[namePair]map[string]bool{}}
+}
+
+// join records that the packages join the two groups, creating their edge if
+// it's new, and returns the edge's key for addCardPair.
+func (s *groupEdgeSet) join(x, y string, packages []string) namePair {
+	key := newNamePair(x, y)
+	if s.cardPairs[key] == nil {
+		s.cardPairs[key] = map[namePair]bool{}
+		s.packages[key] = map[string]bool{}
+	}
+	for _, name := range packages {
+		s.packages[key][name] = true
+	}
+	return key
+}
+
+// addCardPair counts a card pair toward the weight of the edge join returned.
+func (s *groupEdgeSet) addCardPair(edge, cards namePair) {
+	s.cardPairs[edge][cards] = true
+}
+
+// edges lists the accumulated edges sorted by source then target.
+func (s *groupEdgeSet) edges() []DesignGraphGroupEdge {
+	out := make([]DesignGraphGroupEdge, 0, len(s.cardPairs))
+	for key, pairs := range s.cardPairs {
+		out = append(out, DesignGraphGroupEdge{
+			Source:   key.first,
+			Target:   key.second,
+			Weight:   len(pairs),
+			Packages: sortedCards(s.packages[key]),
 		})
-		return out
 	}
+	slices.SortFunc(out, func(a, b DesignGraphGroupEdge) int {
+		return cmp.Or(strings.Compare(a.Source, b.Source), strings.Compare(a.Target, b.Target))
+	})
+	return out
+}
 
-	// cardEdges: collapse each card-level edge onto every pair of groups its endpoints
-	// belong to. Reverse index card name -> the groups that contain it (a card can be in many).
+// buildGroupCardEdges collapses each card-level edge onto every pair of groups
+// its endpoints belong to. Two cards in the same group are inside that group,
+// so they make no edge.
+func buildGroupCardEdges(groupCards rulebook.Members, edges []DesignGraphEdge) []DesignGraphGroupEdge {
+	// Reverse index: card name to the groups holding it (a card can be in many).
 	cardGroups := make(map[string][]string)
-	for g, cards := range groupCards {
+	for group, cards := range groupCards {
 		for name := range cards {
-			cardGroups[name] = append(cardGroups[name], g)
+			cardGroups[name] = append(cardGroups[name], group)
 		}
 	}
-	cardPairs := make(map[groupEdgeKey]map[cardPair]bool)
-	cardPackages := make(map[groupEdgeKey]map[string]bool)
-	for _, e := range edges {
-		lowCard, highCard := e.Source, e.Target
-		if lowCard > highCard {
-			lowCard, highCard = highCard, lowCard
-		}
-		for _, gs := range cardGroups[e.Source] {
-			for _, gt := range cardGroups[e.Target] {
-				// Normalize so (A,B) and (B,A) collapse to one group edge.
-				a, b := gs, gt
-				if a > b {
-					a, b = b, a
-				}
 
-				// Skip when both endpoints share a group: that's an intra-group edge,
-				// not a group-to-group edge.
-				if a == b {
+	set := newGroupEdgeSet()
+	for _, e := range edges {
+		cards := newNamePair(e.Source, e.Target)
+		for _, source := range cardGroups[e.Source] {
+			for _, target := range cardGroups[e.Target] {
+				if source == target {
 					continue
 				}
-				gk := groupEdgeKey{a, b}
-				if cardPairs[gk] == nil {
-					cardPairs[gk] = make(map[cardPair]bool)
-					cardPackages[gk] = make(map[string]bool)
-				}
-				cardPairs[gk][cardPair{lowCard, highCard}] = true
-				for _, n := range e.Packages {
-					cardPackages[gk][n] = true
-				}
+				set.addCardPair(set.join(source, target, e.Packages), cards)
 			}
 		}
 	}
-	cardEdges := finalize(cardPairs, cardPackages)
+	return set.edges()
+}
 
-	// packageEdges: one edge per pair of groups named together by a package,
-	// weighted by the full set of card-pairs the package implies between them.
-	packagePairs := make(map[groupEdgeKey]map[cardPair]bool)
-	packageNames := make(map[groupEdgeKey]map[string]bool)
+// buildGroupPackageEdges makes one edge per pair of groups a package names on
+// opposite sides of a wire, weighted by every card pair the package implies
+// between them. A pair of groups with no cards still gets an edge.
+func buildGroupPackageEdges(config design.DesignMapConfig, groupCards rulebook.Members) []DesignGraphGroupEdge {
+	set := newGroupEdgeSet()
 	for _, pkg := range config.Packages {
 		for _, wire := range pkg.Wires {
-			for _, gs := range wire.Sources {
-				for _, gt := range wire.Targets {
-					a, b := gs, gt
-					if a > b {
-						a, b = b, a
-					}
-					if a == b {
+			for _, source := range wire.Sources {
+				for _, target := range wire.Targets {
+					if source == target {
 						continue
 					}
-					gk := groupEdgeKey{a, b}
-					if packagePairs[gk] == nil {
-						packagePairs[gk] = make(map[cardPair]bool)
-						packageNames[gk] = make(map[string]bool)
-					}
-					packageNames[gk][pkg.Name] = true
-					for s := range groupCards[gs] {
-						for t := range groupCards[gt] {
-							if s == t {
-								continue
+					edge := set.join(source, target, []string{pkg.Name})
+					for s := range groupCards[source] {
+						for t := range groupCards[target] {
+							if s != t {
+								set.addCardPair(edge, newNamePair(s, t))
 							}
-							cs, ct := s, t
-							if cs > ct {
-								cs, ct = ct, cs
-							}
-							packagePairs[gk][cardPair{cs, ct}] = true
 						}
 					}
 				}
 			}
 		}
 	}
-	packageEdges := finalize(packagePairs, packageNames)
+	return set.edges()
+}
 
-	// nodes: one per group, with card membership.
-	groupNodes := make([]DesignGraphGroupNode, 0, len(config.Groups))
+// buildGroupNodes makes one node per group with its members, then one per
+// "card:" wire entry so card endpoints show up on the theme-level map next to
+// the groups. Nodes are sorted by name ignoring case.
+func buildGroupNodes(config design.DesignMapConfig, groupCards rulebook.Members, groupExcluded map[string][]string) []DesignGraphGroupNode {
+	nodes := make([]DesignGraphGroupNode, 0, len(config.Groups))
 	for _, g := range config.Groups {
-		cards := make([]string, 0, len(groupCards[g.Name]))
-		for name := range groupCards[g.Name] {
-			cards = append(cards, name)
-		}
-		slices.Sort(cards)
-		groupNodes = append(groupNodes, DesignGraphGroupNode{
+		cards := sortedCards(groupCards[g.Name])
+		nodes = append(nodes, DesignGraphGroupNode{
 			Name:          g.Name,
 			Kind:          "group",
 			CardCount:     len(cards),
@@ -763,30 +722,17 @@ func buildGroupGraph(
 			ExcludedCards: groupExcluded[g.Name],
 		})
 	}
-
-	// Card: wire references get their own nodes so card endpoints show up on the
-	// theme-level map alongside the groups.
-	for key, cards := range groupCards {
-		if design.CardRefName(key) == "" {
+	for entry, members := range groupCards {
+		if design.CardRefName(entry) == "" {
 			continue
 		}
-		members := make([]string, 0, len(cards))
-		for name := range cards {
-			members = append(members, name)
-		}
-		slices.Sort(members)
-		groupNodes = append(groupNodes, DesignGraphGroupNode{
-			Name:      key,
-			Kind:      "card",
-			CardCount: len(members),
-			Cards:     members,
-		})
+		cards := sortedCards(members)
+		nodes = append(nodes, DesignGraphGroupNode{Name: entry, Kind: "card", CardCount: len(cards), Cards: cards})
 	}
-	slices.SortFunc(groupNodes, func(a, b DesignGraphGroupNode) int {
-		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+	slices.SortFunc(nodes, func(a, b DesignGraphGroupNode) int {
+		return compareNamesIgnoringCase(a.Name, b.Name)
 	})
-
-	return groupNodes, cardEdges, packageEdges
+	return nodes
 }
 
 // SaveDesignRulesHandler handles POST /api/save-design-rules to persist design map config.

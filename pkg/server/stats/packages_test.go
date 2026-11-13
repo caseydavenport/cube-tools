@@ -1,7 +1,10 @@
 package stats
 
 import (
+	"encoding/json"
 	"fmt"
+	"net/http"
+	"net/url"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -88,20 +91,20 @@ func TestPackageStats_TalliesBuildRateAndCommitment(t *testing.T) {
 	assert.Equal(t, 0.95, resp.Confidence)
 
 	gy := statFor(t, resp, "Graveyard")
-	assert.Equal(t, 3, gy.Package)
+	assert.Equal(t, 3, gy.DecksBuilt)
 	assert.Equal(t, 3, gy.Has3)
 	assert.Equal(t, 1.0, gy.BuildRate)
 	assert.Equal(t, 1.0, gy.CameTogether)
 
 	ramp := statFor(t, resp, "Ramp")
-	assert.Equal(t, 1, ramp.Package)
+	assert.Equal(t, 1, ramp.DecksBuilt)
 	assert.Equal(t, 1, ramp.Has3)
 	assert.Equal(t, 0.333, ramp.BuildRate)
 	assert.Equal(t, 1.0, ramp.CameTogether)
 
 	// Fetches: enough cards present, but never two from the fetch side.
 	fetches := statFor(t, resp, "Fetches")
-	assert.Equal(t, 0, fetches.Package)
+	assert.Equal(t, 0, fetches.DecksBuilt)
 	assert.Equal(t, 1, fetches.Has3)
 	assert.Equal(t, 0.0, fetches.BuildRate)
 	assert.Equal(t, 0.0, fetches.CameTogether)
@@ -118,7 +121,7 @@ func TestPackageStats_SortedByPackageDescending(t *testing.T) {
 	resp := packageStats(packageTestPackages(), decks, 0.95)
 	require.GreaterOrEqual(t, len(resp.Packages), 2)
 	for i := 1; i < len(resp.Packages); i++ {
-		assert.GreaterOrEqual(t, resp.Packages[i-1].Package, resp.Packages[i].Package)
+		assert.GreaterOrEqual(t, resp.Packages[i-1].DecksBuilt, resp.Packages[i].DecksBuilt)
 	}
 	assert.Equal(t, "Graveyard", resp.Packages[0].Name)
 }
@@ -166,7 +169,7 @@ func TestPackageStats_NoDecksKeepsPackagesAtZero(t *testing.T) {
 	assert.Equal(t, 0, resp.PopulatedDecks)
 	require.Len(t, resp.Packages, 3)
 	for _, s := range resp.Packages {
-		assert.Equal(t, 0, s.Package)
+		assert.Equal(t, 0, s.DecksBuilt)
 		assert.Equal(t, 0.0, s.BuildRate)
 		assert.False(t, s.RarelyTogether)
 	}
@@ -186,7 +189,7 @@ func TestPackageStats_BothSides(t *testing.T) {
 	resp := packageStats(pkgs, decks, 0.95)
 	assert.Equal(t, 3, resp.PopulatedDecks)
 	combo := statFor(t, resp, "Combo")
-	assert.Equal(t, 1, combo.Package)
+	assert.Equal(t, 1, combo.DecksBuilt)
 	assert.Equal(t, 2, combo.Has3)
 	assert.Equal(t, 0.333, combo.BuildRate)
 }
@@ -205,11 +208,11 @@ func TestPackageStats_BasicsNeverCountAsPackageCards(t *testing.T) {
 
 	// The Mountain meets the target side, but only A and B are package cards.
 	resp := packageStats([]design.PackageCards{mountains}, []*storage.Deck{deckOf("A", "B", "Mountain")}, 0.95)
-	assert.Equal(t, 0, statFor(t, resp, "Mountains").Package)
+	assert.Equal(t, 0, statFor(t, resp, "Mountains").DecksBuilt)
 
 	// A third non-basic card builds it.
 	resp = packageStats([]design.PackageCards{mountains}, []*storage.Deck{deckOf("A", "B", "Mountain", "C")}, 0.95)
-	assert.Equal(t, 1, statFor(t, resp, "Mountains").Package)
+	assert.Equal(t, 1, statFor(t, resp, "Mountains").DecksBuilt)
 }
 
 func TestPackageStats_ListsUnbuiltPackages(t *testing.T) {
@@ -221,7 +224,7 @@ func TestPackageStats_ListsUnbuiltPackages(t *testing.T) {
 	resp := packageStats(pkgs, []*storage.Deck{deckOf("A", "B", "C", "D")}, 0.95)
 	require.Len(t, resp.Packages, 2)
 	unused := statFor(t, resp, "Unused")
-	assert.Equal(t, 0, unused.Package)
+	assert.Equal(t, 0, unused.DecksBuilt)
 	assert.Equal(t, 0, unused.Has3)
 }
 
@@ -310,7 +313,7 @@ func TestPackageStats_BasicsMeetABasicsSide(t *testing.T) {
 	}
 
 	resp := packageStats([]design.PackageCards{fixing}, decks, 0.95)
-	assert.Equal(t, 1, statFor(t, resp, "Fixing").Package)
+	assert.Equal(t, 1, statFor(t, resp, "Fixing").DecksBuilt)
 }
 
 // inDraft returns a deck of the named cards from the given draft.
@@ -333,10 +336,10 @@ func relevantOnlyIn() design.PackageCards {
 func TestPackageStats_CountsOnlyRelevantDrafts(t *testing.T) {
 	decks := []*storage.Deck{inDraft(1, "A", "B", "C", "D"), inDraft(2, "A", "B", "C", "D")}
 	resp := packageStats([]design.PackageCards{relevantOnlyIn()}, decks, 0.95)
-	assert.Equal(t, 1, statFor(t, resp, "Lifegain").Package, "only the draft whose list supports it counts")
+	assert.Equal(t, 1, statFor(t, resp, "Lifegain").DecksBuilt, "only the draft whose list supports it counts")
 
 	resp = packageStats([]design.PackageCards{twoSided("Lifegain", cardSet("A", "B"), cardSet("C", "D"))}, decks, 0.95)
-	assert.Equal(t, 2, statFor(t, resp, "Lifegain").Package, "without relevance both count")
+	assert.Equal(t, 2, statFor(t, resp, "Lifegain").DecksBuilt, "without relevance both count")
 }
 
 func TestPackageCounts_HonorsDraftRelevance(t *testing.T) {
@@ -357,4 +360,46 @@ func TestPackageOverTime_HonorsDraftRelevance(t *testing.T) {
 func TestBuildCounts_HonorsDraftRelevance(t *testing.T) {
 	decks := []*storage.Deck{inDraft(1, "A", "B", "C", "D"), inDraft(2, "A", "B", "C", "D")}
 	assert.Equal(t, 1, buildCounts([]design.PackageCards{relevantOnlyIn()}, decks)["Lifegain"])
+}
+
+// packageIndexFor serves /stats/packages over store and decodes it.
+func packageIndexFor(t *testing.T, store *rulesDeckStorage) (string, PackageStatsResponse) {
+	t.Helper()
+	rr := serveCube(PackageStatsHandler(store, testCubeSource{}), "/api/polyverse/stats/packages", url.Values{})
+	require.Equal(t, http.StatusOK, rr.Code)
+	var resp PackageStatsResponse
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	return rr.Body.String(), resp
+}
+
+func TestPackageIndex_NoDecks(t *testing.T) {
+	store := &rulesDeckStorage{config: design.DesignMapConfig{
+		Groups: []design.Group{
+			{Name: "Bombardment", Conditions: []string{`n:"Goblin Bombardment"`}},
+			{Name: "Burn", Conditions: []string{`n:"Lightning Bolt"`}},
+		},
+		Packages: []design.Package{
+			{Name: "Damage", Wires: []design.Wire{{Sources: []string{"Bombardment"}, Targets: []string{"Burn"}}}},
+			{Name: "Sacrifice", Wires: []design.Wire{{Sources: []string{"Bombardment"}, Targets: []string{"Burn"}}}},
+		},
+	}}
+	_, resp := packageIndexFor(t, store)
+
+	require.Len(t, resp.Packages, 2)
+	for _, p := range resp.Packages {
+		assert.Equal(t, 0, p.DecksBuilt)
+		assert.Equal(t, 2, p.CardCount)
+		assert.Equal(t, "R", p.Color)
+	}
+	assert.Equal(t, []PackageEdge{{Source: "Damage", Target: "Sacrifice", Groups: []string{"Bombardment", "Burn"}}}, resp.Edges)
+	require.NotEmpty(t, resp.MostLinked)
+	assert.Equal(t, 2, resp.MostLinked[0].Count)
+}
+
+func TestPackageIndex_EmptyListsNotNull(t *testing.T) {
+	body, _ := packageIndexFor(t, &rulesDeckStorage{})
+	assert.NotContains(t, body, "null")
+	for _, field := range []string{"packages", "edges", "mostLinked"} {
+		assert.Contains(t, body, `"`+field+`":[`, field)
+	}
 }

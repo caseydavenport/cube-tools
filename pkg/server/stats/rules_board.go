@@ -4,7 +4,6 @@ import (
 	"maps"
 	"net/http"
 	"slices"
-	"strings"
 
 	"github.com/sirupsen/logrus"
 
@@ -113,23 +112,22 @@ func buildRulesBoard(rules *rulebook.Rulebook, decks []*storage.Deck, conf float
 	// Sort a copy the way the design graph does, so index-based colors agree.
 	pkgList := slices.Clone(config.Packages)
 	slices.SortFunc(pkgList, func(a, b design.Package) int {
-		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+		return compareNamesIgnoringCase(a.Name, b.Name)
 	})
 	for _, pkg := range pkgList {
 		cards := resolved[pkg.Name]
 		stat := stats[pkg.Name]
+		cubeCards := packageCubeCards(cards, rules.Cube())
 		stat.Color = packageColor(cards, rules.Cube())
-		stat.CardCount = packageCardCount(cards, rules.Cube())
+		stat.CardCount = len(cubeCards)
 
-		var names []string
-		for _, c := range packageCubeCards(cards, rules.Cube()) {
-			names = append(names, c.Name)
+		names := make([]string, len(cubeCards))
+		for i, c := range cubeCards {
+			names[i] = c.Name
 		}
 		entries := boardGroups(pkg, groups)
-		sharesWith := slices.Sorted(slices.Values(shares[pkg.Name]))
-		if sharesWith == nil {
-			sharesWith = []string{}
-		}
+		sharesWith := append([]string{}, shares[pkg.Name]...)
+		slices.Sort(sharesWith)
 		resp.Packages = append(resp.Packages, BoardPackage{
 			Name:          pkg.Name,
 			Stat:          stat,
@@ -147,7 +145,7 @@ func buildRulesBoard(rules *rulebook.Rulebook, decks []*storage.Deck, conf float
 
 // boardGroups lists each entry the package's wires name, once, in wire
 // order, with its cube cards.
-func boardGroups(pkg design.Package, cube map[string]map[string]bool) []BoardGroup {
+func boardGroups(pkg design.Package, cube rulebook.Members) []BoardGroup {
 	out := []BoardGroup{}
 	for _, entry := range wireEntries(pkg) {
 		out = append(out, BoardGroup{Name: entry, Cards: sortedCards(cube[entry])})
@@ -184,7 +182,7 @@ func oneCardEntries(groups []BoardGroup) []string {
 }
 
 // unusedGroups lists the groups no wire names, in rules-file order.
-func unusedGroups(config design.DesignMapConfig, cube map[string]map[string]bool) []BoardGroup {
+func unusedGroups(config design.DesignMapConfig, cube rulebook.Members) []BoardGroup {
 	used := map[string]bool{}
 	for _, p := range config.Packages {
 		maps.Copy(used, packageGroups(p))

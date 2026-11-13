@@ -70,7 +70,7 @@ func TestPackagePage_Header(t *testing.T) {
 
 	require.Equal(t, http.StatusOK, code)
 	assert.Equal(t, "Sacrifice", resp.Name)
-	assert.Equal(t, 2, resp.Stat.Package)
+	assert.Equal(t, 2, resp.Stat.DecksBuilt)
 	assert.Equal(t, 0.667, resp.Stat.BuildRate)
 	assert.Equal(t, 5, resp.Stat.CardCount)
 	assert.Equal(t, "R", resp.Stat.Color)

@@ -26,7 +26,7 @@ func linkCheckFor(t *testing.T, a, b string) (string, int, LinkCheckResponse) {
 func TestLinkCheck_Linked(t *testing.T) {
 	_, code, resp := linkCheckFor(t, "Goblin Bombardment", "Mayhem Devil")
 	require.Equal(t, http.StatusOK, code)
-	assert.Equal(t, []LinkThread{{
+	assert.Equal(t, []LinkedWire{{
 		Package:  "Sacrifice",
 		Wire:     0,
 		GroupA:   "Outlets",

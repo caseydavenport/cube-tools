@@ -5,7 +5,6 @@ import (
 	"maps"
 	"math"
 	"slices"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/rulebook"
@@ -72,6 +71,7 @@ func newCardRelations(rules *rulebook.Rulebook, config design.DesignMapConfig, e
 		}
 	}
 
+	// Reverse the groups into each card's sorted group names.
 	byCard := map[string][]string{}
 	for name, members := range groups {
 		if design.CardRefName(name) != "" {
@@ -138,9 +138,29 @@ func (r cardRelations) partners(card string, numDecksByCard map[string]int) []Pa
 		out = append(out, PackagePartners{Package: pkg.Name, Cards: cards})
 	}
 	slices.SortFunc(out, func(a, b PackagePartners) int {
-		return strings.Compare(strings.ToLower(a.Package), strings.ToLower(b.Package))
+		return compareNamesIgnoringCase(a.Package, b.Package)
 	})
 	return out
+}
+
+// forEachLink calls visit for every wire with an entry holding card a on one
+// side and an entry holding card b on the other, in either direction. visit
+// gets the package, the wire's index in it, and the entries with a's first.
+func (r cardRelations) forEachLink(a, b string, visit func(pkg string, wire int, entryA, entryB string)) {
+	for _, pkg := range r.packages {
+		for i, wire := range pkg.Wires {
+			for _, source := range wire.Sources {
+				for _, target := range wire.Targets {
+					if r.groups[source][a] && r.groups[target][b] {
+						visit(pkg.Name, i, source, target)
+					}
+					if r.groups[source][b] && r.groups[target][a] {
+						visit(pkg.Name, i, target, source)
+					}
+				}
+			}
+		}
+	}
 }
 
 // linksBetween lists every package wire that links card a to card b, with a's
@@ -148,27 +168,13 @@ func (r cardRelations) partners(card string, numDecksByCard map[string]int) []Pa
 func (r cardRelations) linksBetween(a, b string) []CardBridge {
 	seen := map[CardBridge]bool{}
 	out := []CardBridge{}
-	add := func(bridge CardBridge) {
+	r.forEachLink(a, b, func(pkg string, _ int, entryA, entryB string) {
+		bridge := CardBridge{Package: pkg, Group: entryA, OtherGroup: entryB}
 		if !seen[bridge] {
 			seen[bridge] = true
 			out = append(out, bridge)
 		}
-	}
-
-	for _, pkg := range r.packages {
-		for _, wire := range pkg.Wires {
-			for _, source := range wire.Sources {
-				for _, target := range wire.Targets {
-					if r.groups[source][a] && r.groups[target][b] {
-						add(CardBridge{Package: pkg.Name, Group: source, OtherGroup: target})
-					}
-					if r.groups[source][b] && r.groups[target][a] {
-						add(CardBridge{Package: pkg.Name, Group: target, OtherGroup: source})
-					}
-				}
-			}
-		}
-	}
+	})
 
 	slices.SortFunc(out, func(x, y CardBridge) int {
 		return cmp.Or(cmp.Compare(x.Package, y.Package), cmp.Compare(x.Group, y.Group), cmp.Compare(x.OtherGroup, y.OtherGroup))

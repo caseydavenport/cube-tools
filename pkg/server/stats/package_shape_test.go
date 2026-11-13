@@ -1,14 +1,10 @@
 package stats
 
 import (
-	"encoding/json"
 	"fmt"
-	"net/http"
-	"net/url"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -56,6 +52,20 @@ func TestPackageColor_GrayWhenColorlessLeads(t *testing.T) {
 	assert.Equal(t, "", packageColor(p, cube))
 }
 
+func TestPackageColor_GrayWhenCloseRace(t *testing.T) {
+	var cards []types.Card
+	var names []string
+	for i := range 10 {
+		cards = append(cards, tendencySpell(fmt.Sprintf("Green %d", i), "G"))
+		names = append(names, fmt.Sprintf("Green %d", i))
+	}
+	for i := range 9 {
+		cards = append(cards, tendencySpell(fmt.Sprintf("White %d", i), "W"))
+		names = append(names, fmt.Sprintf("White %d", i))
+	}
+	assert.Equal(t, "", packageColor(oneSide("Tokens", names...), shapeCube(cards...)))
+}
+
 func TestPackageCardCount_CubeCardsOnly(t *testing.T) {
 	cube := shapeCube(tendencySpell("Shock", "R"), tendencySpell("Lightning Bolt", "R"))
 	p := design.PackageCards{Name: "Burn", Wires: []design.WireCards{
@@ -101,60 +111,4 @@ func TestMostLinked_RanksByPackages(t *testing.T) {
 		{Name: "Abrade", Count: 2},
 		{Name: "Mayhem Devil", Count: 2},
 	}, got)
-}
-
-// packageIndexFor serves /stats/packages over store and decodes it.
-func packageIndexFor(t *testing.T, store *rulesDeckStorage) (string, PackageStatsResponse) {
-	t.Helper()
-	rr := serveCube(PackageStatsHandler(store, testCubeSource{}), "/api/polyverse/stats/packages", url.Values{})
-	require.Equal(t, http.StatusOK, rr.Code)
-	var resp PackageStatsResponse
-	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
-	return rr.Body.String(), resp
-}
-
-func TestPackageIndex_NoDecks(t *testing.T) {
-	store := &rulesDeckStorage{config: design.DesignMapConfig{
-		Groups: []design.Group{
-			{Name: "Bombardment", Conditions: []string{`n:"Goblin Bombardment"`}},
-			{Name: "Burn", Conditions: []string{`n:"Lightning Bolt"`}},
-		},
-		Packages: []design.Package{
-			{Name: "Damage", Wires: []design.Wire{{Sources: []string{"Bombardment"}, Targets: []string{"Burn"}}}},
-			{Name: "Sacrifice", Wires: []design.Wire{{Sources: []string{"Bombardment"}, Targets: []string{"Burn"}}}},
-		},
-	}}
-	_, resp := packageIndexFor(t, store)
-
-	require.Len(t, resp.Packages, 2)
-	for _, p := range resp.Packages {
-		assert.Equal(t, 0, p.Package)
-		assert.Equal(t, 2, p.CardCount)
-		assert.Equal(t, "R", p.Color)
-	}
-	assert.Equal(t, []PackageEdge{{Source: "Damage", Target: "Sacrifice", Groups: []string{"Bombardment", "Burn"}}}, resp.Edges)
-	require.NotEmpty(t, resp.MostLinked)
-	assert.Equal(t, 2, resp.MostLinked[0].Count)
-}
-
-func TestPackageIndex_EmptyListsNotNull(t *testing.T) {
-	body, _ := packageIndexFor(t, &rulesDeckStorage{})
-	assert.NotContains(t, body, "null")
-	for _, field := range []string{"packages", "edges", "mostLinked"} {
-		assert.Contains(t, body, `"`+field+`":[`, field)
-	}
-}
-
-func TestPackageColor_GrayWhenCloseRace(t *testing.T) {
-	var cards []types.Card
-	var names []string
-	for i := range 10 {
-		cards = append(cards, tendencySpell(fmt.Sprintf("Green %d", i), "G"))
-		names = append(names, fmt.Sprintf("Green %d", i))
-	}
-	for i := range 9 {
-		cards = append(cards, tendencySpell(fmt.Sprintf("White %d", i), "W"))
-		names = append(names, fmt.Sprintf("White %d", i))
-	}
-	assert.Equal(t, "", packageColor(oneSide("Tokens", names...), shapeCube(cards...)))
 }

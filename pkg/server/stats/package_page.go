@@ -36,6 +36,9 @@ const (
 // nonland cards, and lands.
 var colorColumns = []string{"W", "U", "B", "R", "G", "C", "L"}
 
+// wubrgColumns are the five colors among the color table's columns.
+var wubrgColumns = colorColumns[:5]
+
 // PackagePageResponse is the package page's data. Stat is the package's row
 // as the index computes it over the date range; the rest explains it: its
 // wires, how each group spreads over the colors, its builds per draft, the
@@ -239,6 +242,7 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 // order, and copies counts each card's copies in the cube. Cards most built
 // with come first, then the most played, then by name.
 func packageCards(pkg design.Package, wires []PackageWire, cards map[string]types.Card, copies design.CardCounts, ranged, built []*storage.Deck) []PackageCardRow {
+	// Collect each card's roles and groups from every wire side it's on.
 	roles := map[string]map[string]bool{}
 	groups := map[string]map[string]bool{}
 	add := func(side []WireGroup, role string) {
@@ -262,6 +266,7 @@ func packageCards(pkg design.Package, wires []PackageWire, cards map[string]type
 		add(w.Targets, targetRole)
 	}
 
+	// One row per card, with how many decks played it and built with it.
 	played := mainboardCounts(ranged)
 	inBuilds := mainboardCounts(built)
 	out := []PackageCardRow{}
@@ -323,14 +328,11 @@ func packageWires(pkg design.Package, groups rulebook.Members, config design.Des
 func wireGroups(pkg string, entries []string, groups rulebook.Members, config design.DesignMapConfig) []WireGroup {
 	out := []WireGroup{}
 	for _, entry := range entries {
-		group := WireGroup{Name: entry, Cards: slices.Sorted(maps.Keys(groups[entry])), OtherPackages: []string{}}
+		group := WireGroup{Name: entry, Cards: sortedCards(groups[entry]), OtherPackages: []string{}}
 		if name := design.CardRefName(entry); name != "" {
 			group.Name = name
 		} else {
 			group.OtherPackages = packagesUsing(entry, pkg, config)
-		}
-		if group.Cards == nil {
-			group.Cards = []string{}
 		}
 		out = append(out, group)
 	}
@@ -368,8 +370,8 @@ func colorTable(wires []PackageWire, cards map[string]types.Card) []GroupColorRo
 		out = appendColorRows(out, w.Targets, "target", cards, seen)
 	}
 
-	sourceTotals := colorCounts(groupsCards(sources), cards)
-	targetTotals := colorCounts(groupsCards(targets), cards)
+	sourceTotals := colorCounts(cardsOfGroups(sources), cards)
+	targetTotals := colorCounts(cardsOfGroups(targets), cards)
 	out = append(out,
 		GroupColorRow{Group: "All of one side", Side: "source", Total: true, Counts: sourceTotals, Thin: thinColors(sourceTotals, targetTotals)},
 		GroupColorRow{Group: "All of the other side", Side: "target", Total: true, Counts: targetTotals, Thin: thinColors(targetTotals, sourceTotals)},
@@ -386,13 +388,13 @@ func thinColors(side, other map[string]int) []string {
 	// Lands carry no color here, so a side of only lands says nothing about
 	// colors.
 	nonLand := side["C"]
-	for _, color := range colorColumns[:5] {
+	for _, color := range wubrgColumns {
 		nonLand += side[color]
 	}
 	if nonLand == 0 {
 		return out
 	}
-	for _, color := range colorColumns[:5] {
+	for _, color := range wubrgColumns {
 		if side[color] <= colorThinMax && other[color] >= colorSupportMin {
 			out = append(out, color)
 		}
@@ -414,8 +416,8 @@ func appendColorRows(out []GroupColorRow, groups []WireGroup, side string, cards
 	return out
 }
 
-// groupsCards is every card in the groups, each once.
-func groupsCards(groups []WireGroup) []string {
+// cardsOfGroups is every card in the groups, each once.
+func cardsOfGroups(groups []WireGroup) []string {
 	seen := map[string]bool{}
 	var out []string
 	for _, g := range groups {

@@ -1,9 +1,10 @@
 package stats
 
 import (
-	"encoding/json"
+	"cmp"
 	"net/http"
-	"sort"
+	"slices"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 
@@ -31,10 +32,10 @@ const (
 type PackageStat struct {
 	Name string `json:"name"`
 
-	// Package is the number of populated decks that build the package, per
-	// design.PackageCards.BuiltBy; BuildRate is that count over the populated
+	// DecksBuilt is the number of populated decks that build the package, per
+	// design.PackageCards.BuiltIn; BuildRate is that count over the populated
 	// decks, bracketed by a Wilson interval at the request's confidence level.
-	Package       int     `json:"package"`
+	DecksBuilt    int     `json:"package"`
 	BuildRate     float64 `json:"buildRate"`
 	BuildRateLow  float64 `json:"buildRateLow"`
 	BuildRateHigh float64 `json:"buildRateHigh"`
@@ -85,6 +86,7 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	cubeID := server.CubeFromRequest(r)
 	rules, err := rulebook.Load(h.store, h.src, cubeID)
 	if err != nil {
+		logrus.WithError(err).Error("could not load the rules for package stats")
 		http.Error(rw, "could not load packages", http.StatusInternalServerError)
 		return
 	}
@@ -92,13 +94,14 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	// Only the decks the packages are measured over follow the date range and
 	// the deck filter; the packages shown are those any of their drafts' lists
 	// support.
-	dr := &storage.DecksRequest{
+	decksRequest := &storage.DecksRequest{
 		Start: query.GetString(r, "start"),
 		End:   query.GetString(r, "end"),
 		Match: query.GetString(r, "match"),
 	}
-	allDecks, err := h.q.DecksIn(rules, dr)
+	allDecks, err := h.q.DecksIn(rules, decksRequest)
 	if err != nil {
+		logrus.WithError(err).Error("could not load decks for package stats")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
@@ -106,15 +109,7 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	shown := rules.Shown(rulebook.InAny(draftIDsOf(allDecks)))
 	resp := packageStats(shown.Packages(), allDecks, query.GetFloat(r, "confidence"))
 	addPackageShapes(&resp, shown, rules.Cube())
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Error("could not write package stats response")
-	}
+	writeJSON(rw, resp, "package stats")
 }
 
 // packageStats counts, for each package, the decks that build it, the decks
@@ -122,7 +117,8 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 // populated when it has at least one non-basic mainboard card; empty decks
 // stay out of the denominator so they can't drag every rate down. With no
 // populated decks every package gets a row at zero.
-func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float64) PackageStatsResponse {
+func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, confidence float64) PackageStatsResponse {
+	// Tally, per package, the decks that carry it and the decks that build it.
 	populated := 0
 	numDecksWith3 := map[string]int{}
 	numDecksBuilt := map[string]int{}
@@ -150,10 +146,11 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 		}
 	}
 
-	zScore := zForConfidence(conf)
+	// Turn the tallies into one row per package.
+	zScore := zForConfidence(confidence)
 	stats := []PackageStat{}
 	for _, p := range pkgs {
-		stat := PackageStat{Name: p.Name, Package: numDecksBuilt[p.Name], Has3: numDecksWith3[p.Name]}
+		stat := PackageStat{Name: p.Name, DecksBuilt: numDecksBuilt[p.Name], Has3: numDecksWith3[p.Name]}
 		if populated > 0 {
 			n := float64(populated)
 			low, high := wilsonInterval(numDecksBuilt[p.Name], populated-numDecksBuilt[p.Name], 0, zScore)
@@ -174,15 +171,12 @@ func packageStats(pkgs []design.PackageCards, decks []*storage.Deck, conf float6
 	}
 	markRarelyTogether(stats)
 
-	sort.Slice(stats, func(i, j int) bool {
-		if stats[i].Package != stats[j].Package {
-			return stats[i].Package > stats[j].Package
-		}
-		return stats[i].Name < stats[j].Name
+	slices.SortFunc(stats, func(a, b PackageStat) int {
+		return cmp.Or(cmp.Compare(b.DecksBuilt, a.DecksBuilt), strings.Compare(a.Name, b.Name))
 	})
 
 	return PackageStatsResponse{
-		Confidence:     resolveConfidence(conf),
+		Confidence:     resolveConfidence(confidence),
 		PopulatedDecks: populated,
 		Packages:       stats,
 		Edges:          []PackageEdge{},

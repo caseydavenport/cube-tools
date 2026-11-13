@@ -83,7 +83,7 @@ func packageColor(p design.PackageCards, cube *types.Cube) string {
 
 	// Find the leading color and the runner-up's count.
 	best, bestCount, runnerUp := "", 0, 0
-	for _, color := range []string{"W", "U", "B", "R", "G"} {
+	for _, color := range wubrgColumns {
 		if counts[color] > bestCount {
 			best, bestCount, runnerUp = color, counts[color], bestCount
 		} else if counts[color] > runnerUp {
@@ -104,16 +104,21 @@ func packageColor(p design.PackageCards, cube *types.Cube) string {
 	return best
 }
 
+// compareNamesIgnoringCase orders names the way the design graph sorts its
+// groups and packages, so colors keyed to the sorted index agree across pages.
+func compareNamesIgnoringCase(a, b string) int {
+	return strings.Compare(strings.ToLower(a), strings.ToLower(b))
+}
+
 // packageGroups returns the group names a package's wires use, leaving out
 // entries that name a single card.
 func packageGroups(p design.Package) map[string]bool {
 	out := map[string]bool{}
 	for _, w := range p.Wires {
 		for _, entry := range slices.Concat(w.Sources, w.Targets) {
-			if strings.HasPrefix(entry, "card:") {
-				continue
+			if design.CardRefName(entry) == "" {
+				out[entry] = true
 			}
-			out[entry] = true
 		}
 	}
 	return out

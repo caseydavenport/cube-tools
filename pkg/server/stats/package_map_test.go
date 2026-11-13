@@ -126,3 +126,39 @@ func TestPackageMap_HonorsDraftRelevance(t *testing.T) {
 	m = buildPackageMap(pkg, all, nil, design.DesignMapConfig{}, decks)
 	assert.Equal(t, 2, m.Wires[0].Decks)
 }
+
+func TestMedianInt(t *testing.T) {
+	assert.Equal(t, 0, medianInt(nil))
+	assert.Equal(t, 5, medianInt([]int{9, 1, 5}))
+	assert.Equal(t, 2, medianInt([]int{3, 1}), "the mean of the middle two, exact")
+	assert.Equal(t, 2, medianInt([]int{2, 1}), "a mean of 1.5 rounds up")
+}
+
+func TestDepthCells_CapsAndSkipsUnrelatedDecks(t *testing.T) {
+	wire := design.WireCards{
+		Sources:     cardSet("s1", "s2", "s3", "s4", "s5", "s6", "s7"),
+		Targets:     cardSet("t1"),
+		NeedSources: 2,
+		NeedTargets: 1,
+	}
+	deep := inDraft(1, "s1", "s2", "s3", "s4", "s5", "s6", "s7", "t1")
+	shallow := inDraft(2, "s1", "t1")
+	unrelated := inDraft(3, "Z")
+
+	got := depthCells(wire, []*storage.Deck{deep, shallow, unrelated})
+	require.Len(t, got, 2, "a deck with no card on the wire has no cell")
+	assert.Equal(t, 1, got[0].A)
+	assert.Equal(t, 0, got[0].Built, "one source card is below the need")
+	assert.Equal(t, depthCap, got[1].A, "seven source cards fold into the last row")
+	assert.Equal(t, 1, got[1].B)
+	assert.Equal(t, 1, got[1].Built)
+}
+
+func TestWireEntries_OnceInWireOrder(t *testing.T) {
+	pkg := design.Package{Name: "P", Wires: []design.Wire{
+		{Sources: []string{"A", "B"}, Targets: []string{"C"}},
+		{Sources: []string{"C"}, Targets: []string{"A", "D"}},
+	}}
+	assert.Equal(t, []string{"A", "B", "C", "D"}, wireEntries(pkg))
+	assert.Equal(t, []string{}, wireEntries(design.Package{Name: "Empty"}))
+}

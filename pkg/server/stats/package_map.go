@@ -84,6 +84,7 @@ func buildPackageMap(pkg design.Package, cards design.PackageCards, cube ruleboo
 		sets[i] = deckCards(d)
 	}
 
+	// One map wire per package wire, with the decks that built through it.
 	for i, w := range pkg.Wires {
 		resolved := cards.Wires[i]
 		wire := MapWire{

@@ -21,7 +21,7 @@ import (
 type LinkCheckResponse struct {
 	A     LinkCard     `json:"a"`
 	B     LinkCard     `json:"b"`
-	Links []LinkThread `json:"links"`
+	Links []LinkedWire `json:"links"`
 }
 
 // LinkCard is one card of a link check and the groups it belongs to.
@@ -45,10 +45,10 @@ type WireUse struct {
 	Side    string `json:"side"`
 }
 
-// LinkThread is one wire linking the two cards: card A's entry on one side,
+// LinkedWire is one wire linking the two cards: card A's entry on one side,
 // card B's on the other. MatchedA and MatchedB are the first condition each
 // card matched, "" for a card: entry.
-type LinkThread struct {
+type LinkedWire struct {
 	Package  string `json:"package"`
 	Wire     int    `json:"wire"`
 	GroupA   string `json:"group_a"`
@@ -93,7 +93,7 @@ func buildLinkCheck(rules *rulebook.Rulebook, a, b types.Card) LinkCheckResponse
 	return LinkCheckResponse{
 		A:     LinkCard{Name: a.Name, Groups: groupUsesOf(rel.groupsOf(a.Name), config)},
 		B:     LinkCard{Name: b.Name, Groups: groupUsesOf(rel.groupsOf(b.Name), config)},
-		Links: linkThreads(rel, a, b, config),
+		Links: linkedWires(rel, a, b, config),
 	}
 }
 
@@ -125,15 +125,15 @@ func wireUses(entry string, config design.DesignMapConfig) []WireUse {
 	return out
 }
 
-// linkThreads lists every wire with one card's entry on one side and the
+// linkedWires lists every wire with one card's entry on one side and the
 // other card's on the other, card A's entry first, each once.
-func linkThreads(rel cardRelations, a, b types.Card, config design.DesignMapConfig) []LinkThread {
+func linkedWires(rel cardRelations, a, b types.Card, config design.DesignMapConfig) []LinkedWire {
 	matcher := rulebook.NewMatcher(config.Groups)
 
-	seen := map[LinkThread]bool{}
-	out := []LinkThread{}
-	add := func(pkg string, wire int, entryA, entryB string) {
-		thread := LinkThread{
+	seen := map[LinkedWire]bool{}
+	out := []LinkedWire{}
+	rel.forEachLink(a.Name, b.Name, func(pkg string, wire int, entryA, entryB string) {
+		link := LinkedWire{
 			Package:  pkg,
 			Wire:     wire,
 			GroupA:   entryA,
@@ -141,28 +141,11 @@ func linkThreads(rel cardRelations, a, b types.Card, config design.DesignMapConf
 			MatchedA: firstMatch(matcher, a, entryA),
 			MatchedB: firstMatch(matcher, b, entryB),
 		}
-		if !seen[thread] {
-			seen[thread] = true
-			out = append(out, thread)
+		if !seen[link] {
+			seen[link] = true
+			out = append(out, link)
 		}
-	}
-
-	// A wire links the cards when each card is in an entry on opposite sides,
-	// in either direction.
-	for _, pkg := range config.Packages {
-		for i, wire := range pkg.Wires {
-			for _, source := range wire.Sources {
-				for _, target := range wire.Targets {
-					if rel.groups[source][a.Name] && rel.groups[target][b.Name] {
-						add(pkg.Name, i, source, target)
-					}
-					if rel.groups[source][b.Name] && rel.groups[target][a.Name] {
-						add(pkg.Name, i, target, source)
-					}
-				}
-			}
-		}
-	}
+	})
 	return out
 }
 

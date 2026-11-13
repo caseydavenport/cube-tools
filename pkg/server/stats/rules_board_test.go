@@ -51,7 +51,7 @@ func TestRulesBoard_Packages(t *testing.T) {
 		names = append(names, g.Name)
 	}
 	assert.Equal(t, []string{"Outlets", "Payoffs", "Fodder"}, names)
-	assert.Equal(t, 2, sac.Stat.Package)
+	assert.Equal(t, 2, sac.Stat.DecksBuilt)
 	assert.Equal(t, []string{"Burn"}, sac.SharesWith)
 	assert.Equal(t, 5, sac.Colors["R"])
 }

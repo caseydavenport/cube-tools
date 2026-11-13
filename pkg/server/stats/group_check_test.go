@@ -86,3 +86,17 @@ func serveCubePost(h http.Handler, path, body string) *httptest.ResponseRecorder
 	h.ServeHTTP(rr, req)
 	return rr
 }
+
+func TestCheckGroup_NoConditionMatches(t *testing.T) {
+	group := design.Group{Name: "Enchantments", Conditions: []string{"t:enchantment"}, Exclude: []string{"Grizzly Bears"}}
+	got := checkGroup(cleanCreature, group)
+	assert.False(t, got.InGroup)
+	assert.False(t, got.Excluded, "an exclude list only carves out a card a condition matched")
+}
+
+func TestConditionParts_UnparsableMatchesNothing(t *testing.T) {
+	got := explainCondition(cleanCreature, `t:creature (`)
+	assert.NotEmpty(t, got.Error)
+	assert.False(t, got.Matched)
+	assert.Equal(t, []ConditionPart{}, got.Parts)
+}
