@@ -5,6 +5,7 @@ import (
 	"slices"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
@@ -130,7 +131,7 @@ func mapGroups(pkg design.Package, cube map[string]map[string]bool, config desig
 	out := []MapGroup{}
 	for _, entry := range wireEntries(pkg) {
 		group := MapGroup{Name: entry, Cards: len(cube[entry]), OtherPackages: []string{}}
-		if cardRefName(entry) != "" {
+		if design.CardRefName(entry) != "" {
 			group.CardEntry = true
 			group.Missing = group.Cards == 0
 		} else {
@@ -145,8 +146,8 @@ func mapGroups(pkg design.Package, cube map[string]map[string]bool, config desig
 
 // selfLinked lists the cube cards on both sides of a wire, sorted.
 func selfLinked(w design.Wire, cube map[string]map[string]bool) []string {
-	sources := wireSide(cube, w.Sources)
-	targets := wireSide(cube, w.Targets)
+	sources := rulebook.WireSide(cube, w.Sources)
+	targets := rulebook.WireSide(cube, w.Targets)
 	out := []string{}
 	for name := range sources {
 		if targets[name] {

@@ -2,7 +2,6 @@ package stats
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"slices"
@@ -10,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
@@ -19,18 +19,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
-
-const cardRefPrefix = "card:"
-
-// cardRefName returns the card name for a "card:" wire entry, or "" if the
-// entry is a group name.
-func cardRefName(entry string) string {
-	name, ok := strings.CutPrefix(entry, cardRefPrefix)
-	if !ok {
-		return ""
-	}
-	return name
-}
 
 // DesignGraphResponse is the API response for /api/stats/design-graph.
 type DesignGraphResponse struct {
@@ -149,7 +137,7 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 				http.Error(rw, "draft must be a number", http.StatusBadRequest)
 				return
 			}
-			config = in.relevantConfig(relevantInDraft(draftID))
+			config = in.relevantConfig(rulebook.InDraft(draftID))
 		}
 		var deck *storage.Deck
 		if ref := query.GetString(r, "deck"); ref != "" {
@@ -171,7 +159,7 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 		var resp DesignGraphResponse
 		if deck != nil {
 			draftID := deck.Metadata.DraftID
-			pkgs := keepPackages(in.packages(), relevantInDraft(draftID))
+			pkgs := keepPackages(in.packages(), rulebook.InDraft(draftID))
 			resp = buildDeckGraph(in.cube, configFor(in.config, pkgs), deck, in.playedCardNames)
 			resp.DeckPackages = builtPackages(pkgs, deck)
 		} else {
@@ -262,62 +250,45 @@ func PackagesForCube(store storage.DeckStorage, src types.CubeSource, cubeID str
 
 // designInputs is what the design graph and package detection are built from:
 // the current cube list, its rules, the cards its decks have played and its
-// drafts' lists held, every list packages are judged against, and the
-// packages the cube forces on or off. playedCardNames is only the cards decks
-// played, for the graph, which links nothing no deck used.
+// drafts' lists held, and the packages the cube forces on or off.
+// playedCardNames is only the cards decks played, for the graph, which links
+// nothing no deck used.
 type designInputs struct {
+	rb              *rulebook.Rulebook
 	cube            *types.Cube
 	config          design.DesignMapConfig
 	deckCardNames   []string
 	playedCardNames []string
-	lists           cardLists
 	overrides       design.PackageOverrides
 	decks           []*storage.Deck
 }
 
 // packages resolves the rules' packages with their relevance attached.
 func (in designInputs) packages() []design.PackageCards {
-	return in.packagesWith(in.config)
+	return in.rb.Packages()
 }
 
 // packagesWith resolves another config's packages against the same cube,
 // decks and lists, such as a proposed edit to the rules.
 func (in designInputs) packagesWith(config design.DesignMapConfig) []design.PackageCards {
-	pkgs := resolvePackages(in.cube, config, in.deckCardNames)
-	attachRelevance(pkgs, in.lists, in.overrides)
-	return pkgs
+	return in.rb.PackagesWith(config)
 }
 
-// loadDesignInputs loads a cube's list, rules, deck card names, card lists
-// and overrides. A store without rules support gives an empty config; a
-// failure to list decks or read overrides is logged, since it only loses cut
-// cards or forced packages.
+// loadDesignInputs loads a cube's rulebook and lays out its parts.
 func loadDesignInputs(store storage.DeckStorage, src types.CubeSource, cubeID string) (designInputs, error) {
-	cube, err := src.Current(cubeID)
+	rb, err := rulebook.Load(store, src, cubeID)
 	if err != nil {
 		return designInputs{}, err
 	}
-	cfg, err := store.GetRules(cubeID)
-	var config design.DesignMapConfig
-	if errors.Is(err, storage.ErrUnsupported) {
-		config = design.DesignMapConfig{}
-	} else if err != nil {
-		return designInputs{}, err
-	} else {
-		config = *cfg
-	}
-	decks, err := store.List(cubeID, &storage.DecksRequest{})
-	if err != nil {
-		logrus.WithError(err).Warn("could not load decks; cut cards may show disconnected")
-	}
-	lists := loadCardLists(store, cubeID, cube, decks)
-	overrides, err := store.GetOverrides(cubeID)
-	if err != nil {
-		logrus.WithError(err).Warn("could not read package overrides; none applied")
-	}
-	played := distinctCardNames(decks)
-	names := append(slices.Clone(played), lists.snapshotOnlyNames()...)
-	return designInputs{cube: cube, config: config, deckCardNames: names, playedCardNames: played, lists: lists, overrides: overrides, decks: decks}, nil
+	return designInputs{
+		rb:              rb,
+		cube:            rb.Cube(),
+		config:          rb.Config(),
+		deckCardNames:   rb.DeckCardNames(),
+		playedCardNames: rb.PlayedCardNames(),
+		overrides:       rb.Overrides(),
+		decks:           rb.Decks(),
+	}, nil
 }
 
 // deckCardNames returns the distinct non-basic mainboard card names across all of
@@ -328,24 +299,17 @@ func deckCardNames(store storage.DeckStorage, cubeID string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	return distinctCardNames(decks), nil
-}
-
-// distinctCardNames returns the distinct non-basic mainboard card names
-// across the decks.
-func distinctCardNames(decks []*storage.Deck) []string {
-	seen := make(map[string]bool)
 	var names []string
+	seen := map[string]bool{}
 	for _, d := range decks {
 		for _, name := range nonBasicMainboard(d) {
-			if seen[name] {
-				continue
+			if !seen[name] {
+				seen[name] = true
+				names = append(names, name)
 			}
-			seen[name] = true
-			names = append(names, name)
 		}
 	}
-	return names
+	return names, nil
 }
 
 // MatchedCard describes a card and which conditions it matched.
@@ -399,7 +363,7 @@ func DesignGraphMatchHandler(store storage.DeckStorage, src types.CubeSource) ht
 		}
 
 		// Build a map of card name to card data for efficient lookups, excluding basic lands.
-		cardMap := buildCardMap(cube)
+		cardMap := rulebook.CardMap(cube)
 
 		// Saved rules supply the per-group exclude lists so matches can be
 		// marked. Missing rules just means nothing gets marked excluded.
@@ -548,8 +512,8 @@ func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Re
 // decks with a real mainboard contribute, so the percentiles the client derives
 // aren't diluted by pool-only records.
 func groupDistributions(cube *types.Cube, config design.DesignMapConfig, decks []*storage.Deck) GroupDistributionsResponse {
-	cardMap := buildCardMap(cube)
-	groupCards, _ := resolveGroupCards(cardMap, config.Groups)
+	cardMap := rulebook.CardMap(cube)
+	groupCards, _ := rulebook.MatchGroups(cardMap, config.Groups)
 
 	mainboards := make([]map[string]bool, 0, len(decks))
 	for _, d := range decks {
@@ -605,147 +569,6 @@ func groupDistributions(cube *types.Cube, config design.DesignMapConfig, decks [
 	return GroupDistributionsResponse{DeckCount: len(mainboards), Groups: groups}
 }
 
-// buildCardMap creates a name->card lookup from a cube, excluding basic lands
-// and enriching multi-face cards with oracle data.
-func buildCardMap(cube *types.Cube) map[string]types.Card {
-	cardMap := make(map[string]types.Card)
-	for _, c := range cube.Cards {
-		if c.IsBasicLand() {
-			continue
-		}
-		if c.OracleText == "" {
-			o := types.GetOracleData(c.Name)
-			if o.Name != "" {
-				enriched := types.FromOracle(o)
-				c.OracleText = enriched.OracleText
-			}
-		}
-		cardMap[c.Name] = c
-	}
-	return cardMap
-}
-
-// resolveGroupCards resolves each group's conditions to its effective member set
-// with the group's exclude list subtracted, returning the members per group and
-// the carved-out names per group (which the editor shows greyed).
-func resolveGroupCards(cardMap map[string]types.Card, groups []design.Group) (map[string]map[string]bool, map[string][]string) {
-	matched := make([]map[string]bool, len(groups))
-	for i := range groups {
-		matched[i] = make(map[string]bool)
-	}
-	rules := groupMatches.forGroups(groups)
-	for name, card := range cardMap {
-		for _, i := range rules.matched(card) {
-			matched[i][name] = true
-		}
-	}
-
-	groupCards := make(map[string]map[string]bool, len(groups))
-	excluded := make(map[string][]string)
-	for i, g := range groups {
-		cards := matched[i]
-		for _, name := range g.Exclude {
-			if cards[name] {
-				delete(cards, name)
-				excluded[g.Name] = append(excluded[g.Name], name)
-			}
-		}
-		slices.Sort(excluded[g.Name])
-		groupCards[g.Name] = cards
-	}
-	return groupCards, excluded
-}
-
-// GroupCards returns each group's matching card names from cards, after its
-// Exclude list. It's for tools that score rules outside the server, so they
-// match cards exactly as the app does.
-func GroupCards(cards map[string]types.Card, groups []design.Group) map[string]map[string]bool {
-	groupCards, _ := resolveGroupCards(cards, groups)
-	return groupCards
-}
-
-// widenWithDeckCards returns cardMap plus any deck-referenced cards not in the
-// cube, hydrated from oracle data. It returns cardMap unchanged when there's
-// nothing to add, so callers can detect widening by comparing lengths.
-func widenWithDeckCards(cardMap map[string]types.Card, deckCardNames []string) map[string]types.Card {
-	var missing []string
-	for _, name := range deckCardNames {
-		if _, ok := cardMap[name]; !ok {
-			missing = append(missing, name)
-		}
-	}
-	if len(missing) == 0 {
-		return cardMap
-	}
-
-	widened := make(map[string]types.Card, len(cardMap)+len(missing))
-	for name, c := range cardMap {
-		widened[name] = c
-	}
-	for _, name := range missing {
-		o := types.GetOracleData(name)
-		if o.Name == "" {
-			continue
-		}
-		c := types.FromOracle(o)
-		if c.IsBasicLand() {
-			continue
-		}
-		widened[name] = c
-	}
-
-	if len(widened) == len(cardMap) {
-		return cardMap
-	}
-	return widened
-}
-
-// registerCardRefs adds each wire's card references as single-card pseudo-groups,
-// keyed by the raw wire entry, so the wire and group-graph loops need no special
-// case for a card named directly in a package. An unknown card (typo, or cut from
-// the cube) resolves empty, same as a dangling group name.
-func registerCardRefs(packages []design.Package, cardMap map[string]types.Card, groupCards map[string]map[string]bool) {
-	for _, pkg := range packages {
-		for _, wire := range pkg.Wires {
-			for _, entry := range slices.Concat(wire.Sources, wire.Targets) {
-				name := cardRefName(entry)
-				if name == "" {
-					continue
-				}
-				cards := make(map[string]bool)
-				if _, ok := cardMap[name]; ok {
-					cards[name] = true
-				}
-				groupCards[entry] = cards
-			}
-		}
-	}
-}
-
-// wireSide returns every card in the named groups and card: entries of one
-// side of a wire.
-func wireSide(groupCards map[string]map[string]bool, entries []string) map[string]bool {
-	out := make(map[string]bool)
-	for _, entry := range entries {
-		for name := range groupCards[entry] {
-			out[name] = true
-		}
-	}
-	return out
-}
-
-// withoutBasics returns the side's cards minus basic lands, which never count
-// toward building a package.
-func withoutBasics(side map[string]bool) map[string]bool {
-	out := make(map[string]bool, len(side))
-	for name := range side {
-		if !types.IsBasic(name) {
-			out[name] = true
-		}
-	}
-	return out
-}
-
 // buildCardEdges creates one undirected edge per pair of cards joined by a
 // package, stamped with every package that joins them.
 func buildCardEdges(packages []design.Package, groupCards map[string]map[string]bool) []DesignGraphEdge {
@@ -754,8 +577,8 @@ func buildCardEdges(packages []design.Package, groupCards map[string]map[string]
 
 	for _, pkg := range packages {
 		for _, wire := range pkg.Wires {
-			sources := wireSide(groupCards, wire.Sources)
-			targets := wireSide(groupCards, wire.Targets)
+			sources := rulebook.WireSide(groupCards, wire.Sources)
+			targets := rulebook.WireSide(groupCards, wire.Targets)
 
 			for s := range sources {
 				for t := range targets {
@@ -794,140 +617,15 @@ func buildCardEdges(packages []design.Package, groupCards map[string]map[string]
 	return edges
 }
 
-// resolvedGroups holds every group and card: entry resolved to card names.
-// cube covers the cube list alone; widened adds cards cut from the cube that
-// old decks still play, so those decks keep their edges and packages.
-// excluded lists the matches each group's exclude list carved out.
-type resolvedGroups struct {
-	cube     map[string]map[string]bool
-	widened  map[string]map[string]bool
-	excluded map[string][]string
-}
-
-// resolveGroups resolves the rules' groups and card: entries over the cube and
-// over the cube plus the cards decks have played. Excluded cards are already
-// subtracted, so nothing downstream sees them.
-func resolveGroups(cardMap map[string]types.Card, config design.DesignMapConfig, deckCardNames []string) resolvedGroups {
-	groupCards, groupExcluded := resolveGroupCards(cardMap, config.Groups)
-	registerCardRefs(config.Packages, cardMap, groupCards)
-
-	widened := groupCards
-	edgeCardMap := widenWithDeckCards(cardMap, deckCardNames)
-	if len(edgeCardMap) != len(cardMap) {
-		widened, _ = resolveGroupCards(edgeCardMap, config.Groups)
-		registerCardRefs(config.Packages, edgeCardMap, widened)
-	}
-	return resolvedGroups{cube: groupCards, widened: widened, excluded: groupExcluded}
-}
-
-// resolvePackages turns each package's wires into card sets, sorted by
-// package name. A side holds the cards decks may play, cut cards included;
-// how many of them a deck needs comes from sideNeed, and which can carry a
-// side alone from buildaroundCards. Basic lands are left out
-// of both and listed per side instead, from the groups that match them.
-func resolvePackages(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) []design.PackageCards {
-	cardMap := buildCardMap(cube)
-	groups := resolveGroups(cardMap, config, deckCardNames)
-	basicGroups, _ := resolveGroupCards(basicLandCards(), config.Groups)
-	buildarounds := buildaroundCards(widenWithDeckCards(cardMap, deckCardNames), config, groups.widened)
-
-	out := make([]design.PackageCards, 0, len(config.Packages))
-	for _, pkg := range config.Packages {
-		resolved := design.PackageCards{Name: pkg.Name}
-		for _, wire := range pkg.Wires {
-			sources := withoutBasics(wireSide(groups.widened, wire.Sources))
-			targets := withoutBasics(wireSide(groups.widened, wire.Targets))
-			cubeSources := withoutBasics(wireSide(groups.cube, wire.Sources))
-			cubeTargets := withoutBasics(wireSide(groups.cube, wire.Targets))
-			resolved.Wires = append(resolved.Wires, design.WireCards{
-				Sources:      sources,
-				Targets:      targets,
-				NeedSources:  sideNeed(cubeSources, sources, len(cubeTargets)),
-				NeedTargets:  sideNeed(cubeTargets, targets, len(cubeSources)),
-				SourceBasics: sideBasics(basicGroups, wire.Sources),
-				TargetBasics: sideBasics(basicGroups, wire.Targets),
-				Buildarounds: wireBuildarounds(buildarounds, sources, targets),
-			})
-		}
-		out = append(out, resolved)
-	}
-	slices.SortFunc(out, func(a, b design.PackageCards) int {
-		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
-	})
-	return out
-}
-
-// basicTypeLines gives each basic land's type line, so group conditions such
-// as t:basic or t:forest can be run against the basics.
-var basicTypeLines = map[string]string{
-	"Plains":                "Basic Land — Plains",
-	"Island":                "Basic Land — Island",
-	"Swamp":                 "Basic Land — Swamp",
-	"Mountain":              "Basic Land — Mountain",
-	"Forest":                "Basic Land — Forest",
-	"Wastes":                "Basic Land",
-	"Snow-Covered Plains":   "Basic Snow Land — Plains",
-	"Snow-Covered Island":   "Basic Snow Land — Island",
-	"Snow-Covered Swamp":    "Basic Snow Land — Swamp",
-	"Snow-Covered Mountain": "Basic Snow Land — Mountain",
-	"Snow-Covered Forest":   "Basic Snow Land — Forest",
-	"Snow-Covered Wastes":   "Basic Snow Land",
-}
-
-// basicLandCards is one card per basic land, built from its type line alone,
-// for matching group conditions against the basics no cube list holds.
-func basicLandCards() map[string]types.Card {
-	out := make(map[string]types.Card, len(types.BasicLandNames))
-	for _, name := range types.BasicLandNames {
-		out[name] = types.FromOracle(types.OracleCard{Name: name, TypeLine: basicTypeLines[name]})
-	}
-	return out
-}
-
-// sideBasics returns the basic lands that one wire side's groups match.
-func sideBasics(basicGroups map[string]map[string]bool, entries []string) map[string]bool {
-	out := make(map[string]bool)
-	for _, entry := range entries {
-		for name := range basicGroups[entry] {
-			out[name] = true
-		}
-	}
-	return out
-}
-
-// sideNeed is how many cards a deck must play from one wire side, from the
-// side's size in the cube against the other side's, otherCube. A side whose
-// cards were all cut is the scarcer side, so the old decks that played them
-// still count when they played two.
-func sideNeed(cubeSide, side map[string]bool, otherCube int) int {
-	if len(cubeSide) == 0 && len(side) > 0 {
-		return 2
-	}
-	return design.SideMinimum(len(cubeSide), otherCube)
-}
-
-// wireBuildarounds is the build-arounds among a wire's cards.
-func wireBuildarounds(buildarounds, sources, targets map[string]bool) map[string]bool {
-	out := map[string]bool{}
-	for _, side := range []map[string]bool{sources, targets} {
-		for name := range side {
-			if buildarounds[name] {
-				out[name] = true
-			}
-		}
-	}
-	return out
-}
-
 func buildDesignGraph(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) DesignGraphResponse {
-	cardMap := buildCardMap(cube)
+	cardMap := rulebook.CardMap(cube)
 
 	// Edges also reach cards cut from the cube that decks still play, so old
 	// decks keep them connected. Nodes and the group graph stay cube-only.
-	resolved := resolveGroups(cardMap, config, deckCardNames)
-	groupCards, groupExcluded := resolved.cube, resolved.excluded
+	resolved := rulebook.ResolveGroups(cardMap, config, deckCardNames)
+	groupCards, groupExcluded := resolved.Cube, resolved.Excluded
 
-	edges := buildCardEdges(config.Packages, resolved.widened)
+	edges := buildCardEdges(config.Packages, resolved.Widened)
 
 	// Connection counts reflect cube-to-cube edges only, so a cut card's edges
 	// don't inflate the counts shown in the cube's design view.
@@ -1126,7 +824,7 @@ func buildGroupGraph(
 	// Card: wire references get their own nodes so card endpoints show up on the
 	// theme-level map alongside the groups.
 	for key, cards := range groupCards {
-		if cardRefName(key) == "" {
+		if design.CardRefName(key) == "" {
 			continue
 		}
 		members := make([]string, 0, len(cards))

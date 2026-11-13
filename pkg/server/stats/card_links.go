@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -55,7 +56,7 @@ type roleCandidate struct {
 // newCardRelations resolves the rules' groups over the cube, the cut cards in
 // deckCardNames, and extras, cards in neither that the page is about.
 func newCardRelations(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string, extras []types.Card) cardRelations {
-	cardMap := buildCardMap(cube)
+	cardMap := rulebook.CardMap(cube)
 	inCube := maps.Clone(cardMap)
 	for _, extra := range extras {
 		if _, ok := cardMap[extra.Name]; !ok {
@@ -63,13 +64,13 @@ func newCardRelations(cube *types.Cube, config design.DesignMapConfig, deckCardN
 		}
 	}
 
-	widened := widenWithDeckCards(cardMap, deckCardNames)
-	groups, _ := resolveGroupCards(widened, config.Groups)
-	registerCardRefs(config.Packages, widened, groups)
+	widened := rulebook.Widen(cardMap, deckCardNames)
+	groups, _ := rulebook.MatchGroups(widened, config.Groups)
+	rulebook.AddCardRefs(config.Packages, widened, groups)
 
 	byCard := map[string][]string{}
 	for name, members := range groups {
-		if cardRefName(name) != "" {
+		if design.CardRefName(name) != "" {
 			continue
 		}
 		for card := range members {
@@ -102,8 +103,8 @@ func (r cardRelations) partners(card string, numDecksByCard map[string]int) []Pa
 		// Collect the cards on the opposite side of every wire the card is on.
 		names := map[string]bool{}
 		for _, wire := range pkg.Wires {
-			sources := wireSide(r.groups, wire.Sources)
-			targets := wireSide(r.groups, wire.Targets)
+			sources := rulebook.WireSide(r.groups, wire.Sources)
+			targets := rulebook.WireSide(r.groups, wire.Targets)
 			if sources[card] {
 				maps.Copy(names, targets)
 			}

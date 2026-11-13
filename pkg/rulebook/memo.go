@@ -1,4 +1,4 @@
-package stats
+package rulebook
 
 import (
 	"crypto/sha256"
@@ -81,7 +81,7 @@ func newRuleMatches(groups []design.Group) *ruleMatches {
 	for _, g := range groups {
 		var exprs []*search.Query
 		for _, cond := range g.Conditions {
-			exprs = append(exprs, ruleCondition(cond))
+			exprs = append(exprs, Condition(cond))
 		}
 		rm.exprs = append(rm.exprs, exprs)
 	}
@@ -101,7 +101,7 @@ func (rm *ruleMatches) matched(card types.Card) []int {
 	out = []int{}
 	prepared := search.Prepare(card, nil)
 	for i, exprs := range rm.exprs {
-		if slices.ContainsFunc(exprs, func(e *search.Query) bool { return conditionMatches(e, prepared) }) {
+		if slices.ContainsFunc(exprs, func(e *search.Query) bool { return ConditionMatches(e, prepared) }) {
 			out = append(out, i)
 		}
 	}

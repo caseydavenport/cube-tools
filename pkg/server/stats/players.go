@@ -173,7 +173,7 @@ func (s *playerStatsHandler) loadBaseline(cubeID string, dr *storage.DecksReques
 		logrus.WithError(err).Warn("could not load packages for player tendencies")
 		return &tendencyBaseline{decks: withSpells(all), cubes: cubeLists{}}, nil
 	}
-	return &tendencyBaseline{decks: withSpells(all), packages: in.packages(), cubes: in.lists.known()}, nil
+	return &tendencyBaseline{decks: withSpells(all), packages: in.packages(), cubes: cubeLists(in.rb.DraftLists())}, nil
 }
 
 // addTendencies fills each row's Tendencies from the player's decks in mine.

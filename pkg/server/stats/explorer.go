@@ -8,6 +8,7 @@ import (
 	"sync/atomic"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -95,11 +96,11 @@ func sideKey(entries []string) string {
 
 // newExplorerRules resolves config over the cube for exploreCards.
 func newExplorerRules(cube *types.Cube, config design.DesignMapConfig) explorerRules {
-	cardMap := buildCardMap(cube)
+	cardMap := rulebook.CardMap(cube)
 	rules := explorerRules{
 		config:       config,
 		inCube:       make(map[string]bool, len(cardMap)),
-		entryCards:   resolveGroups(cardMap, config, nil).cube,
+		entryCards:   rulebook.ResolveGroups(cardMap, config, nil).Cube,
 		basicEntries: map[string]bool{},
 		packageCards: map[string]map[string]bool{},
 		sides:        map[string]wireSideCards{},
@@ -108,7 +109,7 @@ func newExplorerRules(cube *types.Cube, config design.DesignMapConfig) explorerR
 		rules.inCube[name] = true
 	}
 
-	basicGroups, _ := resolveGroupCards(basicLandCards(), config.Groups)
+	basicGroups, _ := rulebook.MatchGroups(rulebook.BasicLandCards(), config.Groups)
 	for name, basics := range basicGroups {
 		if len(basics) > 0 {
 			rules.basicEntries[name] = true
@@ -118,7 +119,7 @@ func newExplorerRules(cube *types.Cube, config design.DesignMapConfig) explorerR
 	for _, pkg := range config.Packages {
 		cards := map[string]bool{}
 		for _, w := range pkg.Wires {
-			for name := range wireSide(rules.entryCards, slices.Concat(w.Sources, w.Targets)) {
+			for name := range rulebook.WireSide(rules.entryCards, slices.Concat(w.Sources, w.Targets)) {
 				cards[name] = true
 			}
 			rules.addSide(w.Sources)
@@ -135,7 +136,7 @@ func (r explorerRules) addSide(entries []string) {
 	if _, ok := r.sides[key]; ok {
 		return
 	}
-	side := wireSideCards{cards: wireSide(r.entryCards, entries)}
+	side := wireSideCards{cards: rulebook.WireSide(r.entryCards, entries)}
 	for _, entry := range entries {
 		side.basics = side.basics || r.basicEntries[entry]
 	}
@@ -207,7 +208,7 @@ func compileGroups(groups []design.Group) compiledGroups {
 	out := compiledGroups{groups: groups, queries: make([][]*search.Query, len(groups))}
 	for i, g := range groups {
 		for _, cond := range g.Conditions {
-			out.queries[i] = append(out.queries[i], ruleCondition(cond))
+			out.queries[i] = append(out.queries[i], rulebook.Condition(cond))
 		}
 	}
 	return out
@@ -224,7 +225,7 @@ func (c compiledGroups) match(card types.Card) []ExplorerGroup {
 			continue
 		}
 		for j, q := range c.queries[i] {
-			if conditionMatches(q, prepared) {
+			if rulebook.ConditionMatches(q, prepared) {
 				out = append(out, ExplorerGroup{Name: g.Name, Condition: g.Conditions[j]})
 				break
 			}
@@ -299,7 +300,7 @@ func newExplorerCard(card types.Card, inCube bool, groups []ExplorerGroup) Explo
 // cardEntries are the rule entries a card is in: its groups, and a card:
 // entry naming it.
 func cardEntries(name string, groups []ExplorerGroup) map[string]bool {
-	mine := map[string]bool{cardRefPrefix + name: true}
+	mine := map[string]bool{design.CardRefPrefix + name: true}
 	for _, g := range groups {
 		mine[g.Name] = true
 	}

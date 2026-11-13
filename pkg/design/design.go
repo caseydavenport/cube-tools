@@ -1,5 +1,7 @@
 package design
 
+import "strings"
+
 // Group defines a named set of cards selected by query conditions.
 type Group struct {
 	Name       string   `json:"name"`
@@ -49,6 +51,19 @@ func (w Wire) KindOrPairs() string {
 		return WireEnables
 	}
 	return WirePairs
+}
+
+// CardRefPrefix starts a wire entry that names one card instead of a group.
+const CardRefPrefix = "card:"
+
+// CardRefName returns the card name for a "card:" wire entry, or "" if the
+// entry is a group name.
+func CardRefName(entry string) string {
+	name, ok := strings.CutPrefix(entry, CardRefPrefix)
+	if !ok {
+		return ""
+	}
+	return name
 }
 
 // Package is a named strategy: one or more wires that join groups of cards

@@ -10,6 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -104,14 +105,14 @@ func (h *cardPageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rules.config = rules.relevantConfig(relevantInAny(draftIDsOf(ranged)))
+	rules.config = rules.relevantConfig(rulebook.InAny(draftIDsOf(ranged)))
 	page := cardPageInputs{
 		card:   card,
 		inCube: inCube,
 		design: rules,
 		all:    all,
 		ranged: ranged,
-		cubes:  rules.lists.known(),
+		cubes:  cubeLists(rules.rb.DraftLists()),
 		start:  start,
 		end:    end,
 		z:      zForConfidence(query.GetFloat(r, "confidence")),
@@ -157,7 +158,7 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 	resp := CardPageResponse{
 		Card:        page.card,
 		InCube:      page.inCube,
-		Copies:      countCards(page.design.cube.Cards)[page.card.Name],
+		Copies:      rulebook.CountCards(page.design.cube.Cards)[page.card.Name],
 		Groups:      relations.groupsOf(page.card.Name),
 		Play:        cardPlay(page.card, page.ranged, history, page.design.cube),
 		History:     history,
@@ -264,7 +265,7 @@ func CardCompareHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			}
 		}
 
-		relations := newCardRelations(rules.cube, rules.relevantConfig(relevantToday), rules.deckCardNames, extras)
+		relations := newCardRelations(rules.cube, rules.relevantConfig(rulebook.Today), rules.deckCardNames, extras)
 		writeJSON(rw, CardCompareResponse{Links: relations.linksBetween(names[0], names[1])}, "card compare")
 	})
 }

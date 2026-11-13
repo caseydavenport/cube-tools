@@ -9,6 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
@@ -90,7 +91,7 @@ func (h *ruleGroupsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
-	cardMap := buildCardMap(rules.cube)
+	cardMap := rulebook.CardMap(rules.cube)
 	played := playCounts(decks)
 
 	// One group by name.
@@ -130,7 +131,7 @@ func groupMembers(entry string, config design.DesignMapConfig, cardMap map[strin
 	}
 
 	// A card entry holds just its card, when the cube has it.
-	if name := cardRefName(entry); name != "" {
+	if name := design.CardRefName(entry); name != "" {
 		out.CardEntry = true
 		cond := ConditionMembers{Condition: "", Cards: []MemberCard{}}
 		if card, ok := cardMap[name]; ok {
@@ -150,7 +151,7 @@ func groupMembers(entry string, config design.DesignMapConfig, cardMap map[strin
 	// Parse each condition once.
 	exprs := make([]*search.Query, len(group.Conditions))
 	for i, cond := range group.Conditions {
-		exprs[i] = ruleCondition(cond)
+		exprs[i] = rulebook.Condition(cond)
 		out.Conditions = append(out.Conditions, ConditionMembers{Condition: cond, Cards: []MemberCard{}})
 	}
 
@@ -161,7 +162,7 @@ func groupMembers(entry string, config design.DesignMapConfig, cardMap map[strin
 		first := -1
 		matched := []string{}
 		for i, expr := range exprs {
-			if conditionMatches(expr, prepared) {
+			if rulebook.ConditionMatches(expr, prepared) {
 				if first < 0 {
 					first = i
 				}

@@ -10,6 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -192,8 +193,8 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 	resp := PackagePageResponse{
 		Name:     page.pkg.Name,
 		Related:  []PackageEdge{},
-		Relevant: cards.PresentIn(page.rules.lists.today),
-		Forced:   forcedState(page.rules.overrides, page.pkg.Name),
+		Relevant: page.rules.rb.SupportedToday(cards),
+		Forced:   page.rules.rb.Forced(page.pkg.Name),
 	}
 
 	// The package's index row, over the date range.
@@ -208,18 +209,18 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 
 	// The other packages the page names are those shown over the range; the
 	// page's own package stays, shown or not.
-	others := configFor(page.rules.config, keepPackages(resolved, relevantInAny(draftIDsOf(page.ranged))))
+	others := configFor(page.rules.config, keepPackages(resolved, rulebook.InAny(draftIDsOf(page.ranged))))
 	if !slices.ContainsFunc(others.Packages, func(p design.Package) bool { return p.Name == page.pkg.Name }) {
 		others.Packages = append(others.Packages, page.pkg)
 	}
 
 	// The wires, the color table built from them, and builds per draft.
-	cardMap := buildCardMap(cube)
-	groups := resolveGroups(cardMap, page.rules.config, page.rules.deckCardNames)
-	resp.Wires = packageWires(page.pkg, groups.cube, others)
+	cardMap := rulebook.CardMap(cube)
+	groups := rulebook.ResolveGroups(cardMap, page.rules.config, page.rules.deckCardNames)
+	resp.Wires = packageWires(page.pkg, groups.Cube, others)
 	resp.ColorTable = colorTable(resp.Wires, cardMap)
 	resp.OverTime = packageOverTime(cards, page.all, page.start, page.end)
-	resp.Map = buildPackageMap(page.pkg, cards, groups.cube, others, page.ranged)
+	resp.Map = buildPackageMap(page.pkg, cards, groups.Cube, others, page.ranged)
 
 	// The decks in range that built the package.
 	var built []*storage.Deck
@@ -229,7 +230,7 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 		}
 	}
 	resp.Decks = deckRows(built)
-	resp.Cards = packageCards(page.pkg, resp.Wires, cardMap, countCards(cube.Cards), page.ranged, built)
+	resp.Cards = packageCards(page.pkg, resp.Wires, cardMap, rulebook.CountCards(cube.Cards), page.ranged, built)
 
 	// Related packages, with the edge turned so this package is the source.
 	for _, e := range packageEdges(others) {
@@ -309,16 +310,7 @@ func mainboardCounts(decks []*storage.Deck) map[string]int {
 // Basics only meet wire sides whose groups match them; they never count as
 // package cards.
 func deckCards(d *storage.Deck) design.CardCounts {
-	return countCards(d.Mainboard)
-}
-
-// countCards counts the copies of each card in a list.
-func countCards(cards []types.Card) design.CardCounts {
-	out := design.CardCounts{}
-	for _, c := range cards {
-		out[c.Name]++
-	}
-	return out
+	return rulebook.CountCards(d.Mainboard)
 }
 
 // packageWires resolves each of the package's wires to its groups' cube
@@ -341,7 +333,7 @@ func wireGroups(pkg string, entries []string, groups map[string]map[string]bool,
 	out := []WireGroup{}
 	for _, entry := range entries {
 		group := WireGroup{Name: entry, Cards: slices.Sorted(maps.Keys(groups[entry])), OtherPackages: []string{}}
-		if name := cardRefName(entry); name != "" {
+		if name := design.CardRefName(entry); name != "" {
 			group.Name = name
 		} else {
 			group.OtherPackages = packagesUsing(entry, pkg, config)

@@ -9,6 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -85,8 +86,8 @@ func (h *rulesBoardHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 // buildRulesBoard builds every package's board card and the unused groups.
 func buildRulesBoard(rules designInputs, decks []*storage.Deck, conf float64) RulesBoardResponse {
-	cardMap := buildCardMap(rules.cube)
-	groups := resolveGroups(cardMap, rules.config, rules.deckCardNames).cube
+	cardMap := rulebook.CardMap(rules.cube)
+	groups := rulebook.ResolveGroups(cardMap, rules.config, rules.deckCardNames).Cube
 
 	// Index the resolved packages and their build rows by name.
 	resolved := map[string]design.PackageCards{}
@@ -136,8 +137,8 @@ func buildRulesBoard(rules designInputs, decks []*storage.Deck, conf float64) Ru
 			Colors:        colorCounts(names, cardMap),
 			SharesWith:    sharesWith,
 			OneCardGroups: oneCardEntries(entries),
-			Relevant:      cards.PresentIn(rules.lists.today),
-			Forced:        forcedState(rules.overrides, pkg.Name),
+			Relevant:      rules.rb.SupportedToday(cards),
+			Forced:        rules.rb.Forced(pkg.Name),
 		})
 	}
 	return resp
@@ -174,7 +175,7 @@ func wireEntries(pkg design.Package) []string {
 func oneCardEntries(groups []BoardGroup) []string {
 	out := []string{}
 	for _, g := range groups {
-		if cardRefName(g.Name) == "" && len(g.Cards) == 1 {
+		if design.CardRefName(g.Name) == "" && len(g.Cards) == 1 {
 			out = append(out, g.Name)
 		}
 	}

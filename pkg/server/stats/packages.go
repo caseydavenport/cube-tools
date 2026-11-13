@@ -6,6 +6,7 @@ import (
 	"sort"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -99,7 +100,7 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	pkgs := keepPackages(rules.packages(), relevantInAny(draftIDsOf(allDecks)))
+	pkgs := keepPackages(rules.packages(), rulebook.InAny(draftIDsOf(allDecks)))
 	rules.config = configFor(rules.config, pkgs)
 	resp := packageStats(pkgs, allDecks, query.GetFloat(r, "confidence"))
 	addPackageShapes(&resp, pkgs, rules)

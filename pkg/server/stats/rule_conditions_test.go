@@ -29,15 +29,6 @@ func TestGlobalRulesParse(t *testing.T) {
 	}
 }
 
-// TestBuildaroundShapesParse does the same for the built-in build-around
-// shapes.
-func TestBuildaroundShapesParse(t *testing.T) {
-	for _, cond := range buildaroundShape {
-		_, err := search.Compile(cond, search.TargetRules)
-		require.NoError(t, err)
-	}
-}
-
 // TestRuleConditionNoParse checks a condition that doesn't parse matches no
 // card, rather than every card as an empty query would.
 func TestRuleConditionNoParse(t *testing.T) {

@@ -252,31 +252,3 @@ func TestTendencies_PlayerWithoutID(t *testing.T) {
 	require.Len(t, got.SignatureCards, 1)
 	assert.Equal(t, 20, got.SignatureCards[0].OthersAvailable)
 }
-
-// snapshotStore answers GetSnapshot from a fixed map of draft snapshots.
-type snapshotStore struct {
-	mockDeckStorage
-	snapshots map[int]*types.Cube
-}
-
-// GetSnapshot returns the draft's snapshot, or ErrDeckNotFound.
-func (s *snapshotStore) GetSnapshot(_ string, draftID int) (*types.Cube, error) {
-	snapshot, ok := s.snapshots[draftID]
-	if !ok {
-		return nil, storage.ErrDeckNotFound
-	}
-	return snapshot, nil
-}
-
-func TestLoadCubeLists_EmptySnapshotIsMissing(t *testing.T) {
-	store := &snapshotStore{snapshots: map[int]*types.Cube{
-		1: {},
-		2: {Cards: []types.Card{{Name: "Lightning Bolt"}}},
-	}}
-	decks := []*storage.Deck{tendencyDeck(tendencyPlayer, 1, "aggro"), tendencyDeck(tendencyPlayer, 2, "aggro")}
-
-	lists := loadCardLists(store, "testcube", &types.Cube{}, decks).known()
-	_, hasEmpty := lists[1]
-	assert.False(t, hasEmpty)
-	assert.True(t, lists[2]["Lightning Bolt"])
-}

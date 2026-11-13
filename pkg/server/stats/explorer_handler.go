@@ -9,6 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -83,7 +84,7 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 			hits = cubeHits(pool, rules.cube)
 		}
 
-		cards := exploreCards(hits, newExplorerRules(rules.cube, rules.relevantConfig(relevantToday)), thinParam(r))
+		cards := exploreCards(hits, newExplorerRules(rules.cube, rules.relevantConfig(rulebook.Today)), thinParam(r))
 		keepAll := query.GetString(r, "all") == "1"
 		for _, c := range cards {
 			if len(c.Groups) == 0 && len(c.Joins) == 0 && !keepAll {
@@ -144,7 +145,7 @@ func thinParam(r *http.Request) int {
 // oracle card from pool when there is one, since the cube's own copy can lack
 // tags and an image.
 func cubeHits(pool map[string]types.Card, cube *types.Cube) map[string]types.Card {
-	out := buildCardMap(cube)
+	out := rulebook.CardMap(cube)
 	for name := range out {
 		if c, ok := pool[name]; ok {
 			out[name] = c

@@ -1,4 +1,4 @@
-package stats
+package rulebook
 
 import (
 	"testing"
