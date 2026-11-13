@@ -56,11 +56,6 @@ func newTagIndex() tagIndex {
 
 var oracleTags = newTagIndex()
 
-// setOracleTags replaces the loaded tags.
-func setOracleTags(idx tagIndex) {
-	oracleTags = idx
-}
-
 // LoadOracleTags loads Scryfall's oracle_tags bulk file (JSONL, one tag per
 // line) from path, replacing any tags loaded before. Each card gets its
 // directly tagged slugs plus every ancestor's, the way Scryfall's otag:
@@ -85,7 +80,7 @@ func LoadOracleTags(path string) error {
 		}
 		tags = append(tags, tag)
 	}
-	setOracleTags(buildTagIndex(tags))
+	oracleTags = buildTagIndex(tags)
 	return nil
 }
 
@@ -197,14 +192,4 @@ func LookupOracleTag(name string) (OracleTag, bool) {
 // data/oracle-tags.jsonl is missing.
 func OracleTagCount() int {
 	return len(oracleTags.bySlug)
-}
-
-// HasTag reports whether the card carries the tag named by a slug, label or
-// alias, the way an otag: search reads it. An unknown tag matches no card.
-func (c Card) HasTag(name string) bool {
-	tag, ok := LookupOracleTag(strings.Trim(name, `"`))
-	if !ok {
-		return false
-	}
-	return c.HasRole(tag.Slug)
 }

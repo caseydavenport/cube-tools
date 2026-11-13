@@ -11,126 +11,114 @@ import (
 // Match* helpers see consistent data. If both games and matches are passed,
 // games attach to the matching opponent (or create a new match).
 func makeDeck(player string, games []Game, matches []Match) *Deck {
-	d := NewDeck()
-	d.Player = player
-	d.Matches = matches
+	deck := NewDeck()
+	deck.Player = player
+	deck.Matches = matches
 	for _, g := range games {
 		idx := -1
-		for i := range d.Matches {
-			if d.Matches[i].Opponent == g.Opponent {
+		for i := range deck.Matches {
+			if deck.Matches[i].Opponent == g.Opponent {
 				idx = i
 				break
 			}
 		}
 		if idx == -1 {
-			d.Matches = append(d.Matches, Match{Opponent: g.Opponent})
-			idx = len(d.Matches) - 1
+			deck.Matches = append(deck.Matches, Match{Opponent: g.Opponent})
+			idx = len(deck.Matches) - 1
 		}
-		d.Matches[idx].Games = append(d.Matches[idx].Games, g)
+		deck.Matches[idx].Games = append(deck.Matches[idx].Games, g)
 		switch {
 		case g.Winner == player:
-			d.Matches[idx].Wins++
+			deck.Matches[idx].Wins++
 		case g.Winner == "" || g.Tie:
-			d.Matches[idx].Draws++
+			deck.Matches[idx].Draws++
 		default:
-			d.Matches[idx].Losses++
+			deck.Matches[idx].Losses++
 		}
 	}
-	return d
+	return deck
 }
 
-// --- Game wins ---
-
 func TestGameWins(t *testing.T) {
-	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Bob", Winner: "Bob"},
-		{Opponent: "Charlie", Winner: "Alice"},
+	d := makeDeck("Freddie", []Game{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Ozzy", Winner: "Ozzy"},
+		{Opponent: "Stevie", Winner: "Freddie"},
 	}, nil)
 	assert.Equal(t, 2, d.GameWins())
 }
 
 func TestGameWins_NoGames(t *testing.T) {
-	d := makeDeck("Alice", nil, nil)
+	d := makeDeck("Freddie", nil, nil)
 	assert.Equal(t, 0, d.GameWins())
 }
 
-// --- Game losses ---
-
 func TestGameLosses(t *testing.T) {
-	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: "Bob"},
-		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Charlie"},
+	d := makeDeck("Freddie", []Game{
+		{Opponent: "Ozzy", Winner: "Ozzy"},
+		{Opponent: "Stevie", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Stevie"},
 	}, nil)
 	assert.Equal(t, 2, d.GameLosses())
 }
 
 func TestGameLosses_DrawsNotCounted(t *testing.T) {
 	// Regression: draws (Winner="" or Tie=true) must NOT count as losses.
-	d := makeDeck("Alice", []Game{
+	d := makeDeck("Freddie", []Game{
 		// Draw via empty winner.
-		{Opponent: "Bob", Winner: ""},
+		{Opponent: "Ozzy", Winner: ""},
 
 		// Draw via Tie flag.
-		{Opponent: "Bob", Winner: "", Tie: true},
+		{Opponent: "Ozzy", Winner: "", Tie: true},
 
 		// Real loss.
-		{Opponent: "Bob", Winner: "Bob"},
+		{Opponent: "Ozzy", Winner: "Ozzy"},
 	}, nil)
 	assert.Equal(t, 1, d.GameLosses())
 }
 
-// --- Game draws ---
-
 func TestGameDraws(t *testing.T) {
-	d := makeDeck("Alice", []Game{
+	d := makeDeck("Freddie", []Game{
 		// Draw (empty winner).
-		{Opponent: "Bob", Winner: ""},
+		{Opponent: "Ozzy", Winner: ""},
 
 		// Draw (Tie flag).
-		{Opponent: "Bob", Winner: "", Tie: true},
+		{Opponent: "Ozzy", Winner: "", Tie: true},
 
 		// Loss, not a draw.
-		{Opponent: "Bob", Winner: "Bob"},
+		{Opponent: "Ozzy", Winner: "Ozzy"},
 
 		// Win, not a draw.
-		{Opponent: "Charlie", Winner: "Alice"},
+		{Opponent: "Stevie", Winner: "Freddie"},
 	}, nil)
 	assert.Equal(t, 2, d.GameDraws())
 }
 
-// --- Match wins ---
-
 func TestMatchWins(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Charlie"},
-		{Opponent: "Dave", Winner: "Alice"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Stevie"},
+		{Opponent: "Joan", Winner: "Freddie"},
 	})
 	assert.Equal(t, 2, d.MatchWins())
 }
 
-// --- Match losses ---
-
 func TestMatchLosses(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Bob"},
-		{Opponent: "Charlie", Winner: "Alice"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Ozzy"},
+		{Opponent: "Stevie", Winner: "Freddie"},
 
 		// Draw, not a loss.
-		{Opponent: "Dave", Winner: ""},
+		{Opponent: "Joan", Winner: ""},
 	})
 	assert.Equal(t, 1, d.MatchLosses())
 }
 
-// --- Match draws ---
-
 func TestMatchDraws(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: ""},
-		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: ""},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: ""},
+		{Opponent: "Stevie", Winner: "Freddie"},
+		{Opponent: "Joan", Winner: ""},
 	})
 	assert.Equal(t, 2, d.MatchDraws())
 }
@@ -139,7 +127,7 @@ func TestMatchDraws(t *testing.T) {
 // real result and must not count as a draw. The legacy file loader used
 // to synthesize one of these when only deck-level wins/losses existed.
 func TestMatchDraws_IgnoresEmptyStub(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{{}})
+	d := makeDeck("Freddie", nil, []Match{{}})
 	assert.Equal(t, 0, d.MatchDraws())
 	assert.Equal(t, 0, d.MatchWins())
 	assert.Equal(t, 0, d.MatchLosses())
@@ -148,150 +136,147 @@ func TestMatchDraws_IgnoresEmptyStub(t *testing.T) {
 // A legacy-style match with explicit game counts that happen to be equal
 // (e.g., 1-1) is a real draw and should still count.
 func TestMatchDraws_GameCountsEqualCountsAsDraw(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Wins: 1, Losses: 1},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Wins: 1, Losses: 1},
 	})
 	assert.Equal(t, 1, d.MatchDraws())
 }
 
-// --- Trophies ---
-
 func TestTrophies(t *testing.T) {
 	// 3-0 = trophy
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: "Alice"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Freddie"},
+		{Opponent: "Joan", Winner: "Freddie"},
 	})
 	assert.Equal(t, 1, d.Trophies())
 }
 
 func TestTrophies_DrawDisqualifies(t *testing.T) {
 	// 3-0-1 is not a trophy: a trophy requires a perfect record.
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: "Alice"},
-		{Opponent: "Eve", Winner: "", Draws: 1},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Freddie"},
+		{Opponent: "Joan", Winner: "Freddie"},
+		{Opponent: "Mick", Winner: "", Draws: 1},
 	})
 	assert.Equal(t, 0, d.Trophies())
 }
 
 func TestTrophies_LongerSwiss(t *testing.T) {
 	// 4-0 in a 4-round event is also a trophy.
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: "Alice"},
-		{Opponent: "Eve", Winner: "Alice"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Freddie"},
+		{Opponent: "Joan", Winner: "Freddie"},
+		{Opponent: "Mick", Winner: "Freddie"},
 	})
 	assert.Equal(t, 1, d.Trophies())
 }
 
 func TestTrophies_NotEnoughWins(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Alice"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Freddie"},
 	})
 	assert.Equal(t, 0, d.Trophies())
 }
 
 func TestTrophies_HasLoss(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: "Alice"},
-		{Opponent: "Eve", Winner: "Eve"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Freddie"},
+		{Opponent: "Joan", Winner: "Freddie"},
+		{Opponent: "Mick", Winner: "Mick"},
 	})
 	assert.Equal(t, 0, d.Trophies())
 }
 
-// --- Last place ---
-
 func TestLastPlace(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Bob"},
-		{Opponent: "Charlie", Winner: "Charlie"},
-		{Opponent: "Dave", Winner: "Dave"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Ozzy"},
+		{Opponent: "Stevie", Winner: "Stevie"},
+		{Opponent: "Joan", Winner: "Joan"},
 	})
 	assert.Equal(t, 1, d.LastPlace())
 }
 
 func TestLastPlace_NotEnoughLosses(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Bob"},
-		{Opponent: "Charlie", Winner: "Charlie"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Ozzy"},
+		{Opponent: "Stevie", Winner: "Stevie"},
 	})
 	assert.Equal(t, 0, d.LastPlace())
 }
 
 func TestLastPlace_HasWin(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Bob"},
-		{Opponent: "Charlie", Winner: "Charlie"},
-		{Opponent: "Dave", Winner: "Dave"},
-		{Opponent: "Eve", Winner: "Alice"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Ozzy"},
+		{Opponent: "Stevie", Winner: "Stevie"},
+		{Opponent: "Joan", Winner: "Joan"},
+		{Opponent: "Mick", Winner: "Freddie"},
 	})
 	assert.Equal(t, 0, d.LastPlace())
 }
 
-// --- TopHalf / BottomHalf ---
-
 func TestTopHalf(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: "Dave"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Freddie"},
+		{Opponent: "Joan", Winner: "Joan"},
 	})
 	assert.Equal(t, 1, d.TopHalf())
 }
 
 func TestTopHalf_Tied(t *testing.T) {
 	// Tied (1-1) should NOT be top half
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Charlie"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Stevie"},
 	})
 	assert.Equal(t, 0, d.TopHalf())
 }
 
 func TestTopHalf_NoData(t *testing.T) {
-	d := makeDeck("Alice", nil, nil)
+	d := makeDeck("Freddie", nil, nil)
 	assert.Equal(t, 0, d.TopHalf())
 }
 
 func TestBottomHalf(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Bob"},
-		{Opponent: "Charlie", Winner: "Bob"}, // Bob is not Alice, so this is a loss for Alice
-		{Opponent: "Dave", Winner: "Alice"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Ozzy"},
+
+		// Ozzy is not Freddie, so this is a loss for Freddie.
+		{Opponent: "Stevie", Winner: "Ozzy"},
+		{Opponent: "Joan", Winner: "Freddie"},
 	})
-	// 1 win, 2 losses → bottom half
+
+	// 1 win, 2 losses is the bottom half.
 	assert.Equal(t, 1, d.BottomHalf())
 }
 
 func TestBottomHalf_Tied(t *testing.T) {
 	// Regression: tied record (1-1) should NOT be bottom half
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Charlie"},
+	d := makeDeck("Freddie", nil, []Match{
+		{Opponent: "Ozzy", Winner: "Freddie"},
+		{Opponent: "Stevie", Winner: "Stevie"},
 	})
 	assert.Equal(t, 0, d.BottomHalf())
 }
 
 func TestBottomHalf_NoData(t *testing.T) {
-	d := makeDeck("Alice", nil, nil)
+	d := makeDeck("Freddie", nil, nil)
 	assert.Equal(t, 0, d.BottomHalf())
 }
 
-// --- Macro ---
+type macroTest struct {
+	name   string
+	labels []string
+	want   string
+}
 
 func TestMacro(t *testing.T) {
-	tests := []struct {
-		name   string
-		labels []string
-		want   string
-	}{
+	tests := []macroTest{
 		{"aggro", []string{"RDW", "aggro"}, "aggro"},
 		{"midrange", []string{"Midrange", "value"}, "midrange"},
 		{"control", []string{"draw-go", "Control"}, "control"},
@@ -307,8 +292,6 @@ func TestMacro(t *testing.T) {
 		})
 	}
 }
-
-// --- GetColors ---
 
 func TestGetColors_ExplicitColors(t *testing.T) {
 	d := NewDeck()
@@ -338,12 +321,11 @@ func TestGetColors_SkipsHybrid(t *testing.T) {
 		{Name: "Figure of Destiny", Colors: []string{"R", "W"}, ManaCost: "{R/W}"},
 	}
 	colors := d.GetColors()
+
 	// Hybrid card should be skipped, so only R from Lightning Bolt
 	assert.True(t, colors["R"])
 	assert.Equal(t, 1, len(colors))
 }
-
-// --- CanCast ---
 
 func TestCanCast_ColorlessCard(t *testing.T) {
 	d := NewDeck()
@@ -369,6 +351,7 @@ func TestCanCast_OutOfColor(t *testing.T) {
 func TestCanCast_Land(t *testing.T) {
 	d := NewDeck()
 	d.Colors = []string{"R", "W"}
+
 	// Lands have no colors, uses color identity instead
 	c := Card{Name: "Sacred Foundry", Types: []string{"Land"}, Colors: nil, ColorIdentity: []string{"R", "W"}}
 	assert.True(t, d.CanCast(c))
@@ -381,14 +364,14 @@ func TestCanCast_LandOutOfColor(t *testing.T) {
 	assert.False(t, d.CanCast(c))
 }
 
-// --- PickCount ---
-
 func TestPickCount_MainboardAndSideboard(t *testing.T) {
 	d := NewDeck()
 	d.Mainboard = []Card{
 		{Name: "Lightning Bolt"},
 		{Name: "Counterspell"},
-		{Name: "Plains", Types: []string{"Basic", "Land"}}, // basic land, not counted
+
+		// A basic land isn't a pick, so it isn't counted.
+		{Name: "Plains", Types: []string{"Basic", "Land"}},
 	}
 	d.Sideboard = []Card{
 		{Name: "Negate"},
@@ -401,7 +384,9 @@ func TestPickCount_Pool(t *testing.T) {
 	d.Pool = []Card{
 		{Name: "Lightning Bolt"},
 		{Name: "Counterspell"},
-		{Name: "Plains", Types: []string{"Basic", "Land"}}, // basic lands ARE counted for pool
+
+		// A pool counts every card, basic lands included.
+		{Name: "Plains", Types: []string{"Basic", "Land"}},
 	}
 	assert.Equal(t, 3, d.PickCount())
 }
@@ -410,8 +395,6 @@ func TestPickCount_Empty(t *testing.T) {
 	d := NewDeck()
 	assert.Equal(t, 0, d.PickCount())
 }
-
-// --- AllCards ---
 
 func TestAllCards(t *testing.T) {
 	d := NewDeck()
@@ -425,8 +408,6 @@ func TestAllCards_Empty(t *testing.T) {
 	d := NewDeck()
 	assert.Equal(t, 0, len(d.AllCards()))
 }
-
-// --- PrimaryColorPair ---
 
 // Build a non-land card with the given mana cost for tests below.
 func ccard(manaCost string) Card {

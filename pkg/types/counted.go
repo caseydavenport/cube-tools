@@ -21,15 +21,15 @@ func ExpandCounted(cards []CountedCard) []Card {
 // DeriveSideboard returns the pool multiset minus the played non-basic
 // mainboard multiset, per name, floored at zero.
 func DeriveSideboard(pool, mainboard []CountedCard) []Card {
-	played := map[string]int{}
+	numPlayed := map[string]int{}
 	for _, c := range mainboard {
 		if !IsBasic(c.Name) {
-			played[c.Name] += c.Count
+			numPlayed[c.Name] += c.Count
 		}
 	}
 	out := make([]Card, 0)
 	for _, c := range pool {
-		remaining := c.Count - played[c.Name]
+		remaining := c.Count - numPlayed[c.Name]
 		for i := 0; i < remaining; i++ {
 			out = append(out, HydrateCard(c.Name))
 		}

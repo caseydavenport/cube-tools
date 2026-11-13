@@ -3,36 +3,38 @@ package types
 import (
 	"encoding/json"
 	"os"
-	"path/filepath"
 	"slices"
-	"sort"
 	"strings"
 )
 
+// NewDeck returns an empty deck whose labels and card lists are empty, not
+// nil, so it marshals them as empty arrays.
 func NewDeck() *Deck {
 	return &Deck{
-		Metadata:  Metadata{},
 		Labels:    make([]string, 0),
 		Mainboard: make([]Card, 0),
 		Sideboard: make([]Card, 0),
 	}
 }
 
-func cardNames(cs []Card) []string {
-	out := make([]string, len(cs))
-	for i, c := range cs {
-		out[i] = c.Name
+// cardNames returns the name of each card, in order.
+func cardNames(cards []Card) []string {
+	out := make([]string, len(cards))
+	for i, card := range cards {
+		out[i] = card.Name
 	}
 	return out
 }
 
+// hydrateNames resolves each card name through the oracle data. It returns nil
+// for nil names, so an absent list stays absent.
 func hydrateNames(names []string) []Card {
 	if names == nil {
 		return nil
 	}
 	out := make([]Card, len(names))
-	for i, n := range names {
-		out[i] = HydrateCard(n)
+	for i, name := range names {
+		out[i] = HydrateCard(name)
 	}
 	return out
 }
@@ -41,21 +43,13 @@ func hydrateNames(names []string) []Card {
 // lists are stored as []string of names. Names are resolved to Cards via
 // the oracle dataset at load time.
 func (d *Deck) UnmarshalJSON(data []byte) error {
-	type alias Deck
-	aux := &struct {
-		Mainboard []string `json:"mainboard"`
-		Sideboard []string `json:"sideboard"`
-		Pool      []string `json:"pool,omitempty"`
-		*alias
-	}{
-		alias: (*alias)(d),
-	}
-	if err := json.Unmarshal(data, aux); err != nil {
+	names := &deckNames{deckAlias: (*deckAlias)(d)}
+	if err := json.Unmarshal(data, names); err != nil {
 		return err
 	}
-	d.Mainboard = hydrateNames(aux.Mainboard)
-	d.Sideboard = hydrateNames(aux.Sideboard)
-	d.Pool = hydrateNames(aux.Pool)
+	d.Mainboard = hydrateNames(names.Mainboard)
+	d.Sideboard = hydrateNames(names.Sideboard)
+	d.Pool = hydrateNames(names.Pool)
 	if d.Labels == nil {
 		d.Labels = make([]string, 0)
 	}
@@ -67,23 +61,7 @@ func (d *Deck) UnmarshalJSON(data []byte) error {
 // PlayerID and opponent deck IDs. Use it for writing deck files; regular
 // json.Marshal emits the API form the UI consumes.
 func (d *Deck) MarshalCompact() ([]byte, error) {
-	aux := struct {
-		Metadata       Metadata    `json:"metadata"`
-		ID             int         `json:"id"`
-		MacroArchetype string      `json:"macro_archetype,omitempty"`
-		Labels         []string    `json:"labels"`
-		PlayerID       int         `json:"player_id,omitempty"`
-		Seat           int         `json:"seat,omitempty"`
-		Date           string      `json:"date"`
-		Name           string      `json:"name,omitempty"`
-		Notes          string      `json:"notes,omitempty"`
-		Matches        []diskMatch `json:"matches"`
-		DeckImage      string      `json:"deck_image,omitempty"`
-		Mainboard      []string    `json:"mainboard"`
-		Sideboard      []string    `json:"sideboard"`
-		Pool           []string    `json:"pool,omitempty"`
-		Colors         []string    `json:"colors,omitempty"`
-	}{
+	compact := compactDeck{
 		Metadata:       d.Metadata,
 		ID:             d.ID,
 		MacroArchetype: d.MacroArchetype,
@@ -100,7 +78,7 @@ func (d *Deck) MarshalCompact() ([]byte, error) {
 		Pool:           cardNames(d.Pool),
 		Colors:         d.Colors,
 	}
-	return json.MarshalIndent(aux, "", " ")
+	return json.MarshalIndent(compact, "", " ")
 }
 
 // Save writes the deck to the given path in compact on-disk form.
@@ -112,42 +90,50 @@ func (d *Deck) Save(path string) error {
 	return os.WriteFile(path, bs, 0o644)
 }
 
+// LoadDeck reads the deck file at path and hydrates its cards from the oracle
+// data. A file with only top-level wins and losses, and no matches, loads with
+// one opponent-less match carrying those counts.
 func LoadDeck(path string) (*Deck, error) {
 	contents, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
-	d := NewDeck()
-	if err := json.Unmarshal(contents, d); err != nil {
+	deck := NewDeck()
+	if err := json.Unmarshal(contents, deck); err != nil {
 		return nil, err
 	}
-
-	// Backwards-compat: older deck files had top-level "wins" / "losses" game
-	// counts without any per-opponent match data. Synthesize a single empty-opponent
-	// match so the counts survive into the new nested structure.
-	if len(d.Matches) == 0 {
-		var legacy struct {
-			Wins   *int `json:"wins"`
-			Losses *int `json:"losses"`
-		}
-		if err := json.Unmarshal(contents, &legacy); err == nil && (legacy.Wins != nil || legacy.Losses != nil) {
-			w, l := 0, 0
-			if legacy.Wins != nil {
-				w = *legacy.Wins
-			}
-			if legacy.Losses != nil {
-				l = *legacy.Losses
-			}
-			// Skip 0-0 stubs - they represent "no data" rather than a real match
-			// and would otherwise get counted as a draw.
-			if w > 0 || l > 0 {
-				d.Matches = []Match{{Wins: w, Losses: l}}
-			}
-		}
+	if len(deck.Matches) == 0 {
+		deck.Matches = legacyMatches(contents)
 	}
-	return d, nil
+	return deck, nil
 }
 
+// legacyMatches synthesizes a single opponent-less match from the top-level
+// "wins" and "losses" counts of an older deck file, so the counts survive into
+// the nested match structure. It returns nil when the file has no such counts
+// or they are both zero, since a 0-0 stub means "no data" and would otherwise
+// count as a draw.
+func legacyMatches(contents []byte) []Match {
+	var legacy legacyRecord
+	if err := json.Unmarshal(contents, &legacy); err != nil {
+		return nil
+	}
+
+	var wins, losses int
+	if legacy.Wins != nil {
+		wins = *legacy.Wins
+	}
+	if legacy.Losses != nil {
+		losses = *legacy.Losses
+	}
+	if wins == 0 && losses == 0 {
+		return nil
+	}
+	return []Match{{Wins: wins, Losses: losses}}
+}
+
+// Metadata locates the files a deck was loaded from. The paths are relative,
+// either to the repository root or to the deck file, as each field says.
 type Metadata struct {
 	// Path is the path to the deck file itself, relative to the repository root.
 	Path string `json:"path,omitempty"`
@@ -167,46 +153,26 @@ type Metadata struct {
 	CombinedFile string `json:"combined_file,omitempty"`
 
 	// PoolFile is the name of the file containing the draft pool, relative to the deck file.
-	// Used when the mainbord / sideboard decisions are not known.
+	// Used when the mainboard / sideboard decisions are not known.
 	PoolFile string `json:"pool_file,omitempty"`
 }
 
-// DraftMetadata is a draft's identity and event details, stored once at
-// <draftDir>/metadata.json. ID is unique within the cube and never reused;
-// EventCode is a short tag for the event (e.g. "bcp26", "local"), and
-// CubeCobraRecord is the CubeCobra record the draft was exported to, if any.
-type DraftMetadata struct {
-	ID               int    `json:"id"`
-	Date             string `json:"date"`
-	EventName        string `json:"event_name,omitempty"`
-	EventCode        string `json:"event_code,omitempty"`
-	EventDescription string `json:"event_description,omitempty"`
-	Flight           string `json:"flight,omitempty"`
-	CubeCobraRecord  string `json:"cubecobra_record,omitempty"`
-}
-
+// GetSourceFiles returns the names of the card list files the deck was built
+// from, combined file first. Names are relative to the deck file, and unset
+// ones are left out.
 func (m *Metadata) GetSourceFiles() []string {
 	files := make([]string, 0)
-	if m.CombinedFile != "" {
-		files = append(files, m.CombinedFile)
+	for _, file := range []string{m.CombinedFile, m.MainboardFile, m.SideboardFile, m.PoolFile} {
+		if file != "" {
+			files = append(files, file)
+		}
 	}
-	if m.MainboardFile != "" {
-		files = append(files, m.MainboardFile)
-	}
-	if m.SideboardFile != "" {
-		files = append(files, m.SideboardFile)
-	}
-	if m.PoolFile != "" {
-		files = append(files, m.PoolFile)
-	}
-
 	return files
 }
 
-func (m *Metadata) Dir() string {
-	return filepath.Dir(m.Path)
-}
-
+// Deck is one player's deck in a draft: its cards, labels and match results.
+// json.Marshal gives the API form the UI reads; MarshalCompact gives the
+// on-disk form, which omits player names.
 type Deck struct {
 	// Contains metadata about the deck file itself.
 	Metadata Metadata `json:"metadata"`
@@ -220,9 +186,8 @@ type Deck struct {
 	// Expected values: "aggro", "midrange", "control", or empty.
 	MacroArchetype string `json:"macro_archetype,omitempty"`
 
-	// Tags represents metadata associated with this deck. Used for
-	// secondary classifications like "ramp", "sacrifice", "tokens", etc.
-	// MacroArchetype values are stored separately and should not appear here.
+	// Labels are secondary classifications like "ramp", "sacrifice", "tokens",
+	// etc. MacroArchetype values are stored separately and should not appear here.
 	Labels []string `json:"labels"`
 
 	// PlayerID is the deck's player in the global player list; zero means an
@@ -242,7 +207,9 @@ type Deck struct {
 	// PlayGroup is the play group of the deck's player, or the leftover group
 	// for an anonymous seat. ResolveDraft fills it in.
 	PlayGroup string `json:"play_group,omitempty"`
-	Date      string `json:"date"`
+
+	// Date is the date the draft was played, as the deck file records it.
+	Date string `json:"date"`
 
 	// Optional user-defined name for the deck.
 	Name string `json:"name,omitempty"`
@@ -264,85 +231,10 @@ type Deck struct {
 	// decisions are not known, and is mutually exclusive with Mainboard and Sideboard.
 	Pool []Card `json:"pool,omitempty"`
 
-	// Colors is an optional list of colors for the deck. If specified, it overrides
-	// the colors inferred from the cards in the mainboard. This is useful for
-	// decks that don't neatly fit into the color identity of the cards, or when we only
-	// have approximate information about the cards in the deck.
+	// Colors overrides the colors inferred from the mainboard when set. It
+	// covers decks that don't fit their cards' color identity, or where only
+	// approximate card information is known.
 	Colors []string `json:"colors,omitempty"`
-}
-
-type Match struct {
-	// Opponent is the opponent's display name, filled in on load and never
-	// written to disk.
-	Opponent string `json:"opponent"`
-
-	// OpponentID is the opponent deck's ID within the same draft. When set it is
-	// the source of truth and Opponent is a display copy; zero means only the
-	// name is known.
-	OpponentID int `json:"opponent_id,omitempty"`
-
-	// OpponentPlayerID is the opponent deck's PlayerID, filled in on load for
-	// clients that group by person. Never written to disk.
-	OpponentPlayerID int `json:"opponent_player_id,omitempty"`
-
-	// Round number this match was played in (1-indexed). 0 means unknown.
-	// Lets us preserve multi-round events (Swiss, brackets, rematches) where
-	// the same two players meet more than once.
-	Round int `json:"round,omitempty"`
-
-	// Explicit game counts for this match.
-	// Allows representing a result like 2-1 even without Game objects.
-	Wins   int `json:"wins"`
-	Losses int `json:"losses"`
-	Draws  int `json:"draws"`
-
-	// Optional: individual game details.
-	Games []Game `json:"games,omitempty"`
-
-	// The winner's display name, derived from the game counts on load and
-	// never written to disk. Empty means a draw.
-	Winner string `json:"winner,omitempty"`
-}
-
-// Game is one game of a match. Won and Tie are the stored result, from the
-// deck's point of view; Opponent and Winner are display names filled in on
-// load.
-type Game struct {
-	Opponent string `json:"opponent"`
-	Winner   string `json:"winner"`
-	Won      bool   `json:"won,omitempty"`
-	Tie      bool   `json:"tie,omitempty"`
-}
-
-// diskMatch is a Match as stored in a deck file, with no player names.
-type diskMatch struct {
-	OpponentID int        `json:"opponent_id,omitempty"`
-	Round      int        `json:"round,omitempty"`
-	Wins       int        `json:"wins"`
-	Losses     int        `json:"losses"`
-	Draws      int        `json:"draws"`
-	Games      []diskGame `json:"games,omitempty"`
-}
-
-// diskGame is a Game as stored in a deck file, with no player names.
-type diskGame struct {
-	Won bool `json:"won,omitempty"`
-	Tie bool `json:"tie,omitempty"`
-}
-
-// diskMatches strips the display names from matches for writing.
-func diskMatches(ms []Match) []diskMatch {
-	if ms == nil {
-		return nil
-	}
-	out := make([]diskMatch, len(ms))
-	for i, m := range ms {
-		out[i] = diskMatch{OpponentID: m.OpponentID, Round: m.Round, Wins: m.Wins, Losses: m.Losses, Draws: m.Draws}
-		for _, g := range m.Games {
-			out[i].Games = append(out[i].Games, diskGame{Won: g.Won, Tie: g.Tie})
-		}
-	}
-	return out
 }
 
 // SeatNumber is the deck's seat, falling back to its deck ID for a deck with
@@ -354,6 +246,7 @@ func (d *Deck) SeatNumber() int {
 	return d.ID
 }
 
+// AllCards returns the mainboard, sideboard and pool cards in one new slice.
 func (d *Deck) AllCards() []Card {
 	cards := []Card{}
 	cards = append(cards, d.Mainboard...)
@@ -362,31 +255,27 @@ func (d *Deck) AllCards() []Card {
 	return cards
 }
 
+// PickCount returns how many cards the player drafted into this deck: the
+// pool's size when there is a pool, otherwise the mainboard and sideboard
+// cards excluding basic lands.
 func (d *Deck) PickCount() int {
 	if len(d.Pool) > 0 {
-		// If we have a pool, just return the size of the pool.
 		return len(d.Pool)
 	}
 
-	// Count the number of cards in the mainboard and sideboard, excluding basic lands.
 	count := 0
-	for _, c := range d.Mainboard {
-		if !c.IsBasicLand() {
-			count++
-		}
-	}
-	for _, c := range d.Sideboard {
-		if !c.IsBasicLand() {
+	for _, card := range slices.Concat(d.Mainboard, d.Sideboard) {
+		if !card.IsBasicLand() {
 			count++
 		}
 	}
 	return count
 }
 
+// Macro returns the deck's macro archetype in lowercase: "aggro", "midrange",
+// "control", or "" when there is none. Decks that haven't been backfilled with
+// a MacroArchetype fall back to a matching label.
 func (d *Deck) Macro() string {
-	// Return one of "aggro", "midrange", "control", or "".
-	// Prefer the dedicated field; fall back to scanning Labels for decks
-	// that haven't been backfilled yet.
 	if d.MacroArchetype != "" {
 		return strings.ToLower(d.MacroArchetype)
 	}
@@ -399,87 +288,93 @@ func (d *Deck) Macro() string {
 	return ""
 }
 
+// sumMatches adds up what count reads from each of the deck's matches.
+func (d *Deck) sumMatches(count func(Match) int) int {
+	total := 0
+	for _, match := range d.Matches {
+		total += count(match)
+	}
+	return total
+}
+
+// GameWins returns the games won across all matches.
 func (d *Deck) GameWins() int {
-	wins := 0
-	for _, m := range d.Matches {
-		wins += m.Wins
-	}
-	return wins
+	return d.sumMatches(func(match Match) int { return match.Wins })
 }
 
+// GameLosses returns the games lost across all matches.
 func (d *Deck) GameLosses() int {
-	losses := 0
-	for _, m := range d.Matches {
-		losses += m.Losses
-	}
-	return losses
+	return d.sumMatches(func(match Match) int { return match.Losses })
 }
 
+// GameDraws returns the drawn games across all matches.
 func (d *Deck) GameDraws() int {
-	draws := 0
-	for _, m := range d.Matches {
-		draws += m.Draws
-	}
-	return draws
+	return d.sumMatches(func(match Match) int { return match.Draws })
 }
 
+// MatchWins returns the matches this deck won. A match with a Winner is won
+// when the winner is the deck's player; one without is won when the deck took
+// more games than it lost.
 func (d *Deck) MatchWins() int {
 	wins := 0
-	for _, m := range d.Matches {
-		if m.Winner != "" && m.Winner == d.Player {
+	for _, match := range d.Matches {
+		if match.Winner != "" && match.Winner == d.Player {
 			wins++
-		} else if m.Winner == "" && m.Wins > m.Losses {
+		} else if match.Winner == "" && match.Wins > match.Losses {
 			wins++
 		}
 	}
 	return wins
 }
 
+// MatchLosses returns the matches this deck lost, by the same rule MatchWins
+// uses for wins.
 func (d *Deck) MatchLosses() int {
 	losses := 0
-	for _, m := range d.Matches {
-		if m.Winner != d.Player && m.Winner != "" {
+	for _, match := range d.Matches {
+		if match.Winner != d.Player && match.Winner != "" {
 			losses++
-		} else if m.Winner == "" && m.Losses > m.Wins {
+		} else if match.Winner == "" && match.Losses > match.Wins {
 			losses++
 		}
 	}
 	return losses
 }
 
+// MatchDraws returns the matches with no winner and level game counts. A match
+// with no opponent, games or counts is an empty stub and doesn't count.
 func (d *Deck) MatchDraws() int {
 	draws := 0
-	for _, m := range d.Matches {
-		// A draw requires positive evidence that a match was actually played.
-		// An empty stub match (no opponent, no games, no game counts) has
-		// Winner == "" and Wins == Losses == 0 but isn't a real result.
-		if m.Winner != "" {
+	for _, match := range d.Matches {
+		if match.Winner != "" {
 			continue
 		}
-		if m.Draws > 0 {
+		if match.Draws > 0 {
 			draws++
 			continue
 		}
-		if m.Wins == m.Losses && (m.Wins > 0 || len(m.Games) > 0 || m.Opponent != "" || m.OpponentID != 0) {
+		hasEvidence := match.Wins > 0 || len(match.Games) > 0 || match.Opponent != "" || match.OpponentID != 0
+		if match.Wins == match.Losses && hasEvidence {
 			draws++
 		}
 	}
 	return draws
 }
 
+// Trophies returns 1 for a deck that won every match with at least 3 wins,
+// and 0 otherwise. The 3-win floor accepts 3-round and longer Swiss formats
+// while excluding short pods. A draw disqualifies, since a trophy means a
+// perfect record.
 func (d *Deck) Trophies() int {
-	// A trophy is awarded to decks that won every match in their event with at
-	// least 3 wins. The 3-win floor accepts 3-round and longer Swiss formats
-	// while excluding short pods. Any draw disqualifies — a trophy means a
-	// perfect record.
 	if d.MatchWins() >= 3 && d.MatchLosses() == 0 && d.MatchDraws() == 0 {
 		return 1
 	}
 	return 0
 }
 
+// LastPlace returns 1 for a deck with no match wins and at least 3 match
+// losses, and 0 otherwise.
 func (d *Deck) LastPlace() int {
-	// A last place finish is defined as a deck with 0 match wins and >=3 match losses.
 	if d.MatchWins() == 0 && d.MatchLosses() >= 3 {
 		return 1
 	}
@@ -503,24 +398,23 @@ func (d *Deck) BottomHalf() int {
 	return 0
 }
 
+// GetColors returns the deck's colors: the explicit Colors when set, otherwise
+// the union of the mainboard cards' colors, skipping hybrid cards since they
+// may be played for just one of their colors.
 func (d *Deck) GetColors() ColorIdentity {
 	colors := make(map[string]bool)
 	if len(d.Colors) > 0 {
-		// If the deck has explicit colors, use those.
-		for _, c := range d.Colors {
-			colors[c] = true
+		for _, color := range d.Colors {
+			colors[color] = true
 		}
 		return colors
 	}
 
-	// Otherwise, infer colors from the mainboard cards.
-	for _, c := range d.Mainboard {
-		// Skip hybrid cards, as they may be included for one of their
-		// colors but not the other.
-		if c.IsHybrid() {
+	for _, card := range d.Mainboard {
+		if card.IsHybrid() {
 			continue
 		}
-		for _, color := range c.Colors {
+		for _, color := range card.Colors {
 			colors[color] = true
 		}
 	}
@@ -548,63 +442,55 @@ func (d *Deck) PrimaryColorPair() ColorIdentity {
 
 	// Tally colored pips per color across the deck's spells, restricted to the
 	// deck's colors so off-color hybrid halves don't invent a third color.
-	pips := map[string]int{}
+	numPips := map[string]int{}
 	for _, card := range d.Mainboard {
 		if card.IsLand() {
 			continue
 		}
-		for c, n := range card.ColorPips() {
-			if colors[c] {
-				pips[c] += n
+		for color, count := range card.ColorPips() {
+			if colors[color] {
+				numPips[color] += count
 			}
 		}
 	}
 
 	// Rank the deck's colors by pips descending, breaking ties by WUBRG order
 	// so the result is deterministic.
-	sorted := make([]string, 0, len(colors))
-	for c := range colors {
-		sorted = append(sorted, c)
-	}
-	sort.Slice(sorted, func(i, j int) bool {
-		if pips[sorted[i]] != pips[sorted[j]] {
-			return pips[sorted[i]] > pips[sorted[j]]
-		}
-		return strings.Index("WUBRG", sorted[i]) < strings.Index("WUBRG", sorted[j])
+	ranked := colors.Slice()
+	slices.SortStableFunc(ranked, func(a, b string) int {
+		return numPips[b] - numPips[a]
 	})
 
 	// Every color past the top two must be a splash for the pair to hold.
-	threshold := float64(pips[sorted[1]]) * splashPipRatio
-	for _, c := range sorted[2:] {
-		if float64(pips[c]) >= threshold {
+	threshold := float64(numPips[ranked[1]]) * splashPipRatio
+	for _, color := range ranked[2:] {
+		if float64(numPips[color]) >= threshold {
 			return nil
 		}
 	}
 
-	// Return the top two colors as a ColorIdentity.
-	return NewColorIdentity(sorted[0], sorted[1])
+	return NewColorIdentity(ranked[0], ranked[1])
 }
 
-// A card is castable if its colors are a subset of the deck's colors, or if it's colorless.
-func (d *Deck) CanCast(c Card) bool {
-	if len(c.Colors) == 0 && !slices.Contains(c.Types, "Land") {
-		// Colorless cards are always castable.
+// CanCast reports whether the deck's colors cover the card: its colors are a
+// subset of the deck's, or it is colorless. A land is judged by its color
+// identity, since lands have no colors. A deck with no colors casts only
+// colorless cards.
+func (d *Deck) CanCast(card Card) bool {
+	if len(card.Colors) == 0 && !card.IsLand() {
 		return true
 	}
 
-	// For most cards, use the card's colors to determine if it's in the deck.
-	// For lands, use the color identity of the card (since lands don't have colors, but do have color identity).
-	cardColors := c.Colors
-	if slices.Contains(c.Types, "Land") {
-		cardColors = c.ColorIdentity
+	cardColors := card.Colors
+	if card.IsLand() {
+		cardColors = card.ColorIdentity
 	}
 
 	deckColors := d.GetColors()
 	if len(deckColors) == 0 {
-		// If the deck has no colors, it can't cast any colored cards.
 		return false
 	}
-	if len(c.ColorIdentity) == 0 {
+	if len(card.ColorIdentity) == 0 {
 		return true
 	}
 	for _, color := range cardColors {
@@ -613,4 +499,47 @@ func (d *Deck) CanCast(c Card) bool {
 		}
 	}
 	return true
+}
+
+// The types below mirror the deck file formats that Deck.UnmarshalJSON and
+// Deck.MarshalCompact read and write.
+
+// deckAlias has Deck's fields but none of its methods, so unmarshaling into
+// it doesn't call Deck.UnmarshalJSON again.
+type deckAlias Deck
+
+// deckNames is a deck file as UnmarshalJSON reads it: Deck's fields, with the
+// card lists as names. The shallower names shadow the aliased lists.
+type deckNames struct {
+	*deckAlias
+	Mainboard []string `json:"mainboard"`
+	Sideboard []string `json:"sideboard"`
+	Pool      []string `json:"pool,omitempty"`
+}
+
+// compactDeck is a deck as MarshalCompact writes it: card lists as names, and
+// matches without display names.
+type compactDeck struct {
+	Metadata       Metadata    `json:"metadata"`
+	ID             int         `json:"id"`
+	MacroArchetype string      `json:"macro_archetype,omitempty"`
+	Labels         []string    `json:"labels"`
+	PlayerID       int         `json:"player_id,omitempty"`
+	Seat           int         `json:"seat,omitempty"`
+	Date           string      `json:"date"`
+	Name           string      `json:"name,omitempty"`
+	Notes          string      `json:"notes,omitempty"`
+	Matches        []diskMatch `json:"matches"`
+	DeckImage      string      `json:"deck_image,omitempty"`
+	Mainboard      []string    `json:"mainboard"`
+	Sideboard      []string    `json:"sideboard"`
+	Pool           []string    `json:"pool,omitempty"`
+	Colors         []string    `json:"colors,omitempty"`
+}
+
+// legacyRecord is the top-level game counts older deck files carry in place of
+// per-opponent matches. A nil count means the file has no such key.
+type legacyRecord struct {
+	Wins   *int `json:"wins"`
+	Losses *int `json:"losses"`
 }

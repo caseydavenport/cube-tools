@@ -28,25 +28,30 @@ func init() {
 // table, replacing any previously loaded data. Tokens and art-series cards are
 // skipped, and dual names (with "//") are also indexed by their front face.
 func LoadOracleData(path string) error {
-	f, err := os.Open(path)
+	file, err := os.Open(path)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() {
+		if err := file.Close(); err != nil {
+			logrus.WithError(err).WithField("path", path).Warn("closing oracle data file")
+		}
+	}()
 
-	// Scryfall ships this as JSONL.
-	dec := json.NewDecoder(f)
+	// The file is either one JSON array of cards or JSONL, one card per line.
+	// The first token tells which: an array opens with '['.
+	dec := json.NewDecoder(file)
 	tok, err := dec.Token()
-	if err == io.EOF {
+	if errors.Is(err, io.EOF) {
 		return errors.New("oracle data file is empty")
 	} else if err != nil {
 		return err
 	}
-	if d, ok := tok.(json.Delim); !ok || d != '[' {
-		if _, err := f.Seek(0, io.SeekStart); err != nil {
+	if delim, ok := tok.(json.Delim); !ok || delim != '[' {
+		if _, err := file.Seek(0, io.SeekStart); err != nil {
 			return err
 		}
-		dec = json.NewDecoder(f)
+		dec = json.NewDecoder(file)
 	}
 
 	cards := map[string]OracleCard{}
@@ -71,8 +76,9 @@ func LoadOracleData(path string) error {
 	return nil
 }
 
-// This is a bit of a hack to catch common issues when looking up oracle data.
-var replaces = map[string]string{
+// oracleNameAliases maps card names as decks commonly spell them to the name
+// the oracle data uses, such as a name written without its diacritics.
+var oracleNameAliases = map[string]string{
 	"Lorien Revealed": "Lórien Revealed",
 }
 
@@ -108,10 +114,12 @@ func DistinctOracleCardCount() int {
 	return len(ids)
 }
 
+// GetOracleData returns the oracle data for the card with the given name, or
+// the zero OracleCard when the name isn't in the loaded data. A "//" card is
+// found by either its full name or its front face.
 func GetOracleData(name string) OracleCard {
-	// Check for common replacements first.
-	if replace, ok := replaces[name]; ok {
-		name = replace
+	if alias, ok := oracleNameAliases[name]; ok {
+		name = alias
 	}
 	return oracleCards[name]
 }
@@ -130,120 +138,9 @@ func HydrateCard(name string) Card {
 	return FromOracle(o)
 }
 
-type OracleData []OracleCard
-
-//	{
-//	  "object": "card",
-//	  "id": "86bf43b1-8d4e-4759-bb2d-0b2e03ba7012",
-//	  "oracle_id": "0004ebd0-dfd6-4276-b4a6-de0003e94237",
-//	  "multiverse_ids": [
-//	    15862
-//	  ],
-//	  "mtgo_id": 15870,
-//	  "mtgo_foil_id": 15871,
-//	  "tcgplayer_id": 3094,
-//	  "cardmarket_id": 3081,
-//	  "name": "Static Orb",
-//	  "lang": "en",
-//	  "released_at": "2001-04-11",
-//	  "uri": "https://api.scryfall.com/cards/86bf43b1-8d4e-4759-bb2d-0b2e03ba7012",
-//	  "scryfall_uri": "https://scryfall.com/card/7ed/319/static-orb?utm_source=api",
-//	  "layout": "normal",
-//	  "highres_image": true,
-//	  "image_status": "highres_scan",
-//	  "image_uris": {
-//	    "small": "https://cards.scryfall.io/small/front/8/6/86bf43b1-8d4e-4759-bb2d-0b2e03ba7012.jpg?1562242171",
-//	    "normal": "https://cards.scryfall.io/normal/front/8/6/86bf43b1-8d4e-4759-bb2d-0b2e03ba7012.jpg?1562242171",
-//	    "large": "https://cards.scryfall.io/large/front/8/6/86bf43b1-8d4e-4759-bb2d-0b2e03ba7012.jpg?1562242171",
-//	    "png": "https://cards.scryfall.io/png/front/8/6/86bf43b1-8d4e-4759-bb2d-0b2e03ba7012.png?1562242171",
-//	    "art_crop": "https://cards.scryfall.io/art_crop/front/8/6/86bf43b1-8d4e-4759-bb2d-0b2e03ba7012.jpg?1562242171",
-//	    "border_crop": "https://cards.scryfall.io/border_crop/front/8/6/86bf43b1-8d4e-4759-bb2d-0b2e03ba7012.jpg?1562242171"
-//	  },
-//	  "mana_cost": "{3}",
-//	  "cmc": 3,
-//	  "type_line": "Artifact",
-//	  "oracle_text": "As long as Static Orb is untapped, players can't untap more than two permanents during their untap steps.",
-//	  "colors": [],
-//	  "color_identity": [],
-//	  "keywords": [],
-//	  "legalities": {
-//	    "standard": "not_legal",
-//	    "future": "not_legal",
-//	    "historic": "not_legal",
-//	    "gladiator": "not_legal",
-//	    "pioneer": "not_legal",
-//	    "explorer": "not_legal",
-//	    "modern": "not_legal",
-//	    "legacy": "legal",
-//	    "pauper": "not_legal",
-//	    "vintage": "legal",
-//	    "penny": "not_legal",
-//	    "commander": "legal",
-//	    "oathbreaker": "legal",
-//	    "brawl": "not_legal",
-//	    "historicbrawl": "not_legal",
-//	    "alchemy": "not_legal",
-//	    "paupercommander": "not_legal",
-//	    "duel": "legal",
-//	    "oldschool": "not_legal",
-//	    "premodern": "legal",
-//	    "predh": "legal"
-//	  },
-//	  "games": [
-//	    "paper",
-//	    "mtgo"
-//	  ],
-//	  "reserved": false,
-//	  "foil": false,
-//	  "nonfoil": true,
-//	  "finishes": [
-//	    "nonfoil"
-//	  ],
-//	  "oversized": false,
-//	  "promo": false,
-//	  "reprint": true,
-//	  "variation": false,
-//	  "set_id": "230f38aa-9511-4db8-a3aa-aeddbc3f7bb9",
-//	  "set": "7ed",
-//	  "set_name": "Seventh Edition",
-//	  "set_type": "core",
-//	  "set_uri": "https://api.scryfall.com/sets/230f38aa-9511-4db8-a3aa-aeddbc3f7bb9",
-//	  "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3A7ed&unique=prints",
-//	  "scryfall_set_uri": "https://scryfall.com/sets/7ed?utm_source=api",
-//	  "rulings_uri": "https://api.scryfall.com/cards/86bf43b1-8d4e-4759-bb2d-0b2e03ba7012/rulings",
-//	  "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A0004ebd0-dfd6-4276-b4a6-de0003e94237&unique=prints",
-//	  "collector_number": "319",
-//	  "digital": false,
-//	  "rarity": "rare",
-//	  "flavor_text": "The warriors fought against the paralyzing waves until even their thoughts froze in place.",
-//	  "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
-//	  "artist": "Terese Nielsen",
-//	  "artist_ids": [
-//	    "eb55171c-2342-45f4-a503-2d5a75baf752"
-//	  ],
-//	  "illustration_id": "6f8b3b2c-252f-4f95-b621-712c82be38b5",
-//	  "border_color": "white",
-//	  "frame": "1997",
-//	  "full_art": false,
-//	  "textless": false,
-//	  "booster": true,
-//	  "story_spotlight": false,
-//	  "edhrec_rank": 3156,
-//	  "prices": {
-//	    "usd": "21.70",
-//	    "usd_foil": null,
-//	    "usd_etched": null,
-//	    "eur": "12.99",
-//	    "eur_foil": null,
-//	    "tix": "0.20"
-//	  },
-//	  "related_uris": {
-//	    "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=15862",
-//	    "tcgplayer_infinite_articles": "https://infinite.tcgplayer.com/search?contentMode=article&game=magic&partner=scryfall&q=Static+Orb&utm_campaign=affiliate&utm_medium=api&utm_source=scryfall",
-//	    "tcgplayer_infinite_decks": "https://infinite.tcgplayer.com/search?contentMode=deck&game=magic&partner=scryfall&q=Static+Orb&utm_campaign=affiliate&utm_medium=api&utm_source=scryfall",
-//	    "edhrec": "https://edhrec.com/route/?cc=Static+Orb"
-//	  }
-//	}
+// OracleCard is a card from Scryfall's oracle-cards bulk file, with only the
+// fields this program reads. Transform and modal double-faced cards keep their
+// per-face data in CardFaces; the top-level fields can be empty for them.
 type OracleCard struct {
 	ID            string            `json:"id"`
 	OracleID      string            `json:"oracle_id"`
@@ -265,6 +162,8 @@ type OracleCard struct {
 	CardFaces     []OracleCardFace  `json:"card_faces,omitempty"`
 }
 
+// OracleCardFace is one face of a multi-face OracleCard: the name, cost, text
+// and art specific to that face.
 type OracleCardFace struct {
 	Name       string            `json:"name"`
 	OracleText string            `json:"oracle_text"`
@@ -281,7 +180,7 @@ type OracleCardFace struct {
 // rest, each alphabetically. Split and double-faced cards come back once, by
 // their full name.
 func SearchOracleNames(query string, limit int) []string {
-	q := strings.ToLower(query)
+	lowerQuery := strings.ToLower(query)
 	seen := map[string]bool{}
 	var starts, contains []string
 	for _, card := range oracleCards {
@@ -290,9 +189,9 @@ func SearchOracleNames(query string, limit int) []string {
 		}
 		seen[card.Name] = true
 		lower := strings.ToLower(card.Name)
-		if strings.HasPrefix(lower, q) {
+		if strings.HasPrefix(lower, lowerQuery) {
 			starts = append(starts, card.Name)
-		} else if strings.Contains(lower, q) {
+		} else if strings.Contains(lower, lowerQuery) {
 			contains = append(contains, card.Name)
 		}
 	}

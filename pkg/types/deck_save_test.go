@@ -14,9 +14,9 @@ func TestDeckSaveRoundTripsIdentityAndNotes(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "deck.json")
 	d := NewDeck()
 	d.ID = 3
-	d.Player = "Alice"
+	d.Player = "Freddie"
 	d.Notes = "great deck"
-	d.Matches = []Match{{Opponent: "Bob", OpponentID: 2, Round: 1, Wins: 2}}
+	d.Matches = []Match{{Opponent: "Ozzy", OpponentID: 2, Round: 1, Wins: 2}}
 	require.NoError(t, d.Save(path))
 
 	got, err := LoadDeck(path)

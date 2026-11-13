@@ -8,14 +8,14 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// --- IsBasicLand ---
+type cardFlagTest struct {
+	name string
+	card Card
+	want bool
+}
 
 func TestIsBasicLand(t *testing.T) {
-	tests := []struct {
-		name string
-		card Card
-		want bool
-	}{
+	tests := []cardFlagTest{
 		{"plains", Card{Name: "Plains", Types: []string{"Basic", "Land"}}, true},
 		{"nonbasic land", Card{Name: "Steam Vents", Types: []string{"Land"}}, false},
 		{"creature", Card{Name: "Grizzly Bears", Types: []string{"Creature"}}, false},
@@ -29,23 +29,17 @@ func TestIsBasicLand(t *testing.T) {
 	}
 }
 
-// --- IsLand ---
-
 func TestIsLand(t *testing.T) {
 	assert.True(t, Card{Types: []string{"Land"}}.IsLand())
 	assert.True(t, Card{Types: []string{"Basic", "Land"}}.IsLand())
 	assert.False(t, Card{Types: []string{"Creature"}}.IsLand())
 }
 
-// --- IsCreature ---
-
 func TestIsCreature(t *testing.T) {
 	assert.True(t, Card{Types: []string{"Creature"}}.IsCreature())
 	assert.True(t, Card{Types: []string{"Artifact", "Creature"}}.IsCreature())
 	assert.False(t, Card{Types: []string{"Instant"}}.IsCreature())
 }
-
-// --- IsHybrid ---
 
 func TestIsHybrid(t *testing.T) {
 	assert.True(t, Card{ManaCost: "{R/W}"}.IsHybrid())
@@ -54,29 +48,42 @@ func TestIsHybrid(t *testing.T) {
 	assert.False(t, Card{ManaCost: ""}.IsHybrid())
 }
 
-// --- ColorPips ---
-
-func TestColorPips(t *testing.T) {
-	assert.Equal(t, map[string]int{"R": 1, "W": 1}, Card{ManaCost: "{1}{R}{W}"}.ColorPips())
-	assert.Equal(t, map[string]int{"R": 2}, Card{ManaCost: "{R}{R}"}.ColorPips())
-
-	// Hybrid and Phyrexian symbols count toward every color they name.
-	assert.Equal(t, map[string]int{"G": 1, "W": 1}, Card{ManaCost: "{3}{G/W}"}.ColorPips())
-	assert.Equal(t, map[string]int{"U": 1}, Card{ManaCost: "{2/U}"}.ColorPips())
-	assert.Equal(t, map[string]int{"B": 1}, Card{ManaCost: "{B/P}"}.ColorPips())
-
-	// Generic, colorless, and {X} contribute nothing.
-	assert.Equal(t, map[string]int{}, Card{ManaCost: "{2}{C}{X}"}.ColorPips())
-	assert.Equal(t, map[string]int{}, Card{ManaCost: ""}.ColorPips())
+type colorPipsTest struct {
+	name     string
+	manaCost string
+	want     map[string]int
 }
 
-// --- MatchesColor ---
+func TestColorPips(t *testing.T) {
+	tests := []colorPipsTest{
+		{"two colors", "{1}{R}{W}", map[string]int{
+			"R": 1,
+			"W": 1,
+		}},
+		{"repeated color", "{R}{R}", map[string]int{"R": 2}},
+		{"hybrid counts toward both colors", "{3}{G/W}", map[string]int{
+			"G": 1,
+			"W": 1,
+		}},
+		{"generic-or-color hybrid counts the color", "{2/U}", map[string]int{"U": 1}},
+		{"phyrexian counts the color", "{B/P}", map[string]int{"B": 1}},
+		{"generic, colorless and X contribute nothing", "{2}{C}{X}", map[string]int{}},
+		{"no cost", "", map[string]int{}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, Card{ManaCost: tt.manaCost}.ColorPips())
+		})
+	}
+}
 
 func TestMatchesColor(t *testing.T) {
 	bolt := Card{Colors: []string{"R"}}
 	assert.True(t, bolt.MatchesColor("R"))
-	assert.True(t, bolt.MatchesColor("r"))  // case insensitive
-	assert.True(t, bolt.MatchesColor("RG")) // contains R
+
+	// The filter ignores case, and any one of its letters can match.
+	assert.True(t, bolt.MatchesColor("r"))
+	assert.True(t, bolt.MatchesColor("RG"))
 	assert.False(t, bolt.MatchesColor("U"))
 
 	// Empty color filter matches everything
@@ -101,8 +108,6 @@ func TestMatchesColor(t *testing.T) {
 	assert.False(t, degenerate.MatchesColor("W"), "card with empty color string should not match W")
 	assert.False(t, degenerate.MatchesColor("WU"), "card with empty color string should not match WU")
 }
-
-// --- FromOracle ---
 
 func TestFromOracle(t *testing.T) {
 	o := OracleCard{
@@ -303,4 +308,40 @@ func TestManaValue(t *testing.T) {
 	assert.Equal(t, 3, manaValue("{2/W}{G}"))
 	assert.Equal(t, 2, manaValue("{G/U}{B/P}"))
 	assert.Equal(t, 0, manaValue(""))
+}
+
+func TestFromOracle_FaceTextJoinsWhenTopLevelEmpty(t *testing.T) {
+	card := FromOracle(OracleCard{
+		Name: "Ulvenwald Captive // Ulvenwald Abomination",
+		CardFaces: []OracleCardFace{
+			{OracleText: "Front text.", Power: "0", Toughness: "1"},
+			{OracleText: "", Power: "5", Toughness: "5"},
+			{OracleText: "Back text."},
+		},
+	})
+	assert.Equal(t, "Front text.\nBack text.", card.OracleText)
+	assert.Equal(t, "0", card.Power, "the front face supplies power")
+	assert.Equal(t, "1", card.Toughness, "the front face supplies toughness")
+}
+
+func TestFromOracle_TopLevelFieldsBeatFaces(t *testing.T) {
+	card := FromOracle(OracleCard{
+		Name:       "Fire // Ice",
+		ManaCost:   "{1}{R} // {1}{U}",
+		OracleText: "Top-level text.",
+		Colors:     []string{"R", "U"},
+		ImageURLs:  map[string]string{"normal": "https://img/top.jpg"},
+		CardFaces: []OracleCardFace{
+			{ManaCost: "{1}{R}", OracleText: "Face text.", Colors: []string{"R"}, ImageURLs: map[string]string{"normal": "https://img/front.jpg"}},
+		},
+	})
+	assert.Equal(t, "{1}{R} // {1}{U}", card.ManaCost)
+	assert.Equal(t, "Top-level text.", card.OracleText)
+	assert.Equal(t, []string{"R", "U"}, card.Colors)
+	assert.Equal(t, "https://img/top.jpg", card.Image)
+}
+
+func TestWordCount_ExcludesReminderText(t *testing.T) {
+	assert.Equal(t, 3, Card{OracleText: "Flying (This creature can't be blocked except by flyers.) draws cards"}.WordCount())
+	assert.Equal(t, 0, Card{}.WordCount())
 }

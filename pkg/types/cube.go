@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// Cube is a cube's card list, with one entry per copy. It is not safe for
+// concurrent use, since MaxCopies builds its cache on first call.
 type Cube struct {
 	Cards []Card `json:"cards"`
 
@@ -22,8 +24,8 @@ type CubeSource interface {
 	// Current returns the cube's card list, cached copy included.
 	Current(cube string) (*Cube, error)
 
-	// Refresh force-fetches the cube's card list, bypassing any cache. Used to
-	// snapshot the cube when a new draft is created.
+	// Refresh force-fetches the cube's card list, bypassing any cache. Draft
+	// creation and import call it to snapshot the cube.
 	Refresh(cube string) (*Cube, error)
 }
 

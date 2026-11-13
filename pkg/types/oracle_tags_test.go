@@ -13,7 +13,7 @@ import (
 func loadFixtureTags(t *testing.T) {
 	t.Helper()
 	require.NoError(t, LoadOracleTags("testdata/oracle-tags.jsonl"))
-	t.Cleanup(func() { setOracleTags(newTagIndex()) })
+	t.Cleanup(func() { oracleTags = newTagIndex() })
 }
 
 func TestLoadOracleTags_AncestorsIncluded(t *testing.T) {
@@ -63,7 +63,7 @@ func TestLoadOracleTags_MissingFileLeavesCardsUntagged(t *testing.T) {
 	require.ErrorIs(t, err, os.ErrNotExist)
 
 	// A failed load keeps whatever was loaded before; a fresh index has none.
-	setOracleTags(newTagIndex())
+	oracleTags = newTagIndex()
 	card := FromOracle(OracleCard{OracleID: "oid-bolt", Name: "Lightning Bolt"})
 	assert.Nil(t, card.OracleTags)
 	assert.Equal(t, 0, OracleTagCount())
@@ -84,14 +84,4 @@ func TestFromOracle_FrontFaceGetsTags(t *testing.T) {
 		"Front":         dfc,
 	}
 	assert.Equal(t, []string{"mill-self"}, HydrateCard("Front").OracleTags)
-}
-
-func TestHasTag(t *testing.T) {
-	loadFixtureTags(t)
-	bolt := Card{OracleTags: OracleTagsFor("oid-bolt")}
-
-	assert.True(t, bolt.HasTag("removal"))
-	assert.True(t, bolt.HasTag("Creature Removal"))
-	assert.False(t, bolt.HasTag("mill-self"))
-	assert.False(t, bolt.HasTag("nope"), "an unknown tag matches nothing")
 }

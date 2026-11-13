@@ -1,6 +1,7 @@
 package types
 
 import (
+	"slices"
 	"sort"
 	"strings"
 )
@@ -20,12 +21,9 @@ const (
 	DiscrepancyMissing DiscrepancyKind = "missing"
 )
 
-// discrepancyOrder sorts the kinds that block an import ahead of missing.
-var discrepancyOrder = map[DiscrepancyKind]int{
-	DiscrepancyUnknown: 0,
-	DiscrepancyOver:    1,
-	DiscrepancyMissing: 2,
-}
+// discrepancyKindOrder lists the kinds in sort order: those that block an
+// import ahead of missing.
+var discrepancyKindOrder = []DiscrepancyKind{DiscrepancyUnknown, DiscrepancyOver, DiscrepancyMissing}
 
 // Discrepancy is one card whose count across a draft differs from the cube.
 type Discrepancy struct {
@@ -75,6 +73,7 @@ func (dc DraftCheck) SeenTotal() int {
 // A cube card is reported under the cube's spelling, and an unknown card under
 // the last spelling in cards.
 func (c *Cube) CheckDraft(cards []CountedCard) DraftCheck {
+	// Count the draft's copies of each card, by lowercase name.
 	numSeen := map[string]int{}
 	spelling := map[string]string{}
 	for _, card := range cards {
@@ -86,6 +85,7 @@ func (c *Cube) CheckDraft(cards []CountedCard) DraftCheck {
 		spelling[key] = card.Name
 	}
 
+	// Compare each distinct cube card's copies with the draft's.
 	var out DraftCheck
 	inCube := map[string]bool{}
 	for _, name := range c.Names() {
@@ -105,16 +105,19 @@ func (c *Cube) CheckDraft(cards []CountedCard) DraftCheck {
 			out.Discrepancies = append(out.Discrepancies, Discrepancy{CardName: name, Seen: got, Cube: want, Kind: DiscrepancyMissing})
 		}
 	}
+
+	// Whatever the draft has that the cube lacks is unknown.
 	for key, got := range numSeen {
 		if !inCube[key] {
 			out.Discrepancies = append(out.Discrepancies, Discrepancy{CardName: spelling[key], Seen: got, Kind: DiscrepancyUnknown})
 		}
 	}
 
+	// Sort blocking kinds first, then by name, so output is stable.
 	sort.Slice(out.Discrepancies, func(i, j int) bool {
 		a, b := out.Discrepancies[i], out.Discrepancies[j]
 		if a.Kind != b.Kind {
-			return discrepancyOrder[a.Kind] < discrepancyOrder[b.Kind]
+			return slices.Index(discrepancyKindOrder, a.Kind) < slices.Index(discrepancyKindOrder, b.Kind)
 		}
 		return a.CardName < b.CardName
 	})

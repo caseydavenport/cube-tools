@@ -9,7 +9,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Basic representation of a card.
+// Card is the basic representation of a card, in the JSON form the UI reads.
+// FromOracle and HydrateCard build it from the oracle data.
 type Card struct {
 	Name          string   `json:"name"`
 	Types         []string `json:"types"`
@@ -24,17 +25,14 @@ type Card struct {
 	Power         string   `json:"power,omitempty"`
 	Toughness     string   `json:"toughness,omitempty"`
 
-	// DraftELO is Cube Cobra's global draft Elo - its pick-order rating across all
-	// cubes, not a per-card stat we compute. It isn't in our oracle data, so
-	// `index` pulls it from the cube export. Serves as the "reputation" axis
-	// against our match Elo.
+	// DraftELO is Cube Cobra's global pick-order rating across all cubes, which
+	// `index` pulls from the cube export. It is the "reputation" axis against
+	// our match Elo.
 	DraftELO int `json:"draft_elo,omitempty"`
 
-	// Tags are the cube owner's per-card tags from Cube Cobra (e.g. "🧬" for
-	// signature build-around cards). They're curated metadata, distinct from
-	// the oracle-text-derived classifications above, and `index` pulls them
-	// from the cube export. Used as a filter dimension in the UI, not to drive
-	// the IsRemoval/IsInteraction heuristics (tags drift out of sync).
+	// Tags are the cube owner's Cube Cobra tags (e.g. "🧬" for build-arounds),
+	// pulled in by `index`. The UI filters on them; no heuristic reads them
+	// because they drift out of sync.
 	Tags []string `json:"tags,omitempty"`
 
 	// OracleTags are Scryfall's community tags on the card's rules, with every
@@ -60,20 +58,27 @@ var castableFaceLayouts = map[string]bool{
 	"modal_dfc": true,
 }
 
+// IsBasicLand reports whether the card's types include both Basic and Land,
+// which covers snow-covered basics.
 func (c Card) IsBasicLand() bool {
 	return slices.Contains(c.Types, "Basic") && slices.Contains(c.Types, "Land")
 }
 
+// IsLand reports whether any face of the card is a land, so a modal
+// double-faced card with a land back counts.
 func (c Card) IsLand() bool {
 	return slices.Contains(c.Types, "Land")
 }
 
+// IsCreature reports whether any face of the card is a creature.
 func (c Card) IsCreature() bool {
 	return slices.Contains(c.Types, "Creature")
 }
 
+// IsHybrid reports whether the mana cost has a hybrid or Phyrexian symbol,
+// such as {R/W} or {B/P}.
 func (c Card) IsHybrid() bool {
-	return stringContains(c.ManaCost, "/")
+	return strings.Contains(c.ManaCost, "/")
 }
 
 // manaSymbolPattern pulls each {...} symbol out of a Scryfall mana cost.
@@ -84,84 +89,88 @@ var manaSymbolPattern = regexp.MustCompile(`\{[^}]+\}`)
 // a pip to both G and W and {B/P} adds one to B. Generic, colorless, and {X}
 // symbols contribute nothing.
 func (c Card) ColorPips() map[string]int {
-	pips := map[string]int{}
+	numPips := map[string]int{}
 	for _, sym := range manaSymbolPattern.FindAllString(c.ManaCost, -1) {
 		// Strip the braces, then split hybrid/Phyrexian symbols on "/".
 		for _, part := range strings.Split(sym[1:len(sym)-1], "/") {
 			switch part {
 			case "W", "U", "B", "R", "G":
-				pips[part]++
+				numPips[part]++
 			}
 		}
 	}
-	return pips
+	return numPips
 }
 
-func FromOracle(o OracleCard) Card {
-	c := Card{Name: o.Name}
-	c.CMC = int(o.CMC)
-	c.Image = o.ImageURLs["normal"]
-	c.ColorIdentity = o.ColorIdentity
-	c.URL = o.ScryfallURI
-	c.Power = o.Power
-	c.Toughness = o.Toughness
-	c.OracleTags = OracleTagsFor(o.OracleID)
-	c.Roles = rolesIn(c.OracleTags)
+// FromOracle builds a Card from Scryfall oracle data. It fills the top-level
+// fields from the card's faces where Scryfall leaves them empty (transform and
+// modal double-faced cards), and gives split, adventure and modal double-faced
+// cards a Card per castable face in Faces.
+func FromOracle(oracle OracleCard) Card {
+	card := Card{Name: oracle.Name}
+	card.CMC = int(oracle.CMC)
+	card.Image = oracle.ImageURLs["normal"]
+	card.ColorIdentity = oracle.ColorIdentity
+	card.URL = oracle.ScryfallURI
+	card.Power = oracle.Power
+	card.Toughness = oracle.Toughness
+	card.OracleTags = OracleTagsFor(oracle.OracleID)
+	card.Roles = rolesIn(card.OracleTags)
 
-	// Parse the type line. For multi-face cards (split, transform, modal_dfc,
-	// adventure, flip) Scryfall joins both faces with " // ". Split on that
-	// first so each half is parsed independently and the result is the union
-	// of types across faces - this is what lets IsLand() see the back of an
-	// MDFC like Witch Enchanter // Witch-Blessed Meadow.
-	c.Types, c.SubTypes = parseTypeLine(o.TypeLine)
+	// Scryfall joins a multi-face card's faces with " // ". Parsing each half
+	// on its own unions the types across faces, so IsLand() sees a modal
+	// double-faced card's land back.
+	card.Types, card.SubTypes = parseTypeLine(oracle.TypeLine)
 
-	// Top-level Colors / ManaCost / OracleText / Power / Toughness are empty
-	// for transform and modal_dfc layouts. Fall back to the face-level data
-	// when that happens so color stats, hybrid detection, and text matching
-	// still work.
-	c.Colors = o.Colors
-	c.ManaCost = o.ManaCost
-	c.OracleText = o.OracleText
-	if len(o.CardFaces) > 0 {
-		// Transform and modal_dfc layouts carry no top-level image; the art
-		// lives on each face. Use the front face so DFCs like flip sagas still
-		// get a picture.
-		if c.Image == "" {
-			c.Image = o.CardFaces[0].ImageURLs["normal"]
-		}
-		if len(c.Colors) == 0 {
-			c.Colors = unionFaceColors(o.CardFaces)
-		}
-		if c.ManaCost == "" {
-			var costs []string
-			for _, face := range o.CardFaces {
-				if face.ManaCost != "" {
-					costs = append(costs, face.ManaCost)
-				}
-			}
-			c.ManaCost = strings.Join(costs, " // ")
-		}
-		if c.OracleText == "" {
-			var texts []string
-			for _, face := range o.CardFaces {
-				if face.OracleText != "" {
-					texts = append(texts, face.OracleText)
-				}
-			}
-			c.OracleText = strings.Join(texts, "\n")
-		}
-		if c.Power == "" {
-			c.Power = o.CardFaces[0].Power
-		}
-		if c.Toughness == "" {
-			c.Toughness = o.CardFaces[0].Toughness
-		}
-		if castableFaceLayouts[o.Layout] {
-			c.Faces = castableFaces(o, c.OracleTags)
-		}
+	card.Colors = oracle.Colors
+	card.ManaCost = oracle.ManaCost
+	card.OracleText = oracle.OracleText
+	if len(oracle.CardFaces) > 0 {
+		fillFromFaces(&card, oracle)
 	}
 
-	return withLists(c)
+	return withLists(card)
+}
+
+// fillFromFaces fills the fields Scryfall leaves empty at the top level of a
+// transform or modal double-faced card from its faces, so color stats, hybrid
+// detection and text matching still work.
+func fillFromFaces(card *Card, oracle OracleCard) {
+	front := oracle.CardFaces[0]
+
+	// The art lives on each face, so the front face supplies the picture.
+	if card.Image == "" {
+		card.Image = front.ImageURLs["normal"]
+	}
+	if len(card.Colors) == 0 {
+		card.Colors = unionFaceColors(oracle.CardFaces)
+	}
+	if card.ManaCost == "" {
+		card.ManaCost = joinFaceField(oracle.CardFaces, func(face OracleCardFace) string { return face.ManaCost }, " // ")
+	}
+	if card.OracleText == "" {
+		card.OracleText = joinFaceField(oracle.CardFaces, func(face OracleCardFace) string { return face.OracleText }, "\n")
+	}
+	if card.Power == "" {
+		card.Power = front.Power
+	}
+	if card.Toughness == "" {
+		card.Toughness = front.Toughness
+	}
+	if castableFaceLayouts[oracle.Layout] {
+		card.Faces = castableFaces(oracle, card.OracleTags)
+	}
+}
+
+// joinFaceField joins the non-empty values field picks from each face.
+func joinFaceField(faces []OracleCardFace, field func(OracleCardFace) string, separator string) string {
+	var values []string
+	for _, face := range faces {
+		if value := field(face); value != "" {
+			values = append(values, value)
+		}
+	}
+	return strings.Join(values, separator)
 }
 
 // castableFaces builds a Card for each face of o, with the face's own types,
@@ -242,6 +251,8 @@ func parseTypeLine(line string) ([]string, []string) {
 	return types, subs
 }
 
+// unionFaceColors returns the colors across all faces, each once, in order of
+// first appearance.
 func unionFaceColors(faces []OracleCardFace) []string {
 	var out []string
 	seen := map[string]bool{}
@@ -281,15 +292,10 @@ var reminderTextRe = regexp.MustCompile(`\([^)]*\)`)
 // excluding reminder text (parenthesized).
 func (c Card) WordCount() int {
 	text := reminderTextRe.ReplaceAllString(c.OracleText, "")
-	count := 0
-	for _, w := range strings.Fields(text) {
-		if w != "" {
-			count++
-		}
-	}
-	return count
+	return len(strings.Fields(text))
 }
 
+// stringContains reports whether str contains substr, ignoring case.
 func stringContains(str, substr string) bool {
 	return strings.Contains(strings.ToLower(str), strings.ToLower(substr))
 }

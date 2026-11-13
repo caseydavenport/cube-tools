@@ -18,15 +18,15 @@ func ReconcileRecord(decks []*Deck, targetID int, newMatches []Match) []*Deck {
 
 	// Remember who the deck played before the edit, so an opponent dropped
 	// from its record also loses its mirror of the old match.
-	var priorOpps []*Deck
+	var priorOpponents []*Deck
 	for _, m := range target.Matches {
-		if y := opponentDeck(decks, m); y != nil && y != target && !slices.Contains(priorOpps, y) {
-			priorOpps = append(priorOpps, y)
+		if opponent := opponentDeck(decks, m); opponent != nil && opponent != target && !slices.Contains(priorOpponents, opponent) {
+			priorOpponents = append(priorOpponents, opponent)
 		}
 	}
 	for i := range newMatches {
-		if y := opponentDeck(decks, newMatches[i]); y != nil && y != target {
-			newMatches[i].Opponent = y.Player
+		if opponent := opponentDeck(decks, newMatches[i]); opponent != nil && opponent != target {
+			newMatches[i].Opponent = opponent.Player
 		} else {
 			newMatches[i].OpponentID = 0
 		}
@@ -35,42 +35,43 @@ func ReconcileRecord(decks []*Deck, targetID int, newMatches []Match) []*Deck {
 	changed := map[*Deck]bool{target: true}
 
 	// Group the edited deck's matches by opponent deck, skipping the
-	// opponent-less stubs and self-references. order keeps opponents stable.
-	byOpp := map[*Deck][]Match{}
-	var order []*Deck
+	// opponent-less stubs and self-references. opponentOrder keeps the
+	// opponents in a stable order.
+	matchesByOpponent := map[*Deck][]Match{}
+	var opponentOrder []*Deck
 	for _, m := range target.Matches {
-		y := opponentDeck(decks, m)
-		if y == nil || y == target {
+		opponent := opponentDeck(decks, m)
+		if opponent == nil || opponent == target {
 			continue
 		}
-		if _, ok := byOpp[y]; !ok {
-			order = append(order, y)
+		if _, ok := matchesByOpponent[opponent]; !ok {
+			opponentOrder = append(opponentOrder, opponent)
 		}
-		byOpp[y] = append(byOpp[y], m)
+		matchesByOpponent[opponent] = append(matchesByOpponent[opponent], m)
 	}
-	for _, y := range priorOpps {
-		if _, ok := byOpp[y]; !ok {
-			order = append(order, y)
+	for _, opponent := range priorOpponents {
+		if _, ok := matchesByOpponent[opponent]; !ok {
+			opponentOrder = append(opponentOrder, opponent)
 		}
 	}
-	for _, y := range order {
+	for _, opponent := range opponentOrder {
 		// Drop the opponent's existing matches against the edited deck, then
-		// append fresh mirrors. An opponent no longer in the record gets no
+		// append fresh mirrors. An opponent dropped from the record gets no
 		// mirrors, so only the drop applies.
 		var kept []Match
-		for _, m := range y.Matches {
+		for _, m := range opponent.Matches {
 			if m.OpponentID != target.ID {
 				kept = append(kept, m)
 			}
 		}
-		if len(kept) == len(y.Matches) && len(byOpp[y]) == 0 {
+		if len(kept) == len(opponent.Matches) && len(matchesByOpponent[opponent]) == 0 {
 			continue
 		}
-		for _, m := range byOpp[y] {
+		for _, m := range matchesByOpponent[opponent] {
 			kept = append(kept, mirrorMatch(m, target.Player, target.ID))
 		}
-		y.Matches = kept
-		changed[y] = true
+		opponent.Matches = kept
+		changed[opponent] = true
 	}
 
 	out := make([]*Deck, 0, len(changed))
@@ -103,12 +104,12 @@ func opponentDeck(decks []*Deck, m Match) *Deck {
 
 // mirrorMatch builds the opponent's view of a match. Game wins and losses swap
 // and draws stay. Winner names carry over unchanged, but each game's Won flips.
-// xName and xID are the edited deck's display name and ID, which become the
-// opponent.
-func mirrorMatch(m Match, xName string, xID int) Match {
+// editedName and editedID are the edited deck's display name and ID, which
+// become the opponent.
+func mirrorMatch(m Match, editedName string, editedID int) Match {
 	out := Match{
-		Opponent:   xName,
-		OpponentID: xID,
+		Opponent:   editedName,
+		OpponentID: editedID,
 		Round:      m.Round,
 		Wins:       m.Losses,
 		Losses:     m.Wins,
@@ -116,7 +117,7 @@ func mirrorMatch(m Match, xName string, xID int) Match {
 		Winner:     m.Winner,
 	}
 	for _, g := range m.Games {
-		out.Games = append(out.Games, Game{Opponent: xName, Winner: g.Winner, Won: !g.Won && !g.Tie, Tie: g.Tie})
+		out.Games = append(out.Games, Game{Opponent: editedName, Winner: g.Winner, Won: !g.Won && !g.Tie, Tie: g.Tie})
 	}
 	return out
 }
