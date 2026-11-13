@@ -88,13 +88,7 @@ func TestRecallAgainstRealPhotos(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, draftDirs, "no p1p1 draft dirs found under %s/polyverse", dataRoot)
 
-	type photo struct {
-		key      string // <draftdir>/<player>/<filename>
-		path     string
-		cube     *types.Cube
-		expected []string
-	}
-	var photos []photo
+	var photos []photoCase
 
 	for _, draftDir := range draftDirs {
 		draft := filepath.Base(draftDir)
@@ -109,11 +103,11 @@ func TestRecallAgainstRealPhotos(t *testing.T) {
 
 		playerDirs, err := os.ReadDir(imgRoot)
 		require.NoError(t, err)
-		for _, p := range playerDirs {
-			if !p.IsDir() {
+		for _, playerDir := range playerDirs {
+			if !playerDir.IsDir() {
 				continue
 			}
-			player := p.Name()
+			player := playerDir.Name()
 			jsonPath := filepath.Join(draftDir, fmt.Sprintf("%s-%s.json", draft, player))
 			expected, err := loadExpectedCards(jsonPath)
 			if err != nil {
@@ -129,7 +123,7 @@ func TestRecallAgainstRealPhotos(t *testing.T) {
 				if e.IsDir() || !strings.HasSuffix(strings.ToLower(e.Name()), ".jpg") {
 					continue
 				}
-				photos = append(photos, photo{
+				photos = append(photos, photoCase{
 					key:      filepath.Join(draft, player, e.Name()),
 					path:     filepath.Join(imgRoot, player, e.Name()),
 					cube:     cube,
@@ -143,10 +137,9 @@ func TestRecallAgainstRealPhotos(t *testing.T) {
 
 	sort.Slice(photos, func(i, j int) bool { return photos[i].key < photos[j].key })
 
-	for _, p := range photos {
-		p := p
-		t.Run(p.key, func(t *testing.T) {
-			results, err := DetectAndMatch(p.path, p.cube, DetectOptions{})
+	for _, photo := range photos {
+		t.Run(photo.key, func(t *testing.T) {
+			results, err := DetectAndMatch(photo.path, photo.cube, DetectOptions{})
 			require.NoError(t, err)
 
 			// Count any non-unmatched band as a hit; recall is what we care about here.
@@ -159,39 +152,50 @@ func TestRecallAgainstRealPhotos(t *testing.T) {
 
 			found := 0
 			missing := []string{}
-			for _, name := range p.expected {
+			for _, name := range photo.expected {
 				if detected[strings.ToLower(name)] {
 					found++
 				} else {
 					missing = append(missing, name)
 				}
 			}
-			recall := float64(found) / float64(len(p.expected))
-			t.Logf("recall=%.2f (%d/%d), missing=%v", recall, found, len(p.expected), missing)
+			recall := float64(found) / float64(len(photo.expected))
+			t.Logf("recall=%.2f (%d/%d), missing=%v", recall, found, len(photo.expected), missing)
 
-			floor := minRecall[p.key]
-			require.GreaterOrEqualf(t, recall, floor,
-				"recall too low: %.2f (found %d/%d)", recall, found, len(p.expected))
+			floor := minRecall[photo.key]
+			require.GreaterOrEqualf(t, recall, floor, "recall too low: %.2f (found %d/%d)", recall, found, len(photo.expected))
 		})
 	}
+}
+
+// photoCase is one photo to run the pipeline on, with the card names it should find.
+type photoCase struct {
+	// key identifies the photo as <draftdir>/<player>/<filename>.
+	key      string
+	path     string
+	cube     *types.Cube
+	expected []string
+}
+
+// playerCards mirrors the card lists in a player's draft JSON file.
+type playerCards struct {
+	Mainboard []string `json:"mainboard"`
+	Sideboard []string `json:"sideboard"`
+	Pool      []string `json:"pool"`
 }
 
 // loadExpectedCards reads a player JSON and returns the union of mainboard,
 // sideboard, and pool card names. The fields are mutually exclusive in practice
 // (a record describes either a built deck or a raw pool), so the union is the
-// player's full card set for the event. Basics are dropped: the pipeline no
-// longer matches them (they're entered by hand), so they don't belong in a
+// player's full card set for the event. Basics are dropped: the pipeline
+// never matches them (they're entered by hand), so they don't belong in a
 // recall measurement.
 func loadExpectedCards(path string) ([]string, error) {
 	raw, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
-	var doc struct {
-		Mainboard []string `json:"mainboard"`
-		Sideboard []string `json:"sideboard"`
-		Pool      []string `json:"pool"`
-	}
+	var doc playerCards
 	if err := json.Unmarshal(raw, &doc); err != nil {
 		return nil, err
 	}

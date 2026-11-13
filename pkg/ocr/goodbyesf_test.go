@@ -69,8 +69,7 @@ func TestGoodbyeSFRecall(t *testing.T) {
 		totalFound += found
 		totalExpected += len(expected)
 		recall := float64(found) / float64(len(expected))
-		fmt.Printf("GBSF %s: recall=%.2f (%d/%d), inCube=%d/%d\n",
-			player, recall, found, len(expected), inCubeCount, len(expected))
+		fmt.Printf("GBSF %s: recall=%.2f (%d/%d), inCube=%d/%d\n", player, recall, found, len(expected), inCubeCount, len(expected))
 		if floor, ok := floors[player]; ok {
 			require.GreaterOrEqualf(t, recall, floor, "goodbyesf %s recall %.2f below floor %.2f", player, recall, floor)
 		}

@@ -13,10 +13,10 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// OCRStrategy is one tesseract invocation: how to preprocess the name strip,
+// ocrStrategy is one tesseract invocation: how to preprocess the name strip,
 // and which page-segmentation mode (PSM) to run. No single strategy wins on
 // every card, so we run several and let the matcher pick the best.
-type OCRStrategy struct {
+type ocrStrategy struct {
 	Name string
 
 	// Scale upsizes the strip before OCR; tesseract reads small text poorly.
@@ -26,8 +26,8 @@ type OCRStrategy struct {
 	PSM int
 
 	// CropTopFrac chops this fraction off the top of the strip first. The strip
-	// sometimes catches the brown sleeve edge of the card above, which confuses
-	// tesseract's line finding; cropping it forces focus on the title row.
+	// sometimes catches the sleeve edge of the card above, which confuses
+	// tesseract's line finding.
 	CropTopFrac float64
 
 	// Binarize converts the strip to white-text-on-black via Otsu thresholding,
@@ -36,9 +36,9 @@ type OCRStrategy struct {
 	Binarize bool
 }
 
-// DefaultOCRStrategies is the set runOCRStrategies tries per strip; the matcher
+// defaultOCRStrategies is the set runOCRStrategies tries per strip; the matcher
 // scores them all and keeps the best. Add entries here to widen the search.
-var DefaultOCRStrategies = []OCRStrategy{
+var defaultOCRStrategies = []ocrStrategy{
 	// PSM 6 on the raw strip handles most title bars.
 	{Name: "psm6_1x", Scale: 1.0, PSM: 6},
 
@@ -60,19 +60,19 @@ var DefaultOCRStrategies = []OCRStrategy{
 // text from each. The strip is neither modified nor closed; the caller owns it.
 // Errors only if tesseract is missing or a call fails - empty OCR output is not
 // an error.
-func runOCRStrategies(strip gocv.Mat, strategies []OCRStrategy) ([]string, error) {
+func runOCRStrategies(strip gocv.Mat, strategies []ocrStrategy) ([]string, error) {
 	texts := make([]string, 0, len(strategies))
-	for _, s := range strategies {
-		path, err := writeStrategyStrip(strip, s)
+	for _, strategy := range strategies {
+		path, err := writeStrategyStrip(strip, strategy)
 		if err != nil {
-			return nil, fmt.Errorf("strategy %s: %w", s.Name, err)
+			return nil, fmt.Errorf("strategy %s: %w", strategy.Name, err)
 		}
-		text, err := RunTesseractLine(path, s.PSM)
+		text, err := runTesseractLine(path, strategy.PSM)
 		if rmErr := os.Remove(path); rmErr != nil {
 			logrus.WithError(rmErr).WithField("path", path).Debug("failed to remove temp OCR strip")
 		}
 		if err != nil {
-			return nil, fmt.Errorf("strategy %s: %w", s.Name, err)
+			return nil, fmt.Errorf("strategy %s: %w", strategy.Name, err)
 		}
 		texts = append(texts, text)
 	}
@@ -81,12 +81,12 @@ func runOCRStrategies(strip gocv.Mat, strategies []OCRStrategy) ([]string, error
 
 // writeStrategyStrip applies the strategy's preprocessing and writes the result
 // to a temp PNG for tesseract to read.
-func writeStrategyStrip(strip gocv.Mat, s OCRStrategy) (string, error) {
+func writeStrategyStrip(strip gocv.Mat, strategy ocrStrategy) (string, error) {
 	src := strip
 
 	// Crop the top off first, before scaling, to drop bleed from the card above.
-	if s.CropTopFrac > 0 && s.CropTopFrac < 1 {
-		cropY := int(float64(strip.Rows()) * s.CropTopFrac)
+	if strategy.CropTopFrac > 0 && strategy.CropTopFrac < 1 {
+		cropY := int(float64(strip.Rows()) * strategy.CropTopFrac)
 		if cropY < strip.Rows() {
 			roi := strip.Region(image.Rect(0, cropY, strip.Cols(), strip.Rows()))
 			defer roi.Close()
@@ -95,20 +95,20 @@ func writeStrategyStrip(strip gocv.Mat, s OCRStrategy) (string, error) {
 	}
 
 	// Upscale so tesseract sees larger glyphs.
-	if s.Scale != 1.0 {
+	if strategy.Scale != 1.0 {
 		resized := gocv.NewMat()
 		defer resized.Close()
-		gocv.Resize(src, &resized, image.Point{}, s.Scale, s.Scale, gocv.InterpolationCubic)
+		gocv.Resize(src, &resized, image.Point{}, strategy.Scale, strategy.Scale, gocv.InterpolationCubic)
 		src = resized
 	}
 
 	// Flatten to black-and-white text when asked.
-	if s.Binarize {
+	if strategy.Binarize {
 		bin := binarizeAndInvert(src)
 		defer bin.Close()
 		src = bin
 	}
-	return writeMatToTempPNG(src, "ocr-strip-*.png")
+	return writeMatToTempPNG(src)
 }
 
 // binarizeAndInvert turns a BGR or grayscale strip into white-text-on-black
@@ -133,7 +133,7 @@ func binarizeAndInvert(src gocv.Mat) gocv.Mat {
 func pickBestOCRMatch(texts []string, cube *types.Cube) MatchResult {
 	var best MatchResult
 	for i, text := range texts {
-		r := MatchLine(text, cube)
+		r := matchLine(text, cube)
 		if i == 0 || r.Top().Score > best.Top().Score {
 			best = r
 		}
@@ -141,10 +141,10 @@ func pickBestOCRMatch(texts []string, cube *types.Cube) MatchResult {
 	return best
 }
 
-// writeMatToTempPNG writes m to a new temp PNG matching pattern and returns its
-// path. Caller is responsible for removing the file.
-func writeMatToTempPNG(m gocv.Mat, pattern string) (string, error) {
-	f, err := os.CreateTemp("", pattern)
+// writeMatToTempPNG writes m to a new temp PNG and returns its path. Caller is
+// responsible for removing the file.
+func writeMatToTempPNG(m gocv.Mat) (string, error) {
+	f, err := os.CreateTemp("", "ocr-strip-*.png")
 	if err != nil {
 		return "", err
 	}

@@ -43,21 +43,15 @@ func TestDiagPhoto(t *testing.T) {
 	t.Logf("image: %dx%d", src.Cols(), src.Rows())
 
 	// Dump the sleeve mask and its x-projection so we can see column structure.
-	mask := BuildSleeveMask(src, DefaultSleevePalette)
+	mask := buildSleeveMask(src, defaultSleevePalette)
 	defer mask.Close()
 	if out := os.Getenv("DIAG_MASK_OUT"); out != "" {
 		gocv.IMWrite(out, mask)
 		t.Logf("wrote mask to %s", out)
 	}
 	cols, maskRows := mask.Cols(), mask.Rows()
-	profile := make([]int, cols)
-	for y := 0; y < maskRows; y++ {
-		for x := 0; x < cols; x++ {
-			if mask.GetUCharAt(y, x) > 0 {
-				profile[x]++
-			}
-		}
-	}
+	profile := projectOntoX(mask)
+
 	// Print the profile downsampled to 60 buckets (max per bucket).
 	const buckets = 60
 	bw := cols / buckets
@@ -93,8 +87,9 @@ func TestDiagPhoto(t *testing.T) {
 	centroids := gocv.NewMat()
 	defer centroids.Close()
 	n := gocv.ConnectedComponentsWithStats(mask, &labels, &stats, &centroids)
-	cardHeightEstimate := maskRows / 7
+	cardHeightEstimate := int(float64(maskRows) / cardHeightDivisor)
 	bigBlobs := 0
+
 	// Stat columns: 0=left 1=top 2=width 3=height 4=area.
 	for i := 1; i < n; i++ {
 		x := int(stats.GetIntAt(i, 0))
@@ -108,32 +103,32 @@ func TestDiagPhoto(t *testing.T) {
 	}
 	t.Logf("connected components: %d total, %d tall (>= %dpx)", n-1, bigBlobs, cardHeightEstimate)
 
-	cards, err := DetectCards(src, DefaultSleevePalette)
+	cards, err := detectCards(src, defaultSleevePalette)
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Logf("detected cards: %d", len(cards))
 
-	// Run refineCardEdges over the WHOLE image as one region and dump the raw
+	// Run findCardTops over the WHOLE image as one region and dump the raw
 	// sleeve-to-card transition map. This shows whether card top edges are being
 	// marked at all, independent of column segmentation.
-	chEst := int(float64(src.Rows()) / CardHeightDivisor)
+	chEst := int(float64(src.Rows()) / cardHeightDivisor)
 	fullRect := image.Rect(0, 0, src.Cols(), src.Rows())
-	refinedFull, bottoms := refineCardEdges(src, mask, fullRect, chEst)
+	topsFull := findCardTops(src, mask, fullRect, chEst)
+	bottoms := markSleeveBottoms(mask, fullRect)
 	defer bottoms.Close()
-	t.Logf("refineCardEdges over full image: %d card tops found", len(refinedFull))
+	t.Logf("findCardTops over full image: %d card tops found", len(topsFull))
 	if out := os.Getenv("DIAG_BOTTOMS_OUT"); out != "" {
 		gocv.IMWrite(out, bottoms)
 		t.Logf("wrote transitions to %s", out)
 	}
 
 	// Per-column breakdown so we can see how segmentation splits the image.
-	colRects := detectColumnRects(mask, int(float64(chEst)*CardAspectWidthOverHeight))
+	colRects := detectColumnRects(mask, int(float64(chEst)*cardAspectWidthOverHeight))
 	t.Logf("detectColumnRects: %d columns", len(colRects))
 	for i, cr := range colRects {
-		rf, m := refineCardEdges(src, mask, cr, chEst)
-		m.Close()
-		t.Logf("  col %d: x=[%d,%d] w=%d -> %d card tops", i, cr.Min.X, cr.Max.X, cr.Dx(), len(rf))
+		tops := findCardTops(src, mask, cr, chEst)
+		t.Logf("  col %d: x=[%d,%d] w=%d -> %d card tops", i, cr.Min.X, cr.Max.X, cr.Dx(), len(tops))
 	}
 
 	type row struct {
@@ -146,31 +141,30 @@ func TestDiagPhoto(t *testing.T) {
 	}
 	rows := make([]row, len(cards))
 	var wg sync.WaitGroup
-	for i, c := range cards {
-		i, c := i, c
+	for index, card := range cards {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			strip := CropNameBand(src, c)
+			strip := cropNameBand(src, card)
 			defer strip.Close()
-			rows[i].idx = i
+			rows[index].idx = index
 			if strip.Empty() {
-				rows[i].text = "<empty strip>"
+				rows[index].text = "<empty strip>"
 				return
 			}
-			rows[i].stripW = strip.Cols()
-			rows[i].stripH = strip.Rows()
+			rows[index].stripW = strip.Cols()
+			rows[index].stripH = strip.Rows()
 			ocrSem <- struct{}{}
-			texts, err := runOCRStrategies(strip, DefaultOCRStrategies)
+			texts, err := runOCRStrategies(strip, defaultOCRStrategies)
 			<-ocrSem
 			if err != nil {
-				rows[i].text = "ERR: " + err.Error()
+				rows[index].text = "ERR: " + err.Error()
 				return
 			}
-			r := pickBestOCRMatch(texts, cube)
-			rows[i].text = r.DetectedText
-			rows[i].top = r.Top()
-			rows[i].band = r.Band
+			result := pickBestOCRMatch(texts, cube)
+			rows[index].text = result.DetectedText
+			rows[index].top = result.Top()
+			rows[index].band = result.Band
 		}()
 	}
 	wg.Wait()
@@ -180,8 +174,7 @@ func TestDiagPhoto(t *testing.T) {
 		if r.band != ConfidenceUnmatched {
 			matched++
 		}
-		fmt.Printf("[%2d] strip=%dx%d band=%d score=%.2f name=%-28q ocr=%q\n",
-			r.idx, r.stripW, r.stripH, r.band, r.top.Score, r.top.Name, r.text)
+		fmt.Printf("[%2d] strip=%dx%d band=%d score=%.2f name=%-28q ocr=%q\n", r.idx, r.stripW, r.stripH, r.band, r.top.Score, r.top.Name, r.text)
 	}
 	t.Logf("MATCHED %d / %d detected", matched, len(cards))
 }

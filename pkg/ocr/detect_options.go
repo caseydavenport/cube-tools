@@ -6,7 +6,7 @@ type DetectOptions struct {
 	// before processing. Other values are rejected.
 	RotateDegrees int
 
-	// Sleeve is the HSV color band used to isolate this cube's sleeves. The
-	// zero value means "unset"; the pipeline falls back to DefaultSleevePalette.
+	// Sleeve is the HSV color band that isolates this cube's sleeves. The zero
+	// value means unset; the pipeline then uses the default (orange) palette.
 	Sleeve SleevePalette
 }

@@ -8,13 +8,16 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// DetectAndMatch is the stub used when the binary is built without the
-// `ocr_cv` build tag. The real implementation requires OpenCV.
+var errNoOpenCV = errors.New("cube-tools was built without OpenCV support; rebuild with `-tags ocr_cv` (requires libopencv-dev or `brew install opencv`)")
+
+// DetectAndMatch always fails in a build without the `ocr_cv` tag, because the
+// real implementation needs OpenCV.
 func DetectAndMatch(imagePath string, cube *types.Cube, opts DetectOptions) ([]MatchResult, error) {
-	return nil, errors.New("cube-tools was built without OpenCV support; rebuild with `-tags ocr_cv` (requires libopencv-dev or `brew install opencv`)")
+	return nil, errNoOpenCV
 }
 
-// MatchRegion is the stub used when the binary is built without `ocr_cv`.
+// MatchRegion always fails in a build without the `ocr_cv` tag, because the
+// real implementation needs OpenCV.
 func MatchRegion(imagePath string, box Bbox, cube *types.Cube, opts DetectOptions) (MatchResult, error) {
-	return MatchResult{}, errors.New("cube-tools was built without OpenCV support; rebuild with `-tags ocr_cv` (requires libopencv-dev or `brew install opencv`)")
+	return MatchResult{}, errNoOpenCV
 }

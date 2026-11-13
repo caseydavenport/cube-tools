@@ -9,47 +9,34 @@ import (
 	"gocv.io/x/gocv"
 )
 
-// Sleeve-segmentation tuning constants.
-//
-// We work in HSV color space (hue, saturation, value) instead of RGB. Hue is
-// the color itself, kept separate from how bright or washed-out the pixel is,
-// so we can pick out a sleeve color without lighting throwing us off. OpenCV
-// packs hue into 0-179 (half the usual 0-360 degrees, so it fits in one byte).
-//
-// The hue/saturation/value band that defines a sleeve color lives in
-// SleevePalette (see palette.go), since it varies per cube. The constants here
-// are color-independent cleanup knobs.
+// Sleeve segmentation works in HSV (hue, saturation, value), not RGB, because
+// hue is the color itself and lighting barely moves it. OpenCV packs hue into
+// 0-179 (half of 0-360). The per-cube band is in SleevePalette.
 const (
 	// Kernel sizes (in pixels) for the cleanup at the end. "Close" fills small
 	// holes inside the mask; "dilate" grows the mask outward a little.
-	SealCloseKernel  = 5
-	SealDilateKernel = 3
-	SealDilateIter   = 1
+	sealCloseKernel  = 5
+	sealDilateKernel = 3
 
 	// Glossy sleeves catch glare: bright spots that wash out to near-white and
-	// fall outside the sleeve's hue band, punching holes in the mask. This is
-	// the near-white band we treat as possible glare: high brightness (value),
-	// low saturation (close to white).
-	GlareValMin = 220
-	GlareSatMax = 60
+	// fall outside the hue band, punching holes in the mask. This is the
+	// near-white band treated as possible glare: bright and barely saturated.
+	glareValMin = 220
+	glareSatMax = 60
 
-	// We only trust a near-white pixel as glare if it sits just above real
-	// sleeve (glare runs along the top edge, since light comes from above).
-	// GlareVicinity is how far up to look (px); GlareVicinityHalfWidth is a
-	// little sideways slack.
-	GlareVicinity          = 40
-	GlareVicinityHalfWidth = 6
+	// A near-white pixel only counts as glare if it sits just above real sleeve,
+	// since light comes from above. glareVicinity is how far up to look (px);
+	// glareVicinityHalfWidth is a little sideways slack.
+	glareVicinity          = 40
+	glareVicinityHalfWidth = 6
 )
 
-// BuildSleeveMask finds the sleeves in the palette's color and returns a mask:
+// buildSleeveMask finds the sleeves in the palette's color and returns a mask:
 // a black-and-white image (one byte per pixel, which OpenCV calls CV_8UC1)
 // that's white where the pixel looks like sleeve and black everywhere else.
-//
-// It keeps the pixels in the palette's hue band, adds back glare that washed
-// out of that band, then cleans up the result with morphology (fills small
-// holes and grows the shape) to seal gaps. The caller is responsible for
-// freeing the returned Mat by calling Close on it.
-func BuildSleeveMask(img gocv.Mat, pal SleevePalette) gocv.Mat {
+// Glare that washed out of the hue band is added back, then morphology (fill
+// small holes, grow the shape) seals gaps. The caller must Close the Mat.
+func buildSleeveMask(img gocv.Mat, pal SleevePalette) gocv.Mat {
 	hsv := gocv.NewMat()
 	defer hsv.Close()
 	gocv.CvtColor(img, &hsv, gocv.ColorBGRToHSV)
@@ -63,29 +50,26 @@ func BuildSleeveMask(img gocv.Mat, pal SleevePalette) gocv.Mat {
 
 	// Find every near-white pixel (bright, low saturation). On its own this
 	// catches glare plus any other white in the photo; we narrow it down below
-	// to just the bits sitting on or above real orange.
+	// to just the bits sitting on or above real sleeve.
 	highlight := gocv.NewMat()
 	defer highlight.Close()
-	hiLo := gocv.NewScalar(0, 0, GlareValMin, 0)
-	hiHi := gocv.NewScalar(179, GlareSatMax, 255, 0)
-	gocv.InRangeWithScalar(hsv, hiLo, hiHi, &highlight)
+	highlightLower := gocv.NewScalar(0, 0, glareValMin, 0)
+	highlightUpper := gocv.NewScalar(179, glareSatMax, 255, 0)
+	gocv.InRangeWithScalar(hsv, highlightLower, highlightUpper, &highlight)
 
-	// Grow the orange mask into a "vicinity" mask covering the strip just above
-	// each sleeve pixel. The kernel (the brush shape the grow uses) is tall and
-	// narrow, and we anchor it at its bottom edge so it paints upward, where
-	// glare lives, not downward into card-front reflection.
-	kW := 2*GlareVicinityHalfWidth + 1
-	kH := GlareVicinity + 1
-	vicinityKernel := gocv.GetStructuringElement(gocv.MorphRect, image.Pt(kW, kH))
+	// Grow the sleeve mask into a "vicinity" mask: the strip just above each
+	// sleeve pixel. The kernel (the brush shape) is tall and narrow, anchored at
+	// its bottom so it paints upward, where glare lives.
+	kernelWidth := 2*glareVicinityHalfWidth + 1
+	kernelHeight := glareVicinity + 1
+	vicinityKernel := gocv.GetStructuringElement(gocv.MorphRect, image.Pt(kernelWidth, kernelHeight))
 	defer vicinityKernel.Close()
 	vicinity := gocv.NewMat()
 	defer vicinity.Close()
-	gocv.DilateWithParams(raw, &vicinity, vicinityKernel,
-		image.Pt(GlareVicinityHalfWidth, kH-1), 1,
-		gocv.BorderConstant, color.RGBA{0, 0, 0, 0})
+	gocv.DilateWithParams(raw, &vicinity, vicinityKernel, image.Pt(glareVicinityHalfWidth, kernelHeight-1), 1, gocv.BorderConstant, color.RGBA{0, 0, 0, 0})
 
 	// Glare is the near-white pixels that fall inside that vicinity; OR it back
-	// into the orange mask.
+	// into the sleeve mask.
 	glare := gocv.NewMat()
 	defer glare.Close()
 	gocv.BitwiseAnd(highlight, vicinity, &glare)
@@ -95,22 +79,15 @@ func BuildSleeveMask(img gocv.Mat, pal SleevePalette) gocv.Mat {
 	gocv.BitwiseOr(raw, glare, &merged)
 
 	// Fill small holes, then grow the mask outward to seal remaining gaps.
-	closeKernel := gocv.GetStructuringElement(gocv.MorphRect, image.Pt(SealCloseKernel, SealCloseKernel))
+	closeKernel := gocv.GetStructuringElement(gocv.MorphRect, image.Pt(sealCloseKernel, sealCloseKernel))
 	defer closeKernel.Close()
 	closed := gocv.NewMat()
 	defer closed.Close()
 	gocv.MorphologyEx(merged, &closed, gocv.MorphClose, closeKernel)
 
-	dilateKernel := gocv.GetStructuringElement(gocv.MorphRect, image.Pt(SealDilateKernel, SealDilateKernel))
+	dilateKernel := gocv.GetStructuringElement(gocv.MorphRect, image.Pt(sealDilateKernel, sealDilateKernel))
 	defer dilateKernel.Close()
-
 	out := gocv.NewMat()
 	gocv.Dilate(closed, &out, dilateKernel)
-	for i := 1; i < SealDilateIter; i++ {
-		next := gocv.NewMat()
-		gocv.Dilate(out, &next, dilateKernel)
-		out.Close()
-		out = next
-	}
 	return out
 }

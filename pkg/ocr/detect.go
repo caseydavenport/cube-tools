@@ -17,85 +17,86 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// ocrSem bounds how many tesseract processes run at once across the whole
-// program. Each card is OCR'd with several strategies, cards run concurrently
-// within a photo, and photos run concurrently server-side, so without a global
-// cap we'd spawn far more tesseract processes than cores. Sized to NumCPU.
+// ocrSem caps concurrent tesseract processes across the whole program, because
+// cards, strategies and server-side photos all run concurrently. It's sized to
+// the CPU count so we don't spawn far more processes than cores.
 var ocrSem = make(chan struct{}, max(1, runtime.NumCPU()))
 
-// CardHeightDivisor is the assumed number of card heights that stack vertically
+// cardHeightDivisor is the assumed number of card heights that stack vertically
 // in a typical photo; it turns image height into a card-height estimate.
-const CardHeightDivisor = 7.0
+const cardHeightDivisor = 7.0
 
-// CardAspectWidthOverHeight is the MTG card aspect ratio (63mm / 88mm), used to
-// estimate card width from the height estimate.
-const CardAspectWidthOverHeight = 63.0 / 88.0
+// cardAspectWidthOverHeight is the MTG card aspect ratio (63mm / 88mm), for
+// estimating card width from the height estimate.
+const cardAspectWidthOverHeight = 63.0 / 88.0
 
-// ColumnValleyThreshFrac: a column in the x-projection is a between-column gap
-// when its smoothed sleeve-pixel count falls below this fraction of the peak.
-// Set very low because the dip between a card's two vertical edges is ~5% of
-// peak, while a true inter-column gap is near zero - the threshold sits between.
-const ColumnValleyThreshFrac = 0.03
+// columnValleyThreshFrac is the fraction of the peak below which an
+// x-projection column counts as a gap. Very low: the dip between a card's two
+// edges is ~5% of peak, a true gap ~0.
+const columnValleyThreshFrac = 0.03
 
-// ColumnMinValleyWidthFrac: a gap must be at least this fraction of the card
-// width to count as a real inter-column gap. Tight layouts can have gaps as
-// narrow as ~10px, so keep it small.
-const ColumnMinValleyWidthFrac = 0.04
+// columnMinValleyWidthFrac is the fraction of the card width a gap must span to
+// count as a real inter-column gap. Tight layouts can have gaps as narrow as
+// ~10px, so keep it small.
+const columnMinValleyWidthFrac = 0.04
 
-// ColumnSmoothWidthFrac: the rolling-sum smoothing window for the x-projection,
-// as a fraction of card width. Wide enough to suppress single-pixel noise, narrow
-// enough to preserve real gaps.
-const ColumnSmoothWidthFrac = 1.0 / 60.0
+// columnSmoothWidthFrac is the rolling-sum smoothing window for the
+// x-projection, as a fraction of card width. Wide enough to suppress
+// single-pixel noise, narrow enough to preserve real gaps.
+const columnSmoothWidthFrac = 1.0 / 60.0
 
-// ColumnMinWidthFrac: a candidate column must be at least this fraction of the
-// card width to keep, filtering slivers between two close gaps.
-const ColumnMinWidthFrac = 0.35
+// columnMinWidthFrac is the fraction of the card width a candidate column must
+// span to be kept, filtering slivers between two close gaps.
+const columnMinWidthFrac = 0.35
 
-// DetectedCard is a single card detection. Bbox is the sleeve region (handy for
-// overlays); Refined is the card-border-snapped rect and tilt angle used to crop
-// the name strip.
-type DetectedCard struct {
-	Bbox    Bbox
-	RidgeY  int
-	Refined RefinedCard
-}
+// columnMinSpanPx is the floor (px) for the smoothing window and the valley
+// width, so a small card width estimate can't shrink them to nothing.
+const columnMinSpanPx = 3
 
-// DetectCards builds the sleeve-color mask, splits the photo into per-column
-// regions, and returns one DetectedCard per visible sleeve top.
-func DetectCards(img gocv.Mat, pal SleevePalette) ([]DetectedCard, error) {
+// minTopEdgeLength is the shortest top edge (px) cropNameBand will cut a strip
+// from; anything shorter is too small to hold readable text.
+const minTopEdgeLength = 20
+
+// minNameBandThickness is the thinnest name strip (px) cropNameBand cuts, so a
+// small card still yields enough rows for tesseract.
+const minNameBandThickness = 12
+
+// nameBandHeightFrac is the name strip's height as a fraction of card height.
+// The title bar fills about the top sixth, so the strip needs only that plus a
+// little sleeve lip.
+const nameBandHeightFrac = 0.13
+
+// detectCards builds the sleeve-color mask, splits the photo into per-column
+// regions, and returns one cardTop per visible sleeve top, top to bottom within
+// each column.
+func detectCards(img gocv.Mat, pal SleevePalette) ([]cardTop, error) {
 	if img.Empty() {
-		return nil, errors.New("DetectCards: input image is empty")
+		return nil, errors.New("detectCards: input image is empty")
 	}
-	mask := BuildSleeveMask(img, pal)
+	mask := buildSleeveMask(img, pal)
 	defer mask.Close()
 
-	cardHeightEstimate := float64(img.Rows()) / CardHeightDivisor
-	cardWidthEstimate := cardHeightEstimate * CardAspectWidthOverHeight
+	cardHeightEstimate := float64(img.Rows()) / cardHeightDivisor
+	cardWidthEstimate := cardHeightEstimate * cardAspectWidthOverHeight
 
 	columnRects := detectColumnRects(mask, int(cardWidthEstimate))
-	logrus.WithField("columns", len(columnRects)).Debug("DetectCards")
+	logrus.WithField("columns", len(columnRects)).Debug("detectCards")
 
-	var out []DetectedCard
-	for _, colRect := range columnRects {
+	var cards []cardTop
+	for _, columnRect := range columnRects {
 		// Within each column, snap to card top edges (light sleeve over dark border).
-		refined, masked := refineCardEdges(img, mask, colRect, int(cardHeightEstimate))
-		masked.Close()
-		if len(refined) == 0 {
-			continue
-		}
-
-		// Clip stacked cards so each box stops at the next card's top edge.
-		clipColumnCardRects(refined)
-		for _, rc := range refined {
-			midY := (rc.TopEdge[0].Y + rc.TopEdge[1].Y) / 2
-			out = append(out, DetectedCard{
-				Bbox:    Bbox{X: rc.Rect.Min.X, Y: rc.Rect.Min.Y, Width: rc.Rect.Dx(), Height: rc.Rect.Dy()},
-				RidgeY:  midY,
-				Refined: rc,
-			})
-		}
+		tops := findCardTops(img, mask, columnRect, int(cardHeightEstimate))
+		sort.SliceStable(tops, func(i, j int) bool { return tops[i].midY() < tops[j].midY() })
+		cards = append(cards, tops...)
 	}
-	return out, nil
+	return cards, nil
+}
+
+// columnValley is a stretch of the x-projection too empty to hold a card, from
+// start up to but not including end.
+type columnValley struct {
+	start int
+	end   int
 }
 
 // detectColumnRects segments the image into per-column rectangles by projecting
@@ -112,168 +113,127 @@ func detectColumnRects(mask gocv.Mat, cardWidth int) []image.Rectangle {
 	cols := mask.Cols()
 	rows := mask.Rows()
 
-	// Count on-pixels per column.
-	profile := make([]int, cols)
-	for y := 0; y < rows; y++ {
-		for x := 0; x < cols; x++ {
+	smoothWindow := max(columnMinSpanPx, int(float64(cardWidth)*columnSmoothWidthFrac))
+	smoothed := smoothRollingSum(projectOntoX(mask), smoothWindow)
+
+	peak := 0
+	for _, value := range smoothed {
+		peak = max(peak, value)
+	}
+	if peak == 0 {
+		return nil
+	}
+	threshold := int(float64(peak) * columnValleyThreshFrac)
+	minValleyWidth := max(columnMinSpanPx, int(float64(cardWidth)*columnMinValleyWidthFrac))
+	minColumnWidth := int(float64(cardWidth) * columnMinWidthFrac)
+
+	valleys := findValleys(smoothed, threshold, minValleyWidth)
+	logrus.WithFields(logrus.Fields{
+		"cols":    cols,
+		"valleys": len(valleys),
+		"maxVal":  peak,
+		"thresh":  threshold,
+		"minRun":  minValleyWidth,
+		"smoothW": smoothWindow,
+		"cardW":   cardWidth,
+	}).Debug("detectColumnRects")
+
+	// Each span between the end of one valley and the start of the next is a
+	// column; drop columns too narrow to hold a card.
+	var columns []image.Rectangle
+	spanStart := 0
+	addColumn := func(spanEnd int) {
+		if spanEnd > spanStart && spanEnd-spanStart >= minColumnWidth {
+			columns = append(columns, image.Rect(spanStart, 0, spanEnd, rows))
+		}
+	}
+	for _, valley := range valleys {
+		addColumn(valley.start)
+		spanStart = valley.end
+	}
+	addColumn(cols)
+	return columns
+}
+
+// projectOntoX counts the on-pixels in each column of mask.
+func projectOntoX(mask gocv.Mat) []int {
+	profile := make([]int, mask.Cols())
+	for y := 0; y < mask.Rows(); y++ {
+		for x := range profile {
 			if mask.GetUCharAt(y, x) > 0 {
 				profile[x]++
 			}
 		}
 	}
+	return profile
+}
 
-	// Smooth the profile with a rolling sum to kill single-pixel noise.
-	smoothW := int(float64(cardWidth) * ColumnSmoothWidthFrac)
-	if smoothW < 3 {
-		smoothW = 3
-	}
-	smoothed := make([]int, cols)
-	for x := 0; x < cols; x++ {
-		lo := x - smoothW/2
-		hi := x + smoothW/2
-		if lo < 0 {
-			lo = 0
-		}
-		if hi >= cols {
-			hi = cols - 1
-		}
+// smoothRollingSum replaces each entry with the sum of the entries within
+// window/2 on either side (clipped at the ends), which kills single-pixel noise.
+func smoothRollingSum(profile []int, window int) []int {
+	smoothed := make([]int, len(profile))
+	for x := range profile {
+		lo := max(x-window/2, 0)
+		hi := min(x+window/2, len(profile)-1)
 		for k := lo; k <= hi; k++ {
 			smoothed[x] += profile[k]
 		}
 	}
+	return smoothed
+}
 
-	maxVal := 0
-	for _, v := range smoothed {
-		if v > maxVal {
-			maxVal = v
-		}
-	}
-	if maxVal == 0 {
-		return nil
-	}
-	threshold := int(float64(maxVal) * ColumnValleyThreshFrac)
-	minRun := int(float64(cardWidth) * ColumnMinValleyWidthFrac)
-	if minRun < 3 {
-		minRun = 3
-	}
-	minColWidth := int(float64(cardWidth) * ColumnMinWidthFrac)
-
-	// Find valley runs: stretches below threshold at least minRun wide. Leading
-	// and trailing valleys count as "outside any column" so we don't emit huge
-	// empty border rects.
-	type run struct{ start, end int }
-	var valleys []run
-	inValley := smoothed[0] <= threshold
-	runStart := 0
-	for x, v := range smoothed {
-		if v <= threshold {
+// findValleys returns the stretches of profile at or below threshold that are at
+// least minWidth wide. A valley touching the left or right end counts as
+// "outside any column", so callers don't emit huge empty border rects.
+func findValleys(profile []int, threshold, minWidth int) []columnValley {
+	var valleys []columnValley
+	inValley := profile[0] <= threshold
+	valleyStart := 0
+	for x, value := range profile {
+		if value <= threshold {
 			if !inValley {
 				inValley = true
-				runStart = x
+				valleyStart = x
 			}
 		} else if inValley {
-			if x-runStart >= minRun {
-				valleys = append(valleys, run{runStart, x})
+			if x-valleyStart >= minWidth {
+				valleys = append(valleys, columnValley{start: valleyStart, end: x})
 			}
 			inValley = false
 		}
 	}
-	if inValley && cols-runStart >= minRun {
-		valleys = append(valleys, run{runStart, cols})
+	if inValley && len(profile)-valleyStart >= minWidth {
+		valleys = append(valleys, columnValley{start: valleyStart, end: len(profile)})
 	}
-
-	logrus.WithFields(logrus.Fields{
-		"cols":    cols,
-		"valleys": len(valleys),
-		"maxVal":  maxVal,
-		"thresh":  threshold,
-		"minRun":  minRun,
-		"smoothW": smoothW,
-		"cardW":   cardWidth,
-	}).Debug("detectColumnRects")
-
-	// Each span between the end of one valley and the start of the next is a column.
-	var rects []image.Rectangle
-	prev := 0
-	for _, v := range valleys {
-		if v.start > prev {
-			rects = append(rects, image.Rect(prev, 0, v.start, rows))
-		}
-		prev = v.end
-	}
-	if prev < cols {
-		rects = append(rects, image.Rect(prev, 0, cols, rows))
-	}
-
-	// Drop columns too narrow to hold a card.
-	var filtered []image.Rectangle
-	for _, r := range rects {
-		if r.Dx() >= minColWidth {
-			filtered = append(filtered, r)
-		}
-	}
-	return filtered
-}
-
-// clipColumnCardRects clips each card's bottom to the next card's top edge in
-// the same column, so stacked cards don't get overlapping boxes. Modifies refined
-// in place.
-//
-// In a stack only the top sliver of each card shows, but approxCardRect extends
-// every box down a full card height. Without this clip each box engulfs its lower
-// neighbors, and anchor dedupe then drops real matches when a high-scoring box
-// suppresses everyone beneath it.
-func clipColumnCardRects(refined []RefinedCard) {
-	if len(refined) < 2 {
-		return
-	}
-	sort.SliceStable(refined, func(i, j int) bool {
-		mi := (refined[i].TopEdge[0].Y + refined[i].TopEdge[1].Y) / 2
-		mj := (refined[j].TopEdge[0].Y + refined[j].TopEdge[1].Y) / 2
-		return mi < mj
-	})
-	for i := 0; i < len(refined)-1; i++ {
-		nextTop := (refined[i+1].TopEdge[0].Y + refined[i+1].TopEdge[1].Y) / 2
-		cap := nextTop - 1
-		if cap <= refined[i].Rect.Min.Y {
-			continue
-		}
-		if cap < refined[i].Rect.Max.Y {
-			refined[i].Rect.Max.Y = cap
-		}
-	}
+	return valleys
 }
 
 // nameBandBbox returns the axis-aligned bounding box, in source-image
-// coordinates, of the name strip CropNameBand actually OCRs. Returning the strip
-// region (not the whole-card Bbox) keeps the UI overlay aligned with where the
-// matched text came from. Assumes a non-degenerate top edge.
-func nameBandBbox(src gocv.Mat, c DetectedCard) Bbox {
-	p1 := c.Refined.TopEdge[0]
-	p2 := c.Refined.TopEdge[1]
-	dx := float64(p2.X - p1.X)
-	dy := float64(p2.Y - p1.Y)
-	thickness := float64(nameBandThickness(math.Sqrt(dx*dx + dy*dy)))
+// coordinates, of the name strip cropNameBand OCRs. Returning the strip region
+// (not the whole card) keeps the UI overlay aligned with where the matched text
+// came from. Assumes a non-degenerate top edge.
+func nameBandBbox(src gocv.Mat, top cardTop) Bbox {
+	thickness := float64(nameBandThickness(top.length()))
 
-	// Drop perpendicular from the top edge by the strip thickness to get 4 corners.
-	rad := c.Refined.AngleDeg * math.Pi / 180.0
-	perpX := -math.Sin(rad)
-	perpY := math.Cos(rad)
-	pts := [4]image.Point{
-		p1,
-		p2,
-		{X: p2.X + int(perpX*thickness), Y: p2.Y + int(perpY*thickness)},
-		{X: p1.X + int(perpX*thickness), Y: p1.Y + int(perpY*thickness)},
+	// Drop a perpendicular from the top edge by the strip thickness to get 4 corners.
+	radians := top.angleDeg * math.Pi / 180.0
+	perpendicularX := -math.Sin(radians)
+	perpendicularY := math.Cos(radians)
+	corners := [4]image.Point{
+		top.left,
+		top.right,
+		{X: top.right.X + int(perpendicularX*thickness), Y: top.right.Y + int(perpendicularY*thickness)},
+		{X: top.left.X + int(perpendicularX*thickness), Y: top.left.Y + int(perpendicularY*thickness)},
 	}
 
 	// Axis-aligned bounds of the 4 corners, clamped to the image.
-	minX, minY := pts[0].X, pts[0].Y
-	maxX, maxY := pts[0].X, pts[0].Y
-	for _, p := range pts[1:] {
-		minX = min(minX, p.X)
-		minY = min(minY, p.Y)
-		maxX = max(maxX, p.X)
-		maxY = max(maxY, p.Y)
+	minX, minY := corners[0].X, corners[0].Y
+	maxX, maxY := corners[0].X, corners[0].Y
+	for _, corner := range corners[1:] {
+		minX = min(minX, corner.X)
+		minY = min(minY, corner.Y)
+		maxX = max(maxX, corner.X)
+		maxY = max(maxY, corner.Y)
 	}
 	minX = max(minX, 0)
 	minY = max(minY, 0)
@@ -282,151 +242,153 @@ func nameBandBbox(src gocv.Mat, c DetectedCard) Bbox {
 	return Bbox{X: minX, Y: minY, Width: maxX - minX, Height: maxY - minY}
 }
 
-// NameBandHeightFrac is the name strip's height as a fraction of the card's own
-// height. The title bar sits in roughly the top sixth of a card, so this only
-// needs to be tall enough to contain it (plus a little for the sleeve lip above);
-// taller just feeds the art below the title into OCR as noise.
-const NameBandHeightFrac = 0.13
-
 // nameBandThickness is the perpendicular thickness, in pixels, of the name strip
-// CropNameBand extracts. It's derived from the card's measured width (the detected
-// top-edge length) and the card aspect ratio, so it tracks each card's actual size
-// on the photo rather than a global guess about how many cards fill the frame -
-// resilient to zoom, resolution, and layout.
+// cropNameBand extracts. It's derived from the card's measured width (the
+// detected top-edge length) and the card aspect ratio, so it tracks each card's
+// actual size on the photo, whatever the zoom, resolution, or layout.
 func nameBandThickness(cardWidthPx float64) int {
-	cardHeight := cardWidthPx / CardAspectWidthOverHeight
-	thickness := int(cardHeight * NameBandHeightFrac)
-	if thickness < 12 {
-		thickness = 12
-	}
-	return thickness
+	cardHeight := cardWidthPx / cardAspectWidthOverHeight
+	return max(minNameBandThickness, int(cardHeight*nameBandHeightFrac))
 }
 
-// CropNameBand returns the name strip Mat for a detected card. Caller owns the
-// returned Mat. It uses the detected top edge to extract a rotated band running
-// perpendicular into the card, so it never needs the full card height. Returns
-// an empty Mat if the band would be degenerate.
-func CropNameBand(src gocv.Mat, c DetectedCard) gocv.Mat {
-	p1 := c.Refined.TopEdge[0]
-	p2 := c.Refined.TopEdge[1]
-	dx := float64(p2.X - p1.X)
-	dy := float64(p2.Y - p1.Y)
-	length := math.Sqrt(dx*dx + dy*dy)
-	if length < 20 {
+// cropNameBand returns the name strip for a detected card as a new Mat that the
+// caller must Close. It extracts a rotated band running perpendicular into the
+// card from the detected top edge, so it never needs the full card height.
+// Returns an empty Mat if the band would be degenerate.
+func cropNameBand(src gocv.Mat, top cardTop) gocv.Mat {
+	length := top.length()
+	if length < minTopEdgeLength {
 		return gocv.NewMat()
 	}
 	thickness := nameBandThickness(length)
-	mid := image.Pt((p1.X+p2.X)/2, (p1.Y+p2.Y)/2)
+	mid := image.Pt((top.left.X+top.right.X)/2, (top.left.Y+top.right.Y)/2)
 
-	// Rotate around mid by +AngleDeg to level the top edge, then shift the strip's
+	// Rotate around mid by +angleDeg to level the top edge, then shift the strip's
 	// top-left corner to the output origin. OpenCV's positive angle is CCW on
-	// screen, which un-tilts an edge sloping down-right (positive in our atan2).
-	m := gocv.GetRotationMatrix2D(mid, c.Refined.AngleDeg, 1.0)
-	defer m.Close()
-	stripLen := int(length)
-	tx := m.GetDoubleAt(0, 2) - float64(mid.X-stripLen/2)
-	ty := m.GetDoubleAt(1, 2) - float64(mid.Y)
-	m.SetDoubleAt(0, 2, tx)
-	m.SetDoubleAt(1, 2, ty)
+	// screen, which un-tilts an edge sloping down-right.
+	rotation := gocv.GetRotationMatrix2D(mid, top.angleDeg, 1.0)
+	defer rotation.Close()
+	stripLength := int(length)
+	shiftX := rotation.GetDoubleAt(0, 2) - float64(mid.X-stripLength/2)
+	shiftY := rotation.GetDoubleAt(1, 2) - float64(mid.Y)
+	rotation.SetDoubleAt(0, 2, shiftX)
+	rotation.SetDoubleAt(1, 2, shiftY)
 
-	dst := gocv.NewMat()
-	gocv.WarpAffine(src, &dst, m, image.Pt(stripLen, thickness))
-	if dst.Empty() {
-		dst.Close()
+	strip := gocv.NewMat()
+	gocv.WarpAffine(src, &strip, rotation, image.Pt(stripLength, thickness))
+	if strip.Empty() {
+		strip.Close()
 		return gocv.NewMat()
 	}
-	return dst
+	return strip
+}
+
+// readRotatedImage loads imagePath and rotates it clockwise by rotateDegrees
+// (0, 90, 180, or 270). The caller must Close the returned Mat.
+func readRotatedImage(imagePath string, rotateDegrees int) (gocv.Mat, error) {
+	src := gocv.IMRead(imagePath, gocv.IMReadColor)
+	if src.Empty() {
+		src.Close()
+		return gocv.Mat{}, fmt.Errorf("could not load image %q", imagePath)
+	}
+
+	var rotateCode gocv.RotateFlag
+	switch rotateDegrees {
+	case 0:
+		return src, nil
+	case 90:
+		rotateCode = gocv.Rotate90Clockwise
+	case 180:
+		rotateCode = gocv.Rotate180Clockwise
+	case 270:
+		rotateCode = gocv.Rotate90CounterClockwise
+	default:
+		src.Close()
+		return gocv.Mat{}, fmt.Errorf("rotation must be 0, 90, 180, or 270 degrees; got %d", rotateDegrees)
+	}
+	defer src.Close()
+	rotated := gocv.NewMat()
+	gocv.Rotate(src, &rotated, rotateCode)
+	return rotated, nil
+}
+
+// cardOCR is the outcome of OCRing one detected card's name strip.
+type cardOCR struct {
+	result MatchResult
+
+	// empty is set when the name strip came out degenerate, so nothing was OCR'd.
+	empty bool
+
+	// err is set when tesseract failed on this card.
+	err error
+}
+
+// ocrCard crops the name strip for one detected card, OCRs it with every
+// strategy, and matches the best reading against the cube.
+func ocrCard(src gocv.Mat, top cardTop, cube *types.Cube) cardOCR {
+	strip := cropNameBand(src, top)
+	defer strip.Close()
+	if strip.Empty() {
+		return cardOCR{empty: true}
+	}
+
+	ocrSem <- struct{}{}
+	texts, err := runOCRStrategies(strip, defaultOCRStrategies)
+	<-ocrSem
+	if err != nil {
+		return cardOCR{err: err}
+	}
+	result := pickBestOCRMatch(texts, cube)
+	result.Bbox = nameBandBbox(src, top)
+	return cardOCR{result: result}
 }
 
 // DetectAndMatch loads the image, detects card tops by their sleeve color, OCRs
 // each card's name band, fuzzy-matches it against the cube, and returns one
 // MatchResult per accepted card (after anchor dedupe).
 func DetectAndMatch(imagePath string, cube *types.Cube, opts DetectOptions) ([]MatchResult, error) {
-	src := gocv.IMRead(imagePath, gocv.IMReadColor)
-	if src.Empty() {
-		return nil, fmt.Errorf("could not load image %q", imagePath)
+	src, err := readRotatedImage(imagePath, opts.RotateDegrees)
+	if err != nil {
+		return nil, err
 	}
-	// Closure so a reassignment after rotation closes the rotated Mat, not the original.
-	defer func() { src.Close() }()
-
-	if r := opts.RotateDegrees; r != 0 {
-		rotated := gocv.NewMat()
-		switch r {
-		case 90:
-			gocv.Rotate(src, &rotated, gocv.Rotate90Clockwise)
-		case 180:
-			gocv.Rotate(src, &rotated, gocv.Rotate180Clockwise)
-		case 270:
-			gocv.Rotate(src, &rotated, gocv.Rotate90CounterClockwise)
-		default:
-			rotated.Close()
-			return nil, fmt.Errorf("RotateDegrees must be 0, 90, 180, or 270; got %d", r)
-		}
-		src.Close()
-		src = rotated
-	}
+	defer src.Close()
 
 	pal := opts.Sleeve
 	if pal == (SleevePalette{}) {
-		pal = DefaultSleevePalette
+		pal = defaultSleevePalette
 	}
-	cards, err := DetectCards(src, pal)
+	cards, err := detectCards(src, pal)
 	if err != nil {
 		return nil, err
 	}
 
 	// OCR dominates wall-clock (several tesseract calls per card), so OCR cards
-	// concurrently, bounded by ocrSem. Results land in ocrd by index; matches are
+	// concurrently, bounded by ocrSem. Results land by index, and matches are
 	// collected sequentially afterward so output stays in card order.
-	type cardOCR struct {
-		result MatchResult
-		empty  bool
-		ocrErr error
-	}
-	ocrd := make([]cardOCR, len(cards))
+	outcomes := make([]cardOCR, len(cards))
 	var wg sync.WaitGroup
-	for i, c := range cards {
-		i, c := i, c
+	for i, card := range cards {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			r := &ocrd[i]
-
-			// Skip cards whose name strip came out degenerate.
-			strip := CropNameBand(src, c)
-			defer strip.Close()
-			if strip.Empty() {
-				r.empty = true
-				return
-			}
-
-			ocrSem <- struct{}{}
-			texts, err := runOCRStrategies(strip, DefaultOCRStrategies)
-			<-ocrSem
-			if err != nil {
-				r.ocrErr = err
-				return
-			}
-			r.result = pickBestOCRMatch(texts, cube)
-			r.result.Bbox = nameBandBbox(src, c)
+			outcomes[i] = ocrCard(src, card, cube)
 		}()
 	}
 	wg.Wait()
 
 	var matches []MatchResult
-	for i := range ocrd {
-		r := &ocrd[i]
-		if r.empty {
+	for i, outcome := range outcomes {
+		if outcome.empty {
 			continue
 		}
-		if r.ocrErr != nil {
-			logrus.WithError(r.ocrErr).WithField("card_index", i).Warn("skip card: tesseract failed")
+		if outcome.err != nil {
+			logrus.WithError(outcome.err).WithField("card_index", i).Warn("skip card: tesseract failed")
 			continue
 		}
-		if r.result.Band == ConfidenceUnmatched {
+		if outcome.result.Band == ConfidenceUnmatched {
 			continue
 		}
-		matches = append(matches, r.result)
+		matches = append(matches, outcome.result)
 	}
 	deduped := dedupeByAnchor(matches)
 	logrus.WithFields(logrus.Fields{

@@ -19,8 +19,8 @@ var sleevePalettes = map[string]SleevePalette{
 	"purple": {HueLo: 125, HueHi: 155, SatMin: 50, ValMin: 50},
 }
 
-// DefaultSleevePalette is used when a cube doesn't name a sleeve color.
-var DefaultSleevePalette = sleevePalettes["orange"]
+// defaultSleevePalette is used when a cube doesn't name a sleeve color.
+var defaultSleevePalette = sleevePalettes["orange"]
 
 // SleevePaletteByName returns the palette for a sleeve-color name, falling back
 // to the default for an empty or unknown name.
@@ -28,5 +28,5 @@ func SleevePaletteByName(name string) SleevePalette {
 	if p, ok := sleevePalettes[name]; ok {
 		return p
 	}
-	return DefaultSleevePalette
+	return defaultSleevePalette
 }
