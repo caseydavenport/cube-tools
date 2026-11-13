@@ -83,17 +83,20 @@ func CommitHandler(src types.CubeSource, dc DraftCreator) http.Handler {
 			return
 		}
 
-		// Snapshot the cube as it is right now, straight from Cube Cobra, before
-		// creating anything. If that fetch fails we don't want a draft with no
-		// snapshot, so block the whole commit.
+		// Snapshot the cube as it is at commit time, straight from Cube Cobra,
+		// before creating anything. If that fetch fails we don't want a draft
+		// with no snapshot, so block the whole commit.
 		cl, err := src.Refresh(cube)
 		if err != nil {
 			http.Error(rw, "could not snapshot cube: "+err.Error(), http.StatusBadGateway)
 			return
 		}
 
+		// Create the draft; the store checks the cube is writable and the players are valid.
 		meta := types.DraftMetadata{Date: req.Date, EventName: req.EventName, EventCode: req.EventCode}
 		id, err := dc.CreateDraft(cube, meta, cl, importDecks(req))
+
+		// These two answer with the store's own message, which names the player.
 		if errors.Is(err, storage.ErrUnknownPlayer) || errors.Is(err, storage.ErrPlayerExists) {
 			http.Error(rw, err.Error(), http.StatusBadRequest)
 			return

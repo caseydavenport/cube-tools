@@ -7,9 +7,15 @@ import (
 	"os"
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/stretchr/testify/require"
+
+	"github.com/caseydavenport/cube-tools/pkg/cubes"
 )
+
+// cubesResponse is the body of GET /api/cubes.
+type cubesResponse struct {
+	Cubes []cubes.Cube `json:"cubes"`
+}
 
 func TestCubesHandler_ReturnsRegistry(t *testing.T) {
 	reg := mustRegistry(t)
@@ -17,12 +23,16 @@ func TestCubesHandler_ReturnsRegistry(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/api/cubes", nil)
 	CubesHandler(reg).ServeHTTP(rec, req)
 	require.Equal(t, http.StatusOK, rec.Code)
-	var body struct {
-		Cubes []cubes.Cube `json:"cubes"`
-	}
+	var body cubesResponse
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &body))
 	require.Len(t, body.Cubes, 2)
 	require.Equal(t, "polyverse", body.Cubes[0].ID)
+}
+
+func TestCubesHandler_RefusesOtherMethods(t *testing.T) {
+	rec := httptest.NewRecorder()
+	CubesHandler(mustRegistry(t)).ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/api/cubes", nil))
+	require.Equal(t, http.StatusMethodNotAllowed, rec.Code)
 }
 
 func mustRegistry(t *testing.T) *cubes.Registry {

@@ -83,9 +83,6 @@ func buildParsedDeck(player, filename string, mb, sb []types.Card) ParsedDeck {
 	return d
 }
 
-// parseCount parses a leading copy count like "2" from a decklist line token.
-func parseCount(s string) (int, error) { return strconv.Atoi(s) }
-
 // warnUnresolved appends a warning for every source line whose card name didn't
 // resolve to oracle data, so the UI can flag misspellings before commit.
 func warnUnresolved(content, format string) []string {
@@ -100,7 +97,7 @@ func warnUnresolved(content, format string) []string {
 		}
 		name := l
 		if sp := strings.SplitN(l, " ", 2); len(sp) == 2 {
-			if _, err := parseCount(sp[0]); err == nil {
+			if _, err := strconv.Atoi(sp[0]); err == nil {
 				name = sp[1]
 			}
 		}

@@ -41,6 +41,7 @@ func (c graveyardCube) Refresh(id string) (*types.Cube, error) {
 	return c.Current(id)
 }
 
+// deck builds a deck in draft 1 for the player, with the named mainboard cards.
 func deck(playerID int, names ...string) *storage.Deck {
 	d := &storage.Deck{}
 	d.PlayerID = playerID
@@ -157,5 +158,7 @@ func TestDecksRulesErrorIsLogged(t *testing.T) {
 	require.Error(t, err)
 	require.NotNil(t, hook.LastEntry())
 	assert.Equal(t, logrus.ErrorLevel, hook.LastEntry().Level)
-	assert.ErrorContains(t, hook.LastEntry().Data[logrus.ErrorKey].(error), "no rules")
+	logged, ok := hook.LastEntry().Data[logrus.ErrorKey].(error)
+	require.True(t, ok, "the log entry carries the error")
+	assert.ErrorContains(t, logged, "no rules")
 }

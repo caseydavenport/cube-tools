@@ -1,16 +1,19 @@
 package decks
 
 import (
+	"slices"
 	"sort"
 
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
-// A bucket is a collection of drafts.
+// Bucket is a run of drafts, in date order, that the stats pages summarize as
+// one data point.
 type Bucket struct {
 	Drafts []*Draft
 }
 
+// AllDecks returns the decks of every draft in the bucket.
 func (b *Bucket) AllDecks() []*storage.Deck {
 	decks := []*storage.Deck{}
 	for _, draft := range b.Drafts {
@@ -44,7 +47,7 @@ func (b *Bucket) Name() string {
 	return first + " – " + last
 }
 
-// Start returns the bucket's starting date, used to label time-series charts.
+// Start returns the bucket's starting date, which labels time-series charts.
 func (b *Bucket) Start() string {
 	if len(b.Drafts) == 0 {
 		return ""
@@ -52,7 +55,7 @@ func (b *Bucket) Start() string {
 	return b.Drafts[0].Info.Date
 }
 
-// A draft is a collection of decks from a single draft event.
+// Draft is the decks from a single draft event, with the event's details.
 type Draft struct {
 	Info  storage.DraftInfo
 	Decks []*storage.Deck
@@ -81,6 +84,8 @@ func groupDrafts(decks []*storage.Deck) []*Draft {
 	return out
 }
 
+// lessDraft orders drafts by date, then by numeric ID, so same-day drafts keep
+// the order they were played in.
 func lessDraft(a, b *Draft) bool {
 	if a.Info.Date != b.Info.Date {
 		return a.Info.Date < b.Info.Date
@@ -88,15 +93,22 @@ func lessDraft(a, b *Draft) bool {
 	return a.Info.ID < b.Info.ID
 }
 
-// DeckBuckets splits the given decks into buckets of the given size.
-// If discrete is true, uses non-overlapping buckets; otherwise uses sliding buckets.
+// DeckBuckets splits the given decks into buckets of bucketSize drafts. When
+// discrete is true the buckets don't overlap and are cut from the newest draft
+// back, dropping the oldest drafts that don't fill a bucket. Otherwise each
+// bucket starts one draft after the last. Fewer drafts than bucketSize come
+// back as one bucket. A bucketSize under 1 is treated as 1, since a discrete
+// split by zero would never advance.
 func DeckBuckets(decks []*storage.Deck, bucketSize int, discrete bool) []Bucket {
+	bucketSize = max(bucketSize, 1)
 	if discrete {
 		return deckBucketsDiscrete(decks, bucketSize)
 	}
 	return deckBucketsSliding(decks, bucketSize)
 }
 
+// deckBucketsDiscrete cuts the drafts into non-overlapping buckets, working
+// back from the newest draft.
 func deckBucketsDiscrete(decks []*storage.Deck, bucketSize int) []Bucket {
 	drafts := groupDrafts(decks)
 
@@ -105,26 +117,19 @@ func deckBucketsDiscrete(decks []*storage.Deck, bucketSize int) []Bucket {
 		return []Bucket{{Drafts: drafts}}
 	}
 
-	// Create buckets, working back from the end by bucketSize.
+	// Take bucketSize drafts at a time from the end; drafts is already in date order.
 	buckets := []Bucket{}
-	for i := len(drafts); i >= bucketSize; i -= bucketSize {
-		bucket := Bucket{Drafts: []*Draft{}}
-		for j := 1; j <= bucketSize; j++ {
-			k := i - j
-			bucket.Drafts = append(bucket.Drafts, drafts[k])
-		}
-
-		sort.Slice(bucket.Drafts, func(i, j int) bool { return lessDraft(bucket.Drafts[i], bucket.Drafts[j]) })
-		buckets = append(buckets, bucket)
+	for end := len(drafts); end >= bucketSize; end -= bucketSize {
+		buckets = append(buckets, Bucket{Drafts: slices.Clone(drafts[end-bucketSize : end])})
 	}
 
-	// Reverse buckets to be chronological.
-	for i, j := 0, len(buckets)-1; i < j; i, j = i+1, j-1 {
-		buckets[i], buckets[j] = buckets[j], buckets[i]
-	}
+	// Buckets were cut newest first, so flip them to chronological order.
+	slices.Reverse(buckets)
 	return buckets
 }
 
+// deckBucketsSliding makes one bucket per window of bucketSize consecutive
+// drafts, advancing one draft at a time.
 func deckBucketsSliding(decks []*storage.Deck, bucketSize int) []Bucket {
 	drafts := groupDrafts(decks)
 
@@ -133,14 +138,9 @@ func deckBucketsSliding(decks []*storage.Deck, bucketSize int) []Bucket {
 		return []Bucket{{Drafts: drafts}}
 	}
 
-	// Create rolling buckets.
 	buckets := []Bucket{}
-	for i := 0; i <= len(drafts)-bucketSize; i++ {
-		bucket := Bucket{Drafts: []*Draft{}}
-		for j := range bucketSize {
-			bucket.Drafts = append(bucket.Drafts, drafts[i+j])
-		}
-		buckets = append(buckets, bucket)
+	for start := 0; start <= len(drafts)-bucketSize; start++ {
+		buckets = append(buckets, Bucket{Drafts: slices.Clone(drafts[start : start+bucketSize])})
 	}
 	return buckets
 }

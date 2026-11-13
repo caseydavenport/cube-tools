@@ -10,6 +10,12 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 )
 
+// withCubeCase is a request path and the status WithCube should answer it with.
+type withCubeCase struct {
+	path string
+	want int
+}
+
 func TestWithCubeRouting(t *testing.T) {
 	// The registry only loads from a file, so write a temp one (mirrors
 	// refresh_test.go).
@@ -29,17 +35,17 @@ func TestWithCubeRouting(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.Handle("GET /api/{cube}/x", WithCube(reg, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(CubeFromRequest(r)))
+		if _, err := w.Write([]byte(CubeFromRequest(r))); err != nil {
+			t.Error(err)
+		}
 	})))
 
-	cases := []struct {
-		path string
-		want int
-	}{
+	cases := []withCubeCase{
 		{"/api/polyverse/x", 200},
 		{"/api/cc:polyversal/x", 200},
 		{"/api/unknown/x", 404},
 		{"/api/cc:bad..id/x", 404},
+		{"/api/cc:/x", 404},
 	}
 	for _, c := range cases {
 		req := httptest.NewRequest("GET", c.path, nil)

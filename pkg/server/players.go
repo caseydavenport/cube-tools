@@ -37,7 +37,7 @@ func PlayersListHandler(ps PlayerStore) http.Handler {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		writePlayerJSON(rw, http.StatusOK, l)
+		writeJSON(rw, http.StatusOK, l)
 	})
 }
 
@@ -54,7 +54,7 @@ func PlayerAddHandler(ps PlayerStore) http.Handler {
 		if writePlayerError(rw, err) {
 			return
 		}
-		writePlayerJSON(rw, http.StatusCreated, p)
+		writeJSON(rw, http.StatusCreated, p)
 	})
 }
 
@@ -65,9 +65,9 @@ type playerPatchRequest struct {
 	Group *string `json:"group"`
 }
 
-// PlayerRenameHandler serves PATCH /api/players/{id}: it renames the player
+// PlayerUpdateHandler serves PATCH /api/players/{id}: it renames the player
 // or sets their play group.
-func PlayerRenameHandler(ps PlayerStore) http.Handler {
+func PlayerUpdateHandler(ps PlayerStore) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		id, err := strconv.Atoi(r.PathValue("id"))
 		if err != nil || id <= 0 {
@@ -92,7 +92,7 @@ func PlayerRenameHandler(ps PlayerStore) http.Handler {
 				return
 			}
 		}
-		writePlayerJSON(rw, http.StatusOK, p)
+		writeJSON(rw, http.StatusOK, p)
 	})
 }
 
@@ -115,18 +115,4 @@ func writePlayerError(rw http.ResponseWriter, err error) bool {
 		http.Error(rw, "Internal server error", http.StatusInternalServerError)
 	}
 	return true
-}
-
-// writePlayerJSON writes v as a JSON body with the given status.
-func writePlayerJSON(rw http.ResponseWriter, status int, v any) {
-	b, err := json.Marshal(v)
-	if err != nil {
-		http.Error(rw, "Internal server error", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	rw.WriteHeader(status)
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Warn("Failed to write player response")
-	}
 }

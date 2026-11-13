@@ -1,26 +1,32 @@
 package server
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
+// ArchetypesResponse is the body of GET /api/{cube}/archetypes: one record
+// per archetype that has a deck in the selected decks.
 type ArchetypesResponse struct {
-	Items []ArchetypeData `json:"items"`
+	Items []ArchetypeRecord `json:"items"`
 }
 
-type ArchetypeData struct {
-	Name   string       `json:"name"`
-	Versus []VersusData `json:"versus"`
+// ArchetypeRecord is one archetype's game record against each archetype it
+// faced.
+type ArchetypeRecord struct {
+	Name   string          `json:"name"`
+	Versus []MatchupRecord `json:"versus"`
 }
 
-type VersusData struct {
+// MatchupRecord is the games an archetype won and lost against one opposing
+// archetype. Draws count toward neither.
+type MatchupRecord struct {
 	Name string `json:"name"`
 	Win  int    `json:"win"`
 	Loss int    `json:"loss"`
@@ -37,13 +43,13 @@ type archetypesHandler struct {
 	q *deckquery.Query
 }
 
+// ServeHTTP tallies every selected deck's games by the archetype of the deck
+// and of its opponent, and answers with the totals.
 func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	dr := decks.ParseDecksRequest(r)
 	logrus.WithField("params", dr).Info("/api/archetypes")
 
-	// Get all of the decks from the store.
-	resp := ArchetypesResponse{Items: []ArchetypeData{}}
-	decks, err := d.q.Decks(CubeFromRequest(r), dr)
+	cubeDecks, err := d.q.Decks(CubeFromRequest(r), dr)
 	if err != nil {
 		logrus.WithError(err).Error("could not load decks")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
@@ -51,81 +57,70 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Go through each deck, and add up the win/loss counts for each archetype it faced.
-	for _, deck := range decks {
-		// Skip decks that don't have a draft ID.
+	resp := ArchetypesResponse{Items: []ArchetypeRecord{}}
+	for _, deck := range cubeDecks {
+		// A deck with no draft can't be matched to its opponents.
 		if deck.Metadata.DraftID == 0 {
 			continue
 		}
-
-		// Get the archetype of the current deck.
 		arch := deck.Macro()
 		if arch == "" {
-			continue // No archetype found, skip this deck.
-		}
-
-		// Find or create the archetype entry in the response.
-		var archData *ArchetypeData
-		for i := range resp.Items {
-			if resp.Items[i].Name == arch {
-				archData = &resp.Items[i]
-				break
-			}
-		}
-		if archData == nil {
-			resp.Items = append(resp.Items, ArchetypeData{Name: arch})
-			archData = &resp.Items[len(resp.Items)-1]
-		}
-
-		// Go through each game in the deck and count wins/losses against opponents.
-		for _, game := range deck.Games {
-			opponentArch := LookupOpponentMacro(decks, deck, game.Opponent)
-			if opponentArch == "" {
-				continue // No opponent deck found.
-			}
-
-			var versusData *VersusData
-			for i := range archData.Versus {
-				if archData.Versus[i].Name == opponentArch {
-					versusData = &archData.Versus[i]
-					break
-				}
-			}
-			if versusData == nil {
-				archData.Versus = append(archData.Versus, VersusData{Name: opponentArch})
-				versusData = &archData.Versus[len(archData.Versus)-1]
-			}
-
-			if game.Winner == deck.Player {
-				versusData.Win += 1
-			} else if game.Winner != "" && !game.Tie {
-				versusData.Loss += 1
-			}
-		}
-	}
-
-	// Marshal the response and write it back.
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Error("could not write archetypes response")
-	}
-}
-
-func LookupOpponentMacro(decks []*storage.Deck, deck *storage.Deck, opponent string) string {
-	for _, d := range decks {
-		if d.Player != opponent {
-			// Not the right player.
 			continue
 		}
-		// Not the right draft.
+		record := recordFor(&resp.Items, arch)
+
+		for _, game := range deck.Games {
+			opponentArch := lookupOpponentMacro(cubeDecks, deck, game.Opponent)
+			if opponentArch == "" {
+				continue
+			}
+			matchup := matchupFor(&record.Versus, opponentArch)
+			if game.Winner == deck.Player {
+				matchup.Win++
+			} else if game.Winner != "" && !game.Tie {
+				matchup.Loss++
+			}
+		}
+	}
+
+	writeJSON(rw, http.StatusOK, resp)
+}
+
+// recordFor returns the entry in items for the named archetype, appending an
+// empty one when there is none. The pointer is valid until items grows again.
+func recordFor(items *[]ArchetypeRecord, name string) *ArchetypeRecord {
+	for i := range *items {
+		if (*items)[i].Name == name {
+			return &(*items)[i]
+		}
+	}
+	*items = append(*items, ArchetypeRecord{Name: name})
+	return &(*items)[len(*items)-1]
+}
+
+// matchupFor returns the entry in versus for the named opposing archetype,
+// appending an empty one when there is none. The pointer is valid until versus
+// grows again.
+func matchupFor(versus *[]MatchupRecord, name string) *MatchupRecord {
+	for i := range *versus {
+		if (*versus)[i].Name == name {
+			return &(*versus)[i]
+		}
+	}
+	*versus = append(*versus, MatchupRecord{Name: name})
+	return &(*versus)[len(*versus)-1]
+}
+
+// lookupOpponentMacro returns the archetype of the deck that player opponent
+// brought to the same draft as deck, or "" when no such deck is in candidates.
+func lookupOpponentMacro(candidates []*storage.Deck, deck *storage.Deck, opponent string) string {
+	for _, d := range candidates {
+		if d.Player != opponent {
+			continue
+		}
 		if deck.Metadata.DraftID != d.Metadata.DraftID {
 			continue
 		}
-
-		// Return the archetype of the opponent deck, and the win/loss counts of the input deck.
 		return d.Macro()
 	}
 	return ""

@@ -12,8 +12,6 @@ func makeRequest(query string) *http.Request {
 	return httptest.NewRequest(http.MethodGet, "/test?"+query, nil)
 }
 
-// --- GetInt ---
-
 func TestGetInt(t *testing.T) {
 	assert.Equal(t, 42, GetInt(makeRequest("val=42"), "val"))
 }
@@ -29,8 +27,6 @@ func TestGetInt_Invalid(t *testing.T) {
 func TestGetInt_Negative(t *testing.T) {
 	assert.Equal(t, -5, GetInt(makeRequest("val=-5"), "val"))
 }
-
-// --- GetString ---
 
 func TestGetString(t *testing.T) {
 	assert.Equal(t, "hello", GetString(makeRequest("val=hello"), "val"))
@@ -48,8 +44,6 @@ func TestGetString_Empty(t *testing.T) {
 	assert.Equal(t, "", GetString(makeRequest("val="), "val"))
 }
 
-// --- GetBool ---
-
 func TestGetBool(t *testing.T) {
 	assert.True(t, GetBool(makeRequest("val=true"), "val"))
 	assert.False(t, GetBool(makeRequest("val=false"), "val"))
@@ -66,4 +60,13 @@ func TestGetBool_Invalid(t *testing.T) {
 func TestGetBool_Numeric(t *testing.T) {
 	assert.True(t, GetBool(makeRequest("val=1"), "val"))
 	assert.False(t, GetBool(makeRequest("val=0"), "val"))
+}
+
+func TestGetFloat(t *testing.T) {
+	assert.InDelta(t, 0.95, GetFloat(makeRequest("val=0.95"), "val"), 0.0001)
+}
+
+func TestGetFloat_MissingAndInvalid(t *testing.T) {
+	assert.InDelta(t, 0.0, GetFloat(makeRequest(""), "val"), 0)
+	assert.InDelta(t, 0.0, GetFloat(makeRequest("val=high"), "val"), 0)
 }

@@ -1,11 +1,11 @@
 package server
 
 import (
-	"encoding/json"
 	"net/http"
 
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
+
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // RefreshHandler force-fetches the cube's card list from Cube Cobra and
@@ -19,8 +19,6 @@ func RefreshHandler(src types.CubeSource) http.Handler {
 			http.Error(rw, err.Error(), http.StatusBadGateway)
 			return
 		}
-
-		rw.Header().Set("Content-Type", "application/json")
-		_ = json.NewEncoder(rw).Encode(map[string]any{"cards": len(c.Cards)})
+		writeJSON(rw, http.StatusOK, map[string]any{"cards": len(c.Cards)})
 	})
 }

@@ -12,7 +12,10 @@ import (
 
 func postJSON(t *testing.T, h http.Handler, cube, path string, body any) *httptest.ResponseRecorder {
 	t.Helper()
-	b, _ := json.Marshal(body)
+	b, err := json.Marshal(body)
+	if err != nil {
+		t.Fatal(err)
+	}
 	req := httptest.NewRequest(http.MethodPost, path, bytes.NewReader(b))
 	req = req.WithContext(server.ContextWithCube(req.Context(), cube))
 	rw := httptest.NewRecorder()
@@ -58,7 +61,9 @@ func TestParseHandlerUnknownCardWarns(t *testing.T) {
 		t.Fatalf("status %d: %s", rw.Code, rw.Body.String())
 	}
 	var resp ParseResponse
-	_ = json.Unmarshal(rw.Body.Bytes(), &resp)
+	if err := json.Unmarshal(rw.Body.Bytes(), &resp); err != nil {
+		t.Fatal(err)
+	}
 	if len(resp.Decks[0].Warnings) == 0 {
 		t.Fatal("expected a warning for the unresolved card")
 	}

@@ -5,14 +5,17 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
+// DecksResponse is the body of GET /api/{cube}/decks, and of the record route,
+// which answers with the decks it changed.
 type DecksResponse struct {
 	Decks []*storage.Deck `json:"decks"`
 }
@@ -27,6 +30,8 @@ type deckHandler struct {
 	q *deckquery.Query
 }
 
+// ServeHTTP answers with the decks matching the request's filters, logging how
+// long each step took because the full deck list is large.
 func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 
@@ -34,7 +39,6 @@ func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	dr := ParseDecksRequest(r)
 	logrus.WithField("params", dr).Info("/api/decks")
 
-	logrus.WithField("time", time.Since(start)).Info("Parse")
 	decks, err := d.q.Decks(cubeID, dr)
 	if err != nil {
 		logrus.WithError(err).Error("could not load decks")
@@ -83,6 +87,8 @@ type updateDeckHandler struct {
 	store MetaUpdater
 }
 
+// ServeHTTP decodes the request, writes the deck's annotations through the
+// store, and answers with the updated deck. A body missing draft_id or id is a 400.
 func (h *updateDeckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	var req UpdateDeckMetaRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -108,8 +114,9 @@ func (h *updateDeckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	writeJSON(rw, updated)
 }
 
-// RecordSaver saves a deck's record and reconciles its draft. UpdateDeckRecordHandler
-// depends on this narrow interface rather than the full DeckStorage.
+// RecordSaver saves a deck's record and reconciles its draft.
+// UpdateDeckRecordHandler depends on this narrow interface rather than the
+// full DeckStorage.
 type RecordSaver interface {
 	SaveDeckRecord(cube string, e storage.RecordEdit) ([]*storage.Deck, error)
 }
@@ -124,6 +131,9 @@ type UpdateDeckRecordRequest struct {
 	Matches  []types.Match `json:"matches"`
 }
 
+// UpdateDeckRecordHandler serves POST /api/{cube}/decks/record, saving a deck's
+// player and match record and responding with every deck the save changed,
+// since reassigning a player also rewrites the opponents' records.
 func UpdateDeckRecordHandler(store RecordSaver) http.Handler {
 	return &updateDeckRecordHandler{store: store}
 }
@@ -132,6 +142,8 @@ type updateDeckRecordHandler struct {
 	store RecordSaver
 }
 
+// ServeHTTP decodes the request and saves the record through the store. A body
+// missing draft_id or id is a 400.
 func (h *updateDeckRecordHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	var req UpdateDeckRecordRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -167,8 +179,10 @@ func writeJSON(rw http.ResponseWriter, v any) {
 	}
 }
 
+// ParseDecksRequest reads the deck filters every deck-reading route shares
+// (player, start, end, size, match and board) from the request's query string.
+// Absent filters stay at their zero value.
 func ParseDecksRequest(r *http.Request) *storage.DecksRequest {
-	// Pull deck params from the request.
 	p := storage.DecksRequest{}
 	p.Player = query.GetString(r, "player")
 	p.Start = query.GetString(r, "start")

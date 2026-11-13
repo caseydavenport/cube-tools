@@ -30,10 +30,7 @@ func New(store storage.DeckStorage, cubes types.CubeSource) *Query {
 // when dr.Match has a package: term. A nil dr lists every deck. dr itself is
 // left unchanged.
 func (q *Query) Decks(cubeID string, dr *storage.DecksRequest) ([]*storage.Deck, error) {
-	req := storage.DecksRequest{}
-	if dr != nil {
-		req = *dr
-	}
+	req := copyRequest(dr)
 	pkgs, err := q.Packages(cubeID, req.Match)
 	if err != nil {
 		return nil, err
@@ -45,10 +42,7 @@ func (q *Query) Decks(cubeID string, dr *storage.DecksRequest) ([]*storage.Deck,
 // DecksIn lists the decks matching dr like Decks, answering package: terms
 // from a rulebook the caller already loaded, for its cube.
 func (q *Query) DecksIn(rb *rulebook.Rulebook, dr *storage.DecksRequest) ([]*storage.Deck, error) {
-	req := storage.DecksRequest{}
-	if dr != nil {
-		req = *dr
-	}
+	req := copyRequest(dr)
 	if usesPackages(req.Match) {
 		req.Packages = rb.Packages()
 	}
@@ -74,6 +68,15 @@ func (q *Query) Packages(cubeID, match string) ([]design.PackageCards, error) {
 // Cube returns the cube's current card list.
 func (q *Query) Cube(cubeID string) (*types.Cube, error) {
 	return q.cubes.Current(cubeID)
+}
+
+// copyRequest returns a copy of dr that the caller can fill in without
+// changing dr, or an empty request when dr is nil.
+func copyRequest(dr *storage.DecksRequest) storage.DecksRequest {
+	if dr == nil {
+		return storage.DecksRequest{}
+	}
+	return *dr
 }
 
 // usesPackages reports whether a deck search has a package: term, so the

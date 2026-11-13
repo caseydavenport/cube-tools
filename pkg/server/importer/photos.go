@@ -20,6 +20,11 @@ import (
 // each, so this holds a large draft without letting an upload run away.
 const maxPhotoUpload = 256 << 20
 
+// photoFormMemory is how much of an upload ParseMultipartForm keeps in memory
+// before spilling the rest to temp files.
+const photoFormMemory = 32 << 20
+
+// photoUploadExts are the lowercase file extensions staged as deck photos.
 var photoUploadExts = map[string]bool{
 	".jpg":  true,
 	".jpeg": true,
@@ -40,7 +45,7 @@ func PhotoImportHandler(src types.CubeSource) http.Handler {
 		}
 
 		r.Body = http.MaxBytesReader(rw, r.Body, maxPhotoUpload)
-		if err := r.ParseMultipartForm(32 << 20); err != nil {
+		if err := r.ParseMultipartForm(photoFormMemory); err != nil {
 			http.Error(rw, fmt.Sprintf("read upload: %v", err), http.StatusBadRequest)
 			return
 		}
@@ -61,7 +66,7 @@ func PhotoImportHandler(src types.CubeSource) http.Handler {
 			http.Error(rw, err.Error(), http.StatusBadRequest)
 			return
 		}
-		defer os.RemoveAll(tmp)
+		defer removeAll(tmp)
 
 		// The live list is the one this draft was just played with.
 		cl, err := src.Refresh(cube)
@@ -96,26 +101,44 @@ func stagePhotoUploads(files []*multipart.FileHeader) (string, error) {
 			continue
 		}
 		if err := saveUpload(fh, filepath.Join(tmp, name)); err != nil {
-			os.RemoveAll(tmp)
+			removeAll(tmp)
 			return "", err
 		}
 	}
 	return tmp, nil
 }
 
-// saveUpload copies one multipart file to dst.
+// removeAll deletes a staging directory, logging a failure since the request
+// is already answered by then.
+func removeAll(dir string) {
+	if err := os.RemoveAll(dir); err != nil {
+		logrus.WithError(err).WithField("dir", dir).Warn("could not remove photo upload staging directory")
+	}
+}
+
+// saveUpload copies one multipart file to dst. The destination's Close error
+// is returned, since a failed close can mean the last bytes never reached disk.
 func saveUpload(fh *multipart.FileHeader, dst string) error {
 	src, err := fh.Open()
 	if err != nil {
 		return fmt.Errorf("open upload %s: %w", fh.Filename, err)
 	}
-	defer src.Close()
+	defer func() {
+		if closeErr := src.Close(); closeErr != nil {
+			logrus.WithError(closeErr).WithField("file", fh.Filename).Warn("could not close upload")
+		}
+	}()
 	out, err := os.Create(dst)
 	if err != nil {
 		return fmt.Errorf("write upload %s: %w", fh.Filename, err)
 	}
-	defer out.Close()
 	if _, err := io.Copy(out, src); err != nil {
+		if closeErr := out.Close(); closeErr != nil {
+			logrus.WithError(closeErr).WithField("file", fh.Filename).Warn("could not close partial upload")
+		}
+		return fmt.Errorf("write upload %s: %w", fh.Filename, err)
+	}
+	if err := out.Close(); err != nil {
 		return fmt.Errorf("write upload %s: %w", fh.Filename, err)
 	}
 	return nil

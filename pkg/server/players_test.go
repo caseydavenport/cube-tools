@@ -20,7 +20,7 @@ func playersMux(ps PlayerStore) *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.Handle("GET /api/players", PlayersListHandler(ps))
 	mux.Handle("POST /api/players", PlayerAddHandler(ps))
-	mux.Handle("PATCH /api/players/{id}", PlayerRenameHandler(ps))
+	mux.Handle("PATCH /api/players/{id}", PlayerUpdateHandler(ps))
 	return mux
 }
 

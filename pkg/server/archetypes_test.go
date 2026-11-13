@@ -54,53 +54,51 @@ func makeStorageDeck(player string, draftID int, labels []string, games []types.
 	return d
 }
 
-// --- LookupOpponentMacro ---
-
 func TestLookupOpponentMacro_Found(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", 1, []string{"aggro"}, nil, nil),
-		makeStorageDeck("Bob", 1, []string{"control"}, nil, nil),
+		makeStorageDeck("Freddie", 1, []string{"aggro"}, nil, nil),
+		makeStorageDeck("Ozzy", 1, []string{"control"}, nil, nil),
 	}
 
-	result := LookupOpponentMacro(decks, decks[0], "Bob")
+	result := lookupOpponentMacro(decks, decks[0], "Ozzy")
 	assert.Equal(t, "control", result)
 }
 
 func TestLookupOpponentMacro_NotFound(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", 1, []string{"aggro"}, nil, nil),
+		makeStorageDeck("Freddie", 1, []string{"aggro"}, nil, nil),
 	}
 
-	result := LookupOpponentMacro(decks, decks[0], "Unknown")
+	result := lookupOpponentMacro(decks, decks[0], "Unknown")
 	assert.Equal(t, "", result)
 }
 
 func TestLookupOpponentMacro_WrongDraft(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", 1, []string{"aggro"}, nil, nil),
-		// Bob's deck is from a different draft.
-		makeStorageDeck("Bob", 2, []string{"control"}, nil, nil),
+		makeStorageDeck("Freddie", 1, []string{"aggro"}, nil, nil),
+		// Ozzy's deck is from a different draft.
+		makeStorageDeck("Ozzy", 2, []string{"control"}, nil, nil),
 	}
 
-	result := LookupOpponentMacro(decks, decks[0], "Bob")
+	result := lookupOpponentMacro(decks, decks[0], "Ozzy")
 	assert.Equal(t, "", result)
 }
 
-// --- Archetypes handler: draws excluded ---
-
+// TestArchetypesHandler_DrawsExcluded gives Freddie one win, one loss and two
+// kinds of draw against Ozzy, and expects only the win and loss to count.
 func TestArchetypesHandler_DrawsExcluded(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", 1, []string{"aggro"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},       // win
-			{Opponent: "Bob", Winner: "Bob"},         // loss
-			{Opponent: "Bob", Winner: ""},            // draw - should not count
-			{Opponent: "Bob", Winner: "", Tie: true}, // draw - should not count
+		makeStorageDeck("Freddie", 1, []string{"aggro"}, []types.Game{
+			{Opponent: "Ozzy", Winner: "Freddie"},
+			{Opponent: "Ozzy", Winner: "Ozzy"},
+			{Opponent: "Ozzy", Winner: ""},
+			{Opponent: "Ozzy", Winner: "", Tie: true},
 		}, nil),
-		makeStorageDeck("Bob", 1, []string{"control"}, []types.Game{
-			{Opponent: "Alice", Winner: "Alice"},
-			{Opponent: "Alice", Winner: "Bob"},
-			{Opponent: "Alice", Winner: ""},
-			{Opponent: "Alice", Winner: "", Tie: true},
+		makeStorageDeck("Ozzy", 1, []string{"control"}, []types.Game{
+			{Opponent: "Freddie", Winner: "Freddie"},
+			{Opponent: "Freddie", Winner: "Ozzy"},
+			{Opponent: "Freddie", Winner: ""},
+			{Opponent: "Freddie", Winner: "", Tie: true},
 		}, nil),
 	}
 
@@ -113,7 +111,6 @@ func TestArchetypesHandler_DrawsExcluded(t *testing.T) {
 	err := json.Unmarshal(rr.Body.Bytes(), &resp)
 	assert.NoError(t, err)
 
-	// Find aggro vs control
 	for _, arch := range resp.Items {
 		if arch.Name == "aggro" {
 			for _, vs := range arch.Versus {
@@ -171,14 +168,14 @@ func TestArchetypesHandlerReadsCubeCobraCube(t *testing.T) {
 
 	var resp ArchetypesResponse
 	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
-	var aggro *ArchetypeData
+	var aggro *ArchetypeRecord
 	for i := range resp.Items {
 		if resp.Items[i].Name == "aggro" {
 			aggro = &resp.Items[i]
 		}
 	}
 	require.NotNil(t, aggro, "the cc: cube's decks reach the handler")
-	assert.Equal(t, []VersusData{{Name: "control", Win: 1}}, aggro.Versus)
+	assert.Equal(t, []MatchupRecord{{Name: "control", Win: 1}}, aggro.Versus)
 }
 
 func TestArchetypesHandlerPackageFilters(t *testing.T) {

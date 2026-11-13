@@ -1,15 +1,15 @@
 package server
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
 // CubeContentHandler serves the cube's current card list, sourced live from
@@ -27,8 +27,7 @@ func CubeContentHandler(src types.CubeSource) http.Handler {
 			http.Error(rw, err.Error(), http.StatusServiceUnavailable)
 			return
 		}
-		rw.Header().Set("Content-Type", "application/json")
-		_ = json.NewEncoder(rw).Encode(c)
+		writeJSON(rw, http.StatusOK, c)
 	})
 }
 
@@ -44,8 +43,7 @@ func CubeIndexHandler(store *storage.Store) http.Handler {
 		if httperr.WriteStoreError(rw, err, "Failed to load cube index for "+cube) {
 			return
 		}
-		rw.Header().Set("Content-Type", "application/json")
-		_ = json.NewEncoder(rw).Encode(index)
+		writeJSON(rw, http.StatusOK, index)
 	})
 }
 
@@ -63,6 +61,8 @@ func DraftLogHandler(store *storage.Store) http.Handler {
 			return
 		}
 		rw.Header().Set("Content-Type", "application/json")
-		_, _ = rw.Write(raw)
+		if _, err := rw.Write(raw); err != nil {
+			logrus.WithError(err).WithField("cube", cube).Warn("Failed to write draft log response")
+		}
 	})
 }

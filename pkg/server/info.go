@@ -1,19 +1,16 @@
 package server
 
 import (
-	"encoding/json"
 	"errors"
 	"net/http"
-
-	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
-// CubeInfo describes what a cube can be used for: whether it can be edited and
+// CubeCapabilities describes what a cube can be used for: whether it can be edited and
 // which kinds of play data it holds. The UI dims pages and hides columns from it.
-type CubeInfo struct {
+type CubeCapabilities struct {
 	Writable   bool `json:"writable"`
 	Decks      bool `json:"decks"`
 	Results    bool `json:"results"`
@@ -28,24 +25,21 @@ type CubeInfo struct {
 func CubeInfoHandler(store *storage.Store) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := CubeFromRequest(r)
-		info, err := cubeInfo(store, cube)
+		info, err := cubeCapabilities(store, cube)
 		if httperr.WriteStoreError(rw, err, "Failed to load cube info") {
 			return
 		}
-		rw.Header().Set("Content-Type", "application/json")
-		if err := json.NewEncoder(rw).Encode(info); err != nil {
-			logrus.WithError(err).WithField("cube", cube).Warn("Failed to write cube info response")
-		}
+		writeJSON(rw, http.StatusOK, info)
 	})
 }
 
-// cubeInfo reads every deck and the draft index to learn which kinds of data the
-// cube holds. A backend that keeps no draft index has no pick logs.
-func cubeInfo(store *storage.Store, cube string) (CubeInfo, error) {
-	info := CubeInfo{Writable: store.Writable(cube)}
+// cubeCapabilities reads every deck and the draft index to learn which kinds of
+// data the cube holds. A backend that keeps no draft index has no pick logs.
+func cubeCapabilities(store *storage.Store, cube string) (CubeCapabilities, error) {
+	info := CubeCapabilities{Writable: store.Writable(cube)}
 	decks, err := store.List(cube, &storage.DecksRequest{})
 	if err != nil {
-		return CubeInfo{}, err
+		return CubeCapabilities{}, err
 	}
 	info.Decks = len(decks) > 0
 	for _, d := range decks {
@@ -65,7 +59,7 @@ func cubeInfo(store *storage.Store, cube string) (CubeInfo, error) {
 		return info, nil
 	}
 	if err != nil {
-		return CubeInfo{}, err
+		return CubeCapabilities{}, err
 	}
 	for _, draft := range index.Drafts {
 		if draft.HasLog {

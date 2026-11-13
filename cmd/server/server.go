@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
@@ -19,7 +20,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/storage/router"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -45,10 +45,9 @@ func main() {
 		logrus.WithError(err).Fatal("failed to load cube registry")
 	}
 
-	// Cube lists now come live from Cube Cobra rather than files on disk. The
-	// provider is the CubeSource injected into every handler that needs a cube.
-	// Warm the cache up front; a CubeCobra outage at startup is a warning, not
-	// fatal, and requests retry the fetch lazily.
+	// The provider serves cube lists live from Cube Cobra and is the CubeSource
+	// every handler uses. Warm its cache up front; an outage at startup is only
+	// a warning, and requests retry lazily.
 	provider := commands.NewCubeProvider(reg)
 	provider.Warm()
 
@@ -77,7 +76,7 @@ func main() {
 	}
 	mux.Handle("GET /api/players", server.PlayersListHandler(deckStore))
 	mux.Handle("POST /api/players", server.PlayerAddHandler(deckStore))
-	mux.Handle("PATCH /api/players/{id}", server.PlayerRenameHandler(deckStore))
+	mux.Handle("PATCH /api/players/{id}", server.PlayerUpdateHandler(deckStore))
 	cubeRoute("GET /api/{cube}/cube", server.CubeContentHandler(provider))
 	cubeRoute("GET /api/{cube}/info", server.CubeInfoHandler(deckStore))
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler(deckStore))
@@ -150,8 +149,8 @@ func main() {
 		mux.Handle("GET /", http.FileServer(http.Dir(*uiDir)))
 	}
 
-	fmt.Println("Server listening on port 8888")
+	logrus.Info("Server listening on port 8888")
 	if err := http.ListenAndServe(":8888", server.Gzip(mux)); err != nil {
-		fmt.Println(err)
+		logrus.WithError(err).Fatal("server stopped")
 	}
 }

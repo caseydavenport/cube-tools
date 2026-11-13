@@ -1,10 +1,7 @@
 package server
 
 import (
-	"encoding/json"
 	"net/http"
-
-	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -32,15 +29,6 @@ func CardSearchHandler() http.Handler {
 		if len(q) >= cardSearchMinLength {
 			resp.Names = types.SearchOracleNames(q, cardSearchLimit)
 		}
-
-		b, err := json.Marshal(resp)
-		if err != nil {
-			http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-			return
-		}
-		rw.Header().Set("Content-Type", "application/json")
-		if _, err := rw.Write(b); err != nil {
-			logrus.WithError(err).Error("could not write card search response")
-		}
+		writeJSON(rw, http.StatusOK, resp)
 	})
 }

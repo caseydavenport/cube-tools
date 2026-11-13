@@ -2,7 +2,6 @@ package decks
 
 import (
 	"cmp"
-	"encoding/json"
 	"net/http"
 	"slices"
 	"strconv"
@@ -21,9 +20,6 @@ const (
 	// similarDecksLimit caps how many decks the endpoint returns.
 	similarDecksLimit = 5
 )
-
-// manaOrder is the order a deck's colors are listed in.
-var manaOrder = []string{"W", "U", "B", "R", "G"}
 
 // SimilarDeck is one deck that shares many cards with the requested deck,
 // with what the Decks page needs to show and link to it.
@@ -80,15 +76,7 @@ func (h *similarDecksHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	b, err := json.Marshal(SimilarDecksResponse{Decks: similarDecks(all[i], all, similarDecksLimit)})
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Error("could not write similar decks response")
-	}
+	writeJSON(rw, SimilarDecksResponse{Decks: similarDecks(all[i], all, similarDecksLimit)})
 }
 
 // ParseDeckRef splits "<draft_id>/<id>" into its two numbers, reporting false
@@ -159,13 +147,6 @@ func spellNames(d *storage.Deck) map[string]bool {
 
 // similarRow describes one deck for the similar-decks list.
 func similarRow(d *storage.Deck, shared int) SimilarDeck {
-	colors := []string{}
-	deckColors := d.GetColors()
-	for _, c := range manaOrder {
-		if deckColors[c] {
-			colors = append(colors, c)
-		}
-	}
 	return SimilarDeck{
 		DraftID:   d.Metadata.DraftID,
 		ID:        d.ID,
@@ -173,7 +154,7 @@ func similarRow(d *storage.Deck, shared int) SimilarDeck {
 		Date:      d.Date,
 		Event:     d.Draft.EventName,
 		Archetype: d.MacroArchetype,
-		Colors:    colors,
+		Colors:    orderedColors(d),
 		Shared:    shared,
 		Wins:      d.Stats.MatchWins,
 		Losses:    d.Stats.MatchLosses,

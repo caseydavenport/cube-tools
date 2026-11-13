@@ -11,6 +11,20 @@ import (
 // colorOrder is the order deck colors are listed in.
 const colorOrder = "WUBRG"
 
+// orderedColors lists a deck's colors in WUBRG order, using the server's rule
+// (types.Deck.GetColors): explicit colors if set, otherwise the mainboard's
+// colors without hybrids. A colorless deck gets an empty, non-nil list.
+func orderedColors(d *storage.Deck) []string {
+	present := d.Deck.GetColors()
+	colors := []string{}
+	for _, c := range colorOrder {
+		if present[string(c)] {
+			colors = append(colors, string(c))
+		}
+	}
+	return colors
+}
+
 // SummaryResponse is the body of GET /api/{cube}/decks/summary.
 type SummaryResponse struct {
 	Decks []DeckSummary `json:"decks"`
@@ -64,25 +78,15 @@ func SummaryHandler(store storage.DeckStorage) http.Handler {
 	})
 }
 
-// summarize reduces one deck to its summary. Colors use the server's rule
-// (types.Deck.GetColors): explicit colors if set, otherwise the mainboard's colors
-// without hybrids, listed in WUBRG order.
+// summarize reduces one deck to its summary.
 func summarize(d *storage.Deck) DeckSummary {
-	present := d.Deck.GetColors()
-	colors := []string{}
-	for _, c := range colorOrder {
-		if present[string(c)] {
-			colors = append(colors, string(c))
-		}
-	}
-
 	return DeckSummary{
 		ID:       d.ID,
 		Metadata: SummaryMetadata{DraftID: d.Metadata.DraftID},
 		Player:   d.Player,
 		PlayerID: d.PlayerID,
 		Seat:     d.Seat,
-		Colors:   colors,
+		Colors:   orderedColors(d),
 		Stats: SummaryStats{
 			MatchWins:   d.Stats.MatchWins,
 			MatchLosses: d.Stats.MatchLosses,

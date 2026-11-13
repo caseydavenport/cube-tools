@@ -63,11 +63,9 @@ func TestCommitCreatesNumberedDraft(t *testing.T) {
 	}
 
 	dir := filepath.Join(root, "polyverse", "0001_2026-06-30")
-	wantPlayerIDByDeck := map[int]int{
-		1: 1,
-		2: 0,
-	}
-	for id, player := range wantPlayerIDByDeck {
+	wantPlayerIDs := []int{1, 0}
+	for i, player := range wantPlayerIDs {
+		id := i + 1
 		d, err := types.LoadDeck(filepath.Join(dir, fmt.Sprintf("%d.json", id)))
 		if err != nil {
 			t.Fatal(err)

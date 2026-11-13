@@ -7,29 +7,30 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
 	"github.com/caseydavenport/cube-tools/pkg/storage/router"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/require"
 )
 
 // seededBackend returns a memory backend holding draft 1 of "testcube" with
-// Alice (deck 1, player 1) and Bob (deck 2, player 2), who played each other
+// Freddie (deck 1, player 1) and Ozzy (deck 2, player 2), who played each other
 // in round 1. Joan Jett (player 3) has no deck.
 func seededBackend() *memory.Backend {
 	alice := &storage.Deck{}
 	alice.PlayerID = 1
 	alice.Metadata.DraftID = 1
-	alice.Matches = []types.Match{{Opponent: "Bob", OpponentID: 2, Round: 1, Wins: 2}}
+	alice.Matches = []types.Match{{Opponent: "Ozzy", OpponentID: 2, Round: 1, Wins: 2}}
 	bob := &storage.Deck{}
 	bob.PlayerID = 2
 	bob.Metadata.DraftID = 1
-	bob.Matches = []types.Match{{Opponent: "Alice", OpponentID: 1, Round: 1, Losses: 2}}
+	bob.Matches = []types.Match{{Opponent: "Freddie", OpponentID: 1, Round: 1, Losses: 2}}
 
 	b := memory.New()
-	b.SeedPlayers(players.Player{ID: 1, Name: "Alice"}, players.Player{ID: 2, Name: "Bob"}, players.Player{ID: 3, Name: "Joan Jett"})
+	b.SeedPlayers(players.Player{ID: 1, Name: "Freddie"}, players.Player{ID: 2, Name: "Ozzy"}, players.Player{ID: 3, Name: "Joan Jett"})
 	b.Seed("testcube", alice, bob)
 	return b
 }

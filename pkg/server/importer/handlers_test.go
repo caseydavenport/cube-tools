@@ -26,8 +26,13 @@ type fakeCubeSource struct {
 	c    *types.Cube
 }
 
-func (f fakeCubeSource) Current(req string) (*types.Cube, error) { return f.get(req) }
-func (f fakeCubeSource) Refresh(req string) (*types.Cube, error) { return f.get(req) }
+func (f fakeCubeSource) Current(req string) (*types.Cube, error) {
+	return f.get(req)
+}
+
+func (f fakeCubeSource) Refresh(req string) (*types.Cube, error) {
+	return f.get(req)
+}
 
 func (f fakeCubeSource) get(req string) (*types.Cube, error) {
 	if req != f.cube {
@@ -47,13 +52,24 @@ func TestImportCardsHandler(t *testing.T) {
 	if rw.Code != http.StatusOK {
 		t.Fatalf("status: want 200, got %d (%s)", rw.Code, rw.Body.String())
 	}
-	var resp struct {
-		Cards []server.CubeCard `json:"cards"`
-	}
+	var resp cardsResponse
 	if err := json.Unmarshal(rw.Body.Bytes(), &resp); err != nil {
 		t.Fatal(err)
 	}
 	if len(resp.Cards) != 2 {
 		t.Fatalf("want 2 cards, got %d", len(resp.Cards))
+	}
+}
+
+func TestImportCardsHandlerUnknownCube(t *testing.T) {
+	src := testCubeSource("polyverse", []string{"Monastery Mentor"})
+
+	req := httptest.NewRequest(http.MethodGet, "/api/aurora/import/cards", nil)
+	req = req.WithContext(server.ContextWithCube(req.Context(), "aurora"))
+	rw := httptest.NewRecorder()
+	ImportCardsHandler(src).ServeHTTP(rw, req)
+
+	if rw.Code != http.StatusServiceUnavailable {
+		t.Fatalf("status: want 503 for a cube the source doesn't know, got %d", rw.Code)
 	}
 }
