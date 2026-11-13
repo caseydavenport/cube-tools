@@ -260,6 +260,23 @@ func TestDesignGraph_RulesReadFails(t *testing.T) {
 	assert.Equal(t, http.StatusInternalServerError, rr.Code)
 }
 
+// TestRulesReadFails_MatchAndDistributions checks that the rules editor's
+// match and the deck page's group distributions fail on unreadable rules, as
+// every other rules page does, rather than answering from empty rules.
+func TestRulesReadFails_MatchAndDistributions(t *testing.T) {
+	store := &brokenRulesStore{}
+	src := fixedCubeSource{cube: namedCards("E1")}
+
+	rr := serveCubePost(DesignGraphMatchHandler(store, src), "/api/polyverse/stats/design-graph/match", `{"conditions":["t:creature"]}`)
+	assert.Equal(t, http.StatusInternalServerError, rr.Code, "match")
+
+	rr = serveCube(GroupDistributionsHandler(store, src), "/api/polyverse/stats/group-distributions", url.Values{})
+	assert.Equal(t, http.StatusInternalServerError, rr.Code, "group distributions")
+
+	rr = serveCube(GroupDistributionsHandler(&mockDeckStorage{}, src), "/api/polyverse/stats/group-distributions", url.Values{})
+	assert.Equal(t, http.StatusOK, rr.Code, "a store without rules support still answers")
+}
+
 // TestDesignGraph_NoRulesSupport keeps a store without rules serving an
 // empty graph.
 func TestDesignGraph_NoRulesSupport(t *testing.T) {

@@ -4,7 +4,6 @@ import (
 	"maps"
 	"net/http"
 	"slices"
-	"strings"
 
 	"github.com/sirupsen/logrus"
 
@@ -79,41 +78,42 @@ func (h *ruleGroupsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	cubeID := server.CubeFromRequest(r)
-	rules, err := loadDesignInputs(h.store, h.src, cubeID)
+	rules, err := rulebook.Load(h.store, h.src, cubeID)
 	if err != nil {
 		logrus.WithError(err).Error("could not load the rules for rule groups")
 		http.Error(rw, "could not load rules", http.StatusInternalServerError)
 		return
 	}
-	decks, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")})
+	decks, err := h.q.DecksIn(rules, &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")})
 	if err != nil {
 		logrus.WithError(err).Error("could not load decks for rule groups")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
-	cardMap := rulebook.CardMap(rules.cube)
+	cardMap := rules.CardMap()
+	config := rules.Config()
 	played := playCounts(decks)
 
 	// One group by name.
 	if pkgName == "" {
-		if !slices.ContainsFunc(rules.config.Groups, func(g design.Group) bool { return g.Name == groupName }) {
+		if _, ok := rules.Group(groupName); !ok {
 			http.Error(rw, "unknown group", http.StatusNotFound)
 			return
 		}
-		resp := RuleGroupsResponse{Groups: []GroupMembers{groupMembers(groupName, rules.config, cardMap, played)}}
+		resp := RuleGroupsResponse{Groups: []GroupMembers{groupMembers(groupName, config, cardMap, played)}}
 		writeJSON(rw, resp, "rule groups")
 		return
 	}
 
 	// Every entry of a package, in wire order.
-	idx := slices.IndexFunc(rules.config.Packages, func(p design.Package) bool { return strings.EqualFold(p.Name, pkgName) })
-	if idx < 0 {
+	pkg, ok := rules.Package(pkgName)
+	if !ok {
 		http.Error(rw, "unknown package", http.StatusNotFound)
 		return
 	}
 	resp := RuleGroupsResponse{Groups: []GroupMembers{}}
-	for _, entry := range wireEntries(rules.config.Packages[idx]) {
-		resp.Groups = append(resp.Groups, groupMembers(entry, rules.config, cardMap, played))
+	for _, entry := range wireEntries(pkg) {
+		resp.Groups = append(resp.Groups, groupMembers(entry, config, cardMap, played))
 	}
 	writeJSON(rw, resp, "rule groups")
 }

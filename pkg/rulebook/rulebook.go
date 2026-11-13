@@ -111,11 +111,6 @@ func (rb *Rulebook) DeckCardNames() []string {
 	return rb.deckCardNames
 }
 
-// Overrides is the packages the cube forces on or off.
-func (rb *Rulebook) Overrides() design.PackageOverrides {
-	return rb.overrides
-}
-
 // DraftLists maps each draft whose saved list holds cards to those card
 // names. A draft left out has no usable list, so every card counts as
 // available in it.

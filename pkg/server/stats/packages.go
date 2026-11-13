@@ -80,7 +80,7 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	logrus.Info("/api/stats/packages")
 
 	cubeID := server.CubeFromRequest(r)
-	rules, err := loadDesignInputs(h.store, h.src, cubeID)
+	rules, err := rulebook.Load(h.store, h.src, cubeID)
 	if err != nil {
 		http.Error(rw, "could not load packages", http.StatusInternalServerError)
 		return
@@ -94,16 +94,15 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		End:   query.GetString(r, "end"),
 		Match: query.GetString(r, "match"),
 	}
-	allDecks, err := h.q.Decks(cubeID, dr)
+	allDecks, err := h.q.DecksIn(rules, dr)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
-	pkgs := keepPackages(rules.packages(), rulebook.InAny(draftIDsOf(allDecks)))
-	rules.config = configFor(rules.config, pkgs)
-	resp := packageStats(pkgs, allDecks, query.GetFloat(r, "confidence"))
-	addPackageShapes(&resp, pkgs, rules)
+	shown := rules.Shown(rulebook.InAny(draftIDsOf(allDecks)))
+	resp := packageStats(shown.Packages(), allDecks, query.GetFloat(r, "confidence"))
+	addPackageShapes(&resp, shown, rules.Cube())
 	b, err := json.Marshal(resp)
 	if err != nil {
 		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
@@ -212,18 +211,18 @@ func markRarelyTogether(stats []PackageStat) {
 
 // addPackageShapes fills in what the rules alone decide: each package's color
 // and card count, the edges between packages, and the most-linked cards.
-func addPackageShapes(resp *PackageStatsResponse, pkgs []design.PackageCards, in designInputs) {
+func addPackageShapes(resp *PackageStatsResponse, shown rulebook.View, cube *types.Cube) {
 	byName := map[string]design.PackageCards{}
-	for _, p := range pkgs {
+	for _, p := range shown.Packages() {
 		byName[p.Name] = p
 	}
 	for i := range resp.Packages {
 		p := byName[resp.Packages[i].Name]
-		resp.Packages[i].Color = packageColor(p, in.cube)
-		resp.Packages[i].CardCount = packageCardCount(p, in.cube)
+		resp.Packages[i].Color = packageColor(p, cube)
+		resp.Packages[i].CardCount = packageCardCount(p, cube)
 	}
-	resp.Edges = packageEdges(in.config)
-	resp.MostLinked = mostLinked(pkgs, in.cube, mostLinkedShown)
+	resp.Edges = packageEdges(shown.Config())
+	resp.MostLinked = mostLinked(shown.Packages(), cube, mostLinkedShown)
 }
 
 // nonBasicMainboard returns the deck's non-basic mainboard card names. Basics

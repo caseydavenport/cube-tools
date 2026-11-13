@@ -81,38 +81,33 @@ func (h *cardPageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	end := query.GetString(r, "end")
 	logrus.WithField("card", name).Info("/api/stats/card")
 
-	rules, err := loadDesignInputs(h.store, h.src, cubeID)
+	rules, err := rulebook.Load(h.store, h.src, cubeID)
 	if err != nil {
 		logrus.WithError(err).Error("could not load the cube for the card page")
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return
 	}
-	card, inCube, ok := lookupCard(rules.cube, name)
+	card, inCube, ok := lookupCard(rules.Cube(), name)
 	if !ok {
 		http.Error(rw, "unknown card", http.StatusNotFound)
 		return
 	}
 
 	// All decks feed the history; the ranged ones feed everything else.
-	all, err := h.q.Decks(cubeID, &storage.DecksRequest{})
-	if err != nil {
-		http.Error(rw, "could not load decks", http.StatusInternalServerError)
-		return
-	}
-	ranged, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: start, End: end})
+	ranged, err := h.q.DecksIn(rules, &storage.DecksRequest{Start: start, End: end})
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
-	rules.config = rules.relevantConfig(rulebook.InAny(draftIDsOf(ranged)))
 	page := cardPageInputs{
 		card:   card,
 		inCube: inCube,
-		design: rules,
-		all:    all,
+		rules:  rules,
+		shown:  rules.Shown(rulebook.InAny(draftIDsOf(ranged))).Config(),
+		all:    rules.Decks(),
 		ranged: ranged,
-		cubes:  cubeLists(rules.rb.DraftLists()),
+		cubes:  cubeLists(rules.DraftLists()),
 		start:  start,
 		end:    end,
 		z:      zForConfidence(query.GetFloat(r, "confidence")),
@@ -124,12 +119,13 @@ func (h *cardPageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 }
 
 // cardPageInputs is what the card page is built from: the card, whether the
-// current cube holds it, the rules and cube, every deck and those in the date
-// range, each draft's cube list, the range itself, and the interval's z.
+// current cube holds it, its rulebook and the rules shown over the range,
+// every deck and those in the date range, each draft's cube list, the range itself, and the interval's z.
 type cardPageInputs struct {
 	card   types.Card
 	inCube bool
-	design designInputs
+	rules  *rulebook.Rulebook
+	shown  design.DesignMapConfig
 	all    []*storage.Deck
 	ranged []*storage.Deck
 	cubes  cubeLists
@@ -145,7 +141,7 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 	if !page.inCube {
 		extras = append(extras, page.card)
 	}
-	relations := newCardRelations(page.design.cube, page.design.config, page.design.deckCardNames, extras)
+	relations := newCardRelations(page.rules.Cube(), page.shown, page.rules.DeckCardNames(), extras)
 
 	numMainboardsByCard := map[string]int{}
 	for _, d := range page.ranged {
@@ -158,18 +154,18 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 	resp := CardPageResponse{
 		Card:        page.card,
 		InCube:      page.inCube,
-		Copies:      rulebook.CountCards(page.design.cube.Cards)[page.card.Name],
+		Copies:      rulebook.CountCards(page.rules.Cube().Cards)[page.card.Name],
 		Groups:      relations.groupsOf(page.card.Name),
-		Play:        cardPlay(page.card, page.ranged, history, page.design.cube),
+		Play:        cardPlay(page.card, page.ranged, history, page.rules.Cube()),
 		History:     history,
 		Partners:    relations.partners(page.card.Name, numMainboardsByCard),
 		SameRole:    relations.sameRole(page.card, sameRoleLimit),
-		Interaction: cardInteraction(page.card, page.design.cube),
+		Interaction: cardInteraction(page.card, page.rules.Cube()),
 		Decks:       cardDecks(page.card.Name, page.ranged),
 		Picks:       []CardPick{},
 		Connections: cardConnections(page),
 
-		PackageNames: packageNames(page.design.config.Packages),
+		PackageNames: packageNames(page.shown.Packages),
 	}
 	resp.DeckColors, resp.Archetypes, resp.Players = whoPlays(page.card.Name, page.ranged)
 
@@ -189,7 +185,7 @@ func cardConnections(page cardPageInputs) []PackageConnection {
 		return []PackageConnection{}
 	}
 	hits := map[string]types.Card{page.card.Name: page.card}
-	cards := exploreCards(hits, newExplorerRules(page.design.cube, page.design.config), defaultThin)
+	cards := exploreCards(hits, newExplorerRules(page.rules.Cube(), page.shown), defaultThin)
 	return cards[0].Connections
 }
 
@@ -244,7 +240,7 @@ func historyDates(history []DraftPresence) map[int]string {
 func CardCompareHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cubeID := server.CubeFromRequest(r)
-		rules, err := loadDesignInputs(store, src, cubeID)
+		rules, err := rulebook.Load(store, src, cubeID)
 		if err != nil {
 			logrus.WithError(err).Error("could not load the cube for a card compare")
 			http.Error(rw, "could not load cube", http.StatusInternalServerError)
@@ -254,7 +250,7 @@ func CardCompareHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 		var extras []types.Card
 		names := []string{query.GetString(r, "a"), query.GetString(r, "b")}
 		for i, name := range names {
-			card, inCube, ok := lookupCard(rules.cube, name)
+			card, inCube, ok := lookupCard(rules.Cube(), name)
 			if !ok {
 				writeJSON(rw, CardCompareResponse{Links: []CardBridge{}}, "card compare")
 				return
@@ -265,7 +261,7 @@ func CardCompareHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			}
 		}
 
-		relations := newCardRelations(rules.cube, rules.relevantConfig(rulebook.Today), rules.deckCardNames, extras)
+		relations := newCardRelations(rules.Cube(), rules.Shown(rulebook.Today).Config(), rules.DeckCardNames(), extras)
 		writeJSON(rw, CardCompareResponse{Links: relations.linksBetween(names[0], names[1])}, "card compare")
 	})
 }

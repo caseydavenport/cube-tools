@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
@@ -588,12 +589,13 @@ func TestBuildDesignGraphIncludesCutCards(t *testing.T) {
 	assert.Equal(t, 0, resp.Nodes[0].ConnectionCount)
 }
 
-func TestDesignGraphForCube(t *testing.T) {
+func TestDesignGraph_RealRules(t *testing.T) {
 	// data/ paths resolve from the repo root, three levels up from this package.
 	t.Chdir("../../..")
 
-	resp, err := DesignGraphForCube(file.NewStore(testCubeSource{}), testCubeSource{}, "polyverse")
+	rules, err := rulebook.Load(file.NewStore(testCubeSource{}), testCubeSource{}, "polyverse")
 	require.NoError(t, err)
+	resp := buildDesignGraph(rules.Cube(), rules.Config(), rules.PlayedCardNames())
 	require.NotEmpty(t, resp.Nodes, "expected card nodes from the polyverse cube")
 	require.NotEmpty(t, resp.Edges, "expected rule-derived edges from cube-rules.json")
 

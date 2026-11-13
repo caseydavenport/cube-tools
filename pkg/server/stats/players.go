@@ -9,6 +9,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/players"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
@@ -168,12 +169,12 @@ func (s *playerStatsHandler) loadBaseline(cubeID string, dr *storage.DecksReques
 	if err != nil {
 		return nil, fmt.Errorf("load baseline decks: %w", err)
 	}
-	in, err := loadDesignInputs(s.store, s.src, cubeID)
+	rules, err := rulebook.Load(s.store, s.src, cubeID)
 	if err != nil {
 		logrus.WithError(err).Warn("could not load packages for player tendencies")
 		return &tendencyBaseline{decks: withSpells(all), cubes: cubeLists{}}, nil
 	}
-	return &tendencyBaseline{decks: withSpells(all), packages: in.packages(), cubes: cubeLists(in.rb.DraftLists())}, nil
+	return &tendencyBaseline{decks: withSpells(all), packages: rules.Packages(), cubes: cubeLists(rules.DraftLists())}, nil
 }
 
 // addTendencies fills each row's Tendencies from the player's decks in mine.

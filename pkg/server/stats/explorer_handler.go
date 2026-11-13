@@ -64,7 +64,7 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 		resp.Maybeboard = status
 		filterMaybe := useMaybe && names != nil
 
-		rules, err := loadDesignInputs(store, src, cubeID)
+		rules, err := rulebook.Load(store, src, cubeID)
 		if err != nil {
 			logrus.WithError(err).Error("could not load the rules for the explorer")
 			http.Error(rw, "could not load rules", http.StatusInternalServerError)
@@ -81,10 +81,10 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 			hits = pickCards(pool, matchQuery(pool, q))
 		case !filterMaybe:
 			// With no search, the page opens on the cube's own cards.
-			hits = cubeHits(pool, rules.cube)
+			hits = cubeHits(pool, rules.Cube())
 		}
 
-		cards := exploreCards(hits, newExplorerRules(rules.cube, rules.relevantConfig(rulebook.Today)), thinParam(r))
+		cards := exploreCards(hits, newExplorerRules(rules.Cube(), rules.Shown(rulebook.Today).Config()), thinParam(r))
 		keepAll := query.GetString(r, "all") == "1"
 		for _, c := range cards {
 			if len(c.Groups) == 0 && len(c.Joins) == 0 && !keepAll {

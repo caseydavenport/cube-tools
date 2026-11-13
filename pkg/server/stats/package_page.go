@@ -132,26 +132,19 @@ func (h *packagePageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	end := query.GetString(r, "end")
 	logrus.WithField("package", name).Info("/api/stats/package")
 
-	rules, err := loadDesignInputs(h.store, h.src, cubeID)
+	rules, err := rulebook.Load(h.store, h.src, cubeID)
 	if err != nil {
 		logrus.WithError(err).Error("could not load the rules for the package page")
 		http.Error(rw, "could not load rules", http.StatusInternalServerError)
 		return
 	}
-	idx := slices.IndexFunc(rules.config.Packages, func(p design.Package) bool { return strings.EqualFold(p.Name, name) })
-	if idx < 0 {
+	pkg, ok := rules.Package(name)
+	if !ok {
 		http.Error(rw, "unknown package", http.StatusNotFound)
 		return
 	}
-	pkg := rules.config.Packages[idx]
 
-	all, err := h.q.Decks(cubeID, &storage.DecksRequest{})
-	if err != nil {
-		logrus.WithError(err).Error("could not load decks for the package page")
-		http.Error(rw, "could not load decks", http.StatusInternalServerError)
-		return
-	}
-	ranged, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: start, End: end})
+	ranged, err := h.q.DecksIn(rules, &storage.DecksRequest{Start: start, End: end})
 	if err != nil {
 		logrus.WithError(err).Error("could not load decks in range for the package page")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
@@ -161,7 +154,6 @@ func (h *packagePageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	page := packagePageInputs{
 		pkg:    pkg,
 		rules:  rules,
-		all:    all,
 		ranged: ranged,
 		start:  start,
 		end:    end,
@@ -171,12 +163,11 @@ func (h *packagePageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 }
 
 // packagePageInputs is what the package page is built from: the package, the
-// rules and cube, every deck and those in the date range, the range itself,
-// and the interval's confidence.
+// cube's rulebook, the decks in the date range, the range itself, and the
+// interval's confidence.
 type packagePageInputs struct {
 	pkg    design.Package
-	rules  designInputs
-	all    []*storage.Deck
+	rules  *rulebook.Rulebook
 	ranged []*storage.Deck
 	start  string
 	end    string
@@ -185,16 +176,16 @@ type packagePageInputs struct {
 
 // buildPackagePage computes every section of the package page.
 func buildPackagePage(page packagePageInputs) PackagePageResponse {
-	cube := page.rules.cube
-	resolved := page.rules.packages()
+	cube := page.rules.Cube()
+	resolved := page.rules.Packages()
 	idx := slices.IndexFunc(resolved, func(p design.PackageCards) bool { return p.Name == page.pkg.Name })
 	cards := resolved[idx]
 
 	resp := PackagePageResponse{
 		Name:     page.pkg.Name,
 		Related:  []PackageEdge{},
-		Relevant: page.rules.rb.SupportedToday(cards),
-		Forced:   page.rules.rb.Forced(page.pkg.Name),
+		Relevant: page.rules.SupportedToday(cards),
+		Forced:   page.rules.Forced(page.pkg.Name),
 	}
 
 	// The package's index row, over the date range.
@@ -209,17 +200,17 @@ func buildPackagePage(page packagePageInputs) PackagePageResponse {
 
 	// The other packages the page names are those shown over the range; the
 	// page's own package stays, shown or not.
-	others := configFor(page.rules.config, keepPackages(resolved, rulebook.InAny(draftIDsOf(page.ranged))))
+	others := page.rules.Shown(rulebook.InAny(draftIDsOf(page.ranged))).Config()
 	if !slices.ContainsFunc(others.Packages, func(p design.Package) bool { return p.Name == page.pkg.Name }) {
 		others.Packages = append(others.Packages, page.pkg)
 	}
 
 	// The wires, the color table built from them, and builds per draft.
-	cardMap := rulebook.CardMap(cube)
-	groups := rulebook.ResolveGroups(cardMap, page.rules.config, page.rules.deckCardNames)
+	cardMap := page.rules.CardMap()
+	groups := page.rules.Groups()
 	resp.Wires = packageWires(page.pkg, groups.Cube, others)
 	resp.ColorTable = colorTable(resp.Wires, cardMap)
-	resp.OverTime = packageOverTime(cards, page.all, page.start, page.end)
+	resp.OverTime = packageOverTime(cards, page.rules.Decks(), page.start, page.end)
 	resp.Map = buildPackageMap(page.pkg, cards, groups.Cube, others, page.ranged)
 
 	// The decks in range that built the package.

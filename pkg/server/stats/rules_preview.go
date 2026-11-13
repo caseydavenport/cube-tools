@@ -9,6 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -52,13 +53,13 @@ func (h *rulesPreviewHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 	cubeID := server.CubeFromRequest(r)
-	rules, err := loadDesignInputs(h.store, h.src, cubeID)
+	rules, err := rulebook.Load(h.store, h.src, cubeID)
 	if err != nil {
 		logrus.WithError(err).Error("could not load the rules for a preview")
 		http.Error(rw, "could not load rules", http.StatusInternalServerError)
 		return
 	}
-	decks, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")})
+	decks, err := h.q.DecksIn(rules, &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")})
 	if err != nil {
 		logrus.WithError(err).Error("could not load decks for a preview")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
@@ -67,8 +68,8 @@ func (h *rulesPreviewHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 
 	// Count over the decks in the date range, under both the saved rules and
 	// the proposal.
-	now := buildCounts(rules.packages(), decks)
-	after := buildCounts(rules.packagesWith(proposed), decks)
+	now := buildCounts(rules.Packages(), decks)
+	after := buildCounts(rules.PackagesWith(proposed), decks)
 	writeJSON(rw, RulesPreviewResponse{Packages: packageChanges(now, after)}, "rules preview")
 }
 

@@ -227,15 +227,6 @@ func TestDeckFilterHandlersReadOnlyTheFilter(t *testing.T) {
 	})
 }
 
-func TestDeckCardNamesUsesGivenStore(t *testing.T) {
-	store := memory.NewStore(func(b *memory.Backend) {
-		b.Seed("cc:abc", queryDeck(1, "2026-01-10", "gy1", "gy2", "gy3", "Forest"))
-	})
-	names, err := deckCardNames(store, "cc:abc")
-	require.NoError(t, err)
-	assert.ElementsMatch(t, []string{"gy1", "gy2", "gy3"}, names)
-}
-
 func TestRemovalDateRangeWeights(t *testing.T) {
 	for query, want := range map[string]int{
 		"":                                 2,

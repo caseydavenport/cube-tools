@@ -69,13 +69,13 @@ type rulesBoardHandler struct {
 // ServeHTTP answers one board request.
 func (h *rulesBoardHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	cubeID := server.CubeFromRequest(r)
-	rules, err := loadDesignInputs(h.store, h.src, cubeID)
+	rules, err := rulebook.Load(h.store, h.src, cubeID)
 	if err != nil {
 		logrus.WithError(err).Error("could not load the rules for the rules board")
 		http.Error(rw, "could not load rules", http.StatusInternalServerError)
 		return
 	}
-	decks, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")})
+	decks, err := h.q.DecksIn(rules, &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")})
 	if err != nil {
 		logrus.WithError(err).Error("could not load decks for the rules board")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
@@ -85,13 +85,14 @@ func (h *rulesBoardHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 }
 
 // buildRulesBoard builds every package's board card and the unused groups.
-func buildRulesBoard(rules designInputs, decks []*storage.Deck, conf float64) RulesBoardResponse {
-	cardMap := rulebook.CardMap(rules.cube)
-	groups := rulebook.ResolveGroups(cardMap, rules.config, rules.deckCardNames).Cube
+func buildRulesBoard(rules *rulebook.Rulebook, decks []*storage.Deck, conf float64) RulesBoardResponse {
+	cardMap := rules.CardMap()
+	groups := rules.Groups().Cube
+	config := rules.Config()
 
 	// Index the resolved packages and their build rows by name.
 	resolved := map[string]design.PackageCards{}
-	pkgs := rules.packages()
+	pkgs := rules.Packages()
 	for _, p := range pkgs {
 		resolved[p.Name] = p
 	}
@@ -102,26 +103,26 @@ func buildRulesBoard(rules designInputs, decks []*storage.Deck, conf float64) Ru
 
 	// Index the packages each package shares a group with.
 	shares := map[string][]string{}
-	for _, e := range packageEdges(rules.config) {
+	for _, e := range packageEdges(config) {
 		shares[e.Source] = append(shares[e.Source], e.Target)
 		shares[e.Target] = append(shares[e.Target], e.Source)
 	}
 
-	resp := RulesBoardResponse{Packages: []BoardPackage{}, UnusedGroups: unusedGroups(rules.config, groups)}
+	resp := RulesBoardResponse{Packages: []BoardPackage{}, UnusedGroups: unusedGroups(config, groups)}
 
 	// Sort a copy the way the design graph does, so index-based colors agree.
-	pkgList := slices.Clone(rules.config.Packages)
+	pkgList := slices.Clone(config.Packages)
 	slices.SortFunc(pkgList, func(a, b design.Package) int {
 		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
 	})
 	for _, pkg := range pkgList {
 		cards := resolved[pkg.Name]
 		stat := stats[pkg.Name]
-		stat.Color = packageColor(cards, rules.cube)
-		stat.CardCount = packageCardCount(cards, rules.cube)
+		stat.Color = packageColor(cards, rules.Cube())
+		stat.CardCount = packageCardCount(cards, rules.Cube())
 
 		var names []string
-		for _, c := range packageCubeCards(cards, rules.cube) {
+		for _, c := range packageCubeCards(cards, rules.Cube()) {
 			names = append(names, c.Name)
 		}
 		entries := boardGroups(pkg, groups)
@@ -137,8 +138,8 @@ func buildRulesBoard(rules designInputs, decks []*storage.Deck, conf float64) Ru
 			Colors:        colorCounts(names, cardMap),
 			SharesWith:    sharesWith,
 			OneCardGroups: oneCardEntries(entries),
-			Relevant:      rules.rb.SupportedToday(cards),
-			Forced:        rules.rb.Forced(pkg.Name),
+			Relevant:      rules.SupportedToday(cards),
+			Forced:        rules.Forced(pkg.Name),
 		})
 	}
 	return resp

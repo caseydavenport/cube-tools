@@ -11,7 +11,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
-	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -121,7 +120,7 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 
 		// A rules file that can't be read is an error, never an empty rule set:
 		// the editor saves what it loads, over every cube's shared rules.
-		in, err := loadDesignInputs(store, src, cubeID)
+		rules, err := rulebook.Load(store, src, cubeID)
 		if err != nil {
 			logrus.WithError(err).Error("could not load the cube or its rules")
 			http.Error(rw, "could not load the cube or its rules", http.StatusInternalServerError)
@@ -130,14 +129,14 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 
 		// The decks page asks for one deck, so its links show only packages
 		// that deck's draft list supported. Rules editors ask for all.
-		config := in.config
+		config := rules.Config()
 		if draft := query.GetString(r, "draft"); draft != "" {
 			draftID, err := strconv.Atoi(draft)
 			if err != nil {
 				http.Error(rw, "draft must be a number", http.StatusBadRequest)
 				return
 			}
-			config = in.relevantConfig(rulebook.InDraft(draftID))
+			config = rules.Shown(rulebook.InDraft(draftID)).Config()
 		}
 		var deck *storage.Deck
 		if ref := query.GetString(r, "deck"); ref != "" {
@@ -146,24 +145,24 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 				http.Error(rw, "deck must be <draft_id>/<id>", http.StatusBadRequest)
 				return
 			}
-			i := slices.IndexFunc(in.decks, func(d *storage.Deck) bool {
+			i := slices.IndexFunc(rules.Decks(), func(d *storage.Deck) bool {
 				return d.Metadata.DraftID == draftID && d.ID == id
 			})
 			if i < 0 {
 				http.Error(rw, "deck not found", http.StatusNotFound)
 				return
 			}
-			deck = in.decks[i]
+			deck = rules.Decks()[i]
 		}
 
 		var resp DesignGraphResponse
 		if deck != nil {
 			draftID := deck.Metadata.DraftID
-			pkgs := keepPackages(in.packages(), rulebook.InDraft(draftID))
-			resp = buildDeckGraph(in.cube, configFor(in.config, pkgs), deck, in.playedCardNames)
-			resp.DeckPackages = builtPackages(pkgs, deck)
+			shown := rules.Shown(rulebook.InDraft(draftID))
+			resp = buildDeckGraph(rules.Cube(), shown.Config(), deck, rules.PlayedCardNames())
+			resp.DeckPackages = builtPackages(shown.Packages(), deck)
 		} else {
-			resp = buildDesignGraph(in.cube, config, in.playedCardNames)
+			resp = buildDesignGraph(rules.Cube(), config, rules.PlayedCardNames())
 		}
 
 		b, err := json.Marshal(resp)
@@ -222,85 +221,6 @@ func buildDeckGraph(cube *types.Cube, config design.DesignMapConfig, deck *stora
 	return g
 }
 
-// DesignGraphForCube builds the design graph from a cube's catalog and rules,
-// same builder as /api/stats/design-graph. Unlike the handler, a missing or
-// malformed cube-rules.json is a hard error, not an empty-config fallback, so a
-// caller fails loudly rather than getting an edgeless graph - except when the
-// store reports ErrUnsupported (only test stores do), which is treated as an
-// empty config. Paths
-// resolve from the working directory, so run from the repo root.
-func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID string) (DesignGraphResponse, error) {
-	in, err := loadDesignInputs(store, src, cubeID)
-	if err != nil {
-		return DesignGraphResponse{}, err
-	}
-	return buildDesignGraph(in.cube, in.config, in.playedCardNames), nil
-}
-
-// designInputs is what the design graph and package detection are built from:
-// the current cube list, its rules, the cards its decks have played and its
-// drafts' lists held, and the packages the cube forces on or off.
-// playedCardNames is only the cards decks played, for the graph, which links
-// nothing no deck used.
-type designInputs struct {
-	rb              *rulebook.Rulebook
-	cube            *types.Cube
-	config          design.DesignMapConfig
-	deckCardNames   []string
-	playedCardNames []string
-	overrides       design.PackageOverrides
-	decks           []*storage.Deck
-}
-
-// packages resolves the rules' packages with their relevance attached.
-func (in designInputs) packages() []design.PackageCards {
-	return in.rb.Packages()
-}
-
-// packagesWith resolves another config's packages against the same cube,
-// decks and lists, such as a proposed edit to the rules.
-func (in designInputs) packagesWith(config design.DesignMapConfig) []design.PackageCards {
-	return in.rb.PackagesWith(config)
-}
-
-// loadDesignInputs loads a cube's rulebook and lays out its parts.
-func loadDesignInputs(store storage.DeckStorage, src types.CubeSource, cubeID string) (designInputs, error) {
-	rb, err := rulebook.Load(store, src, cubeID)
-	if err != nil {
-		return designInputs{}, err
-	}
-	return designInputs{
-		rb:              rb,
-		cube:            rb.Cube(),
-		config:          rb.Config(),
-		deckCardNames:   rb.DeckCardNames(),
-		playedCardNames: rb.PlayedCardNames(),
-		overrides:       rb.Overrides(),
-		decks:           rb.Decks(),
-	}, nil
-}
-
-// deckCardNames returns the distinct non-basic mainboard card names across all of
-// a cube's decks. The design graph uses these to widen its edge set so cards cut
-// from the cube still resolve group membership and stay connected on old decks.
-func deckCardNames(store storage.DeckStorage, cubeID string) ([]string, error) {
-	decks, err := store.List(cubeID, &storage.DecksRequest{})
-	if err != nil {
-		return nil, err
-	}
-	var names []string
-	seen := map[string]bool{}
-	for _, d := range decks {
-		for _, name := range nonBasicMainboard(d) {
-			if !seen[name] {
-				seen[name] = true
-				names = append(names, name)
-			}
-		}
-	}
-	return names, nil
-}
-
 // MatchedCard describes a card and which conditions it matched.
 type MatchedCard struct {
 	Name       string             `json:"name"`
@@ -344,27 +264,16 @@ func DesignGraphMatchHandler(store storage.DeckStorage, src types.CubeSource) ht
 			return
 		}
 
-		cubeID := server.CubeFromRequest(r)
-		cube, err := src.Current(cubeID)
+		// Saved rules supply the per-group exclude lists so matches can be
+		// marked.
+		rules, err := rulebook.Load(store, src, server.CubeFromRequest(r))
 		if err != nil {
-			http.Error(rw, "could not load cube", http.StatusInternalServerError)
+			logrus.WithError(err).Error("could not load the rules for a match")
+			http.Error(rw, "could not load the cube or its rules", http.StatusInternalServerError)
 			return
 		}
 
-		// Build a map of card name to card data for efficient lookups, excluding basic lands.
-		cardMap := rulebook.CardMap(cube)
-
-		// Saved rules supply the per-group exclude lists so matches can be
-		// marked. Missing rules just means nothing gets marked excluded.
-		var config design.DesignMapConfig
-		if cfg, err := store.GetRules(cubeID); err != nil {
-			logrus.WithError(err).Debug("could not load cube rules for match")
-			config = design.DesignMapConfig{}
-		} else {
-			config = *cfg
-		}
-
-		resp := DesignGraphMatchResponse{Cards: matchConditions(cardMap, config, req)}
+		resp := DesignGraphMatchResponse{Cards: matchConditions(rules.CardMap(), rules.Config(), req)}
 		b, err := json.Marshal(resp)
 		if err != nil {
 			http.Error(rw, "could not marshal response", http.StatusInternalServerError)
@@ -453,39 +362,25 @@ const distributionMinDeckSize = 20
 const manabaseLandFraction = 0.8
 
 func GroupDistributionsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &groupDistributionsHandler{store: store, q: deckquery.New(store, src)}
+	return &groupDistributionsHandler{store: store, src: src}
 }
 
 type groupDistributionsHandler struct {
 	store storage.DeckStorage
-	q     *deckquery.Query
+	src   types.CubeSource
 }
 
 func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	logrus.Info("/api/stats/group-distributions")
 
-	cubeID := server.CubeFromRequest(r)
-	cube, err := h.q.Cube(cubeID)
+	rules, err := rulebook.Load(h.store, h.src, server.CubeFromRequest(r))
 	if err != nil {
-		http.Error(rw, "could not load cube", http.StatusInternalServerError)
+		logrus.WithError(err).Error("could not load the rules for group distributions")
+		http.Error(rw, "could not load the cube or its rules", http.StatusInternalServerError)
 		return
 	}
 
-	var config design.DesignMapConfig
-	if cfg, err := h.store.GetRules(cubeID); err != nil {
-		logrus.WithError(err).Warn("could not load cube rules")
-		config = design.DesignMapConfig{}
-	} else {
-		config = *cfg
-	}
-
-	allDecks, err := h.q.Decks(cubeID, &storage.DecksRequest{})
-	if err != nil {
-		http.Error(rw, "could not load decks", http.StatusInternalServerError)
-		return
-	}
-
-	resp := groupDistributions(cube, config, allDecks)
+	resp := groupDistributions(rules.CardMap(), rules.Config(), rules.Decks())
 	b, err := json.Marshal(resp)
 	if err != nil {
 		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
@@ -500,8 +395,7 @@ func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Re
 // groupDistributions counts each group's cards in every deck's mainboard. Only
 // decks with a real mainboard contribute, so the percentiles the client derives
 // aren't diluted by pool-only records.
-func groupDistributions(cube *types.Cube, config design.DesignMapConfig, decks []*storage.Deck) GroupDistributionsResponse {
-	cardMap := rulebook.CardMap(cube)
+func groupDistributions(cardMap map[string]types.Card, config design.DesignMapConfig, decks []*storage.Deck) GroupDistributionsResponse {
 	groupCards, _ := rulebook.MatchGroups(cardMap, config.Groups)
 
 	mainboards := make([]map[string]bool, 0, len(decks))

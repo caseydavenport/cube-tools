@@ -8,6 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -70,14 +71,14 @@ type linkCheckHandler struct {
 
 // ServeHTTP answers one link check: 404 when either card is unknown.
 func (h *linkCheckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	rules, err := loadDesignInputs(h.store, h.src, server.CubeFromRequest(r))
+	rules, err := rulebook.Load(h.store, h.src, server.CubeFromRequest(r))
 	if err != nil {
 		logrus.WithError(err).Error("could not load the rules for a link check")
 		http.Error(rw, "could not load rules", http.StatusInternalServerError)
 		return
 	}
-	a, _, okA := lookupCard(rules.cube, query.GetString(r, "a"))
-	b, _, okB := lookupCard(rules.cube, query.GetString(r, "b"))
+	a, _, okA := lookupCard(rules.Cube(), query.GetString(r, "a"))
+	b, _, okB := lookupCard(rules.Cube(), query.GetString(r, "b"))
 	if !okA || !okB {
 		http.Error(rw, "unknown card", http.StatusNotFound)
 		return
@@ -86,12 +87,13 @@ func (h *linkCheckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 }
 
 // buildLinkCheck works out how the rules relate cards a and b.
-func buildLinkCheck(rules designInputs, a, b types.Card) LinkCheckResponse {
-	rel := newCardRelations(rules.cube, rules.config, rules.deckCardNames, []types.Card{a, b})
+func buildLinkCheck(rules *rulebook.Rulebook, a, b types.Card) LinkCheckResponse {
+	config := rules.Config()
+	rel := newCardRelations(rules.Cube(), config, rules.DeckCardNames(), []types.Card{a, b})
 	return LinkCheckResponse{
-		A:     LinkCard{Name: a.Name, Groups: groupUsesOf(rel.groupsOf(a.Name), rules.config)},
-		B:     LinkCard{Name: b.Name, Groups: groupUsesOf(rel.groupsOf(b.Name), rules.config)},
-		Links: linkThreads(rel, a, b, rules.config),
+		A:     LinkCard{Name: a.Name, Groups: groupUsesOf(rel.groupsOf(a.Name), config)},
+		B:     LinkCard{Name: b.Name, Groups: groupUsesOf(rel.groupsOf(b.Name), config)},
+		Links: linkThreads(rel, a, b, config),
 	}
 }
 
