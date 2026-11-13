@@ -1,7 +1,6 @@
 package stats
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/sirupsen/logrus"
@@ -44,6 +43,7 @@ func (h *deckChartsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	cubeID := server.CubeFromRequest(r)
 	filtered, err := h.q.Decks(cubeID, dr)
 	if err != nil {
+		logrus.WithError(err).Error("could not load decks for deck charts")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
@@ -51,20 +51,13 @@ func (h *deckChartsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// Opponents come from every deck, so a filter keeps games against anyone.
 	all, err := h.q.Decks(cubeID, nil)
 	if err != nil {
+		logrus.WithError(err).Error("could not load every deck for deck charts")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
 	z := zForConfidence(query.GetFloat(r, "confidence"))
-	b, err := json.Marshal(deckCharts(filtered, all, z))
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Warn("could not write deck charts response")
-	}
+	writeJSON(rw, deckCharts(filtered, all, z), "deck charts")
 }
 
 // deckCharts computes every Deck Stats chart for decks, finding opponents

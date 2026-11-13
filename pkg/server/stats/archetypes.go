@@ -1,9 +1,8 @@
 package stats
 
 import (
-	"encoding/json"
-	"math"
 	"net/http"
+	"slices"
 
 	"github.com/sirupsen/logrus"
 
@@ -19,6 +18,10 @@ import (
 // win rate mixes in. On polyverse in October 2026, labels differed by about 5
 // points beyond chance, which fits a prior of about 90 games.
 const archetypeBayesPriorGames = 90
+
+// macroArchetypes are the archetypes every archetype listing has a row for, and
+// the Deck Stats charts split decks by, in the order the charts show them.
+var macroArchetypes = []string{"aggro", "midrange", "control"}
 
 // ArchetypeStatsResponse is the archetypes payload: rows for all matching decks, or one set of rows per time bucket.
 type ArchetypeStatsResponse struct {
@@ -44,21 +47,35 @@ type ArchetypeBucket struct {
 // ArchetypeStats is the win record and shape of one archetype label across the matching decks.
 type ArchetypeStats struct {
 	Record
-	Type          string         `json:"type"`
-	Count         int            `json:"count"`
-	Trophies      int            `json:"trophies"`
-	LastPlace     int            `json:"last_place"`
-	Winning       int            `json:"winning"`
-	Losing        int            `json:"losing"`
-	AvgCMC        float64        `json:"avg_cmc"`
-	BuildPercent  float64        `json:"build_percent"`
-	PercentOfWins float64        `json:"percent_of_wins"`
-	SharedWith    map[string]int `json:"shared_with"`
-	Players       map[string]int `json:"players"`
-	AvgShared     float64        `json:"avg_shared"`
 
-	// Internal fields for calculation.
-	cmcCount int
+	// Type is the archetype or tag the row is for.
+	Type string `json:"type"`
+
+	// Count is the number of decks carrying the label.
+	Count int `json:"count"`
+
+	Trophies  int `json:"trophies"`
+	LastPlace int `json:"last_place"`
+
+	// Winning and Losing count the decks with more match wins than losses, and more losses than wins.
+	Winning int `json:"winning"`
+	Losing  int `json:"losing"`
+
+	// AvgCMC is the mean of the decks' average mana values, over decks with a nonland card.
+	AvgCMC float64 `json:"avg_cmc"`
+
+	BuildPercent  float64 `json:"build_percent"`
+	PercentOfWins float64 `json:"percent_of_wins"`
+
+	// SharedWith counts the other tags the label's decks carry, and Players counts the decks per player.
+	SharedWith map[string]int `json:"shared_with"`
+	Players    map[string]int `json:"players"`
+
+	// AvgShared is the mean number of other tags per deck.
+	AvgShared float64 `json:"avg_shared"`
+
+	// numCMCDecks is how many decks AvgCMC sums over, until it's averaged.
+	numCMCDecks int
 }
 
 // ArchetypeStatsHandler serves per-archetype statistics for the requested cube and decks.
@@ -78,6 +95,7 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	cubeID := server.CubeFromRequest(r)
 	allDecks, err := s.q.Decks(cubeID, dr)
 	if err != nil {
+		logrus.WithError(err).Error("could not load decks for archetype stats")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
@@ -99,15 +117,7 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 		resp = *archetypeStatsForDecks(allDecks, z)
 	}
 
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Warn("could not write archetypes response")
-	}
+	writeJSON(rw, resp, "archetypes")
 }
 
 // archetypeStatsForDecks computes one row per archetype across the given decks:
@@ -118,83 +128,75 @@ func archetypeStatsForDecks(allDecks []*storage.Deck, z float64) *ArchetypeStats
 	resp := &ArchetypeStatsResponse{
 		Archetypes: make(map[string]*ArchetypeStats),
 	}
-
-	// Initialize macro archetypes.
-	macros := []string{"aggro", "midrange", "control"}
-	for _, m := range macros {
-		resp.Archetypes[m] = &ArchetypeStats{Type: m, SharedWith: make(map[string]int), Players: make(map[string]int)}
+	for _, macro := range macroArchetypes {
+		resp.Archetypes[macro] = newArchetypeStats(macro)
 	}
 
-	// totalWins counts each game once, for TotalGames. percentOfWinsDenom counts a multi-label deck's wins once per label, like the rows do, so PercentOfWins sums to 100%.
+	// totalWins counts each game once, as a win for one deck, for TotalGames.
 	totalWins := 0
-	percentOfWinsDenom := 0
+
+	// percentOfWinsDenominator counts a multi-label deck's wins once per label,
+	// like the rows do, so PercentOfWins sums to 100%.
+	percentOfWinsDenominator := 0
 	for _, deck := range allDecks {
 		totalWins += deck.GameWins()
-
-		deckLabels := deck.Labels
-		if deck.MacroArchetype != "" {
-			deckLabels = append(deckLabels, deck.MacroArchetype)
-		}
-		for _, label := range deckLabels {
+		for _, label := range deck.GetLabels() {
 			if _, ok := resp.Archetypes[label]; !ok {
-				resp.Archetypes[label] = &ArchetypeStats{Type: label, SharedWith: make(map[string]int), Players: make(map[string]int)}
+				resp.Archetypes[label] = newArchetypeStats(label)
 			}
-			archetype := resp.Archetypes[label]
-			archetype.Count++
-			archetype.Add(deck)
-			percentOfWinsDenom += deck.GameWins()
-			archetype.Trophies += deck.Trophies()
-			archetype.LastPlace += deck.LastPlace()
-			archetype.Winning += deck.TopHalf()
-			archetype.Losing += deck.BottomHalf()
-
-			// Add to the CMC sum (will divide later).
-			deckCMC := 0.0
-			count := 0
-			for _, card := range deck.Mainboard {
-				if !card.IsLand() {
-					deckCMC += float64(card.CMC)
-					count++
-				}
-			}
-			if count > 0 {
-				archetype.AvgCMC += deckCMC / float64(count)
-				archetype.cmcCount++
-			}
-
-			archetype.Players[deck.PersonLabel()]++
-
-			// Track shared labels (secondary tags only; macro archetype excluded).
-			for _, other := range deck.Labels {
-				if other == label {
-					continue
-				}
-				archetype.SharedWith[other]++
-			}
+			resp.Archetypes[label].addDeck(deck)
+			percentOfWinsDenominator += deck.GameWins()
 		}
 	}
-
-	// Since we iterate all decks, each game is counted once as a win for one deck
-	// and once as a loss for the other. Summing only wins avoids double-counting.
 	resp.TotalGames = totalWins
-	numDecks := len(allDecks)
 
-	for _, as := range resp.Archetypes {
-		as.BuildPercent = pct(float64(as.Count), float64(numDecks))
-		as.Finalize()
-		as.SetBayesian(archetypeBayesPriorGames)
-		as.SetInterval(z)
-		as.PercentOfWins = pct(float64(as.Wins), float64(percentOfWinsDenom))
-		if as.cmcCount > 0 {
-			as.AvgCMC = math.Round(as.AvgCMC/float64(as.cmcCount)*100) / 100
+	for _, row := range resp.Archetypes {
+		row.BuildPercent = pct(float64(row.Count), float64(len(allDecks)))
+		row.Finalize()
+		row.SetBayesian(archetypeBayesPriorGames)
+		row.SetInterval(z)
+		row.PercentOfWins = pct(float64(row.Wins), float64(percentOfWinsDenominator))
+		if row.numCMCDecks > 0 {
+			row.AvgCMC = round2(row.AvgCMC / float64(row.numCMCDecks))
 		}
-		if as.Count > 0 {
+		if row.Count > 0 {
 			totalShared := 0
-			for _, count := range as.SharedWith {
+			for _, count := range row.SharedWith {
 				totalShared += count
 			}
-			as.AvgShared = math.Round(float64(totalShared)/float64(as.Count)*100) / 100
+			row.AvgShared = round2(float64(totalShared) / float64(row.Count))
 		}
 	}
 	return resp
+}
+
+// newArchetypeStats returns an empty row for the named archetype or tag.
+func newArchetypeStats(name string) *ArchetypeStats {
+	return &ArchetypeStats{Type: name, SharedWith: make(map[string]int), Players: make(map[string]int)}
+}
+
+// addDeck adds one deck to the row. AvgCMC holds a sum of per-deck averages
+// until archetypeStatsForDecks divides it by numCMCDecks.
+func (a *ArchetypeStats) addDeck(deck *storage.Deck) {
+	a.Count++
+	a.Add(deck)
+	a.Trophies += deck.Trophies()
+	a.LastPlace += deck.LastPlace()
+	a.Winning += deck.TopHalf()
+	a.Losing += deck.BottomHalf()
+
+	// A deck of only lands has no mana value to average.
+	if slices.ContainsFunc(deck.Mainboard, func(c types.Card) bool { return !c.IsLand() }) {
+		a.AvgCMC += avgManaValue(deck)
+		a.numCMCDecks++
+	}
+
+	a.Players[deck.PersonLabel()]++
+
+	// Shared labels are the deck's tags only: the macro archetype is left out.
+	for _, other := range deck.Labels {
+		if other != a.Type {
+			a.SharedWith[other]++
+		}
+	}
 }

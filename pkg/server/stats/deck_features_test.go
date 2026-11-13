@@ -105,3 +105,16 @@ func TestForestFeatures_AvgManaValueWithoutSpells(t *testing.T) {
 	deck := recordDeck("Ozzy", []types.Card{basicLand()}, 0, 0)
 	assert.Equal(t, 0.0, featureValue(t, "avg_mana_value", deck))
 }
+
+func TestForestFeatures_ColorsCountsDeckColors(t *testing.T) {
+	deck := recordDeck("Ozzy", []types.Card{basicLand()}, 0, 0)
+	assert.Equal(t, 0.0, featureValue(t, "colors", deck))
+
+	deck.Colors = []string{"W", "U"}
+	assert.Equal(t, 2.0, featureValue(t, "colors", deck))
+}
+
+func TestHasDecklist(t *testing.T) {
+	assert.True(t, hasDecklist(recordDeck("Ozzy", creatures(1), 0, 0)))
+	assert.False(t, hasDecklist(recordDeck("Ozzy", nil, 0, 0)))
+}

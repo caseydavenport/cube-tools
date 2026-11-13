@@ -6,10 +6,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
-// macroArchetypes are the archetypes the Deck Stats charts split decks by, in
-// the order the charts show them.
-var macroArchetypes = []string{"aggro", "midrange", "control"}
-
 // headToHeadFeatures are the features the head-to-head chart can compare.
 var headToHeadFeatures = []deckFeature{manaValueFeature, creaturesFeature, interactionFeature}
 
@@ -47,7 +43,7 @@ func (s gapScale) index(gap float64) int {
 // scaleFor picks the bucketing for a feature: quarter steps for average mana
 // value, whole cards for everything else.
 func scaleFor(f deckFeature) gapScale {
-	if f.Key == "avg_mana_value" {
+	if f.Key == manaValueFeature.Key {
 		return manaValueGaps
 	}
 	return countGaps
@@ -67,7 +63,7 @@ func headToHead(decks, allDecks []*storage.Deck, feature deckFeature, z float64)
 	}
 
 	// Walk each deck's decided games and tally the ones where it had more.
-	idx := storage.NewOpponentIndex(allDecks)
+	opponentIndex := storage.NewOpponentIndex(allDecks)
 	for _, deck := range decks {
 		if !hasDecklist(deck) {
 			continue
@@ -77,30 +73,34 @@ func headToHead(decks, allDecks []*storage.Deck, feature deckFeature, z float64)
 			if game.Tie || game.Winner == "" {
 				continue
 			}
-			opp, ok := idx.OpponentDeck(deck, game.Opponent)
-			if !ok || !hasDecklist(opp) {
+			opponent, ok := opponentIndex.OpponentDeck(deck, game.Opponent)
+			if !ok || !hasDecklist(opponent) {
 				continue
 			}
-			gap := mine - feature.Value(opp)
+			gap := mine - feature.Value(opponent)
 			if gap <= 0 {
 				continue
 			}
-			b := buckets[scale.index(gap)]
+			bucket := buckets[scale.index(gap)]
 			if game.Winner == deck.Player {
-				b.Wins++
+				bucket.Wins++
 			} else {
-				b.Losses++
+				bucket.Losses++
 			}
 		}
 	}
 
 	// Turn the tallies into win rates and intervals.
-	for _, b := range buckets {
-		b.Finalize()
-		b.SetInterval(z)
+	for _, bucket := range buckets {
+		bucket.Finalize()
+		bucket.SetInterval(z)
 	}
 	return buckets
 }
+
+// closeMatchGames is how many games a match takes to count as close: a deciding
+// third game.
+const closeMatchGames = 3
 
 // CloseMatchRow is one bar of the close-match chart: the share of a macro
 // archetype's matches that went to a deciding game.
@@ -108,7 +108,7 @@ type CloseMatchRow struct {
 	Archetype string `json:"archetype"`
 
 	// Matches counts the archetype's matches with a known score, and Close
-	// the ones that went to three games or more.
+	// the ones that went to closeMatchGames games or more.
 	Matches int `json:"matches"`
 	Close   int `json:"close"`
 
@@ -143,7 +143,7 @@ func closeMatches(decks []*storage.Deck, z float64) []*CloseMatchRow {
 				continue
 			}
 			row.Matches++
-			if games >= 3 {
+			if games >= closeMatchGames {
 				row.Close++
 			}
 		}

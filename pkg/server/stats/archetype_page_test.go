@@ -1,6 +1,8 @@
 package stats
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -76,4 +78,17 @@ func TestBuildArchetypePage_NoDecksInRange(t *testing.T) {
 	assert.Equal(t, "Burn", page.Stats.Type)
 	assert.Equal(t, 0, page.Stats.Count)
 	assert.Empty(t, page.TopCards)
+}
+
+func TestArchetypePageHandler_UnknownNameIs404(t *testing.T) {
+	decks := []*storage.Deck{archetypeDeck("Freddie", 1, 1, "aggro", []string{"Burn"}, "Shock")}
+	handler := ArchetypePageHandler(&mockDeckStorage{decks: decks}, testCubeSource{})
+
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/archetype?name=Reanimator", nil))
+	assert.Equal(t, http.StatusNotFound, rr.Code)
+
+	rr = httptest.NewRecorder()
+	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/archetype?name=Burn", nil))
+	assert.Equal(t, http.StatusOK, rr.Code)
 }

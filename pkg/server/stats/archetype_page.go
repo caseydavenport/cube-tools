@@ -64,6 +64,7 @@ func (h *archetypePageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request
 
 	all, err := h.q.Decks(cubeID, &storage.DecksRequest{})
 	if err != nil {
+		logrus.WithError(err).Error("could not load decks for archetype page")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
@@ -73,6 +74,7 @@ func (h *archetypePageHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request
 	}
 	ranged, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: start, End: end})
 	if err != nil {
+		logrus.WithError(err).Error("could not load decks for archetype page")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
@@ -94,7 +96,7 @@ func buildArchetypePage(name string, all, ranged []*storage.Deck, start, end str
 
 	stats := archetypeStatsForDecks(ranged, z).Archetypes[name]
 	if stats == nil {
-		stats = &ArchetypeStats{Type: name, SharedWith: map[string]int{}, Players: map[string]int{}}
+		stats = newArchetypeStats(name)
 	}
 
 	page := ArchetypePageResponse{
@@ -141,11 +143,11 @@ func archetypeCards(mine, ranged []*storage.Deck) []ArchetypeCard {
 	}
 
 	// One row per card, best fit first.
-	out := []ArchetypeCard{}
+	cards := []ArchetypeCard{}
 	for name, n := range numInArchetype {
 		inShare := 100 * float64(n) / float64(len(mine))
 		ofCard := 100 * float64(n) / float64(numByCard[name])
-		out = append(out, ArchetypeCard{
+		cards = append(cards, ArchetypeCard{
 			Name:        name,
 			Land:        lands[name],
 			Decks:       n,
@@ -154,10 +156,10 @@ func archetypeCards(mine, ranged []*storage.Deck) []ArchetypeCard {
 			Fit:         round1(inShare * ofCard / 100),
 		})
 	}
-	slices.SortFunc(out, func(a, b ArchetypeCard) int {
+	slices.SortFunc(cards, func(a, b ArchetypeCard) int {
 		return cmp.Or(cmp.Compare(b.Fit, a.Fit), cmp.Compare(b.Decks, a.Decks), cmp.Compare(a.Name, b.Name))
 	})
-	return out
+	return cards
 }
 
 // archetypeTraits counts, over the archetype's decks, the other archetypes

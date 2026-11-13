@@ -98,8 +98,8 @@ func TestPlayerStats_BasicAggregation(t *testing.T) {
 		{Opponent: "Mick", Winner: "Freddie"},
 	}, []types.Match{
 		{Opponent: "Mick", Winner: "Mick"},
-		{Opponent: "Frank", Winner: "Frank"},
-		{Opponent: "Grace", Winner: "Grace"},
+		{Opponent: "Robert", Winner: "Robert"},
+		{Opponent: "Ann", Winner: "Ann"},
 	})
 
 	handler := PlayerStatsHandler(&mockDeckStorage{decks: []*storage.Deck{aggroDeck, controlDeck}}, testCubeSource{})
@@ -319,4 +319,21 @@ func BenchmarkPlayerStats(b *testing.B) {
 	for b.Loop() {
 		handler.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodGet, "/api/stats/players", nil))
 	}
+}
+
+// The macro archetype is added to the deck's own tags to build the player's
+// archetype rows, and that mustn't write into the deck's Labels slice.
+func TestPlayerStats_LeavesDeckLabelsAlone(t *testing.T) {
+	labels := make([]string, 1, 4)
+	labels[0] = "Burn"
+	d := makeStorageDeck("Freddie", 1, labels, nil, []types.Match{{Opponent: "Ozzy", Wins: 2}})
+	d.MacroArchetype = "aggro"
+
+	freddie := playerStatsFor(t, []*storage.Deck{d}, "").Players["Freddie"]
+
+	require.NotNil(t, freddie)
+	assert.Contains(t, freddie.ArchetypeStats, "aggro")
+	assert.Contains(t, freddie.ArchetypeStats, "burn")
+	assert.Equal(t, []string{"Burn"}, d.Labels)
+	assert.Empty(t, labels[:cap(labels)][1], "the macro archetype was written past the end of Labels")
 }

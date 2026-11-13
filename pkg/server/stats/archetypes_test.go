@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
@@ -99,14 +100,7 @@ func TestArchetypeStats_SharedWith_MacroSkip(t *testing.T) {
 	d.MacroArchetype = "control"
 	decks := []*storage.Deck{d}
 
-	handler := &archetypeStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ArchetypeStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getArchetypes(t, decks, "")
 
 	// The macro archetype must not leak into a secondary label's SharedWith.
 	spells := resp.Archetypes["spells"]
@@ -134,19 +128,12 @@ func TestArchetypeStats_WinPercent(t *testing.T) {
 		}, nil),
 	}
 
-	handler := &archetypeStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ArchetypeStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getArchetypes(t, decks, "")
 
 	aggro := resp.Archetypes["aggro"]
 	assert.NotNil(t, aggro)
 
-	// 3 wins, 3 losses → 50%
+	// 3 wins, 3 losses is 50%
 	assert.InDelta(t, 50.0, aggro.WinPercent, 0.5)
 }
 
@@ -162,14 +149,7 @@ func TestArchetypeStats_TotalGames(t *testing.T) {
 		}, nil),
 	}
 
-	handler := &archetypeStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ArchetypeStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getArchetypes(t, decks, "")
 
 	// Each game is counted once as a win for the winning deck.
 	// Freddie: 1 win, Ozzy: 1 win → totalGames = 2 (sum of GameWins across all decks)
@@ -196,14 +176,7 @@ func TestArchetypeStats_PercentOfWinsSumsTo100(t *testing.T) {
 		}, nil),
 	}
 
-	handler := &archetypeStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ArchetypeStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getArchetypes(t, decks, "")
 
 	sum := 0.0
 	rows := 0
@@ -262,4 +235,41 @@ func TestArchetypeStats_Buckets(t *testing.T) {
 	assert.NotContains(t, resp.Buckets[0].Archetypes, "token")
 	assert.Equal(t, "2026-02-01", resp.Buckets[1].Start)
 	assert.Equal(t, 1, resp.Buckets[1].Archetypes["token"].Count)
+}
+
+// The macro archetype is added to the deck's own tags to build its rows, and
+// that mustn't write into the deck's Labels slice, which other rows share.
+func TestArchetypeStats_LeavesDeckLabelsAlone(t *testing.T) {
+	labels := make([]string, 1, 4)
+	labels[0] = "spells"
+	d := makeStorageDeck("Freddie", 1, labels, nil, nil)
+	d.MacroArchetype = "control"
+
+	getArchetypes(t, []*storage.Deck{d}, "")
+
+	assert.Equal(t, []string{"spells"}, d.Labels)
+	assert.Empty(t, labels[:cap(labels)][1], "the macro archetype was written past the end of Labels")
+}
+
+// A row averages mana value over decks with a nonland card, so a deck of only
+// lands doesn't pull the average toward zero.
+func TestArchetypeStats_AvgCMCSkipsLandOnlyDecks(t *testing.T) {
+	spells := makeStorageDeck("Freddie", 1, []string{"ramp"}, nil, nil)
+	spells.Mainboard = []types.Card{{Name: "Cultivate", Types: []string{"Sorcery"}, CMC: 3}}
+	lands := makeStorageDeck("Ozzy", 1, []string{"ramp"}, nil, nil)
+	lands.Mainboard = []types.Card{{Name: "Forest", Types: []string{"Basic", "Land"}}}
+
+	resp := getArchetypes(t, []*storage.Deck{spells, lands}, "")
+
+	require.Equal(t, 2, resp.Archetypes["ramp"].Count)
+	assert.Equal(t, 3.0, resp.Archetypes["ramp"].AvgCMC)
+}
+
+// The macro archetypes get a row even when no deck carries them.
+func TestArchetypeStats_MacroRowsAlwaysPresent(t *testing.T) {
+	resp := getArchetypes(t, nil, "")
+
+	for _, macro := range macroArchetypes {
+		assert.Contains(t, resp.Archetypes, macro)
+	}
 }

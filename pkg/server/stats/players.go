@@ -1,7 +1,6 @@
 package stats
 
 import (
-	"encoding/json"
 	"fmt"
 	"math"
 	"net/http"
@@ -77,17 +76,19 @@ type PlayerStats struct {
 	// Tendencies is what the player tends to draft. Bucketed responses leave
 	// it empty.
 	Tendencies PlayerTendencies `json:"tendencies"`
+
+	// opponentWinSum is the decks' opponent win percentages, each weighted by
+	// its deck's rated opponents, and numRatedOpponents is the sum of those
+	// weights. OpponentWinPercent is their quotient.
+	opponentWinSum    float64
+	numRatedOpponents int
 }
 
+// winLossStats is a player's record with the decks of one archetype or color,
+// and how many decks that is.
 type winLossStats struct {
 	Record
 	Count int `json:"count"`
-}
-
-// opponentWinAccum tracks the weighted sum for computing opponent win percentage.
-type opponentWinAccum struct {
-	weightedSum  float64
-	totalMatches int
 }
 
 // PlayerStatsHandler serves one row per named player, with their records and
@@ -126,6 +127,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 
 	allDecks, err := s.q.Decks(cubeID, decksReq)
 	if err != nil {
+		logrus.WithError(err).Error("could not load decks for player stats")
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
@@ -145,15 +147,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		baseline.addTendencies(allDecks, resp.Players)
 	}
 
-	b, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
-		return
-	}
-	rw.Header().Set("Content-Type", "application/json")
-	if _, err := rw.Write(b); err != nil {
-		logrus.WithError(err).Error("could not write player stats response")
-	}
+	writeJSON(rw, resp, "players")
 }
 
 // tendencyBaseline is what player tendencies are compared against: every deck
@@ -199,10 +193,6 @@ func (b *tendencyBaseline) addTendencies(mine []*storage.Deck, rows map[string]*
 // interval at critical value z. Anonymous seats belong to no player.
 func playerRows(allDecks []*storage.Deck, z float64) map[string]*PlayerStats {
 	rows := make(map[string]*PlayerStats)
-
-	// Track weighted opponent win percentage accumulation per player.
-	owpAccum := make(map[string]*opponentWinAccum)
-
 	for _, deck := range allDecks {
 		// Seat labels repeat in every draft, so anonymous decks belong to no
 		// player. Names are unique, so keying by name keeps people apart.
@@ -210,96 +200,96 @@ func playerRows(allDecks []*storage.Deck, z float64) map[string]*PlayerStats {
 			continue
 		}
 		if _, ok := rows[deck.Player]; !ok {
-			rows[deck.Player] = &PlayerStats{
-				ID:             deck.PlayerID,
-				Name:           deck.Player,
-				UniqueCards:    make(map[string]int),
-				ColorPicks:     make(map[string]int),
-				ArchetypeStats: make(map[string]*winLossStats),
-				ColorStats:     make(map[string]*winLossStats),
-				Opponents:      make(map[string]*Record),
-			}
+			rows[deck.Player] = newPlayerStats(deck)
 		}
-		stats := rows[deck.Player]
-		stats.NumDecks++
-		stats.Add(deck)
-		stats.Trophies += deck.Trophies()
-		stats.LastPlace += deck.LastPlace()
-		if _, ok := owpAccum[deck.Player]; !ok {
-			owpAccum[deck.Player] = &opponentWinAccum{}
-		}
-		matches := deck.RatedOpponents
-		if matches > 0 {
-			owpAccum[deck.Player].weightedSum += deck.OpponentWinPercentage * float64(matches)
-			owpAccum[deck.Player].totalMatches += matches
-		}
-
-		// Track archetype win/loss for the player. Include both the macro
-		// archetype and any secondary labels.
-		archLabels := deck.Labels
-		if deck.MacroArchetype != "" {
-			archLabels = append(archLabels, deck.MacroArchetype)
-		}
-		for _, label := range archLabels {
-			l := strings.ToLower(label)
-			if _, ok := stats.ArchetypeStats[l]; !ok {
-				stats.ArchetypeStats[l] = &winLossStats{}
-			}
-			as := stats.ArchetypeStats[l]
-			as.Add(deck)
-			as.Count++
-		}
-
-		// Track color identity win/loss for the player.
-		colors := deck.GetColors()
-		for color := range colors {
-			if _, ok := stats.ColorStats[color]; !ok {
-				stats.ColorStats[color] = &winLossStats{}
-			}
-			cs := stats.ColorStats[color]
-			cs.Add(deck)
-			cs.Count++
-		}
-
-		addOpponentRecords(stats, deck)
-
-		for _, card := range deck.Mainboard {
-			if card.IsBasicLand() {
-				continue
-			}
-			stats.TotalPicks++
-			stats.UniqueCards[card.Name]++
-			for _, color := range card.Colors {
-				stats.ColorPicks[color]++
-			}
-		}
+		rows[deck.Player].addDeck(deck)
 	}
-
-	// Derive each player's rates from the accumulated counts.
-	for _, ps := range rows {
-		ps.Games = ps.Wins + ps.Losses + ps.Draws
-		finishRecord(&ps.Record, z)
-		ps.LossPercent = pct(float64(ps.Losses), float64(ps.Games))
-		for _, as := range ps.ArchetypeStats {
-			finishRecord(&as.Record, z)
-		}
-		for _, cs := range ps.ColorStats {
-			finishRecord(&cs.Record, z)
-		}
-		for _, opponentRecord := range ps.Opponents {
-			finishRecord(opponentRecord, z)
-		}
-		if accum, ok := owpAccum[ps.Name]; ok && accum.totalMatches > 0 {
-			// accum.weightedSum is already a percentage; just round to 2 decimals.
-			ps.OpponentWinPercent = math.Round(100*accum.weightedSum/float64(accum.totalMatches)) / 100
-		}
-		ps.WhitePercent = pct(float64(ps.ColorPicks["W"]), float64(ps.TotalPicks))
-		ps.BluePercent = pct(float64(ps.ColorPicks["U"]), float64(ps.TotalPicks))
-		ps.BlackPercent = pct(float64(ps.ColorPicks["B"]), float64(ps.TotalPicks))
-		ps.RedPercent = pct(float64(ps.ColorPicks["R"]), float64(ps.TotalPicks))
-		ps.GreenPercent = pct(float64(ps.ColorPicks["G"]), float64(ps.TotalPicks))
+	for _, row := range rows {
+		row.finish(z)
 	}
 	return rows
+}
+
+// newPlayerStats returns an empty row for the player who played deck.
+func newPlayerStats(deck *storage.Deck) *PlayerStats {
+	return &PlayerStats{
+		ID:             deck.PlayerID,
+		Name:           deck.Player,
+		UniqueCards:    make(map[string]int),
+		ColorPicks:     make(map[string]int),
+		ArchetypeStats: make(map[string]*winLossStats),
+		ColorStats:     make(map[string]*winLossStats),
+		Opponents:      make(map[string]*Record),
+	}
+}
+
+// addDeck adds one of the player's decks to the row's counts. The rates are
+// left for finish.
+func (p *PlayerStats) addDeck(deck *storage.Deck) {
+	p.NumDecks++
+	p.Add(deck)
+	p.Trophies += deck.Trophies()
+	p.LastPlace += deck.LastPlace()
+	if deck.RatedOpponents > 0 {
+		p.opponentWinSum += deck.OpponentWinPercentage * float64(deck.RatedOpponents)
+		p.numRatedOpponents += deck.RatedOpponents
+	}
+
+	// Archetype records cover the macro archetype and every tag.
+	for _, label := range deck.GetLabels() {
+		addToWinLoss(p.ArchetypeStats, strings.ToLower(label), deck)
+	}
+	for color := range deck.GetColors() {
+		addToWinLoss(p.ColorStats, color, deck)
+	}
+
+	addOpponentRecords(p, deck)
+
+	for _, card := range deck.Mainboard {
+		if card.IsBasicLand() {
+			continue
+		}
+		p.TotalPicks++
+		p.UniqueCards[card.Name]++
+		for _, color := range card.Colors {
+			p.ColorPicks[color]++
+		}
+	}
+}
+
+// finish derives the row's rates from the counts addDeck gathered. z is the
+// critical value for the win-rate intervals.
+func (p *PlayerStats) finish(z float64) {
+	p.Games = p.Wins + p.Losses + p.Draws
+	finishRecord(&p.Record, z)
+	p.LossPercent = pct(float64(p.Losses), float64(p.Games))
+	for _, row := range p.ArchetypeStats {
+		finishRecord(&row.Record, z)
+	}
+	for _, row := range p.ColorStats {
+		finishRecord(&row.Record, z)
+	}
+	for _, opponentRecord := range p.Opponents {
+		finishRecord(opponentRecord, z)
+	}
+	if p.numRatedOpponents > 0 {
+		// opponentWinSum is already a percentage; just round to 2 decimals.
+		p.OpponentWinPercent = math.Round(100*p.opponentWinSum/float64(p.numRatedOpponents)) / 100
+	}
+	p.WhitePercent = pct(float64(p.ColorPicks["W"]), float64(p.TotalPicks))
+	p.BluePercent = pct(float64(p.ColorPicks["U"]), float64(p.TotalPicks))
+	p.BlackPercent = pct(float64(p.ColorPicks["B"]), float64(p.TotalPicks))
+	p.RedPercent = pct(float64(p.ColorPicks["R"]), float64(p.TotalPicks))
+	p.GreenPercent = pct(float64(p.ColorPicks["G"]), float64(p.TotalPicks))
+}
+
+// addToWinLoss adds the deck to the record under key, creating it on first use.
+func addToWinLoss(records map[string]*winLossStats, key string, deck *storage.Deck) {
+	if _, ok := records[key]; !ok {
+		records[key] = &winLossStats{}
+	}
+	records[key].Add(deck)
+	records[key].Count++
 }
 
 // finishRecord computes a player record's win rate, Bayes rate and interval.

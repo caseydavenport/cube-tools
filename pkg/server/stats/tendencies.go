@@ -94,11 +94,11 @@ type deckSpells struct {
 
 // withSpells pairs each deck with its card-name set.
 func withSpells(decks []*storage.Deck) []deckSpells {
-	out := make([]deckSpells, 0, len(decks))
+	paired := make([]deckSpells, 0, len(decks))
 	for _, d := range decks {
-		out = append(out, deckSpells{deck: d, spells: distinctSpells(d)})
+		paired = append(paired, deckSpells{deck: d, spells: distinctSpells(d)})
 	}
-	return out
+	return paired
 }
 
 // signatureCandidate is one card's counts while signature cards are picked,
@@ -113,7 +113,7 @@ type signatureCandidate struct {
 // the cube's color shares and, without the player's own decks, everyone
 // else's rates for signature cards. Players are told apart by name, since a
 // Cube Cobra cube's players have no IDs.
-func playerTendencies(name string, mine []*storage.Deck, baseline []deckSpells, pkgs []design.PackageCards, cubes cubeLists) PlayerTendencies {
+func playerTendencies(name string, mine []*storage.Deck, baseline []deckSpells, packageCards []design.PackageCards, cubes cubeLists) PlayerTendencies {
 	var others []deckSpells
 	var baselineDecks []*storage.Deck
 	for _, d := range baseline {
@@ -130,7 +130,7 @@ func playerTendencies(name string, mine []*storage.Deck, baseline []deckSpells, 
 		MainColors:     mainColors(playerShares),
 		ColorGap:       biggestColorGap(playerShares, colorShares(baselineDecks)),
 		Archetypes:     archetypeCounts(mine),
-		Packages:       packageCounts(mine, pkgs),
+		Packages:       packageCounts(mine, packageCards),
 		SignatureCards: signatureCards(withSpells(mine), others, cubes),
 	}
 }
@@ -218,11 +218,11 @@ func archetypeCounts(decks []*storage.Deck) []NamedCount {
 
 // packageCounts counts how many of the decks build each package, most built
 // first, by the same rule the Packages page uses.
-func packageCounts(decks []*storage.Deck, pkgs []design.PackageCards) []NamedCount {
+func packageCounts(decks []*storage.Deck, packageCards []design.PackageCards) []NamedCount {
 	counts := map[string]int{}
 	for _, d := range decks {
 		deck := deckCards(d)
-		for _, p := range pkgs {
+		for _, p := range packageCards {
 			if p.BuiltIn(d.Metadata.DraftID, deck) {
 				counts[p.Name]++
 			}
@@ -233,17 +233,14 @@ func packageCounts(decks []*storage.Deck, pkgs []design.PackageCards) []NamedCou
 
 // sortedCounts turns a count map into a list, highest count first, then name.
 func sortedCounts(counts map[string]int) []NamedCount {
-	out := []NamedCount{}
+	sorted := []NamedCount{}
 	for name, n := range counts {
-		out = append(out, NamedCount{Name: name, Count: n})
+		sorted = append(sorted, NamedCount{Name: name, Count: n})
 	}
-	slices.SortFunc(out, func(a, b NamedCount) int {
-		if a.Count != b.Count {
-			return b.Count - a.Count
-		}
-		return cmp.Compare(a.Name, b.Name)
+	slices.SortFunc(sorted, func(a, b NamedCount) int {
+		return cmp.Or(cmp.Compare(b.Count, a.Count), cmp.Compare(a.Name, b.Name))
 	})
-	return out
+	return sorted
 }
 
 // signatureCards picks the cards the player mainboards much more often than
@@ -252,6 +249,7 @@ func sortedCounts(counts map[string]int) []NamedCount {
 // Only decks from drafts whose cube had the card count. Lowest chance first,
 // at most maxSignatureCards.
 func signatureCards(mine, others []deckSpells, cubes cubeLists) []SignatureCard {
+	// Test each card the player plays often enough against everyone else's rate.
 	candidates := []signatureCandidate{}
 	for card := range cardsInAtLeast(mine, minSignatureDecks) {
 		decks, available := countWithCard(mine, card, cubes)
@@ -273,17 +271,15 @@ func signatureCards(mine, others []deckSpells, cubes cubeLists) []SignatureCard 
 		})
 	}
 
+	// Keep the least likely by chance, at most maxSignatureCards.
 	slices.SortFunc(candidates, func(a, b signatureCandidate) int {
-		if a.chance != b.chance {
-			return cmp.Compare(a.chance, b.chance)
-		}
-		return cmp.Compare(a.card.Name, b.card.Name)
+		return cmp.Or(cmp.Compare(a.chance, b.chance), cmp.Compare(a.card.Name, b.card.Name))
 	})
-	out := []SignatureCard{}
-	for i := 0; i < len(candidates) && i < maxSignatureCards; i++ {
-		out = append(out, candidates[i].card)
+	signatures := []SignatureCard{}
+	for _, candidate := range candidates[:min(len(candidates), maxSignatureCards)] {
+		signatures = append(signatures, candidate.card)
 	}
-	return out
+	return signatures
 }
 
 // cardsInAtLeast returns the non-basic mainboard cards that appear in at least
@@ -295,13 +291,13 @@ func cardsInAtLeast(decks []deckSpells, n int) map[string]bool {
 			counts[name]++
 		}
 	}
-	out := map[string]bool{}
+	frequent := map[string]bool{}
 	for name, count := range counts {
 		if count >= n {
-			out[name] = true
+			frequent[name] = true
 		}
 	}
-	return out
+	return frequent
 }
 
 // countWithCard counts, among the decks from drafts whose cube had the card,

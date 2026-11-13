@@ -37,14 +37,7 @@ func TestColorStats_WinPercent(t *testing.T) {
 		}),
 	}
 
-	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ColorStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getColorStats(t, decks, "")
 	assert.NotNil(t, resp.All)
 
 	red := resp.All.Data["R"]
@@ -52,7 +45,7 @@ func TestColorStats_WinPercent(t *testing.T) {
 	assert.Equal(t, 2, red.Wins)
 	assert.Equal(t, 1, red.Losses)
 
-	// 2/(2+1) = 66.67 → rounded to 67
+	// 2/(2+1) = 66.67 rounded to 67
 	assert.InDelta(t, 67.0, red.WinPercent, 0.5)
 }
 
@@ -70,14 +63,7 @@ func TestColorStats_MultipleColors(t *testing.T) {
 		}),
 	}
 
-	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=inclusive", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ColorStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getColorStats(t, decks, "?color_mode=inclusive")
 
 	// Should have entries for W, U, and WU
 	assert.NotNil(t, resp.All.Data["W"])
@@ -102,14 +88,7 @@ func TestColorStats_Trophies(t *testing.T) {
 		}),
 	}
 
-	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ColorStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getColorStats(t, decks, "")
 
 	green := resp.All.Data["G"]
 	assert.NotNil(t, green)
@@ -119,13 +98,13 @@ func TestColorStats_Trophies(t *testing.T) {
 
 func TestColorStats_TopBottomHalf(t *testing.T) {
 	decks := []*storage.Deck{
-		// 2-1 deck → top half
+		// 2-1 deck is top half
 		makeColorDeck("Freddie", []string{"R"}, nil, []types.Match{
 			{Opponent: "Ozzy", Winner: "Freddie"},
 			{Opponent: "Stevie", Winner: "Freddie"},
 			{Opponent: "Joan", Winner: "Joan"},
 		}, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
-		// 1-2 deck → bottom half
+		// 1-2 deck is bottom half
 		makeColorDeck("Ozzy", []string{"R"}, nil, []types.Match{
 			{Opponent: "Freddie", Winner: "Freddie"},
 			{Opponent: "Stevie", Winner: "Stevie"},
@@ -133,14 +112,7 @@ func TestColorStats_TopBottomHalf(t *testing.T) {
 		}, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
 	}
 
-	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ColorStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getColorStats(t, decks, "")
 
 	red := resp.All.Data["R"]
 	assert.NotNil(t, red)
@@ -155,25 +127,18 @@ func TestColorStats_BuildPercent(t *testing.T) {
 		makeColorDeck("Stevie", []string{"R"}, nil, nil, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
 	}
 
-	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ColorStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getColorStats(t, decks, "")
 
 	red := resp.All.Data["R"]
 	assert.NotNil(t, red)
 
-	// 2 out of 3 decks are red → round(67) = 67
+	// 2 out of 3 decks are red is round(67) = 67
 	assert.InDelta(t, 67.0, red.BuildPercent, 0.5)
 
 	blue := resp.All.Data["U"]
 	assert.NotNil(t, blue)
 
-	// 1 out of 3 → round(33) = 33
+	// 1 out of 3 is round(33) = 33
 	assert.InDelta(t, 33.0, blue.BuildPercent, 0.5)
 }
 
@@ -214,12 +179,14 @@ func percentDecks() []*storage.Deck {
 	}
 }
 
-// getColorStats serves a colors request over decks in the given color mode.
-func getColorStats(t *testing.T, decks []*storage.Deck, mode string) ColorStatsResponse {
+// getColorStats serves a colors request over decks with the given query
+// string, which is empty or starts with "?".
+func getColorStats(t *testing.T, decks []*storage.Deck, query string) ColorStatsResponse {
 	t.Helper()
 	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
 	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode="+mode, nil))
+	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/colors"+query, nil))
+	require.Equal(t, http.StatusOK, rr.Code)
 
 	var resp ColorStatsResponse
 	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
@@ -230,7 +197,7 @@ func getColorStats(t *testing.T, decks []*storage.Deck, mode string) ColorStatsR
 // still divides by all 4 wins in the decks, so the BG deck's 2 wins make B,
 // G and BG each 50%, and the column sums past 100%.
 func TestColorStats_InclusivePercentOfWinsUsesAllWins(t *testing.T) {
-	resp := getColorStats(t, percentDecks(), "inclusive")
+	resp := getColorStats(t, percentDecks(), "?color_mode=inclusive")
 
 	assert.InDelta(t, 25.0, resp.All.Data["W"].PercentOfWins, 0.5)
 	assert.InDelta(t, 25.0, resp.All.Data["WU"].PercentOfWins, 0.5)
@@ -242,7 +209,7 @@ func TestColorStats_InclusivePercentOfWinsUsesAllWins(t *testing.T) {
 // In exact mode each deck belongs to one row, so the rows split all the wins
 // between them and sum to 100%.
 func TestColorStats_ExactPercentOfWinsSumsTo100(t *testing.T) {
-	resp := getColorStats(t, percentDecks(), "exact")
+	resp := getColorStats(t, percentDecks(), "?color_mode=exact")
 
 	sum := 0.0
 	for _, c := range resp.All.Data {
@@ -255,7 +222,7 @@ func TestColorStats_ExactPercentOfWinsSumsTo100(t *testing.T) {
 // the card total inflates the same way, so TotalPickPercentage still sums to
 // about 100%. Small drift comes from per-row rounding.
 func TestColorStats_InclusivePickPercentagesSumTo100(t *testing.T) {
-	resp := getColorStats(t, percentDecks(), "inclusive")
+	resp := getColorStats(t, percentDecks(), "?color_mode=inclusive")
 
 	sumPicks := 0.0
 	for _, c := range resp.All.Data {
@@ -287,14 +254,7 @@ func TestColorStats_PrimaryModeNoDoubleCounting(t *testing.T) {
 		}, mb),
 	}
 
-	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=primary", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ColorStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getColorStats(t, decks, "?color_mode=primary")
 
 	// WU is the primary pair - the deck should contribute exactly once there.
 	assert.NotNil(t, resp.All.Data["WU"])
@@ -310,14 +270,7 @@ func TestColorStats_PrimaryModeNoDoubleCounting(t *testing.T) {
 }
 
 func TestColorStats_NoDecks(t *testing.T) {
-	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: nil}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ColorStatsResponse
-	err := json.Unmarshal(rr.Body.Bytes(), &resp)
-	assert.NoError(t, err)
+	resp := getColorStats(t, nil, "")
 	assert.NotNil(t, resp.All)
 	assert.Empty(t, resp.All.Data)
 }
@@ -349,13 +302,7 @@ func TestColorStats_BayesianPriorPerMode(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(tc.mode, func(t *testing.T) {
-			handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-			req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode="+tc.mode, nil)
-			rr := httptest.NewRecorder()
-			handler.ServeHTTP(rr, req)
-
-			var resp ColorStatsResponse
-			assert.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+			resp := getColorStats(t, decks, "?color_mode="+tc.mode)
 			wu := resp.All.Data["WU"]
 			assert.NotNil(t, wu)
 			assert.Equal(t, tc.want, wu.BayesianWinPercent)
@@ -372,13 +319,51 @@ func TestColorStats_SkipsDecksWithUnknownColors(t *testing.T) {
 		makeColorDeck("Freddie", nil, win, nil, nil),
 	}
 
-	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, testCubeSource{})}
-	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=exact", nil)
-	rr := httptest.NewRecorder()
-	handler.ServeHTTP(rr, req)
-
-	var resp ColorStatsResponse
-	assert.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	resp := getColorStats(t, decks, "?color_mode=exact")
 	assert.NotContains(t, resp.All.Data, "")
 	assert.Equal(t, 100.0, resp.All.Data["W"].BuildPercent)
+}
+
+func TestColorStats_RejectsBadParameters(t *testing.T) {
+	handler := &colorStatsHandler{q: deckquery.New(&mockDeckStorage{decks: percentDecks()}, testCubeSource{})}
+	for _, query := range []string{"?color_mode=bogus", "?confidence=1.5", "?confidence=-0.1"} {
+		t.Run(query, func(t *testing.T) {
+			rr := httptest.NewRecorder()
+			handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/colors"+query, nil))
+			assert.Equal(t, http.StatusBadRequest, rr.Code)
+		})
+	}
+}
+
+// With bucket_size set, the answer is one set of color rows per time bucket
+// and no aggregate.
+func TestColorStats_Buckets(t *testing.T) {
+	win := []types.Game{{Opponent: "Ozzy", Winner: "Freddie"}}
+	first := makeColorDeck("Freddie", []string{"R"}, win, nil, nil)
+	first.Metadata.DraftID, first.Date = 1, "2026-01-01"
+	second := makeColorDeck("Freddie", []string{"U"}, win, nil, nil)
+	second.Metadata.DraftID, second.Date = 2, "2026-02-01"
+
+	resp := getColorStats(t, []*storage.Deck{first, second}, "?bucket_size=1&sliding=true")
+
+	assert.Nil(t, resp.All)
+	require.Len(t, resp.Buckets, 2)
+	assert.Equal(t, "2026-01-01", resp.Buckets[0].Start)
+	assert.Contains(t, resp.Buckets[0].Data, "R")
+	assert.NotContains(t, resp.Buckets[0].Data, "U")
+	assert.Contains(t, resp.Buckets[1].Data, "U")
+}
+
+// A colorless card matches no color, so it adds to no row's card count.
+func TestColorStats_ColorlessCardsCountForNoColor(t *testing.T) {
+	decks := []*storage.Deck{
+		makeColorDeck("Freddie", []string{"R"}, nil, nil, []types.Card{
+			{Name: "Bolt", Colors: []string{"R"}},
+			{Name: "Sol Ring"},
+		}),
+	}
+
+	resp := getColorStats(t, decks, "")
+
+	assert.Equal(t, 1, resp.All.Data["R"].Cards)
 }
