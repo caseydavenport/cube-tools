@@ -1,53 +1,75 @@
-# cube-tools
+# Cube tools
 
-Tools for recording and analyzing cube drafts: the decks people built, how those decks performed, and what that says about the cube's design.
+Stats on the decks a play group drafts from its Magic: The Gathering cubes, judged against rules for which cards work together.
 
-## Drafts and decks
+## Cubes and drafts
 
 **Cube**:
-A curated list of cards that drafts are run from.
-_Avoid_: list, set
+A curated card list the group drafts from, such as Defender of the Polyverse or The Great Aurora.
+_Avoid_: set, list (alone)
+
+**Today's list**:
+The cards the cube holds now.
+_Avoid_: current cube, catalog
 
 **Draft**:
-One event where a group of players drafted from a cube. Each draft is identified by a number that increments as drafts are added.
-_Avoid_: event, pod, session
+One session where players drafted the cube and built decks.
+_Avoid_: event, pod
 
-**Event**:
-The occasion a draft was held at, such as a store night or a tournament. An event has a name and a short event code, and one event can hold several drafts.
-_Avoid_: tournament (for events in general)
+**Draft list**:
+The cards the cube held at one draft, saved with that draft.
+_Avoid_: snapshot (in prose)
 
-**Flight**:
-One of several drafts run within the same event.
-_Avoid_: pod, round (for a flight)
+**Cut card**:
+A card an old draft list or deck held that today's list doesn't.
 
 **Deck**:
-What one player built and played in one draft. A deck has an identity of its own: a number unique within its draft that never changes, independent of who played it.
-_Avoid_: entry, seat, player (as a synonym for deck)
+The cards one player built and played at one draft, with their match record.
 
-**Player**:
-A person in the global player list, shared by every cube. A player has a number that never changes and an editable display name; decks point at the number.
-_Avoid_: drafter, user
+## Design rules
 
-**Seat**:
-A deck's place in its draft, numbered by the event or import (Hedron's "Player 3", the third photo). A deck whose player isn't known is shown by its seat label, `p` and the seat number (`p3`), and can be assigned to a player later; the deck keeps its seat number either way.
-_Avoid_: placeholder, anonymous player
+**Rules**:
+A cube's groups and packages, together.
+_Avoid_: config, design map
 
-**Notes**:
-Free-form write-up about a deck, kept as part of the deck.
-_Avoid_: report, description
+**Group**:
+A named set of cards picked out by search conditions, minus any cards it excludes.
+_Avoid_: tag, category
 
-## Results
+**Card entry**:
+A wire side's direct reference to one card by name instead of a group.
 
-**Match**:
-One pairing between two decks in a draft, scored in games won, lost and drawn.
-_Avoid_: pairing, game (for the whole pairing)
+**Wire**:
+A link between two sides of groups or card entries whose cards work together. An Enables wire has enablers on one side and payoffs on the other; a Pairs with wire's sides simply go well together.
+_Avoid_: edge, link (for the rule itself)
 
-**Round**:
-The position of a match in the draft's schedule, so the same two decks can meet more than once.
+**Package**:
+A named strategy made of one or more wires.
+_Avoid_: archetype, theme, synergy
 
-**Game**:
-A single game within a match.
+**Build-around**:
+A card a deck can be built around, which can stand in for the rest of its wire side.
 
-**Record**:
-A deck's full set of matches in its draft.
-_Avoid_: results, score
+**Built**:
+A deck builds a package when it plays enough cards from both sides of one of its wires.
+_Avoid_: has, contains, uses
+
+**Rulebook**:
+A cube's rules resolved against its cards: which cards fill each group and wire side, and where each package is supported.
+
+## Relevance
+
+**Supported**:
+A draft list supports a package when it holds enough of the package's cards to build it.
+_Avoid_: present, available
+
+**Override**:
+A cube's choice to force a package on or off everywhere, whatever its lists support.
+_Avoid_: pin, toggle
+
+**Relevant**:
+A package is relevant to a draft when that draft's list supports it, after overrides.
+
+**Shown**:
+The packages a view names: those relevant to the drafts it covers, or to today's list when it covers none.
+_Avoid_: visible, filtered
