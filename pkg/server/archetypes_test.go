@@ -7,14 +7,15 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
 	"github.com/caseydavenport/cube-tools/pkg/storage/router"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 type mockDeckStorage struct {
@@ -103,7 +104,7 @@ func TestArchetypesHandler_DrawsExcluded(t *testing.T) {
 		}, nil),
 	}
 
-	handler := &archetypesHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, nil, nil)}
+	handler := &archetypesHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, fixedCube{cube: &types.Cube{}})}
 	req := httptest.NewRequest(http.MethodGet, "/api/archetypes", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -131,7 +132,7 @@ func TestArchetypesHandlerNoArchetypesSendsEmptyItems(t *testing.T) {
 	// The UI indexes into items, so a cube with no labeled decks must get an
 	// empty list rather than null.
 	decks := []*storage.Deck{makeStorageDeck("Freddie", 1, nil, nil, nil)}
-	handler := &archetypesHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, nil, nil)}
+	handler := &archetypesHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, fixedCube{cube: &types.Cube{}})}
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/archetypes", nil))
 	require.Equal(t, http.StatusOK, rr.Code)
@@ -165,7 +166,7 @@ func TestArchetypesHandlerReadsCubeCobraCube(t *testing.T) {
 	store := storage.NewStore(router.New(memory.New(), stubCubeCobra{decks: []*storage.Deck{freddie, joan}}))
 
 	rr := httptest.NewRecorder()
-	ArchetypesHandler(store, nil).ServeHTTP(rr, archetypesRequest("cc:abc", ""))
+	ArchetypesHandler(store, fixedCube{cube: &types.Cube{}}).ServeHTTP(rr, archetypesRequest("cc:abc", ""))
 	require.Equal(t, http.StatusOK, rr.Code)
 
 	var resp ArchetypesResponse
@@ -188,29 +189,20 @@ func TestArchetypesHandlerPackageFilters(t *testing.T) {
 	}
 	ozzy.Mainboard = []types.Card{{Name: "gy1"}, {Name: "gy2"}, {Name: "gy3"}}
 	stevie.Mainboard = []types.Card{{Name: "gy1"}, {Name: "gy2"}, {Name: "Forest"}}
-	store := memory.NewStore(func(b *memory.Backend) { b.Seed("testcube", ozzy, stevie) })
-	packagesFor := func(string) ([]design.PackageCards, error) {
-		return []design.PackageCards{{
-			Name: "Graveyard",
-			Wires: []design.WireCards{{
-				Sources: map[string]bool{
-					"gy1": true,
-					"gy2": true,
-					"gy3": true,
-				},
-				Targets: map[string]bool{
-					"gy1": true,
-					"gy2": true,
-					"gy3": true,
-				},
-				NeedSources: 2,
-				NeedTargets: 2,
-			}},
-		}}, nil
+	rules := &design.DesignMapConfig{
+		Groups: []design.Group{{Name: "Graveyard cards", Conditions: []string{"n:gy1", "n:gy2", "n:gy3"}}},
+		Packages: []design.Package{
+			{Name: "Graveyard", Wires: []design.Wire{{Sources: []string{"Graveyard cards"}, Targets: []string{"Graveyard cards"}}}},
+		},
 	}
+	store := memory.NewStore(func(b *memory.Backend) {
+		b.SeedRules("testcube", rules)
+		b.Seed("testcube", ozzy, stevie)
+	})
+	cube := fixedCube{cube: &types.Cube{Cards: []types.Card{{Name: "gy1"}, {Name: "gy2"}, {Name: "gy3"}}}}
 
 	rr := httptest.NewRecorder()
-	ArchetypesHandler(store, packagesFor).ServeHTTP(rr, archetypesRequest("testcube", "match=package:graveyard"))
+	ArchetypesHandler(store, cube).ServeHTTP(rr, archetypesRequest("testcube", "match=package:graveyard"))
 	require.Equal(t, http.StatusOK, rr.Code)
 
 	var resp ArchetypesResponse
@@ -220,4 +212,19 @@ func TestArchetypesHandlerPackageFilters(t *testing.T) {
 		names = append(names, item.Name)
 	}
 	assert.Equal(t, []string{"aggro"}, names)
+}
+
+// fixedCube serves one list as today's.
+type fixedCube struct {
+	cube *types.Cube
+}
+
+// Current returns the list.
+func (c fixedCube) Current(string) (*types.Cube, error) {
+	return c.cube, nil
+}
+
+// Refresh returns the list.
+func (c fixedCube) Refresh(string) (*types.Cube, error) {
+	return c.cube, nil
 }

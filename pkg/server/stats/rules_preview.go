@@ -35,7 +35,7 @@ type PackageChange struct {
 // is a whole proposed rule set; nothing is saved. Counts follow the "start"
 // and "end" query params.
 func RulesPreviewHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &rulesPreviewHandler{store: store, src: src, q: newQuery(store, src)}
+	return &rulesPreviewHandler{store: store, src: src, q: deckquery.New(store, src)}
 }
 
 type rulesPreviewHandler struct {

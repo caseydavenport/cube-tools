@@ -44,7 +44,7 @@ func (m *MatchupRecord) finish(prior, z float64) {
 }
 
 func ColorMatchupHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &colorMatchupHandler{q: newQuery(store, src)}
+	return &colorMatchupHandler{q: deckquery.New(store, src)}
 }
 
 type colorMatchupHandler struct {

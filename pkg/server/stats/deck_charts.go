@@ -28,7 +28,7 @@ type DeckChartsResponse struct {
 // DeckChartsHandler serves the Deck Stats charts for the decks matching the
 // request's filters, at the request's confidence level.
 func DeckChartsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &deckChartsHandler{q: newQuery(store, src)}
+	return &deckChartsHandler{q: deckquery.New(store, src)}
 }
 
 type deckChartsHandler struct {

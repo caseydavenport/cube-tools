@@ -92,7 +92,7 @@ type PivotResponse struct {
 }
 
 func PivotHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &pivotHandler{q: newQuery(store, src)}
+	return &pivotHandler{q: deckquery.New(store, src)}
 }
 
 type pivotHandler struct {

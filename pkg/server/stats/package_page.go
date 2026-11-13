@@ -114,7 +114,7 @@ type DraftBuild struct {
 // "name" query parameter, matched ignoring case. It follows the date range but
 // not the deck filter, like the card page.
 func PackagePageHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &packagePageHandler{q: newQuery(store, src), store: store, src: src}
+	return &packagePageHandler{q: deckquery.New(store, src), store: store, src: src}
 }
 
 type packagePageHandler struct {

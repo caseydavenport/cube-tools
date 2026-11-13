@@ -6,6 +6,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -21,7 +22,7 @@ type CardSearchResponse struct {
 // search in the card search syntax, play-stat keywords included, judged
 // against the same decks the card stats endpoint reads for the request.
 func CardSearchHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &cardSearchHandler{stats: &cardStatsHandler{q: newQuery(store, src)}}
+	return &cardSearchHandler{stats: &cardStatsHandler{q: deckquery.New(store, src)}}
 }
 
 type cardSearchHandler struct {

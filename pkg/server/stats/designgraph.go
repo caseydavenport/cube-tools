@@ -237,17 +237,6 @@ func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID 
 	return buildDesignGraph(in.cube, in.config, in.playedCardNames), nil
 }
 
-// PackagesForCube resolves a cube's packages to card names, ready to test
-// which decks build each one, with each package's relevance attached. It
-// loads the same rules and cards as DesignGraphForCube and fails the same way.
-func PackagesForCube(store storage.DeckStorage, src types.CubeSource, cubeID string) ([]design.PackageCards, error) {
-	in, err := loadDesignInputs(store, src, cubeID)
-	if err != nil {
-		return nil, err
-	}
-	return in.packages(), nil
-}
-
 // designInputs is what the design graph and package detection are built from:
 // the current cube list, its rules, the cards its decks have played and its
 // drafts' lists held, and the packages the cube forces on or off.
@@ -464,7 +453,7 @@ const distributionMinDeckSize = 20
 const manabaseLandFraction = 0.8
 
 func GroupDistributionsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &groupDistributionsHandler{store: store, q: newQuery(store, src)}
+	return &groupDistributionsHandler{store: store, q: deckquery.New(store, src)}
 }
 
 type groupDistributionsHandler struct {

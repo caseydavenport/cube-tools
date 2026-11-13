@@ -67,7 +67,7 @@ type PackageStatsResponse struct {
 }
 
 func PackageStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &packageStatsHandler{store: store, src: src, q: newQuery(store, src)}
+	return &packageStatsHandler{store: store, src: src, q: deckquery.New(store, src)}
 }
 
 type packageStatsHandler struct {

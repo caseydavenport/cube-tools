@@ -57,7 +57,7 @@ type BoardGroup struct {
 // RulesBoardHandler serves GET /api/{cube}/stats/rules-board. Build stats
 // follow the date range; everything else comes from the rules and the cube.
 func RulesBoardHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &rulesBoardHandler{q: newQuery(store, src), store: store, src: src}
+	return &rulesBoardHandler{q: deckquery.New(store, src), store: store, src: src}
 }
 
 type rulesBoardHandler struct {

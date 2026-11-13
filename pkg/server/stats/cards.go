@@ -69,7 +69,7 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 }
 
 func CardStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &cardStatsHandler{q: newQuery(store, src)}
+	return &cardStatsHandler{q: deckquery.New(store, src)}
 }
 
 type cardStatsHandler struct {

@@ -123,10 +123,7 @@ func serve(t *testing.T, h http.Handler, method, target, body string) *httptest.
 func TestFilteredHandlersMatchDecksPage(t *testing.T) {
 	const target = "?match=package:graveyard"
 	decksSpy := newSpy()
-	packagesFor := func(cubeID string) ([]design.PackageCards, error) {
-		return PackagesForCube(decksSpy, stubCubes{}, cubeID)
-	}
-	rec := serve(t, decks.DeckHandler(decksSpy, packagesFor), http.MethodGet, "/api/testcube/decks"+target, "")
+	rec := serve(t, decks.DeckHandler(decksSpy, stubCubes{}), http.MethodGet, "/api/testcube/decks"+target, "")
 	require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
 	require.Equal(t, []string{"Ozzy"}, decksSpy.lastPlayers)
 

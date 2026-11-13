@@ -60,7 +60,7 @@ type MemberCard struct {
 // of the package named by "package" or for the one group named by "group".
 // Members are cube cards only; their play counts follow the date range.
 func RuleGroupsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &ruleGroupsHandler{store: store, src: src, q: newQuery(store, src)}
+	return &ruleGroupsHandler{store: store, src: src, q: deckquery.New(store, src)}
 }
 
 type ruleGroupsHandler struct {

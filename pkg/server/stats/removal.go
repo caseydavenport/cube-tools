@@ -365,7 +365,7 @@ type RemovalResponse struct {
 }
 
 func RemovalHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &removalHandler{q: newQuery(store, src)}
+	return &removalHandler{q: deckquery.New(store, src)}
 }
 
 type removalHandler struct {

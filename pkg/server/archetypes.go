@@ -7,6 +7,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -26,10 +27,10 @@ type VersusData struct {
 }
 
 // ArchetypesHandler serves each archetype's win/loss record against every other
-// archetype, over the decks the request's filters select. packagesFor
-// answers package: terms; nil makes them match no decks.
-func ArchetypesHandler(store storage.DeckStorage, packagesFor deckquery.PackagesLoader) http.Handler {
-	return &archetypesHandler{q: deckquery.New(store, nil, packagesFor)}
+// archetype, over the decks the request's filters select. src answers
+// package: terms through the cube's rules.
+func ArchetypesHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
+	return &archetypesHandler{q: deckquery.New(store, src)}
 }
 
 type archetypesHandler struct {

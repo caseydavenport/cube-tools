@@ -4,38 +4,41 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/design"
-
-	"github.com/caseydavenport/cube-tools/pkg/players"
-	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	logtest "github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/players"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// graveyardPackages wires three graveyard cards to each other, so a deck
+// graveyardRules wires three graveyard cards to each other, so a deck
 // holding all three builds the package and a deck holding two doesn't.
-func graveyardPackages() []design.PackageCards {
-	return []design.PackageCards{{
-		Name: "Graveyard",
-		Wires: []design.WireCards{{
-			Sources: map[string]bool{
-				"gy1": true,
-				"gy2": true,
-				"gy3": true,
-			},
-			Targets: map[string]bool{
-				"gy1": true,
-				"gy2": true,
-				"gy3": true,
-			},
-			NeedSources: 2,
-			NeedTargets: 2,
-		}},
-	}}
+func graveyardRules() *design.DesignMapConfig {
+	return &design.DesignMapConfig{
+		Groups: []design.Group{{Name: "Graveyard cards", Conditions: []string{"n:gy1", "n:gy2", "n:gy3"}}},
+		Packages: []design.Package{
+			{Name: "Graveyard", Wires: []design.Wire{{Sources: []string{"Graveyard cards"}, Targets: []string{"Graveyard cards"}}}},
+		},
+	}
+}
+
+// graveyardCube is today's list: the three graveyard cards.
+type graveyardCube struct{}
+
+// Current returns the graveyard cards.
+func (graveyardCube) Current(string) (*types.Cube, error) {
+	return &types.Cube{Cards: []types.Card{{Name: "gy1"}, {Name: "gy2"}, {Name: "gy3"}}}, nil
+}
+
+// Refresh returns the graveyard cards.
+func (c graveyardCube) Refresh(id string) (*types.Cube, error) {
+	return c.Current(id)
 }
 
 func deck(playerID int, names ...string) *storage.Deck {
@@ -54,12 +57,26 @@ func deck(playerID int, names ...string) *storage.Deck {
 func testStore() storage.DeckStorage {
 	return memory.NewStore(func(b *memory.Backend) {
 		b.SeedPlayers(players.Player{ID: 1, Name: "Ozzy"}, players.Player{ID: 2, Name: "Stevie"})
+		b.SeedRules("testcube", graveyardRules())
 		b.Seed("testcube", deck(1, "gy1", "gy2", "gy3"), deck(2, "gy1", "gy2", "Forest"))
 	})
 }
 
-func staticPackages(string) ([]design.PackageCards, error) {
-	return graveyardPackages(), nil
+// rulesSpy counts rules reads, each one a rulebook load, and fails them all
+// when err is set.
+type rulesSpy struct {
+	storage.DeckStorage
+	reads int
+	err   error
+}
+
+// GetRules counts the read and answers from the wrapped store, or fails.
+func (s *rulesSpy) GetRules(cube string) (*design.DesignMapConfig, error) {
+	s.reads++
+	if s.err != nil {
+		return nil, s.err
+	}
+	return s.DeckStorage.GetRules(cube)
 }
 
 func playersOf(decks []*storage.Deck) []string {
@@ -71,40 +88,53 @@ func playersOf(decks []*storage.Deck) []string {
 }
 
 func TestDecksPackageFilters(t *testing.T) {
-	q := New(testStore(), nil, staticPackages)
+	q := New(testStore(), graveyardCube{})
 	decks, err := q.Decks("testcube", &storage.DecksRequest{Match: "package:graveyard"})
 	require.NoError(t, err)
 	assert.Equal(t, []string{"Ozzy"}, playersOf(decks))
 }
 
 func TestDecksNegatedPackage(t *testing.T) {
-	q := New(testStore(), nil, staticPackages)
+	q := New(testStore(), graveyardCube{})
 	decks, err := q.Decks("testcube", &storage.DecksRequest{Match: "package!=graveyard"})
 	require.NoError(t, err)
 	assert.Equal(t, []string{"Stevie"}, playersOf(decks))
 }
 
-func TestDecksSkipsLoaderWithoutPackage(t *testing.T) {
-	calls := 0
-	q := New(testStore(), nil, func(string) ([]design.PackageCards, error) {
-		calls++
-		return graveyardPackages(), nil
-	})
+func TestDecksSkipsRulesWithoutPackage(t *testing.T) {
+	spy := &rulesSpy{DeckStorage: testStore()}
+	q := New(spy, graveyardCube{})
 	for _, match := range []string{"Package Deal", "arch:aggro"} {
 		_, err := q.Decks("testcube", &storage.DecksRequest{Match: match})
 		require.NoError(t, err)
 	}
-	assert.Equal(t, 0, calls)
+	assert.Equal(t, 0, spy.reads)
+
+	_, err := q.Decks("testcube", &storage.DecksRequest{Match: "package:graveyard"})
+	require.NoError(t, err)
+	assert.Equal(t, 1, spy.reads, "a package: term loads the rules")
 }
 
-func TestDecksLoaderErrorFails(t *testing.T) {
-	q := New(testStore(), nil, func(string) ([]design.PackageCards, error) { return nil, errors.New("no rules") })
+func TestDecksInReusesRulebook(t *testing.T) {
+	spy := &rulesSpy{DeckStorage: testStore()}
+	rb, err := rulebook.Load(spy, graveyardCube{}, "testcube")
+	require.NoError(t, err)
+	q := New(spy, graveyardCube{})
+
+	decks, err := q.DecksIn(rb, &storage.DecksRequest{Match: "package:graveyard"})
+	require.NoError(t, err)
+	assert.Equal(t, []string{"Ozzy"}, playersOf(decks))
+	assert.Equal(t, 1, spy.reads, "only the caller's load read the rules")
+}
+
+func TestDecksRulesErrorFails(t *testing.T) {
+	q := New(&rulesSpy{DeckStorage: testStore(), err: errors.New("no rules")}, graveyardCube{})
 	_, err := q.Decks("testcube", &storage.DecksRequest{Match: "package:graveyard"})
 	assert.ErrorContains(t, err, "no rules")
 }
 
 func TestDecksLeavesRequestUntouched(t *testing.T) {
-	q := New(testStore(), nil, staticPackages)
+	q := New(testStore(), graveyardCube{})
 	dr := &storage.DecksRequest{Match: "package:graveyard"}
 	_, err := q.Decks("testcube", dr)
 	require.NoError(t, err)
@@ -112,16 +142,16 @@ func TestDecksLeavesRequestUntouched(t *testing.T) {
 }
 
 func TestDecksNilRequestListsAll(t *testing.T) {
-	q := New(testStore(), nil, staticPackages)
+	q := New(testStore(), graveyardCube{})
 	decks, err := q.Decks("testcube", nil)
 	require.NoError(t, err)
 	assert.ElementsMatch(t, []string{"Ozzy", "Stevie"}, playersOf(decks))
 }
 
-func TestDecksLoaderErrorIsLogged(t *testing.T) {
+func TestDecksRulesErrorIsLogged(t *testing.T) {
 	hook := logtest.NewGlobal()
 	defer hook.Reset()
-	q := New(testStore(), nil, func(string) ([]design.PackageCards, error) { return nil, errors.New("no rules") })
+	q := New(&rulesSpy{DeckStorage: testStore(), err: errors.New("no rules")}, graveyardCube{})
 
 	_, err := q.Decks("testcube", &storage.DecksRequest{Match: "package:graveyard"})
 	require.Error(t, err)

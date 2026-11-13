@@ -59,7 +59,7 @@ type ArchetypeStats struct {
 }
 
 func ArchetypeStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &archetypeStatsHandler{q: newQuery(store, src)}
+	return &archetypeStatsHandler{q: deckquery.New(store, src)}
 }
 
 type archetypeStatsHandler struct {

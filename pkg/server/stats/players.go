@@ -90,7 +90,7 @@ type opponentWinAccum struct {
 // what they tend to draft. store and src also supply the packages and each
 // draft's cube list that tendencies compare against.
 func PlayerStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &playerStatsHandler{q: newQuery(store, src), store: store, src: src}
+	return &playerStatsHandler{q: deckquery.New(store, src), store: store, src: src}
 }
 
 type playerStatsHandler struct {

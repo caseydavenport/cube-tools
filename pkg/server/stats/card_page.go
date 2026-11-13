@@ -62,7 +62,7 @@ type CardCompareResponse struct {
 // deck filter is ignored: the page is about the card, not a slice of decks.
 // logs supplies draft logs for pick history.
 func CardPageHandler(store storage.DeckStorage, logs DraftLogReader, src types.CubeSource) http.Handler {
-	return &cardPageHandler{q: newQuery(store, src), store: store, logs: logs, src: src}
+	return &cardPageHandler{q: deckquery.New(store, src), store: store, logs: logs, src: src}
 }
 
 type cardPageHandler struct {

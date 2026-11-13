@@ -46,7 +46,7 @@ type ArchetypeCard struct {
 // over the start and end dates in the request. Like the card page, it ignores
 // the deck filter, since the page is about the archetype, not a slice of decks.
 func ArchetypePageHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &archetypePageHandler{q: newQuery(store, src)}
+	return &archetypePageHandler{q: deckquery.New(store, src)}
 }
 
 type archetypePageHandler struct {

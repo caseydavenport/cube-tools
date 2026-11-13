@@ -107,7 +107,7 @@ func validateColorsRequest(r ColorStatsRequest) error {
 }
 
 func ColorStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &colorStatsHandler{q: newQuery(store, src)}
+	return &colorStatsHandler{q: deckquery.New(store, src)}
 }
 
 type colorStatsHandler struct {

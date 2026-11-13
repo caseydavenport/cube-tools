@@ -22,6 +22,7 @@ import (
 // and share it. Nothing changes it after Load, and callers must not modify
 // what it returns.
 type Rulebook struct {
+	cubeID        string
 	cube          *types.Cube
 	config        design.DesignMapConfig
 	decks         []*storage.Deck
@@ -67,6 +68,7 @@ func Load(store storage.DeckStorage, src types.CubeSource, cubeID string) (*Rule
 	}
 	played := distinctCardNames(decks)
 	return &Rulebook{
+		cubeID:        cubeID,
 		cube:          cube,
 		config:        config,
 		decks:         decks,
@@ -75,6 +77,11 @@ func Load(store storage.DeckStorage, src types.CubeSource, cubeID string) (*Rule
 		lists:         lists,
 		overrides:     overrides,
 	}, nil
+}
+
+// CubeID is the cube the rulebook was loaded for.
+func (rb *Rulebook) CubeID() string {
+	return rb.cubeID
 }
 
 // Cube is today's card list.
