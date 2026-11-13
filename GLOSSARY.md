@@ -36,6 +36,18 @@ _Avoid_: config, design map
 A named set of cards picked out by search conditions, minus any cards it excludes.
 _Avoid_: tag, category
 
+**Condition**:
+One search a group uses to pick out cards.
+_Avoid_: query, rule (for one search)
+
+**Exclude list**:
+The cards a group names to keep out even when a condition matches them.
+_Avoid_: blocklist, exceptions
+
+**Member**:
+A card in a group: it meets one of the group's conditions and the exclude list doesn't name it.
+_Avoid_: match (alone)
+
 **Card entry**:
 A wire side's direct reference to one card by name instead of a group.
 
