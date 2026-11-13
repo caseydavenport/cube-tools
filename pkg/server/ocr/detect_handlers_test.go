@@ -41,8 +41,7 @@ func setupCube(t *testing.T, root string) drafts.Draft {
 	t.Helper()
 	d := newDraft(t, root, types.DraftMetadata{})
 	writeFile(t, filepath.Join(d.Dir, "cube-snapshot.json"), `{"cards":[{"name":"Brainstorm"},{"name":"Island"}]}`)
-	writeFile(t, filepath.Join(root, "cubes.json"),
-		`{"cubes":[{"id":"polyverse","name":"Polyverse","sleeve_color":"purple"}]}`)
+	writeFile(t, filepath.Join(root, "cubes.json"), `{"cubes":[{"id":"polyverse","name":"Polyverse","sleeve_color":"purple"}]}`)
 	return d
 }
 
@@ -67,9 +66,7 @@ func TestDetectHandler(t *testing.T) {
 	if fd.gotSleeve != "purple" {
 		t.Fatalf("detector got sleeve color %q, want purple", fd.gotSleeve)
 	}
-	var out struct {
-		Lines []LineJSON `json:"lines"`
-	}
+	var out detectResponse
 	if err := json.Unmarshal(w.Body.Bytes(), &out); err != nil {
 		t.Fatal(err)
 	}

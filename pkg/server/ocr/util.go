@@ -4,19 +4,21 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strconv"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// cubeSource is the live CubeCobra fallback for resolving a cube list when no
-// snapshot exists on disk. Set once at startup via SetCubeSource, then only
-// read, so no locking is needed. Without it, cubes whose lists come live from
-// CubeCobra (no on-disk snapshot) fail every OCR cube-list load.
+// cubeSource is the live CubeCobra fallback for a cube list with no snapshot on
+// disk. SetCubeSource sets it once at startup, so reads need no lock.
 var cubeSource types.CubeSource
 
 // SetCubeSource wires the live cube provider into the OCR handlers.
@@ -59,12 +61,28 @@ func loadCubeForDraft(dataRoot, cube string, draft drafts.Draft) (*types.Cube, e
 	return nil, fmt.Errorf("no cube list found for %q", cube)
 }
 
-// writeJSON encodes v as indented JSON to the response. Encode errors are
-// ignored: by the time encoding fails the status line is already sent, so
-// there's nothing useful left to tell the client.
+// writeJSON encodes v as indented JSON to the response. An encode error is
+// only logged: by then the status line is sent, so the client can't be told.
 func writeJSON(rw http.ResponseWriter, v any) {
 	rw.Header().Set("Content-Type", "application/json")
 	enc := json.NewEncoder(rw)
 	enc.SetIndent("", "  ")
-	_ = enc.Encode(v)
+	if err := enc.Encode(v); err != nil {
+		logrus.WithError(err).Warn("Could not write JSON response")
+	}
+}
+
+// closeAndLog closes c and logs a failure naming path. It is for files that
+// were only read, where a failed close loses nothing the caller needs.
+func closeAndLog(c io.Closer, path string) {
+	if err := c.Close(); err != nil {
+		logrus.WithError(err).WithField("path", path).Warn("Could not close file")
+	}
+}
+
+// removeAndLog deletes a leftover temp file and logs a failure.
+func removeAndLog(path string) {
+	if err := os.Remove(path); err != nil {
+		logrus.WithError(err).WithField("path", path).Warn("Could not remove temp file")
+	}
 }

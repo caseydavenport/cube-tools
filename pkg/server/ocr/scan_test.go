@@ -30,14 +30,14 @@ func (scanFakeDetector) MatchRegion(_ string, box ocrpkg.Bbox, _ *types.Cube) (o
 	return ocrpkg.MatchResult{Bbox: box}, nil
 }
 
-func startScan(t *testing.T, root string, d drafts.Draft) {
+func startScan(t *testing.T, root string, draft drafts.Draft) {
 	t.Helper()
 	h := ScanStartHandler(scanFakeDetector{}, root)
-	r := draftReq(t, "POST", "/scan", d)
+	r := draftReq(t, "POST", "/scan", draft)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != 200 {
-		t.Fatalf("scan start status = %d body=%s", w.Code, w.Body.String())
+		t.Fatalf("scan start status = %draft body=%s", w.Code, w.Body.String())
 	}
 }
 
@@ -60,19 +60,19 @@ func waitScanDone(t *testing.T, draftID int) scanStatus {
 
 func TestScanFillsSession(t *testing.T) {
 	root := t.TempDir()
-	d := setupCube(t, root)
+	draft := setupCube(t, root)
 	checkin := "img/p3/checkin-1.jpg"
 	deck := "img/p3/deck-1.jpg"
-	writeFile(t, filepath.Join(d.Dir, checkin), "x")
-	writeFile(t, filepath.Join(d.Dir, deck), "x")
+	writeFile(t, filepath.Join(draft.Dir, checkin), "x")
+	writeFile(t, filepath.Join(draft.Dir, deck), "x")
 
-	startScan(t, root, d)
-	st := waitScanDone(t, d.ID)
+	startScan(t, root, draft)
+	st := waitScanDone(t, draft.ID)
 	if st.Total != 2 {
-		t.Fatalf("total = %d, want 2", st.Total)
+		t.Fatalf("total = %draft, want 2", st.Total)
 	}
 
-	s, err := LoadSession(d)
+	s, err := LoadSession(draft)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -92,32 +92,33 @@ func TestScanFillsSession(t *testing.T) {
 // the worklist skips it, so a re-run never re-detects or clobbers it.
 func TestScanSkipsExistingBoxes(t *testing.T) {
 	root := t.TempDir()
-	d := setupCube(t, root)
+	draft := setupCube(t, root)
 	checkin := "img/p3/checkin-1.jpg"
 	deck := "img/p3/deck-1.jpg"
-	writeFile(t, filepath.Join(d.Dir, checkin), "x")
-	writeFile(t, filepath.Join(d.Dir, deck), "x")
+	writeFile(t, filepath.Join(draft.Dir, checkin), "x")
+	writeFile(t, filepath.Join(draft.Dir, deck), "x")
 
 	// Seed the pool photo with a hand-corrected box.
 	manual := Box{ID: checkin + ":0", Status: "high", Chosen: "Ponder", Bbox: ocrpkg.Bbox{X: 1, Y: 2, Width: 3, Height: 4}}
 	seed := &Session{
-		DraftID: d.ID,
+		DraftID: draft.ID,
 		Players: map[string]*PlayerWork{
 			"p3": {Boxes: map[string][]Box{checkin: {manual}}},
 		},
 	}
-	if err := seed.Save(d); err != nil {
+	if err := seed.Save(draft); err != nil {
 		t.Fatal(err)
 	}
 
-	startScan(t, root, d)
-	st := waitScanDone(t, d.ID)
+	startScan(t, root, draft)
+	st := waitScanDone(t, draft.ID)
+
 	// Only the deck photo is unscanned, so the worklist should be just that one.
 	if st.Total != 1 {
-		t.Fatalf("total = %d, want 1 (only the unscanned deck photo)", st.Total)
+		t.Fatalf("total = %draft, want 1 (only the unscanned deck photo)", st.Total)
 	}
 
-	s, err := LoadSession(d)
+	s, err := LoadSession(draft)
 	if err != nil {
 		t.Fatal(err)
 	}

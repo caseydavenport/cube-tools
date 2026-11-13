@@ -31,24 +31,24 @@ func TestDiscoverPlayers(t *testing.T) {
 	if len(players) != 1 {
 		t.Fatalf("players = %d, want 1", len(players))
 	}
-	p := players[0]
-	if p.ID != "p3" {
-		t.Fatalf("id = %q, want p3", p.ID)
+	player := players[0]
+	if player.ID != "p3" {
+		t.Fatalf("id = %q, want p3", player.ID)
 	}
-	if len(p.Photos.Checkin) != 2 || len(p.Photos.Deck) != 1 {
-		t.Fatalf("photos = %+v", p.Photos)
+	if len(player.Photos.Checkin) != 2 || len(player.Photos.Deck) != 1 {
+		t.Fatalf("photos = %+v", player.Photos)
 	}
-	if p.Photos.Checkin[0] != "img/p3/checkin-1.jpg" {
-		t.Fatalf("checkin[0] = %q, want a path relative to the draft", p.Photos.Checkin[0])
+	if player.Photos.Checkin[0] != "img/p3/checkin-1.jpg" {
+		t.Fatalf("checkin[0] = %q, want a path relative to the draft", player.Photos.Checkin[0])
 	}
-	if p.HasDeck {
+	if player.HasDeck {
 		t.Fatalf("HasDeck should be false for empty deck")
 	}
-	if len(p.Matches) != 1 {
-		t.Fatalf("matches = %d, want 1", len(p.Matches))
+	if len(player.Matches) != 1 {
+		t.Fatalf("matches = %d, want 1", len(player.Matches))
 	}
-	if p.PlayerID != 7 {
-		t.Fatalf("player id = %d, want 7", p.PlayerID)
+	if player.PlayerID != 7 {
+		t.Fatalf("player id = %d, want 7", player.PlayerID)
 	}
 }
 
@@ -66,7 +66,7 @@ func TestDraftDetailHandler(t *testing.T) {
 		if w.Code != http.StatusOK {
 			t.Fatalf("status = %d, want 200", w.Code)
 		}
-		var out DraftDetail
+		var out DraftWithPlayers
 		if err := json.Unmarshal(w.Body.Bytes(), &out); err != nil {
 			t.Fatal(err)
 		}
@@ -110,9 +110,7 @@ func TestDraftsHandlerListsNumberedDraftsNewestFirst(t *testing.T) {
 	if w.Code != 200 {
 		t.Fatalf("status = %d", w.Code)
 	}
-	var out struct {
-		Drafts []DraftSummary `json:"drafts"`
-	}
+	var out draftsResponse
 	if err := json.Unmarshal(w.Body.Bytes(), &out); err != nil {
 		t.Fatal(err)
 	}
@@ -133,10 +131,11 @@ func TestDraftsHandlerReportsConflicts(t *testing.T) {
 	root := t.TempDir()
 	d := newDraft(t, root, types.DraftMetadata{})
 	writeFile(t, filepath.Join(d.Dir, "img", "p1", "checkin-1.jpg"), "x")
+
 	// Cube has 1x Brainstorm; the pool claims 2, an over-count conflict.
 	writeFile(t, filepath.Join(d.Dir, "cube-snapshot.json"), `{"cards":[{"name":"Brainstorm"}]}`)
 	sess := &Session{DraftID: d.ID, Players: map[string]*PlayerWork{
-		"p1": pool(entry("Brainstorm", 2)),
+		"p1": pool(scanned("Brainstorm", 2)),
 	}}
 	if err := sess.Save(d); err != nil {
 		t.Fatal(err)
@@ -149,9 +148,7 @@ func TestDraftsHandlerReportsConflicts(t *testing.T) {
 	if w.Code != 200 {
 		t.Fatalf("status = %d", w.Code)
 	}
-	var out struct {
-		Drafts []DraftSummary `json:"drafts"`
-	}
+	var out draftsResponse
 	if err := json.Unmarshal(w.Body.Bytes(), &out); err != nil {
 		t.Fatal(err)
 	}

@@ -3,33 +3,53 @@ package ocr
 import (
 	"encoding/json"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	ocrpkg "github.com/caseydavenport/cube-tools/pkg/ocr"
 )
 
+// PlayerWork.Status value for a player whose deck has been written by the
+// confirm step.
+const playerConfirmed = "confirmed"
+
+// Box.Status values besides the confidence bands: "pending" while OCR runs and
+// "unmatched" when no card name fit the region.
+const (
+	boxPending   = "pending"
+	boxUnmatched = "unmatched"
+)
+
+// Session is a draft's saved OCR working state: each player's boxes, counts
+// and lists, keyed by seat folder ("p3"). It lives in the draft's session file
+// so a reload resumes where the operator left off.
 type Session struct {
 	DraftID int                    `json:"draft_id"`
 	Players map[string]*PlayerWork `json:"players"`
 }
 
+// PlayerWork is one player's saved work: the OCR boxes, the manual counts
+// edited on top of them, and the card lists derived from both.
 type PlayerWork struct {
 	Status string `json:"status"`
 
-	// Boxes are the editable source of truth for a player's work: per-photo
-	// OCR regions (detected or hand-drawn). The pool and mainboard lists are
-	// derived from these on the client, so persisting them lets a reload
-	// resume exactly where the user left off without re-running OCR.
-	Boxes         map[string][]Box `json:"boxes,omitempty"`          // pool photo -> boxes
-	DeckBoxes     map[string][]Box `json:"deck_boxes,omitempty"`     // deck photo -> boxes
-	Overrides     map[string]int   `json:"overrides,omitempty"`      // manual pool counts
-	DeckOverrides map[string]int   `json:"deck_overrides,omitempty"` // manual mainboard counts
-	Sideboard     map[string]int   `json:"sideboard,omitempty"`      // hand-assigned sideboard counts
-	Basics        map[string]int   `json:"basics,omitempty"`
+	// Boxes and DeckBoxes hold the OCR regions, detected or hand-drawn, per
+	// pool photo and deck photo. The client derives the card lists from them,
+	// so a reload resumes without re-running OCR.
+	Boxes     map[string][]Box `json:"boxes,omitempty"`
+	DeckBoxes map[string][]Box `json:"deck_boxes,omitempty"`
 
-	// PoolEntries/MainboardEntries are the derived lists at last save, kept so
+	// Overrides and DeckOverrides are hand-edited card counts for the pool and
+	// mainboard, and Sideboard holds hand-assigned sideboard counts.
+	Overrides     map[string]int `json:"overrides,omitempty"`
+	DeckOverrides map[string]int `json:"deck_overrides,omitempty"`
+	Sideboard     map[string]int `json:"sideboard,omitempty"`
+	Basics        map[string]int `json:"basics,omitempty"`
+
+	// PoolCards and MainboardCards are the derived lists at last save, kept so
 	// the draft list can report progress without replaying the client logic.
-	PoolEntries      []PoolEntry `json:"pool_entries,omitempty"`
-	MainboardEntries []PoolEntry `json:"mainboard_entries,omitempty"`
+	PoolCards      []ScannedCard `json:"pool_entries,omitempty"`
+	MainboardCards []ScannedCard `json:"mainboard_entries,omitempty"`
 }
 
 // Box is one OCR region on a photo. Status is the confidence band
@@ -42,13 +62,17 @@ type Box struct {
 	Candidates []ocrpkg.Candidate `json:"candidates,omitempty"`
 }
 
-type PoolEntry struct {
+// ScannedCard is a card name with a copy count, and the photo box it was read
+// from, in a player's saved pool or mainboard list.
+type ScannedCard struct {
 	CardName   string             `json:"card_name"`
 	Count      int                `json:"count"`
 	Source     Source             `json:"source"`
 	Candidates []ocrpkg.Candidate `json:"candidates,omitempty"`
 }
 
+// Source is where a scanned card was read: a photo path relative to the draft
+// and the region within it.
 type Source struct {
 	Photo string      `json:"photo"`
 	Box   ocrpkg.Bbox `json:"box"`
@@ -72,6 +96,17 @@ func LoadSession(draft drafts.Draft) (*Session, error) {
 		s.Players = map[string]*PlayerWork{}
 	}
 	return &s, nil
+}
+
+// loadSessionOrEmpty is LoadSession for read-only views: an unreadable session
+// is logged and shown as an empty one, so a corrupt file doesn't hide the draft.
+func loadSessionOrEmpty(draft drafts.Draft) *Session {
+	session, err := LoadSession(draft)
+	if err != nil {
+		logrus.WithError(err).WithField("draft", draft.ID).Warn("Could not load OCR session, treating it as empty")
+		return &Session{Players: map[string]*PlayerWork{}}
+	}
+	return session
 }
 
 // Save writes the session as the draft's working state.

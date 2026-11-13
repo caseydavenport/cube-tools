@@ -18,23 +18,23 @@ func loadTestCube(t *testing.T, body string) *types.Cube {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "cube-snapshot.json")
 	writeFile(t, path, body)
-	cl, err := types.LoadCube(path)
+	cube, err := types.LoadCube(path)
 	if err != nil {
 		t.Fatal(err)
 	}
-	return cl
+	return cube
 }
 
 func TestBuildConsistencyReport(t *testing.T) {
 	// Cube has 2x Brainstorm, 1x Misty Rainforest.
-	cl := loadTestCube(t, `{"cards":[{"name":"Brainstorm"},{"name":"Brainstorm"},{"name":"Misty Rainforest"}]}`)
+	cube := loadTestCube(t, `{"cards":[{"name":"Brainstorm"},{"name":"Brainstorm"},{"name":"Misty Rainforest"}]}`)
 
 	t.Run("clean", func(t *testing.T) {
 		sess := &Session{Players: map[string]*PlayerWork{
-			"a": pool(entry("Brainstorm", 1), entry("Misty Rainforest", 1)),
-			"b": pool(entry("Brainstorm", 1)),
+			"a": pool(scanned("Brainstorm", 1), scanned("Misty Rainforest", 1)),
+			"b": pool(scanned("Brainstorm", 1)),
 		}}
-		got := buildConsistencyReport(cl, sess, 2)
+		got := buildConsistencyReport(cube, sess, 2)
 		if len(got.Discrepancies) != 0 {
 			t.Fatalf("expected no discrepancies, got %+v", got.Discrepancies)
 		}
@@ -49,10 +49,10 @@ func TestBuildConsistencyReport(t *testing.T) {
 	t.Run("over", func(t *testing.T) {
 		// Three copies of a 2-copy card: an OCR over-count.
 		sess := &Session{Players: map[string]*PlayerWork{
-			"a": pool(entry("Brainstorm", 2)),
-			"b": pool(entry("Brainstorm", 1), entry("Misty Rainforest", 1)),
+			"a": pool(scanned("Brainstorm", 2)),
+			"b": pool(scanned("Brainstorm", 1), scanned("Misty Rainforest", 1)),
 		}}
-		got := buildConsistencyReport(cl, sess, 2)
+		got := buildConsistencyReport(cube, sess, 2)
 		if len(got.Discrepancies) != 1 {
 			t.Fatalf("expected 1 discrepancy, got %+v", got.Discrepancies)
 		}
@@ -65,9 +65,9 @@ func TestBuildConsistencyReport(t *testing.T) {
 	t.Run("missing", func(t *testing.T) {
 		// Only one Brainstorm pooled, Misty Rainforest not scanned at all.
 		sess := &Session{Players: map[string]*PlayerWork{
-			"a": pool(entry("Brainstorm", 1)),
+			"a": pool(scanned("Brainstorm", 1)),
 		}}
-		got := buildConsistencyReport(cl, sess, 2)
+		got := buildConsistencyReport(cube, sess, 2)
 		kinds := map[string]Discrepancy{}
 		for _, d := range got.Discrepancies {
 			kinds[d.CardName] = d
@@ -83,9 +83,9 @@ func TestBuildConsistencyReport(t *testing.T) {
 	t.Run("unknown", func(t *testing.T) {
 		// A name not in the cube: an OCR misread.
 		sess := &Session{Players: map[string]*PlayerWork{
-			"a": pool(entry("Brainstorm", 2), entry("Misty Rainforest", 1), entry("Brainstrm", 1)),
+			"a": pool(scanned("Brainstorm", 2), scanned("Misty Rainforest", 1), scanned("Brainstrm", 1)),
 		}}
-		got := buildConsistencyReport(cl, sess, 1)
+		got := buildConsistencyReport(cube, sess, 1)
 		var unknown []Discrepancy
 		for _, d := range got.Discrepancies {
 			if d.Kind == "unknown" {
@@ -95,6 +95,7 @@ func TestBuildConsistencyReport(t *testing.T) {
 		if len(unknown) != 1 || unknown[0].CardName != "Brainstrm" || unknown[0].Seen != 1 || unknown[0].Cube != 0 {
 			t.Fatalf("unknown = %+v", unknown)
 		}
+
 		// unknown sorts ahead of any missing/over.
 		if got.Discrepancies[0].Kind != "unknown" {
 			t.Fatalf("expected unknown first, got %+v", got.Discrepancies)
@@ -107,13 +108,13 @@ func TestBuildConsistencyReport(t *testing.T) {
 		for seat := 1; seat <= 12; seat++ {
 			name := fmt.Sprintf("p%d", seat)
 			players[name] = &PlayerWork{
-				PoolEntries: []PoolEntry{entry("Brainstrm", 1)},
+				PoolCards: []ScannedCard{scanned("Brainstrm", 1)},
 				Boxes: map[string][]Box{
 					name + "/checkin-1.jpg": {{ID: name, Chosen: "Brainstrm", Status: "low"}},
 				},
 			}
 		}
-		got := buildConsistencyReport(cl, &Session{Players: players}, 12)
+		got := buildConsistencyReport(cube, &Session{Players: players}, 12)
 		var order []string
 		for _, d := range got.Discrepancies {
 			if d.CardName == "Brainstrm" {
@@ -133,7 +134,7 @@ func TestBuildConsistencyReport(t *testing.T) {
 		// Rainforest fully pooled. The boxes behind the bad names should attach.
 		sess := &Session{Players: map[string]*PlayerWork{
 			"a": {
-				PoolEntries: []PoolEntry{entry("Brainstorm", 3), entry("Misty Rainforest", 1), entry("Brainstrm", 1)},
+				PoolCards: []ScannedCard{scanned("Brainstorm", 3), scanned("Misty Rainforest", 1), scanned("Brainstrm", 1)},
 				Boxes: map[string][]Box{
 					"a/checkin-1.jpg": {
 						{ID: "b1", Chosen: "Brainstorm", Status: "high"},
@@ -147,11 +148,12 @@ func TestBuildConsistencyReport(t *testing.T) {
 				},
 			},
 		}}
-		got := buildConsistencyReport(cl, sess, 1)
+		got := buildConsistencyReport(cube, sess, 1)
 		byName := map[string]Discrepancy{}
 		for _, d := range got.Discrepancies {
 			byName[d.CardName] = d
 		}
+
 		// Brainstorm boxes (b1 on check-in, b5 on check-out) both attach.
 		over := byName["Brainstorm"]
 		if over.Kind != "over" || len(over.Captures) != 2 {
@@ -167,11 +169,13 @@ func TestBuildConsistencyReport(t *testing.T) {
 		if !ids["b1"] || !ids["b5"] {
 			t.Fatalf("Brainstorm captures missing boxes: %+v", over.Captures)
 		}
+
 		// The misread attaches its single box.
 		unknown := byName["Brainstrm"]
 		if unknown.Kind != "unknown" || len(unknown.Captures) != 1 || unknown.Captures[0].BoxID != "b2" {
 			t.Fatalf("Brainstrm captures = %+v", unknown)
 		}
+
 		// Misty Rainforest is clean, so it isn't a discrepancy and has no captures.
 		if _, ok := byName["Misty Rainforest"]; ok {
 			t.Fatalf("Misty Rainforest should not be a discrepancy: %+v", byName["Misty Rainforest"])
@@ -179,11 +183,11 @@ func TestBuildConsistencyReport(t *testing.T) {
 	})
 
 	t.Run("basics excluded and case-insensitive", func(t *testing.T) {
-		clBasic := loadTestCube(t, `{"cards":[{"name":"Brainstorm"}]}`)
+		basicCube := loadTestCube(t, `{"cards":[{"name":"Brainstorm"}]}`)
 		sess := &Session{Players: map[string]*PlayerWork{
-			"a": pool(entry("brainstorm", 1), entry("Island", 5), entry("Forest", 3)),
+			"a": pool(scanned("brainstorm", 1), scanned("Island", 5), scanned("Forest", 3)),
 		}}
-		got := buildConsistencyReport(clBasic, sess, 1)
+		got := buildConsistencyReport(basicCube, sess, 1)
 		if len(got.Discrepancies) != 0 {
 			t.Fatalf("basics/case should not create discrepancies, got %+v", got.Discrepancies)
 		}
@@ -193,16 +197,16 @@ func TestBuildConsistencyReport(t *testing.T) {
 	})
 
 	t.Run("deck-only scan counts mainboard plus sideboard", func(t *testing.T) {
-		// No pool photos, so no PoolEntries: the drafted cards live in the
+		// No pool photos, so no PoolCards: the drafted cards live in the
 		// mainboard plus the hand-tracked sideboard. They still reconcile against
 		// the cube the same way a pooled scan does.
 		sess := &Session{Players: map[string]*PlayerWork{
 			"a": {
-				MainboardEntries: []PoolEntry{entry("Brainstorm", 1), entry("Misty Rainforest", 1)},
-				Sideboard:        map[string]int{"Brainstorm": 1},
+				MainboardCards: []ScannedCard{scanned("Brainstorm", 1), scanned("Misty Rainforest", 1)},
+				Sideboard:      map[string]int{"Brainstorm": 1},
 			},
 		}}
-		got := buildConsistencyReport(cl, sess, 1)
+		got := buildConsistencyReport(cube, sess, 1)
 		if len(got.Discrepancies) != 0 {
 			t.Fatalf("expected no discrepancies, got %+v", got.Discrepancies)
 		}
@@ -219,12 +223,13 @@ func TestConsistencyHandler(t *testing.T) {
 	root := t.TempDir()
 	d := newDraft(t, root, types.DraftMetadata{})
 	writeFile(t, filepath.Join(d.Dir, "cube-snapshot.json"), `{"cards":[{"name":"Brainstorm"},{"name":"Brainstorm"},{"name":"Misty Rainforest"}]}`)
+
 	// Two players need img dirs so discoverPlayers reports them.
 	writeFile(t, filepath.Join(d.Dir, "img", "p1", "checkin-1.jpg"), "x")
 	writeFile(t, filepath.Join(d.Dir, "img", "p2", "checkin-1.jpg"), "x")
 
 	sess := &Session{DraftID: d.ID, Players: map[string]*PlayerWork{
-		"p1": pool(entry("Brainstorm", 2), entry("Misty Rainforest", 1)),
+		"p1": pool(scanned("Brainstorm", 2), scanned("Misty Rainforest", 1)),
 	}}
 	if err := sess.Save(d); err != nil {
 		t.Fatal(err)
@@ -244,6 +249,7 @@ func TestConsistencyHandler(t *testing.T) {
 	if rep.PlayersTotal != 2 || rep.PlayersCounted != 1 {
 		t.Fatalf("players: total=%d counted=%d", rep.PlayersTotal, rep.PlayersCounted)
 	}
+
 	// Brainstorm pooled fully (2/2), Misty Rainforest fully (1/1): clean so far.
 	if len(rep.Discrepancies) != 0 {
 		t.Fatalf("expected no discrepancies, got %+v", rep.Discrepancies)

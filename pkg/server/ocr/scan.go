@@ -3,6 +3,7 @@ package ocr
 import (
 	"fmt"
 	"net/http"
+	"slices"
 	"sync"
 
 	"github.com/sirupsen/logrus"
@@ -40,6 +41,7 @@ type scanJob struct {
 	err     string
 }
 
+// scanStatus is a scan job's progress as the UI polls it.
 type scanStatus struct {
 	State   scanState `json:"state"`
 	Total   int       `json:"total"`
@@ -48,65 +50,66 @@ type scanStatus struct {
 	Error   string    `json:"error,omitempty"`
 }
 
+// status snapshots the job under its lock.
 func (j *scanJob) status() scanStatus {
 	j.mu.Lock()
 	defer j.mu.Unlock()
 	return scanStatus{State: j.state, Total: j.total, Done: j.done, Current: j.current, Error: j.err}
 }
 
-// scanJobs holds the live (or just-finished) job per draft. A finished job is
-// kept so the UI can read a "done" status right after a run, but finished jobs
-// are pruned the next time any scan starts so the map can't grow without bound.
+// scanJobs holds the live or just-finished job per draft. A finished job stays
+// so the UI can read "done" after a run, and is pruned when any scan next starts.
 var (
 	scanJobsMu sync.Mutex
 	scanJobs   = map[string]*scanJob{}
 )
 
+// scanKey identifies a draft across cubes in scanJobs.
 func scanKey(cube string, draftID int) string {
 	return fmt.Sprintf("%s/%d", cube, draftID)
 }
 
-// scanItem is one photo to detect, tagged with the player it belongs to and
-// whether it's a deck photo (so the boxes land in the right session map).
-type scanItem struct {
+// scanPhoto is one photo to detect, tagged with its player and
+// whether it is a deck photo, so the boxes land in the right session map.
+type scanPhoto struct {
 	player string
-	photo  string
+	path   string
 	deck   bool
 }
 
 // buildScanWorklist lists every pool and deck photo across all players that has
 // no boxes yet. Photos already scanned or hand-corrected are skipped, so the
 // scan is idempotent and never clobbers existing work.
-func buildScanWorklist(draft drafts.Draft) ([]scanItem, error) {
+func buildScanWorklist(draft drafts.Draft) ([]scanPhoto, error) {
 	players, err := discoverPlayers(draft)
 	if err != nil {
 		return nil, err
 	}
-	sess, err := LoadSession(draft)
-	if err != nil {
-		sess = &Session{Players: map[string]*PlayerWork{}}
-	}
+	session := loadSessionOrEmpty(draft)
 
-	var items []scanItem
-	for _, p := range players {
-		pw := sess.Players[p.ID]
-		poolPhotos := append(append([]string{}, p.Photos.Checkin...), p.Photos.Checkout...)
-		for _, ph := range poolPhotos {
-			if pw != nil && len(pw.Boxes[ph]) > 0 {
+	var photos []scanPhoto
+	for _, player := range players {
+		work := session.Players[player.ID]
+		poolPhotos := append(slices.Clone(player.Photos.Checkin), player.Photos.Checkout...)
+		for _, photo := range poolPhotos {
+			if work != nil && len(work.Boxes[photo]) > 0 {
 				continue
 			}
-			items = append(items, scanItem{player: p.ID, photo: ph, deck: false})
+			photos = append(photos, scanPhoto{player: player.ID, path: photo, deck: false})
 		}
-		for _, ph := range p.Photos.Deck {
-			if pw != nil && len(pw.DeckBoxes[ph]) > 0 {
+		for _, photo := range player.Photos.Deck {
+			if work != nil && len(work.DeckBoxes[photo]) > 0 {
 				continue
 			}
-			items = append(items, scanItem{player: p.ID, photo: ph, deck: true})
+			photos = append(photos, scanPhoto{player: player.ID, path: photo, deck: true})
 		}
 	}
-	return items, nil
+	return photos, nil
 }
 
+// ScanStartHandler starts a background scan of every unscanned photo in the
+// draft and returns its status. A scan already running for the draft is
+// reported instead of started a second time.
 func ScanStartHandler(det Detector, dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
@@ -118,15 +121,16 @@ func ScanStartHandler(det Detector, dataRoot string) http.Handler {
 		key := scanKey(cube, draft.ID)
 
 		scanJobsMu.Lock()
-		// A scan is already running for this draft: report it rather than
-		// starting a second one that would race on the same session file.
+
+		// Starting a second scan would race on the same session file.
 		if j, ok := scanJobs[key]; ok && j.status().State == scanRunning {
 			scanJobsMu.Unlock()
 			writeJSON(rw, j.status())
 			return
 		}
-		// Drop finished jobs (this draft's and any others') so the map only ever
-		// holds the running scans plus the one we're about to start.
+
+		// Drop finished jobs, this draft's and others', so the map holds only
+		// running scans plus the one about to start.
 		for k, j := range scanJobs {
 			if j.status().State != scanRunning {
 				delete(scanJobs, k)
@@ -167,24 +171,26 @@ func ScanStatusHandler(dataRoot string) http.Handler {
 	})
 }
 
-func runScan(det Detector, dataRoot, cube string, draft drafts.Draft, items []scanItem, job *scanJob) {
+// runScan detects every photo on a pool of scanWorkers goroutines, then marks
+// the job done. It runs in the background after the start request returned.
+func runScan(det Detector, dataRoot, cube string, draft drafts.Draft, photos []scanPhoto, job *scanJob) {
 	sleeveColor := sleeveColorFor(dataRoot, cube)
-	workers := min(scanWorkers, len(items))
-	ch := make(chan scanItem)
+	numWorkers := min(scanWorkers, len(photos))
+	queue := make(chan scanPhoto)
 	var wg sync.WaitGroup
-	for range workers {
+	for range numWorkers {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			for it := range ch {
-				scanOne(det, dataRoot, cube, draft, it, sleeveColor, job)
+			for photo := range queue {
+				scanOne(det, dataRoot, cube, draft, photo, sleeveColor, job)
 			}
 		}()
 	}
-	for _, it := range items {
-		ch <- it
+	for _, photo := range photos {
+		queue <- photo
 	}
-	close(ch)
+	close(queue)
 	wg.Wait()
 
 	job.mu.Lock()
@@ -193,9 +199,12 @@ func runScan(det Detector, dataRoot, cube string, draft drafts.Draft, items []sc
 	job.mu.Unlock()
 }
 
-func scanOne(det Detector, dataRoot, cube string, draft drafts.Draft, it scanItem, sleeveColor string, job *scanJob) {
+// scanOne detects one photo and saves its boxes, counting the photo as done
+// whether or not detection worked. A failure leaves the photo empty for the
+// operator to scan by hand, and the first one is kept in the job's status.
+func scanOne(det Detector, dataRoot, cube string, draft drafts.Draft, photo scanPhoto, sleeveColor string, job *scanJob) {
 	job.mu.Lock()
-	job.current = it.photo
+	job.current = photo.path
 	job.mu.Unlock()
 	defer func() {
 		job.mu.Lock()
@@ -203,15 +212,14 @@ func scanOne(det Detector, dataRoot, cube string, draft drafts.Draft, it scanIte
 		job.mu.Unlock()
 	}()
 
-	abs, cl, ok := resolvePhoto(dataRoot, cube, draft, it.photo)
+	abs, cubeList, ok := resolvePhoto(dataRoot, cube, draft, photo.path)
 	if !ok {
+		logrus.WithFields(logrus.Fields{"draft": draft.ID, "photo": photo.path}).Warn("Background scan skipped photo with no valid path or cube list")
 		return
 	}
-	results, err := det.DetectPhoto(abs, cl, sleeveColor)
+	results, err := det.DetectPhoto(abs, cubeList, sleeveColor)
 	if err != nil {
-		// Leave this photo empty so the operator can scan it by hand later, but
-		// surface the first failure in the job status and the log.
-		logrus.WithError(err).WithField("photo", it.photo).Warn("Background scan failed to detect photo")
+		logrus.WithError(err).WithField("photo", photo.path).Warn("Background scan failed to detect photo")
 		job.mu.Lock()
 		if job.err == "" {
 			job.err = err.Error()
@@ -220,29 +228,29 @@ func scanOne(det Detector, dataRoot, cube string, draft drafts.Draft, it scanIte
 		return
 	}
 	boxes := make([]Box, 0, len(results))
-	for i, res := range results {
-		boxes = append(boxes, resultToBox(it.photo, i, res))
+	for i, result := range results {
+		boxes = append(boxes, resultToBox(photo.path, i, result))
 	}
-	writeScannedBoxes(draft, it, boxes)
+	writeScannedBoxes(draft, photo, boxes)
 }
 
 // resultToBox mirrors the client's linesToBoxes so background-scanned boxes are
 // identical to ones produced by the per-photo Scan button.
-func resultToBox(photo string, i int, r ocrpkg.MatchResult) Box {
-	jl := toLineJSON(r)
+func resultToBox(photo string, index int, result ocrpkg.MatchResult) Box {
+	line := toLineJSON(result)
 	return Box{
-		ID:         fmt.Sprintf("%s:%d", photo, i),
-		Bbox:       jl.Bbox,
-		Status:     jl.Band,
-		Chosen:     jl.Chosen,
-		Candidates: jl.Candidates,
+		ID:         fmt.Sprintf("%s:%d", photo, index),
+		Bbox:       line.Bbox,
+		Status:     line.Band,
+		Chosen:     line.Chosen,
+		Candidates: line.Candidates,
 	}
 }
 
 // writeScannedBoxes merges one photo's boxes into the session. It takes the same
 // lock as the client autosave and re-checks that the photo is still empty, so a
 // player the operator opened and started correcting mid-scan is never clobbered.
-func writeScannedBoxes(draft drafts.Draft, it scanItem, boxes []Box) {
+func writeScannedBoxes(draft drafts.Draft, photo scanPhoto, boxes []Box) {
 	sessionSaveMu.Lock()
 	defer sessionSaveMu.Unlock()
 
@@ -252,28 +260,24 @@ func writeScannedBoxes(draft drafts.Draft, it scanItem, boxes []Box) {
 		return
 	}
 	session.DraftID = draft.ID
-	playerWork := session.Players[it.player]
-	if playerWork == nil {
-		playerWork = &PlayerWork{}
-		session.Players[it.player] = playerWork
+	work := session.Players[photo.player]
+	if work == nil {
+		work = &PlayerWork{}
+		session.Players[photo.player] = work
 	}
-	if it.deck {
-		if playerWork.DeckBoxes == nil {
-			playerWork.DeckBoxes = map[string][]Box{}
-		}
-		if len(playerWork.DeckBoxes[it.photo]) > 0 {
-			return
-		}
-		playerWork.DeckBoxes[it.photo] = boxes
-	} else {
-		if playerWork.Boxes == nil {
-			playerWork.Boxes = map[string][]Box{}
-		}
-		if len(playerWork.Boxes[it.photo]) > 0 {
-			return
-		}
-		playerWork.Boxes[it.photo] = boxes
+
+	// Deck photos and pool photos keep their boxes in separate maps.
+	boxesByPhoto := &work.Boxes
+	if photo.deck {
+		boxesByPhoto = &work.DeckBoxes
 	}
+	if *boxesByPhoto == nil {
+		*boxesByPhoto = map[string][]Box{}
+	}
+	if len((*boxesByPhoto)[photo.path]) > 0 {
+		return
+	}
+	(*boxesByPhoto)[photo.path] = boxes
 	if err := session.Save(draft); err != nil {
 		logrus.WithError(err).WithField("draft", draft.ID).Warn("Background scan could not save session")
 	}

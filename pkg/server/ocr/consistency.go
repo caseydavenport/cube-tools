@@ -15,14 +15,14 @@ import (
 // list. Kind is "over" (pooled more copies than the cube has), "missing"
 // (fewer, including zero), or "unknown" (a name not in the cube at all).
 type Discrepancy struct {
-	CardName string `json:"card_name"`
-	Seen     int    `json:"seen"`
-	Cube     int    `json:"cube"`
-	Kind     string `json:"kind"`
+	CardName string                `json:"card_name"`
+	Seen     int                   `json:"seen"`
+	Cube     int                   `json:"cube"`
+	Kind     types.DiscrepancyKind `json:"kind"`
 
-	// Captures are the pool boxes (across players) that resolved to this name,
-	// so the fix UI can show each one and reassign it. Only populated for "over"
-	// and "unknown" (a "missing" card has no boxes by definition).
+	// Captures are the pool boxes, across players, that resolved to this name,
+	// so the fix UI can show and reassign each one. Only "over" and "unknown"
+	// have them, since a "missing" card has no boxes.
 	Captures []Capture `json:"captures,omitempty"`
 }
 
@@ -53,39 +53,42 @@ type ConsistencyReport struct {
 // names not in the cube), ignoring "missing" which is expected until every
 // player is scanned. The draft list uses this for a per-draft warning badge.
 func (r ConsistencyReport) Conflicts() int {
-	n := 0
+	numConflicts := 0
 	for _, d := range r.Discrepancies {
-		if d.Kind == "over" || d.Kind == "unknown" {
-			n++
+		if d.Kind == types.DiscrepancyOver || d.Kind == types.DiscrepancyUnknown {
+			numConflicts++
 		}
 	}
-	return n
+	return numConflicts
 }
 
-func buildConsistencyReport(cl *types.Cube, sess *Session, playersTotal int) ConsistencyReport {
+// buildConsistencyReport sums every player's drafted cards from the session
+// and compares them with the cube list, then attaches the boxes behind each
+// over-count or unknown name. playersTotal is how many players the draft has.
+func buildConsistencyReport(cube *types.Cube, session *Session, playersTotal int) ConsistencyReport {
 	var cards []types.CountedCard
-	counted := 0
-	for _, pw := range sess.Players {
-		if pw == nil {
+	numPlayers := 0
+	for _, work := range session.Players {
+		if work == nil {
 			continue
 		}
-		if drafted := draftedCards(pw); len(drafted) > 0 {
+		if drafted := draftedCards(work); len(drafted) > 0 {
 			cards = append(cards, drafted...)
-			counted++
+			numPlayers++
 		}
 	}
-	check := cl.CheckDraft(cards)
+	check := cube.CheckDraft(cards)
 
 	report := ConsistencyReport{
 		PoolTotal:      check.SeenTotal(),
 		CubeTotal:      check.CubeTotal,
-		PlayersCounted: counted,
+		PlayersCounted: numPlayers,
 		PlayersTotal:   playersTotal,
 	}
 	for _, d := range check.Discrepancies {
-		report.Discrepancies = append(report.Discrepancies, Discrepancy{CardName: d.CardName, Seen: d.Seen, Cube: d.Cube, Kind: string(d.Kind)})
+		report.Discrepancies = append(report.Discrepancies, Discrepancy{CardName: d.CardName, Seen: d.Seen, Cube: d.Cube, Kind: d.Kind})
 	}
-	attachCaptures(&report, sess)
+	attachCaptures(&report, session)
 	return report
 }
 
@@ -93,23 +96,23 @@ func buildConsistencyReport(cl *types.Cube, sess *Session, playersTotal int) Con
 // the full pool, which is the 45 drafted cards, so use it directly. A
 // deck-only scan has no pool, so its mainboard plus hand-tracked sideboard is
 // the same list. Mirrors poolCountsFromDeck's pool-then-deck fallback.
-func draftedCards(pw *PlayerWork) []types.CountedCard {
+func draftedCards(work *PlayerWork) []types.CountedCard {
 	var out []types.CountedCard
 	add := func(name string, n int) {
 		if n > 0 && !types.IsBasic(name) {
 			out = append(out, types.CountedCard{Name: name, Count: n})
 		}
 	}
-	if len(pw.PoolEntries) > 0 {
-		for _, e := range pw.PoolEntries {
-			add(e.CardName, e.Count)
+	if len(work.PoolCards) > 0 {
+		for _, card := range work.PoolCards {
+			add(card.CardName, card.Count)
 		}
 		return out
 	}
-	for _, e := range pw.MainboardEntries {
-		add(e.CardName, e.Count)
+	for _, card := range work.MainboardCards {
+		add(card.CardName, card.Count)
 	}
-	for name, n := range pw.Sideboard {
+	for name, n := range work.Sideboard {
 		add(name, n)
 	}
 	return out
@@ -118,10 +121,10 @@ func draftedCards(pw *PlayerWork) []types.CountedCard {
 // attachCaptures fills in the pool boxes behind each over/unknown discrepancy
 // so the draft view can show and reassign them. A missing card has no boxes
 // (that's why it's missing), so it gets none.
-func attachCaptures(report *ConsistencyReport, sess *Session) {
+func attachCaptures(report *ConsistencyReport, session *Session) {
 	want := map[string]bool{}
 	for _, d := range report.Discrepancies {
-		if d.Kind == "over" || d.Kind == "unknown" {
+		if d.Kind == types.DiscrepancyOver || d.Kind == types.DiscrepancyUnknown {
 			want[strings.ToLower(d.CardName)] = true
 		}
 	}
@@ -130,13 +133,13 @@ func attachCaptures(report *ConsistencyReport, sess *Session) {
 	}
 
 	byName := map[string][]Capture{}
-	for player, pw := range sess.Players {
-		if pw == nil {
+	for player, work := range session.Players {
+		if work == nil {
 			continue
 		}
-		for photo, boxes := range pw.Boxes {
+		for photo, boxes := range work.Boxes {
 			for _, b := range boxes {
-				if b.Chosen == "" || b.Status == "pending" || b.Status == "unmatched" {
+				if b.Chosen == "" || b.Status == boxPending || b.Status == boxUnmatched {
 					continue
 				}
 				key := strings.ToLower(b.Chosen)
@@ -169,6 +172,9 @@ func attachCaptures(report *ConsistencyReport, sess *Session) {
 	}
 }
 
+// ConsistencyHandler serves a draft's consistency report: every player's pool
+// summed and compared with the cube list. It is 404 for an unknown draft or one
+// with no photos, and a missing session reports every card as missing.
 func ConsistencyHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
@@ -186,16 +192,11 @@ func ConsistencyHandler(dataRoot string) http.Handler {
 			return
 		}
 
-		cl, err := loadCubeForDraft(dataRoot, server.CubeFromRequest(r), draft)
+		cube, err := loadCubeForDraft(dataRoot, server.CubeFromRequest(r), draft)
 		if err != nil {
 			http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		sess, err := LoadSession(draft)
-		if err != nil {
-			sess = &Session{Players: map[string]*PlayerWork{}}
-		}
-		writeJSON(rw, buildConsistencyReport(cl, sess, len(players)))
+		writeJSON(rw, buildConsistencyReport(cube, loadSessionOrEmpty(draft), len(players)))
 	})
 }

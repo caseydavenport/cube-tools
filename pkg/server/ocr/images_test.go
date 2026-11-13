@@ -34,6 +34,9 @@ func TestImageHandlerServesFile(t *testing.T) {
 	if w.Body.String() != "JPEGDATA" {
 		t.Fatalf("body = %q", w.Body.String())
 	}
+	if got := w.Header().Get("Cache-Control"); got != "no-cache" {
+		t.Fatalf("Cache-Control = %q, want no-cache so a rotated photo reloads", got)
+	}
 }
 
 func TestImageHandlerRefusesEscape(t *testing.T) {

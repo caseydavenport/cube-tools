@@ -17,6 +17,8 @@ import (
 // players would otherwise race on the shared session file and lose work.
 var sessionSaveMu sync.Mutex
 
+// SessionGetHandler serves the draft's saved OCR session with a review of each
+// player's lists. A draft with no saved session gets an empty one.
 func SessionGetHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
@@ -24,15 +26,18 @@ func SessionGetHandler(dataRoot string) http.Handler {
 			http.NotFound(rw, r)
 			return
 		}
-		s, err := LoadSession(draft)
+		session, err := LoadSession(draft)
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		writeJSON(rw, withReviews(cubeLands(dataRoot, server.CubeFromRequest(r), draft), s, s.Players))
+		writeJSON(rw, withReviews(cubeLands(dataRoot, server.CubeFromRequest(r), draft), session, session.Players))
 	})
 }
 
+// SessionSaveHandler merges the posted players into the draft's saved session
+// and returns it with a review of each posted player. The draft id comes from
+// the URL, not the body.
 func SessionSaveHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
@@ -56,20 +61,18 @@ func SessionSaveHandler(dataRoot string) http.Handler {
 		// Merge the posted players into what's already on disk rather than
 		// replacing the file. The client sends only the player it's editing, so
 		// a full replace would wipe every other player's saved work.
-		s, err := LoadSession(draft)
+		session, err := LoadSession(draft)
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-
-		// Trust the path, not the body.
-		s.DraftID = draft.ID
-		maps.Copy(s.Players, posted.Players)
-		if err := s.Save(draft); err != nil {
+		session.DraftID = draft.ID
+		maps.Copy(session.Players, posted.Players)
+		if err := session.Save(draft); err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		writeJSON(rw, withReviews(lands, s, posted.Players))
+		writeJSON(rw, withReviews(lands, session, posted.Players))
 	})
 }
 
@@ -82,11 +85,11 @@ type sessionResponse struct {
 
 // withReviews pairs the session with the reviews of the given players, using
 // lands to tell which cards are lands.
-func withReviews(lands map[string]bool, s *Session, players map[string]*PlayerWork) sessionResponse {
-	out := sessionResponse{Session: s, Reviews: map[string]PlayerReview{}}
+func withReviews(lands map[string]bool, session *Session, players map[string]*PlayerWork) sessionResponse {
+	out := sessionResponse{Session: session, Reviews: map[string]PlayerReview{}}
 	for id := range players {
-		if pw := s.Players[id]; pw != nil {
-			out.Reviews[id] = reviewPlayer(pw, lands)
+		if work := session.Players[id]; work != nil {
+			out.Reviews[id] = reviewPlayer(work, lands)
 		}
 	}
 	return out

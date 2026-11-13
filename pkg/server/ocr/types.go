@@ -5,13 +5,17 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
+// PhotoSet lists a player's photo paths, relative to the draft: the check-in and
+// check-out pool photos and the deck photos.
 type PhotoSet struct {
 	Checkin  []string `json:"checkin"`
 	Checkout []string `json:"checkout"`
 	Deck     []string `json:"deck"`
 }
 
-type PlayerDetail struct {
+// PlayerSummary is one player's row on the draft page: their photos, deck and
+// OCR progress, and any problems found in their saved work.
+type PlayerSummary struct {
 	ID string `json:"id"`
 
 	// PlayerID is the player the seat's deck is assigned to, zero while it is
@@ -26,7 +30,7 @@ type PlayerDetail struct {
 	Status string `json:"status"`
 
 	// NeedsReconfirm is set when a confirmed deck is stale: the live session
-	// pool no longer matches what was written, so the deck should be rebuilt.
+	// pool differs from what was written, so the deck should be rebuilt.
 	NeedsReconfirm bool `json:"needs_reconfirm"`
 
 	// Warnings are cross-check problems with a confirmed deck (pool/mainboard
@@ -34,11 +38,15 @@ type PlayerDetail struct {
 	Warnings []string `json:"warnings,omitempty"`
 }
 
-type DraftDetail struct {
+// DraftWithPlayers is a draft's details and the summary of each player with
+// photos, in seat order.
+type DraftWithPlayers struct {
 	Draft   storage.DraftInfo `json:"draft"`
-	Players []PlayerDetail    `json:"players"`
+	Players []PlayerSummary   `json:"players"`
 }
 
+// DraftSummary is one row of the OCR draft list: the draft's details and counts
+// of its players by state.
 type DraftSummary struct {
 	Draft     storage.DraftInfo `json:"draft"`
 	Players   int               `json:"players"`

@@ -3,6 +3,7 @@ package ocr
 import (
 	"encoding/json"
 	"net/http/httptest"
+	"slices"
 	"strings"
 	"testing"
 
@@ -11,33 +12,33 @@ import (
 
 func TestSessionSaveThenGet(t *testing.T) {
 	root := t.TempDir()
-	d := newDraft(t, root, types.DraftMetadata{})
+	draft := newDraft(t, root, types.DraftMetadata{})
 
 	save := SessionSaveHandler(root)
-	rs := draftReq(t, "POST", "/session", d)
+	rs := draftReq(t, "POST", "/session", draft)
 	rs.Body = bodyOf(`{"draft_id":7,"players":{"p3":{"status":"in_progress","pool_entries":[{"card_name":"Brainstorm","count":1}],"basics":{},"photos_done":{}}}}`)
 	ws := httptest.NewRecorder()
 	save.ServeHTTP(ws, rs)
 	if ws.Code != 200 {
-		t.Fatalf("save status = %d body=%s", ws.Code, ws.Body.String())
+		t.Fatalf("save status = %draft body=%s", ws.Code, ws.Body.String())
 	}
 
 	get := SessionGetHandler(root)
-	rg := draftReq(t, "GET", "/session", d)
+	rg := draftReq(t, "GET", "/session", draft)
 	wg := httptest.NewRecorder()
 	get.ServeHTTP(wg, rg)
 	if wg.Code != 200 {
-		t.Fatalf("get status = %d", wg.Code)
+		t.Fatalf("get status = %draft", wg.Code)
 	}
 	if !strings.Contains(wg.Body.String(), "Brainstorm") {
 		t.Fatalf("get body missing data: %s", wg.Body.String())
 	}
-	s, err := LoadSession(d)
+	s, err := LoadSession(draft)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if s.DraftID != d.ID {
-		t.Fatalf("session draft_id = %d, want the path's %d", s.DraftID, d.ID)
+	if s.DraftID != draft.ID {
+		t.Fatalf("session draft_id = %draft, want the path's %draft", s.DraftID, draft.ID)
 	}
 }
 
@@ -45,22 +46,22 @@ func TestSessionSaveThenGet(t *testing.T) {
 // client autosaves a single player at a time, so the server merges by id.
 func TestSessionSaveMergesPlayers(t *testing.T) {
 	root := t.TempDir()
-	d := newDraft(t, root, types.DraftMetadata{})
+	draft := newDraft(t, root, types.DraftMetadata{})
 	save := SessionSaveHandler(root)
 
 	post := func(body string) {
-		rs := draftReq(t, "POST", "/session", d)
+		rs := draftReq(t, "POST", "/session", draft)
 		rs.Body = bodyOf(body)
 		w := httptest.NewRecorder()
 		save.ServeHTTP(w, rs)
 		if w.Code != 200 {
-			t.Fatalf("save status = %d body=%s", w.Code, w.Body.String())
+			t.Fatalf("save status = %draft body=%s", w.Code, w.Body.String())
 		}
 	}
 	post(`{"players":{"p1":{"status":"in_progress","pool_entries":[{"card_name":"Brainstorm","count":1}]}}}`)
 	post(`{"players":{"p2":{"status":"in_progress","pool_entries":[{"card_name":"Ponder","count":1}]}}}`)
 
-	s, err := LoadSession(d)
+	s, err := LoadSession(draft)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -74,17 +75,17 @@ func TestSessionSaveMergesPlayers(t *testing.T) {
 
 func TestSessionResponsesCarryReviews(t *testing.T) {
 	root := t.TempDir()
-	d := newDraft(t, root, types.DraftMetadata{})
+	draft := newDraft(t, root, types.DraftMetadata{})
 
-	rs := draftReq(t, "POST", "/session", d)
+	rs := draftReq(t, "POST", "/session", draft)
 	rs.Body = bodyOf(`{"players":{"p1":{"status":"in_progress","pool_entries":[{"card_name":"Brainstorm","count":44}],"basics":{"Island":3}}}}`)
 	ws := httptest.NewRecorder()
 	SessionSaveHandler(root).ServeHTTP(ws, rs)
 	if ws.Code != 200 {
-		t.Fatalf("save status = %d body=%s", ws.Code, ws.Body.String())
+		t.Fatalf("save status = %draft body=%s", ws.Code, ws.Body.String())
 	}
 
-	rg := draftReq(t, "GET", "/session", d)
+	rg := draftReq(t, "GET", "/session", draft)
 	wg := httptest.NewRecorder()
 	SessionGetHandler(root).ServeHTTP(wg, rg)
 
@@ -101,7 +102,7 @@ func TestSessionResponsesCarryReviews(t *testing.T) {
 		if !ok {
 			t.Fatalf("%s: no review for p1 in %s", name, body)
 		}
-		if !hasWarning(got.Warnings, "Pool has 44 cards (expected 45)") {
+		if !slices.Contains(got.Warnings, "Pool has 44 cards (expected 45)") {
 			t.Fatalf("%s: warnings = %v", name, got.Warnings)
 		}
 		if got.Breakdown != (Breakdown{Cards: 3, Lands: 3, Basics: 3}) {
@@ -132,11 +133,11 @@ func (b blockingCubeSource) Refresh(cube string) (*types.Cube, error) {
 // a network fetch.
 func TestSessionSaveDoesNotHoldLockDuringCubeLoad(t *testing.T) {
 	root := t.TempDir()
-	d := bareDraft(t, root, types.DraftMetadata{})
+	draft := bareDraft(t, root, types.DraftMetadata{})
 	src := blockingCubeSource{entered: make(chan struct{}), release: make(chan struct{})}
 	withCubeSource(t, src)
 
-	rs := draftReq(t, "POST", "/session", d)
+	rs := draftReq(t, "POST", "/session", draft)
 	rs.Body = bodyOf(`{"players":{"p1":{"status":"in_progress"}}}`)
 	done := make(chan struct{})
 	go func() {

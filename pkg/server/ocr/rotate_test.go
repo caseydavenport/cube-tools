@@ -28,14 +28,11 @@ func writeTestJPEG(t *testing.T, path string, w, h int) {
 			img.Set(x, y, c)
 		}
 	}
-	f, err := os.Create(path)
-	if err != nil {
+	var buf bytes.Buffer
+	if err := jpeg.Encode(&buf, img, &jpeg.Options{Quality: 100}); err != nil {
 		t.Fatal(err)
 	}
-	defer f.Close()
-	if err := jpeg.Encode(f, img, &jpeg.Options{Quality: 100}); err != nil {
-		t.Fatal(err)
-	}
+	writeFile(t, path, buf.String())
 }
 
 func decodeJPEG(t *testing.T, path string) image.Image {
@@ -58,23 +55,20 @@ func isRedish(c color.Color) bool {
 	return r>>8 > 180 && g>>8 < 80 && b>>8 < 80
 }
 
-func TestRotateHandlerClockwise(t *testing.T) {
+// rotateTestPhoto rotates a 40x20 photo, red on its top half, through the
+// handler and returns the 20x40 result.
+func rotateTestPhoto(t *testing.T, direction string) image.Image {
+	t.Helper()
 	root := t.TempDir()
-	d := newDraft(t, root, types.DraftMetadata{})
+	draft := newDraft(t, root, types.DraftMetadata{})
 	rel := "img/p3/deck-1.jpg"
-	full := filepath.Join(d.Dir, rel)
-	if err := os.MkdirAll(filepath.Dir(full), 0o755); err != nil {
-		t.Fatal(err)
-	}
-	// 40x20 image, top half red. A clockwise turn produces a 20x40 image with
-	// the red moved to the right half (the top edge rotates to the right edge).
+	full := filepath.Join(draft.Dir, rel)
 	writeTestJPEG(t, full, 40, 20)
 
-	h := RotateHandler(root)
-	r := draftReq(t, "POST", "/rotate", d)
-	r.Body = bodyOf(`{"photo":"` + rel + `","direction":"cw"}`)
+	r := draftReq(t, "POST", "/rotate", draft)
+	r.Body = bodyOf(`{"photo":"` + rel + `","direction":"` + direction + `"}`)
 	w := httptest.NewRecorder()
-	h.ServeHTTP(w, r)
+	RotateHandler(root).ServeHTTP(w, r)
 	if w.Code != 200 {
 		t.Fatalf("status = %d body=%s", w.Code, w.Body.String())
 	}
@@ -83,12 +77,61 @@ func TestRotateHandlerClockwise(t *testing.T) {
 	if out.Bounds().Dx() != 20 || out.Bounds().Dy() != 40 {
 		t.Fatalf("dims = %dx%d, want 20x40", out.Bounds().Dx(), out.Bounds().Dy())
 	}
-	// Right column should be red, left column white.
+	return out
+}
+
+func TestRotateHandlerClockwise(t *testing.T) {
+	out := rotateTestPhoto(t, "cw")
+
+	// The top edge rotates to the right edge.
 	if !isRedish(out.At(18, 20)) {
 		t.Fatalf("right half not red after CW rotate; got %v", out.At(18, 20))
 	}
 	if isRedish(out.At(1, 20)) {
 		t.Fatalf("left half should be white after CW rotate; got %v", out.At(1, 20))
+	}
+}
+
+func TestRotateHandlerCounterclockwise(t *testing.T) {
+	out := rotateTestPhoto(t, "ccw")
+
+	// The top edge rotates to the left edge.
+	if !isRedish(out.At(1, 20)) {
+		t.Fatalf("left half not red after CCW rotate; got %v", out.At(1, 20))
+	}
+	if isRedish(out.At(18, 20)) {
+		t.Fatalf("right half should be white after CCW rotate; got %v", out.At(18, 20))
+	}
+}
+
+func TestRotateHandlerLeavesUndecodablePhotoAlone(t *testing.T) {
+	root := t.TempDir()
+	draft := newDraft(t, root, types.DraftMetadata{})
+	rel := "img/p3/deck-1.jpg"
+	full := filepath.Join(draft.Dir, rel)
+	writeFile(t, full, "not a jpeg")
+
+	r := draftReq(t, "POST", "/rotate", draft)
+	r.Body = bodyOf(`{"photo":"` + rel + `","direction":"cw"}`)
+	w := httptest.NewRecorder()
+	RotateHandler(root).ServeHTTP(w, r)
+	if w.Code != 500 {
+		t.Fatalf("status = %d, want 500", w.Code)
+	}
+
+	got, err := os.ReadFile(full)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(got) != "not a jpeg" {
+		t.Fatalf("photo was rewritten: %q", got)
+	}
+	leftovers, err := filepath.Glob(filepath.Join(filepath.Dir(full), ".rotate-*"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(leftovers) != 0 {
+		t.Fatalf("temp files left behind: %v", leftovers)
 	}
 }
 

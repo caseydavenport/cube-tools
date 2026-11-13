@@ -28,16 +28,16 @@ func ImageHandler(dataRoot string) http.Handler {
 			http.NotFound(rw, r)
 			return
 		}
-		defer f.Close()
-		st, err := f.Stat()
+		defer closeAndLog(f, cleanPath)
+		info, err := f.Stat()
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		// Photos can be rotated in place, so force revalidation: the browser
-		// still gets a cheap 304 when the file is unchanged, but picks up a
-		// rotated file on the next load instead of serving a stale copy.
+
+		// Photos can be rotated in place, so make the browser revalidate: it
+		// gets a cheap 304 for an unchanged file and a fresh copy after a rotate.
 		rw.Header().Set("Cache-Control", "no-cache")
-		http.ServeContent(rw, r, filepath.Base(cleanPath), st.ModTime(), f)
+		http.ServeContent(rw, r, filepath.Base(cleanPath), info.ModTime(), f)
 	})
 }

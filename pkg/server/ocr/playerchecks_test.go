@@ -1,6 +1,7 @@
 package ocr
 
 import (
+	"slices"
 	"strings"
 	"testing"
 
@@ -17,7 +18,7 @@ func cards(names ...string) []types.Card {
 
 func TestNeedsReconfirm(t *testing.T) {
 	t.Run("pool-only deck matches session", func(t *testing.T) {
-		pw := pool(entry("Brainstorm", 2), entry("Misty Rainforest", 1))
+		pw := pool(scanned("Brainstorm", 2), scanned("Misty Rainforest", 1))
 		d := &types.Deck{Pool: cards("Brainstorm", "Brainstorm", "Misty Rainforest")}
 		if needsReconfirm(pw, d) {
 			t.Fatal("matching pool should not need reconfirm")
@@ -27,7 +28,7 @@ func TestNeedsReconfirm(t *testing.T) {
 	t.Run("pool-only deck differs from session", func(t *testing.T) {
 		// Session was fixed (Brainstrm renamed to Brainstorm) but the deck on
 		// disk still has the misread.
-		pw := pool(entry("Brainstorm", 2))
+		pw := pool(scanned("Brainstorm", 2))
 		d := &types.Deck{Pool: cards("Brainstorm", "Brainstrm")}
 		if !needsReconfirm(pw, d) {
 			t.Fatal("changed pool should need reconfirm")
@@ -37,7 +38,7 @@ func TestNeedsReconfirm(t *testing.T) {
 	t.Run("mainboard deck reconstructs pool from mainboard plus sideboard", func(t *testing.T) {
 		// Pool = 2x Brainstorm, 1x Misty Rainforest. Deck plays one Brainstorm
 		// (plus a basic), the rest is sideboard. Basics are ignored.
-		pw := pool(entry("Brainstorm", 2), entry("Misty Rainforest", 1))
+		pw := pool(scanned("Brainstorm", 2), scanned("Misty Rainforest", 1))
 		d := &types.Deck{
 			Mainboard: cards("Brainstorm", "Island"),
 			Sideboard: cards("Brainstorm", "Misty Rainforest"),
@@ -50,7 +51,7 @@ func TestNeedsReconfirm(t *testing.T) {
 	t.Run("deck-only session with no pool work never needs reconfirm", func(t *testing.T) {
 		// A scratch deck scan (mainboard only, no pool) on a draft confirmed
 		// outside the pool flow should not be flagged stale.
-		pw := &PlayerWork{MainboardEntries: []PoolEntry{entry("Wrath of God", 1)}}
+		pw := &PlayerWork{MainboardCards: []ScannedCard{scanned("Wrath of God", 1)}}
 		d := &types.Deck{Mainboard: cards("Wrath of God", "Island"), Sideboard: cards("Brainstorm")}
 		if needsReconfirm(pw, d) {
 			t.Fatal("session with no pool entries should not need reconfirm")
@@ -61,7 +62,7 @@ func TestNeedsReconfirm(t *testing.T) {
 		if needsReconfirm(nil, &types.Deck{Pool: cards("Brainstorm")}) {
 			t.Fatal("nil session should not need reconfirm")
 		}
-		if needsReconfirm(pool(entry("Brainstorm", 1)), nil) {
+		if needsReconfirm(pool(scanned("Brainstorm", 1)), nil) {
 			t.Fatal("nil deck should not need reconfirm")
 		}
 	})
@@ -69,7 +70,7 @@ func TestNeedsReconfirm(t *testing.T) {
 
 func TestDeckWarnings(t *testing.T) {
 	t.Run("clean 45-card pool, no mainboard", func(t *testing.T) {
-		pw := pool(entry("Brainstorm", 45))
+		pw := pool(scanned("Brainstorm", 45))
 		if w := deckWarnings(pw); len(w) != 0 {
 			t.Fatalf("expected no warnings, got %v", w)
 		}
@@ -78,7 +79,7 @@ func TestDeckWarnings(t *testing.T) {
 	t.Run("deck-only complete deck has no warnings", func(t *testing.T) {
 		// Mainboard scanned but no pool: the pool-relative checks can't run, so a
 		// full 45-card deck-only scan draws no warnings (no bogus "Pool has 0").
-		pw := &PlayerWork{MainboardEntries: []PoolEntry{entry("Wrath of God", 45)}}
+		pw := &PlayerWork{MainboardCards: []ScannedCard{scanned("Wrath of God", 45)}}
 		if w := deckWarnings(pw); len(w) != 0 {
 			t.Fatalf("expected no warnings for complete deck-only session, got %v", w)
 		}
@@ -87,54 +88,71 @@ func TestDeckWarnings(t *testing.T) {
 	t.Run("deck-only short of 45 warns on size", func(t *testing.T) {
 		// No pool to cross-check, so mainboard + sideboard is the only guard.
 		pw := &PlayerWork{
-			MainboardEntries: []PoolEntry{entry("Wrath of God", 40)},
-			Sideboard:        map[string]int{"Brainstorm": 3},
+			MainboardCards: []ScannedCard{scanned("Wrath of God", 40)},
+			Sideboard:      map[string]int{"Brainstorm": 3},
 		}
-		if !hasWarning(deckWarnings(pw), "Mainboard + sideboard has 43 non-basic cards (expected 45)") {
+		if !slices.Contains(deckWarnings(pw), "Mainboard + sideboard has 43 non-basic cards (expected 45)") {
 			t.Fatalf("expected deck-size warning, got %v", deckWarnings(pw))
 		}
 	})
 
 	t.Run("pool not 45", func(t *testing.T) {
-		pw := pool(entry("Brainstorm", 44))
-		if !hasWarning(deckWarnings(pw), "Pool has 44 cards (expected 45)") {
+		pw := pool(scanned("Brainstorm", 44))
+		if !slices.Contains(deckWarnings(pw), "Pool has 44 cards (expected 45)") {
 			t.Fatalf("expected pool-size warning, got %v", deckWarnings(pw))
 		}
 	})
 
 	t.Run("mainboard card not in pool", func(t *testing.T) {
 		pw := &PlayerWork{
-			PoolEntries:      []PoolEntry{entry("Brainstorm", 45)},
-			MainboardEntries: []PoolEntry{entry("Counterspell", 1)},
+			PoolCards:      []ScannedCard{scanned("Brainstorm", 45)},
+			MainboardCards: []ScannedCard{scanned("Counterspell", 1)},
 		}
-		w := deckWarnings(pw)
-		found := false
-		for _, m := range w {
-			if m == `"Counterspell" is in the deck but not the pool` {
-				found = true
-			}
+		warnings := deckWarnings(pw)
+		if !slices.Contains(warnings, `"Counterspell" is in the deck but not the pool`) {
+			t.Fatalf("expected not-in-pool warning, got %v", warnings)
 		}
-		if !found {
-			t.Fatalf("expected not-in-pool warning, got %v", w)
+	})
+
+	t.Run("mainboard card over the pooled count", func(t *testing.T) {
+		pw := &PlayerWork{
+			PoolCards:      []ScannedCard{scanned("Brainstorm", 45)},
+			MainboardCards: []ScannedCard{scanned("Brainstorm", 46)},
+		}
+		warnings := deckWarnings(pw)
+		if !slices.Contains(warnings, `"Brainstorm" x46 exceeds pool (45)`) {
+			t.Fatalf("expected exceeds-pool warning, got %v", warnings)
+		}
+	})
+
+	t.Run("mainboard within the pool and size range has no warnings", func(t *testing.T) {
+		pw := &PlayerWork{
+			PoolCards:      []ScannedCard{scanned("Brainstorm", 45)},
+			MainboardCards: []ScannedCard{scanned("Brainstorm", 23)},
+			Basics:         map[string]int{"Island": 17},
+		}
+		if warnings := deckWarnings(pw); len(warnings) != 0 {
+			t.Fatalf("expected no warnings, got %v", warnings)
+		}
+	})
+
+	t.Run("nil player has no warnings", func(t *testing.T) {
+		if warnings := deckWarnings(nil); len(warnings) != 0 {
+			t.Fatalf("expected no warnings, got %v", warnings)
 		}
 	})
 
 	t.Run("mainboard size out of range, basics counted", func(t *testing.T) {
 		pw := &PlayerWork{
-			PoolEntries:      []PoolEntry{entry("Brainstorm", 45)},
-			MainboardEntries: []PoolEntry{entry("Brainstorm", 20)},
-			Basics:           map[string]int{"Island": 5},
+			PoolCards:      []ScannedCard{scanned("Brainstorm", 45)},
+			MainboardCards: []ScannedCard{scanned("Brainstorm", 20)},
+			Basics:         map[string]int{"Island": 5},
 		}
+
 		// 20 non-basic + 5 basics = 25, well under 38.
-		w := deckWarnings(pw)
-		found := false
-		for _, m := range w {
-			if m == "Mainboard has 25 cards (expected ~40)" {
-				found = true
-			}
-		}
-		if !found {
-			t.Fatalf("expected mainboard-size warning, got %v", w)
+		warnings := deckWarnings(pw)
+		if !slices.Contains(warnings, "Mainboard has 25 cards (expected ~40)") {
+			t.Fatalf("expected mainboard-size warning, got %v", warnings)
 		}
 	})
 }
@@ -144,10 +162,10 @@ func TestDeckWarningsPoolPlayerIgnoresStaleSideboard(t *testing.T) {
 	// page shows it. A saved hand-tracked map left over from a deck-only scan
 	// mustn't change the total.
 	pw := &PlayerWork{
-		PoolEntries:      []PoolEntry{entry("Brainstorm", 45)},
-		MainboardEntries: []PoolEntry{entry("Brainstorm", 23)},
-		Sideboard:        map[string]int{"Counterspell": 3},
-		Basics:           map[string]int{"Island": 17},
+		PoolCards:      []ScannedCard{scanned("Brainstorm", 45)},
+		MainboardCards: []ScannedCard{scanned("Brainstorm", 23)},
+		Sideboard:      map[string]int{"Counterspell": 3},
+		Basics:         map[string]int{"Island": 17},
 	}
 	for _, w := range deckWarnings(pw) {
 		if strings.HasPrefix(w, "Mainboard + sideboard") {
@@ -162,17 +180,17 @@ func TestReviewBreakdown(t *testing.T) {
 		"Polluted Delta": true,
 	}
 	work := &PlayerWork{
-		PoolEntries: []PoolEntry{
-			entry("Brainstorm", 21),
-			entry("Flooded Strand", 1),
-			entry("Polluted Delta", 1),
-			entry("Ozzy's Bat", 22),
+		PoolCards: []ScannedCard{
+			scanned("Brainstorm", 21),
+			scanned("Flooded Strand", 1),
+			scanned("Polluted Delta", 1),
+			scanned("Ozzy's Bat", 22),
 		},
-		MainboardEntries: []PoolEntry{
-			entry("Brainstorm", 20),
-			entry("Flooded Strand", 1),
-			entry("Polluted Delta", 1),
-			entry("Ozzy's Bat", 1),
+		MainboardCards: []ScannedCard{
+			scanned("Brainstorm", 20),
+			scanned("Flooded Strand", 1),
+			scanned("Polluted Delta", 1),
+			scanned("Ozzy's Bat", 1),
 		},
 		Basics: map[string]int{
 			"Plains": 9,

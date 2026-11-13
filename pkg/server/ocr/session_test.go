@@ -10,7 +10,7 @@ import (
 func TestSessionRoundTrip(t *testing.T) {
 	dir := t.TempDir()
 	photo := "img/p3/checkin-1.jpg"
-	s := &Session{DraftID: 1, Players: map[string]*PlayerWork{
+	session := &Session{DraftID: 1, Players: map[string]*PlayerWork{
 		"p3": {
 			Status: "in_progress",
 			Boxes: map[string][]Box{photo: {{
@@ -21,13 +21,13 @@ func TestSessionRoundTrip(t *testing.T) {
 			}}},
 			Overrides: map[string]int{"Counterspell": 1},
 			Basics:    map[string]int{"Island": 7},
-			PoolEntries: []PoolEntry{{
+			PoolCards: []ScannedCard{{
 				CardName: "Counterspell", Count: 1,
 				Source: Source{Photo: photo, Box: ocrpkg.Bbox{X: 1, Y: 2, Width: 3, Height: 4}},
 			}},
 		},
 	}}
-	if err := s.Save(drafts.Draft{Dir: dir}); err != nil {
+	if err := session.Save(drafts.Draft{Dir: dir}); err != nil {
 		t.Fatal(err)
 	}
 
@@ -47,11 +47,11 @@ func TestSessionRoundTrip(t *testing.T) {
 }
 
 func TestLoadSessionMissingIsEmpty(t *testing.T) {
-	s, err := LoadSession(drafts.Draft{Dir: t.TempDir()})
+	session, err := LoadSession(drafts.Draft{Dir: t.TempDir()})
 	if err != nil {
 		t.Fatalf("missing file should not error: %v", err)
 	}
-	if s == nil || len(s.Players) != 0 {
-		t.Fatalf("expected empty session, got %+v", s)
+	if session == nil || len(session.Players) != 0 {
+		t.Fatalf("expected empty session, got %+v", session)
 	}
 }

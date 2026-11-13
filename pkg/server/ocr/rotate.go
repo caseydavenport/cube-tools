@@ -17,6 +17,11 @@ const (
 	directionCCW = "ccw"
 )
 
+// jpegQuality is the quality a rotated photo is re-encoded at, high enough that
+// card names stay readable for OCR.
+const jpegQuality = 92
+
+// rotateRequest names the photo, relative to the draft, and which way to turn it.
 type rotateRequest struct {
 	Photo     string `json:"photo"`
 	Direction string `json:"direction"`
@@ -63,46 +68,52 @@ func RotateHandler(dataRoot string) http.Handler {
 // Writes to a temp file then renames, so a failure can't leave a half-written
 // photo behind.
 func rotateJPEGFile(path string, cw bool) error {
-	f, err := os.Open(path)
+	src, err := decodeJPEGFile(path)
 	if err != nil {
 		return err
 	}
-	src, err := jpeg.Decode(f)
-	f.Close()
-	if err != nil {
-		return err
-	}
-	rotated := rotate90(src, cw)
-
 	tmp, err := os.CreateTemp(filepath.Dir(path), ".rotate-*.jpg")
 	if err != nil {
 		return err
 	}
 	tmpName := tmp.Name()
-	if err := jpeg.Encode(tmp, rotated, &jpeg.Options{Quality: 92}); err != nil {
-		tmp.Close()
-		os.Remove(tmpName)
+	if err := jpeg.Encode(tmp, rotate90(src, cw), &jpeg.Options{Quality: jpegQuality}); err != nil {
+		closeAndLog(tmp, tmpName)
+		removeAndLog(tmpName)
 		return err
 	}
 	if err := tmp.Close(); err != nil {
-		os.Remove(tmpName)
+		removeAndLog(tmpName)
 		return err
 	}
 	return os.Rename(tmpName, path)
 }
 
+// decodeJPEGFile reads and decodes the JPEG at path.
+func decodeJPEGFile(path string) (image.Image, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer closeAndLog(f, path)
+	return jpeg.Decode(f)
+}
+
 // rotate90 turns src 90 degrees, clockwise when cw is true.
 func rotate90(src image.Image, cw bool) image.Image {
-	b := src.Bounds()
-	w, h := b.Dx(), b.Dy()
-	dst := image.NewRGBA(image.Rect(0, 0, h, w))
-	for y := range h {
-		for x := range w {
-			c := src.At(b.Min.X+x, b.Min.Y+y)
+	bounds := src.Bounds()
+	width, height := bounds.Dx(), bounds.Dy()
+	dst := image.NewRGBA(image.Rect(0, 0, height, width))
+	for y := range height {
+		for x := range width {
+			pixel := src.At(bounds.Min.X+x, bounds.Min.Y+y)
+
+			// The top row becomes the right column when turning clockwise and
+			// the left column when turning counterclockwise.
 			if cw {
-				dst.Set(h-1-y, x, c)
+				dst.Set(height-1-y, x, pixel)
 			} else {
-				dst.Set(y, w-1-x, c)
+				dst.Set(y, width-1-x, pixel)
 			}
 		}
 	}

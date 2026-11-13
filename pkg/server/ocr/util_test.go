@@ -64,12 +64,15 @@ func writeDeck(t *testing.T, d drafts.Draft, deck *types.Deck) string {
 func reqWithCube(t *testing.T, method, target, cube string) *http.Request {
 	t.Helper()
 	r := httptest.NewRequest(method, target, nil)
+
 	// WithCube stores the id under an unexported key; in tests we go through
 	// the exported setter instead.
 	return r.WithContext(server.ContextWithCube(context.Background(), cube))
 }
 
-func bodyOf(s string) io.ReadCloser { return io.NopCloser(strings.NewReader(s)) }
+func bodyOf(s string) io.ReadCloser {
+	return io.NopCloser(strings.NewReader(s))
+}
 
 // writeFile creates path's parent dirs and writes body, failing the test on error.
 func writeFile(t *testing.T, path, body string) {
@@ -84,16 +87,10 @@ func writeFile(t *testing.T, path, body string) {
 
 // pool builds a PlayerWork with just the given pool entries, the common shape
 // for the pool/deck consistency checks.
-func pool(entries ...PoolEntry) *PlayerWork { return &PlayerWork{PoolEntries: entries} }
+func pool(cards ...ScannedCard) *PlayerWork {
+	return &PlayerWork{PoolCards: cards}
+}
 
-func entry(name string, count int) PoolEntry { return PoolEntry{CardName: name, Count: count} }
-
-// hasWarning reports whether want is among the warnings.
-func hasWarning(warnings []string, want string) bool {
-	for _, w := range warnings {
-		if w == want {
-			return true
-		}
-	}
-	return false
+func scanned(name string, count int) ScannedCard {
+	return ScannedCard{CardName: name, Count: count}
 }
