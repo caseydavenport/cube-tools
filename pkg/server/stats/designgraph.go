@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
@@ -16,7 +18,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
 // DesignGraphResponse is the API response for /api/stats/design-graph.
@@ -159,10 +160,10 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 		if deck != nil {
 			draftID := deck.Metadata.DraftID
 			shown := rules.Shown(rulebook.InDraft(draftID))
-			resp = buildDeckGraph(rules.Cube(), shown.Config(), deck, rules.PlayedCardNames())
+			resp = buildDeckGraph(rules, shown.Config(), deck)
 			resp.DeckPackages = builtPackages(shown.Packages(), deck)
 		} else {
-			resp = buildDesignGraph(rules.Cube(), config, rules.PlayedCardNames())
+			resp = designGraph(rules, config)
 		}
 
 		b, err := json.Marshal(resp)
@@ -196,29 +197,63 @@ func builtPackages(pkgs []design.PackageCards, deck *storage.Deck) []string {
 // tens of thousands of edges. As in the whole graph, a card cut from the cube
 // links only if some deck mainboarded it. The group graph is the rules
 // editor's, so it's left out.
-func buildDeckGraph(cube *types.Cube, config design.DesignMapConfig, deck *storage.Deck, playedCardNames []string) DesignGraphResponse {
+func buildDeckGraph(rules *rulebook.Rulebook, config design.DesignMapConfig, deck *storage.Deck) DesignGraphResponse {
 	names := map[string]bool{}
 	for _, board := range [][]types.Card{deck.Mainboard, deck.Sideboard, deck.Pool} {
 		for _, c := range board {
 			names[c.Name] = true
 		}
 	}
-	deckCube := &types.Cube{}
-	for _, c := range cube.Cards {
-		if names[c.Name] {
-			deckCube.Cards = append(deckCube.Cards, c)
-		}
-	}
-	var played []string
-	for _, name := range playedCardNames {
+	nodes := map[string]types.Card{}
+	for name, c := range rules.CardMap() {
 		if names[name] {
-			played = append(played, name)
+			nodes[name] = c
 		}
 	}
-	g := buildDesignGraph(deckCube, config, played)
+	linkable := map[string]bool{}
+	for name := range linkableNames(rules) {
+		if names[name] {
+			linkable[name] = true
+		}
+	}
+	g := buildDesignGraph(nodes, rules.Groups(), config, linkable)
 	g.GroupNodes = []DesignGraphGroupNode{}
 	g.GroupEdges = []DesignGraphGroupEdge{}
 	return g
+}
+
+// designGraph builds the design graph over today's list and the rules in
+// config, which may hold only the packages a view shows.
+func designGraph(rules *rulebook.Rulebook, config design.DesignMapConfig) DesignGraphResponse {
+	return buildDesignGraph(rules.CardMap(), rules.Groups(), config, linkableNames(rules))
+}
+
+// linkableNames is the cards the graph may link: today's list and the cut
+// cards decks played. A cut card only an old draft list held links nothing.
+func linkableNames(rules *rulebook.Rulebook) map[string]bool {
+	out := map[string]bool{}
+	for name := range rules.CardMap() {
+		out[name] = true
+	}
+	for _, name := range rules.PlayedCardNames() {
+		out[name] = true
+	}
+	return out
+}
+
+// restrict returns members holding only the cards keep names.
+func restrict(members rulebook.Members, keep map[string]bool) rulebook.Members {
+	out := make(rulebook.Members, len(members))
+	for entry, cards := range members {
+		kept := map[string]bool{}
+		for name := range cards {
+			if keep[name] {
+				kept[name] = true
+			}
+		}
+		out[entry] = kept
+	}
+	return out
 }
 
 // MatchedCard describes a card and which conditions it matched.
@@ -381,7 +416,7 @@ func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Re
 		return
 	}
 
-	resp := groupDistributions(rules.CardMap(), rules.Config(), rules.Decks())
+	resp := groupDistributions(rules, rules.Decks())
 	b, err := json.Marshal(resp)
 	if err != nil {
 		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
@@ -396,8 +431,10 @@ func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Re
 // groupDistributions counts each group's cards in every deck's mainboard. Only
 // decks with a real mainboard contribute, so the percentiles the client derives
 // aren't diluted by pool-only records.
-func groupDistributions(cardMap map[string]types.Card, config design.DesignMapConfig, decks []*storage.Deck) GroupDistributionsResponse {
-	groupCards, _ := rulebook.MatchGroups(cardMap, config.Groups)
+func groupDistributions(rules *rulebook.Rulebook, decks []*storage.Deck) GroupDistributionsResponse {
+	config := rules.Config()
+	cardMap := rules.CardMap()
+	groupCards := rules.Groups().Cube
 
 	mainboards := make([]map[string]bool, 0, len(decks))
 	for _, d := range decks {
@@ -455,14 +492,14 @@ func groupDistributions(cardMap map[string]types.Card, config design.DesignMapCo
 
 // buildCardEdges creates one undirected edge per pair of cards joined by a
 // package, stamped with every package that joins them.
-func buildCardEdges(packages []design.Package, groupCards map[string]map[string]bool) []DesignGraphEdge {
+func buildCardEdges(packages []design.Package, groupCards rulebook.Members) []DesignGraphEdge {
 	type edgeKey struct{ source, target string }
 	edgePackages := make(map[edgeKey]map[string]bool)
 
 	for _, pkg := range packages {
 		for _, wire := range pkg.Wires {
-			sources := rulebook.WireSide(groupCards, wire.Sources)
-			targets := rulebook.WireSide(groupCards, wire.Targets)
+			sources := groupCards.Side(wire.Sources)
+			targets := groupCards.Side(wire.Targets)
 
 			for s := range sources {
 				for t := range targets {
@@ -501,15 +538,25 @@ func buildCardEdges(packages []design.Package, groupCards map[string]map[string]
 	return edges
 }
 
-func buildDesignGraph(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) DesignGraphResponse {
-	cardMap := rulebook.CardMap(cube)
+// buildDesignGraph builds the graph with cardMap's cards as its nodes. Edges
+// also reach the linkable cut cards decks still play, so old decks keep them
+// connected; nodes and the group graph stay on cardMap's cards.
+func buildDesignGraph(cardMap map[string]types.Card, resolved rulebook.Groups, config design.DesignMapConfig, linkable map[string]bool) DesignGraphResponse {
+	nodeNames := map[string]bool{}
+	for name := range cardMap {
+		nodeNames[name] = true
+	}
+	groupCards := restrict(resolved.Cube, nodeNames)
+	groupExcluded := map[string][]string{}
+	for group, names := range resolved.Excluded {
+		for _, name := range names {
+			if nodeNames[name] {
+				groupExcluded[group] = append(groupExcluded[group], name)
+			}
+		}
+	}
 
-	// Edges also reach cards cut from the cube that decks still play, so old
-	// decks keep them connected. Nodes and the group graph stay cube-only.
-	resolved := rulebook.ResolveGroups(cardMap, config, deckCardNames)
-	groupCards, groupExcluded := resolved.Cube, resolved.Excluded
-
-	edges := buildCardEdges(config.Packages, resolved.Widened)
+	edges := buildCardEdges(config.Packages, restrict(resolved.Widened, linkable))
 
 	// Connection counts reflect cube-to-cube edges only, so a cut card's edges
 	// don't inflate the counts shown in the cube's design view.
@@ -575,7 +622,7 @@ func buildDesignGraph(cube *types.Cube, config design.DesignMapConfig, deckCardN
 // the raw view of how the rules wire the groups together.
 func buildGroupGraph(
 	config design.DesignMapConfig,
-	groupCards map[string]map[string]bool,
+	groupCards rulebook.Members,
 	groupExcluded map[string][]string,
 	edges []DesignGraphEdge,
 ) (groupNodes []DesignGraphGroupNode, cardEdges, packageEdges []DesignGraphGroupEdge) {

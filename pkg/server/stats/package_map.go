@@ -70,7 +70,7 @@ type DepthDeck struct {
 // buildPackageMap builds the map for pkg. cards is the package resolved for
 // deck checks, cube resolves entries to cube cards, and decks are the decks
 // in the date range.
-func buildPackageMap(pkg design.Package, cards design.PackageCards, cube map[string]map[string]bool, config design.DesignMapConfig, decks []*storage.Deck) PackageMap {
+func buildPackageMap(pkg design.Package, cards design.PackageCards, cube rulebook.Members, config design.DesignMapConfig, decks []*storage.Deck) PackageMap {
 	out := PackageMap{Groups: mapGroups(pkg, cube, config), Wires: []MapWire{}}
 
 	// Only decks whose draft supports the package count toward it.
@@ -123,7 +123,7 @@ func buildPackageMap(pkg design.Package, cards design.PackageCards, cube map[str
 }
 
 // mapGroups lists each entry the package's wires name, once, in wire order.
-func mapGroups(pkg design.Package, cube map[string]map[string]bool, config design.DesignMapConfig) []MapGroup {
+func mapGroups(pkg design.Package, cube rulebook.Members, config design.DesignMapConfig) []MapGroup {
 	defined := map[string]bool{}
 	for _, g := range config.Groups {
 		defined[g.Name] = true
@@ -145,9 +145,9 @@ func mapGroups(pkg design.Package, cube map[string]map[string]bool, config desig
 }
 
 // selfLinked lists the cube cards on both sides of a wire, sorted.
-func selfLinked(w design.Wire, cube map[string]map[string]bool) []string {
-	sources := rulebook.WireSide(cube, w.Sources)
-	targets := rulebook.WireSide(cube, w.Targets)
+func selfLinked(w design.Wire, cube rulebook.Members) []string {
+	sources := cube.Side(w.Sources)
+	targets := cube.Side(w.Targets)
 	out := []string{}
 	for name := range sources {
 		if targets[name] {

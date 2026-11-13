@@ -64,7 +64,7 @@ func explore(t *testing.T, config design.DesignMapConfig, thin int, cards ...typ
 		hits[c.Name] = c
 	}
 	out := map[string]ExplorerCard{}
-	for _, c := range exploreCards(hits, newExplorerRules(explorerCube(), config), thin) {
+	for _, c := range exploreCards(hits, newExplorerRules(testRules(t, explorerCube(), config), config), thin) {
 		out[c.Name] = c
 	}
 	return out

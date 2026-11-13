@@ -27,7 +27,7 @@ var buildaroundShapeGroup = []design.Group{{Name: "Build-around shape", Conditio
 // buildaroundShape outside groups marked notBuildaround, the cards of groups
 // marked buildaround, and every card a wire names with a card: entry.
 // groupCards holds each group's cards.
-func buildaroundCards(cards map[string]types.Card, config design.DesignMapConfig, groupCards map[string]map[string]bool) map[string]bool {
+func buildaroundCards(cards map[string]types.Card, config design.DesignMapConfig, groupCards Members) map[string]bool {
 	out := map[string]bool{}
 	shape := NewMatcher(buildaroundShapeGroup)
 	for name, card := range cards {

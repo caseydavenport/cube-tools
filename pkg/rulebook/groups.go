@@ -7,9 +7,9 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// CardMap creates a name->card lookup from a cube, excluding basic lands
+// buildCardMap creates a name->card lookup from a cube, excluding basic lands
 // and enriching multi-face cards with oracle data.
-func CardMap(cube *types.Cube) map[string]types.Card {
+func buildCardMap(cube *types.Cube) map[string]types.Card {
 	cardMap := make(map[string]types.Card)
 	for _, c := range cube.Cards {
 		if c.IsBasicLand() {
@@ -27,11 +27,11 @@ func CardMap(cube *types.Cube) map[string]types.Card {
 	return cardMap
 }
 
-// MatchGroups resolves each group to its members with a Matcher, returning the
+// matchGroups resolves each group to its members with a Matcher, returning the
 // members per group and the matches each group's exclude list carved out, by
 // name (which the editor shows grayed).
-func MatchGroups(cardMap map[string]types.Card, groups []design.Group) (map[string]map[string]bool, map[string][]string) {
-	groupCards := make(map[string]map[string]bool, len(groups))
+func matchGroups(cardMap map[string]types.Card, groups []design.Group) (Members, map[string][]string) {
+	groupCards := make(Members, len(groups))
 	for _, g := range groups {
 		groupCards[g.Name] = make(map[string]bool)
 	}
@@ -52,10 +52,10 @@ func MatchGroups(cardMap map[string]types.Card, groups []design.Group) (map[stri
 	return groupCards, excluded
 }
 
-// Widen returns cardMap plus any deck-referenced cards not in the
+// widen returns cardMap plus any deck-referenced cards not in the
 // cube, hydrated from oracle data. It returns cardMap unchanged when there's
 // nothing to add, so callers can detect widening by comparing lengths.
-func Widen(cardMap map[string]types.Card, deckCardNames []string) map[string]types.Card {
+func widen(cardMap map[string]types.Card, deckCardNames []string) map[string]types.Card {
 	var missing []string
 	for _, name := range deckCardNames {
 		if _, ok := cardMap[name]; !ok {
@@ -88,11 +88,11 @@ func Widen(cardMap map[string]types.Card, deckCardNames []string) map[string]typ
 	return widened
 }
 
-// AddCardRefs adds each wire's card references as single-card pseudo-groups,
+// addCardRefs adds each wire's card references as single-card pseudo-groups,
 // keyed by the raw wire entry, so the wire and group-graph loops need no special
 // case for a card named directly in a package. An unknown card (typo, or cut from
 // the cube) resolves empty, same as a dangling group name.
-func AddCardRefs(packages []design.Package, cardMap map[string]types.Card, groupCards map[string]map[string]bool) {
+func addCardRefs(packages []design.Package, cardMap map[string]types.Card, groupCards Members) {
 	for _, pkg := range packages {
 		for _, wire := range pkg.Wires {
 			for _, entry := range slices.Concat(wire.Sources, wire.Targets) {
@@ -110,12 +110,14 @@ func AddCardRefs(packages []design.Package, cardMap map[string]types.Card, group
 	}
 }
 
-// WireSide returns every card in the named groups and card: entries of one
-// side of a wire.
-func WireSide(groupCards map[string]map[string]bool, entries []string) map[string]bool {
+// Members maps each group and card: entry to the names of the cards in it.
+type Members map[string]map[string]bool
+
+// Side returns every card in the named entries, such as one side of a wire.
+func (m Members) Side(entries []string) map[string]bool {
 	out := make(map[string]bool)
 	for _, entry := range entries {
-		for name := range groupCards[entry] {
+		for name := range m[entry] {
 			out[name] = true
 		}
 	}
@@ -134,28 +136,28 @@ func withoutBasics(side map[string]bool) map[string]bool {
 	return out
 }
 
-// Groups holds every group and card: entry resolved to card names.
-// cube covers the cube list alone; widened adds cards cut from the cube that
-// old decks still play, so those decks keep their edges and packages.
-// excluded lists the matches each group's exclude list carved out.
+// Groups holds every group and card: entry resolved to card names. Cube
+// covers today's list alone; Widened adds cut cards that old decks played or
+// old draft lists held, so those decks keep their links and packages.
+// Excluded lists the matches each group's exclude list carved out.
 type Groups struct {
-	Cube     map[string]map[string]bool
-	Widened  map[string]map[string]bool
+	Cube     Members
+	Widened  Members
 	Excluded map[string][]string
 }
 
-// ResolveGroups resolves the rules' groups and card: entries over the cube and
+// resolveGroups resolves the rules' groups and card: entries over the cube and
 // over the cube plus the cards decks have played. Excluded cards are already
 // subtracted, so nothing downstream sees them.
-func ResolveGroups(cardMap map[string]types.Card, config design.DesignMapConfig, deckCardNames []string) Groups {
-	groupCards, groupExcluded := MatchGroups(cardMap, config.Groups)
-	AddCardRefs(config.Packages, cardMap, groupCards)
+func resolveGroups(cardMap map[string]types.Card, config design.DesignMapConfig, deckCardNames []string) Groups {
+	groupCards, groupExcluded := matchGroups(cardMap, config.Groups)
+	addCardRefs(config.Packages, cardMap, groupCards)
 
 	widened := groupCards
-	edgeCardMap := Widen(cardMap, deckCardNames)
+	edgeCardMap := widen(cardMap, deckCardNames)
 	if len(edgeCardMap) != len(cardMap) {
-		widened, _ = MatchGroups(edgeCardMap, config.Groups)
-		AddCardRefs(config.Packages, edgeCardMap, widened)
+		widened, _ = matchGroups(edgeCardMap, config.Groups)
+		addCardRefs(config.Packages, edgeCardMap, widened)
 	}
 	return Groups{Cube: groupCards, Widened: widened, Excluded: groupExcluded}
 }
@@ -177,9 +179,9 @@ var basicTypeLines = map[string]string{
 	"Snow-Covered Wastes":   "Basic Snow Land",
 }
 
-// BasicLandCards is one card per basic land, built from its type line alone,
+// basicLandCards is one card per basic land, built from its type line alone,
 // for matching group conditions against the basics no cube list holds.
-func BasicLandCards() map[string]types.Card {
+func basicLandCards() map[string]types.Card {
 	out := make(map[string]types.Card, len(types.BasicLandNames))
 	for _, name := range types.BasicLandNames {
 		out[name] = types.FromOracle(types.OracleCard{Name: name, TypeLine: basicTypeLines[name]})

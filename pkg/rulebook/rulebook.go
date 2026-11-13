@@ -120,14 +120,42 @@ func (rb *Rulebook) DraftLists() map[int]map[string]bool {
 
 // CardMap is today's list by name, without basic lands.
 func (rb *Rulebook) CardMap() map[string]types.Card {
-	rb.cardMapOnce.Do(func() { rb.cardMap = CardMap(rb.cube) })
+	rb.cardMapOnce.Do(func() { rb.cardMap = buildCardMap(rb.cube) })
 	return rb.cardMap
 }
 
 // Groups is the rules' groups and card: entries resolved to card names.
 func (rb *Rulebook) Groups() Groups {
-	rb.groupsOnce.Do(func() { rb.groups = ResolveGroups(rb.CardMap(), rb.config, rb.deckCardNames) })
+	rb.groupsOnce.Do(func() { rb.groups = resolveGroups(rb.CardMap(), rb.config, rb.deckCardNames) })
 	return rb.groups
+}
+
+// BasicGroups is the groups and their basic land members, for the groups
+// that match any basics; no list holds basics, so Groups leaves them out.
+func (rb *Rulebook) BasicGroups() Members {
+	members, _ := matchGroups(basicLandCards(), rb.config.Groups)
+	return members
+}
+
+// Entries lists the groups and card: entries a card is in, for a card outside
+// today's list and the decks, such as a candidate in the explorer.
+func (rb *Rulebook) Entries(card types.Card) []string {
+	var out []string
+	for _, m := range NewMatcher(rb.config.Groups).Match(card) {
+		if !m.Excluded {
+			out = append(out, m.Group.Name)
+		}
+	}
+	for _, p := range rb.config.Packages {
+		for _, w := range p.Wires {
+			for _, entry := range slices.Concat(w.Sources, w.Targets) {
+				if design.CardRefName(entry) == card.Name && !slices.Contains(out, entry) {
+					out = append(out, entry)
+				}
+			}
+		}
+	}
+	return out
 }
 
 // Packages is every package resolved to card names with its relevance
@@ -143,7 +171,7 @@ func (rb *Rulebook) Packages() []design.PackageCards {
 // PackagesWith resolves another rule set against the same cards, decks and
 // lists, such as a proposed edit. Nothing is kept.
 func (rb *Rulebook) PackagesWith(config design.DesignMapConfig) []design.PackageCards {
-	groups := ResolveGroups(rb.CardMap(), config, rb.deckCardNames)
+	groups := resolveGroups(rb.CardMap(), config, rb.deckCardNames)
 	pkgs := resolvePackages(rb.CardMap(), groups, config, rb.deckCardNames)
 	attachRelevance(pkgs, rb.lists, rb.overrides)
 	return pkgs

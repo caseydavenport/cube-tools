@@ -308,7 +308,7 @@ func deckCards(d *storage.Deck) design.CardCounts {
 // cards. A "card:" entry becomes a one-card group named after the card.
 // groups maps rule entries to cube cards; config finds the other packages
 // using each group.
-func packageWires(pkg design.Package, groups map[string]map[string]bool, config design.DesignMapConfig) []PackageWire {
+func packageWires(pkg design.Package, groups rulebook.Members, config design.DesignMapConfig) []PackageWire {
 	out := []PackageWire{}
 	for _, w := range pkg.Wires {
 		out = append(out, PackageWire{
@@ -320,7 +320,7 @@ func packageWires(pkg design.Package, groups map[string]map[string]bool, config 
 }
 
 // wireGroups resolves one wire side's entries for the package named pkg.
-func wireGroups(pkg string, entries []string, groups map[string]map[string]bool, config design.DesignMapConfig) []WireGroup {
+func wireGroups(pkg string, entries []string, groups rulebook.Members, config design.DesignMapConfig) []WireGroup {
 	out := []WireGroup{}
 	for _, entry := range entries {
 		group := WireGroup{Name: entry, Cards: slices.Sorted(maps.Keys(groups[entry])), OtherPackages: []string{}}

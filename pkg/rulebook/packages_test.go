@@ -243,7 +243,7 @@ func TestMatchGroups_MatchesConditionsAndExclude(t *testing.T) {
 	}
 	groups := []design.Group{{Name: "Creatures", Conditions: []string{"t:creature"}, Exclude: []string{"Elk"}}}
 
-	got, _ := MatchGroups(cards, groups)
+	got, _ := matchGroups(cards, groups)
 
 	assert.Equal(t, map[string]bool{"Bear": true}, got["Creatures"])
 }

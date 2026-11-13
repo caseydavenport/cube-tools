@@ -89,7 +89,7 @@ func (h *linkCheckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // buildLinkCheck works out how the rules relate cards a and b.
 func buildLinkCheck(rules *rulebook.Rulebook, a, b types.Card) LinkCheckResponse {
 	config := rules.Config()
-	rel := newCardRelations(rules.Cube(), config, rules.DeckCardNames(), []types.Card{a, b})
+	rel := newCardRelations(rules, config, []types.Card{a, b})
 	return LinkCheckResponse{
 		A:     LinkCard{Name: a.Name, Groups: groupUsesOf(rel.groupsOf(a.Name), config)},
 		B:     LinkCard{Name: b.Name, Groups: groupUsesOf(rel.groupsOf(b.Name), config)},

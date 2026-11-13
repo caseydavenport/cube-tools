@@ -75,7 +75,7 @@ type ExplorerCard struct {
 type explorerRules struct {
 	config       design.DesignMapConfig
 	inCube       map[string]bool
-	entryCards   map[string]map[string]bool
+	entryCards   rulebook.Members
 	basicEntries map[string]bool
 	packageCards map[string]map[string]bool
 	sides        map[string]wireSideCards
@@ -93,13 +93,14 @@ func sideKey(entries []string) string {
 	return strings.Join(entries, "\x1f")
 }
 
-// newExplorerRules resolves config over the cube for exploreCards.
-func newExplorerRules(cube *types.Cube, config design.DesignMapConfig) explorerRules {
-	cardMap := rulebook.CardMap(cube)
+// newExplorerRules lays out the rulebook's groups over today's list for
+// exploreCards, with the packages in config.
+func newExplorerRules(book *rulebook.Rulebook, config design.DesignMapConfig) explorerRules {
+	cardMap := book.CardMap()
 	rules := explorerRules{
 		config:       config,
 		inCube:       make(map[string]bool, len(cardMap)),
-		entryCards:   rulebook.ResolveGroups(cardMap, config, nil).Cube,
+		entryCards:   book.Groups().Cube,
 		basicEntries: map[string]bool{},
 		packageCards: map[string]map[string]bool{},
 		sides:        map[string]wireSideCards{},
@@ -108,8 +109,7 @@ func newExplorerRules(cube *types.Cube, config design.DesignMapConfig) explorerR
 		rules.inCube[name] = true
 	}
 
-	basicGroups, _ := rulebook.MatchGroups(rulebook.BasicLandCards(), config.Groups)
-	for name, basics := range basicGroups {
+	for name, basics := range book.BasicGroups() {
 		if len(basics) > 0 {
 			rules.basicEntries[name] = true
 		}
@@ -118,7 +118,7 @@ func newExplorerRules(cube *types.Cube, config design.DesignMapConfig) explorerR
 	for _, pkg := range config.Packages {
 		cards := map[string]bool{}
 		for _, w := range pkg.Wires {
-			for name := range rulebook.WireSide(rules.entryCards, slices.Concat(w.Sources, w.Targets)) {
+			for name := range rules.entryCards.Side(slices.Concat(w.Sources, w.Targets)) {
 				cards[name] = true
 			}
 			rules.addSide(w.Sources)
@@ -135,7 +135,7 @@ func (r explorerRules) addSide(entries []string) {
 	if _, ok := r.sides[key]; ok {
 		return
 	}
-	side := wireSideCards{cards: rulebook.WireSide(r.entryCards, entries)}
+	side := wireSideCards{cards: r.entryCards.Side(entries)}
 	for _, entry := range entries {
 		side.basics = side.basics || r.basicEntries[entry]
 	}

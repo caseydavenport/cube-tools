@@ -18,7 +18,7 @@ import (
 // played plus any extra card being looked at. groupsByCard is the reverse.
 type cardRelations struct {
 	cube         map[string]types.Card
-	groups       map[string]map[string]bool
+	groups       rulebook.Members
 	packages     []design.Package
 	groupsByCard map[string][]string
 }
@@ -53,20 +53,24 @@ type roleCandidate struct {
 	score float64
 }
 
-// newCardRelations resolves the rules' groups over the cube, the cut cards in
-// deckCardNames, and extras, cards in neither that the page is about.
-func newCardRelations(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string, extras []types.Card) cardRelations {
-	cardMap := rulebook.CardMap(cube)
-	inCube := maps.Clone(cardMap)
-	for _, extra := range extras {
-		if _, ok := cardMap[extra.Name]; !ok {
-			cardMap[extra.Name] = extra
+// newCardRelations relates cards through the packages in config, with the
+// rulebook's groups over today's list and cut cards, plus extras, cards in
+// neither that the page is about.
+func newCardRelations(rules *rulebook.Rulebook, config design.DesignMapConfig, extras []types.Card) cardRelations {
+	groups := rules.Groups().Widened
+	if len(extras) > 0 {
+		groups = maps.Clone(groups)
+		for _, extra := range extras {
+			for _, entry := range rules.Entries(extra) {
+				members := maps.Clone(groups[entry])
+				if members == nil {
+					members = map[string]bool{}
+				}
+				members[extra.Name] = true
+				groups[entry] = members
+			}
 		}
 	}
-
-	widened := rulebook.Widen(cardMap, deckCardNames)
-	groups, _ := rulebook.MatchGroups(widened, config.Groups)
-	rulebook.AddCardRefs(config.Packages, widened, groups)
 
 	byCard := map[string][]string{}
 	for name, members := range groups {
@@ -81,7 +85,7 @@ func newCardRelations(cube *types.Cube, config design.DesignMapConfig, deckCardN
 		slices.Sort(byCard[card])
 	}
 
-	return cardRelations{cube: inCube, groups: groups, packages: config.Packages, groupsByCard: byCard}
+	return cardRelations{cube: rules.CardMap(), groups: groups, packages: config.Packages, groupsByCard: byCard}
 }
 
 // groupsOf lists the groups holding the card, sorted, leaving out card: wire
@@ -103,8 +107,8 @@ func (r cardRelations) partners(card string, numDecksByCard map[string]int) []Pa
 		// Collect the cards on the opposite side of every wire the card is on.
 		names := map[string]bool{}
 		for _, wire := range pkg.Wires {
-			sources := rulebook.WireSide(r.groups, wire.Sources)
-			targets := rulebook.WireSide(r.groups, wire.Targets)
+			sources := r.groups.Side(wire.Sources)
+			targets := r.groups.Side(wire.Targets)
 			if sources[card] {
 				maps.Copy(names, targets)
 			}

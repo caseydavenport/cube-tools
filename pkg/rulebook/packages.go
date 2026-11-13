@@ -14,24 +14,24 @@ import (
 // side alone from buildaroundCards. Basic lands are left out
 // of both and listed per side instead, from the groups that match them.
 func resolvePackages(cardMap map[string]types.Card, groups Groups, config design.DesignMapConfig, deckCardNames []string) []design.PackageCards {
-	basicGroups, _ := MatchGroups(BasicLandCards(), config.Groups)
-	buildarounds := buildaroundCards(Widen(cardMap, deckCardNames), config, groups.Widened)
+	basicGroups, _ := matchGroups(basicLandCards(), config.Groups)
+	buildarounds := buildaroundCards(widen(cardMap, deckCardNames), config, groups.Widened)
 
 	out := make([]design.PackageCards, 0, len(config.Packages))
 	for _, pkg := range config.Packages {
 		resolved := design.PackageCards{Name: pkg.Name}
 		for _, wire := range pkg.Wires {
-			sources := withoutBasics(WireSide(groups.Widened, wire.Sources))
-			targets := withoutBasics(WireSide(groups.Widened, wire.Targets))
-			cubeSources := withoutBasics(WireSide(groups.Cube, wire.Sources))
-			cubeTargets := withoutBasics(WireSide(groups.Cube, wire.Targets))
+			sources := withoutBasics(groups.Widened.Side(wire.Sources))
+			targets := withoutBasics(groups.Widened.Side(wire.Targets))
+			cubeSources := withoutBasics(groups.Cube.Side(wire.Sources))
+			cubeTargets := withoutBasics(groups.Cube.Side(wire.Targets))
 			resolved.Wires = append(resolved.Wires, design.WireCards{
 				Sources:      sources,
 				Targets:      targets,
 				NeedSources:  sideNeed(cubeSources, sources, len(cubeTargets)),
 				NeedTargets:  sideNeed(cubeTargets, targets, len(cubeSources)),
-				SourceBasics: sideBasics(basicGroups, wire.Sources),
-				TargetBasics: sideBasics(basicGroups, wire.Targets),
+				SourceBasics: basicGroups.Side(wire.Sources),
+				TargetBasics: basicGroups.Side(wire.Targets),
 				Buildarounds: wireBuildarounds(buildarounds, sources, targets),
 			})
 		}
@@ -40,17 +40,6 @@ func resolvePackages(cardMap map[string]types.Card, groups Groups, config design
 	slices.SortFunc(out, func(a, b design.PackageCards) int {
 		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
 	})
-	return out
-}
-
-// sideBasics returns the basic lands that one wire side's groups match.
-func sideBasics(basicGroups map[string]map[string]bool, entries []string) map[string]bool {
-	out := make(map[string]bool)
-	for _, entry := range entries {
-		for name := range basicGroups[entry] {
-			out[name] = true
-		}
-	}
 	return out
 }
 

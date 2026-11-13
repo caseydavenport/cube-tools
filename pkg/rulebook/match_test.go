@@ -50,7 +50,7 @@ func TestMatchGroups_ExcludedListedSeparately(t *testing.T) {
 	}
 	groups := []design.Group{{Name: "Creatures", Conditions: []string{"t:creature"}, Exclude: []string{"Elk", "Not In Cube"}}}
 
-	members, excluded := MatchGroups(cards, groups)
+	members, excluded := matchGroups(cards, groups)
 
 	assert.Equal(t, cardSet("Bear"), members["Creatures"])
 	assert.Equal(t, []string{"Elk"}, excluded["Creatures"], "only cards a condition matched are listed as excluded")
@@ -71,4 +71,30 @@ func TestDraftMatcher_LeavesSharedMemoryAlone(t *testing.T) {
 	_, kept = groupMatches.sets[key]
 	groupMatches.mu.Unlock()
 	assert.True(t, kept, "saved rules' matches are")
+}
+
+func TestEntries_GroupsAndCardEntriesForAnOutsideCard(t *testing.T) {
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
+			{Name: "Instants", Conditions: []string{"t:instant"}},
+			{Name: "Burn", Conditions: []string{"o:damage"}, Exclude: []string{"Lightning Bolt"}},
+		},
+		Packages: []design.Package{{Name: "Spells", Wires: []design.Wire{{Sources: []string{"Instants"}, Targets: []string{"card:Lightning Bolt"}}}}},
+	}
+	rb := load(t, namedCards("Grizzly Bears"), config)
+	bolt := types.Card{Name: "Lightning Bolt", Types: []string{"Instant"}, OracleText: "deals 3 damage"}
+
+	assert.Equal(t, []string{"Instants", "card:Lightning Bolt"}, rb.Entries(bolt), "Burn's exclude list keeps Bolt out")
+}
+
+func TestBasicGroups_MatchBasicLands(t *testing.T) {
+	config := design.DesignMapConfig{Groups: []design.Group{
+		{Name: "Forests", Conditions: []string{"t:forest"}},
+		{Name: "Creatures", Conditions: []string{"t:creature"}},
+	}}
+	rb := load(t, namedCards("Grizzly Bears"), config)
+
+	basics := rb.BasicGroups()
+	assert.Equal(t, cardSet("Forest", "Snow-Covered Forest"), basics["Forests"])
+	assert.Empty(t, basics["Creatures"])
 }

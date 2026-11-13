@@ -141,7 +141,7 @@ func buildCardPage(page cardPageInputs) CardPageResponse {
 	if !page.inCube {
 		extras = append(extras, page.card)
 	}
-	relations := newCardRelations(page.rules.Cube(), page.shown, page.rules.DeckCardNames(), extras)
+	relations := newCardRelations(page.rules, page.shown, extras)
 
 	numMainboardsByCard := map[string]int{}
 	for _, d := range page.ranged {
@@ -185,7 +185,7 @@ func cardConnections(page cardPageInputs) []PackageConnection {
 		return []PackageConnection{}
 	}
 	hits := map[string]types.Card{page.card.Name: page.card}
-	cards := exploreCards(hits, newExplorerRules(page.rules.Cube(), page.shown), defaultThin)
+	cards := exploreCards(hits, newExplorerRules(page.rules, page.shown), defaultThin)
 	return cards[0].Connections
 }
 
@@ -261,7 +261,7 @@ func CardCompareHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			}
 		}
 
-		relations := newCardRelations(rules.Cube(), rules.Shown(rulebook.Today).Config(), rules.DeckCardNames(), extras)
+		relations := newCardRelations(rules, rules.Shown(rulebook.Today).Config(), extras)
 		writeJSON(rw, CardCompareResponse{Links: relations.linksBetween(names[0], names[1])}, "card compare")
 	})
 }

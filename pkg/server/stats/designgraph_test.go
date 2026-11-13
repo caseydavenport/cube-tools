@@ -6,14 +6,15 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
 	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestBuildDesignGraphWithConfig(t *testing.T) {
@@ -37,7 +38,7 @@ func TestBuildDesignGraphWithConfig(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config, nil)
+	resp := designGraph(testRules(t, cube, config), config)
 
 	// Should have all 3 cards as nodes.
 	assert.Len(t, resp.Nodes, 3)
@@ -79,7 +80,7 @@ func TestBuildDesignGraphSharedGroup(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config, nil)
+	resp := designGraph(testRules(t, cube, config), config)
 
 	// Mill Enablers = {Mill Card}, Delve = {Delve Card}, Flashback = {Flashback Card}
 	// Edges: Delve Card <-> Mill Card (Delve), Flashback Card <-> Mill Card (Graveyard Spells)
@@ -123,7 +124,7 @@ func TestBuildDesignGraphMultiWire(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config, nil)
+	resp := designGraph(testRules(t, cube, config), config)
 
 	// Outlet<->Payoff and Token Maker<->Outlet, but NOT Token Maker<->Payoff.
 	assert.Len(t, resp.Edges, 2)
@@ -162,7 +163,7 @@ func TestBuildGroupGraph(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config, nil)
+	resp := designGraph(testRules(t, cube, config), config)
 
 	// One node per group, each matching a single card.
 	assert.Len(t, resp.GroupNodes, 3)
@@ -211,7 +212,7 @@ func TestBuildGroupGraphMultiGroupCard(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config, nil)
+	resp := designGraph(testRules(t, cube, config), config)
 
 	// Link view: just the one declared edge Red <-> Ramp Payoffs.
 	assert.Len(t, resp.PackageEdges, 1)
@@ -250,7 +251,7 @@ func TestBuildDesignGraphCardRef(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config, nil)
+	resp := designGraph(testRules(t, cube, config), config)
 
 	// Flooded Strand is itself a Blue Fetchable, so the wire yields edges to the
 	// other two duals only; the unknown card ref yields nothing.
@@ -307,7 +308,7 @@ func TestBuildDesignGraphCardRefMixed(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config, nil)
+	resp := designGraph(testRules(t, cube, config), config)
 
 	assert.Len(t, resp.Edges, 2)
 	pairs := map[string]bool{}
@@ -341,7 +342,7 @@ func TestBuildDesignGraphExclude(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config, nil)
+	resp := designGraph(testRules(t, cube, config), config)
 
 	// Bolt is excluded from Red Stuff, so the only source card is Goblin.
 	// Goblin is also a Creature (self-edge skipped), leaving Goblin<->Bear.
@@ -571,12 +572,12 @@ func TestBuildDesignGraphIncludesCutCards(t *testing.T) {
 	}
 
 	// Without the deck card, Shock isn't known, so there's no edge.
-	base := buildDesignGraph(cube, config, nil)
+	base := designGraph(testRules(t, cube, config), config)
 	assert.Empty(t, base.Edges)
 
 	// With Shock referenced by a deck, the cut card resolves into "Burn" and
 	// connects to Bear.
-	resp := buildDesignGraph(cube, config, []string{"Shock"})
+	resp := designGraph(testRules(t, cube, config, "Shock"), config)
 	require.Len(t, resp.Edges, 1)
 	edge := resp.Edges[0]
 	assert.Equal(t, "Bear", edge.Source) // "Bear" < "Shock"
@@ -595,7 +596,7 @@ func TestDesignGraph_RealRules(t *testing.T) {
 
 	rules, err := rulebook.Load(file.NewStore(testCubeSource{}), testCubeSource{}, "polyverse")
 	require.NoError(t, err)
-	resp := buildDesignGraph(rules.Cube(), rules.Config(), rules.PlayedCardNames())
+	resp := designGraph(rules, rules.Config())
 	require.NotEmpty(t, resp.Nodes, "expected card nodes from the polyverse cube")
 	require.NotEmpty(t, resp.Edges, "expected rule-derived edges from cube-rules.json")
 

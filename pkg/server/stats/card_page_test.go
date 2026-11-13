@@ -12,8 +12,11 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // noDraftLogs is a DraftLogReader for a cube that keeps no pick logs.
@@ -155,4 +158,19 @@ func TestCardPage_PackageNamesSortedLikeTheRulesEditor(t *testing.T) {
 	rr, resp := cardPageFor(t, store, url.Values{"name": {"Goblin Bombardment"}})
 	require.Equal(t, http.StatusOK, rr.Code)
 	assert.Equal(t, []string{"Aggro", "Sacrifice", "tokens"}, resp.PackageNames)
+}
+
+// testRules loads a rulebook for config over cube, with one deck playing the
+// played cards when any are given.
+func testRules(t *testing.T, cube *types.Cube, config design.DesignMapConfig, played ...string) *rulebook.Rulebook {
+	t.Helper()
+	store := memory.NewStore(func(b *memory.Backend) {
+		b.SeedRules("polyverse", &config)
+		if len(played) > 0 {
+			b.Seed("polyverse", playDeck("Freddie", 1, 1, "2024-01-01", played...))
+		}
+	})
+	rules, err := rulebook.Load(store, fixedCubeSource{cube: cube}, "polyverse")
+	require.NoError(t, err)
+	return rules
 }

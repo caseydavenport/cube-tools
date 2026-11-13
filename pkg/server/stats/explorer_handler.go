@@ -2,6 +2,7 @@ package stats
 
 import (
 	"errors"
+	"maps"
 	"net/http"
 	"strconv"
 	"strings"
@@ -81,10 +82,10 @@ func ExplorerHandler(store storage.DeckStorage, src types.CubeSource, maybe Mayb
 			hits = pickCards(pool, matchQuery(pool, q))
 		case !filterMaybe:
 			// With no search, the page opens on the cube's own cards.
-			hits = cubeHits(pool, rules.Cube())
+			hits = cubeHits(pool, rules.CardMap())
 		}
 
-		cards := exploreCards(hits, newExplorerRules(rules.Cube(), rules.Shown(rulebook.Today).Config()), thinParam(r))
+		cards := exploreCards(hits, newExplorerRules(rules, rules.Shown(rulebook.Today).Config()), thinParam(r))
 		keepAll := query.GetString(r, "all") == "1"
 		for _, c := range cards {
 			if len(c.Groups) == 0 && len(c.Joins) == 0 && !keepAll {
@@ -144,8 +145,8 @@ func thinParam(r *http.Request) int {
 // cubeHits is the cube's cards to score, basics left out. Each takes its full
 // oracle card from pool when there is one, since the cube's own copy can lack
 // tags and an image.
-func cubeHits(pool map[string]types.Card, cube *types.Cube) map[string]types.Card {
-	out := rulebook.CardMap(cube)
+func cubeHits(pool, cube map[string]types.Card) map[string]types.Card {
+	out := maps.Clone(cube)
 	for name := range out {
 		if c, ok := pool[name]; ok {
 			out[name] = c

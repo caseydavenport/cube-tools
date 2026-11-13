@@ -55,14 +55,14 @@ func relationsCube() *types.Cube {
 }
 
 func TestCardRelations_GroupsOf(t *testing.T) {
-	r := newCardRelations(relationsCube(), relationsConfig(), nil, nil)
+	r := newCardRelations(testRules(t, relationsCube(), relationsConfig()), relationsConfig(), nil)
 	assert.Equal(t, []string{"Sacs creatures"}, r.groupsOf("Goblin Bombardment"))
 	assert.Equal(t, []string{"Pow<2", "Sacs creatures"}, r.groupsOf("Carrion Feeder"))
 	assert.Empty(t, r.groupsOf("Not A Card"))
 }
 
 func TestCardRelations_PartnersByPackage(t *testing.T) {
-	relations := newCardRelations(relationsCube(), relationsConfig(), nil, nil)
+	relations := newCardRelations(testRules(t, relationsCube(), relationsConfig()), relationsConfig(), nil)
 	numDecksByName := map[string]int{
 		"Mayhem Devil":      8,
 		"Cauldron Familiar": 2,
@@ -87,7 +87,7 @@ func TestCardRelations_PartnersSkipCutCards(t *testing.T) {
 	seedOracle(t, `[
 		{"name":"Blood Artist","type_line":"Creature","oracle_text":"Whenever a player sacrifices a creature, target player loses 1 life.","colors":["B"],"cmc":2,"power":"0"}
 	]`)
-	r := newCardRelations(relationsCube(), relationsConfig(), []string{"Blood Artist"}, nil)
+	r := newCardRelations(testRules(t, relationsCube(), relationsConfig(), "Blood Artist"), relationsConfig(), nil)
 
 	assert.Equal(t, []string{"Pow<2", "Sacrifice matters"}, r.groupsOf("Blood Artist"))
 	got := r.partners("Goblin Bombardment", nil)
@@ -96,7 +96,7 @@ func TestCardRelations_PartnersSkipCutCards(t *testing.T) {
 }
 
 func TestCardRelations_LinksBetween(t *testing.T) {
-	r := newCardRelations(relationsCube(), relationsConfig(), nil, nil)
+	r := newCardRelations(testRules(t, relationsCube(), relationsConfig()), relationsConfig(), nil)
 
 	want := []CardBridge{{Package: "Sacrifice", Group: "Sacs creatures", OtherGroup: "Sacrifice matters"}}
 	assert.Equal(t, want, r.linksBetween("Goblin Bombardment", "Mayhem Devil"))
@@ -115,7 +115,7 @@ func TestCardRelations_CardRefWire(t *testing.T) {
 		Name:  "Bombardment",
 		Wires: []design.Wire{{Sources: []string{"card:Goblin Bombardment"}, Targets: []string{"Pow<2"}}},
 	})
-	r := newCardRelations(relationsCube(), config, nil, nil)
+	r := newCardRelations(testRules(t, relationsCube(), config), config, nil)
 
 	got := r.linksBetween("Goblin Bombardment", "Small Creature 0")
 	assert.Equal(t, []CardBridge{{Package: "Bombardment", Group: "card:Goblin Bombardment", OtherGroup: "Pow<2"}}, got)
@@ -124,7 +124,7 @@ func TestCardRelations_CardRefWire(t *testing.T) {
 
 func TestCardRelations_ExtraCardJoinsGroups(t *testing.T) {
 	extra := types.Card{Name: "Viscera Seer", Types: []string{"Creature"}, Colors: []string{"B"}, Power: "1", OracleText: "Sacrifice a creature: Scry 1."}
-	r := newCardRelations(relationsCube(), relationsConfig(), nil, []types.Card{extra})
+	r := newCardRelations(testRules(t, relationsCube(), relationsConfig()), relationsConfig(), []types.Card{extra})
 
 	assert.Equal(t, []string{"Pow<2", "Sacs creatures"}, r.groupsOf("Viscera Seer"))
 	got := r.partners("Viscera Seer", nil)
@@ -132,12 +132,12 @@ func TestCardRelations_ExtraCardJoinsGroups(t *testing.T) {
 	assert.Equal(t, []string{"Cauldron Familiar", "Mayhem Devil"}, partnerNames(got[0]))
 
 	// Without the extra card, nothing knows it.
-	plain := newCardRelations(relationsCube(), relationsConfig(), nil, nil)
+	plain := newCardRelations(testRules(t, relationsCube(), relationsConfig()), relationsConfig(), nil)
 	assert.Empty(t, plain.groupsOf("Viscera Seer"))
 }
 
 func TestCardRelations_SameRolePrefersRareFeatures(t *testing.T) {
-	r := newCardRelations(relationsCube(), relationsConfig(), nil, nil)
+	r := newCardRelations(testRules(t, relationsCube(), relationsConfig()), relationsConfig(), nil)
 	cube := relationsCube()
 
 	got := r.sameRole(cube.Cards[0], 6)
