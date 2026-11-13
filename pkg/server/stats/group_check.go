@@ -3,11 +3,11 @@ package stats
 import (
 	"encoding/json"
 	"net/http"
-	"slices"
 
 	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -68,14 +68,15 @@ func explainCondition(card types.Card, condition string) ConditionCheck {
 // it.
 func checkGroup(card types.Card, group design.Group) GroupCheck {
 	check := GroupCheck{Card: card.Name, Conditions: []ConditionCheck{}}
-	matched := false
 	for _, condition := range group.Conditions {
-		c := explainCondition(card, condition)
-		matched = matched || c.Matched
-		check.Conditions = append(check.Conditions, c)
+		check.Conditions = append(check.Conditions, explainCondition(card, condition))
 	}
-	check.Excluded = matched && slices.Contains(group.Exclude, card.Name)
-	check.InGroup = matched && !check.Excluded
+	matches := rulebook.NewDraftMatcher([]design.Group{group}).Match(card)
+	if len(matches) == 0 {
+		return check
+	}
+	check.Excluded = matches[0].Excluded
+	check.InGroup = !matches[0].Excluded
 	return check
 }
 

@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/rulebook"
 	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -38,4 +39,17 @@ func TestRuleConditionNoParse(t *testing.T) {
 	}
 	require.Empty(t, matchCards(cards, "!t:creature"))
 	require.Equal(t, map[string]bool{"Lightning Bolt": true}, matchCards(cards, "-t:creature"))
+}
+
+// matchCards returns the names of the cards meeting a rule condition, decided
+// as a one-condition group would decide them.
+func matchCards(cards map[string]types.Card, cond string) map[string]bool {
+	matcher := rulebook.NewDraftMatcher([]design.Group{{Name: "test", Conditions: []string{cond}}})
+	out := make(map[string]bool)
+	for name, card := range cards {
+		if len(matcher.Match(card)) > 0 {
+			out[name] = true
+		}
+	}
+	return out
 }

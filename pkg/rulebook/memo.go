@@ -3,7 +3,6 @@ package rulebook
 import (
 	"crypto/sha256"
 	"fmt"
-	"slices"
 	"strings"
 	"sync"
 
@@ -65,31 +64,40 @@ func conditionsKey(groups []design.Group) string {
 	return b.String()
 }
 
-// ruleMatches is one rule set's parsed conditions and, per card, the indexes
-// of the groups it matches. Cards are keyed by their full contents, so a card
-// whose data changes is matched again.
+// ruleMatches is one rule set's parsed conditions and, per card, the
+// conditions it matches in each group. Cards are keyed by their full
+// contents, so a card whose data changes is matched again.
 type ruleMatches struct {
 	exprs [][]*search.Query
 
 	mu        sync.Mutex
-	byCard    map[[sha256.Size]byte][]int
+	byCard    map[[sha256.Size]byte][]groupHit
 	evaluated int
 }
 
+// groupHit is one group a card matched: the group's index and the indexes of
+// every condition of it the card met, in order.
+type groupHit struct {
+	group      int
+	conditions []int
+}
+
 func newRuleMatches(groups []design.Group) *ruleMatches {
-	rm := &ruleMatches{byCard: map[[sha256.Size]byte][]int{}}
+	rm := &ruleMatches{byCard: map[[sha256.Size]byte][]groupHit{}}
 	for _, g := range groups {
 		var exprs []*search.Query
 		for _, cond := range g.Conditions {
-			exprs = append(exprs, Condition(cond))
+			exprs = append(exprs, compileCondition(cond))
 		}
 		rm.exprs = append(rm.exprs, exprs)
 	}
 	return rm
 }
 
-// matched returns the indexes of the groups the card matches, in order.
-func (rm *ruleMatches) matched(card types.Card) []int {
+// matched returns the groups the card matches, in order, each with every
+// condition it met. Trying every condition costs about 1% more than stopping
+// at the first match, since most groups match no condition of most cards.
+func (rm *ruleMatches) matched(card types.Card) []groupHit {
 	key := cardKey(card)
 	rm.mu.Lock()
 	out, ok := rm.byCard[key]
@@ -98,11 +106,17 @@ func (rm *ruleMatches) matched(card types.Card) []int {
 		return out
 	}
 
-	out = []int{}
+	out = []groupHit{}
 	prepared := search.Prepare(card, nil)
 	for i, exprs := range rm.exprs {
-		if slices.ContainsFunc(exprs, func(e *search.Query) bool { return ConditionMatches(e, prepared) }) {
-			out = append(out, i)
+		var conds []int
+		for j, e := range exprs {
+			if e != nil && e.MatchPrepared(prepared) {
+				conds = append(conds, j)
+			}
+		}
+		if len(conds) > 0 {
+			out = append(out, groupHit{group: i, conditions: conds})
 		}
 	}
 	rm.mu.Lock()

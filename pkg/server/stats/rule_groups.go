@@ -9,7 +9,6 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/rulebook"
-	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -92,6 +91,7 @@ func (h *ruleGroupsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 	cardMap := rules.CardMap()
 	config := rules.Config()
+	matcher := rulebook.NewMatcher(config.Groups)
 	played := playCounts(decks)
 
 	// One group by name.
@@ -100,7 +100,7 @@ func (h *ruleGroupsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			http.Error(rw, "unknown group", http.StatusNotFound)
 			return
 		}
-		resp := RuleGroupsResponse{Groups: []GroupMembers{groupMembers(groupName, config, cardMap, played)}}
+		resp := RuleGroupsResponse{Groups: []GroupMembers{groupMembers(groupName, config, matcher, cardMap, played)}}
 		writeJSON(rw, resp, "rule groups")
 		return
 	}
@@ -113,16 +113,14 @@ func (h *ruleGroupsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 	resp := RuleGroupsResponse{Groups: []GroupMembers{}}
 	for _, entry := range wireEntries(pkg) {
-		resp.Groups = append(resp.Groups, groupMembers(entry, config, cardMap, played))
+		resp.Groups = append(resp.Groups, groupMembers(entry, config, matcher, cardMap, played))
 	}
 	writeJSON(rw, resp, "rule groups")
 }
 
-// groupMembers lists an entry's cube members by first matched condition. A
-// card is in the group when some condition matches and the exclude list
-// doesn't name it, as resolveGroupCards decides. played counts each card's
-// decks.
-func groupMembers(entry string, config design.DesignMapConfig, cardMap map[string]types.Card, played map[string]int) GroupMembers {
+// groupMembers lists an entry's cube members by first matched condition, as
+// matcher decides them over config's groups. played counts each card's decks.
+func groupMembers(entry string, config design.DesignMapConfig, matcher rulebook.Matcher, cardMap map[string]types.Card, played map[string]int) GroupMembers {
 	out := GroupMembers{
 		Name:       entry,
 		Conditions: []ConditionMembers{},
@@ -147,37 +145,29 @@ func groupMembers(entry string, config design.DesignMapConfig, cardMap map[strin
 		return out
 	}
 	group := config.Groups[idx]
-
-	// Parse each condition once.
-	exprs := make([]*search.Query, len(group.Conditions))
-	for i, cond := range group.Conditions {
-		exprs[i] = rulebook.Condition(cond)
+	for _, cond := range group.Conditions {
 		out.Conditions = append(out.Conditions, ConditionMembers{Condition: cond, Cards: []MemberCard{}})
 	}
 
 	// File each matching card under its first condition, or as excluded.
 	for _, name := range slices.Sorted(maps.Keys(cardMap)) {
 		card := cardMap[name]
-		prepared := search.Prepare(card, nil)
-		first := -1
-		matched := []string{}
-		for i, expr := range exprs {
-			if rulebook.ConditionMatches(expr, prepared) {
-				if first < 0 {
-					first = i
-				}
-				matched = append(matched, group.Conditions[i])
-			}
-		}
-		if first < 0 {
+		matches := matcher.Match(card)
+		i := slices.IndexFunc(matches, func(m rulebook.GroupMatch) bool { return m.Group.Name == entry })
+		if i < 0 {
 			continue
 		}
+		m := matches[i]
+		matched := make([]string, 0, len(m.Conditions))
+		for _, c := range m.Conditions {
+			matched = append(matched, group.Conditions[c])
+		}
 		member := memberCard(card, matched, played)
-		if slices.Contains(group.Exclude, name) {
+		if m.Excluded {
 			out.Excluded = append(out.Excluded, member)
 			continue
 		}
-		out.Conditions[first].Cards = append(out.Conditions[first].Cards, member)
+		out.Conditions[m.Conditions[0]].Cards = append(out.Conditions[m.Conditions[0]].Cards, member)
 	}
 	return out
 }

@@ -287,31 +287,32 @@ func DesignGraphMatchHandler(store storage.DeckStorage, src types.CubeSource) ht
 // matchConditions evaluates each request condition against the card map and
 // returns the per-card breakdown, sorted by name. A condition whose owning
 // group excludes the card is marked rather than dropped, so the editor can
-// show the card greyed instead of silently losing it.
+// show the card grayed instead of silently losing it.
 func matchConditions(cardMap map[string]types.Card, config design.DesignMapConfig, req DesignGraphMatchRequest) []MatchedCard {
-	excludes := make(map[string]map[string]bool)
+	excludes := make(map[string][]string, len(config.Groups))
 	for _, g := range config.Groups {
-		if len(g.Exclude) == 0 {
-			continue
-		}
-		set := make(map[string]bool, len(g.Exclude))
-		for _, name := range g.Exclude {
-			set[name] = true
-		}
-		excludes[g.Name] = set
+		excludes[g.Name] = g.Exclude
 	}
 
-	cardConditions := make(map[string][]MatchedCondition)
+	// Each request condition is its own draft group, under its label and
+	// with that saved group's exclude list.
+	groups := make([]design.Group, len(req.Conditions))
 	for i, cond := range req.Conditions {
-		group := ""
+		label := ""
 		if i < len(req.Groups) {
-			group = req.Groups[i]
+			label = req.Groups[i]
 		}
-		for name := range matchCards(cardMap, cond) {
+		groups[i] = design.Group{Name: label, Conditions: []string{cond}, Exclude: excludes[label]}
+	}
+
+	matcher := rulebook.NewDraftMatcher(groups)
+	cardConditions := make(map[string][]MatchedCondition)
+	for name, card := range cardMap {
+		for _, m := range matcher.Match(card) {
 			cardConditions[name] = append(cardConditions[name], MatchedCondition{
-				Condition: cond,
-				Group:     group,
-				Excluded:  excludes[group][name],
+				Condition: m.Group.Conditions[0],
+				Group:     m.Group.Name,
+				Excluded:  m.Excluded,
 			})
 		}
 	}

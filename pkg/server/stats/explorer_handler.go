@@ -164,3 +164,14 @@ func pickCards(pool map[string]types.Card, names map[string]bool) map[string]typ
 	}
 	return out
 }
+
+// matchQuery returns the names of the cards a compiled search matches.
+func matchQuery(cards map[string]types.Card, q *search.Query) map[string]bool {
+	result := make(map[string]bool)
+	for name, card := range cards {
+		if q.MatchPrepared(search.Prepare(card, nil)) {
+			result[name] = true
+		}
+	}
+	return result
+}

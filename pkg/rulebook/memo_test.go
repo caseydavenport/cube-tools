@@ -16,7 +16,7 @@ func TestGroupMemo_MatchesEachCardOnce(t *testing.T) {
 
 	for range 3 {
 		for _, c := range cards {
-			assert.Equal(t, []int{0}, memo.forGroups(groups).matched(c))
+			assert.Equal(t, []groupHit{{group: 0, conditions: []int{0}}}, memo.forGroups(groups).matched(c))
 		}
 	}
 	assert.Equal(t, 2, memo.forGroups(groups).evaluated, "each card is matched once")
@@ -28,7 +28,7 @@ func TestGroupMemo_NewRulesMatchAgain(t *testing.T) {
 	creatures := []design.Group{{Name: "G", Conditions: []string{"t:creature"}}}
 	instants := []design.Group{{Name: "G", Conditions: []string{"t:instant"}}}
 
-	assert.Equal(t, []int{0}, memo.forGroups(creatures).matched(card))
+	assert.Equal(t, []groupHit{{group: 0, conditions: []int{0}}}, memo.forGroups(creatures).matched(card))
 	assert.Empty(t, memo.forGroups(instants).matched(card), "an edited condition is matched afresh")
 }
 
@@ -38,7 +38,7 @@ func TestGroupMemo_ChangedCardMatchesAgain(t *testing.T) {
 	before := types.Card{Name: "Freddie", Types: []string{"Creature"}}
 	after := types.Card{Name: "Freddie", Types: []string{"Instant"}}
 
-	assert.Equal(t, []int{0}, memo.forGroups(groups).matched(before))
+	assert.Equal(t, []groupHit{{group: 0, conditions: []int{0}}}, memo.forGroups(groups).matched(before))
 	assert.Empty(t, memo.forGroups(groups).matched(after), "a card whose data changed is matched afresh")
 }
 

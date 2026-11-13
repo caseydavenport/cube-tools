@@ -9,7 +9,6 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/rulebook"
-	"github.com/caseydavenport/cube-tools/pkg/search"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -160,7 +159,7 @@ func countWithout(cards map[string]bool, name string) int {
 // role can already hold for a package to count toward New connections. Cards
 // are scored independently, so the work is spread across the CPUs.
 func exploreCards(hits map[string]types.Card, rules explorerRules, thin int) []ExplorerCard {
-	groups := compileGroups(rules.config.Groups)
+	matcher := rulebook.NewMatcher(rules.config.Groups)
 	names := make([]string, 0, len(hits))
 	for name := range hits {
 		names = append(names, name)
@@ -179,7 +178,7 @@ func exploreCards(hits map[string]types.Card, rules explorerRules, thin int) []E
 					return
 				}
 				card := hits[names[i]]
-				out[i] = exploreCard(card, rules.inCube[card.Name], groups.match(card), rules, thin)
+				out[i] = exploreCard(card, rules.inCube[card.Name], explorerGroups(matcher, card), rules, thin)
 			}
 		}()
 	}
@@ -197,39 +196,15 @@ func explorerWorkers(n int) int {
 	return max(1, min(runtime.GOMAXPROCS(0), n/cardsPerWorker))
 }
 
-// compiledGroups is the rules' groups with their conditions compiled once,
-// for matching many cards.
-type compiledGroups struct {
-	groups  []design.Group
-	queries [][]*search.Query
-}
-
-func compileGroups(groups []design.Group) compiledGroups {
-	out := compiledGroups{groups: groups, queries: make([][]*search.Query, len(groups))}
-	for i, g := range groups {
-		for _, cond := range g.Conditions {
-			out.queries[i] = append(out.queries[i], rulebook.Condition(cond))
-		}
-	}
-	return out
-}
-
-// match finds the groups a card lands in with the first condition each
-// matched, honoring exclude lists, sorted by group name. The card is prepared
-// once and judged by every condition.
-func (c compiledGroups) match(card types.Card) []ExplorerGroup {
-	prepared := search.Prepare(card, nil)
+// explorerGroups lists the groups a card is in with the first condition
+// each matched, sorted by group name.
+func explorerGroups(matcher rulebook.Matcher, card types.Card) []ExplorerGroup {
 	var out []ExplorerGroup
-	for i, g := range c.groups {
-		if slices.Contains(g.Exclude, card.Name) {
+	for _, m := range matcher.Match(card) {
+		if m.Excluded {
 			continue
 		}
-		for j, q := range c.queries[i] {
-			if rulebook.ConditionMatches(q, prepared) {
-				out = append(out, ExplorerGroup{Name: g.Name, Condition: g.Conditions[j]})
-				break
-			}
-		}
+		out = append(out, ExplorerGroup{Name: m.Group.Name, Condition: m.Group.Conditions[m.Conditions[0]]})
 	}
 	slices.SortFunc(out, func(a, b ExplorerGroup) int {
 		return strings.Compare(a.Name, b.Name)

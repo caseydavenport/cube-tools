@@ -363,12 +363,12 @@ func TestBuildDesignGraphExclude(t *testing.T) {
 // conditions whose owning group excludes the card, and only for that group.
 func TestMatchConditionsExcluded(t *testing.T) {
 	cards := map[string]types.Card{
-		"Bolt": {
+		"Lightning Bolt": {
 			Name: "Lightning Bolt", Colors: []string{"R"},
 			Types: []string{"Instant"}, CMC: 1,
 			OracleText: "Lightning Bolt deals 3 damage to any target.",
 		},
-		"Goblin": {
+		"Goblin Guide": {
 			Name: "Goblin Guide", Colors: []string{"R"},
 			Types: []string{"Creature"}, CMC: 1,
 			OracleText: "Haste", Power: "2", Toughness: "2",
@@ -377,7 +377,7 @@ func TestMatchConditionsExcluded(t *testing.T) {
 
 	config := design.DesignMapConfig{
 		Groups: []design.Group{
-			{Name: "Red Cards", Conditions: []string{"c:R"}, Exclude: []string{"Bolt"}},
+			{Name: "Red Cards", Conditions: []string{"c:R"}, Exclude: []string{"Lightning Bolt"}},
 			{Name: "Damage", Conditions: []string{"o:damage"}},
 		},
 	}
@@ -395,14 +395,14 @@ func TestMatchConditionsExcluded(t *testing.T) {
 
 	// Bolt still appears, with the Red Cards condition marked excluded but the
 	// Damage condition untouched.
-	assert.Len(t, byName["Bolt"], 2)
-	for _, mc := range byName["Bolt"] {
+	assert.Len(t, byName["Lightning Bolt"], 2)
+	for _, mc := range byName["Lightning Bolt"] {
 		assert.Equal(t, mc.Group == "Red Cards", mc.Excluded)
 	}
 
 	// Goblin matches Red Cards and isn't excluded.
-	assert.Len(t, byName["Goblin"], 1)
-	assert.False(t, byName["Goblin"][0].Excluded)
+	assert.Len(t, byName["Goblin Guide"], 1)
+	assert.False(t, byName["Goblin Guide"][0].Excluded)
 
 	// No groups in the request (the group edit modal's raw preview) means no
 	// exclusion marking at all.

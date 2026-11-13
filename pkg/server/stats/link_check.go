@@ -128,11 +128,7 @@ func wireUses(entry string, config design.DesignMapConfig) []WireUse {
 // linkThreads lists every wire with one card's entry on one side and the
 // other card's on the other, card A's entry first, each once.
 func linkThreads(rel cardRelations, a, b types.Card, config design.DesignMapConfig) []LinkThread {
-	// Index groups by name to find the conditions each side matched.
-	groups := map[string]design.Group{}
-	for _, g := range config.Groups {
-		groups[g.Name] = g
-	}
+	matcher := rulebook.NewMatcher(config.Groups)
 
 	seen := map[LinkThread]bool{}
 	out := []LinkThread{}
@@ -142,8 +138,8 @@ func linkThreads(rel cardRelations, a, b types.Card, config design.DesignMapConf
 			Wire:     wire,
 			GroupA:   entryA,
 			GroupB:   entryB,
-			MatchedA: firstMatch(a, groups[entryA]),
-			MatchedB: firstMatch(b, groups[entryB]),
+			MatchedA: firstMatch(matcher, a, entryA),
+			MatchedB: firstMatch(matcher, b, entryB),
 		}
 		if !seen[thread] {
 			seen[thread] = true
@@ -170,12 +166,12 @@ func linkThreads(rel cardRelations, a, b types.Card, config design.DesignMapConf
 	return out
 }
 
-// firstMatch is the first of the group's conditions the card matches, or ""
+// firstMatch is the first of the entry's conditions the card matches, or ""
 // when none does, as for a card: entry, which has no group.
-func firstMatch(card types.Card, group design.Group) string {
-	for _, condition := range group.Conditions {
-		if explainCondition(card, condition).Matched {
-			return condition
+func firstMatch(matcher rulebook.Matcher, card types.Card, entry string) string {
+	for _, m := range matcher.Match(card) {
+		if m.Group.Name == entry {
+			return m.Group.Conditions[m.Conditions[0]]
 		}
 	}
 	return ""

@@ -27,33 +27,27 @@ func CardMap(cube *types.Cube) map[string]types.Card {
 	return cardMap
 }
 
-// MatchGroups resolves each group's conditions to its effective member set
-// with the group's exclude list subtracted, returning the members per group and
-// the carved-out names per group (which the editor shows grayed).
+// MatchGroups resolves each group to its members with a Matcher, returning the
+// members per group and the matches each group's exclude list carved out, by
+// name (which the editor shows grayed).
 func MatchGroups(cardMap map[string]types.Card, groups []design.Group) (map[string]map[string]bool, map[string][]string) {
-	matched := make([]map[string]bool, len(groups))
-	for i := range groups {
-		matched[i] = make(map[string]bool)
-	}
-	rules := groupMatches.forGroups(groups)
-	for name, card := range cardMap {
-		for _, i := range rules.matched(card) {
-			matched[i][name] = true
-		}
-	}
-
 	groupCards := make(map[string]map[string]bool, len(groups))
+	for _, g := range groups {
+		groupCards[g.Name] = make(map[string]bool)
+	}
 	excluded := make(map[string][]string)
-	for i, g := range groups {
-		cards := matched[i]
-		for _, name := range g.Exclude {
-			if cards[name] {
-				delete(cards, name)
-				excluded[g.Name] = append(excluded[g.Name], name)
+	matcher := NewMatcher(groups)
+	for name, card := range cardMap {
+		for _, m := range matcher.Match(card) {
+			if m.Excluded {
+				excluded[m.Group.Name] = append(excluded[m.Group.Name], name)
+				continue
 			}
+			groupCards[m.Group.Name][name] = true
 		}
-		slices.Sort(excluded[g.Name])
-		groupCards[g.Name] = cards
+	}
+	for name := range excluded {
+		slices.Sort(excluded[name])
 	}
 	return groupCards, excluded
 }

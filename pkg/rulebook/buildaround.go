@@ -1,7 +1,7 @@
 package rulebook
 
 import (
-	"strings"
+	"slices"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -29,9 +29,9 @@ var buildaroundShapeGroup = []design.Group{{Name: "Build-around shape", Conditio
 // groupCards holds each group's cards.
 func buildaroundCards(cards map[string]types.Card, config design.DesignMapConfig, groupCards map[string]map[string]bool) map[string]bool {
 	out := map[string]bool{}
-	shape := groupMatches.forGroups(buildaroundShapeGroup)
+	shape := NewMatcher(buildaroundShapeGroup)
 	for name, card := range cards {
-		if len(shape.matched(card)) > 0 {
+		if len(shape.Match(card)) > 0 {
 			out[name] = true
 		}
 	}
@@ -53,8 +53,8 @@ func buildaroundCards(cards map[string]types.Card, config design.DesignMapConfig
 	}
 	for _, p := range config.Packages {
 		for _, w := range p.Wires {
-			for _, entry := range append(append([]string{}, w.Sources...), w.Targets...) {
-				if name, ok := strings.CutPrefix(entry, "card:"); ok {
+			for _, entry := range slices.Concat(w.Sources, w.Targets) {
+				if name := design.CardRefName(entry); name != "" {
 					out[name] = true
 				}
 			}
