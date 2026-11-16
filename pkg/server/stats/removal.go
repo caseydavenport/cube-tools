@@ -116,23 +116,38 @@ var removalOverrides = map[string]removalOverride{
 	}},
 }
 
+// Scryfall oracle tags that sort removal by how it works. Cards carry every
+// tag above their own, so burn-creature also implies removal-creature.
+const (
+	tagSpotRemoval      = "spot-removal"
+	tagRemovalExile     = "removal-exile"
+	tagRemovalDestroy   = "removal-destroy"
+	tagRemovalTuck      = "removal-tuck"
+	tagRemovalBounce    = "removal-bounce"
+	tagRemovalSacrifice = "removal-sacrifice"
+	tagBurnCreature     = "burn-creature"
+	tagRemovalFight     = "removal-fight"
+	tagOneSidedFight    = "one-sided-fight"
+)
+
 var (
-	reSweeper   = regexp.MustCompile(`all creatures get|destroy all|exile all|each player sacrifices|damage to each creature`)
-	reEdict     = regexp.MustCompile(`(?:each|target) (?:player|opponent) sacrifices|sacrifices a creature`)
-	reTempo     = regexp.MustCompile(`return target creature to its owner's hand|tap target creature|stun counter`)
-	reDamage    = regexp.MustCompile(`deals (\d+|x) damage to (?:any target|target (?:attacking |blocking |attacking or blocking )?creature|target creature or planeswalker)`)
-	reMinus     = regexp.MustCompile(`gets -(\d+|x)/-(\d+|x)`)
-	rePTSum     = regexp.MustCompile(`total power and toughness (\d+) or less`)
-	rePower     = regexp.MustCompile(`power (\d+) or less`)
-	reToughness = regexp.MustCompile(`toughness (\d+) or less`)
-	reMV        = regexp.MustCompile(`mana value (\d+) or less`)
-	reDestroy   = regexp.MustCompile(`(?:destroy|exile) target (?:creature|nonland permanent|permanent|creature or planeswalker|creature or vehicle)`)
-	reFight     = regexp.MustCompile(`fights target creature|damage equal to`)
-	reColorOnly = regexp.MustCompile(`target (white|blue|black|red|green) (?:creature|permanent)`)
-	reNonColor  = regexp.MustCompile(`non(white|blue|black|red|green) (?:creature|permanent)`)
-	reGeneric   = regexp.MustCompile(`\{(\d+)\}`)
-	reExileVerb = regexp.MustCompile(`exile target`)
-	reHasFlying = regexp.MustCompile(`(?:^|\W)flying(?:\W|$)`)
+	// reDamage reads damage aimed at one creature. reTargetedDamage is the
+	// fallback for divided damage and longer target phrases, staying inside one
+	// sentence so a player-only mode doesn't count.
+	reDamage         = regexp.MustCompile(`deals (\d+|x) damage to (?:any target|target (?:attacking |blocking |attacking or blocking )?creature|target creature or planeswalker)`)
+	reTargetedDamage = regexp.MustCompile(`deals (\d+|x) damage (?:divided as you choose )?(?:to|among) [^.]*?(?:any target|targets|target [^.]*?creature)`)
+	reDamageEqual    = regexp.MustCompile(`damage equal to|that much damage`)
+	reMinus          = regexp.MustCompile(`gets [+-]?(?:\d+|x)/-(\d+|x)`)
+	reMinusCount     = regexp.MustCompile(`(a|one|two|three|four|five|x|\d+) -1/-1 counters? on`)
+	rePTSum          = regexp.MustCompile(`total power and toughness (\d+) or less`)
+	rePower          = regexp.MustCompile(`power (\d+) or less`)
+	reToughness      = regexp.MustCompile(`toughness (\d+) or less`)
+	reMV             = regexp.MustCompile(`mana value (\d+) or less`)
+	reColorOnly      = regexp.MustCompile(`target (white|blue|black|red|green) (?:creature|permanent)`)
+	reNonColor       = regexp.MustCompile(`non(white|blue|black|red|green) (?:creature|permanent)`)
+	reFlyingOnly     = regexp.MustCompile(`target creature with flying`)
+	reGeneric        = regexp.MustCompile(`\{(\d+)\}`)
+	reHasFlying      = regexp.MustCompile(`(?:^|\W)flying(?:\W|$)`)
 
 	// reUntargetable finds hexproof or shroud on a keyword line ("Flying,
 	// shroud"), so it skips conditional grants and "hexproof from blue".
@@ -167,9 +182,11 @@ var colorLetter = map[string]string{
 	"green": "G",
 }
 
-// classifyRemoval parses a card into its spot-removal profile. Cards that aren't
-// removal come back as the zero profile. Sweepers, edicts and tempo effects keep
-// their Kind, and removal the regexes can't read is "unclassified"; all have Spot false.
+// classifyRemoval reads a card's spot-removal profile. Scryfall's oracle tags
+// decide whether the card is spot removal for creatures and how it removes
+// one; the rules text supplies only the limits, such as "toughness 3 or less"
+// or "nonblack". Cards that aren't removal come back as the zero profile, and
+// other removal keeps its Kind with Spot false.
 func classifyRemoval(c types.Card) RemovalProfile {
 	if o, ok := removalOverrides[c.Name]; ok && o.profile != nil {
 		return *o.profile
@@ -177,91 +194,149 @@ func classifyRemoval(c types.Card) RemovalProfile {
 	if !c.IsRemoval() {
 		return RemovalProfile{}
 	}
+	kind, spot := removalKind(c)
+	if !spot {
+		return RemovalProfile{Kind: kind}
+	}
+
 	text := strings.ToLower(reminderTextStripped(c.OracleText))
+	profile, ok := removalLimit(kind, text)
+	if !ok {
+		// Spot removal whose damage or shrink amount the text doesn't state
+		// plainly, counted as excluded instead of guessed.
+		return RemovalProfile{Kind: "unclassified"}
+	}
+	if m := reNonColor.FindStringSubmatch(text); m != nil {
+		profile.ColorExclude = colorLetter[m[1]]
+		profile.Restriction += fmt.Sprintf(", non%s", m[1])
+	}
+	if m := reColorOnly.FindStringSubmatch(text); m != nil {
+		profile.ColorOnly = colorLetter[m[1]]
+		profile.Restriction += fmt.Sprintf(", %s only", m[1])
+	}
+	if reFlyingOnly.MatchString(text) {
+		profile.FlyingOnly = true
+		profile.Restriction += ", fliers"
+	}
+	return profile
+}
 
-	if reSweeper.MatchString(text) {
-		return RemovalProfile{Kind: "sweeper"}
+// removalKind names how a removal card removes a creature, from its oracle
+// tags, and whether it is spot removal the page scores. Spot removal must be
+// tagged both spot-removal and removal-creature. Edicts and bounce don't
+// score, since the opponent picks the creature or replays it.
+func removalKind(c types.Card) (string, bool) {
+	isSpot := c.HasRole(tagSpotRemoval) && c.HasRole(types.RoleRemovalCreature)
+	switch {
+	case c.HasRole(tagRemovalSacrifice):
+		return "edict", false
+	case isSpot && (c.HasRole(tagRemovalFight) || c.HasRole(tagOneSidedFight)):
+		return "fight", true
+	case isSpot && c.HasRole(tagBurnCreature):
+		return "damage", true
+	case isSpot && c.HasRole(tagRemovalExile):
+		return "exile", true
+	case isSpot && c.HasRole(tagRemovalDestroy):
+		return "destroy", true
+	case isSpot && c.HasRole(types.RoleRemovalToughness):
+		return "shrink", true
+	case c.HasRole(tagRemovalBounce):
+		return "tempo", false
+	case isSpot && c.HasRole(tagRemovalTuck):
+		return "tuck", true
+	case isSpot:
+		// An aura or effect that stops the creature without removing it,
+		// such as Prison Term or Lignify.
+		return "pacify", true
+	case c.HasRole(types.RoleSweeper):
+		return "sweeper", false
 	}
-	if reEdict.MatchString(text) {
-		return RemovalProfile{Kind: "edict"}
-	}
-	if reTempo.MatchString(text) && !reDestroy.MatchString(text) && !reDamage.MatchString(text) {
-		return RemovalProfile{Kind: "tempo"}
-	}
+	return "other", false
+}
 
-	verb := "destroy"
-	if reExileVerb.MatchString(text) {
-		verb = "exile"
-	}
-	applyColor := func(p *RemovalProfile) {
-		if m := reNonColor.FindStringSubmatch(text); m != nil {
-			p.ColorExclude = colorLetter[m[1]]
-			p.Restriction += fmt.Sprintf(", non%s", m[1])
-		}
-		if m := reColorOnly.FindStringSubmatch(text); m != nil {
-			p.ColorOnly = colorLetter[m[1]]
-			p.Restriction += fmt.Sprintf(", %s only", m[1])
-		}
-	}
-	kicked := ""
-	if strings.Contains(text, "kicked") || strings.Contains(text, "kicker") {
-		kicked = " (kicker: any)"
-	}
-
-	// A cap on power, toughness, mana value or total P+T comes before plain destroy.
+// removalLimit reads from the rules text which creatures a spot-removal spell
+// of this kind can kill. False means the text never states the damage or
+// toughness reduction plainly enough to score.
+func removalLimit(kind, text string) (RemovalProfile, bool) {
+	// A cap on power, toughness, mana value or total P+T wins over the rest.
 	for _, q := range removalQualifiers {
 		m := q.re.FindStringSubmatch(text)
 		if m == nil {
 			continue
 		}
 		n := parseCapturedInt(m[1])
-		p := RemovalProfile{Spot: true, Kind: verb, Restriction: fmt.Sprintf(q.format, n)}
+		p := RemovalProfile{Spot: true, Kind: kind, Restriction: fmt.Sprintf(q.format, n)}
 		q.apply(&p, n)
-		if q.kickable {
-			p.Restriction += kicked
+		if q.kickable && (strings.Contains(text, "kicked") || strings.Contains(text, "kicker")) {
+			p.Restriction += " (kicker: any)"
 		}
-		applyColor(&p)
-		return p
+		return p, true
 	}
 
-	// Damage and -X/-X shrink both cap by toughness. A literal X is scalable and grouped separately; a bounded X like Prismatic Ending gets a curated profile.
-	if m := reDamage.FindStringSubmatch(text); m != nil {
-		if m[1] == "x" {
-			return RemovalProfile{Spot: true, Kind: "damage", Scalable: true, Restriction: "scalable (X damage)"}
-		}
+	switch kind {
+	case "fight":
+		return RemovalProfile{Spot: true, Kind: kind, Scalable: true, Restriction: "scalable (fight)"}, true
+	case "damage":
+		return damageLimit(text)
+	case "shrink":
+		return shrinkLimit(text)
+	}
+	p := RemovalProfile{Spot: true, Kind: kind, Restriction: "any creature"}
+	if strings.Contains(text, "delve") {
+		p.Restriction = "any creature (delve)"
+	}
+	return p, true
+}
+
+// damageLimit caps damage-based removal by the damage it deals. X damage, or
+// damage equal to something on the battlefield, scales and is grouped apart.
+func damageLimit(text string) (RemovalProfile, bool) {
+	m := reDamage.FindStringSubmatch(text)
+	if m == nil {
+		m = reTargetedDamage.FindStringSubmatch(text)
+	}
+	switch {
+	case (m != nil && m[1] == "x") || strings.Contains(text, "deals x damage"):
+		return RemovalProfile{Spot: true, Kind: "damage", Scalable: true, Restriction: "scalable (X damage)"}, true
+	case m != nil:
 		n := parseCapturedInt(m[1])
-		return RemovalProfile{Spot: true, Kind: "damage", MaxToughness: n, Restriction: fmt.Sprintf("toughness ≤ %d", n)}
+		return RemovalProfile{Spot: true, Kind: "damage", MaxToughness: n, Restriction: fmt.Sprintf("toughness ≤ %d", n)}, true
+	case reDamageEqual.MatchString(text):
+		return RemovalProfile{Spot: true, Kind: "damage", Scalable: true, Restriction: "scalable (damage equal to)"}, true
 	}
+	return RemovalProfile{}, false
+}
+
+// shrinkLimit caps toughness-reducing removal by how far it lowers toughness,
+// through a -N/-N effect or -1/-1 counters. A -X/-X effect scales.
+func shrinkLimit(text string) (RemovalProfile, bool) {
+	amount := ""
 	if m := reMinus.FindStringSubmatch(text); m != nil {
-		if m[2] == "x" {
-			return RemovalProfile{Spot: true, Kind: "shrink", Scalable: true, Restriction: "scalable (-X/-X)"}
-		}
-		n := parseCapturedInt(m[2])
-		return RemovalProfile{Spot: true, Kind: "shrink", MaxToughness: n, Restriction: fmt.Sprintf("toughness ≤ %d", n)}
+		amount = m[1]
+	} else if m := reMinusCount.FindStringSubmatch(text); m != nil {
+		amount = m[1]
 	}
-
-	// Fights / "damage equal to" scale with a creature's power.
-	if reFight.MatchString(text) {
-		return RemovalProfile{Spot: true, Kind: "fight", Scalable: true, Restriction: "scalable (fight)"}
+	switch amount {
+	case "":
+		return RemovalProfile{}, false
+	case "x":
+		return RemovalProfile{Spot: true, Kind: "shrink", Scalable: true, Restriction: "scalable (-X/-X)"}, true
 	}
-
-	// Plain destroy/exile with no qualifier hits anything - unless it targets a
-	// card in a graveyard (graveyard hate, not battlefield removal, e.g. Deathrite
-	// Shaman's "exile target creature card from a graveyard").
-	if loc := reDestroy.FindStringIndex(text); loc != nil {
-		after := text[loc[1]:min(loc[1]+10, len(text))]
-		if !strings.Contains(after, "card") {
-			p := RemovalProfile{Spot: true, Kind: verb, Restriction: "any creature"}
-			if strings.Contains(text, "delve") {
-				p.Restriction = "any creature (delve)"
-			}
-			applyColor(&p)
-			return p
-		}
+	n, ok := counterWords[amount]
+	if !ok {
+		n = parseCapturedInt(amount)
 	}
+	return RemovalProfile{Spot: true, Kind: "shrink", MaxToughness: n, Restriction: fmt.Sprintf("toughness ≤ %d", n)}, true
+}
 
-	// Removal we couldn't parse - surfaced in the excluded count, not silently dropped.
-	return RemovalProfile{Kind: "unclassified"}
+// counterWords maps the number words rules text uses for counters.
+var counterWords = map[string]int{
+	"a":     1,
+	"one":   1,
+	"two":   2,
+	"three": 3,
+	"four":  4,
+	"five":  5,
 }
 
 // effectiveCost is what the removal really costs to fire, not its printed mana

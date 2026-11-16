@@ -15,8 +15,8 @@ func interactionCube() *types.Cube {
 	return &types.Cube{Cards: []types.Card{
 		{Name: "Bear", Types: []string{"Creature"}, CMC: 2, Power: "2", Toughness: "2"},
 		{Name: "Giant", Types: []string{"Creature"}, CMC: 7, Power: "7", Toughness: "7"},
-		removalCard("Shock", "Shock deals 2 damage to any target."),
-		removalCard("Murder", "Destroy target creature."),
+		spotRemoval("Shock", "Shock deals 2 damage to any target.", tagBurnCreature),
+		spotRemoval("Murder", "Destroy target creature.", tagRemovalDestroy),
 		{Name: "Plains", Types: []string{"Basic", "Land"}},
 	}}
 }
@@ -46,7 +46,7 @@ func TestCardInteraction_RemovalRows(t *testing.T) {
 func TestCardInteraction_OutsideCubeRemoval(t *testing.T) {
 	cube := interactionCube()
 
-	got := cardInteraction(removalCard("Lightning Bolt", "Lightning Bolt deals 3 damage to any target."), cube)
+	got := cardInteraction(spotRemoval("Lightning Bolt", "Lightning Bolt deals 3 damage to any target.", tagBurnCreature), cube)
 	require.Len(t, got.Removal, 1)
 	assert.Equal(t, 1, got.Removal[0].Targets)
 
@@ -67,7 +67,7 @@ func TestCardInteraction_NeitherIsEmpty(t *testing.T) {
 
 func TestCardInteraction_CopiesAnswerOnce(t *testing.T) {
 	cube := interactionCube()
-	cube.Cards = append(cube.Cards, removalCard("Murder", "Destroy target creature."))
+	cube.Cards = append(cube.Cards, spotRemoval("Murder", "Destroy target creature.", tagRemovalDestroy))
 
 	got := cardInteraction(cube.Cards[1], cube)
 	assert.Equal(t, []string{"Murder"}, got.AnsweredBy)

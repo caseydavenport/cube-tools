@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"slices"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -8,92 +9,98 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// removalCard returns an instant Scryfall tags as removal, with the rules
-// text the kill-restriction parsing reads.
-func removalCard(name, oracle string) types.Card {
-	return types.Card{Name: name, Types: []string{"Instant"}, OracleText: oracle, OracleTags: []string{"removal"}}
+// removalCard returns an instant with the rules text the limit parsing reads,
+// tagged removal plus the given oracle tags. The tags are sorted, as on a
+// loaded card.
+func removalCard(name, oracle string, tags ...string) types.Card {
+	tags = append([]string{types.RoleRemoval}, tags...)
+	slices.Sort(tags)
+	return types.Card{Name: name, Types: []string{"Instant"}, OracleText: oracle, OracleTags: tags}
 }
 
-func TestClassifyRemoval(t *testing.T) {
-	// Unconditional destroy (delve noted).
-	profile := classifyRemoval(removalCard("Murderous Cut", "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature."))
-	assert.True(t, profile.Spot)
-	assert.Equal(t, "destroy", profile.Kind)
-	assert.Equal(t, "any creature (delve)", profile.Restriction)
-	assert.Equal(t, 0, profile.MaxToughness, "unconditional has no toughness cap")
+// spotRemoval returns an instant tagged as spot removal for creatures, with
+// kindTag saying how it removes one.
+func spotRemoval(name, oracle, kindTag string) types.Card {
+	return removalCard(name, oracle, tagSpotRemoval, types.RoleRemovalCreature, kindTag)
+}
 
-	// Exile verb is labeled distinctly from destroy.
-	profile = classifyRemoval(removalCard("Path to Exile", "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."))
-	assert.True(t, profile.Spot)
-	assert.Equal(t, "exile", profile.Kind)
-	assert.Equal(t, "any creature", profile.Restriction)
+// removalProfileCase is a removal card and the kind, restriction and Spot
+// flag it should classify as.
+type removalProfileCase struct {
+	card        types.Card
+	kind        string
+	restriction string
+	spot        bool
+}
 
-	// Total power and toughness.
-	profile = classifyRemoval(removalCard("Cut Down", "Destroy target creature with total power and toughness 5 or less."))
-	assert.True(t, profile.Spot)
-	assert.Equal(t, 5, profile.MaxPTSum)
+func TestClassifyRemoval_KindsAndRestrictions(t *testing.T) {
+	for _, tc := range []removalProfileCase{
+		{spotRemoval("Murderous Cut", "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature.", tagRemovalDestroy), "destroy", "any creature (delve)", true},
+		{spotRemoval("Path to Exile", "Exile target creature. Its controller may search their library for a basic land card.", tagRemovalExile), "exile", "any creature", true},
+		{spotRemoval("Doom Blade", "Destroy target nonblack creature.", tagRemovalDestroy), "destroy", "any creature, nonblack", true},
+		{spotRemoval("Shriekmaw", "Evoke {1}{B}\nWhen this creature enters, destroy target nonartifact, nonblack creature.", tagRemovalDestroy), "destroy", "any creature, nonblack", true},
+		{spotRemoval("Oblivion Ring", "When this enchantment enters, exile another target nonland permanent.", tagRemovalExile), "exile", "any creature", true},
+		{spotRemoval("Oust", "Put target creature into its owner's library second from the top. Its controller gains 3 life.", tagRemovalTuck), "tuck", "any creature", true},
+		{removalCard("Prison Term", "Enchant creature\nEnchanted creature can't attack or block.", tagSpotRemoval, types.RoleRemovalCreature), "pacify", "any creature", true},
+		{spotRemoval("Plummet", "Destroy target creature with flying.", tagRemovalDestroy), "destroy", "any creature, fliers", true},
+		{spotRemoval("Disfigure", "Target creature gets -2/-2 until end of turn.", types.RoleRemovalToughness), "shrink", "toughness ≤ 2", true},
+		{spotRemoval("Nameless Inversion", "Target creature gets +3/-3 and loses all creature types until end of turn.", types.RoleRemovalToughness), "shrink", "toughness ≤ 3", true},
+		{spotRemoval("Scar", "Put a -1/-1 counter on target creature.", types.RoleRemovalToughness), "shrink", "toughness ≤ 1", true},
+		{spotRemoval("Abrade", "Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact.", tagBurnCreature), "damage", "toughness ≤ 3", true},
+		{spotRemoval("Fire // Ice", "Fire deals 2 damage divided as you choose among one or two targets.", tagBurnCreature), "damage", "toughness ≤ 2", true},
+		{spotRemoval("Comet Storm", "Choose any target, then choose another target for each time this spell was kicked. Comet Storm deals X damage to each of them.", tagBurnCreature), "damage", "scalable (X damage)", true},
+		{spotRemoval("Spitemare", "Whenever this creature is dealt damage, it deals that much damage to any target.", tagBurnCreature), "damage", "scalable (damage equal to)", true},
+		{spotRemoval("Hunter's Talent", "Target creature you control deals damage equal to its power to target creature you don't control.", tagOneSidedFight), "fight", "scalable (fight)", true},
+		{spotRemoval("Cut Down", "Destroy target creature with total power and toughness 5 or less.", tagRemovalDestroy), "destroy", "P+T ≤ 5", true},
+		{spotRemoval("Bloodchief's Thirst", "Kicker {2}{B}\nDestroy target creature or planeswalker with mana value 2 or less. If this spell was kicked, instead destroy that permanent.", tagRemovalDestroy), "destroy", "MV ≤ 2 (kicker: any)", true},
+		{spotRemoval("Glass Casket", "Exile target creature an opponent controls with mana value 3 or less.", tagRemovalExile), "exile", "MV ≤ 3", true},
+		{spotRemoval("Power Cap", "Destroy target creature with power 3 or less.", tagRemovalDestroy), "destroy", "power ≤ 3", true},
+		{spotRemoval("Cap Without Black", "Destroy target nonblack creature with mana value 3 or less.", tagRemovalDestroy), "destroy", "MV ≤ 3, nonblack", true},
+		{spotRemoval("Red Cap", "Destroy target red creature with power 2 or less.", tagRemovalDestroy), "destroy", "power ≤ 2, red only", true},
 
-	// Mana value, with kicker note.
-	profile = classifyRemoval(removalCard("Bloodchief's Thirst", "Kicker {2}{B}\nDestroy target creature or planeswalker with mana value 2 or less. If this spell was kicked, instead destroy that permanent."))
-	assert.True(t, profile.Spot)
-	assert.Equal(t, 2, profile.MaxMV)
-	assert.Contains(t, profile.Restriction, "kicker")
+		// Removal the page doesn't score keeps a kind of its own.
+		{removalCard("Toxic Deluge", "All creatures get -X/-X until end of turn.", types.RoleSweeper, types.RoleRemovalCreature), "sweeper", "", false},
+		{spotRemoval("Diabolic Edict", "Target player sacrifices a creature.", tagRemovalSacrifice), "edict", "", false},
+		{spotRemoval("Jace, the Mind Sculptor", "−1: Return target creature to its owner's hand.", tagRemovalBounce), "tempo", "", false},
+		{removalCard("Smash to Smithereens", "Destroy target artifact.", tagSpotRemoval, tagRemovalDestroy), "other", "", false},
+		{removalCard("Brion Stoutarm", "{R}, {T}, Sacrifice a creature other than Brion Stoutarm: It deals damage equal to the sacrificed creature's power to target player or planeswalker.", tagSpotRemoval), "other", "", false},
 
-	// -X/-X shrink caps by toughness.
-	profile = classifyRemoval(removalCard("Disfigure", "Target creature gets -2/-2 until end of turn."))
-	assert.True(t, profile.Spot)
-	assert.Equal(t, "shrink", profile.Kind)
-	assert.Equal(t, 2, profile.MaxToughness)
+		// Tagged as burning creatures, but the only creature damage hits each
+		// creature, and the targeted damage only reaches players.
+		{spotRemoval("Incendiary Command", "Choose two —\n• Incendiary Command deals 4 damage to target player or planeswalker.\n• Incendiary Command deals 2 damage to each creature.", tagBurnCreature), "unclassified", "", false},
+	} {
+		t.Run(tc.card.Name, func(t *testing.T) {
+			profile := classifyRemoval(tc.card)
+			assert.Equal(t, tc.kind, profile.Kind)
+			assert.Equal(t, tc.restriction, profile.Restriction)
+			assert.Equal(t, tc.spot, profile.Spot)
+		})
+	}
+}
 
-	// Damage caps by toughness.
-	profile = classifyRemoval(removalCard("Abrade", "Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact."))
-	assert.True(t, profile.Spot)
-	assert.Equal(t, "damage", profile.Kind)
-	assert.Equal(t, 3, profile.MaxToughness)
-
-	// Power and toughness caps.
-	profile = classifyRemoval(removalCard("Power Cap", "Destroy target creature with power 3 or less."))
-	assert.Equal(t, 3, profile.MaxPower)
-	assert.Equal(t, 0, profile.MaxToughness)
-	profile = classifyRemoval(removalCard("Toughness Cap", "Exile target creature with toughness 4 or less."))
+func TestClassifyRemoval_LimitsSetTheirCaps(t *testing.T) {
+	profile := classifyRemoval(spotRemoval("Toughness Cap", "Exile target creature with toughness 4 or less.", tagRemovalExile))
 	assert.Equal(t, 4, profile.MaxToughness)
 	assert.Equal(t, 0, profile.MaxPower)
 
-	// A cap without a kicker doesn't note one.
-	profile = classifyRemoval(removalCard("Plain Cap", "Destroy target creature with mana value 3 or less."))
-	assert.Equal(t, "MV ≤ 3", profile.Restriction)
-
-	// Color words restrict the targets.
-	profile = classifyRemoval(removalCard("Cap Without Black", "Destroy target nonblack creature with mana value 3 or less."))
+	profile = classifyRemoval(spotRemoval("Doom Blade", "Destroy target nonblack creature.", tagRemovalDestroy))
 	assert.Equal(t, "B", profile.ColorExclude)
-	assert.Equal(t, "MV ≤ 3, nonblack", profile.Restriction)
-	profile = classifyRemoval(removalCard("Red Cap", "Destroy target red creature with power 2 or less."))
-	assert.Equal(t, "R", profile.ColorOnly)
+	assert.Equal(t, 0, profile.MaxToughness, "an unconditional kill has no toughness cap")
 
-	// Sweeper, edict, tempo and unreadable removal are excluded, each with its own kind.
-	sweeper := classifyRemoval(removalCard("Toxic Deluge", "As an additional cost to cast this spell, pay X life.\nAll creatures get -X/-X until end of turn."))
-	assert.False(t, sweeper.Spot)
-	assert.Equal(t, "sweeper", sweeper.Kind)
-	edict := classifyRemoval(removalCard("Diabolic Edict", "Target player sacrifices a creature."))
-	assert.False(t, edict.Spot)
-	assert.Equal(t, "edict", edict.Kind)
-	tempo := classifyRemoval(removalCard("Repulse", "Return target creature to its owner's hand."))
-	assert.False(t, tempo.Spot)
-	assert.Equal(t, "tempo", tempo.Kind)
-	unreadable := classifyRemoval(removalCard("Mystery", "Do something strange to a creature."))
-	assert.False(t, unreadable.Spot)
-	assert.Equal(t, "unclassified", unreadable.Kind)
+	profile = classifyRemoval(spotRemoval("Plummet", "Destroy target creature with flying.", tagRemovalDestroy))
+	assert.True(t, profile.FlyingOnly)
+	profile = classifyRemoval(spotRemoval("Murder", "Destroy target creature.", tagRemovalDestroy))
+	assert.False(t, profile.FlyingOnly, "a flier elsewhere in the text doesn't limit the target")
+}
 
-	// Graveyard-card exile (Deathrite Shaman) is not battlefield removal.
-	profile = classifyRemoval(types.Card{
-		Name:       "Deathrite Shaman",
-		Types:      []string{"Creature"},
-		OracleText: "{1}{G}, {T}: Exile target creature card from a graveyard. You gain 3 life.",
-	})
-	assert.False(t, profile.Spot, "exiling a creature card from a graveyard isn't removal")
+func TestClassifyRemoval_TagsDecideNotText(t *testing.T) {
+	// Text that reads like removal, without the tags, isn't removal.
+	assert.Equal(t, RemovalProfile{}, classifyRemoval(types.Card{Name: "Untagged", OracleText: "Destroy target creature."}))
 
-	// Non-removal returns the zero profile.
-	assert.False(t, classifyRemoval(types.Card{Name: "Bear", Types: []string{"Creature"}, OracleText: "Vanilla."}).Spot)
+	// Removal of creatures without the spot-removal tag isn't scored.
+	profile := classifyRemoval(removalCard("Curse of Chains", "Enchant creature\nAt the beginning of each upkeep, tap enchanted creature.", types.RoleRemovalCreature))
+	assert.False(t, profile.Spot)
+	assert.Equal(t, "other", profile.Kind)
 }
 
 func TestClassifyRemoval_Override(t *testing.T) {
@@ -124,7 +131,7 @@ func TestEffectiveCost(t *testing.T) {
 
 func TestClassifyRemoval_ScalableX(t *testing.T) {
 	// A literal X in damage stays scalable rather than being force-fit to a number.
-	p := classifyRemoval(removalCard("Fireball", "Fireball deals X damage to target creature."))
+	p := classifyRemoval(spotRemoval("Fireball", "Fireball deals X damage to target creature.", tagBurnCreature))
 	assert.True(t, p.Spot)
 	assert.True(t, p.Scalable)
 	assert.Equal(t, 0, p.MaxToughness)
@@ -198,7 +205,7 @@ func TestRemovalCoverage(t *testing.T) {
 
 	uncond := buildRemovalCard(
 		types.Card{Name: "Doom", CMC: 2, ManaCost: "{1}{B}", OracleText: "Destroy target creature."},
-		classifyRemoval(removalCard("Doom", "Destroy target creature.")),
+		classifyRemoval(spotRemoval("Doom", "Destroy target creature.", tagRemovalDestroy)),
 		2,
 		creatures,
 		numPlaysByCard,
@@ -217,7 +224,7 @@ func TestRemovalCoverage(t *testing.T) {
 	// average pulled down by cheap creatures.
 	casket := buildRemovalCard(
 		types.Card{Name: "Casket", CMC: 2, ManaCost: "{1}{W}", OracleText: "exile target creature with mana value 3 or less."},
-		classifyRemoval(removalCard("Casket", "exile target creature with mana value 3 or less.")),
+		classifyRemoval(spotRemoval("Casket", "exile target creature with mana value 3 or less.", tagRemovalExile)),
 		2,
 		creatures,
 		numPlaysByCard,
