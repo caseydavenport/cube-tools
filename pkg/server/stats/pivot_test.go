@@ -433,7 +433,8 @@ type predicateCase struct {
 
 func TestPredicatePasses(t *testing.T) {
 	removalCard := types.Card{Name: "Doom Blade", OracleTags: []string{"removal"}}
-	deck := makePivotDeck("Freddie", 1, "2025-01-01", []string{"W", "U"}, "control", []types.Card{removalCard, removalCard}, nil)
+	goldCard := types.Card{Name: "Absorb", Colors: []string{"W", "U"}}
+	deck := makePivotDeck("Freddie", 1, "2025-01-01", []string{"W", "U"}, "control", []types.Card{removalCard, removalCard, goldCard}, nil)
 	deck.Labels = []string{"Tempo"}
 
 	for _, tc := range []predicateCase{
@@ -452,6 +453,8 @@ func TestPredicatePasses(t *testing.T) {
 		{"removal lte met", PivotPredicate{Dim: "removal", Op: "lte", Value: "2"}, true},
 		{"removal lte unmet", PivotPredicate{Dim: "removal", Op: "lte", Value: "1"}, false},
 		{"removal eq unmet", PivotPredicate{Dim: "removal", Op: "eq", Value: "1"}, false},
+		{"multicolor gte met", PivotPredicate{Dim: "multicolor", Op: "gte", Value: "1"}, true},
+		{"multicolor gte unmet", PivotPredicate{Dim: "multicolor", Op: "gte", Value: "2"}, false},
 		{"unparseable number is ignored", PivotPredicate{Dim: "removal", Op: "gte", Value: "lots"}, true},
 		{"unknown dimension is ignored", PivotPredicate{Dim: "weather", Op: "eq", Value: "rain"}, true},
 	} {
@@ -487,6 +490,14 @@ func TestCompBucketLabel(t *testing.T) {
 		{"avg_cmc", 3.0, "3.0-3.5"},
 	} {
 		assert.Equal(t, tc.want, compBucketLabel(tc.dim, tc.value), "%s %v", tc.dim, tc.value)
+	}
+}
+
+func TestSortKeys_CompositionBucketsInNumericOrder(t *testing.T) {
+	for _, dim := range []string{"multicolor", "opponent_multicolor", "creatures"} {
+		keys := []string{"3+", "12-14", "0", "1-2"}
+		sortKeys(keys, dim)
+		assert.Equal(t, []string{"0", "1-2", "3+", "12-14"}, keys, dim)
 	}
 }
 

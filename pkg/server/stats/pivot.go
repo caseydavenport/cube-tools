@@ -603,15 +603,15 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 			return !m
 		}
 		return m
-	case "removal", "interaction", "counterspell", "creatures", "lands", "dna", "avg_cmc":
-		got := composition(d, cubeCards).value(p.Dim)
-		want, err := strconv.ParseFloat(p.Value, 64)
-		if err != nil {
-			return true
-		}
-		return compareNumber(got, p.Op, want)
 	}
-	return true
+	if !isCompositionDim(p.Dim) {
+		return true
+	}
+	want, err := strconv.ParseFloat(p.Value, 64)
+	if err != nil {
+		return true
+	}
+	return compareNumber(composition(d, cubeCards).value(p.Dim), p.Op, want)
 }
 
 // colorPredicatePasses reports whether the deck's colors include every letter
@@ -666,8 +666,8 @@ func orderRows(rows map[string]*PivotRow, dim PivotDimension) []*PivotRow {
 	for _, r := range rows {
 		out = append(out, r)
 	}
-	switch dim.Dim {
-	case "color", "time", "removal", "interaction", "counterspell", "creatures", "lands", "dna", "avg_cmc":
+	switch {
+	case dim.Dim == "color" || dim.Dim == "time" || isCompositionDim(dim.Dim):
 		keys := make([]string, len(out))
 		for i, r := range out {
 			keys[i] = r.Key
@@ -717,12 +717,12 @@ func sortKeys(keys []string, dim string) {
 func keyRanks(keys []string, dim string) map[string]float64 {
 	dim = strings.TrimPrefix(dim, "opponent_")
 	rank := map[string]float64{}
-	switch dim {
-	case "color":
+	switch {
+	case dim == "color":
 		for _, k := range keys {
 			rank[k] = colorRank(k)
 		}
-	case "removal", "interaction", "counterspell", "creatures", "lands", "dna", "avg_cmc":
+	case isCompositionDim(dim):
 		for _, k := range keys {
 			rank[k] = leadingNumber(k)
 		}
